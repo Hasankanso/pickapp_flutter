@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'file:///C:/Users/Hassa/AndroidStudioProjects/pickapp/lib/pages/Search.dart';
 import 'package:pickapp/localization/Language.dart';
+
+import 'pages/Search.dart';
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,21 +17,20 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-        supportedLocales: [
-          Locale('en'),
-          Locale('ar'),
-        ],
+      supportedLocales: [
+        Locale('en'),
+        Locale('ar'),
+      ],
       localizationsDelegates: [
         Lang.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-
       localeResolutionCallback: (deviceLocale, supportedLocales) {
-        for (var locale in supportedLocales){
-          if(locale.languageCode == deviceLocale.languageCode){
-            return deviceLocale;
+        for (var locale in supportedLocales) {
+          if (locale.languageCode == deviceLocale.languageCode) {
+            return Locale("ar");
           }
         }
         return supportedLocales.first;
@@ -40,5 +40,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

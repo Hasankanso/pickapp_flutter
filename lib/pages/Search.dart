@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/Utilities/ColorPicker.dart';
 import 'package:pickapp/localization/Language.dart';
 
 class Search extends StatelessWidget {
@@ -11,6 +12,7 @@ class Search extends StatelessWidget {
           children: [
             Text(Lang.getString(context, "to")),
             Text(Lang.getString(context, "from")),
+            ColorPicker()
           ],
         ));
   }
