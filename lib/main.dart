@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       localeResolutionCallback: (deviceLocale, supportedLocales) {
         for (var locale in supportedLocales) {
           if (locale.languageCode == deviceLocale.languageCode) {
-            return Locale("ar");
+            return deviceLocale;
           }
         }
         return supportedLocales.first;
