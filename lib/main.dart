@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pickapp/localization/Language.dart';
 
-import 'pages/Search.dart';
+import 'pages/Home.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         return supportedLocales.first;
       },
       debugShowCheckedModeBanner: false,
-      home: Search(),
+      home: Home(),
     );
   }
 }

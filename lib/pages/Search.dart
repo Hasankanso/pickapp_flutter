@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/Utilities/ColorPicker.dart';
 import 'package:pickapp/localization/Language.dart';
