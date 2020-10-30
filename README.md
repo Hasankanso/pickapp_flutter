@@ -18,6 +18,7 @@ offer and book rides
   Pull to refresh: https://gallery.flutter.dev/#/demo/cupertino-pull-to-refresh<br>
   Switch: https://gallery.flutter.dev/#/demo/cupertino-switch<br>
   TextField: https://gallery.flutter.dev/#/demo/cupertino-text-field<br>
+  More: https://flutter.dev/docs/development/ui/widgets/cupertino
   
 ## Getting Started
 
