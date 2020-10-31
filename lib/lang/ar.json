@@ -1,5 +1,8 @@
 {
   "from" :"من" ,
   "to" : "إلى",
-  "search_for_ride" : "ابحث عن رحلة"
+  "search_for_ride" : "ابحث عن رحلة",
+  "colorPickerTitle": "إختر لوناً",
+  "colorPickerDone": "تم",
+  "colorPickerCancel": "إلغاء"
 }

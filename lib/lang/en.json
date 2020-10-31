@@ -1,5 +1,12 @@
 {
   "from" : "from",
   "to" : "to",
-  "search_for_ride" : "Search for Ride"
+  "search_for_ride" : "Search for Ride",
+  "chat_appbar_title" : "Chat",
+  "add_ride_appbar_title" : "Add Ride",
+  "profile_appbar_title" : "Profile",
+  "my_rides_appbar_title" : "My Rides",
+  "colorPickerTitle": "Pick a Color",
+  "colorPickerDone": "DONE",
+  "colorPickerCancel": "CANCEL"
 }
