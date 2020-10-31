@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/Utilities/ColorPicker.dart';
+import 'package:pickapp/Utilities/DateTimePicker.dart';
 import 'package:pickapp/localization/Language.dart';
 
 class Search extends StatelessWidget {
+  DateTimeController d = new DateTimeController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +12,6 @@ class Search extends StatelessWidget {
           children: [
             Text(Lang.getString(context, "to")),
             Text(Lang.getString(context, "from")),
-            ColorPicker()
           ],
         ));
   }
