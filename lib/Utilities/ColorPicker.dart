@@ -8,9 +8,10 @@ class ColorPicker extends StatefulWidget {
   _ColorPickerState createState() => _ColorPickerState();
 }
 
+ColorSwatch _mainColor = Colors.blue;
+
 class _ColorPickerState extends State<ColorPicker> {
   ColorSwatch _tempMainColor;
-  ColorSwatch _mainColor = Colors.blue;
 
   void _OpenColorPicker() {
     showDialog(
@@ -58,5 +59,11 @@ class _ColorPickerState extends State<ColorPicker> {
       tooltip: Lang.getString(context, "colorPickerTitle"),
       backgroundColor: _mainColor,
     ));
+  }
+}
+
+class ColorController {
+  getColor() {
+    return _mainColor;
   }
 }
