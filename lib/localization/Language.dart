@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,9 +11,11 @@ class Lang {
   static Lang of(BuildContext context) {
     return Localizations.of<Lang>(context, Lang);
   }
-  static String getString(BuildContext context, String key){
-      return Localizations.of<Lang>(context, Lang)._localizedValues[key];
+
+  static String getString(BuildContext context, String key) {
+    return Localizations.of<Lang>(context, Lang)._localizedValues[key];
   }
+
   Map<String, String> _localizedValues;
 
   Future load() async {
@@ -24,10 +27,7 @@ class Lang {
     _localizedValues = mappedJson.map((key, value) => MapEntry(key, value));
   }
 
-
-
-  static const LocalizationsDelegate<Lang> delegate =
-      _LangDelegate();
+  static const LocalizationsDelegate<Lang> delegate = _LangDelegate();
 }
 
 class _LangDelegate extends LocalizationsDelegate<Lang> {
@@ -47,5 +47,4 @@ class _LangDelegate extends LocalizationsDelegate<Lang> {
 
   @override
   bool shouldReload(covariant LocalizationsDelegate<Lang> old) => false;
-
 }

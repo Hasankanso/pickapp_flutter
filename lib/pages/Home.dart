@@ -7,8 +7,6 @@ import 'Profile.dart';
 import 'Search.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
-
   @override
   _HomeState createState() => _HomeState();
 }
@@ -20,12 +18,6 @@ class _HomeState extends State<Home> {
     initialPage: 2,
     keepPage: true,
   );
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   void _pageSwipped(int index) {
     setState(() {
       _currenIndex = index;
