@@ -4,15 +4,15 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import '../localization/Language.dart';
 
 class ColorPicker extends StatefulWidget {
+  ColorController _controller;
+  ColorPicker(this._controller);
   @override
   _ColorPickerState createState() => _ColorPickerState();
 }
 
-ColorSwatch _mainColor = Colors.blue;
-
 class _ColorPickerState extends State<ColorPicker> {
   ColorSwatch _tempMainColor;
-
+  ColorSwatch _mainColor = Colors.blue;
   void _OpenColorPicker() {
     showDialog(
       context: context,
@@ -40,6 +40,7 @@ class _ColorPickerState extends State<ColorPicker> {
               child: Text(Lang.getString(context, 'colorPickerDone')),
               onPressed: () {
                 Navigator.of(context).pop();
+                widget._controller.pickedColor = _tempMainColor;
                 setState(() {
                   _mainColor = _tempMainColor;
                 });
@@ -63,7 +64,5 @@ class _ColorPickerState extends State<ColorPicker> {
 }
 
 class ColorController {
-  getColor() {
-    return _mainColor;
-  }
+  ColorSwatch pickedColor;
 }

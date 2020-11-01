@@ -7,28 +7,26 @@ import 'package:intl/intl.dart';
 class DateTimePicker extends StatefulWidget {
   bool _isBirthdayPicker;
   String _title;
-  DateTimePicker(this._isBirthdayPicker, this._title);
+  DateTimeController _controller;
+  DateTimePicker(this._isBirthdayPicker, this._title, this._controller);
   @override
-  DateTimePickerState createState() =>
-      DateTimePickerState(_isBirthdayPicker, _title);
+  DateTimePickerState createState() => DateTimePickerState();
 }
 
-DateTime chosenDate;
-
 class DateTimePickerState extends State<DateTimePicker> {
+  DateTime _chosenDate;
   bool _isBirthdayPicker;
   String _dateHolder;
   DateTime _minDate, _maxDate, _initialDate;
-  DateTimePickerState(this._isBirthdayPicker, this._dateHolder);
   Locale _appLocale;
   Map<String, LocaleType> localeType = {
     "en": LocaleType.en,
     "ar": LocaleType.ar,
-    "fr": LocaleType.ar,
+    "fr": LocaleType.fr,
   };
 
   selectDate(BuildContext context) async {
-    DateTime nowDate = DateTime.now();
+    _isBirthdayPicker = widget._isBirthdayPicker;
     if (_isBirthdayPicker == true) {
       //max 100 year
       _minDate = DateTime.now().subtract(Duration(days: 36500));
@@ -85,17 +83,19 @@ class DateTimePickerState extends State<DateTimePicker> {
 
   _setTime(date, time) {
     setState(() {
-      chosenDate =
+      _chosenDate =
           DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      widget._controller._chosenDate = _chosenDate;
       _dateHolder = DateFormat('dd/MM/yyyy hh:mm a', _appLocale.toString())
-          .format(chosenDate);
+          .format(_chosenDate);
     });
   }
 
   _setDate(date) {
     setState(() {
       if (_isBirthdayPicker == true) {
-        chosenDate = date;
+        _chosenDate = date;
+        widget._controller._chosenDate = _chosenDate;
         _dateHolder =
             DateFormat('dd/MM/yyyy', _appLocale.toString()).format(date);
       } else {
@@ -107,6 +107,7 @@ class DateTimePickerState extends State<DateTimePicker> {
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
     final _deviceSize = MediaQuery.of(context);
+    _dateHolder = widget._title;
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
       child: GestureDetector(
@@ -148,7 +149,5 @@ class DateTimePickerState extends State<DateTimePicker> {
 }
 
 class DateTimeController {
-  getDate() {
-    return chosenDate;
-  }
+  DateTime _chosenDate;
 }
