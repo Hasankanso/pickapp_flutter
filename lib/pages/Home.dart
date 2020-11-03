@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'AddRide.dart';
-import 'Chat.dart';
-import 'MyRides.dart';
-import 'Profile.dart';
-import 'Search.dart';
+import 'package:pickapp/pages/AddRide.dart';
+import 'package:pickapp/pages/Chat.dart';
+import 'package:pickapp/pages/MyRides.dart';
+import 'package:pickapp/pages/Profile.dart';
+import 'package:pickapp/pages/Search.dart';
 
 class Home extends StatefulWidget {
   @override

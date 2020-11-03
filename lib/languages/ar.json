@@ -1,0 +1,15 @@
+{
+  "from" :"من" ,
+  "fromHint" : "من أين",
+  "to" : "إلى",
+  "toHint" : "إلى أين",
+  "search_for_ride" : "ابحث عن رحلة",
+  "pick_a_color": "إختر لوناً",
+  "done": "تم",
+  "cancel": "إلغاء",
+  "chat" : "المحادثات",
+  "add_ride" : "إضافة سيارة",
+  "profile" : "الملف الشخصي",
+  "my_rides" : "رحلاتي",
+  "lang" : "ar"
+}

@@ -1,18 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Lang {
   final Locale locale;
-
+  static List<Language> langs = [new Language(code : "en", fullname : "English", flag : "🇬🇧"), new Language(code : "ar", fullname : "العربية", flag : "🇱🇧") ];
   Lang(this.locale);
 
-  static Lang of(BuildContext context) {
-    return Localizations.of<Lang>(context, Lang);
-  }
 
-  static String getString(BuildContext context, String key) {
+  static String getString(BuildContext context, String key){
     return Localizations.of<Lang>(context, Lang)._localizedValues[key];
   }
 
@@ -20,14 +16,17 @@ class Lang {
 
   Future load() async {
     String jsonStringValues =
-        await rootBundle.loadString('lib/lang/${locale.languageCode}.json');
+    await rootBundle.loadString('lib/languages/${locale.languageCode}.json');
 
     Map<String, dynamic> mappedJson = json.decode(jsonStringValues);
 
     _localizedValues = mappedJson.map((key, value) => MapEntry(key, value));
   }
 
-  static const LocalizationsDelegate<Lang> delegate = _LangDelegate();
+
+
+  static const LocalizationsDelegate<Lang> delegate =
+  _LangDelegate();
 }
 
 class _LangDelegate extends LocalizationsDelegate<Lang> {
@@ -35,7 +34,7 @@ class _LangDelegate extends LocalizationsDelegate<Lang> {
 
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'ar'].contains(locale.languageCode);
+    return  Lang.langs.any((element) => element.code == locale.languageCode);
   }
 
   @override
@@ -48,3 +47,18 @@ class _LangDelegate extends LocalizationsDelegate<Lang> {
   @override
   bool shouldReload(covariant LocalizationsDelegate<Lang> old) => false;
 }
+
+class Language {
+  String code;
+  String fullname;
+  String flag;
+
+  Language({this.code, this.fullname, this.flag});
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return super.toString();
+  }
+}
+

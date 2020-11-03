@@ -1,43 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:pickapp/localization/Language.dart';
+import 'package:pickapp/pages/SplashScreen.dart';
+import 'package:pickapp/classes/App.dart';
 
-import 'pages/Home.dart';
+import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/pages/Home.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+
+  @override
+  MyAppState createState() {
+    MyAppState state = new MyAppState();
+    App.init(state);
+    return state;
+  }
+}
+
+class MyAppState extends State<MyApp> {
+  Locale _locale;
+  bool _localeCached = true;
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Cache.getLocale().then((String lang) => setState(() {
+          if (lang == null) {
+            _localeCached = false;
+            return;
+          }
+          this._locale = Locale(lang);
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Demo",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      supportedLocales: [
-        Locale('en'),
-        Locale('ar'),
-        Locale('fr'),
-      ],
-      localizationsDelegates: [
-        Lang.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      localeResolutionCallback: (deviceLocale, supportedLocales) {
-        for (var locale in supportedLocales) {
-          if (locale.languageCode == deviceLocale.languageCode) {
-            return deviceLocale;
+    if (_locale == null && _localeCached) {
+      return SplashScreen();
+    } else {
+      return MaterialApp(
+        title: App.appName,
+        locale: _locale,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        supportedLocales: Lang.langs.map((element) => Locale(element.code)),
+        localizationsDelegates: [
+          Lang.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        localeResolutionCallback: (deviceLocale, supportedLocales) {
+          for (var locale in supportedLocales) {
+            if (locale.languageCode == deviceLocale.languageCode) {
+              return deviceLocale;
+            }
           }
-        }
-        return supportedLocales.first;
-      },
-      debugShowCheckedModeBanner: false,
-      home: Home(),
-    );
+          return supportedLocales.first;
+        },
+        debugShowCheckedModeBanner: false,
+        home: Home(),
+      );
+    }
   }
 }
