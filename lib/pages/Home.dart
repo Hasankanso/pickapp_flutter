@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
               label: Lang.getString(context, "my_rides")),
           BottomNavigationBarItem(
             icon: Icon(Icons.drive_eta),
-            label:  Lang.getString(context, "add_ride"),
+            label: Lang.getString(context, "add_ride"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
@@ -64,11 +64,11 @@ class _HomeState extends State<Home> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.all_inbox),
-            label:  Lang.getString(context, "chat"),
+            label: Lang.getString(context, "chats"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label:  Lang.getString(context, "profile"),
+            label: Lang.getString(context, "profile"),
           ),
         ],
         currentIndex: _currenIndex,
