@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/Localizations.dart';
 
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Chat.dart';
@@ -18,6 +19,7 @@ class _HomeState extends State<Home> {
     initialPage: 2,
     keepPage: true,
   );
+
   void _pageSwipped(int index) {
     setState(() {
       _currenIndex = index;
@@ -34,6 +36,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final _deviceSize = MediaQuery.of(context);
+
     return Scaffold(
       body: PageView(
         controller: pageController,
@@ -47,26 +50,25 @@ class _HomeState extends State<Home> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'My Rides',
-          ),
+              icon: Icon(Icons.list),
+              label: Lang.getString(context, "my_rides")),
           BottomNavigationBarItem(
             icon: Icon(Icons.drive_eta),
-            label: 'Add Ride',
+            label:  Lang.getString(context, "add_ride"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: Lang.getString(context, "search"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.all_inbox),
-            label: 'Inbox',
+            label:  Lang.getString(context, "chat"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label: 'Profile',
+            label:  Lang.getString(context, "profile"),
           ),
         ],
         currentIndex: _currenIndex,

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class Lang {
   final Locale locale;
-  static List<Language> langs = [new Language(code : "en", fullname : "English", flag : "🇬🇧"), new Language(code : "ar", fullname : "العربية", flag : "🇱🇧") ];
+  static List<Language> langs = [new Language(code : "en", fullname : "English", flag : "🇬🇧"), new Language(code : "ar", fullname : "العربية", flag : "🇱🇧"), new Language(code : "fr", fullname : "Français", flag : "🇫🇷")  ];
   Lang(this.locale);
 
 
