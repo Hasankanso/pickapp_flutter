@@ -25,10 +25,6 @@ class DateTimePickerState extends State<DateTimePicker> {
     "fr": LocaleType.fr,
   };
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   selectDate(BuildContext context) async {
     if (widget._isBirthdayPicker) {
