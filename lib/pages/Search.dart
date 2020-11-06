@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/distance.dart';
-import 'package:pickapp/Utilities/DateTimePicker.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/ResponsiveRow.dart';
@@ -11,10 +10,8 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  DateTimeController d = new DateTimeController();
-
-  LocationEditingController fromController = new LocationEditingController();
-  LocationEditingController toController = new LocationEditingController();
+  LocationEditingController fromController = LocationEditingController();
+  LocationEditingController toController = LocationEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +25,7 @@ class _SearchState extends State<Search> {
                   child: LocationFinder(
                       controller: fromController,
                       title: Lang.getString(context, "from"),
-                      initialDescription : fromController.description,
+                      initialDescription: fromController.description,
                       hintText: Lang.getString(context, "fromHint"),
                       language: Lang.getString(context, "lang"),
                       country: "lb")),
@@ -57,11 +54,11 @@ class _SearchState extends State<Search> {
                   child: LocationFinder(
                       controller: toController,
                       title: Lang.getString(context, "to"),
-                      initialDescription : toController.description,
+                      initialDescription: toController.description,
                       hintText: Lang.getString(context, "toHint"),
                       language: Lang.getString(context, "lang"),
                       country: "lb")),
-            ])
+            ]),
           ],
         ));
   }
