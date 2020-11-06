@@ -28,7 +28,7 @@ class _SearchState extends State<Search> {
                   child: LocationFinder(
                       controller: fromController,
                       title: Lang.getString(context, "from"),
-                      initialDescription : fromController.description,
+                      initialDescription: fromController.description,
                       hintText: Lang.getString(context, "fromHint"),
                       language: Lang.getString(context, "lang"),
                       country: "lb")),
@@ -57,7 +57,7 @@ class _SearchState extends State<Search> {
                   child: LocationFinder(
                       controller: toController,
                       title: Lang.getString(context, "to"),
-                      initialDescription : toController.description,
+                      initialDescription: toController.description,
                       hintText: Lang.getString(context, "toHint"),
                       language: Lang.getString(context, "lang"),
                       country: "lb")),

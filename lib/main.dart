@@ -68,7 +68,10 @@ class MyAppState extends State<MyApp> {
               return deviceLocale;
             }
           }
-          return supportedLocales.first;
+
+          Locale preferred = supportedLocales.first;
+          if(!_localeCached) Cache.setLocale(preferred.languageCode);
+          return preferred;
         },
         debugShowCheckedModeBanner: false,
         home: Home(),
