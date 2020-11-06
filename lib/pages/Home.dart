@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
-
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Chat.dart';
 import 'package:pickapp/pages/MyRides.dart';
@@ -27,10 +26,12 @@ class _HomeState extends State<Home> {
   }
 
   void _bottomTapped(int index) {
-    setState(() {
-      _currenIndex = index;
+    if ((_currenIndex - index).abs() == 1) {
+      pageController.animateToPage(index,
+          duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    } else {
       pageController.jumpToPage(index);
-    });
+    }
   }
 
   @override
@@ -56,7 +57,7 @@ class _HomeState extends State<Home> {
               label: Lang.getString(context, "my_rides")),
           BottomNavigationBarItem(
             icon: Icon(Icons.drive_eta),
-            label:  Lang.getString(context, "add_ride"),
+            label: Lang.getString(context, "add_ride"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
@@ -64,11 +65,11 @@ class _HomeState extends State<Home> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.all_inbox),
-            label:  Lang.getString(context, "chat"),
+            label: Lang.getString(context, "chat"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label:  Lang.getString(context, "profile"),
+            label: Lang.getString(context, "profile"),
           ),
         ],
         currentIndex: _currenIndex,

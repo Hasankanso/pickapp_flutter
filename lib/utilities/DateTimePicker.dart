@@ -6,17 +6,17 @@ import 'package:intl/intl.dart';
 
 class DateTimePicker extends StatefulWidget {
   bool _isBirthdayPicker;
-  String _title;
-  DateTimeController _controller;
-  DateTimePicker(this._isBirthdayPicker, this._title, this._controller);
+  DateTime startDate;
+  final DateTimeController _controller;
+  final VoidCallback callBack;
+  DateTimePicker(this._isBirthdayPicker, this._controller,
+      {this.callBack, this.startDate});
+
   @override
   DateTimePickerState createState() => DateTimePickerState();
 }
 
 class DateTimePickerState extends State<DateTimePicker> {
-  DateTime _chosenDate;
-  bool _isBirthdayPicker;
-  String _dateHolder;
   DateTime _minDate, _maxDate, _initialDate;
   Locale _appLocale;
   Map<String, LocaleType> localeType = {
@@ -25,31 +25,41 @@ class DateTimePickerState extends State<DateTimePicker> {
     "fr": LocaleType.fr,
   };
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   selectDate(BuildContext context) async {
-    _isBirthdayPicker = widget._isBirthdayPicker;
-    if (_isBirthdayPicker == true) {
+    if (widget._isBirthdayPicker) {
       //max 100 year
       _minDate = DateTime.now().subtract(Duration(days: 36500));
       //initial date is 18 years
-      _initialDate = DateTime.now().subtract(Duration(days: 6570));
+      _initialDate = widget._controller.chosenDate;
       //min 13 years
       _maxDate = DateTime.now().subtract(Duration(days: 5110));
     } else {
-      _initialDate = DateTime.now();
-      _minDate = DateTime.now();
+      if (widget.startDate == null) {
+        _minDate = DateTime.now();
+      } else {
+        _minDate = widget.startDate;
+      }
+      _initialDate = widget._controller.chosenDate;
       //max is one year
       _maxDate = DateTime.now().add(Duration(days: 365));
     }
 
-    if (!Platform.isIOS) {
-      DatePicker.showDatePicker(context,
-          showTitleActions: true,
-          locale: localeType[_appLocale.toString()],
-          minTime: _minDate,
-          maxTime: _maxDate,
-          currentTime: _initialDate, onConfirm: (date) {
-        _setDate(date);
-      });
+    if (Platform.isIOS) {
+      DatePicker.showDatePicker(
+        context,
+        locale: localeType[_appLocale.toString()],
+        minTime: _minDate,
+        maxTime: _maxDate,
+        currentTime: _initialDate,
+        onConfirm: (date) {
+          _setDate(date);
+        },
+      );
     } else if (Platform.isAndroid) {
       DateTime date = await showDatePicker(
         context: context,
@@ -63,11 +73,13 @@ class DateTimePickerState extends State<DateTimePicker> {
   }
 
   selectTime(BuildContext context, date) async {
-    if (!Platform.isIOS) {
+    DateTime currentTime;
+    currentTime = widget._controller.chosenDate;
+    if (Platform.isIOS) {
       DatePicker.showTime12hPicker(
         context,
         locale: localeType[_appLocale.toString()],
-        currentTime: DateTime.now(),
+        currentTime: currentTime,
         onConfirm: (time) {
           _setTime(date, time);
         },
@@ -75,41 +87,41 @@ class DateTimePickerState extends State<DateTimePicker> {
     } else if (Platform.isAndroid) {
       TimeOfDay time = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay.now(),
+        initialTime: TimeOfDay.fromDateTime(currentTime),
       );
       if (time != null) _setTime(date, time);
     }
   }
 
-  _setTime(date, time) {
-    setState(() {
-      _chosenDate =
-          DateTime(date.year, date.month, date.day, time.hour, time.minute);
-      widget._controller._chosenDate = _chosenDate;
-      _dateHolder = DateFormat('dd/MM/yyyy hh:mm a', _appLocale.toString())
-          .format(_chosenDate);
-    });
-  }
-
   _setDate(date) {
     setState(() {
-      if (_isBirthdayPicker == true) {
-        _chosenDate = date;
-        widget._controller._chosenDate = _chosenDate;
-        _dateHolder =
-            DateFormat('dd/MM/yyyy', _appLocale.toString()).format(date);
+      if (widget._isBirthdayPicker) {
+        widget._controller.chosenDate = date;
       } else {
         selectTime(context, date);
       }
     });
   }
 
+  _setTime(date, time) {
+    setState(() {
+      widget._controller.chosenDate =
+          DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      if (widget.callBack != null) widget.callBack();
+    });
+  }
+
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
     final _deviceSize = MediaQuery.of(context);
-    _dateHolder = widget._title;
+    String dateFormat;
+    if (widget._isBirthdayPicker) {
+      dateFormat = 'dd/MM/yyyy';
+    } else {
+      dateFormat = 'dd/MM/yyyy hh:mm a';
+    }
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: GestureDetector(
           onTap: () {
             selectDate(context);
@@ -136,7 +148,8 @@ class DateTimePickerState extends State<DateTimePicker> {
                   ),
                 ),
                 Text(
-                  "$_dateHolder",
+                  DateFormat(dateFormat, _appLocale.toString())
+                      .format(widget._controller.chosenDate),
                   style: TextStyle(
                       fontSize: _deviceSize.size.height * 0.03,
                       color: Colors.blue),
@@ -149,5 +162,12 @@ class DateTimePickerState extends State<DateTimePicker> {
 }
 
 class DateTimeController {
-  DateTime _chosenDate;
+  DateTime chosenDate;
+  DateTimeController([isBirthdayPicker]) {
+    if (isBirthdayPicker == true) {
+      DateTime initialDate = DateTime.now();
+      chosenDate =
+          DateTime(initialDate.year - 18, initialDate.month, initialDate.day);
+    }
+  }
 }
