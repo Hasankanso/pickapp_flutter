@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.all_inbox),
-            label: Lang.getString(context, "chat"),
+            label: Lang.getString(context, "chats"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

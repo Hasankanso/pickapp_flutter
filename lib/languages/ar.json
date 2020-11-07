@@ -8,9 +8,10 @@
   "pick_a_color": "إختر لوناً",
   "done": "تم",
   "cancel": "إلغاء",
-  "chat" : "المحادثات",
+  "chats" : "المحادثات",
   "add_ride" : "إضافة سيارة",
   "profile" : "الملف الشخصي",
   "my_rides" : "رحلاتي",
+  "my_current_location" : "مكاني الحالي",
   "lang" : "ar"
 }

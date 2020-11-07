@@ -5,12 +5,14 @@
   "toHint" : " to where",
   "search_for_ride" : "Search for Ride",
   "search" : "Search",
-  "chat" : "Chat",
+  "chats" : "Chats",
   "add_ride" : "Add Ride",
   "profile" : "Profile",
   "my_rides" : "My Rides",
   "pick_a_color": "Pick a Color",
   "Done": "DONE",
   "Cancel": "CANCEL",
+  "my_current_location" : "My Current Location",
   "lang" : "en"
+
 }
