@@ -10,25 +10,44 @@ class DateTimeRangePicker extends StatefulWidget {
 }
 
 class DateTimeRangePickerState extends State<DateTimeRangePicker> {
-  bool show = false;
-
+  bool _show = false;
+  bool _isEndDateChanged = false;
   @override
   initState() {
     Cache.getDateTimeRangePicker().then((String isRangePicker) => setState(() {
           if (isRangePicker == null) {
-            show = false;
+            _show = false;
             return;
           }
-          show = isRangePicker == "true";
+          _show = isRangePicker == "true";
         }));
   }
 
   _startDatePicked() {
     setState(() {
-      widget._controller.endDateController.chosenDate = widget
-          ._controller.startDateController.chosenDate
-          .add(Duration(days: 1));
+      if (widget._controller.endDateController.chosenDate
+          .isBefore(widget._controller.startDateController.chosenDate)) {
+        widget._controller.endDateController.chosenDate = widget
+            ._controller.startDateController.chosenDate
+            .add(Duration(days: 1));
+      } else if (!_isEndDateChanged) {
+        widget._controller.endDateController.chosenDate = widget
+            ._controller.startDateController.chosenDate
+            .add(Duration(days: 1));
+      }
     });
+  }
+
+  _endDatePicked() {
+    _isEndDateChanged = true;
+    if (widget._controller.endDateController.chosenDate
+        .isBefore(widget._controller.startDateController.chosenDate)) {
+      setState(() {
+        widget._controller.endDateController.chosenDate = widget
+            ._controller.startDateController.chosenDate
+            .add(Duration(days: 1));
+      });
+    }
   }
 
   Widget build(BuildContext context) {
@@ -52,9 +71,12 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
                 Expanded(
                   flex: 8,
                   child: DateTimePicker(
-                      false, widget._controller.endDateController,
-                      startDate:
-                          widget._controller.startDateController.chosenDate),
+                    false,
+                    widget._controller.endDateController,
+                    startDate:
+                        widget._controller.startDateController.chosenDate,
+                    callBack: _endDatePicked,
+                  ),
                 ),
               ],
             ),

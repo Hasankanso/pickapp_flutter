@@ -25,15 +25,17 @@ class DateTimePickerState extends State<DateTimePicker> {
     "fr": LocaleType.fr,
   };
 
-
   selectDate(BuildContext context) async {
     if (widget._isBirthdayPicker) {
-      //max 100 year
-      _minDate = DateTime.now().subtract(Duration(days: 36500));
-      //initial date is 18 years
+      DateTime initialDate = DateTime.now();
+      //max age 100 year
+      _minDate =
+          DateTime(initialDate.year - 100, initialDate.month, initialDate.day);
+      //initial age is 18 years
       _initialDate = widget._controller.chosenDate;
-      //min 13 years
-      _maxDate = DateTime.now().subtract(Duration(days: 5110));
+      //min age 14 years
+      _maxDate =
+          DateTime(initialDate.year - 14, initialDate.month, initialDate.day);
     } else {
       if (widget.startDate == null) {
         _minDate = DateTime.now();
@@ -159,11 +161,9 @@ class DateTimePickerState extends State<DateTimePicker> {
 
 class DateTimeController {
   DateTime chosenDate;
-  DateTimeController([isBirthdayPicker]) {
-    if (isBirthdayPicker == true) {
-      DateTime initialDate = DateTime.now();
-      chosenDate =
-          DateTime(initialDate.year - 18, initialDate.month, initialDate.day);
-    }
+  DateTimeController() {
+    DateTime initialDate = DateTime.now();
+    chosenDate =
+        DateTime(initialDate.year - 18, initialDate.month, initialDate.day);
   }
 }
