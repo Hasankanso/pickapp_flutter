@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
-
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Chat.dart';
 import 'package:pickapp/pages/MyRides.dart';
@@ -27,10 +26,12 @@ class _HomeState extends State<Home> {
   }
 
   void _bottomTapped(int index) {
-    setState(() {
-      _currenIndex = index;
+    if ((_currenIndex - index).abs() == 1) {
+      pageController.animateToPage(index,
+          duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    } else {
       pageController.jumpToPage(index);
-    });
+    }
   }
 
   @override
