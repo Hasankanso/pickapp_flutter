@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/utilities/pickapp_google_places.dart';
 
 class LocationFinder extends StatefulWidget {
   LocationEditingController _controller;
@@ -38,7 +38,7 @@ class _LocationFinderState extends State<LocationFinder> {
 
 
   void OpenAutoComplete(BuildContext context) async {
-    Prediction prediction = await PlacesAutocomplete.show(
+    dynamic locPred = await PlacesAutocomplete.show(
         context: context,
         hint: Lang.getString(context, "search"),
         apiKey: widget._API_KEY,
@@ -47,17 +47,28 @@ class _LocationFinderState extends State<LocationFinder> {
         language: widget._language,
         components: [Component(Component.country, widget._country)]);
 
+    //if user chose current location
+    if(locPred.runtimeType == Location){
+      setState(() {
+        _textEditingController.text = Lang.getString(context, "my_current_location");
+        widget._controller.location = new Location(locPred.lat, locPred.lng);
+        FocusScope.of(context).unfocus();
+      });
+      return;
+    }
+
+    //request longitude and latitude from google_place_details api
     GoogleMapsPlaces _places =
         new GoogleMapsPlaces(apiKey: widget._API_KEY); //Same _API_KEY as above
     PlacesDetailsResponse detail =
-        await _places.getDetailsByPlaceId(prediction.placeId);
+        await _places.getDetailsByPlaceId(locPred.placeId);
     double latitude = detail.result.geometry.location.lat;
     double longitude = detail.result.geometry.location.lng;
-    String address = prediction.description;
+    String address = locPred.description;
 
     widget._controller.location = new Location(latitude, longitude);
-    widget._controller.placeId = prediction.placeId;
-    widget._controller.description = prediction.description;
+    widget._controller.placeId = locPred.placeId;
+    widget._controller.description = locPred.description;
 
     setState(() {
       _textEditingController.text = widget._controller.description;
