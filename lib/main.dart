@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/classes/App.dart';
-
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/pages/Home.dart';
+import 'package:pickapp/pages/SplashScreen.dart';
+import 'package:pickapp/routing/route_generator.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-
   @override
   MyAppState createState() {
     MyAppState state = new MyAppState();
@@ -70,11 +68,12 @@ class MyAppState extends State<MyApp> {
           }
 
           Locale preferred = supportedLocales.first;
-          if(!_localeCached) Cache.setLocale(preferred.languageCode);
+          if (!_localeCached) Cache.setLocale(preferred.languageCode);
           return preferred;
         },
         debugShowCheckedModeBanner: false,
-        home: Home(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       );
     }
   }

@@ -4,14 +4,20 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/ResponsiveRow.dart';
 
+import '../utilities/DateTimeRangePicker.dart';
+import '../utilities/NumberPicker.dart';
+
 class Search extends StatefulWidget {
   @override
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Search> {
+class _SearchState extends State<Search>
+    with AutomaticKeepAliveClientMixin<Search> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
+  DateTimeRangeController dateTimeController = DateTimeRangeController();
+  NumberController numberController = NumberController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +65,8 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                       language: Lang.getString(context, "lang"),
                       country: "lb")),
             ]),
+            DateTimeRangePicker(dateTimeController),
+            NumberPicker(numberController, "Persons", 1, 8),
           ],
         ));
   }

@@ -20,7 +20,7 @@ class _ColorPickerState extends State<ColorPicker> {
         return AlertDialog(
           contentPadding: const EdgeInsets.all(6.0),
           title: Text(
-            Lang.getString(context, "colorPickerTitle"),
+            Lang.getString(context, "pick_a_color"),
             style: TextStyle(fontSize: 20, color: Colors.blue),
           ),
           content: MaterialColorPicker(
@@ -33,11 +33,11 @@ class _ColorPickerState extends State<ColorPicker> {
           ),
           actions: [
             FlatButton(
-              child: Text(Lang.getString(context, 'colorPickerCancel')),
+              child: Text(Lang.getString(context, 'cancel')),
               onPressed: Navigator.of(context).pop,
             ),
             FlatButton(
-              child: Text(Lang.getString(context, 'colorPickerDone')),
+              child: Text(Lang.getString(context, 'done')),
               onPressed: () {
                 Navigator.of(context).pop();
                 widget._controller.pickedColor = _tempMainColor;
@@ -57,7 +57,7 @@ class _ColorPickerState extends State<ColorPicker> {
     return Container(
         child: FloatingActionButton(
       onPressed: _OpenColorPicker,
-      tooltip: Lang.getString(context, "colorPickerTitle"),
+      tooltip: Lang.getString(context, "pick_a_color"),
       backgroundColor: _mainColor,
     ));
   }

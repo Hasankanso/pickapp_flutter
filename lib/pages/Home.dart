@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.list),
+              icon: Icon(Icons.list_alt),
               label: Lang.getString(context, "my_rides")),
           BottomNavigationBarItem(
             icon: Icon(Icons.drive_eta),
@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
             label: Lang.getString(context, "search"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.all_inbox),
+            icon: Icon(Icons.chat_outlined),
             label: Lang.getString(context, "chats"),
           ),
           BottomNavigationBarItem(

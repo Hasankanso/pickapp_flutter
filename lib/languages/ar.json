@@ -5,13 +5,14 @@
   "toHint" : "إلى أين",
   "search_for_ride" : "البحث عن رحلة",
   "search" : "البحث",
-  "pick_a_color": "إختر لوناً",
-  "done": "تم",
-  "cancel": "إلغاء",
   "chats" : "المحادثات",
   "add_ride" : "إضافة سيارة",
   "profile" : "الملف الشخصي",
   "my_rides" : "رحلاتي",
+  "settings": "الإعدادات",
+  "pick_a_color": "إختر لوناً",
+  "done": "تم",
+  "cancel": "إلغاء",
   "my_current_location" : "مكاني الحالي",
   "lang" : "ar"
 }

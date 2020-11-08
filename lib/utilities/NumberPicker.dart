@@ -49,10 +49,10 @@ class _NumberPickerState extends State<NumberPicker> {
       children: <Widget>[
         Expanded(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
             child: Text(widget._title,
                 style: TextStyle(
-                    fontSize: _deviceSize.size.height * 0.04,
+                    fontSize: _deviceSize.size.height * 0.037,
                     color: Colors.blue)),
           ),
         ),
@@ -62,6 +62,7 @@ class _NumberPickerState extends State<NumberPicker> {
             width: _deviceSize.size.height * 0.07,
             height: _deviceSize.size.height * 0.07,
             child: FloatingActionButton(
+              heroTag: "minus",
               onPressed: _minus,
               child: Icon(
                 Icons.remove,
@@ -85,6 +86,7 @@ class _NumberPickerState extends State<NumberPicker> {
             width: _deviceSize.size.height * 0.07,
             height: _deviceSize.size.height * 0.07,
             child: FloatingActionButton(
+              heroTag: "plus",
               onPressed: counterUp,
               child: new Icon(
                 Icons.add,
