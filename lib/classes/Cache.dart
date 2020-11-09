@@ -1,7 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
-
   static SharedPreferences _prefs;
 
   static Future<SharedPreferences> Init() async {
@@ -19,6 +18,14 @@ class Cache {
     return code;
   }
 
+  static Future setDateTimeRangePicker(String isRangePicker) async {
+    _prefs = await SharedPreferences.getInstance();
+    _prefs.setString("isRangePicker", isRangePicker);
+  }
 
-
+  static Future<String> getDateTimeRangePicker() async {
+    _prefs = await SharedPreferences.getInstance();
+    String code = _prefs.getString("isRangePicker");
+    return code;
+  }
 }

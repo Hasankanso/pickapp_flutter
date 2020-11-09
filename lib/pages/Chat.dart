@@ -6,7 +6,7 @@ class Chat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar:
-            AppBar(title: Text(Lang.getString(context, "chats"))),
+            AppBar(title: Text(Lang.getString(context, "Chats"))),
         body: Column(
           children: [],
         ));

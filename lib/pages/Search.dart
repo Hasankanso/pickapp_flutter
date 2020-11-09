@@ -3,20 +3,28 @@ import 'package:google_maps_webservice/distance.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/ResponsiveRow.dart';
+import 'package:pickapp/utilities/SameSizeResponsiveRow.dart';
+import '../utilities/DateTimeRangePicker.dart';
+import '../utilities/NumberPicker.dart';
+import 'package:pickapp/utilities/Button.dart';
+
 
 class Search extends StatefulWidget {
   @override
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Search> {
+class _SearchState extends State<Search>
+    with AutomaticKeepAliveClientMixin<Search> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
+  DateTimeRangeController dateTimeController = DateTimeRangeController();
+  NumberController numberController = NumberController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(Lang.getString(context, "search_for_ride"))),
+        appBar: AppBar(title: Text(Lang.getString(context, "Search_for_Ride"))),
         body: Column(
           children: [
             ResponsiveRow(children: [
@@ -24,9 +32,9 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                   flex: 6,
                   child: LocationFinder(
                       controller: fromController,
-                      title: Lang.getString(context, "from"),
+                      title: Lang.getString(context, "From"),
                       initialDescription: fromController.description,
-                      hintText: Lang.getString(context, "fromHint"),
+                      hintText: Lang.getString(context, "From_Where"),
                       language: Lang.getString(context, "lang"),
                       country: "lb")),
               Expanded(
@@ -53,12 +61,15 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                   flex: 6,
                   child: LocationFinder(
                       controller: toController,
-                      title: Lang.getString(context, "to"),
+                      title: Lang.getString(context, "To"),
                       initialDescription: toController.description,
-                      hintText: Lang.getString(context, "toHint"),
+                      hintText: Lang.getString(context, "To_Where"),
                       language: Lang.getString(context, "lang"),
                       country: "lb")),
             ]),
+            DateTimeRangePicker(dateTimeController),
+            NumberPicker(numberController, "Persons", 1, 8),
+            MainButton(text_key: "Search", onPressed: () => print("search"),),
           ],
         ));
   }

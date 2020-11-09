@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
-
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Chat.dart';
 import 'package:pickapp/pages/MyRides.dart';
@@ -27,10 +26,12 @@ class _HomeState extends State<Home> {
   }
 
   void _bottomTapped(int index) {
-    setState(() {
-      _currenIndex = index;
+    if ((_currenIndex - index).abs() == 1) {
+      pageController.animateToPage(index,
+          duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    } else {
       pageController.jumpToPage(index);
-    });
+    }
   }
 
   @override
@@ -52,23 +53,23 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: Lang.getString(context, "my_rides")),
+              icon: Icon(Icons.list_alt),
+              label: Lang.getString(context, "My_Rides")),
           BottomNavigationBarItem(
             icon: Icon(Icons.drive_eta),
-            label: Lang.getString(context, "add_ride"),
+            label: Lang.getString(context, "Add_Ride"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: Lang.getString(context, "search"),
+            label: Lang.getString(context, "Search"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.all_inbox),
-            label: Lang.getString(context, "chats"),
+            icon: Icon(Icons.chat_outlined),
+            label: Lang.getString(context, "Chats"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            label: Lang.getString(context, "profile"),
+            label: Lang.getString(context, "Profile"),
           ),
         ],
         currentIndex: _currenIndex,

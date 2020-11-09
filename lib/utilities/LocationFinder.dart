@@ -39,24 +39,23 @@ class _LocationFinderState extends State<LocationFinder> {
   void OpenAutoComplete(BuildContext context) async {
     dynamic locPred = await PlacesAutocomplete.show(
         context: context,
-        hint: Lang.getString(context, "search"),
+        hint: Lang.getString(context, "Search"),
         apiKey: widget._API_KEY,
         mode: Mode.fullscreen,
         // Mode.overlay
         language: widget._language,
         components: [Component(Component.country, widget._country)]);
 
-    if(locPred ==null) return;
+    if (locPred == null) return;
     //if user chose current location
     if (locPred.runtimeType == Location) {
       setState(() {
-        _textEditingController.text =
-            Lang.getString(context, "my_current_location");
+        String curr_loc = Lang.getString(context, "My_Current_Location");
+        _textEditingController.text = curr_loc;
         widget._controller.location = new Location(locPred.lat, locPred.lng);
         widget._controller.placeId = null;
-        widget._controller.description =
-            Lang.getString(context, "my_current_location");
-        widget._initialDescription = Lang.getString(context, "my_current_location");
+        widget._controller.description = curr_loc;
+        widget._initialDescription = curr_loc;
         FocusScope.of(context).unfocus();
       });
       return;
@@ -100,6 +99,6 @@ class _LocationFinderState extends State<LocationFinder> {
 
 class LocationEditingController {
   Location location;
-  String placeId;
-  String description;
+  String placeId = "";
+  String description = "";
 }

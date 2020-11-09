@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/main.dart';
 import 'package:pickapp/classes/Cache.dart';
+import'dart:io' show Platform;
 
 class App {
   static MyAppState _state;
@@ -16,6 +17,14 @@ class App {
 
   static void init(MyAppState state) {
     _state = state;
+  }
+
+  static bool isAndroid(){
+    return Platform.isAndroid;
+  }
+
+  static bool isIphone(){
+    return Platform.isIOS;
   }
 
 }

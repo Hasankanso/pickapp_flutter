@@ -55,10 +55,12 @@ class Language {
 
   Language({this.code, this.fullname, this.flag});
 
+
+  bool operator ==(o) => o is Language && code == o.code;
+
   @override
   String toString() {
-    // TODO: implement toString
-    return super.toString();
+    return this.fullname + " " + this.flag;
   }
 }
 

@@ -6,7 +6,20 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(Lang.getString(context, "profile"))),
+          title: Text(Lang.getString(context, "Profile")),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.settings,
+                color: Colors.white,
+              ),
+              tooltip: Lang.getString(context, "Settings"),
+              onPressed: () {
+                Navigator.of(context).pushNamed("/settings");
+              },
+            )
+          ],
+        ),
         body: Column(
           children: [],
         ));

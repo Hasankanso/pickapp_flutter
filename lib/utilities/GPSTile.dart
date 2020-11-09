@@ -14,7 +14,7 @@ class GPSTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(Icons.gps_fixed),
-      title: Text(Lang.getString(context, "my_current_location")),
+      title: Text(Lang.getString(context, "My_Current_Location")),
       onTap: () {
         if (onTap != null) {
           getLocation().then((value) => {
