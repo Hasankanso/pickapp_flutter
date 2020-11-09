@@ -36,7 +36,6 @@ class LocationFinder extends StatefulWidget {
 class _LocationFinderState extends State<LocationFinder> {
   TextEditingController _textEditingController = new TextEditingController();
 
-
   void OpenAutoComplete(BuildContext context) async {
     dynamic locPred = await PlacesAutocomplete.show(
         context: context,
@@ -47,11 +46,17 @@ class _LocationFinderState extends State<LocationFinder> {
         language: widget._language,
         components: [Component(Component.country, widget._country)]);
 
+    if(locPred ==null) return;
     //if user chose current location
-    if(locPred.runtimeType == Location){
+    if (locPred.runtimeType == Location) {
       setState(() {
-        _textEditingController.text = Lang.getString(context, "my_current_location");
+        _textEditingController.text =
+            Lang.getString(context, "my_current_location");
         widget._controller.location = new Location(locPred.lat, locPred.lng);
+        widget._controller.placeId = null;
+        widget._controller.description =
+            Lang.getString(context, "my_current_location");
+        widget._initialDescription = Lang.getString(context, "my_current_location");
         FocusScope.of(context).unfocus();
       });
       return;
@@ -66,12 +71,12 @@ class _LocationFinderState extends State<LocationFinder> {
     double longitude = detail.result.geometry.location.lng;
     String address = locPred.description;
 
-    widget._controller.location = new Location(latitude, longitude);
-    widget._controller.placeId = locPred.placeId;
-    widget._controller.description = locPred.description;
-
     setState(() {
+      widget._controller.location = new Location(latitude, longitude);
+      widget._controller.placeId = locPred.placeId;
+      widget._controller.description = locPred.description;
       _textEditingController.text = widget._controller.description;
+      widget._initialDescription = locPred.description;
       FocusScope.of(context).unfocus();
     });
   }

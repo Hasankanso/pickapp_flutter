@@ -40,26 +40,27 @@ class PlacesAutocompleteWidget extends StatefulWidget {
   /// or custom configuration
   final BaseClient httpClient;
 
-  PlacesAutocompleteWidget({@required this.apiKey,
-    this.mode = Mode.fullscreen,
-    this.hint = "Search",
-    this.overlayBorderRadius,
-    this.offset,
-    this.location,
-    this.radius,
-    this.language,
-    this.sessionToken,
-    this.types,
-    this.components,
-    this.strictbounds,
-    this.region,
-    this.logo,
-    this.onError,
-    Key key,
-    this.proxyBaseUrl,
-    this.httpClient,
-    this.startText,
-    this.debounce = 300})
+  PlacesAutocompleteWidget(
+      {@required this.apiKey,
+      this.mode = Mode.fullscreen,
+      this.hint = "Search",
+      this.overlayBorderRadius,
+      this.offset,
+      this.location,
+      this.radius,
+      this.language,
+      this.sessionToken,
+      this.types,
+      this.components,
+      this.strictbounds,
+      this.region,
+      this.logo,
+      this.onError,
+      Key key,
+      this.proxyBaseUrl,
+      this.httpClient,
+      this.startText,
+      this.debounce = 300})
       : super(key: key);
 
   @override
@@ -75,13 +76,13 @@ class PlacesAutocompleteWidget extends StatefulWidget {
 }
 
 class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
+  bool destroyed = false;
+
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(title: AppBarPlacesAutoCompleteTextField());
     final body = PlacesAutocompleteResult(
-      onTap: Navigator
-          .of(context)
-          .pop,
+      onTap:  Navigator.of(context).pop,
       logo: widget.logo,
     );
     return Scaffold(appBar: appBar, body: body);
@@ -93,19 +94,20 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final headerTopLeftBorderRadius = widget.overlayBorderRadius != null ?
-    widget.overlayBorderRadius.topLeft : Radius.circular(2);
+    final headerTopLeftBorderRadius = widget.overlayBorderRadius != null
+        ? widget.overlayBorderRadius.topLeft
+        : Radius.circular(2);
 
-    final headerTopRightBorderRadius = widget.overlayBorderRadius != null ?
-    widget.overlayBorderRadius.topRight : Radius.circular(2);
+    final headerTopRightBorderRadius = widget.overlayBorderRadius != null
+        ? widget.overlayBorderRadius.topRight
+        : Radius.circular(2);
 
     final header = Column(children: <Widget>[
       Material(
           color: theme.dialogBackgroundColor,
           borderRadius: BorderRadius.only(
               topLeft: headerTopLeftBorderRadius,
-              topRight: headerTopRightBorderRadius
-          ),
+              topRight: headerTopRightBorderRadius),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -120,23 +122,25 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
               ),
               Expanded(
                   child: Padding(
-                    child: _textField(context),
-                    padding: const EdgeInsets.only(right: 8.0),
-                  )),
+                child: _textField(context),
+                padding: const EdgeInsets.only(right: 8.0),
+              )),
             ],
           )),
       Divider(
-        //height: 1.0,
-      )
+          //height: 1.0,
+          )
     ]);
 
     Widget body;
 
-    final bodyBottomLeftBorderRadius = widget.overlayBorderRadius != null ?
-    widget.overlayBorderRadius.bottomLeft : Radius.circular(2);
+    final bodyBottomLeftBorderRadius = widget.overlayBorderRadius != null
+        ? widget.overlayBorderRadius.bottomLeft
+        : Radius.circular(2);
 
-    final bodyBottomRightBorderRadius = widget.overlayBorderRadius != null ?
-    widget.overlayBorderRadius.bottomRight : Radius.circular(2);
+    final bodyBottomRightBorderRadius = widget.overlayBorderRadius != null
+        ? widget.overlayBorderRadius.bottomRight
+        : Radius.circular(2);
 
     if (_searching) {
       body = Stack(
@@ -165,14 +169,11 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
           child: ListBody(
             children: _response.predictions
                 .map(
-                  (p) =>
-                  PredictionTile(
+                  (p) => PredictionTile(
                     prediction: p,
-                    onTap: Navigator
-                        .of(context)
-                        .pop,
+                    onTap: Navigator.of(context).pop,
                   ),
-            )
+                )
                 .toList(),
           ),
         ),
@@ -186,38 +187,28 @@ class _PlacesAutocompleteOverlayState extends PlacesAutocompleteState {
           Padding(padding: EdgeInsets.only(top: 48.0), child: body),
         ]));
 
-    if (Theme
-        .of(context)
-        .platform == TargetPlatform.iOS) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       return Padding(padding: EdgeInsets.only(top: 8.0), child: container);
     }
     return container;
   }
 
-  Icon get _iconBack =>
-      Theme
-          .of(context)
-          .platform == TargetPlatform.iOS
-          ? Icon(Icons.arrow_back_ios) : Icon(Icons.arrow_back);
+  Icon get _iconBack => Theme.of(context).platform == TargetPlatform.iOS
+      ? Icon(Icons.arrow_back_ios)
+      : Icon(Icons.arrow_back);
 
-
-  Widget _textField(BuildContext context) =>
-      TextField(
+  Widget _textField(BuildContext context) => TextField(
         controller: _queryTextController,
         autofocus: true,
         style: TextStyle(
-            color: Theme
-                .of(context)
-                .brightness == Brightness.light
+            color: Theme.of(context).brightness == Brightness.light
                 ? Colors.black87
                 : null,
             fontSize: 16.0),
         decoration: InputDecoration(
           hintText: widget.hint,
           hintStyle: TextStyle(
-            color: Theme
-                .of(context)
-                .brightness == Brightness.light
+            color: Theme.of(context).brightness == Brightness.light
                 ? Colors.black45
                 : null,
             fontSize: 16.0,
@@ -247,6 +238,19 @@ class PlacesAutocompleteResult extends StatefulWidget {
 }
 
 class _PlacesAutocompleteResult extends State<PlacesAutocompleteResult> {
+  bool isDestroyed = false;
+
+  @override
+  void dispose() {
+    isDestroyed = true;
+    super.dispose();
+  }
+
+  void onTap(dynamic r){
+    if(!isDestroyed) {
+      widget.onTap(r);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final state = PlacesAutocompleteWidget.of(context);
@@ -260,23 +264,25 @@ class _PlacesAutocompleteResult extends State<PlacesAutocompleteResult> {
         children.add(_Loader());
       }
       children.add(GPSListView(
-        predictions: new List<Prediction>(), onTap: widget.onTap,));
+        predictions: new List<Prediction>(),
+        onTap: onTap,
+      ));
       return Stack(children: children);
     }
     return GPSListView(
       predictions: state._response.predictions,
-      onTap: widget.onTap,
+      onTap: onTap,
     );
   }
 }
 
 class AppBarPlacesAutoCompleteTextField extends StatefulWidget {
-
   final InputDecoration textDecoration;
   final TextStyle textStyle;
 
   AppBarPlacesAutoCompleteTextField(
-      {Key key, this.textDecoration, this.textStyle}) : super(key: key);
+      {Key key, this.textDecoration, this.textStyle})
+      : super(key: key);
 
   @override
   _AppBarPlacesAutoCompleteTextFieldState createState() =>
@@ -285,7 +291,6 @@ class AppBarPlacesAutoCompleteTextField extends StatefulWidget {
 
 class _AppBarPlacesAutoCompleteTextFieldState
     extends State<AppBarPlacesAutoCompleteTextField> {
-
   @override
   Widget build(BuildContext context) {
     final state = PlacesAutocompleteWidget.of(context);
@@ -298,8 +303,8 @@ class _AppBarPlacesAutoCompleteTextFieldState
           controller: state._queryTextController,
           autofocus: true,
           style: widget.textStyle ?? _defaultStyle(),
-          decoration: widget.textDecoration ??
-              _defaultDecoration(state.widget.hint),
+          decoration:
+              widget.textDecoration ?? _defaultDecoration(state.widget.hint),
         ));
   }
 
@@ -307,15 +312,11 @@ class _AppBarPlacesAutoCompleteTextFieldState
     return InputDecoration(
       hintText: hint,
       filled: true,
-      fillColor: Theme
-          .of(context)
-          .brightness == Brightness.light
+      fillColor: Theme.of(context).brightness == Brightness.light
           ? Colors.white30
           : Colors.black38,
       hintStyle: TextStyle(
-        color: Theme
-            .of(context)
-            .brightness == Brightness.light
+        color: Theme.of(context).brightness == Brightness.light
             ? Colors.black38
             : Colors.white30,
         fontSize: 16.0,
@@ -326,15 +327,12 @@ class _AppBarPlacesAutoCompleteTextFieldState
 
   TextStyle _defaultStyle() {
     return TextStyle(
-      color: Theme
-          .of(context)
-          .brightness == Brightness.light
+      color: Theme.of(context).brightness == Brightness.light
           ? Colors.black.withOpacity(0.9)
           : Colors.white.withOpacity(0.9),
       fontSize: 16.0,
     );
   }
-
 }
 
 class PoweredByGoogleImage extends StatelessWidget {
@@ -349,9 +347,7 @@ class PoweredByGoogleImage extends StatelessWidget {
       Padding(
           padding: EdgeInsets.all(16.0),
           child: Image.asset(
-            Theme
-                .of(context)
-                .brightness == Brightness.light
+            Theme.of(context).brightness == Brightness.light
                 ? _poweredByGoogleWhite
                 : _poweredByGoogleBlack,
             scale: 2.5,
@@ -497,27 +493,27 @@ abstract class PlacesAutocompleteState extends State<PlacesAutocompleteWidget> {
 }
 
 class PlacesAutocomplete {
-  static Future<dynamic> show({@required BuildContext context,
-    @required String apiKey,
-    Mode mode = Mode.fullscreen,
-    String hint = "Search",
-    BorderRadius overlayBorderRadius,
-    num offset,
-    Location location,
-    num radius,
-    String language,
-    String sessionToken,
-    List<String> types,
-    List<Component> components,
-    bool strictbounds,
-    String region,
-    Widget logo,
-    ValueChanged<PlacesAutocompleteResponse> onError,
-    String proxyBaseUrl,
-    Client httpClient,
-    String startText = ""}) {
-    final builder = (BuildContext ctx) =>
-        PlacesAutocompleteWidget(
+  static Future<dynamic> show(
+      {@required BuildContext context,
+      @required String apiKey,
+      Mode mode = Mode.fullscreen,
+      String hint = "Search",
+      BorderRadius overlayBorderRadius,
+      num offset,
+      Location location,
+      num radius,
+      String language,
+      String sessionToken,
+      List<String> types,
+      List<Component> components,
+      bool strictbounds,
+      String region,
+      Widget logo,
+      ValueChanged<PlacesAutocompleteResponse> onError,
+      String proxyBaseUrl,
+      Client httpClient,
+      String startText = ""}) {
+    final builder = (BuildContext ctx) => PlacesAutocompleteWidget(
           apiKey: apiKey,
           mode: mode,
           overlayBorderRadius: overlayBorderRadius,
@@ -535,7 +531,8 @@ class PlacesAutocomplete {
           onError: onError,
           proxyBaseUrl: proxyBaseUrl,
           httpClient: httpClient,
-          startText: startText,);
+          startText: startText,
+        );
 
     if (mode == Mode.overlay) {
       return showDialog(context: context, builder: builder);
