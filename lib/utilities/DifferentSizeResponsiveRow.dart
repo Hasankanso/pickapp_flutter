@@ -10,6 +10,7 @@ class DifferentSizeResponsiveRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> spacedChildren = new List<Widget>(3 * children.length);
+    Size screen = MediaQuery.of(context).size;
 
     int i = 0;
     for (Widget w in children) {
@@ -20,6 +21,9 @@ class DifferentSizeResponsiveRow extends StatelessWidget {
       spacedChildren[i] = Spacer();
       i++;
     }
-    return Row(children: spacedChildren);
+    double space = screen.height / 20;
+    return Padding(
+        child: Row(children: spacedChildren),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, space));
   }
 }

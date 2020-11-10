@@ -14,7 +14,6 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (App.isIphone()) {
       return ResponsiveRow(
         children: [
           CupertinoButton(
@@ -28,18 +27,5 @@ class MainButton extends StatelessWidget {
           )
         ],
       );
-    } else {
-      return ResponsiveRow(
-        children: [
-          FlatButton(
-              onPressed: onPressed,
-              color: Styles.primaryColor(),
-              child: Text(
-                Lang.getString(context, text_key),
-                style: Styles.titleTextStyle(context),
-              ))
-        ],
-      );
-    }
   }
 }

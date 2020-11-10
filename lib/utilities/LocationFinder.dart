@@ -83,17 +83,16 @@ class _LocationFinderState extends State<LocationFinder> {
   @override
   Widget build(BuildContext context) {
     _textEditingController.text = widget._initialDescription;
-    return LimitedBox(
-        child: TextField(
+    return TextField(
       controller: _textEditingController,
       decoration: InputDecoration(
-        labelText: widget._title,
-        hintText: widget._hintText,
+    labelText: widget._title,
+    hintText: widget._hintText,
       ),
       focusNode: FocusNode(),
       enableInteractiveSelection: false,
       onTap: () => OpenAutoComplete(context),
-    ));
+    );
   }
 }
 
