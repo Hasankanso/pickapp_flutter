@@ -65,7 +65,7 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
             ],
           ),
           Visibility(
-            visible: true,
+            visible: _show,
             child: Row(
               children: [
                 Expanded(

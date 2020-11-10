@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/utilities/Styles.dart';
 
 class NumberPicker extends StatefulWidget {
   int _value, _min, _max;
@@ -51,23 +52,21 @@ class _NumberPickerState extends State<NumberPicker> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
             child: Text(widget._title,
-                style: TextStyle(
-                    fontSize: _deviceSize.size.height * 0.037,
-                    color: Colors.blue)),
+                style: headerTextStyle(context: context, isTitle: true)),
           ),
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: Container(
-            width: _deviceSize.size.height * 0.07,
-            height: _deviceSize.size.height * 0.07,
+            width: _deviceSize.size.width * 0.11,
+            height: _deviceSize.size.width * 0.11,
             child: FloatingActionButton(
               heroTag: "minus",
               onPressed: _minus,
               child: Icon(
                 Icons.remove,
                 color: Colors.white,
-                size: _deviceSize.size.height * 0.05,
+                size: iconSize(context),
               ),
             ),
           ),
@@ -75,23 +74,20 @@ class _NumberPickerState extends State<NumberPicker> {
         Padding(
           padding: EdgeInsets.fromLTRB(15, 0, 20, 0),
           child: Text('$_value',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: _deviceSize.size.height * 0.04,
-                  color: Colors.blue)),
+              style: headerTextStyle(context: context, isValue: true)),
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(15, 0, 20, 0),
           child: Container(
-            width: _deviceSize.size.height * 0.07,
-            height: _deviceSize.size.height * 0.07,
+            width: _deviceSize.size.width * 0.11,
+            height: _deviceSize.size.width * 0.11,
             child: FloatingActionButton(
               heroTag: "plus",
               onPressed: counterUp,
               child: new Icon(
                 Icons.add,
                 color: Colors.white,
-                size: _deviceSize.size.height * 0.05,
+                size: iconSize(context),
               ),
             ),
           ),

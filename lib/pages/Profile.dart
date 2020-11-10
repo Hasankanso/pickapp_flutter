@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/utilities/Styles.dart';
 
 class Profile extends StatelessWidget {
   @override
@@ -12,6 +13,7 @@ class Profile extends StatelessWidget {
               icon: Icon(
                 Icons.settings,
                 color: Colors.white,
+                size: iconSize(context),
               ),
               tooltip: Lang.getString(context, "Settings"),
               onPressed: () {

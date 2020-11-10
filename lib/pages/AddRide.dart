@@ -5,8 +5,7 @@ class AddRide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(Lang.getString(context, "Add_Ride"))),
+        appBar: AppBar(title: Text(Lang.getString(context, "add_ride"))),
         body: Column(
           children: [],
         ));

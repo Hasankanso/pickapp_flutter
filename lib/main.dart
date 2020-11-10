@@ -51,6 +51,8 @@ class MyAppState extends State<MyApp> {
         locale: _locale,
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          primaryTextTheme:
+              TextTheme(headline6: TextStyle(color: Colors.white)),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         supportedLocales: Lang.langs.map((element) => Locale(element.code)),

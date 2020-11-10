@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/distance.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/utilities/Button.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/ResponsiveRow.dart';
-import 'package:pickapp/utilities/SameSizeResponsiveRow.dart';
+import 'package:pickapp/utilities/Styles.dart';
+
 import '../utilities/DateTimeRangePicker.dart';
 import '../utilities/NumberPicker.dart';
-import 'package:pickapp/utilities/Button.dart';
-
 
 class Search extends StatefulWidget {
   @override
@@ -24,7 +24,11 @@ class _SearchState extends State<Search>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(Lang.getString(context, "Search_for_Ride"))),
+        appBar: AppBar(
+            title: Text(
+          Lang.getString(context, "search_for_ride"),
+          style: titleTextStyle(context),
+        )),
         body: Column(
           children: [
             ResponsiveRow(children: [
@@ -69,7 +73,10 @@ class _SearchState extends State<Search>
             ]),
             DateTimeRangePicker(dateTimeController),
             NumberPicker(numberController, "Persons", 1, 8),
-            MainButton(text_key: "Search", onPressed: () => print("search"),),
+            MainButton(
+              text_key: "Search",
+              onPressed: () => print("search"),
+            ),
           ],
         ));
   }

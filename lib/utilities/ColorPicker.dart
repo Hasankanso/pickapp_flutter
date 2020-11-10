@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
-
-import '../classes/Localizations.dart';
+import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/utilities/Styles.dart';
 
 class ColorPicker extends StatefulWidget {
   ColorController _controller;
@@ -12,7 +12,7 @@ class ColorPicker extends StatefulWidget {
 
 class _ColorPickerState extends State<ColorPicker> {
   ColorSwatch _tempMainColor;
-  ColorSwatch _mainColor = Colors.blue;
+  ColorSwatch _mainColor = primaryColor();
   void _OpenColorPicker() {
     showDialog(
       context: context,
