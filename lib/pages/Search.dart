@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/distance.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/Button.dart';
+import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
+import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/ResponsiveRow.dart';
-import 'package:pickapp/utilities/Styles.dart';
-
-import '../utilities/DateTimeRangePicker.dart';
-import '../utilities/NumberPicker.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -26,8 +25,8 @@ class _SearchState extends State<Search>
     return Scaffold(
         appBar: AppBar(
             title: Text(
-          Lang.getString(context, "search_for_ride"),
-          style: titleTextStyle(context),
+          Lang.getString(context, "Search_for_Ride"),
+          style: Styles.titleTextStyle(context),
         )),
         body: Column(
           children: [

@@ -3,7 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:pickapp/utilities/Styles.dart';
+import 'package:pickapp/classes/Styles.dart';
 
 class DateTimePicker extends StatefulWidget {
   bool _isBirthdayPicker;
@@ -129,7 +129,7 @@ class DateTimePickerState extends State<DateTimePicker> {
             height: _deviceSize.size.height * 0.09,
             decoration: BoxDecoration(
               border: Border.all(
-                color: primaryColor(),
+                color: Styles.primaryColor(),
                 width: 2,
               ),
               borderRadius: BorderRadius.all(Radius.circular(
@@ -142,14 +142,14 @@ class DateTimePickerState extends State<DateTimePicker> {
                   padding: EdgeInsets.all(9.0),
                   child: Icon(
                     Icons.date_range_rounded,
-                    size: iconSize(context),
-                    color: primaryColor(),
+                    size: Styles.iconSize(context),
+                    color: Styles.labelColor(),
                   ),
                 ),
                 Text(
                   DateFormat(dateFormat, _appLocale.toString())
                       .format(widget._controller.chosenDate),
-                  style: headerTextStyle(context: context, isValue: true),
+                  style: Styles.valueTextStyle(context),
                 ),
               ],
             ),

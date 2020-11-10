@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Chat.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/MyRides.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Search.dart';
-import 'package:pickapp/utilities/Styles.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -91,10 +91,10 @@ class _HomeState extends State<Home> {
           ),
         ],
         currentIndex: _currenIndex,
-        selectedItemColor: Colors.blue,
-        iconSize: iconSize(context),
+        selectedItemColor: Styles.primaryColor(),
+        iconSize: Styles.iconSize(context),
         selectedFontSize: _deviceSize.size.width * 0.040,
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: Styles.labelColor(),
         onTap: _bottomTapped,
       ),
     );

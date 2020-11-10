@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/utilities/Styles.dart';
+import 'package:pickapp/classes/Styles.dart';
 
 class NumberPicker extends StatefulWidget {
   int _value, _min, _max;
@@ -51,8 +51,7 @@ class _NumberPickerState extends State<NumberPicker> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-            child: Text(widget._title,
-                style: headerTextStyle(context: context, isTitle: true)),
+            child: Text(widget._title, style: Styles.labelTextStyle(context)),
           ),
         ),
         Padding(
@@ -65,16 +64,15 @@ class _NumberPickerState extends State<NumberPicker> {
               onPressed: _minus,
               child: Icon(
                 Icons.remove,
-                color: Colors.white,
-                size: iconSize(context),
+                color: Styles.secondaryColor(),
+                size: Styles.iconSize(context),
               ),
             ),
           ),
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(15, 0, 20, 0),
-          child: Text('$_value',
-              style: headerTextStyle(context: context, isValue: true)),
+          child: Text('$_value', style: Styles.valueTextStyle(context)),
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(15, 0, 20, 0),
@@ -86,8 +84,8 @@ class _NumberPickerState extends State<NumberPicker> {
               onPressed: counterUp,
               child: new Icon(
                 Icons.add,
-                color: Colors.white,
-                size: iconSize(context),
+                color: Styles.secondaryColor(),
+                size: Styles.iconSize(context),
               ),
             ),
           ),

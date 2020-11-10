@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Style.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/SameSizeResponsiveRow.dart';
 
 class MainButton extends StatelessWidget {
@@ -20,9 +20,9 @@ class MainButton extends StatelessWidget {
           CupertinoButton(
             child: Text(
               Lang.getString(context, text_key),
-              style: Style.secondStyle(context),
+              style: Styles.titleTextStyle(context),
             ),
-            color: Style.mainColor(),
+            color: Styles.primaryColor(),
             onPressed: onPressed,
             borderRadius: BorderRadius.all(Radius.circular(_radius)),
           )
@@ -33,10 +33,10 @@ class MainButton extends StatelessWidget {
         children: [
           FlatButton(
               onPressed: onPressed,
-              color: Style.mainColor(),
+              color: Styles.primaryColor(),
               child: Text(
                 Lang.getString(context, text_key),
-                style: Style.secondStyle(context),
+                style: Styles.titleTextStyle(context),
               ))
         ],
       );

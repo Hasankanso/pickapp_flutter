@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
-
-import '../classes/Localizations.dart';
 
 class Settings extends StatelessWidget {
   @override

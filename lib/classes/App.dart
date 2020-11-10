@@ -7,7 +7,7 @@ import 'package:pickapp/main.dart';
 class App {
   static MyAppState _state;
   static BuildContext _context;
-  static final String appName = "Pickapp";
+  static final String appName = "PickApp";
   static TextStyle textStyling = new TextStyle(fontSize: 30);
   static final String googleKey = "AIzaSyC7U0OEb9200tGZFFFTyLjQdo3goKyuSsw";
   static bool isLoggedIn = true;
