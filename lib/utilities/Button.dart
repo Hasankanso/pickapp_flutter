@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/utilities/SameSizeResponsiveRow.dart';
+import 'package:pickapp/utilities/ResponsiveRow.dart';
 
 class MainButton extends StatelessWidget {
   String text_key;
@@ -15,7 +15,7 @@ class MainButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (App.isIphone()) {
-      return SameSizeResponsiveRow(
+      return ResponsiveRow(
         children: [
           CupertinoButton(
             child: Text(
@@ -29,7 +29,7 @@ class MainButton extends StatelessWidget {
         ],
       );
     } else {
-      return SameSizeResponsiveRow(
+      return ResponsiveRow(
         children: [
           FlatButton(
               onPressed: onPressed,

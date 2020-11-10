@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:pickapp/classes/Localizations.dart';
-
-import 'file:///D:/Projects/AndroidStudioProjects/pickapp_flutter/lib/classes/Styles.dart';
+import 'package:pickapp/classes/Styles.dart';
 
 class ColorPicker extends StatefulWidget {
   ColorController _controller;

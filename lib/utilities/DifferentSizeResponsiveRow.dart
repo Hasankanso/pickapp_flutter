@@ -1,12 +1,10 @@
 import 'package:flutter/widgets.dart';
 
-class SameSizeResponsiveRow extends StatelessWidget {
+class DifferentSizeResponsiveRow extends StatelessWidget {
   List<Widget> children;
-  int widget_realtive_Size;
 
-  SameSizeResponsiveRow({List<Widget> children = const <Widget>[], widget_realtive_Size = 6}) {
+  DifferentSizeResponsiveRow({List<Widget> children = const <Widget>[]}) {
     this.children = children;
-    this.widget_realtive_Size = widget_realtive_Size;
   }
 
   @override
@@ -17,8 +15,7 @@ class SameSizeResponsiveRow extends StatelessWidget {
     for (Widget w in children) {
       spacedChildren[i] = Spacer();
       i++;
-      spacedChildren[i] =
-          Expanded(flex: widget_realtive_Size, child: w);
+      spacedChildren[i] = w;
       i++;
       spacedChildren[i] = Spacer();
       i++;

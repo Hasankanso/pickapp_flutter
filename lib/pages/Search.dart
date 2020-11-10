@@ -6,7 +6,7 @@ import 'package:pickapp/utilities/Button.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
-import 'package:pickapp/utilities/ResponsiveRow.dart';
+import 'package:pickapp/utilities/DifferentSizeResponsiveRow.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class _SearchState extends State<Search>
         )),
         body: Column(
           children: [
-            ResponsiveRow(children: [
+            DifferentSizeResponsiveRow(children: [
               Expanded(
                   flex: 6,
                   child: LocationFinder(
