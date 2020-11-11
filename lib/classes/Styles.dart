@@ -2,18 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Styles {
-  //for app bar, and button text or wherever background primary
+  //for app bar
   static titleTextStyle(context) {
-    final _deviceSize = MediaQuery.of(context);
     return TextStyle(
-        fontSize: _deviceSize.size.width * 0.049, color: secondaryColor());
+      fontSize: titlefontSize(context),
+      color: secondaryColor(),
+    );
+  }
+
+  //  button text or wherever background primary
+  static buttonTextStyle(context) {
+    return TextStyle(
+      fontSize: fontSize(context),
+      color: secondaryColor(),
+    );
+  }
+
+  //where color is primary
+  static headerTextStyle(context) {
+    return TextStyle(fontSize: fontSize(context), color: primaryColor());
   }
 
   static TextStyle labelTextStyle(context) {
-    final _deviceSize = MediaQuery.of(context);
     return TextStyle(
         color: labelColor(),
-        fontSize: _deviceSize.size.width * 0.06,
+        fontSize: fontSize(context),
         fontWeight: FontWeight.w400);
   }
 
@@ -21,8 +34,18 @@ class Styles {
     final _deviceSize = MediaQuery.of(context);
     return TextStyle(
         color: valueColor(),
-        fontSize: _deviceSize.size.width * 0.06,
+        fontSize: _deviceSize.size.width * 0.043,
         fontWeight: FontWeight.w400);
+  }
+
+  static double titlefontSize(context) {
+    final _deviceSize = MediaQuery.of(context);
+    return _deviceSize.size.width * 0.049;
+  }
+
+  static double fontSize(context) {
+    final _deviceSize = MediaQuery.of(context);
+    return _deviceSize.size.width * 0.043;
   }
 
   //primary color of app
@@ -47,8 +70,13 @@ class Styles {
   }
 
   //icons size navigationbottomicons ...
-  static double iconSize(context) {
+  static double primarySize(context) {
     final _deviceSize = MediaQuery.of(context);
     return _deviceSize.size.width * 0.075;
+  }
+
+  static double secondaryIconSize(context) {
+    final _deviceSize = MediaQuery.of(context);
+    return _deviceSize.size.width * 0.060;
   }
 }

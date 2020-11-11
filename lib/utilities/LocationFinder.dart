@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/pickapp_google_places.dart';
 
 class LocationFinder extends StatefulWidget {
@@ -85,12 +86,16 @@ class _LocationFinderState extends State<LocationFinder> {
     _textEditingController.text = widget._initialDescription;
     return TextField(
       controller: _textEditingController,
-      decoration: InputDecoration(
-    labelText: widget._title,
-    hintText: widget._hintText,
-      ),
-      focusNode: FocusNode(),
       enableInteractiveSelection: false,
+      showCursor: false,
+      decoration: InputDecoration(
+        labelText: widget._title,
+        hintText: widget._hintText,
+        labelStyle: Styles.labelTextStyle(context),
+        hintStyle: Styles.labelTextStyle(context),
+      ),
+      style: Styles.valueTextStyle(context),
+      focusNode: FocusNode(),
       onTap: () => OpenAutoComplete(context),
     );
   }

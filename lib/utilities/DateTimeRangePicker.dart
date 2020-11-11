@@ -51,38 +51,35 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
   }
 
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              flex: 8,
+              child: DateTimePicker(
+                  false, widget._controller.startDateController,
+                  callBack: _startDatePicked),
+            ),
+          ],
+        ),
+        Visibility(
+          visible: true,
+          child: Row(
             children: [
               Expanded(
                 flex: 8,
                 child: DateTimePicker(
-                    false, widget._controller.startDateController,
-                    callBack: _startDatePicked),
+                  false,
+                  widget._controller.endDateController,
+                  startDate: widget._controller.startDateController.chosenDate,
+                  callBack: _endDatePicked,
+                ),
               ),
             ],
           ),
-          Visibility(
-            visible: _show,
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 8,
-                  child: DateTimePicker(
-                    false,
-                    widget._controller.endDateController,
-                    startDate:
-                        widget._controller.startDateController.chosenDate,
-                    callBack: _endDatePicked,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

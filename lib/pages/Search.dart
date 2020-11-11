@@ -4,9 +4,9 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
+import 'package:pickapp/utilities/DifferentSizeResponsiveRow.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
-import 'package:pickapp/utilities/DifferentSizeResponsiveRow.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -33,12 +33,15 @@ class _SearchState extends State<Search>
             DifferentSizeResponsiveRow(children: [
               Expanded(
                 flex: 8,
-                child: Column(mainAxisAlignment : MainAxisAlignment.spaceBetween, children: [
-                  Icon(Icons.panorama_fish_eye,
-                      color: Styles.primaryColor(), size: 15),
-                  Icon(Icons.more_vert, color: Styles.primaryColor(), size: 15),
-                  Icon(Icons.circle, color: Styles.primaryColor(), size: 15)
-                ]),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.panorama_fish_eye,
+                          color: Styles.primaryColor(), size: 15),
+                      Icon(Icons.more_vert,
+                          color: Styles.primaryColor(), size: 15),
+                      Icon(Icons.circle, color: Styles.primaryColor(), size: 15)
+                    ]),
               ),
               Expanded(
                 flex: 60,

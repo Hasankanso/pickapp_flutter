@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/utilities/DifferentSizeResponsiveRow.dart';
 
 class NumberPicker extends StatefulWidget {
   int _value, _min, _max;
@@ -46,48 +47,55 @@ class _NumberPickerState extends State<NumberPicker> {
   @override
   Widget build(BuildContext context) {
     final _deviceSize = MediaQuery.of(context);
-    return Row(
+    return DifferentSizeResponsiveRow(
       children: <Widget>[
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-            child: Text(widget._title, style: Styles.labelTextStyle(context)),
-          ),
+          flex: 4,
+          child: Text(widget._title, style: Styles.labelTextStyle(context)),
         ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: Container(
-            width: _deviceSize.size.width * 0.11,
-            height: _deviceSize.size.width * 0.11,
-            child: FloatingActionButton(
-              heroTag: "minus",
-              onPressed: _minus,
-              child: Icon(
-                Icons.remove,
-                color: Styles.secondaryColor(),
-                size: Styles.iconSize(context),
+        Expanded(
+          flex: 4,
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  width: _deviceSize.size.width * 0.07,
+                  height: _deviceSize.size.width * 0.07,
+                  child: FloatingActionButton(
+                    heroTag: "minus",
+                    onPressed: _minus,
+                    child: Icon(
+                      Icons.remove,
+                      color: Styles.secondaryColor(),
+                      size: Styles.secondaryIconSize(context),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(15, 0, 20, 0),
-          child: Text('$_value', style: Styles.valueTextStyle(context)),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(15, 0, 20, 0),
-          child: Container(
-            width: _deviceSize.size.width * 0.11,
-            height: _deviceSize.size.width * 0.11,
-            child: FloatingActionButton(
-              heroTag: "plus",
-              onPressed: counterUp,
-              child: new Icon(
-                Icons.add,
-                color: Styles.secondaryColor(),
-                size: Styles.iconSize(context),
+              Expanded(
+                flex: 1,
+                child: Text('$_value',
+                    textAlign: TextAlign.center,
+                    style: Styles.valueTextStyle(context)),
               ),
-            ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  width: _deviceSize.size.width * 0.07,
+                  height: _deviceSize.size.width * 0.07,
+                  child: FloatingActionButton(
+                    heroTag: "plus",
+                    onPressed: counterUp,
+                    child: new Icon(
+                      Icons.add,
+                      color: Styles.secondaryColor(),
+                      size: Styles.secondaryIconSize(context),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

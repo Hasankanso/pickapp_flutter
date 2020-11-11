@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/ResponsiveRow.dart';
@@ -14,18 +13,18 @@ class MainButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return ResponsiveRow(
-        children: [
-          CupertinoButton(
-            child: Text(
-              Lang.getString(context, text_key),
-              style: Styles.titleTextStyle(context),
-            ),
-            color: Styles.primaryColor(),
-            onPressed: onPressed,
-            borderRadius: BorderRadius.all(Radius.circular(_radius)),
-          )
-        ],
-      );
+    return ResponsiveRow(
+      children: [
+        CupertinoButton(
+          child: Text(
+            Lang.getString(context, text_key),
+            style: Styles.buttonTextStyle(context),
+          ),
+          color: Styles.primaryColor(),
+          onPressed: onPressed,
+          borderRadius: BorderRadius.all(Radius.circular(_radius)),
+        )
+      ],
+    );
   }
 }

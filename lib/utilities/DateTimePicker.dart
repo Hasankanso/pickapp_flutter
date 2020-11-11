@@ -1,8 +1,10 @@
 import 'dart:io' show Platform;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Styles.dart';
 
 class DateTimePicker extends StatefulWidget {
@@ -71,41 +73,9 @@ class DateTimePickerState extends State<DateTimePicker> {
     }
   }
 
-  selectTime(BuildContext context, date) async {
-    DateTime currentTime;
-    currentTime = widget._controller.chosenDate;
-    if (Platform.isIOS) {
-      DatePicker.showTime12hPicker(
-        context,
-        locale: localeType[_appLocale.toString()],
-        currentTime: currentTime,
-        onConfirm: (time) {
-          _setTime(date, time);
-        },
-      );
-    } else if (Platform.isAndroid) {
-      TimeOfDay time = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.fromDateTime(currentTime),
-      );
-      if (time != null) _setTime(date, time);
-    }
-  }
-
   _setDate(date) {
     setState(() {
-      if (widget._isBirthdayPicker) {
-        widget._controller.chosenDate = date;
-      } else {
-        selectTime(context, date);
-      }
-    });
-  }
-
-  _setTime(date, time) {
-    setState(() {
-      widget._controller.chosenDate =
-          DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      widget._controller.chosenDate = date;
       if (widget.callBack != null) widget.callBack();
     });
   }
@@ -113,47 +83,56 @@ class DateTimePickerState extends State<DateTimePicker> {
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
     final _deviceSize = MediaQuery.of(context);
-    String dateFormat;
-    if (widget._isBirthdayPicker) {
-      dateFormat = 'dd/MM/yyyy';
-    } else {
-      dateFormat = 'dd/MM/yyyy hh:mm a';
-    }
-    return Padding(
-      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-      child: GestureDetector(
-          onTap: () {
-            selectDate(context);
-          },
-          child: Container(
-            height: _deviceSize.size.height * 0.09,
-            decoration: BoxDecoration(
-              border: Border.all(
+    return Container(
+      height: _deviceSize.size.height * 0.075,
+      margin: EdgeInsets.fromLTRB(15.0, 10, 10, 15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(7)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 6,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.all(9.0),
+              child: Icon(
+                Icons.date_range_rounded,
+                size: Styles.secondaryIconSize(context),
                 color: Styles.primaryColor(),
-                width: 2,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(
-                      3.0) //                 <--- border radius here
-                  ),
             ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(9.0),
-                  child: Icon(
-                    Icons.date_range_rounded,
-                    size: Styles.iconSize(context),
-                    color: Styles.labelColor(),
-                  ),
-                ),
-                Text(
-                  DateFormat(dateFormat, _appLocale.toString())
-                      .format(widget._controller.chosenDate),
-                  style: Styles.valueTextStyle(context),
-                ),
-              ],
+          ),
+          Expanded(
+            flex: 4,
+            child: Text(
+              DateFormat(App.dateFormat, _appLocale.toString())
+                  .format(widget._controller.chosenDate),
+              style: Styles.valueTextStyle(context),
             ),
-          )),
+          ),
+          GestureDetector(
+            onTap: () {
+              selectDate(context);
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 7.0),
+              child: Text(
+                "Change",
+                style: Styles.headerTextStyle(context),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

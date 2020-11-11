@@ -16,7 +16,7 @@ class Profile extends StatelessWidget {
               icon: Icon(
                 Icons.settings,
                 color: Styles.secondaryColor(),
-                size: Styles.iconSize(context),
+                size: Styles.primarySize(context),
               ),
               tooltip: Lang.getString(context, "Settings"),
               onPressed: () {

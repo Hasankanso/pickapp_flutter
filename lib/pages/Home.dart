@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
         ],
         currentIndex: _currenIndex,
         selectedItemColor: Styles.primaryColor(),
-        iconSize: Styles.iconSize(context),
+        iconSize: Styles.primarySize(context),
         selectedFontSize: _deviceSize.size.width * 0.040,
         unselectedItemColor: Styles.labelColor(),
         onTap: _bottomTapped,
