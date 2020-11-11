@@ -7,13 +7,14 @@
   "Search" : "Chercher",
   "Chats" : "Chats",
   "Add_Ride" : "NOT TRANSLATED",
-  "Profile" : "NOT TRANSLATED",
+  "Profile" : "Profil",
   "My_Rides" : "NOT TRANSLATED",
   "Settings": "Réglages",
-  "Pick_a_Color": "NOT TRANSLATED",
-  "DONE" : "NOT TRANSLATED",
-  "CANCEL" : "NOT TRANSLATED",
+  "Pick_a_Color": "Choisis une couleur",
+  "DONE" : "TERMINÉ",
+  "CANCEL" : "ANNULER",
   "My_Current_Location" : "Mon Actuelle Place",
-  "lang" : "fr"
-
+  "lang" : "fr",
+  "Change": "Changer",
+  "Persons": "Personnes"
 }

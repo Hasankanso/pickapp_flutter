@@ -1,51 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'App.dart';
+
 class Styles {
   //for app bar
-  static titleTextStyle(context) {
+  static titleTextStyle() {
     return TextStyle(
-      fontSize: titlefontSize(context),
+      fontSize: titlefontSize(),
       color: secondaryColor(),
     );
   }
 
   //  button text or wherever background primary
-  static buttonTextStyle(context) {
+  static buttonTextStyle() {
     return TextStyle(
-      fontSize: fontSize(context),
+      fontSize: fontSize(),
       color: secondaryColor(),
     );
   }
 
   //where color is primary
-  static headerTextStyle(context) {
-    return TextStyle(fontSize: fontSize(context), color: primaryColor());
+  static headerTextStyle() {
+    return TextStyle(fontSize: fontSize(), color: primaryColor());
   }
 
-  static TextStyle labelTextStyle(context) {
+  static TextStyle labelTextStyle() {
     return TextStyle(
-        color: labelColor(),
-        fontSize: fontSize(context),
-        fontWeight: FontWeight.w400);
+        color: labelColor(), fontSize: fontSize(), fontWeight: FontWeight.w400);
   }
 
-  static TextStyle valueTextStyle(context) {
-    final _deviceSize = MediaQuery.of(context);
+  static TextStyle valueTextStyle() {
     return TextStyle(
         color: valueColor(),
-        fontSize: _deviceSize.size.width * 0.043,
+        fontSize: App.mediaQuery.size.width * 0.043,
         fontWeight: FontWeight.w400);
   }
 
-  static double titlefontSize(context) {
-    final _deviceSize = MediaQuery.of(context);
-    return _deviceSize.size.width * 0.049;
+  static double titlefontSize() {
+    return App.mediaQuery.size.width * 0.049;
   }
 
-  static double fontSize(context) {
-    final _deviceSize = MediaQuery.of(context);
-    return _deviceSize.size.width * 0.043;
+  static double fontSize() {
+    return App.mediaQuery.size.width * 0.043;
   }
 
   //primary color of app
@@ -70,13 +67,15 @@ class Styles {
   }
 
   //icons size navigationbottomicons ...
-  static double primarySize(context) {
-    final _deviceSize = MediaQuery.of(context);
-    return _deviceSize.size.width * 0.075;
+  static double primaryIconSize() {
+    return App.mediaQuery.size.width * 0.075;
   }
 
-  static double secondaryIconSize(context) {
-    final _deviceSize = MediaQuery.of(context);
-    return _deviceSize.size.width * 0.060;
+  static double secondaryIconSize() {
+    return App.mediaQuery.size.width * 0.060;
+  }
+
+  static double thirdIconSize() {
+    return App.mediaQuery.size.width * 0.040;
   }
 }

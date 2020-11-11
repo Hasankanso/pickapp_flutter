@@ -89,12 +89,14 @@ class _LocationFinderState extends State<LocationFinder> {
       enableInteractiveSelection: false,
       showCursor: false,
       decoration: InputDecoration(
+        contentPadding:
+            EdgeInsets.symmetric(vertical: App.mediaQuery.size.width * 0.029),
         labelText: widget._title,
         hintText: widget._hintText,
-        labelStyle: Styles.labelTextStyle(context),
-        hintStyle: Styles.labelTextStyle(context),
+        labelStyle: Styles.labelTextStyle(),
+        hintStyle: Styles.labelTextStyle(),
       ),
-      style: Styles.valueTextStyle(context),
+      style: Styles.valueTextStyle(),
       focusNode: FocusNode(),
       onTap: () => OpenAutoComplete(context),
     );

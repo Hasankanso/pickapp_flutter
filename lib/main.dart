@@ -6,6 +6,8 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/routing/RouteGenerator.dart';
 
+import 'classes/Styles.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -50,9 +52,9 @@ class MyAppState extends State<MyApp> {
         title: App.appName,
         locale: _locale,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Styles.primaryColor(),
           primaryTextTheme:
-              TextTheme(headline6: TextStyle(color: Colors.white)),
+              TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         supportedLocales: Lang.langs.map((element) => Locale(element.code)),

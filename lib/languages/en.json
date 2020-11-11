@@ -14,6 +14,7 @@
   "DONE" : "DONE",
   "CANCEL" : "CANCEL",
   "My_Current_Location" : "My Current Location",
-  "lang" : "en"
-
+  "lang" : "en",
+  "Change": "Change",
+  "Persons": "Persons"
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 
 class DateTimePicker extends StatefulWidget {
@@ -85,7 +86,6 @@ class DateTimePickerState extends State<DateTimePicker> {
     final _deviceSize = MediaQuery.of(context);
     return Container(
       height: _deviceSize.size.height * 0.075,
-      margin: EdgeInsets.fromLTRB(15.0, 10, 10, 15),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(7)),
@@ -94,7 +94,7 @@ class DateTimePickerState extends State<DateTimePicker> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 6,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: Offset(-1, 3), // changes position of shadow
           ),
         ],
       ),
@@ -102,13 +102,10 @@ class DateTimePickerState extends State<DateTimePicker> {
         children: [
           Expanded(
             flex: 1,
-            child: Padding(
-              padding: EdgeInsets.all(9.0),
-              child: Icon(
-                Icons.date_range_rounded,
-                size: Styles.secondaryIconSize(context),
-                color: Styles.primaryColor(),
-              ),
+            child: Icon(
+              Icons.date_range_rounded,
+              size: Styles.secondaryIconSize(),
+              color: Styles.primaryColor(),
             ),
           ),
           Expanded(
@@ -116,7 +113,7 @@ class DateTimePickerState extends State<DateTimePicker> {
             child: Text(
               DateFormat(App.dateFormat, _appLocale.toString())
                   .format(widget._controller.chosenDate),
-              style: Styles.valueTextStyle(context),
+              style: Styles.valueTextStyle(),
             ),
           ),
           GestureDetector(
@@ -124,10 +121,10 @@ class DateTimePickerState extends State<DateTimePicker> {
               selectDate(context);
             },
             child: Container(
-              margin: EdgeInsets.only(right: 7.0),
+              margin: EdgeInsets.only(right: 7.0, left: 7.0),
               child: Text(
-                "Change",
-                style: Styles.headerTextStyle(context),
+                Lang.getString(context, "Change"),
+                style: Styles.headerTextStyle(),
               ),
             ),
           ),

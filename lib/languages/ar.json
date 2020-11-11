@@ -6,7 +6,7 @@
   "Search_for_Ride" : "البحث عن رحلة",
   "Search" : "البحث",
   "Chats" : "المحادثات",
-  "Add_Ride" : "إضافة سيارة",
+  "Add_Ride" : "إضافة رحلة",
   "Profile" : "الملف الشخصي",
   "My_Rides" : "رحلاتي",
   "Settings": "الإعدادات",
@@ -14,5 +14,7 @@
   "DONE" : "تم",
   "CANCEL" : "إلفاء الأمر",
   "My_Current_Location" : "مكاني الحالي",
-  "lang" : "ar"
+  "lang" : "ar",
+  "Change": "تغيير",
+  "Persons": "الأشخاص"
 }

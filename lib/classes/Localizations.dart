@@ -1,32 +1,33 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Lang {
   final Locale locale;
-  static List<Language> langs = [new Language(code : "en", fullname : "English", flag : "🇬🇧"), new Language(code : "ar", fullname : "العربية", flag : "🇱🇧"), new Language(code : "fr", fullname : "Français", flag : "🇫🇷")  ];
+  static List<Language> langs = [
+    new Language(code: "en", fullname: "English", flag: "🇬🇧"),
+    new Language(code: "ar", fullname: "العربية", flag: "🇱🇧"),
+    new Language(code: "fr", fullname: "Français", flag: "🇫🇷")
+  ];
   Lang(this.locale);
 
-
-  static String getString(BuildContext context, String key){
+  static String getString(context, String key) {
     return Localizations.of<Lang>(context, Lang)._localizedValues[key];
   }
 
   Map<String, String> _localizedValues;
 
   Future load() async {
-    String jsonStringValues =
-    await rootBundle.loadString('lib/languages/${locale.languageCode}.json');
+    String jsonStringValues = await rootBundle
+        .loadString('lib/languages/${locale.languageCode}.json');
 
     Map<String, dynamic> mappedJson = json.decode(jsonStringValues);
 
     _localizedValues = mappedJson.map((key, value) => MapEntry(key, value));
   }
 
-
-
-  static const LocalizationsDelegate<Lang> delegate =
-  _LangDelegate();
+  static const LocalizationsDelegate<Lang> delegate = _LangDelegate();
 }
 
 class _LangDelegate extends LocalizationsDelegate<Lang> {
@@ -34,7 +35,7 @@ class _LangDelegate extends LocalizationsDelegate<Lang> {
 
   @override
   bool isSupported(Locale locale) {
-    return  Lang.langs.any((element) => element.code == locale.languageCode);
+    return Lang.langs.any((element) => element.code == locale.languageCode);
   }
 
   @override
@@ -55,7 +56,6 @@ class Language {
 
   Language({this.code, this.fullname, this.flag});
 
-
   bool operator ==(o) => o is Language && code == o.code;
 
   @override
@@ -63,4 +63,3 @@ class Language {
     return this.fullname + " " + this.flag;
   }
 }
-

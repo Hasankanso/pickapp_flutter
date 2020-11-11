@@ -12,18 +12,17 @@ class LanguagesDropdown extends StatefulWidget {
 class _LanguagesDropdownState extends State<LanguagesDropdown> {
   dynamic _selectedLang;
 
-
   void initState() {
-    Cache.getLocale().then((value) =>
-        setState(() {
+    Cache.getLocale().then(
+      (value) => setState(
+        () {
           Language l = new Language(code: value, flag: null, fullname: null);
           Lang.langs.asMap().forEach((index, element) => {
-          if(element == l)
-          {
-              _selectedLang = index
-          }
-          });
-        }));
+                if (element == l) {_selectedLang = index}
+              });
+        },
+      ),
+    );
     super.initState();
   }
 
@@ -38,22 +37,21 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
   @override
   Widget build(BuildContext context) {
     List<DropdownMenuItem> items = List<DropdownMenuItem>();
-    Lang.langs.asMap().forEach((index, element) =>
-        items.add(DropdownMenuItem(
-            value: index,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              Text(element.fullname),
-              Text(
-                element.flag,
-                style: TextStyle(fontSize: 30),
-              )
-            ]))));
+    Lang.langs.asMap().forEach((index, element) => items.add(DropdownMenuItem(
+        value: index,
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          Text(element.fullname),
+          Text(
+            element.flag,
+            style: TextStyle(fontSize: 30),
+          )
+        ]))));
 
     return DropdownButton(
-        hint: Text("Select Language"),
-        value: _selectedLang,
-        items: items,
-        onChanged: onChanged);
+      hint: Text("Select Language"),
+      value: _selectedLang,
+      items: items,
+      onChanged: onChanged,
+    );
   }
 }

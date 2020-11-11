@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/directions.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -6,6 +7,7 @@ import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/DifferentSizeResponsiveRow.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
+import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 
 class Search extends StatefulWidget {
@@ -23,11 +25,23 @@ class _SearchState extends State<Search>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(
-          Lang.getString(context, "Search_for_Ride"),
-          style: Styles.titleTextStyle(context),
-        )),
+        backgroundColor: Styles.backgroundColor(),
+        appBar: MainAppBar(
+          title: Lang.getString(context, "Search_for_Ride"),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.notifications_outlined,
+                color: Styles.secondaryColor(),
+                size: Styles.primaryIconSize(),
+              ),
+              //tooltip: Lang.getString(context, "Settings"),
+              onPressed: () {
+                //Navigator.of(context).pushNamed("/settings");
+              },
+            )
+          ],
+        ),
         body: Column(
           children: [
             DifferentSizeResponsiveRow(children: [
@@ -37,10 +51,14 @@ class _SearchState extends State<Search>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(Icons.panorama_fish_eye,
-                          color: Styles.primaryColor(), size: 15),
+                          color: Styles.primaryColor(),
+                          size: Styles.thirdIconSize()),
                       Icon(Icons.more_vert,
-                          color: Styles.primaryColor(), size: 15),
-                      Icon(Icons.circle, color: Styles.primaryColor(), size: 15)
+                          color: Styles.primaryColor(),
+                          size: Styles.thirdIconSize()),
+                      Icon(Icons.circle,
+                          color: Styles.primaryColor(),
+                          size: Styles.thirdIconSize())
                     ]),
               ),
               Expanded(
@@ -68,6 +86,7 @@ class _SearchState extends State<Search>
                 flex: 8,
                 child: IconButton(
                   icon: Icon(Icons.sync),
+                  iconSize: Styles.secondaryIconSize(),
                   onPressed: () {
                     String temp_desc = toController.description;
                     String temp_placeId = toController.placeId;
@@ -87,7 +106,8 @@ class _SearchState extends State<Search>
               )
             ]),
             DateTimeRangePicker(dateTimeController),
-            NumberPicker(numberController, "Persons", 1, 8),
+            NumberPicker(
+                numberController, Lang.getString(context, "Persons"), 1, 8),
             MainButton(
               text_key: "Search",
               onPressed: () => print("search"),

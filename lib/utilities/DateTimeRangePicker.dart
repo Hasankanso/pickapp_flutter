@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/utilities/DateTimePicker.dart';
+import 'package:pickapp/utilities/ResponsiveRow.dart';
 
 class DateTimeRangePicker extends StatefulWidget {
   DateTimeRangeController _controller;
@@ -51,34 +52,23 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
   }
 
   Widget build(BuildContext context) {
-    return Column(
+    return ResponsiveRow(
       children: [
-        Row(
+        Column(
           children: [
-            Expanded(
-              flex: 8,
+            DateTimePicker(false, widget._controller.startDateController,
+                callBack: _startDatePicked),
+            Visibility(
+              visible: _show,
               child: DateTimePicker(
-                  false, widget._controller.startDateController,
-                  callBack: _startDatePicked),
+                false,
+                widget._controller.endDateController,
+                startDate: widget._controller.startDateController.chosenDate,
+                callBack: _endDatePicked,
+              ),
             ),
           ],
-        ),
-        Visibility(
-          visible: true,
-          child: Row(
-            children: [
-              Expanded(
-                flex: 8,
-                child: DateTimePicker(
-                  false,
-                  widget._controller.endDateController,
-                  startDate: widget._controller.startDateController.chosenDate,
-                  callBack: _endDatePicked,
-                ),
-              ),
-            ],
-          ),
-        ),
+        )
       ],
     );
   }

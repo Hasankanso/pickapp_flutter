@@ -60,9 +60,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final _deviceSize = MediaQuery.of(context);
-
+    App.mediaQuery = MediaQuery.of(context);
     return Scaffold(
+      backgroundColor: Styles.backgroundColor(),
       body: PageView(
         controller: pageController,
         onPageChanged: _pageSwipped,
@@ -92,8 +92,8 @@ class _HomeState extends State<Home> {
         ],
         currentIndex: _currenIndex,
         selectedItemColor: Styles.primaryColor(),
-        iconSize: Styles.primarySize(context),
-        selectedFontSize: _deviceSize.size.width * 0.040,
+        iconSize: Styles.primaryIconSize(),
+        selectedFontSize: App.mediaQuery.size.width * 0.040,
         unselectedItemColor: Styles.labelColor(),
         onTap: _bottomTapped,
       ),

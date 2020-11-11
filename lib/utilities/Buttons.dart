@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/ResponsiveRow.dart';
@@ -16,9 +17,11 @@ class MainButton extends StatelessWidget {
     return ResponsiveRow(
       children: [
         CupertinoButton(
+          padding: EdgeInsets.fromLTRB(0, App.mediaQuery.size.height * 0.0205,
+              0, App.mediaQuery.size.height * 0.0205),
           child: Text(
             Lang.getString(context, text_key),
-            style: Styles.buttonTextStyle(context),
+            style: Styles.buttonTextStyle(),
           ),
           color: Styles.primaryColor(),
           onPressed: onPressed,

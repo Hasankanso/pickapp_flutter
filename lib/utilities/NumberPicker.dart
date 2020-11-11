@@ -51,7 +51,7 @@ class _NumberPickerState extends State<NumberPicker> {
       children: <Widget>[
         Expanded(
           flex: 4,
-          child: Text(widget._title, style: Styles.labelTextStyle(context)),
+          child: Text(widget._title, style: Styles.labelTextStyle()),
         ),
         Expanded(
           flex: 4,
@@ -68,7 +68,7 @@ class _NumberPickerState extends State<NumberPicker> {
                     child: Icon(
                       Icons.remove,
                       color: Styles.secondaryColor(),
-                      size: Styles.secondaryIconSize(context),
+                      size: Styles.secondaryIconSize(),
                     ),
                   ),
                 ),
@@ -77,7 +77,7 @@ class _NumberPickerState extends State<NumberPicker> {
                 flex: 1,
                 child: Text('$_value',
                     textAlign: TextAlign.center,
-                    style: Styles.valueTextStyle(context)),
+                    style: Styles.valueTextStyle()),
               ),
               Expanded(
                 flex: 2,
@@ -87,10 +87,10 @@ class _NumberPickerState extends State<NumberPicker> {
                   child: FloatingActionButton(
                     heroTag: "plus",
                     onPressed: counterUp,
-                    child: new Icon(
+                    child: Icon(
                       Icons.add,
                       color: Styles.secondaryColor(),
-                      size: Styles.secondaryIconSize(context),
+                      size: Styles.secondaryIconSize(),
                     ),
                   ),
                 ),
