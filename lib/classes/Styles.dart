@@ -50,6 +50,12 @@ class Styles {
         fontSize: App.mediaQuery.size.width * 0.043,
         fontWeight: FontWeight.w400);
   }
+  static TextStyle subValueTextStyle() {
+    return TextStyle(
+        color: valueColor(),
+        fontSize: App.mediaQuery.size.width * 0.034,
+        fontWeight: FontWeight.w400);
+  }
 
   static double titlefontSize() {
     return App.mediaQuery.size.width * 0.049;

@@ -40,9 +40,8 @@ class listTile extends ListTile {
             size: Styles.secondaryIconSize(),),
           ),
           title: Text(r.from+" To "+r.to,
-          style: TextStyle(
-            fontSize: Styles.fontSize()
-          ),),
+            style: Styles.valueTextStyle(),
+          ),
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -52,8 +51,9 @@ class listTile extends ListTile {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text("Available Seats : "+r.availableSeats.toString()),
-                    Text('Availabe Luggage : '+ r.availableLuggage.toString(),
+                    Text("Available Seats : "+r.availableSeats.toString(),
+                    style: Styles.subValueTextStyle(),),
+                    Text('Availabe Luggage : '+ r.availableLuggage.toString(),style: Styles.subValueTextStyle(),
                     ),
                   ],
                 ),
@@ -64,8 +64,10 @@ class listTile extends ListTile {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text("Price :"+r.price),
-                    Text("Type : Car"),
+                    Text("Price :"+r.price,
+                      style: Styles.subValueTextStyle(),),
+                    Text("Type : Car",
+                      style: Styles.subValueTextStyle(),),
                   ],
                 ),
               ),
