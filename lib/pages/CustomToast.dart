@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pickapp/classes/Styles.dart';
 
 class CustomToast extends StatelessWidget {
   void showColoredToast(String msg, Color c) {
@@ -7,6 +8,7 @@ class CustomToast extends StatelessWidget {
         msg: "$msg",
         toastLength: Toast.LENGTH_SHORT,
         backgroundColor: c,
+        fontSize: Styles.fontSize(),
         textColor: Colors.white);
   }
 

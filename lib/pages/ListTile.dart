@@ -35,9 +35,14 @@ class listTile extends ListTile {
         child: ListTile(
           isThreeLine: true,
           leading: CircleAvatar(
-            child: Icon(Icons.location_on_outlined),
+          backgroundColor: Styles.primaryColor(),
+            child: Icon(Icons.location_on_outlined,
+            size: Styles.secondaryIconSize(),),
           ),
-          title: Text(r.from+" To "+r.to),
+          title: Text(r.from+" To "+r.to,
+          style: TextStyle(
+            fontSize: Styles.fontSize()
+          ),),
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -48,7 +53,8 @@ class listTile extends ListTile {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text("Available Seats : "+r.availableSeats.toString()),
-                    Text('Availabe Luggage : '+ r.availableLuggage.toString()),
+                    Text('Availabe Luggage : '+ r.availableLuggage.toString(),
+                    ),
                   ],
                 ),
               ),
@@ -83,7 +89,8 @@ class listTile extends ListTile {
                                 Colors.blue)
                             .confirmationPopup(context);
                       },
-                      icon: Icon(Icons.delete),
+                      icon: Icon(Icons.delete,
+                      color: Colors.red[500]),
                     )
                   ],
                 ),
