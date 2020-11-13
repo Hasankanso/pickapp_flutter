@@ -16,16 +16,20 @@ class MainButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveRow(
       children: [
-        CupertinoButton(
-          padding: EdgeInsets.fromLTRB(0, App.mediaQuery.size.height * 0.0205,
-              0, App.mediaQuery.size.height * 0.0205),
-          child: Text(
-            Lang.getString(context, text_key),
-            style: Styles.buttonTextStyle(),
+        InkWell(
+          onTap: () {},
+          child: CupertinoButton(
+            padding: EdgeInsets.fromLTRB(0, App.mediaQuery.size.height * 0.0205,
+                0, App.mediaQuery.size.height * 0.0205),
+            child: Text(
+              Lang.getString(context, text_key),
+              style: Styles.buttonTextStyle(),
+            ),
+            pressedOpacity: 0.6,
+            color: Styles.primaryColor(),
+            onPressed: onPressed,
+            borderRadius: BorderRadius.all(Radius.circular(_radius)),
           ),
-          color: Styles.primaryColor(),
-          onPressed: onPressed,
-          borderRadius: BorderRadius.all(Radius.circular(_radius)),
         )
       ],
     );

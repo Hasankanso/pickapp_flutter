@@ -46,8 +46,10 @@ class _LocationFinderState extends State<LocationFinder> {
         // Mode.overlay
         language: widget._language,
         components: [Component(Component.country, widget._country)]);
-
-    if (locPred == null) return;
+    if (locPred == null) {
+      FocusScope.of(context).requestFocus(new FocusNode());
+      return;
+    }
     //if user chose current location
     if (locPred.runtimeType == Location) {
       setState(() {

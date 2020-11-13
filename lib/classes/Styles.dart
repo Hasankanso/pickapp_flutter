@@ -22,12 +22,26 @@ class Styles {
 
   //where color is primary
   static headerTextStyle() {
-    return TextStyle(fontSize: fontSize(), color: primaryColor());
+    return TextStyle(
+      fontSize: fontSize(),
+      color: primaryColor(),
+    );
+  }
+
+  static subHeaderTextStyle() {
+    return TextStyle(
+      fontSize: fontSize(),
+      color: secondaryColor(),
+      fontWeight: FontWeight.w400,
+    );
   }
 
   static TextStyle labelTextStyle() {
     return TextStyle(
-        color: labelColor(), fontSize: fontSize(), fontWeight: FontWeight.w400);
+      color: labelColor(),
+      fontSize: fontSize(),
+      fontWeight: FontWeight.w400,
+    );
   }
 
   static TextStyle valueTextStyle() {

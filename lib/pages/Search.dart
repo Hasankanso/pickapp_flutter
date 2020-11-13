@@ -42,77 +42,79 @@ class _SearchState extends State<Search>
             )
           ],
         ),
-        body: Column(
-          children: [
-            DifferentSizeResponsiveRow(children: [
-              Expanded(
-                flex: 8,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              DifferentSizeResponsiveRow(children: [
+                Expanded(
+                  flex: 8,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.panorama_fish_eye,
+                            color: Styles.primaryColor(),
+                            size: Styles.thirdIconSize()),
+                        Icon(Icons.more_vert,
+                            color: Styles.primaryColor(),
+                            size: Styles.thirdIconSize()),
+                        Icon(Icons.circle,
+                            color: Styles.primaryColor(),
+                            size: Styles.thirdIconSize())
+                      ]),
+                ),
+                Expanded(
+                  flex: 60,
+                  child: Column(
                     children: [
-                      Icon(Icons.panorama_fish_eye,
-                          color: Styles.primaryColor(),
-                          size: Styles.thirdIconSize()),
-                      Icon(Icons.more_vert,
-                          color: Styles.primaryColor(),
-                          size: Styles.thirdIconSize()),
-                      Icon(Icons.circle,
-                          color: Styles.primaryColor(),
-                          size: Styles.thirdIconSize())
-                    ]),
-              ),
-              Expanded(
-                flex: 60,
-                child: Column(
-                  children: [
-                    LocationFinder(
-                        controller: fromController,
-                        title: Lang.getString(context, "From"),
-                        initialDescription: fromController.description,
-                        hintText: Lang.getString(context, "From_Where"),
-                        language: Lang.getString(context, "lang"),
-                        country: "lb"),
-                    LocationFinder(
-                        controller: toController,
-                        title: Lang.getString(context, "To"),
-                        initialDescription: toController.description,
-                        hintText: Lang.getString(context, "To_Where"),
-                        language: Lang.getString(context, "lang"),
-                        country: "lb")
-                  ],
+                      LocationFinder(
+                          controller: fromController,
+                          title: Lang.getString(context, "From"),
+                          initialDescription: fromController.description,
+                          hintText: Lang.getString(context, "From_Where"),
+                          language: Lang.getString(context, "lang"),
+                          country: "lb"),
+                      LocationFinder(
+                          controller: toController,
+                          title: Lang.getString(context, "To"),
+                          initialDescription: toController.description,
+                          hintText: Lang.getString(context, "To_Where"),
+                          language: Lang.getString(context, "lang"),
+                          country: "lb")
+                    ],
+                  ),
                 ),
+                Expanded(
+                  flex: 8,
+                  child: IconButton(
+                    icon: Icon(Icons.sync),
+                    iconSize: Styles.secondaryIconSize(),
+                    onPressed: () {
+                      String temp_desc = toController.description;
+                      String temp_placeId = toController.placeId;
+                      Location temp_location = toController.location;
+
+                      setState(() {
+                        toController.description = fromController.description;
+                        toController.placeId = fromController.placeId;
+                        toController.location = fromController.location;
+
+                        fromController.description = temp_desc;
+                        fromController.placeId = temp_placeId;
+                        fromController.location = temp_location;
+                      });
+                    },
+                  ),
+                )
+              ]),
+              DateTimeRangePicker(dateTimeController),
+              NumberPicker(
+                  numberController, Lang.getString(context, "Persons"), 1, 8),
+              MainButton(
+                text_key: "Search",
+                onPressed: () {},
               ),
-              Expanded(
-                flex: 8,
-                child: IconButton(
-                  icon: Icon(Icons.sync),
-                  iconSize: Styles.secondaryIconSize(),
-                  onPressed: () {
-                    String temp_desc = toController.description;
-                    String temp_placeId = toController.placeId;
-                    Location temp_location = toController.location;
-
-                    setState(() {
-                      toController.description = fromController.description;
-                      toController.placeId = fromController.placeId;
-                      toController.location = fromController.location;
-
-                      fromController.description = temp_desc;
-                      fromController.placeId = temp_placeId;
-                      fromController.location = temp_location;
-                    });
-                  },
-                ),
-              )
-            ]),
-            DateTimeRangePicker(dateTimeController),
-            NumberPicker(
-                numberController, Lang.getString(context, "Persons"), 1, 8),
-            MainButton(
-              text_key: "Search",
-              onPressed: () => print("search"),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 

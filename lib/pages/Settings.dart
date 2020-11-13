@@ -14,7 +14,9 @@ class Settings extends StatelessWidget {
           title: Lang.getString(context, "Settings"),
         ),
         body: Column(
-          children: [LanguagesDropdown()],
+          children: [
+            LanguagesDropdown(),
+          ],
         ));
   }
 }
