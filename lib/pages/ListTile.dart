@@ -19,6 +19,11 @@ class listTile extends ListTile {
         .showColoredToast("Ride Deleted Successfully", Colors.greenAccent);
   }
 
+  void cc(String item) {
+    CustomToast()
+        .showColoredToast("You clicked : "+item, Colors.blue);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (o.runtimeType == Ride) {
@@ -99,7 +104,9 @@ class listTile extends ListTile {
               ),
             ],
           ),
-          onTap: () {},
+          onTap: () {
+            cc(r.from);
+          },
         ),
       ),
     );
