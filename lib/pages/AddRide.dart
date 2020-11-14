@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/MainRangeSlider.dart';
+import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:pickapp/utilities/Switcher.dart';
 
 class AddRide extends StatefulWidget {
   @override
@@ -10,39 +11,27 @@ class AddRide extends StatefulWidget {
 }
 
 class _AddRideState extends State<AddRide> {
-  TextEditingController _textEditingController = TextEditingController();
-
-  bool _validate = false;
-
+  MainRangeSliderController rangeController = MainRangeSliderController();
+  SwitcherController switcherController = SwitcherController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Styles.backgroundColor(),
+    return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Add_Ride"),
       ),
       body: Column(
         children: [
-          TextField(
-            controller: _textEditingController,
-            style: Styles.valueTextStyle(),
-            decoration: InputDecoration(
-              labelText: "Description",
-              labelStyle: Styles.labelTextStyle(),
-              hintText: "test",
-              hintStyle: Styles.labelTextStyle(),
-              errorText: _validate ? "Value Can't Be Empty" : null,
-            ),
+          Switcher(
+            controller: switcherController,
+            isOn: true,
           ),
-          MainButton(
-            text_key: "Search",
-            onPressed: () {
-              setState(() {
-                _textEditingController.text.isEmpty
-                    ? _validate = true
-                    : _validate = false;
-              });
-            },
+          MainRangeSlider(
+            min: 0,
+            max: 100,
+            minSelected: 40,
+            maxSelected: 90,
+            step: 10,
+            controller: rangeController,
           ),
         ],
       ),

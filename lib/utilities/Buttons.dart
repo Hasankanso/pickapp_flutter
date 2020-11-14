@@ -25,7 +25,7 @@ class MainButton extends StatelessWidget {
               Lang.getString(context, text_key),
               style: Styles.buttonTextStyle(),
             ),
-            pressedOpacity: 0.6,
+            pressedOpacity: 0.7,
             color: Styles.primaryColor(),
             onPressed: onPressed,
             borderRadius: BorderRadius.all(Radius.circular(_radius)),

@@ -8,6 +8,7 @@ import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/DifferentSizeResponsiveRow.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 
 class Search extends StatefulWidget {
@@ -24,8 +25,7 @@ class _SearchState extends State<Search>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Styles.backgroundColor(),
+    return MainScaffold(
         appBar: MainAppBar(
           title: Lang.getString(context, "Search_for_Ride"),
           actions: [
