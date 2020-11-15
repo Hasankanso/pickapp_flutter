@@ -29,7 +29,7 @@ class _ProfileState extends State<Profile> {
               icon: Icon(
                 Icons.settings,
                 color: Styles.secondaryColor(),
-                size: Styles.primaryIconSize(),
+                size: Styles.bigIconSize(),
               ),
               tooltip: Lang.getString(context, "Settings"),
               onPressed: () {

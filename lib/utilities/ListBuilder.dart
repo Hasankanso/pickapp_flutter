@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/pages/ListTile.dart';
+import 'package:pickapp/utilities/ListTile.dart';
 
 class ListBuilder extends StatelessWidget {
   final List<dynamic> list;
