@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 
 class ResponsiveWidget extends StatelessWidget {
-  double height = 0,
-      width = 0;
+  double height = 0, width = 0;
   Widget child;
 
   ResponsiveWidget({this.width, this.height, this.child});
@@ -13,24 +12,34 @@ class ResponsiveWidget extends StatelessWidget {
     Size referScreen = new Size(360, 640); //720x1280 reference screen
     Size screen = App.mediaQuery.size; //get current screen size
 
-    //calculate the difference between current screen and reference screen
-    double diffX = screen.width - referScreen.width;
-    double diffY = screen.height - referScreen.height;
+    //calculate the ratio of new screen relative to the reference one (bigger screen has values larger than 1, smaller less than 1)
+    Size screenRatio = new Size(
+        screen.width / referScreen.width, screen.height / referScreen.height);
 
-    //claculate the ratio of width, height and reference screen width, height.
+    //calculate the ratio of width, height and reference screen width, height.
     double xRatio = width / referScreen.width;
     double yRatio = height / referScreen.height;
 
-    //use this ratio to know how much should we occupy of the difference
-    diffX = diffX * xRatio;
-    diffY = diffY * yRatio;
+    //calculate how much we'll scale our widget on each dimension
+    double relativeRatioX = screenRatio.width * xRatio;
+    double relativeRatioY = screenRatio.height * yRatio;
 
-    //check wicht difference reach its limit first.
-    double smallerDiff = diffX.abs() < diffY.abs() ? diffX : diffY;
+    //take the ratio of the smaller scale
+    double smallerRatio = relativeRatioX.abs() < relativeRatioY.abs()
+        ? screenRatio.width
+        : screenRatio.height;
 
-    //add the smaller difference to the original size (keep the ratio
-    return SizedBox(width: xRatio * referScreen.width + diffX,
-        height: yRatio * referScreen.height + diffY,
-        child: child);
+    //multiply the reference screen size with the smaller ratio on X and Y to keep same ratio
+    Size widgetSize = new Size(xRatio * referScreen.width * smallerRatio,
+        yRatio * referScreen.height * smallerRatio);
+
+    print("screen size:" + screen.toString());
+    print("widget Size: " +
+        widgetSize.toString() +
+        " ratio: " +
+        (widgetSize.width / widgetSize.height).toString());
+
+    return SizedBox(
+        width: widgetSize.width, height: widgetSize.height, child: child);
   }
 }
