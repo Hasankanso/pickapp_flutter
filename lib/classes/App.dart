@@ -26,6 +26,11 @@ class App {
     return Platform.isAndroid;
   }
 
+  static bool isNullOrEmpty(String toCheck) {
+    if (["", null].contains(toCheck)) return true;
+    return false;
+  }
+
   static bool isIphone() {
     return Platform.isIOS;
   }

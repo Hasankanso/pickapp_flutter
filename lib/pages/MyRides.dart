@@ -11,9 +11,6 @@ class MyRides extends StatefulWidget {
 }
 
 class _MyRidesState extends State<MyRides> {
-  TextEditingController _textEditingController = TextEditingController();
-
-  bool _validate = false;
   final List<Ride> ridesList = new List();
   Ride r1 = new Ride.name("Nabatieh", "Beirut", "5000 LBP", 5, 4);
   Ride r2 = new Ride.name("Saida", "Tripoli", "15000 LBP", 4, 6);
