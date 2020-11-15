@@ -33,7 +33,7 @@ class _SearchState extends State<Search>
               icon: Icon(
                 Icons.notifications_outlined,
                 color: Styles.secondaryColor(),
-                size: Styles.primaryIconSize(),
+                size: Styles.bigIconSize(),
               ),
               //tooltip: Lang.getString(context, "Settings"),
               onPressed: () {
@@ -53,13 +53,13 @@ class _SearchState extends State<Search>
                       children: [
                         Icon(Icons.panorama_fish_eye,
                             color: Styles.primaryColor(),
-                            size: Styles.thirdIconSize()),
+                            size: Styles.smallIconSize()),
                         Icon(Icons.more_vert,
                             color: Styles.primaryColor(),
-                            size: Styles.thirdIconSize()),
+                            size: Styles.smallIconSize()),
                         Icon(Icons.circle,
                             color: Styles.primaryColor(),
-                            size: Styles.thirdIconSize())
+                            size: Styles.smallIconSize())
                       ]),
                 ),
                 Expanded(
@@ -87,7 +87,7 @@ class _SearchState extends State<Search>
                   flex: 8,
                   child: IconButton(
                     icon: Icon(Icons.sync),
-                    iconSize: Styles.secondaryIconSize(),
+                    iconSize: Styles.mediumIconSize(),
                     onPressed: () {
                       String temp_desc = toController.description;
                       String temp_placeId = toController.placeId;
@@ -122,45 +122,3 @@ class _SearchState extends State<Search>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
-
-/*
- Expanded(
-                      flex: 6,
-                      child: LocationFinder(
-                          controller: fromController,
-                          title: Lang.getString(context, "From"),
-                          initialDescription: fromController.description,
-                          hintText: Lang.getString(context, "From_Where"),
-                          language: Lang.getString(context, "lang"),
-                          country: "lb")),
-                  Expanded(
-                      flex: 2,
-                      child: IconButton(
-                        icon: Icon(Icons.sync_alt),
-                        onPressed: () {
-                          String temp_desc = toController.description;
-                          String temp_placeId = toController.placeId;
-                          Location temp_location = toController.location;
-
-                          setState(() {
-                            toController.description =
-                                fromController.description;
-                            toController.placeId = fromController.placeId;
-                            toController.location = fromController.location;
-
-                            fromController.description = temp_desc;
-                            fromController.placeId = temp_placeId;
-                            fromController.location = temp_location;
-                          });
-                        },
-                      )),
-                  Expanded(
-                      flex: 6,
-                      child: LocationFinder(
-                          controller: toController,
-                          title: Lang.getString(context, "To"),
-                          initialDescription: toController.description,
-                          hintText: Lang.getString(context, "To_Where"),
-                          language: Lang.getString(context, "lang"),
-                          country: "lb")),
- */

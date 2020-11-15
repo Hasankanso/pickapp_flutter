@@ -87,15 +87,15 @@ class Styles {
   }
 
   //icons size navigationbottomicons ...
-  static double primaryIconSize() {
+  static double bigIconSize() {
     return App.mediaQuery.size.width * 0.075;
   }
 
-  static double secondaryIconSize() {
+  static double mediumIconSize() {
     return App.mediaQuery.size.width * 0.060;
   }
 
-  static double thirdIconSize() {
+  static double smallIconSize() {
     return App.mediaQuery.size.width * 0.040;
   }
 }

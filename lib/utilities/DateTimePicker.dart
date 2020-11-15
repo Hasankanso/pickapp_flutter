@@ -104,7 +104,7 @@ class DateTimePickerState extends State<DateTimePicker> {
             flex: 1,
             child: Icon(
               Icons.date_range_rounded,
-              size: Styles.secondaryIconSize(),
+              size: Styles.mediumIconSize(),
               color: Styles.primaryColor(),
             ),
           ),

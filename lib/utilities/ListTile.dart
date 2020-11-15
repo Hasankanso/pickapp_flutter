@@ -44,7 +44,7 @@ class listTile extends ListTile {
         leading: CircleAvatar(
         backgroundColor: Styles.primaryColor(),
           child: Icon(Icons.location_on_outlined,
-          size: Styles.secondaryIconSize(),),
+          size: Styles.mediumIconSize(),),
         ),
         title: Text(r.from+" To "+r.to,
           style: Styles.valueTextStyle(),

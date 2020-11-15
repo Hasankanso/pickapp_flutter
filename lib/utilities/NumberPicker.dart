@@ -68,7 +68,7 @@ class _NumberPickerState extends State<NumberPicker> {
                     child: Icon(
                       Icons.remove,
                       color: Styles.secondaryColor(),
-                      size: Styles.secondaryIconSize(),
+                      size: Styles.mediumIconSize(),
                     ),
                   ),
                 ),
@@ -90,7 +90,7 @@ class _NumberPickerState extends State<NumberPicker> {
                     child: Icon(
                       Icons.add,
                       color: Styles.secondaryColor(),
-                      size: Styles.secondaryIconSize(),
+                      size: Styles.mediumIconSize(),
                     ),
                   ),
                 ),
