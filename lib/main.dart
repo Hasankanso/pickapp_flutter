@@ -75,15 +75,16 @@ class MyAppState extends State<MyApp> {
           GlobalCupertinoLocalizations.delegate,
         ],
         localeResolutionCallback: (deviceLocale, supportedLocales) {
+          Locale chosen = supportedLocales.first;
           for (var locale in supportedLocales) {
             if (locale.languageCode == deviceLocale.languageCode) {
-              return deviceLocale;
+              chosen =  deviceLocale;
+              break;
             }
           }
 
-          Locale preferred = supportedLocales.first;
-          if (!_localeCached) Cache.setLocale(preferred.languageCode);
-          return preferred;
+          if (!_localeCached) Cache.setLocale(chosen.languageCode);
+          return chosen;
         },
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
