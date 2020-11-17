@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'App.dart';
 
 class Styles {
+
+  static double _fontSize, _titleFontSize,  _subValueFontSize;
+
+  static setFontSizes({double fontSize, double titleFontSize, double subValueFontSize}){
+    _fontSize = fontSize;
+    _titleFontSize = titleFontSize;
+    _subValueFontSize = subValueFontSize;
+  }
+
   //for app bar
   static titleTextStyle() {
     return TextStyle(
-      fontSize: titlefontSize(),
+      fontSize: _titleFontSize,
       color: secondaryColor(),
     );
   }
@@ -15,7 +23,7 @@ class Styles {
   //  button text or wherever background primary
   static buttonTextStyle() {
     return TextStyle(
-      fontSize: fontSize(),
+      fontSize: _fontSize,
       color: secondaryColor(),
     );
   }
@@ -23,14 +31,14 @@ class Styles {
   //where color is primary
   static headerTextStyle() {
     return TextStyle(
-      fontSize: fontSize(),
+      fontSize: _fontSize,
       color: primaryColor(),
     );
   }
 
   static subHeaderTextStyle() {
     return TextStyle(
-      fontSize: fontSize(),
+      fontSize: _fontSize,
       color: secondaryColor(),
       fontWeight: FontWeight.w400,
     );
@@ -39,7 +47,7 @@ class Styles {
   static TextStyle labelTextStyle() {
     return TextStyle(
       color: labelColor(),
-      fontSize: fontSize(),
+      fontSize: _fontSize,
       fontWeight: FontWeight.w400,
     );
   }
@@ -47,22 +55,22 @@ class Styles {
   static TextStyle valueTextStyle() {
     return TextStyle(
         color: valueColor(),
-        fontSize: ScreenUtil().setSp(15),
+        fontSize: _fontSize,
         fontWeight: FontWeight.w400);
   }
   static TextStyle subValueTextStyle() {
     return TextStyle(
         color: valueColor(),
-        fontSize: App.mediaQuery.size.width * 0.034,
+        fontSize: _subValueFontSize,
         fontWeight: FontWeight.w400);
   }
 
-  static double titlefontSize() {
-    return ScreenUtil().setSp(17.64);
+  static double titleFontSize() {
+    return _titleFontSize;
   }
 
   static double fontSize() {
-    return ScreenUtil().setSp(15);
+    return _fontSize;
   }
 
   //primary color of app
