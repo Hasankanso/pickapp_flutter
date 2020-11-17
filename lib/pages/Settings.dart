@@ -5,7 +5,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/ResponsiveRow.dart';
+import 'package:pickapp/utilities/Responsive.dart';
 
 class Settings extends StatelessWidget {
 
@@ -35,7 +35,6 @@ class Settings extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   LanguagesDropdown(),
-                  _buildDivider(),
                   SwitchListTile(
                     activeColor: Styles.primaryColor(),
                     value: false,

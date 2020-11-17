@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 
 class ResponsiveRow extends StatelessWidget {
   List<Widget> children;
-  int widget_realtive_Size;
+  int widgetRealtiveSize;
 
   ResponsiveRow(
-      {List<Widget> children = const <Widget>[], widget_realtive_Size = 6}) {
+      {List<Widget> children = const <Widget>[], widgetRealtiveSize = 6}) {
     this.children = children;
-    this.widget_realtive_Size = widget_realtive_Size;
+    this.widgetRealtiveSize = widgetRealtiveSize;
   }
 
   @override
@@ -19,7 +21,7 @@ class ResponsiveRow extends StatelessWidget {
     for (Widget w in children) {
       spacedChildren[i] = Spacer();
       i++;
-      spacedChildren[i] = Expanded(flex: widget_realtive_Size, child: w);
+      spacedChildren[i] = Expanded(flex: widgetRealtiveSize, child: w);
       i++;
       spacedChildren[i] = Spacer();
       i++;
@@ -28,5 +30,19 @@ class ResponsiveRow extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 0, space),
         child: Row(children: spacedChildren));
+  }
+}
+
+
+class ResponsiveWidget extends StatelessWidget {
+  double height = 0, width = 0;
+  Widget child;
+
+  ResponsiveWidget({this.width, this.height, this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: ScreenUtil().setWidth(width), height : ScreenUtil().setHeight(height), child: child);
   }
 }

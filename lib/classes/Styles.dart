@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:flutter_screenutil/screenutil.dart';
 import 'App.dart';
 
 class Styles {
@@ -47,7 +47,7 @@ class Styles {
   static TextStyle valueTextStyle() {
     return TextStyle(
         color: valueColor(),
-        fontSize: App.mediaQuery.size.width * 0.043,
+        fontSize: ScreenUtil().setSp(15),
         fontWeight: FontWeight.w400);
   }
   static TextStyle subValueTextStyle() {
@@ -58,11 +58,11 @@ class Styles {
   }
 
   static double titlefontSize() {
-    return App.mediaQuery.size.width * 0.049;
+    return ScreenUtil().setSp(17.64);
   }
 
   static double fontSize() {
-    return App.mediaQuery.size.width * 0.043;
+    return ScreenUtil().setSp(15);
   }
 
   //primary color of app

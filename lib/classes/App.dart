@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/main.dart';
 
@@ -20,6 +21,13 @@ class App {
 
   static void init(MyAppState state) {
     _state = state;
+  }
+
+  //called in Home class
+  static void setContext(BuildContext context){
+    mediaQuery = MediaQuery.of(context);
+    WidgetsFlutterBinding.ensureInitialized();
+    ScreenUtil.init(context, designSize: Size(360, 640), allowFontScaling: true);
   }
 
   static bool isAndroid() {

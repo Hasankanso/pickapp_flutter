@@ -39,8 +39,9 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
     List<DropdownMenuItem> items = List<DropdownMenuItem>();
     Lang.langs.asMap().forEach((index, element) => items.add(DropdownMenuItem(
         value: index,
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(element.fullname),
+
           Text(
             element.flag,
             style: TextStyle(fontSize: 30),
@@ -49,6 +50,7 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
 
     return DropdownButton(
       hint: Text("Select Language"),
+      isExpanded: true,
       value: _selectedLang,
       items: items,
       onChanged: onChanged,

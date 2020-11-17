@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    App.mediaQuery = MediaQuery.of(context);
+    App.setContext(context);
     return Scaffold(
       backgroundColor: Styles.backgroundColor(),
       body: PageView(

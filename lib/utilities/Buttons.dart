@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/utilities/ResponsiveRow.dart';
-import 'package:pickapp/utilities/ResponsiveWidget.dart';
+import 'package:pickapp/utilities/Responsive.dart';
 
 class MainButton extends StatelessWidget {
   String text_key;
@@ -21,13 +20,9 @@ class MainButton extends StatelessWidget {
       child: (InkWell(
         onTap: () {},
         child: CupertinoButton(
-          padding: EdgeInsets.fromLTRB(
-              0, App.mediaQuery.size.height * 0.0205, 0,
-              App.mediaQuery.size.height * 0.0205),
-          child: Text(
-            Lang.getString(context, text_key),
-            style: Styles.buttonTextStyle(),
-          ),
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Text(Lang.getString(context, text_key),
+              style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
           pressedOpacity: 0.7,
           color: Styles.primaryColor(),
           onPressed: onPressed,
