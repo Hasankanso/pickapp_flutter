@@ -10,17 +10,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  List<dynamic> list = List();
-
   @override
   Widget build(BuildContext context) {
-    list.add("samii");
-    list.add("samii");
-    list.add("samii");
-    list.add("samii");
-    list.add("samii");
-    list.add("samii");
-    list.add("samii");
     return MainScaffold(
         appBar: MainAppBar(
           title: Lang.getString(context, "Profile"),
@@ -29,7 +20,7 @@ class _ProfileState extends State<Profile> {
               icon: Icon(
                 Icons.settings,
                 color: Styles.secondaryColor(),
-                size: Styles.bigIconSize(),
+                size: Styles.largeIconSize(),
               ),
               tooltip: Lang.getString(context, "Settings"),
               onPressed: () {

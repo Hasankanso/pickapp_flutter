@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -62,7 +63,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     App.setContext(context);
     return Scaffold(
-      backgroundColor: Styles.backgroundColor(),
+      backgroundColor: Styles.secondaryColor(),
       body: PageView(
         controller: pageController,
         onPageChanged: _pageSwipped,
@@ -92,8 +93,8 @@ class _HomeState extends State<Home> {
         ],
         currentIndex: _currenIndex,
         selectedItemColor: Styles.primaryColor(),
-        iconSize: Styles.bigIconSize(),
-        selectedFontSize: App.mediaQuery.size.width * 0.040,
+        iconSize: Styles.largeIconSize(),
+        selectedFontSize: ScreenUtil().setSp(14.4),
         unselectedItemColor: Styles.labelColor(),
         onTap: _bottomTapped,
       ),

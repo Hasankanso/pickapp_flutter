@@ -22,6 +22,4 @@ class CustomToast {
   void cancelToast() {
     Fluttertoast.cancel();
   }
-
-
 }

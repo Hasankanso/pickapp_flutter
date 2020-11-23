@@ -5,17 +5,14 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
 
 class Settings extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainScaffold(
       backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(
-        backgroundColor: Styles.primaryColor(),
-        title: Text(Lang.getString(context, "Settings")),
+      appBar: MainAppBar(
+        title: Lang.getString(context, "Settings"),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

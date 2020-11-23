@@ -1,8 +1,7 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -51,7 +50,7 @@ class DateTimePickerState extends State<DateTimePicker> {
       _maxDate = DateTime.now().add(Duration(days: 365));
     }
 
-    if (Platform.isIOS) {
+    if (App.isIphone()) {
       DatePicker.showDatePicker(
         context,
         locale: localeType[_appLocale.toString()],
@@ -62,7 +61,7 @@ class DateTimePickerState extends State<DateTimePicker> {
           _setDate(date);
         },
       );
-    } else if (Platform.isAndroid) {
+    } else if (App.isAndroid()) {
       DateTime date = await showDatePicker(
         context: context,
         firstDate: _minDate,
@@ -83,9 +82,8 @@ class DateTimePickerState extends State<DateTimePicker> {
 
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
-    final _deviceSize = MediaQuery.of(context);
     return Container(
-      height: _deviceSize.size.height * 0.075,
+      height: ScreenUtil().setHeight(48),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(7)),
@@ -121,7 +119,9 @@ class DateTimePickerState extends State<DateTimePicker> {
               selectDate(context);
             },
             child: Container(
-              margin: EdgeInsets.only(right: 7.0, left: 7.0),
+              margin: EdgeInsets.only(
+                  right: ScreenUtil().setWidth(6),
+                  left: ScreenUtil().setWidth(6)),
               child: Text(
                 Lang.getString(context, "Change"),
                 style: Styles.headerTextStyle(),

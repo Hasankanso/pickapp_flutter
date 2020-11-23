@@ -3,22 +3,18 @@ import 'package:pickapp/classes/Styles.dart';
 
 import 'MainAppBar.dart';
 
-class MainScaffold extends StatefulWidget {
+class MainScaffold extends StatelessWidget {
   MainAppBar appBar;
   Widget body;
-  MainScaffold({this.appBar, this.body});
+  Color backgroundColor = Styles.secondaryColor();
+  MainScaffold({this.appBar, this.body, this.backgroundColor});
 
-  @override
-  _MainScaffoldState createState() => _MainScaffoldState();
-}
-
-class _MainScaffoldState extends State<MainScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Styles.backgroundColor(),
-      appBar: widget.appBar,
-      body: widget.body,
+      backgroundColor: backgroundColor,
+      appBar: appBar,
+      body: body,
     );
   }
 }

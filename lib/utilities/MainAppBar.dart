@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pickapp/classes/Styles.dart';
 
 class MainAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -9,7 +9,7 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: App.mediaQuery.size.height * 0.082,
+      toolbarHeight: ScreenUtil().setHeight(55),
       title: Text(
         title,
         style: Styles.titleTextStyle(),
@@ -19,5 +19,5 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(App.mediaQuery.size.height * 0.082);
+  Size get preferredSize => Size.fromHeight(ScreenUtil().setHeight(55));
 }
