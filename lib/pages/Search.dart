@@ -33,7 +33,7 @@ class _SearchState extends State<Search>
               icon: Icon(
                 Icons.notifications_outlined,
                 color: Styles.secondaryColor(),
-                size: Styles.bigIconSize(),
+                size: Styles.largeIconSize(),
               ),
               //tooltip: Lang.getString(context, "Settings"),
               onPressed: () {

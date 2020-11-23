@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/DifferentSizeResponsiveRow.dart';
 
@@ -46,7 +47,6 @@ class _NumberPickerState extends State<NumberPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final _deviceSize = MediaQuery.of(context);
     return DifferentSizeResponsiveRow(
       children: <Widget>[
         Expanded(
@@ -60,8 +60,7 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  width: _deviceSize.size.width * 0.07,
-                  height: _deviceSize.size.width * 0.07,
+                  height: ScreenUtil().setHeight(27),
                   child: FloatingActionButton(
                     heroTag: "minus",
                     onPressed: _minus,
@@ -82,8 +81,7 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  width: _deviceSize.size.width * 0.07,
-                  height: _deviceSize.size.width * 0.07,
+                  height: ScreenUtil().setHeight(27),
                   child: FloatingActionButton(
                     heroTag: "plus",
                     onPressed: counterUp,

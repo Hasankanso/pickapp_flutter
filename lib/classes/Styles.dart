@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'App.dart';
 
 class Styles {
+  static double _fontSize, _titleFontSize, _subValueFontSize;
+  static double _largeSize, _mediumSize, _smallSize;
 
-  static double _fontSize, _titleFontSize,  _subValueFontSize;
-
-  static setFontSizes({double fontSize, double titleFontSize, double subValueFontSize}){
+  static setFontSizes(
+      {double fontSize, double titleFontSize, double subValueFontSize}) {
     _fontSize = fontSize;
     _titleFontSize = titleFontSize;
     _subValueFontSize = subValueFontSize;
+  }
+
+  static setIconSizes({double largeSize, double mediumSize, double smallSize}) {
+    _largeSize = largeSize;
+    _mediumSize = mediumSize;
+    _smallSize = smallSize;
   }
 
   //for app bar
@@ -54,10 +60,9 @@ class Styles {
 
   static TextStyle valueTextStyle() {
     return TextStyle(
-        color: valueColor(),
-        fontSize: _fontSize,
-        fontWeight: FontWeight.w400);
+        color: valueColor(), fontSize: _fontSize, fontWeight: FontWeight.w400);
   }
+
   static TextStyle subValueTextStyle() {
     return TextStyle(
         color: valueColor(),
@@ -90,20 +95,16 @@ class Styles {
     return Colors.black;
   }
 
-  static Color backgroundColor() {
-    return Colors.white;
-  }
-
   //icons size navigationbottomicons ...
-  static double bigIconSize() {
-    return App.mediaQuery.size.width * 0.075;
+  static double largeIconSize() {
+    return _largeSize;
   }
 
   static double mediumIconSize() {
-    return App.mediaQuery.size.width * 0.060;
+    return _mediumSize;
   }
 
   static double smallIconSize() {
-    return App.mediaQuery.size.width * 0.040;
+    return _smallSize;
   }
 }

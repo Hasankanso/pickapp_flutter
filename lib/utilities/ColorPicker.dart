@@ -18,7 +18,7 @@ class _ColorPickerState extends State<ColorPicker> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          contentPadding: const EdgeInsets.all(6.0),
+          contentPadding: EdgeInsets.all(0),
           title: Text(
             Lang.getString(context, "Pick_a_Color"),
             style: TextStyle(fontSize: 20, color: Colors.blue),

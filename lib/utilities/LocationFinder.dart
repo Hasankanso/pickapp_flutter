@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -92,7 +93,7 @@ class _LocationFinderState extends State<LocationFinder> {
       showCursor: false,
       decoration: InputDecoration(
         contentPadding:
-            EdgeInsets.symmetric(vertical: App.mediaQuery.size.width * 0.029),
+            EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10.5)),
         labelText: widget._title,
         hintText: widget._hintText,
         labelStyle: Styles.labelTextStyle(),
