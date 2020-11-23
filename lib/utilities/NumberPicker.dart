@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/utilities/DifferentSizeResponsiveRow.dart';
+import 'Responsive.dart';
 
 class NumberPicker extends StatefulWidget {
   int _value, _min, _max;
@@ -60,7 +60,6 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  height: ScreenUtil().setHeight(27),
                   child: FloatingActionButton(
                     heroTag: "minus",
                     onPressed: _minus,
@@ -81,7 +80,6 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  height: ScreenUtil().setHeight(27),
                   child: FloatingActionButton(
                     heroTag: "plus",
                     onPressed: counterUp,

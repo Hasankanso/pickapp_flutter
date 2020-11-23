@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/pickapp_google_places.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 
 class LocationFinder extends StatefulWidget {
   LocationEditingController _controller;
@@ -17,11 +17,11 @@ class LocationFinder extends StatefulWidget {
 
   LocationFinder(
       {LocationEditingController controller,
-      String title,
-      String hintText,
-      String initialDescription,
-      String language,
-      String country}) {
+        String title,
+        String hintText,
+        String initialDescription,
+        String language,
+        String country}) {
     _controller = controller;
     _title = title;
     _hintText = hintText;
@@ -67,9 +67,9 @@ class _LocationFinderState extends State<LocationFinder> {
 
     //request longitude and latitude from google_place_details api
     GoogleMapsPlaces _places =
-        new GoogleMapsPlaces(apiKey: widget._API_KEY); //Same _API_KEY as above
+    new GoogleMapsPlaces(apiKey: widget._API_KEY); //Same _API_KEY as above
     PlacesDetailsResponse detail =
-        await _places.getDetailsByPlaceId(locPred.placeId);
+    await _places.getDetailsByPlaceId(locPred.placeId);
     double latitude = detail.result.geometry.location.lat;
     double longitude = detail.result.geometry.location.lng;
     String address = locPred.description;
@@ -92,8 +92,6 @@ class _LocationFinderState extends State<LocationFinder> {
       enableInteractiveSelection: false,
       showCursor: false,
       decoration: InputDecoration(
-        contentPadding:
-            EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10.5)),
         labelText: widget._title,
         hintText: widget._hintText,
         labelStyle: Styles.labelTextStyle(),
@@ -110,4 +108,19 @@ class LocationEditingController {
   Location location;
   String placeId = "";
   String description = "";
+
+  swap(LocationEditingController x){
+
+    String temp_desc = x.description;
+    String temp_placeId = x.placeId;
+    Location temp_location = x.location;
+
+    x.description = this.description;
+    x.placeId = this.placeId;
+    x.location = this.location;
+
+    this.description = temp_desc;
+    this.placeId = temp_placeId;
+    this.location = temp_location;
+  }
 }
