@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
-import 'package:google_maps_webservice/directions.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
+import '../utilities/PopUp.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -16,6 +16,7 @@ import 'package:pickapp/utilities/Responsive.dart';
 class Search extends StatefulWidget {
   @override
   _SearchState createState() => _SearchState();
+
 }
 
 class _SearchState extends State<Search>
@@ -24,6 +25,9 @@ class _SearchState extends State<Search>
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
   NumberController numberController = NumberController();
+  void a() {
+    CustomToast().showColoredToast(" Fuck Notifications !", Colors.amber);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,9 @@ class _SearchState extends State<Search>
                 size: Styles.largeIconSize(),
               ),
               //tooltip: Lang.getString(context, "Settings"),
-              onPressed: () {
+              onPressed: (
+                  ) {
+                a();
                 //Navigator.of(context).pushNamed("/settings");
               },
             )

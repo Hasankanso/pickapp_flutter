@@ -41,9 +41,10 @@ class ChatListTile extends ListTile {
           ),
           isThreeLine: true,
           leading: CircleAvatar(
-            backgroundColor: Styles.backgroundColor(),
+            backgroundColor: Styles.primaryColor(),
             child: Icon(Icons.person,
-              size: Styles.mediumIconSize(),),
+              size: Styles.mediumIconSize(),
+            color: Styles.valueColor(),),
           ),
           title: Text(r.person.firstName+" "+r.person.lastName,
             style: Styles.valueTextStyle(),
