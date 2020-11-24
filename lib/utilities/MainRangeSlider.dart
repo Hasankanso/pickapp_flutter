@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class MainRangeSlider extends StatefulWidget {
   double min, max, minSelected, maxSelected, step;
@@ -20,31 +20,43 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
   @override
   void initState() {
     // TODO: implement initState
-    widget.controller._values = SfRangeValues(
-        widget.minSelected.toDouble(), widget.maxSelected.toDouble());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SfRangeSlider(
-      min: widget.min.toDouble(),
-      max: widget.max.toDouble(),
-      stepSize: widget.step.toDouble(),
-      showTooltip: true,
-      tooltipShape: SfPaddleTooltipShape(),
-      values: widget.controller._values,
-      onChanged: (SfRangeValues newValues) {
-        setState(() {
-          widget.controller._values = newValues;
-        });
-      },
+    return Column(
+      children: [
+        SliderTheme(
+          data: SliderThemeData(
+            rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
+          ),
+          child: RangeSlider(
+            values: RangeValues(
+              widget.minSelected.toDouble(),
+              widget.maxSelected.toDouble(),
+            ),
+            min: widget.min.toDouble(),
+            max: widget.max.toDouble(),
+            divisions: widget.step.toInt(),
+            labels: RangeLabels(widget.minSelected.toInt().toString(),
+                widget.maxSelected.toInt().toString()),
+            onChanged: (values) {
+              setState(() {
+                widget.controller._values = values;
+                widget.minSelected = values.start.roundToDouble();
+                widget.maxSelected = values.end.roundToDouble();
+              });
+            },
+          ),
+        ),
+      ],
     );
   }
 }
 
 class MainRangeSliderController {
-  SfRangeValues _values;
+  RangeValues _values;
   get minValue => _values.start;
   get maxValue => _values.end;
 }

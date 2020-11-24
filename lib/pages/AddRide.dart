@@ -22,7 +22,6 @@ class _AddRideState extends State<AddRide> {
       body: Column(
         children: [
           Switcher(
-            title: "Sami",
             controller: switcherController,
             isOn: true,
           ),
@@ -31,7 +30,7 @@ class _AddRideState extends State<AddRide> {
             max: 100,
             minSelected: 40,
             maxSelected: 90,
-            step: 10,
+            step: 5,
             controller: rangeController,
           ),
         ],

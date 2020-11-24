@@ -5,9 +5,8 @@ import 'package:pickapp/classes/Styles.dart';
 
 class Switcher extends StatefulWidget {
   bool isOn = false;
-  String title;
   SwitcherController controller;
-  Switcher({this.isOn, this.controller, this.title});
+  Switcher({this.isOn, this.controller});
   @override
   _SwitcherState createState() => _SwitcherState();
 }
