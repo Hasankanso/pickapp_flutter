@@ -6,10 +6,17 @@ import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/PopUp.dart';
 
 
-class listTile extends ListTile {
-  final Object o;
+class MyRidesListTile extends ListTile {
+  final Ride o;
 
-  listTile(this.o);
+  MyRidesListTile(this.o);
+
+  static MyRidesListTileBuilder(List<Ride> r){
+    r.forEach((element) {
+      MyRidesListTile(element);
+    });
+
+  }
 
   void a() {
     CustomToast().showColoredToast("Deletion Cancelled !", Colors.red);

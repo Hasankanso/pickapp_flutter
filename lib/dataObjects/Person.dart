@@ -54,6 +54,9 @@ class Person {
     this.profilePictureUrl = profilePictureUrl;
   }
 
+
+  Person.name(this._firstName, this._lastName);
+
   @override
   String toString() {
     return 'Person{_id: $_id, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender, _rateAverage: $_rateAverage, _acomplishedRides: $_acomplishedRides, _canceledRides: $_canceledRides, _rateCount: $_rateCount, _phone: $_phone}';

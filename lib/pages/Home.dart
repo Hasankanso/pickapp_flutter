@@ -4,7 +4,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/pages/AddRide.dart';
-import 'package:pickapp/pages/Chat.dart';
+import 'package:pickapp/pages/ChatPage.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/MyRides.dart';
 import 'package:pickapp/pages/Profile.dart';
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     MyRides(),
     AddRide(),
     Search(),
-    Chat(),
+    ChatPage(),
     Profile(),
   ];
   PageController pageController = PageController(

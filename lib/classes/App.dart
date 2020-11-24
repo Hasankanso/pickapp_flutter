@@ -13,6 +13,8 @@ class App {
   static final String googleKey = "AIzaSyC7U0OEb9200tGZFFFTyLjQdo3goKyuSsw";
   static bool isLoggedIn = true;
   static String dateFormat = 'dd/MM/yyyy';
+  static String countryCode = "lb";
+
   static void changeLanguage(String lang) async {
     await Cache.setLocale(lang);
     _state.setLocale(Locale(lang));

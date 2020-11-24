@@ -1,5 +1,5 @@
-import 'package:pickapp/DataObjects/Message.dart';
-import 'package:pickapp/DataObjects/Person.dart';
+import 'package:pickapp/dataObjects/Message.dart';
+import 'package:pickapp/dataObjects/Person.dart';
 
 class Chat {
   int _id;

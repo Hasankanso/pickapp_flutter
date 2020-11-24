@@ -38,11 +38,59 @@ class ResponsiveWidget extends StatelessWidget {
   double height = 0, width = 0;
   Widget child;
 
-  ResponsiveWidget({this.width, this.height, this.child});
+  ResponsiveWidget({width, height, this.child}){
+    this.width = ScreenUtil().setWidth(width);
+    this.height = ScreenUtil().setHeight(height);
+  }
+
+  ResponsiveWidget.fullWidth({height, this.child}){
+    this.width = ScreenUtil().screenWidth;
+    this.height = ScreenUtil().setHeight(height);
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: ScreenUtil().setWidth(width), height : ScreenUtil().setHeight(height), child: child);
+        width: this.width, height : this.height, child: child);
   }
 }
+
+
+class VerticalSpacer extends StatelessWidget {
+  double height = 10;
+  VerticalSpacer({this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(height: ScreenUtil().setHeight(height));
+  }
+}
+
+class DifferentSizeResponsiveRow extends StatelessWidget {
+  List<Widget> children;
+
+  DifferentSizeResponsiveRow({List<Widget> children = const <Widget>[]}) {
+    this.children = children;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> spacedChildren = new List<Widget>(3 * children.length);
+    Size screen = MediaQuery.of(context).size;
+
+    int i = 0;
+    for (Widget w in children) {
+      spacedChildren[i] = Spacer();
+      i++;
+      spacedChildren[i] = w;
+      i++;
+      spacedChildren[i] = Spacer();
+      i++;
+    }
+    double space = screen.height / 20;
+    return Padding(
+        child: Row(children: spacedChildren),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, space));
+  }
+}
+
