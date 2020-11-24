@@ -11,11 +11,9 @@ class MyRidesListTile extends ListTile {
 
   MyRidesListTile(this.o);
 
-  static MyRidesListTileBuilder(List<Ride> r){
-    r.forEach((element) {
-      MyRidesListTile(element);
-    });
 
+  static Function(BuildContext, int) itemBuilder(List<Ride> rides){
+    return  (context, index) => MyRidesListTile(rides[index]);
   }
 
   void a() {

@@ -30,7 +30,7 @@ class _MyRidesState extends State<MyRides> {
         title: Lang.getString(context, "My_Rides"),
       ),
       body: Container(
-        child:ListBuilder(ridesList,MyRidesListTile.MyRidesListTileBuilder(ridesList)),
+        child:ListBuilder(list : ridesList, itemBuilder : MyRidesListTile.itemBuilder(ridesList)) ,
       ),
     );
   }
