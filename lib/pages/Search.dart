@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import '../utilities/PopUp.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
@@ -16,7 +15,6 @@ import 'package:pickapp/utilities/Responsive.dart';
 class Search extends StatefulWidget {
   @override
   _SearchState createState() => _SearchState();
-
 }
 
 class _SearchState extends State<Search>
@@ -32,48 +30,45 @@ class _SearchState extends State<Search>
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-        appBar: MainAppBar(
-          title: Lang.getString(context, "Search_for_Ride"),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.notifications_outlined,
-                color: Styles.secondaryColor(),
-                size: Styles.largeIconSize(),
-              ),
-              //tooltip: Lang.getString(context, "Settings"),
-              onPressed: (
-                  ) {
-                a();
-                //Navigator.of(context).pushNamed("/settings");
-              },
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              ResponsiveWidget.fullWidth(
-                  height: 150,
-                  child: FromToPicker(
-                      fromController: fromController,
-                      toController: toController)),
-              VerticalSpacer(height: 30),
-              ResponsiveWidget.fullWidth(
-                  height: 80, child: DateTimeRangePicker(dateTimeController)),
-              VerticalSpacer(height: 30),
-              ResponsiveWidget.fullWidth(
-                  height: 59,
-                  child: NumberPicker(numberController,
-                      Lang.getString(context, "Persons"), 1, 8)),
-              VerticalSpacer(height: 110),
-              MainButton(
-                text_key: "Search",
-                onPressed: () {},
-              ),
-            ],
+      appBar: MainAppBar(
+        title: Lang.getString(context, "Search_for_Ride"),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.notifications_outlined,
+              color: Styles.secondaryColor(),
+              size: Styles.largeIconSize(),
+            ),
+            //tooltip: Lang.getString(context, "Settings"),
+            onPressed: () {
+              a();
+              //Navigator.of(context).pushNamed("/settings");
+            },
+          )
+        ],
+      ),
+      body: Column(
+        children: [
+          ResponsiveWidget.fullWidth(
+              height: 150,
+              child: FromToPicker(
+                  fromController: fromController, toController: toController)),
+          VerticalSpacer(height: 30),
+          ResponsiveWidget.fullWidth(
+              height: 80, child: DateTimeRangePicker(dateTimeController)),
+          VerticalSpacer(height: 30),
+          ResponsiveWidget.fullWidth(
+              height: 59,
+              child: NumberPicker(
+                  numberController, Lang.getString(context, "Persons"), 1, 8)),
+          VerticalSpacer(height: 100),
+          MainButton(
+            text_key: "Search",
+            onPressed: () {},
           ),
-        ));
+        ],
+      ),
+    );
   }
 
   @override
