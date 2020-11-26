@@ -33,11 +33,8 @@ class _MyRidesState extends State<MyRides> {
       appBar: MainAppBar(
         title: Lang.getString(context, "My_Rides"),
       ),
-      body: Container(
-        child: ListBuilder(
-            list: ridesList,
-            itemBuilder: MyRidesListTile.itemBuilder(ridesList)),
-      ),
+      body: ListBuilder(
+          list: ridesList, itemBuilder: MyRidesListTile.itemBuilder(ridesList)),
     );
   }
 }

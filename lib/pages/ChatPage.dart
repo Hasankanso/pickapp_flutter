@@ -43,9 +43,7 @@ class ChatPage extends StatelessWidget {
       appBar: MainAppBar(
         title: Lang.getString(context, "Chats"),
       ),
-      body: Container(
-        child: ChatListBuilder(chatsList),
-      ),
+      body: ChatListBuilder(chatsList),
     );
   }
 }

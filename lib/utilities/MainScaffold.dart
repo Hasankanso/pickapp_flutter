@@ -16,7 +16,7 @@ class MainScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: appBar,
-      body: SingleChildScrollView(child: body),
+      body: body,
       bottomNavigationBar: bottomNavigationBar,
     );
   }

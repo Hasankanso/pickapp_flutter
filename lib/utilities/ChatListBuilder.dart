@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/utilities/ChatListTile.dart';
-import 'package:pickapp/utilities/MyRidesListTile.dart';
 
 class ChatListBuilder extends StatelessWidget {
   final List<dynamic> list;
@@ -12,16 +11,13 @@ class ChatListBuilder extends StatelessWidget {
     return ListView.builder(
       reverse: false,
       itemBuilder: (_, int index) {
-
         return Dismissible(
-
           key: UniqueKey(),
-          onDismissed:(direction) {
-         print(index);
+          onDismissed: (direction) {
+            print(index);
           },
           background: Container(color: Colors.red),
           child: ChatListTile(list[index]),
-
         );
       },
       itemCount: list.length,

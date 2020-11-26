@@ -51,7 +51,7 @@ class MyAppState extends State<MyApp> {
     } else {
       return MaterialApp(
         title: App.appName,
-        locale: _locale,
+        //locale: _locale,
         theme: ThemeData(
           brightness: Brightness.light,
           primarySwatch: Styles.primaryColor(),
@@ -78,7 +78,7 @@ class MyAppState extends State<MyApp> {
           Locale chosen = supportedLocales.first;
           for (var locale in supportedLocales) {
             if (locale.languageCode == deviceLocale.languageCode) {
-              chosen =  deviceLocale;
+              chosen = deviceLocale;
               break;
             }
           }

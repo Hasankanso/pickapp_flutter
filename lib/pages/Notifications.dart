@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -46,22 +47,32 @@ class _NotificationsState extends State<Notifications> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          ResponsiveWidget.fullWidth(
-              height: 150,
-              child: FromToPicker(
-                  fromController: fromController, toController: toController)),
-          VerticalSpacer(height: 30),
-          ResponsiveWidget.fullWidth(
-              height: 80, child: DateTimeRangePicker(dateTimeController)),
-          VerticalSpacer(height: 30),
-          ResponsiveWidget.fullWidth(
-              height: 59,
-              child: NumberPicker(
-                  numberController, Lang.getString(context, "Persons"), 1, 8)),
-          VerticalSpacer(height: 100),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ResponsiveWidget.fullWidth(
+                height: 150,
+                child: FromToPicker(
+                    fromController: fromController,
+                    toController: toController)),
+            VerticalSpacer(height: 30),
+            ResponsiveWidget.fullWidth(
+                height: 80, child: DateTimeRangePicker(dateTimeController)),
+            VerticalSpacer(height: 20),
+            ResponsiveWidget.fullWidth(
+                height: 59,
+                child: NumberPicker(numberController,
+                    Lang.getString(context, "Persons"), 1, 8)),
+            Container(
+              height: ScreenUtil().setHeight(120),
+              child: TextField(
+                minLines: 10,
+                maxLines: null,
+                decoration: InputDecoration(labelText: "Description"),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
         color: Colors.red,
