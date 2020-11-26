@@ -1,7 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:pickapp/utilities/screenutil.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
