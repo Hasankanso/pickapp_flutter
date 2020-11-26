@@ -32,7 +32,7 @@ class App {
   static void setContext(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     ScreenUtil.init(context,
-        designSize: Size(360, 640), allowFontScaling: true);
+        designSize: Size(360, 640), designStatusBarHeight : 24, allowFontScaling: true);
     Styles.setFontSizes(
         subValueFontSize: ScreenUtil().setSp(12.24),
         fontSize: ScreenUtil().setSp(15),
