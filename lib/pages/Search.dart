@@ -54,7 +54,7 @@ class _SearchState extends State<Search>
           child: Column(
             children: [
               ResponsiveWidget.fullWidth(
-                  height: 150,
+                  height: 130,
                   child: FromToPicker(
                       fromController: fromController,
                       toController: toController)),
@@ -63,10 +63,10 @@ class _SearchState extends State<Search>
                   height: 80, child: DateTimeRangePicker(dateTimeController)),
               VerticalSpacer(height: 30),
               ResponsiveWidget.fullWidth(
-                  height: 59,
+                  height: 30,
                   child: NumberPicker(numberController,
                       Lang.getString(context, "Persons"), 1, 8)),
-              VerticalSpacer(height: 110),
+              VerticalSpacer(height: 151),
               MainButton(
                 text_key: "Search",
                 onPressed: () {},

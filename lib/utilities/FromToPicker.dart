@@ -26,7 +26,7 @@ class _FromToPickerState extends State<FromToPicker> {
       Expanded(
         flex: 8,
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.panorama_fish_eye,
                   color: Styles.primaryColor(),
@@ -43,20 +43,24 @@ class _FromToPickerState extends State<FromToPicker> {
         flex: 60,
         child: Column(
           children: [
-            LocationFinder(
-                controller: widget.fromController,
-                title: Lang.getString(context, "From"),
-                initialDescription: widget.fromController.description,
-                hintText: Lang.getString(context, "From_Where"),
-                language: Lang.getString(context, "lang"),
-                country: App.countryCode),
-            LocationFinder(
-                controller: widget.toController,
-                title: Lang.getString(context, "To"),
-                initialDescription: widget.toController.description,
-                hintText: Lang.getString(context, "To_Where"),
-                language: Lang.getString(context, "lang"),
-                country: App.countryCode)
+            Expanded(
+              child: LocationFinder(
+                  controller: widget.fromController,
+                  title: Lang.getString(context, "From"),
+                  initialDescription: widget.fromController.description,
+                  hintText: Lang.getString(context, "From_Where"),
+                  language: Lang.getString(context, "lang"),
+                  country: App.countryCode),
+            ),
+            Expanded(
+              child: LocationFinder(
+                  controller: widget.toController,
+                  title: Lang.getString(context, "To"),
+                  initialDescription: widget.toController.description,
+                  hintText: Lang.getString(context, "To_Where"),
+                  language: Lang.getString(context, "lang"),
+                  country: App.countryCode),
+            )
           ],
         ),
       ),

@@ -26,10 +26,7 @@ class ResponsiveRow extends StatelessWidget {
       spacedChildren[i] = Spacer();
       i++;
     }
-    double space = screen.height / 20;
-    return Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, space),
-        child: Row(children: spacedChildren));
+    return Row(children: spacedChildren);
   }
 }
 
@@ -88,9 +85,7 @@ class DifferentSizeResponsiveRow extends StatelessWidget {
       i++;
     }
     double space = screen.height / 20;
-    return Padding(
-        child: Row(children: spacedChildren),
-        padding: EdgeInsets.fromLTRB(0, 0, 0, space));
+    return Row(children: spacedChildren);
   }
 }
 

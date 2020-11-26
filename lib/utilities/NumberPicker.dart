@@ -59,15 +59,13 @@ class _NumberPickerState extends State<NumberPicker> {
             children: [
               Expanded(
                 flex: 2,
-                child: Container(
-                  child: FloatingActionButton(
-                    heroTag: "minus",
-                    onPressed: _minus,
-                    child: Icon(
-                      Icons.remove,
-                      color: Styles.secondaryColor(),
-                      size: Styles.mediumIconSize(),
-                    ),
+                child: FloatingActionButton(
+                  heroTag: "minus",
+                  onPressed: _minus,
+                  child: Icon(
+                    Icons.remove,
+                    color: Styles.secondaryColor(),
+                    size: Styles.mediumIconSize(),
                   ),
                 ),
               ),
@@ -79,15 +77,13 @@ class _NumberPickerState extends State<NumberPicker> {
               ),
               Expanded(
                 flex: 2,
-                child: Container(
-                  child: FloatingActionButton(
-                    heroTag: "plus",
-                    onPressed: counterUp,
-                    child: Icon(
-                      Icons.add,
-                      color: Styles.secondaryColor(),
-                      size: Styles.mediumIconSize(),
-                    ),
+                child: FloatingActionButton(
+                  heroTag: "plus",
+                  onPressed: counterUp,
+                  child: Icon(
+                    Icons.add,
+                    color: Styles.secondaryColor(),
+                    size: Styles.mediumIconSize(),
                   ),
                 ),
               ),
