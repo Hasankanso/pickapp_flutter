@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -87,22 +86,19 @@ class _LocationFinderState extends State<LocationFinder> {
   @override
   Widget build(BuildContext context) {
     _textEditingController.text = widget._initialDescription;
-    return Container(
-      height: ScreenUtil().setHeight(50),
-      child: TextField(
-        controller: _textEditingController,
-        enableInteractiveSelection: false,
-        showCursor: false,
-        decoration: InputDecoration(
-          labelText: widget._title,
-          hintText: widget._hintText,
-          labelStyle: Styles.labelTextStyle(),
-          hintStyle: Styles.labelTextStyle(),
-        ),
-        style: Styles.valueTextStyle(),
-        focusNode: FocusNode(),
-        onTap: () => OpenAutoComplete(context),
+    return TextField(
+      controller: _textEditingController,
+      enableInteractiveSelection: false,
+      showCursor: false,
+      decoration: InputDecoration(
+        labelText: widget._title,
+        hintText: widget._hintText,
+        labelStyle: Styles.labelTextStyle(),
+        hintStyle: Styles.labelTextStyle(),
       ),
+      style: Styles.valueTextStyle(),
+      focusNode: FocusNode(),
+      onTap: () => OpenAutoComplete(context),
     );
   }
 }

@@ -28,6 +28,7 @@ class _SearchState extends State<Search>
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
   NumberController numberController = NumberController();
+
   void a() {
     CustomToast().showColoredToast(" Fuck Notifications !", Colors.amber);
   }
@@ -55,7 +56,7 @@ class _SearchState extends State<Search>
       body: Column(
         children: [
           ResponsiveWidget.fullWidth(
-              height: 150,
+              height: 130,
               child: FromToPicker(
                   fromController: fromController, toController: toController)),
           VerticalSpacer(height: 30),
@@ -63,33 +64,37 @@ class _SearchState extends State<Search>
               height: 80, child: DateTimeRangePicker(dateTimeController)),
           VerticalSpacer(height: 30),
           ResponsiveWidget.fullWidth(
-              height: 59,
+              height: 30,
               child: NumberPicker(
                   numberController, Lang.getString(context, "Persons"), 1, 8)),
-          VerticalSpacer(height: 50),
-          MainButton(
-            text_key: "Search",
-            onPressed: () {
-              MainLocation t = MainLocation(
-                  name: toController.description,
-                  latitude: toController.location.lat,
-                  longitude: toController.location.lng,
-                  placeId: toController.placeId);
-              MainLocation f = MainLocation(
-                  name: fromController.description,
-                  latitude: fromController.location.lat,
-                  longitude: fromController.location.lng,
-                  placeId: fromController.placeId);
-              Request.initBackendless();
-              SearchInfo c = SearchInfo(
-                  to: t,
-                  from: f,
-                  passengersNumber: numberController.chosenNumber,
-                  minDate: dateTimeController.startDateController.chosenDate,
-                  maxDate: dateTimeController.endDateController.chosenDate);
-              Request<List<Ride>> a = SearchForRides(c);
-              a.send(y);
-            },
+          VerticalSpacer(height: 288),
+          ResponsiveWidget(
+            width: 270,
+            height: 43,
+            child: MainButton(
+              text_key: "Search",
+              onPressed: () {
+                MainLocation t = MainLocation(
+                    name: toController.description,
+                    latitude: toController.location.lat,
+                    longitude: toController.location.lng,
+                    placeId: toController.placeId);
+                MainLocation f = MainLocation(
+                    name: fromController.description,
+                    latitude: fromController.location.lat,
+                    longitude: fromController.location.lng,
+                    placeId: fromController.placeId);
+                Request.initBackendless();
+                SearchInfo c = SearchInfo(
+                    to: t,
+                    from: f,
+                    passengersNumber: numberController.chosenNumber,
+                    minDate: dateTimeController.startDateController.chosenDate,
+                    maxDate: dateTimeController.endDateController.chosenDate);
+                Request<List<Ride>> a = SearchForRides(c);
+                a.send(y);
+              },
+            ),
           ),
         ],
       ),

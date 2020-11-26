@@ -11,6 +11,13 @@ class ChatListTile extends ListTile {
 
   ChatListTile(this.o);
 
+  static Function(BuildContext, int) itemBuilder(List<Chat> c){
+    return  (context, index) {
+      return ChatListTile(c[index]);
+    };
+  }
+
+
   void a() {
     CustomToast().showColoredToast("Deletion Cancelled !", Colors.red);
   }

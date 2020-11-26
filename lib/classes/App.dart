@@ -1,7 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:pickapp/utilities/screenutil.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
@@ -32,7 +32,7 @@ class App {
   static void setContext(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     ScreenUtil.init(context,
-        designSize: Size(360, 640), allowFontScaling: true);
+        designSize: Size(360, 640), designStatusBarHeight : 24, allowFontScaling: true);
     Styles.setFontSizes(
         subValueFontSize: ScreenUtil().setSp(12.24),
         fontSize: ScreenUtil().setSp(15),
