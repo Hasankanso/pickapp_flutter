@@ -27,14 +27,14 @@ class _FromToPickerState extends State<FromToPicker> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              VerticalSpacer(height: ScreenUtil().setHeight(20)),
+              VerticalSpacer(height: ScreenUtil().setHeight(30)),
               Icon(Icons.panorama_fish_eye,
                   color: Styles.primaryColor(), size: Styles.smallIconSize()),
               Icon(Icons.more_vert,
                   color: Styles.primaryColor(), size: Styles.smallIconSize()),
               Icon(Icons.circle,
                   color: Styles.primaryColor(), size: Styles.smallIconSize()),
-              VerticalSpacer(height: ScreenUtil().setHeight(20)),
+              VerticalSpacer(height: ScreenUtil().setHeight(30)),
             ]),
       ),
       Expanded(

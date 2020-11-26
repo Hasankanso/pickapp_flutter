@@ -39,10 +39,9 @@ class _SearchState extends State<Search>
               color: Styles.secondaryColor(),
               size: Styles.largeIconSize(),
             ),
-            //tooltip: Lang.getString(context, "Settings"),
+            tooltip: Lang.getString(context, "Notifications"),
             onPressed: () {
-              a();
-              //Navigator.of(context).pushNamed("/settings");
+              Navigator.of(context).pushNamed("/notifications");
             },
           )
         ],

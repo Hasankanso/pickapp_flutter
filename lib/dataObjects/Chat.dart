@@ -8,7 +8,12 @@ class Chat {
   Person _person;
   bool _isNewMessage;
 
-  Chat({id, date, messages, person, isNewMessage}) {
+  Chat(
+      {String id,
+      DateTime date,
+      List<Message> messages,
+      Person person,
+      bool isNewMessage}) {
     id = id;
     date = date;
     messages = messages;

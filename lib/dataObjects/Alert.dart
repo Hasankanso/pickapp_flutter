@@ -1,26 +1,26 @@
-import 'package:google_maps_webservice/directions.dart';
-import 'package:pickapp/DataObjects/User.dart';
+import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:pickapp/dataObjects/User.dart';
 
 class Alert {
   String _id, _comment;
-  Location _from, _to;
+  MainLocation _from, _to;
   DateTime _minDate, _maxDate, _updated;
   int _numberOfPersons, _numberOfLuggage;
   double _price;
   User _user;
 
   Alert(
-      {id,
-      user,
-      from,
-      to,
-      price,
-      minDate,
-      maxDate,
-      numberOfPersons,
-      numberOfLuggages,
-      comment,
-      updated}) {
+      {String id,
+      User user,
+      MainLocation from,
+      MainLocation to,
+      double price,
+      DateTime minDate,
+      DateTime maxDate,
+      int numberOfPersons,
+      int numberOfLuggages,
+      String comment,
+      DateTime updated}) {
     this.id = id;
     this.user = user;
     this.from = from;
@@ -33,68 +33,40 @@ class Alert {
     this.price = price;
     this.comment = comment;
   }
-/*
-  public JObject ToJson() {
-    JObject alertJ = new JObject();
-    alertJ[nameof(from)] = this.from.ToJson();
-    alertJ[nameof(user)] = user.id;
-    alertJ[nameof(to)] = this.to.ToJson();
-    alertJ[nameof(price)] = price;
-    alertJ[nameof(minDate)] = minDate;
-    alertJ[nameof(maxDate)] = maxDate;
-    alertJ[nameof(numberOfPersons)] = numberOfPersons;
-    alertJ[nameof(numberOfLuggage)] = numberOfLuggage;
-    alertJ[nameof(comment)] = comment;
-
-
-    return alertJ;
-  }*/ /*
-  public static Alert ToObject(JObject json) {
-    string id = "";
-    var oId = json["objectId"];
-    if (oId != null)
-      id = oId.ToString();
-
-    Location from = Location.ToObject((JObject)json[nameof(Alert.from)]);
-    Location to = Location.ToObject((JObject)json[nameof(Alert.to)]);
-
-    double minDateDouble = -1;
-    var mid = json[nameof(Alert.minDate)];
-    if (mid != null) {
-    double.TryParse(mid.ToString(), out minDateDouble);
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        "from": from.toJson(),
+        "to": to.toJson(),
+        "user": user.id,
+        "price": price,
+        "minDate": minDate,
+        "maxDate": maxDate,
+        "numberOfPersons": numberOfPersons,
+        "numberOfLuggage": numberOfLuggage,
+        "comment": comment,
+      };
+  factory Alert.fromJson(Map<String, dynamic> json) {
+    var minDateJ = json["minDate"];
+    DateTime minDate;
+    if (minDateJ != null) {
+      minDate = DateTime.fromMillisecondsSinceEpoch(minDateJ);
+    }
+    var maxDateJ = json["maxDate"];
+    DateTime maxDate;
+    if (maxDateJ != null) {
+      maxDate = DateTime.fromMillisecondsSinceEpoch(maxDateJ);
     }
 
-    DateTime minDate = Program.UnixToUtc(minDateDouble);
-
-    double maxDateDouble = -1;
-    var md = json[nameof(Alert.maxDate)];
-    if (md != null) {
-    double.TryParse(md.ToString(), out maxDateDouble);
-    }
-
-    DateTime maxDate = Program.UnixToUtc(maxDateDouble);
-
-    string comment = "";
-    var c = json[nameof(Alert.comment)];
-    if (c != null)
-    comment = c.ToString();
-
-    string price = "";
-    var p = json[nameof(price)];
-    if (p != null)
-    price = p.ToString();
-
-    int numberOfPersons = -1;
-    var nP = json[nameof(Alert.numberOfPersons)];
-    if (nP != null)
-    int.TryParse(nP.ToString(), out numberOfPersons);
-    int numberOfLuggage = -1;
-    var nl = json[nameof(Alert.numberOfLuggage)];
-    if (nl != null)
-    int.TryParse(nl.ToString(), out numberOfLuggage);
-
-    return new Alert(id,from,to,price,minDate,maxDate,numberOfPersons,numberOfLuggage,comment);
-  }*/
+    return Alert(
+        id: json["objectId"],
+        from: MainLocation.fromJson(json["from"]),
+        to: MainLocation.fromJson(json["to"]),
+        minDate: minDate,
+        maxDate: maxDate,
+        comment: json["comment"],
+        price: json["price"],
+        numberOfPersons: json["numberOfPersons"],
+        numberOfLuggages: json["numberOfLuggage"]);
+  }
   String get id => _id;
 
   set id(String value) {
@@ -107,9 +79,9 @@ class Alert {
     _comment = value;
   }
 
-  Location get from => _from;
+  MainLocation get from => _from;
 
-  set from(Location value) {
+  set from(MainLocation value) {
     _from = value;
   }
 

@@ -5,7 +5,6 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/ChatPage.dart';
-import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/MyRides.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Search.dart';
@@ -36,21 +35,6 @@ class _HomeState extends State<Home> {
   }
 
   void _bottomTapped(int index) {
-    if (index == 0 || index == 4) {
-      if (!App.isLoggedIn) {
-        setState(() {
-          _pages[index] = Login();
-        });
-      } else if (index == 0 && _pages[index].toString() != "MyRides") {
-        setState(() {
-          _pages[index] = MyRides();
-        });
-      } else if (index == 4 && _pages[index].toString() != "Profile") {
-        setState(() {
-          _pages[index] = Profile();
-        });
-      }
-    }
     if ((_currenIndex - index).abs() == 1) {
       pageController.animateToPage(index,
           duration: const Duration(milliseconds: 300), curve: Curves.ease);

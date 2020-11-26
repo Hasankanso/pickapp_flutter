@@ -6,8 +6,10 @@ import 'MainAppBar.dart';
 class MainScaffold extends StatelessWidget {
   MainAppBar appBar;
   Widget body;
+  Widget bottomNavigationBar;
   Color backgroundColor = Styles.secondaryColor();
-  MainScaffold({this.appBar, this.body, this.backgroundColor});
+  MainScaffold(
+      {this.appBar, this.body, this.backgroundColor, this.bottomNavigationBar});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,7 @@ class MainScaffold extends StatelessWidget {
       backgroundColor: backgroundColor,
       appBar: appBar,
       body: SingleChildScrollView(child: body),
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
 }
