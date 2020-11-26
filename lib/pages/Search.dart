@@ -51,7 +51,8 @@ class _SearchState extends State<Search>
           ResponsiveWidget.fullWidth(
               height: 150,
               child: FromToPicker(
-                  fromController: fromController, toController: toController)),
+                  fromController: fromController, toController: toController)
+          ),
           VerticalSpacer(height: 30),
           ResponsiveWidget.fullWidth(
               height: 80, child: DateTimeRangePicker(dateTimeController)),
