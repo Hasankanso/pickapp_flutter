@@ -13,7 +13,9 @@ class MyRidesListTile extends ListTile {
 
 
   static Function(BuildContext, int) itemBuilder(List<Ride> rides){
-    return  (context, index) => MyRidesListTile(rides[index]);
+    return  (context, index) {
+      return MyRidesListTile(rides[index]);
+    };
   }
 
   void a() {
