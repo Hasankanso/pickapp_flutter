@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:pickapp/utilities/screenutil.dart';
 
 class ResponsiveRow extends StatelessWidget {
   List<Widget> children;

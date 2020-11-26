@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -22,21 +21,16 @@ class _FromToPickerState extends State<FromToPicker> {
   @override
   Widget build(BuildContext context) {
     return DifferentSizeResponsiveRow(children: [
-      Expanded(
-        flex: 8,
-        child: Column(
+        Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              VerticalSpacer(height: ScreenUtil().setHeight(30)),
               Icon(Icons.panorama_fish_eye,
                   color: Styles.primaryColor(), size: Styles.smallIconSize()),
               Icon(Icons.more_vert,
                   color: Styles.primaryColor(), size: Styles.smallIconSize()),
               Icon(Icons.circle,
                   color: Styles.primaryColor(), size: Styles.smallIconSize()),
-              VerticalSpacer(height: ScreenUtil().setHeight(30)),
             ]),
-      ),
       Expanded(
         flex: 60,
         child: Column(
