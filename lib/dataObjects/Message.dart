@@ -3,7 +3,7 @@ class Message {
   DateTime _sendDate;
   String _content;
 
-  Message({content, sendDate, owner}) {
+  Message({String content, DateTime sendDate, bool owner}) {
     this.owner = owner;
     this.sendDate = sendDate;
     this.content = content;

@@ -3,49 +3,33 @@ class CountryInformations {
   int _digits;
   DateTime _updated;
 
-  CountryInformations({id, unit, name, digits, code, countryComponent}) {
+  CountryInformations(
+      {String id,
+      String unit,
+      String name,
+      int digits,
+      String code,
+      DateTime updated,
+      String countryComponent}) {
     this.id = id;
+    this.updated = updated;
     this.unit = unit;
     this.name = name;
     this.digits = digits;
     this.code = code;
     this.countryComponent = countryComponent;
   }
-/*
-public JObject ToJson() {
-  JObject countryInformationsJ = new JObject();
-  countryInformationsJ[nameof(this.id)] = this.Id;
-  return countryInformationsJ;
-}*/ /*
-public static CountryInformations ToObject(JObject json) {
-  string id = "";
-  var oId = json["objectId"];
-  if (oId != null)
-    id = oId.ToString();
-  string name = "";
-  var nm = json["name"];
-  if (nm != null)
-    name = nm.ToString();
-  string code = "";
-  var cd = json["code"];
-  if (cd != null)
-    code = cd.ToString();
-  string unit = "";
-  var un = json["unit"];
-  if (un != null)
-    unit = un.ToString();
-  string countryComponent = "";
-  var cc = json["countryComponent"];
-  if (cc != null)
-    countryComponent = cc.ToString();
-  int digits = -1;
-  var dj = json[nameof(CountryInformations.digits)];
-  if (dj != null)
-    int.TryParse(dj.ToString(), out digits);
-  return new CountryInformations(id, unit, name, digits, code, countryComponent);
-}*/
-  static bool equal(countriesKeys, countryName) {
-    if (countriesKeys.Equals(countryName)) return true;
+  Map<String, dynamic> toJson() => <String, dynamic>{'id': this.id};
+  CountryInformations.fromJson(Map<String, dynamic> json)
+      : _id = json["objectId"],
+        _name = json["name"],
+        _code = json["code"],
+        _unit = json["unit"],
+        _countryComponent = json["countryComponent"],
+        _digits = json["digits"];
+
+  static bool equal(countriesKey, countryName) {
+    if (countriesKey.Equals(countryName)) return true;
     return false;
   }
 

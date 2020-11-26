@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -7,9 +8,7 @@ import 'package:pickapp/utilities/LocationFinder.dart';
 
 import 'Responsive.dart';
 
-
 class FromToPicker extends StatefulWidget {
-
   LocationEditingController fromController;
   LocationEditingController toController;
 
@@ -28,15 +27,14 @@ class _FromToPickerState extends State<FromToPicker> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              VerticalSpacer(height: ScreenUtil().setHeight(30)),
               Icon(Icons.panorama_fish_eye,
-                  color: Styles.primaryColor(),
-                  size: Styles.smallIconSize()),
+                  color: Styles.primaryColor(), size: Styles.smallIconSize()),
               Icon(Icons.more_vert,
-                  color: Styles.primaryColor(),
-                  size: Styles.smallIconSize()),
+                  color: Styles.primaryColor(), size: Styles.smallIconSize()),
               Icon(Icons.circle,
-                  color: Styles.primaryColor(),
-                  size: Styles.smallIconSize())
+                  color: Styles.primaryColor(), size: Styles.smallIconSize()),
+              VerticalSpacer(height: ScreenUtil().setHeight(30)),
             ]),
       ),
       Expanded(

@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:pickapp/dataObjects/CountryInformations.dart';
+import 'package:pickapp/dataObjects/Rate.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
+
 class Person {
   String _id,
       _firstName,
@@ -9,57 +16,135 @@ class Person {
   DateTime _birthday, _updated;
   bool _gender;
   double _rateAverage;
+  int _acomplishedRides, _canceledRides, _rateCount;
+  List<Rate> _rates = new List<Rate>();
+  List<Ride> _upcomingRides = new List<Ride>();
+  File _profilePicture;
 
-  String get id => _id;
+  List<Rate> get rates => _rates;
 
-  set id(String value) {
-    _id = value;
+  set rates(List<Rate> value) {
+    _rates = value;
   }
 
-  int _acomplishedRides, _canceledRides, _rateCount;
+  CountryInformations _countryInformations;
+
   //user
   String _phone;
-  //private List<Rate> rates = new List<Rate>();
-  //private List<Ride> upcomingRides = new List<Ride>();
-  //public Texture2D profilePicture;
-  //private CountryInformations countryInformations;
 
   Person({
-    id,
-    firstName,
-    lastName,
-    rateCount,
-    acomplishedRides,
-    canceledRides,
-    chattiness,
-    phone,
-    bio,
-    rateAverage,
-    gender,
-    birthday,
-    profilePictureUrl,
+    String id,
+    String firstName,
+    String lastName,
+    int rateCount,
+    int acomplishedRides,
+    CountryInformations countryInformations,
+    int canceledRides,
+    String chattiness,
+    String phone,
+    String bio,
+    double rateAverage,
+    bool gender,
+    DateTime birthday,
+    DateTime updated,
+    String profilePictureUrl,
   }) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.rateCount = rateCount;
+    this.updated = updated;
     this.acomplishedRides = acomplishedRides;
     this.canceledRides = canceledRides;
     this.chattiness = chattiness;
     this.phone = phone;
     this.bio = bio;
+    this.countryInformations = countryInformations;
     this.rateAverage = rateAverage;
     this.gender = gender;
     this.birthday = birthday;
     this.profilePictureUrl = profilePictureUrl;
   }
 
-
   Person.name(this._firstName, this._lastName);
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'firstName': this.firstName,
+        'lastName': this.lastName,
+        'bio': this.bio,
+        'image': this.image,
+        'chattiness': this.chattiness,
+        'countryInformations': this.countryInformations.toJson(),
+        'birthday': this.birthday,
+        'gender': this.gender,
+      };
+
+  factory Person.fromJson(Map<String, dynamic> json) {
+    var birthdayJ = json["birthday"];
+    DateTime birthday;
+    if (birthdayJ != null) {
+      birthday = DateTime.fromMillisecondsSinceEpoch(birthdayJ);
+    }
+    var updatedJ = json["updated"];
+    DateTime updated;
+    if (updatedJ != null) {
+      updated = DateTime.fromMillisecondsSinceEpoch(updatedJ);
+    }
+
+    var countryJ = json['countryInformations'];
+    CountryInformations countryInformations;
+    if (countryJ != null) {
+      countryInformations = CountryInformations.fromJson(countryJ);
+    }
+
+    Person p = Person(
+      phone: json['phone'],
+      id: json["objectId"],
+      updated: updated,
+      birthday: birthday,
+      firstName: json["firstName"],
+      lastName: json["lastName"],
+      chattiness: json["chattiness"],
+      bio: json["bio"],
+      rateAverage: json["rateAverage"],
+      acomplishedRides: json['acomplishedRides'],
+      canceledRides: json['canceledRides'],
+      rateCount: json['rateCount'],
+      gender: json['gender'],
+      profilePictureUrl: json['image'],
+      countryInformations: countryInformations,
+    );
+    var upcomingRidesArray = json["upcomingRides"];
+    if (upcomingRidesArray != null) {
+      p._upcomingRides = List<Ride>.from(upcomingRidesArray.map((x) {
+        if (x.HasValues == true) {
+          if (x.containsKey("ride") && x["ride"].HasValues == true)
+            return Ride.fromJson(x["ride"]);
+          else
+            return Ride.fromJson(x);
+        }
+      }));
+    }
+    var ratesArray = json["rates"];
+    if (ratesArray != null) {
+      p.rates = List<Rate>.from(ratesArray.map((x) {
+        if (x.HasValues == true) {
+          return Rate.fromJson(x);
+        }
+      }));
+    }
+    return p;
+  }
 
   @override
   String toString() {
     return 'Person{_id: $_id, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender, _rateAverage: $_rateAverage, _acomplishedRides: $_acomplishedRides, _canceledRides: $_canceledRides, _rateCount: $_rateCount, _phone: $_phone}';
+  }
+
+  String get id => _id;
+
+  set id(String value) {
+    _id = value;
   }
 
   get firstName => _firstName;
@@ -96,6 +181,14 @@ class Person {
 
   set profilePictureUrl(value) {
     _profilePictureUrl = value;
+  }
+
+  setprofilePictureUrl(File value) async {
+    _profilePicture = value;
+    if (value != null) {
+      List<int> imageBytes = await value.readAsBytesSync();
+      _image = base64Encode(imageBytes);
+    }
   }
 
   DateTime get birthday => _birthday;
@@ -145,123 +238,22 @@ class Person {
   set phone(String value) {
     _phone = value;
   }
-/*CountryInformations countryInformations Texture2D profilePicture,List<Rate> rates,*/
 
-  /* public JObject ToJson() {
-    JObject personJ = new JObject();
-    personJ[nameof(this.firstName)] = this.firstName;
-    personJ[nameof(this.lastName)] = this.lastName;
-    personJ[nameof(this.bio)] = this.bio;
-    personJ[nameof(this.image)] = this.Image;
-    personJ[nameof(this.chattiness)] = this.chattiness;
-    personJ[nameof(this.countryInformations)] = this.countryInformations.ToJson();
-    personJ[nameof(this.birthday)] = this.birthday;
-    personJ[nameof(this.gender)] = this.gender;
-    return personJ;
-  }*/
-/*
-  public static Person ToObject(JObject json) {
-    string phone = "";
-    var ph = json[nameof(phone)];
-    if (ph != null)
-      phone = ph.ToString();
+  List<Ride> get upcomingRides => _upcomingRides;
 
-    string id = "";
-    var oId = json["objectId"];
-    if (oId != null)
-      id = oId.ToString();
-    string firstName = "";
-    var fn = json[nameof(firstName)];
-    if (fn != null)
-      firstName = fn.ToString();
-    string lastName = "";
-    var ln = json[nameof(lastName)];
-    if (ln != null)
-      lastName = ln.ToString();
-    string chattiness = "";
-    var cn = json[nameof(chattiness)];
-    if (cn != null)
-      chattiness = cn.ToString();
-    string bio = "";
-    var bi = json[nameof(bio)];
-    if (bi != null)
-      bio = bi.ToString();
-
-    double birthdayDouble = -1;
-    var br = json[nameof(Person.birthday)];
-    if (br != null) {
-      double.TryParse(br.ToString(), out birthdayDouble);
-    }
-    DateTime birthday = Program.UnixToUtc(birthdayDouble);
-
-    double updatedDouble = -1;
-    var up = json[nameof(Person.updated)];
-    if (up != null) {
-      double.TryParse(up.ToString(), out updatedDouble);
-    }
-    DateTime updated = Program.UnixToUtc(updatedDouble);
-
-    float rateAverage = -1;
-    var ra = json[nameof(Person.rateAverage)];
-    if (ra != null)
-      float.TryParse(ra.ToString(), out rateAverage);
-    int acomplishedRides = -1;
-    var ar = json[nameof(Person.acomplishedRides)];
-    if (ar != null)
-      int.TryParse(ar.ToString(), out acomplishedRides);
-    int canceledRides = -1;
-    var cr = json[nameof(Person.canceledRides)];
-    if (cr != null)
-      int.TryParse(cr.ToString(), out canceledRides);
-    int rateCount = -1;
-    var rc = json[nameof(Person.rateCount)];
-    if (rc != null)
-      int.TryParse(rc.ToString(), out rateCount);
-    JObject driverJ = (JObject)json["driver"];
-
-    Driver driver = null;
-    if (driverJ != null) {
-      driver = Driver.ToObject(driverJ);
-    }
-    JObject countryJ = (JObject)json[nameof(Person.countryInformations)];
-    CountryInformations countryInformations = null;
-    if (countryJ != null && countryJ.HasValues) {
-      countryInformations = CountryInformations.ToObject(countryJ);
-    }
-    bool gender = false;
-    var gn = json[nameof(Person.gender)];
-    if (gn != null)
-      bool.TryParse(gn.ToString(), out gender);
-
-    string image = json[nameof(image)].ToString();
-    Person p = new Person(id, firstName, lastName, rateCount, acomplishedRides, canceledRides, chattiness, phone, countryInformations, bio, rateAverage, gender, birthday, image);
-
-    JArray upcomingRidesArray = (JArray)json.GetValue("upcomingRides");
-    List<Ride> rides = new List<Ride>();
-    if (upcomingRidesArray != null) {
-      foreach (var ride in upcomingRidesArray) {
-        if (ride.HasValues == true) {
-          if (ride["ride"] != null && ((JObject)ride["ride"]).HasValues == true) {
-            rides.Add(Ride.ToObject(((JObject)ride["ride"])));
-          } else {
-            rides.Add(Ride.ToObject((JObject)ride));
-          }
-        }
-      }
-      p.UpcomingRides = rides;
-    }
-    JArray ratesArray = (JArray)json.GetValue("rates");
-    List<Rate> rates = new List<Rate>();
-    if (ratesArray != null) {
-      foreach (var rate in ratesArray) {
-        if (rate.HasValues == true) {
-          rates.Add(Rate.ToObject((JObject)rate));
-        }
-      }
-      p.rates = rates;
-    }
-    return p;
+  set upcomingRides(List<Ride> value) {
+    _upcomingRides = value;
   }
-*/
 
+  File get profilePicture => _profilePicture;
+
+  set profilePicture(File value) {
+    _profilePicture = value;
+  }
+
+  CountryInformations get countryInformations => _countryInformations;
+
+  set countryInformations(CountryInformations value) {
+    _countryInformations = value;
+  }
 }

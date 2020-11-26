@@ -1,42 +1,30 @@
-import 'package:pickapp/DataObjects/Person.dart';
+import 'package:pickapp/dataObjects/Person.dart';
 
 class Passenger {
   Person _person;
   String _id;
   int _luggages, _seats;
   DateTime _updated;
-  Passenger({person, luggages, seats, id}) {
+  Passenger(
+      {Person person, int luggages, int seats, String id, DateTime updated}) {
     this.id = id;
+    this.updated = updated;
     this.person = person;
     this.seats = seats;
     this.luggages = luggages;
   }
-/*
-  public static Passenger ToObject(JObject json) {
-    string did = "";
-    var dId = json["objectId"];
-    if (dId != null) did = dId.ToString();
-
-    int seats = -1;
-    var sJ = json[nameof(Passenger.seats)];
-    if (sJ != null)
-      int.TryParse(sJ.ToString(), out seats);
-
-    int luggages = -1;
-    var lJ = json[nameof(Passenger.luggages)];
-    if (lJ != null)
-      int.TryParse(lJ.ToString(), out luggages);
-
-    JObject personJ = (JObject)json["person"];
-    Person person = null;
-    if (personJ == null) {
-      person = Program.Person;
-    } else {
-      person = Person.ToObject(personJ);
-
+  factory Passenger.fromJson(Map<String, dynamic> json) {
+    var creationDateJ = json["creationDate"];
+    DateTime creationDate;
+    if (creationDateJ != null) {
+      creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ);
     }
-    return new Passenger(person, luggages, seats, did);
-  }*/
+    return Passenger(
+        id: json["objectId"],
+        seats: json["seats"],
+        luggages: json["luggages"],
+        person: Person.fromJson(json["person"]));
+  }
 
   Person get person => _person;
 

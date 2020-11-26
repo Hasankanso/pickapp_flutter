@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
 
 class App {
@@ -11,9 +14,10 @@ class App {
   static final String appName = "PickApp";
   static TextStyle textStyling = new TextStyle(fontSize: 30);
   static final String googleKey = "AIzaSyC7U0OEb9200tGZFFFTyLjQdo3goKyuSsw";
-  static bool isLoggedIn = true;
   static String dateFormat = 'dd/MM/yyyy';
   static String countryCode = "lb";
+  static User _user;
+  static bool _isLoggedIn = true;
 
   static void changeLanguage(String lang) async {
     await Cache.setLocale(lang);
@@ -51,4 +55,19 @@ class App {
   static bool isIphone() {
     return Platform.isIOS;
   }
+
+  static bool get isLoggedIn => _isLoggedIn;
+
+  static set isLoggedIn(bool value) {
+    _isLoggedIn = value;
+  }
+
+  static User get user => _user;
+
+  static set user(User value) {
+    _user = value;
+  }
+
+  static Driver get driver => user == null ? null : user.driver;
+  static Person get person => user == null ? null : user.person;
 }

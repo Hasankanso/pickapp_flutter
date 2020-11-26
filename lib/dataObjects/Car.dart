@@ -1,25 +1,28 @@
+import 'dart:convert';
 import 'dart:core';
+import 'dart:io';
 
 import 'package:pickapp/classes/App.dart';
 
 class Car {
   String _id, _name, _color, _brand, _carPictureUrl, _pictureBase64;
   int _year, _maxLuggage, _maxSeats;
-  //private Texture2D picture;
+  File _picture;
+
   DateTime _updated;
 
-  Car({
-    id,
-    name,
-    color,
-    brand,
-    carPictureUrl,
-    year,
-    maxLuggage,
-    maxSeats,
-    pictureBase64,
-    updated,
-  }) {
+  Car(
+      {String id,
+      String name,
+      String color,
+      String brand,
+      String carPictureUrl,
+      int year,
+      int maxLuggage,
+      int maxSeats,
+      String pictureBase64,
+      DateTime updated,
+      File picture}) {
     this.id = id;
     this.name = name;
     this.color = color;
@@ -28,19 +31,20 @@ class Car {
     this.year = year;
     this.maxLuggage = maxLuggage;
     this.maxSeats = maxSeats;
-    this.pictureBase64 = pictureBase64;
+    this._pictureBase64 = pictureBase64;
     this.updated = updated;
+    this._picture = picture;
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': this.id,
-        'year': year,
+        'year': this.year,
         'maxLuggage': this.maxLuggage,
         'maxSeats': this.maxSeats,
         'brand': this.brand,
         'name': this.name,
         'color': this.color,
-        //'picture': this.pictureBase64,
+        'picture': this.pictureBase64,
       };
 
   Car.fromJson(Map<String, dynamic> json)
@@ -53,13 +57,13 @@ class Car {
         _color = json["color"],
         _carPictureUrl = json["picture"];
 
-  static String Validate(Car car) {
-    if (car.year > DateTime.now().year || car.year < 1900)
+  static String validate(Car car) {
+    if (car.year == null || car.year > DateTime.now().year || car.year < 1900)
       return "Please enter a valid car year";
-    if (car.maxLuggage < 0 || car.maxLuggage > 10) {
+    if (car.maxLuggage == null || car.maxLuggage < 0 || car.maxLuggage > 10) {
       return "Max luggage must be less or equal 10";
     }
-    if (car.maxSeats < 0 || car.maxSeats > 50) {
+    if (car.maxSeats == null || car.maxSeats < 0 || car.maxSeats > 50) {
       return "Max seats must be less or equal 50";
     }
     if (App.isNullOrEmpty(car.name) || car.name.length < 2) {
@@ -78,18 +82,6 @@ class Car {
       return "Please enter your car picture";
     }
     return null;
-  }
-
-  bool Equals(Object obj) {
-    var car = obj as Car;
-    return car != null &&
-        id == car.id &&
-        year == car.year &&
-        maxLuggage == car.maxLuggage &&
-        maxSeats == car.maxSeats &&
-        name == car.name &&
-        color == car.color &&
-        brand == car.brand;
   }
 
   String get id => _id;
@@ -122,11 +114,17 @@ class Car {
     _year = value;
   }
 
-  get pictureBase64 => _pictureBase64;
+  File get imageFile => _picture;
 
-  set pictureBase64(value) {
-    _pictureBase64 = value;
+  setImageFile(File value) async {
+    _picture = value;
+    if (value != null) {
+      List<int> imageBytes = await value.readAsBytesSync();
+      _pictureBase64 = base64Encode(imageBytes);
+    }
   }
+
+  get pictureBase64 => _pictureBase64;
 
   get carPictureUrl => _carPictureUrl;
 
@@ -150,5 +148,23 @@ class Car {
 
   set name(value) {
     _name = value;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    var car = other as Car;
+    return car != null &&
+        id == car.id &&
+        year == car.year &&
+        maxLuggage == car.maxLuggage &&
+        maxSeats == car.maxSeats &&
+        name == car.name &&
+        color == car.color &&
+        brand == car.brand;
+  }
+
+  @override
+  String toString() {
+    return "nice one";
   }
 }

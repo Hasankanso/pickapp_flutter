@@ -1,44 +1,38 @@
-import 'package:google_maps_webservice/directions.dart';
 import 'package:pickapp/DataObjects/User.dart';
+import 'package:pickapp/dataObjects/MainLocation.dart';
 
 class SearchInfo {
-  Location _from, _to;
+  MainLocation _from, _to;
   DateTime _minDate, _maxDate;
   int _passengersNumber;
   int _luggagesNumber;
   User _user;
 
-  Location get from => _from;
+  MainLocation get from => _from;
 
-  set from(Location value) {
+  set from(MainLocation value) {
     _from = value;
   }
 
-  SearchInfo({from, to, minDate, maxDate, passengersNumber}) {
+  SearchInfo(
+      {MainLocation from,
+      MainLocation to,
+      DateTime minDate,
+      DateTime maxDate,
+      int passengersNumber}) {
     this.from = from;
     this.to = to;
     this.minDate = minDate;
     this.maxDate = maxDate;
     this.passengersNumber = passengersNumber;
   }
-/*
-
-  public JObject ToJson()
-  {
-
-    JObject searchJ = new JObject();
-
-    JObject f = from.ToJson();
-    JObject t = To.ToJson();
-
-    searchJ[nameof(from)] = f;
-    searchJ[nameof(to)] = t;
-    searchJ[nameof(minDate)] = minDate;
-    searchJ[nameof(maxDate)] = MaxDate;
-    searchJ[nameof(passengersNumber)] = PassengersNumber;
-
-    return searchJ;
-  }*/
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'from': this.from.toJson(),
+        'to': this.to.toJson(),
+        'minDate': this.minDate,
+        'maxDate': this.maxDate,
+        'passengersNumber': this.passengersNumber,
+      };
 
   get to => _to;
 

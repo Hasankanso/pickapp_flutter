@@ -1,10 +1,18 @@
-import 'package:google_maps_webservice/directions.dart';
-import 'package:pickapp/DataObjects/Car.dart';
-import 'package:pickapp/DataObjects/User.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/dataObjects/Car.dart';
+import 'package:pickapp/dataObjects/CountryInformations.dart';
+import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:pickapp/dataObjects/Passenger.dart';
+import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/User.dart';
 
 class Ride {
   String _id, _comment, _mapUrl, _mapBase64;
-  Location _from, _to;
+  MainLocation _from, _to;
   DateTime _leavingDate;
   bool _musicAllowed,
       _acAllowed,
@@ -20,42 +28,41 @@ class Ride {
       _reservedLuggages,
       _stopTime;
 
-  //Texture2D map;
+  File _map;
   double _price;
   User _user;
-  //List<Passenger> passengers;
+  List<Passenger> _passengers;
   Car _car;
   DateTime _updated;
 
   Ride(
-      {id,
-      comment,
-      mapUrl,
-      mapBase64,
-      from,
-      to,
-      leavingDate,
-      musicAllowed,
-      acAllowed,
-      smokingAllowed,
-      petsAllowed,
-      kidSeat,
-      reserved,
-      availableSeats,
-      maxSeats,
-      maxLuggages,
-      reservedSeats,
-      availableLuggages,
-      reservedLuggages,
-      stopTime,
-      price,
-      user,
-      car,
-      updated}) {
+      {String id,
+      String comment,
+      String mapUrl,
+      MainLocation from,
+      MainLocation to,
+      DateTime leavingDate,
+      bool musicAllowed,
+      bool acAllowed,
+      bool smokingAllowed,
+      bool petsAllowed,
+      bool kidSeat,
+      bool reserved,
+      int availableSeats,
+      int maxSeats,
+      int maxLuggages,
+      int reservedSeats,
+      int availableLuggages,
+      int reservedLuggages,
+      int stopTime,
+      List<Passenger> passengers,
+      double price,
+      User user,
+      Car car,
+      DateTime updated}) {
     this.id = id;
     this.comment = comment;
     this.mapUrl = mapUrl;
-    this.mapBase64 = mapBase64;
     this.from = from;
     this.leavingDate = leavingDate;
     this.musicAllowed = musicAllowed;
@@ -73,8 +80,140 @@ class Ride {
     this.stopTime = stopTime;
     this.price = price;
     this.user = user;
+    this.passengers = passengers;
     this.car = car;
     this.updated = updated;
+  }
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'kidSeat': this.kidSeat,
+        "acAllowed": this.acAllowed,
+        "musicAllowed": this.musicAllowed,
+        "smokingAllowed": this.smokingAllowed,
+        "petsAllowed": this.petsAllowed,
+        "availableLuggages": this.availableLuggages,
+        "availableSeats": this.availableSeats,
+        "maxSeats": this.maxSeats,
+        "maxLuggages": this.maxLuggages,
+        "stopTime": this.stopTime,
+        "leavingDate": this.leavingDate,
+        "car": this.car.id,
+        "comment": this.comment,
+        "user": this.user.id,
+        "price": this.price,
+        "to": this.to.toJson(),
+        "from": this.from.toJson(),
+        "map": this.mapBase64
+      };
+
+  factory Ride.fromJson(Map<String, dynamic> json) {
+    var leavingDateJ = json["leavingDate"];
+    DateTime leavingDate;
+    if (leavingDateJ != null) {
+      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ);
+    }
+    User user;
+    if (json["driver"] != null) {
+      Driver driver = Driver.fromJson(json["driver"]);
+      Person person = Person.fromJson(json["driver"]["person"]);
+      user = User(person: person, driver: driver);
+    } else {
+      user = User(person: App.person, driver: App.driver);
+    }
+    return Ride(
+        kidSeat: json["kidSeat"],
+        id: json["objectId"],
+        acAllowed: json["acAllowed"],
+        musicAllowed: json["musicAllowed"],
+        smokingAllowed: json["smokingAllowed"],
+        petsAllowed: json["petsAllowed"],
+        availableLuggages: json["availableLuggages"],
+        maxSeats: json["maxSeats"],
+        maxLuggages: json["maxLuggages"],
+        availableSeats: json["availableSeats"],
+        stopTime: json["stopTime"],
+        comment: json["comment"],
+        user: user,
+        car: Car.fromJson(json["car"]),
+        passengers: json["passengers"] != null
+            ? List<Passenger>.from(
+                json["passengers"].map((x) => Passenger.fromJson(x)))
+            : null,
+        leavingDate: leavingDate,
+        reservedLuggages: json["reservedLuggages"],
+        reservedSeats: json["reservedSeats"],
+        from: MainLocation.fromJson(json["from"]),
+        to: MainLocation.fromJson(json["to"]),
+        price: json["price"],
+        mapUrl: json["map"]);
+  }
+
+  static String validate(Ride ride) {
+    String validateUser = User.ValidateLogin(App.user);
+    if (!App.isNullOrEmpty(validateUser)) {
+      return validateUser;
+    }
+
+    /*String fromValidation = MainLocation.Validate(ride.From);
+    if (!App.isNullOrEmpty(fromValidation)) {
+      return fromValidation;
+    }
+    String toValidation = MainLocation.Validate(ride.To);
+    if (!App.isNullOrEmpty(toValidation)) {
+      return toValidation;
+    }*/
+
+    //   if (ride.From.Equals(ride.To))
+    //   {
+    //       return "From and To are too close (1 km)";
+    //   }
+    if (ride.from.latitude == ride.to.latitude &&
+        ride.from.longitude == ride.to.longitude) {
+      return "From and To must be different";
+    }
+    if (ride.leavingDate.compareTo(DateTime.now().add(Duration(minutes: 30))) <
+        0) {
+      return "Your ride must be after half our or more from now";
+    }
+    if (ride.availableSeats == null ||
+        ride.availableSeats <= 0 ||
+        ride.availableSeats > ride.car.maxSeats) {
+      return "Invalid number of seats";
+    }
+    if (ride.availableLuggages == null ||
+        ride.availableLuggages < 0 ||
+        ride.availableLuggages > ride.car.maxLuggage) {
+      return "Invalid number of luggage";
+    }
+    if (ride.stopTime != 0 && (ride.stopTime < 5 || ride.stopTime > 30)) {
+      return "Your stop time must be between 5 and 30 minutes";
+    }
+    if (App.isNullOrEmpty(ride.comment) ||
+        ride.comment.length < 25 ||
+        ride.comment.length > 400) {
+      return "Please add a comment between 25 and 400 characters";
+    }
+    if (App.isNullOrEmpty(ride.mapBase64)) {
+      return "Please choose your ride's road";
+    }
+    if (App.isNullOrEmpty(ride.car.id)) {
+      return "Please choose a car";
+    }
+    if (ride.price == null || ride.price <= 0) {
+      return "Please set a price";
+    }
+    if (App.isNullOrEmpty(ride.countryInformations.id)) {
+      return "Please choose a country info";
+    }
+    if (App.isNullOrEmpty(ride.driver.id)) {
+      return "You're not a driver";
+    }
+    var rideDate = ride.leavingDate.add(Duration(minutes: -20));
+    for (final item in App.person.upcomingRides) {
+      if (rideDate.compareTo(item.leavingDate) <= 0) {
+        return "Your ride must be after 20 min from last upcoming ride";
+      }
+    }
+    return null;
   }
 
   String get id => _id;
@@ -96,20 +235,25 @@ class Ride {
   }
 
   get mapBase64 => _mapBase64;
+  File get map => _map;
 
-  set mapBase64(value) {
-    _mapBase64 = value;
+  setMap(File value) async {
+    _map = value;
+    if (value != null) {
+      List<int> imageBytes = await value.readAsBytesSync();
+      _mapBase64 = base64Encode(imageBytes);
+    }
   }
 
-  Location get from => _from;
+  MainLocation get from => _from;
 
-  set from(Location value) {
+  set from(MainLocation value) {
     _from = value;
   }
 
-  get to => _to;
+  MainLocation get to => _to;
 
-  set to(value) {
+  set to(MainLocation value) {
     _to = value;
   }
 
@@ -221,237 +365,13 @@ class Ride {
     _updated = value;
   }
 
-/*public static string Valid(Ride ride) {
-    string validateUser = User.ValidateLogin(Program.User);
-    if (!string.IsNullOrEmpty(validateUser)) {
-      return validateUser;
-    }
+  List<Passenger> get passengers => _passengers;
 
-    string fromValidation = Location.Validate(ride.From);
-    if (!string.IsNullOrEmpty(fromValidation)) {
-      return fromValidation;
-    }
-    string toValidation = Location.Validate(ride.To);
-    if (!string.IsNullOrEmpty(toValidation)) {
-      return toValidation;
-    }
+  set passengers(List<Passenger> value) {
+    _passengers = value;
+  }
 
-
-    //   if (ride.From.Equals(ride.To))
-    //   {
-    //       return "From and To are too close (1 km)";
-    //   }
-    if (ride.From.Latitude == ride.To.Latitude && ride.From.Longitude == ride.To.Longitude) {
-      return "From and To must be different";
-    }
-    if (DateTime.Compare(ride.LeavingDate, DateTime.Now.AddMinutes(30)) < 0) {
-      return "Your ride must be after one hour or more from now";
-    }
-    if (ride.AvailableSeats <= 0 || ride.AvailableSeats > ride.Car.MaxSeats) {
-      return "Invalid number of seats";
-    }
-    if (ride.AvailableLuggages < 0 || ride.AvailableLuggages > ride.Car.MaxLuggage) {
-      return "Invalid number of luggage";
-    }
-    if (ride.StopTime != 0 && (ride.StopTime < 5 || ride.StopTime > 30)) {
-      return "Your stop time must be between 5 and 30 minutes";
-    }
-    if (string.IsNullOrEmpty(ride.Comment) || ride.Comment.Length < 25 || ride.Comment.Length > 400) {
-      return "Please add a comment between 25 and 400 characters";
-    }
-    if (string.IsNullOrEmpty(ride.MapBase64)) {
-      return "Please choose your ride's road";
-    }
-    if (string.IsNullOrEmpty(ride.Car.id)) {
-      return "Please choose a car";
-    }
-    if (ride.Price <= 0) {
-      return "Please set a price";
-    }
-    if (string.IsNullOrEmpty(ride.CountryInformations.Id)) {
-      return "Please choose a country info";
-    }
-    if (string.IsNullOrEmpty(ride.Driver.Id)) {
-      return "You're not a driver";
-    }
-    var rideDate = ride.LeavingDate.AddMinutes(-20);
-    foreach (var item in Program.Person.UpcomingRides) {
-      if (DateTime.Compare(rideDate, item.LeavingDate) >= 0) {
-        return "you have an upcoming ride in this ride time";
-      }
-    }
-    return string.Empty;
-  }*/
-  /*ublic JObject ToJson() {
-    JObject rideJ = new JObject();
-
-    rideJ[nameof(this.kidSeat)] = this.KidSeat;
-    rideJ[nameof(this.acAllowed)] = this.AcAllowed;
-    rideJ[nameof(this.musicAllowed)] = this.MusicAllowed;
-    rideJ[nameof(this.smokingAllowed)] = this.SmokingAllowed;
-    rideJ[nameof(this.petsAllowed)] = this.PetsAllowed;
-
-    rideJ[nameof(this.availableLuggages)] = this.AvailableLuggages;
-    rideJ[nameof(this.availableSeats)] = this.AvailableSeats;
-    rideJ[nameof(this.maxSeats)] = this.MaxSeats;
-    rideJ[nameof(this.maxLuggages)] = this.MaxLuggages;
-    rideJ[nameof(this.stopTime)] = this.StopTime;
-    rideJ[nameof(this.leavingDate)] = this.LeavingDate;
-
-    rideJ[nameof(this.car)] = this.Car.Id;
-    rideJ[nameof(this.comment)] = this.Comment;
-    rideJ[nameof(this.user)] = this.user.Id;
-    rideJ[nameof(this.price)] = this.Price;
-
-    rideJ[nameof(this.to)] = to.ToJson();
-    rideJ[nameof(this.from)] = from.ToJson();
-
-
-    rideJ[nameof(this.map)] = this.mapBase64;
-    return rideJ;
-  }*/
-  /* public JObject removeToJson() {
-    JObject userJ = new JObject();
-    userJ[nameof(this.user)] = Program.User.Id;
-    userJ[nameof(this.id)] = this.Id;
-    return userJ;
-  }*/
-  /* public static Ride ToObject(JObject json) {
-    bool kidSeat = false;
-    var ks = json[nameof(Ride.kidSeat)];
-
-    if (ks != null)
-      bool.TryParse(ks.ToString(), out kidSeat);
-
-    string id = "";
-    var oId = json["objectId"];
-    if (oId != null)
-      id = oId.ToString();
-
-    bool acAllowed = false;
-    var aAllowed = json[nameof(Ride.acAllowed)];
-    if (aAllowed != null)
-      bool.TryParse(aAllowed.ToString(), out acAllowed);
-
-    bool musicAllowed = false;
-    var mAllowed = json[nameof(Ride.musicAllowed)];
-    if (mAllowed != null)
-      bool.TryParse(mAllowed.ToString(), out musicAllowed);
-
-    bool smokingAllowed = false;
-    var sAllowed = json[nameof(Ride.smokingAllowed)];
-    if (sAllowed != null)
-      bool.TryParse(sAllowed.ToString(), out smokingAllowed);
-
-    bool petsAllowed = false;
-    var pAllowed = json[nameof(Ride.petsAllowed)];
-    if (pAllowed != null)
-      bool.TryParse(pAllowed.ToString(), out petsAllowed);
-
-    int availableLuggages = -1;
-    var aL = json[nameof(Ride.availableLuggages)];
-    if (aL != null)
-      int.TryParse(aL.ToString(), out availableLuggages);
-
-    int maxLuggages = -1;
-    var mL = json[nameof(Ride.maxLuggages)];
-    if (mL != null)
-      int.TryParse(mL.ToString(), out maxLuggages);
-
-    int availableSeats = -1;
-    var aS = json[nameof(Ride.availableSeats)];
-    if (aS != null)
-      int.TryParse(aS.ToString(), out availableSeats);
-
-    int maxSeats = -1;
-    var mS = json[nameof(Ride.maxSeats)];
-    if (mS != null)
-      int.TryParse(mS.ToString(), out maxSeats);
-
-    int stopTime = -1;
-    var sT = json[nameof(Ride.stopTime)];
-    if (sT != null)
-      int.TryParse(sT.ToString(), out stopTime);
-
-
-    string comment = "";
-    var c = json[nameof(Ride.comment)];
-    if (c != null)
-      comment = c.ToString();
-
-    JObject carJ = (JObject)json[nameof(Ride.car)];
-    Car car = null;
-    if (carJ != null) {
-      car = Car.ToObject(carJ);
-    }
-
-    JArray passengersJ = (JArray)json.GetValue("passengers");
-    List<Passenger> passengers = null;
-    if (passengersJ != null&& passengersJ.HasValues) {
-      passengers = new List<Passenger>();
-      foreach (var passenger in passengersJ) {
-        passengers.Add(Passenger.ToObject((JObject)passenger));
-      }
-    }
-
-    double leavingDateDouble = -1;
-    var ld = json[nameof(Ride.leavingDate)];
-    if (ld != null) {
-      double.TryParse(ld.ToString(), out leavingDateDouble);
-    }
-
-    DateTime leavingDate = Program.UnixToUtc(leavingDateDouble);
-
-    int reservedLuggages = -1;
-    var rL = json[nameof(Ride.reservedLuggages)];
-    if (rL != null)
-      int.TryParse(rL.ToString(), out reservedLuggages);
-
-    int reservedSeats = -1;
-    var rs = json[nameof(Ride.reservedSeats)];
-    if (rs != null)
-      int.TryParse(rs.ToString(), out reservedSeats);
-
-    Location from = Location.ToObject((JObject)json[nameof(Ride.from)]);
-    Location to = Location.ToObject((JObject)json[nameof(Ride.to)]);
-
-
-    User user;
-    if (json.GetValue("driver") != null && json.GetValue("driver").HasValues) {
-    JObject driverJ = (JObject)json["driver"];
-    Driver driver = Driver.ToObject(driverJ);
-    JObject personJ = (JObject)driverJ["person"];
-    Person person = Person.ToObject(personJ);
-    user = new User(person, driver);
-    } else {
-    user = new User(Program.Person, Program.Driver);
-    }
-    string price = "";
-    var p = json[nameof(price)];
-    if (p != null)
-    price = p.ToString();
-
-    string mapUrl = json["map"].ToString();
-    //Texture2D map = json[nameof(map)].ToString();
-    /*
-        rideJ[nameof(this.Date)] = this.Date;
-
-        rideJ[nameof(this.Car)] = this.Car.Id;
-        rideJ[nameof(this.Comment)] = this.Comment;
-        rideJ[nameof(this.Driver.Id)] = this.Driver.Id;
-
-        rideJ[nameof(this.ReservedLuggages)] = this.ReservedLuggages;
-
-
-        rideJ[nameof(this.To)] = To.ToJson();
-        rideJ[nameof(this.From)] = from.ToJson();
-        rideJ[nameof(this.CountryInfo)] = CountryInfo.ToJson();
-
-
-        rideJ[nameof(this.Map)] = this.MapBase64;
-        */
-    return new Ride(id, user, car, from, to, comment, price, leavingDate, maxSeats, maxLuggages, musicAllowed, acAllowed, smokingAllowed, petsAllowed,
-    kidSeat, availableSeats, availableLuggages, stopTime, mapUrl, passengers);
-  }*/
-
+  CountryInformations get countryInformations => person.countryInformations;
+  Driver get driver => user.driver;
+  Person get person => user.person;
 }
