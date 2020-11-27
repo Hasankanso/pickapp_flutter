@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 
-import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Validation.dart';
 
 class Car {
   String _id, _name, _color, _brand, _carPictureUrl, _pictureBase64;
@@ -66,11 +66,11 @@ class Car {
     if (car.maxSeats == null || car.maxSeats < 0 || car.maxSeats > 50) {
       return "Max seats must be less or equal 50";
     }
-    if (App.isNullOrEmpty(car.name) || car.name.length < 2) {
+    if (Validation.isNullOrEmpty(car.name) || car.name.length < 2) {
       return "Invalid car name";
     }
 
-    if (App.isNullOrEmpty(car.brand) || car.brand.length < 2) {
+    if (Validation.isNullOrEmpty(car.brand) || car.brand.length < 2) {
       return "Invalid car brand";
     }
 
@@ -78,7 +78,7 @@ class Car {
     if (regexItem.hasMatch(car.color)) {
       return "Invalid color";
     }
-    if (App.isNullOrEmpty(car.pictureBase64)) {
+    if (Validation.isNullOrEmpty(car.pictureBase64)) {
       return "Please enter your car picture";
     }
     return null;

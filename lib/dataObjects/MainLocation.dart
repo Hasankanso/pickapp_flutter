@@ -1,7 +1,7 @@
 import 'dart:core';
 import 'dart:math';
 
-import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Validation.dart';
 
 class MainLocation {
   String _name, _id, _placeId;
@@ -54,10 +54,10 @@ class MainLocation {
   }
 
   static String validate(MainLocation location) {
-    if (App.isNullOrEmpty(location.placeId)) {
+    if (Validation.isNullOrEmpty(location.placeId)) {
       return "Location placeId should not be empty";
     }
-    if (App.isNullOrEmpty(location.name)) {
+    if (Validation.isNullOrEmpty(location.name)) {
       return "Location name should not be empty";
     }
     return null;

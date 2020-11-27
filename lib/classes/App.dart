@@ -1,13 +1,13 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:pickapp/utilities/screenutil.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
+import 'package:pickapp/utilities/screenutil.dart';
 
 class App {
   static MyAppState _state;
@@ -18,6 +18,7 @@ class App {
   static String countryCode = "lb";
   static User _user;
   static bool _isLoggedIn = true;
+  static List<String> _countriesInformationsNames;
 
   static void changeLanguage(String lang) async {
     await Cache.setLocale(lang);
@@ -32,7 +33,9 @@ class App {
   static void setContext(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     ScreenUtil.init(context,
-        designSize: Size(360, 640), designStatusBarHeight : 24, allowFontScaling: true);
+        designSize: Size(360, 640),
+        designStatusBarHeight: 24,
+        allowFontScaling: true);
     Styles.setFontSizes(
         subValueFontSize: ScreenUtil().setSp(12.24),
         fontSize: ScreenUtil().setSp(15),
@@ -41,11 +44,6 @@ class App {
         largeSize: ScreenUtil().setSp(27),
         mediumSize: ScreenUtil().setSp(21),
         smallSize: ScreenUtil().setSp(14.5));
-  }
-
-  static bool isNullOrEmpty(String toCheck) {
-    if (["", null].contains(toCheck)) return true;
-    return false;
   }
 
   static bool isAndroid() {
@@ -66,6 +64,27 @@ class App {
 
   static set user(User value) {
     _user = value;
+  }
+
+  static int calculateAge(DateTime date) {
+    int years = DateTime.now().year - date.year;
+    if (DateTime.now().month < date.month ||
+        (DateTime.now().month == date.month && DateTime.now().day < date.day))
+      years--;
+    return years;
+  }
+
+  //todo it is too much 6 months
+  static DateTime get maxAlertDate {
+    var d = DateTime.now();
+    DateTime(d.year, d.month + 6, d.day);
+  }
+
+  static List<String> get countriesInformationsNames =>
+      _countriesInformationsNames;
+
+  static set countriesInformationsNames(List<String> value) {
+    _countriesInformationsNames = value;
   }
 
   static Driver get driver => user == null ? null : user.driver;

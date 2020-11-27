@@ -1,50 +1,58 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Validation.dart';
+import 'package:pickapp/dataObjects/MainLocation.dart';
 import "package:pickapp/dataObjects/Ride.dart";
 import "package:pickapp/dataObjects/SearchInfo.dart";
-
-import 'Request.dart';
+import 'package:pickapp/requests/Request.dart';
 
 class SearchForRides extends Request<List<Ride>> {
-  SearchInfo c;
-  SearchForRides(this.c);
-  @override
-  String getPath() {
-    return "/ReserveBusiness/SearchRides";
+  SearchInfo _searchInfo;
+  SearchForRides(this._searchInfo) {
+    httpPath = "/ReserveBusiness/SearchRides";
   }
 
   @override
-  List<Ride> buildObject(dynamic string) {
-    return string != null && string != "[]"
-        ? List<Ride>.from(string.map((x) => Ride.fromJson(x)))
+  List<Ride> buildObject(json) {
+    return json != null
+        ? List<Ride>.from(json.map((x) => Ride.fromJson(x)))
         : null;
   }
 
   @override
-  String getJson() {
-    // TODO: implement getJson
-    return json.encode(c.toJson(), toEncodable: myDateSerializer);
-  }
-
-  dynamic myDateSerializer(dynamic object) {
-    if (object is DateTime) {
-      return object.toIso8601String();
+  Map<String, dynamic> getJson() {
+    var json = _searchInfo.toJson();
+    if (App.user != null) {
+      json["id"] = App.user.id;
     }
-    return object;
+    return json;
   }
 
-  Future searchForRides() async {
-    http.Response response = await http.post(
-      "https://api.backendless.com/5FB0EA72-A363-4451-FFA5-A56F031D6600/C8502745-CB10-4F56-9FD5-3EFCE59F1926/services/ReserveBusiness/SearchRides",
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'from': "hello",
-        'to': "hello",
-      }),
-    );
-    print(response.body.toString());
+  @override
+  String isValid() {
+    String fromValidation = MainLocation.validate(_searchInfo.from);
+    if (!Validation.isNullOrEmpty(fromValidation)) {
+      return fromValidation;
+    }
+    String toValidation = MainLocation.validate(_searchInfo.to);
+    if (!Validation.isNullOrEmpty(toValidation)) {
+      return toValidation;
+    }
+    if (_searchInfo.minDate.compareTo(DateTime.now()) < 0) {
+      return "Min date must be greater than now date";
+    }
+    if (_searchInfo.minDate.compareTo(_searchInfo.maxDate) > 0) {
+      return "Min date must be greater than max date";
+    }
+    if (_searchInfo.maxDate.compareTo(_searchInfo.minDate) < 0) {
+      return "Max date must be smaller than max date";
+    }
+    if (_searchInfo.passengersNumber < 1 || _searchInfo.passengersNumber > 4) {
+      return "Please choose 1 to 8 persons.";
+    }
+    if (_searchInfo.from.latitude == _searchInfo.to.latitude &&
+        _searchInfo.from.longitude == _searchInfo.to.longitude) {
+      return "From and To must be different";
+    }
+    return null;
   }
 }

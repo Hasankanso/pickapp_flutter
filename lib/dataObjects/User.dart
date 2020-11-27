@@ -1,4 +1,3 @@
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 
@@ -26,13 +25,6 @@ class User {
 
   bool equals(Object u) {
     return this.person.id == (u as User).person.id;
-  }
-
-  static String ValidateLogin(User user) {
-    if (App.isNullOrEmpty(user.id)) {
-      return "Please login";
-    }
-    return null;
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{

@@ -51,7 +51,7 @@ class MyAppState extends State<MyApp> {
     } else {
       return MaterialApp(
         title: App.appName,
-        //locale: _locale,
+        locale: _locale,
         theme: ThemeData(
           brightness: Brightness.light,
           primarySwatch: Styles.primaryColor(),

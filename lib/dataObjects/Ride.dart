@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
@@ -148,8 +149,8 @@ class Ride {
   }
 
   static String validate(Ride ride) {
-    String validateUser = User.ValidateLogin(App.user);
-    if (!App.isNullOrEmpty(validateUser)) {
+    String validateUser = Validation.validateLogin(App.user);
+    if (!Validation.isNullOrEmpty(validateUser)) {
       return validateUser;
     }
 
@@ -187,24 +188,24 @@ class Ride {
     if (ride.stopTime != 0 && (ride.stopTime < 5 || ride.stopTime > 30)) {
       return "Your stop time must be between 5 and 30 minutes";
     }
-    if (App.isNullOrEmpty(ride.comment) ||
+    if (Validation.isNullOrEmpty(ride.comment) ||
         ride.comment.length < 25 ||
         ride.comment.length > 400) {
       return "Please add a comment between 25 and 400 characters";
     }
-    if (App.isNullOrEmpty(ride.mapBase64)) {
+    if (Validation.isNullOrEmpty(ride.mapBase64)) {
       return "Please choose your ride's road";
     }
-    if (App.isNullOrEmpty(ride.car.id)) {
+    if (Validation.isNullOrEmpty(ride.car.id)) {
       return "Please choose a car";
     }
     if (ride.price == null || ride.price <= 0) {
       return "Please set a price";
     }
-    if (App.isNullOrEmpty(ride.countryInformations.id)) {
+    if (Validation.isNullOrEmpty(ride.countryInformations.id)) {
       return "Please choose a country info";
     }
-    if (App.isNullOrEmpty(ride.driver.id)) {
+    if (Validation.isNullOrEmpty(ride.driver.id)) {
       return "You're not a driver";
     }
     var rideDate = ride.leavingDate.add(Duration(minutes: -20));

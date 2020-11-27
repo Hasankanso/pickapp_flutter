@@ -97,7 +97,7 @@ class Alert {
     _minDate = value;
   }
 
-  get maxDate => _maxDate;
+  DateTime get maxDate => _maxDate;
 
   set maxDate(value) {
     _maxDate = value;

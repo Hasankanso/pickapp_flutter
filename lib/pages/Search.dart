@@ -33,7 +33,10 @@ class _SearchState extends State<Search>
     CustomToast().showColoredToast(" Fuck Notifications !", Colors.amber);
   }
 
-  y(List<Ride> result, int code, String message) {}
+  response(List<Ride> result, int code, String message) {
+    print(result);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -65,8 +68,7 @@ class _SearchState extends State<Search>
           VerticalSpacer(height: 30),
           ResponsiveWidget.fullWidth(
               height: 30,
-              child: NumberPicker(
-                  numberController, "Persons", 1, 8)),
+              child: NumberPicker(numberController, "Persons", 1, 8)),
           VerticalSpacer(height: 240),
           ResponsiveWidget(
             width: 270,
@@ -74,25 +76,25 @@ class _SearchState extends State<Search>
             child: MainButton(
               text_key: "Search",
               onPressed: () {
-                MainLocation t = MainLocation(
+                Request.initBackendless();
+                MainLocation to = MainLocation(
                     name: toController.description,
                     latitude: toController.location.lat,
                     longitude: toController.location.lng,
                     placeId: toController.placeId);
-                MainLocation f = MainLocation(
+                MainLocation from = MainLocation(
                     name: fromController.description,
                     latitude: fromController.location.lat,
                     longitude: fromController.location.lng,
                     placeId: fromController.placeId);
-                Request.initBackendless();
-                SearchInfo c = SearchInfo(
-                    to: t,
-                    from: f,
+                SearchInfo searchInfo = SearchInfo(
+                    to: to,
+                    from: from,
                     passengersNumber: numberController.chosenNumber,
                     minDate: dateTimeController.startDateController.chosenDate,
                     maxDate: dateTimeController.endDateController.chosenDate);
-                Request<List<Ride>> a = SearchForRides(c);
-                a.send(y);
+                Request<List<Ride>> request = SearchForRides(searchInfo);
+                request.send(response);
               },
             ),
           ),

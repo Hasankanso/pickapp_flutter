@@ -1,26 +1,45 @@
+import 'dart:convert';
+
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:pickapp/classes/Validation.dart';
 
 abstract class Request<T> {
   static String host;
+  String httpPath;
 
-  String getPath();
-  String getJson();
-  T buildObject(String);
+  Map<String, dynamic> getJson();
+  String isValid();
+
+  T buildObject(json);
 
   void send(Function(T, int, String) callback) async {
-    String json = getJson();
-    print(json);
-    http.Response response = await http.post(
-      host + getPath(),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: getJson(),
-    );
-    print(response.body.toString());
-    callback(buildObject(response.body.toString()), response.statusCode,
-        response.reasonPhrase);
+    String valid = isValid();
+    print(valid);
+    if (!Validation.isNullOrEmpty(valid)) {
+      callback(null, 406, valid);
+    } else {
+      Map<String, dynamic> data = getJson();
+      print(data);
+      http.Response response = await http.post(
+        host + httpPath,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: json.encode(data, toEncodable: _dateToIso8601String),
+      );
+      var decodedResponse = json.decode(response.body);
+      print(response.body.toString());
+      callback(buildObject(decodedResponse), response.statusCode,
+          response.reasonPhrase);
+    }
+  }
+
+  dynamic _dateToIso8601String(dynamic object) {
+    if (object is DateTime) {
+      return object.toIso8601String();
+    }
+    return object;
   }
 
   static void initBackendless() async {

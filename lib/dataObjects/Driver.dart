@@ -23,23 +23,23 @@ class Driver {
         "cars": List<dynamic>.from(cars.map((x) => x.toJson())),
       };
 
-  factory Driver.fromJson(Map<String, dynamic> driver) {
+  factory Driver.fromJson(Map<String, dynamic> json) {
     var regions = List<MainLocation>(3);
-    var reg1 = driver["region1"];
+    var reg1 = json["region1"];
     MainLocation regL1 = null;
     if (reg1 != null) {
       regL1 = MainLocation.fromJson(reg1);
       regions.add(regL1);
     }
 
-    var reg2 = driver["region2"];
+    var reg2 = json["region2"];
     MainLocation regL2 = null;
     if (reg2 != null) {
       regL2 = MainLocation.fromJson(reg2);
       regions.add(regL2);
     }
 
-    var reg3 = driver["region3"];
+    var reg3 = json["region3"];
     MainLocation regL3 = null;
     if (reg3 != null) {
       regL3 = MainLocation.fromJson(reg3);
@@ -47,9 +47,9 @@ class Driver {
     }
 
     return Driver(
-      id: driver["objectId"],
-      cars: driver["cars"] != null
-          ? List<Car>.from(driver["cars"].map((x) => Car.fromJson(x)))
+      id: json["objectId"],
+      cars: json["cars"] != null
+          ? List<Car>.from(json["cars"].map((x) => Car.fromJson(x)))
           : null,
       regions: regions,
     );

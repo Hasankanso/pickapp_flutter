@@ -1,4 +1,5 @@
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 
@@ -62,16 +63,16 @@ class Rate {
     if (rate.grade == null || rate.grade < 0 || rate.grade > 5) {
       return "Invalid rate";
     }
-    if (rate.grade < 3 && App.isNullOrEmpty(rate.comment)) {
+    if (rate.grade < 3 && Validation.isNullOrEmpty(rate.comment)) {
       return "Please state the reason of low rate";
     }
-    if (App.isNullOrEmpty(rate.rater.id)) {
+    if (Validation.isNullOrEmpty(rate.rater.id)) {
       return "Invalid reviewer object id";
     }
-    if (App.isNullOrEmpty(rate.target.id)) {
+    if (Validation.isNullOrEmpty(rate.target.id)) {
       return "Invalid target object id";
     }
-    if (App.isNullOrEmpty(rate.ride.id)) {
+    if (Validation.isNullOrEmpty(rate.ride.id)) {
       return "Invalid ride object id";
     }
     return null;
