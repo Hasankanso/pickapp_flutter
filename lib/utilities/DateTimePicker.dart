@@ -6,7 +6,6 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/screenutil.dart';
 
 class DateTimePicker extends StatefulWidget {
   bool _isBirthdayPicker;

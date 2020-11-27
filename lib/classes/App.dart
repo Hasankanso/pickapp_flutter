@@ -7,7 +7,7 @@ import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
-import 'package:pickapp/utilities/screenutil.dart';
+import 'file:///C:/Users/Hassa/AndroidStudioProjects/pickapp_flutter/lib/classes/screenutil.dart';
 
 class App {
   static MyAppState _state;

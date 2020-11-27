@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/screenutil.dart';
 
 class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   String title;
@@ -17,5 +18,5 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(ScreenUtil().appBarHeight);
 }
