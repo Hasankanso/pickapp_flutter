@@ -36,8 +36,7 @@ class _MyRidesState extends State<MyRides> {
       body: Container(
         child: ListBuilder(
             list: ridesList,
-            itemBuilder: MyRidesListTile.itemBuilder(ridesList)
-        ),
+            itemBuilder: MyRidesListTile.itemBuilder(ridesList)),
       ),
     );
   }
