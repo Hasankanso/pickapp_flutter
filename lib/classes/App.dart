@@ -3,11 +3,11 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
-import 'file:///C:/Users/Hassa/AndroidStudioProjects/pickapp_flutter/lib/classes/screenutil.dart';
 
 class App {
   static MyAppState _state;
