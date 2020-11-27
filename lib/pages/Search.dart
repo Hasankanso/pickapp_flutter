@@ -60,8 +60,8 @@ class _SearchState extends State<Search>
           ResponsiveWidget.fullWidth(
               height: 30,
               child: NumberPicker(
-                  numberController, Lang.getString(context, "Persons"), 1, 8)),
-          VerticalSpacer(height: 288),
+                  numberController, "Persons", 1, 8)),
+          VerticalSpacer(height: 240),
           ResponsiveWidget(
             width: 270,
             height: 43,

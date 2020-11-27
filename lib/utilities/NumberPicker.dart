@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'Responsive.dart';
 
@@ -50,15 +51,19 @@ class _NumberPickerState extends State<NumberPicker> {
     return DifferentSizeResponsiveRow(
       children: <Widget>[
         Expanded(
-          flex: 4,
-          child: Text(widget._title, style: Styles.labelTextStyle()),
-        ),
+          flex: 8,
+            child: SizedBox()),
+
         Expanded(
-          flex: 4,
+          flex: 60,
           child: Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 6,
+                child: Text(Lang.getString(context, widget._title), style: Styles.labelTextStyle()),
+              ),
+              Expanded(
+                flex: 1,
                 child: FloatingActionButton(
                   heroTag: "minus",
                   onPressed: _minus,
@@ -76,7 +81,7 @@ class _NumberPickerState extends State<NumberPicker> {
                     style: Styles.valueTextStyle()),
               ),
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: FloatingActionButton(
                   heroTag: "plus",
                   onPressed: counterUp,
@@ -90,6 +95,8 @@ class _NumberPickerState extends State<NumberPicker> {
             ],
           ),
         ),
+       Expanded(
+           flex:8,child: SizedBox())
       ],
     );
   }

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/screenutil.dart';
 
 class DateTimePicker extends StatefulWidget {
@@ -83,7 +84,7 @@ class DateTimePickerState extends State<DateTimePicker> {
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
     return Container(
-      height: ScreenUtil().setHeight(48),
+
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(7)),
@@ -96,40 +97,41 @@ class DateTimePickerState extends State<DateTimePicker> {
           ),
         ],
       ),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(
-            flex: 1,
-            child: Icon(
-              Icons.date_range_rounded,
-              size: Styles.mediumIconSize(),
-              color: Styles.primaryColor(),
-            ),
-          ),
-          Expanded(
-            flex: 4,
-            child: Text(
-              DateFormat(App.dateFormat, _appLocale.toString())
-                  .format(widget._controller.chosenDate),
-              style: Styles.valueTextStyle(),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              selectDate(context);
-            },
-            child: Container(
-              margin: EdgeInsets.only(
-                  right: ScreenUtil().setWidth(6),
-                  left: ScreenUtil().setWidth(6)),
-              child: Text(
-                Lang.getString(context, "Change"),
-                style: Styles.headerTextStyle(),
+          VerticalSpacer(height: 12,),
+          DifferentSizeResponsiveRow(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Icon(
+                  Icons.date_range_rounded,
+                  size: Styles.mediumIconSize(),
+                  color: Styles.primaryColor(),
+                ),
               ),
-            ),
+              Expanded(
+                flex: 18,
+                child: Text(
+                  DateFormat(App.dateFormat, _appLocale.toString())
+                      .format(widget._controller.chosenDate),
+                  style: Styles.valueTextStyle(),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  selectDate(context);
+                },
+                child: Text(
+                  Lang.getString(context, "Change"),
+                  style: Styles.headerTextStyle(),
+                ),
+              ),
+            ],
           ),
+          VerticalSpacer(height: 12,),
         ],
-      ),
+      )
     );
   }
 }
