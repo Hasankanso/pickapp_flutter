@@ -33,18 +33,18 @@ class ScreenUtil {
 
   factory ScreenUtil() {
     assert(
-    _instance != null,
-    '\nEnsure to initialize ScreenUtil before accessing it.\nPlease execute the init method : ScreenUtil.init()',
+      _instance != null,
+      '\nEnsure to initialize ScreenUtil before accessing it.\nPlease execute the init method : ScreenUtil.init()',
     );
     return _instance;
   }
 
-  static void init(BuildContext context, {
+  static void init(
+    BuildContext context, {
     Size designSize = defaultSize,
     bool allowFontScaling = false,
     double designStatusBarHeight = 24,
   }) {
-
     _instance ??= ScreenUtil._();
     _instance
       ..uiSize = designSize
@@ -57,28 +57,26 @@ class ScreenUtil {
     _bottomBarHeight = mediaQuery.padding.bottom;
     _textScaleFactor = mediaQuery.textScaleFactor;
 
-
-
-    if(mediaQuery.size.height > 400) {
+    if (mediaQuery.size.height > 400) {
       _appBarHeight = Styles.largetAppBarHeight;
-    } else if(mediaQuery.size.height < 200){
+    } else if (mediaQuery.size.height < 200) {
       _appBarHeight = Styles.smallAppBarHeight;
     } else {
       _appBarHeight = Styles.mediumAppBarHeight;
     }
 
-    _screenHeight =
-        mediaQuery.size.height - _appBarHeight - kBottomNavigationBarHeight -
-            _statusBarHeight;
+    _screenHeight = mediaQuery.size.height - _appBarHeight - _statusBarHeight;
 
-    _noNavScreenHeight = mediaQuery.size.height - kToolbarHeight -
-        _statusBarHeight;
+    _noNavScreenHeight =
+        mediaQuery.size.height - kToolbarHeight - _statusBarHeight;
 
     print(_bottomBarHeight);
   }
 
   double get appBarHeight => _appBarHeight;
+
   double get bottomNavHeight => _bottomBarHeight;
+
   /// 每个逻辑像素的字体像素数，字体的缩放比例
   /// The number of font pixels for each logical pixel.
   double get textScaleFactor => _textScaleFactor;
@@ -127,7 +125,9 @@ class ScreenUtil {
   /// Height can also be adapted according to this to ensure no deformation ,
   /// if you want a square
   double setWidth(num width) => width * scaleWidth;
+
   double setNoNavWidth(num width) => width * scaleWidth;
+
   /// 根据UI设计的设备高度适配
   /// 当发现UI设计中的一屏显示的与当前样式效果不符合时,
   /// 或者形状有差异时,建议使用此方法实现高度适配.
@@ -137,6 +137,7 @@ class ScreenUtil {
   /// when it is found that one screen in the UI design
   /// does not match the current style effect, or if there is a difference in shape.
   double setHeight(num height) => height * scaleHeight;
+
   double setNoNavHeight(num height) => height * noNavScaleHeight;
 
   ///字体大小适配方法
@@ -147,9 +148,9 @@ class ScreenUtil {
   double setSp(num fontSize, {bool allowFontScalingSelf}) =>
       allowFontScalingSelf == null
           ? (allowFontScaling
-          ? (fontSize * scaleText)
-          : ((fontSize * scaleText) / _textScaleFactor))
+              ? (fontSize * scaleText)
+              : ((fontSize * scaleText) / _textScaleFactor))
           : (allowFontScalingSelf
-          ? (fontSize * scaleText)
-          : ((fontSize * scaleText) / _textScaleFactor));
+              ? (fontSize * scaleText)
+              : ((fontSize * scaleText) / _textScaleFactor));
 }
