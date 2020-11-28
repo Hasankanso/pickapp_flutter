@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
@@ -27,5 +28,22 @@ class Cache {
     _prefs = await SharedPreferences.getInstance();
     String code = _prefs.getString("isRangePicker");
     return code;
+  }
+
+  static setDarkTheme() async
+  {
+    print(ThemeMode.dark.toString());
+    _prefs = await SharedPreferences.getInstance();
+    _prefs.setString("THEME_MODE", ThemeMode.dark.toString());
+  }
+
+  static Future<ThemeMode> getCurrentTheme() async
+  {
+    _prefs = await SharedPreferences.getInstance();
+    String theme = _prefs.getString("THEME_MODE");
+    if(theme == "ThemeMode.dark"){
+      return ThemeMode.dark;
+    }
+    else return null;
   }
 }

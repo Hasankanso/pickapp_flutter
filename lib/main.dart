@@ -3,11 +3,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/routing/RouteGenerator.dart';
-
-import 'classes/MainTheme.dart';
-import 'classes/Styles.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,7 +22,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   Locale _locale;
-  bool _localeCached = true;
+  bool _cacheLoaded = false;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -32,21 +30,30 @@ class MyAppState extends State<MyApp> {
     });
   }
 
+  void setDarkTheme() {
+    setState(() {
+      Styles.setTheme(ThemeMode.dark);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    Cache.getLocale().then((String lang) => setState(() {
-          if (lang == null) {
-            _localeCached = false;
-            return;
-          }
-          this._locale = Locale(lang);
-        }));
+    Cache.getLocale().then((String lang) =>
+        Cache.getCurrentTheme().then((ThemeMode mode) => setState(() {
+              if (lang != null) {
+                this._locale = Locale(lang);
+              }
+              if (mode != null) {
+              Styles.setTheme(mode);
+              }
+              _cacheLoaded = true;
+            })));
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_locale == null && _localeCached) {
+    if (!_cacheLoaded) {
       return SplashScreen();
     } else {
       return MaterialApp(
@@ -59,7 +66,7 @@ class MyAppState extends State<MyApp> {
               TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        themeMode: MainTheme.currentTheme(),
+        themeMode: Styles.currentTheme(),
         darkTheme: ThemeData(
           brightness: Brightness.dark,
           primarySwatch: Styles.primaryColor(),
@@ -83,7 +90,8 @@ class MyAppState extends State<MyApp> {
             }
           }
 
-          if (!_localeCached) Cache.setLocale(chosen.languageCode);
+          //check if locale was cached
+          if (_locale == null) Cache.setLocale(chosen.languageCode);
           return chosen;
         },
         debugShowCheckedModeBanner: false,

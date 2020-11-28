@@ -4,7 +4,20 @@ import 'package:flutter/widgets.dart';
 class Styles {
   static double _fontSize, _titleFontSize, _subValueFontSize;
   static double _largeSize, _mediumSize, _smallSize;
-  static double _smallAppBarHeight = kToolbarHeight, _mediumAppBarHeight = kToolbarHeight, _largetAppBarHeight = kToolbarHeight; //never use these variables in the code, only change their values.
+  static double _smallAppBarHeight = kToolbarHeight,
+      _mediumAppBarHeight = kToolbarHeight,
+      _largetAppBarHeight = kToolbarHeight; //never use these variables in the code, only change their values.
+  static ThemeMode _currentTheme = ThemeMode.system;
+
+
+  static ThemeMode currentTheme() {
+    return _currentTheme;
+  }
+
+  static void setTheme(ThemeMode theme) {
+    _currentTheme = theme;
+  }
+
 
   static setFontSizes(
       {double fontSize, double titleFontSize, double subValueFontSize}) {
@@ -26,7 +39,9 @@ class Styles {
   }
 
   static get smallAppBarHeight => _smallAppBarHeight;
+
   static get mediumAppBarHeight => _mediumAppBarHeight;
+
   static get largetAppBarHeight => _largetAppBarHeight;
 
 
@@ -119,4 +134,5 @@ class Styles {
   static double smallIconSize() {
     return _smallSize;
   }
+
 }

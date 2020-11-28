@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/classes/Styles.dart';
 
 class LanguagesDropdown extends StatefulWidget {
   @override
@@ -39,13 +40,14 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
     List<DropdownMenuItem> items = List<DropdownMenuItem>();
     Lang.langs.asMap().forEach((index, element) => items.add(DropdownMenuItem(
         value: index,
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        child: Row(children: [
+          Spacer(),
           Text(element.fullname),
-
+          Spacer(flex : 13),
           Text(
             element.flag,
-            style: TextStyle(fontSize: 30),
-          )
+            style: TextStyle(fontSize: Styles.largeIconSize()),
+          ),
         ]))));
 
     return DropdownButton(

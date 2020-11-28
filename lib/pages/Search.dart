@@ -76,7 +76,6 @@ class _SearchState extends State<Search>
             child: MainButton(
               text_key: "Search",
               onPressed: () {
-                Request.initBackendless();
                 MainLocation to = MainLocation(
                     name: toController.description,
                     latitude: toController.location.lat,

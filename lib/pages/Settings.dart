@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:pickapp/utilities/Responsive.dart';
+import 'package:pickapp/utilities/Switcher.dart';
 
 class Settings extends StatelessWidget {
+  SwitcherController forceDarkThemeConctroller = new SwitcherController();
+
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -15,11 +20,11 @@ class Settings extends StatelessWidget {
         title: Lang.getString(context, "Settings"),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 20.0),
+            VerticalSpacer(height: 18),
             Text(
               "Generals",
               style: Styles.headerTextStyle(),
@@ -32,12 +37,16 @@ class Settings extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   LanguagesDropdown(),
-                  SwitchListTile(
-                    activeColor: Styles.primaryColor(),
-                    value: false,
-                    title: Text("Received newsletter"),
-                    onChanged: null,
-                  ),
+                  Row(children: [
+                    Spacer(),
+                    Text("Force Dark Theme"),
+                    Spacer(flex : 13),
+                    Switcher(
+                        isOn: false,
+                        controller: forceDarkThemeConctroller,
+                        onChanged: (bool value) =>
+                            {if (value) App.forceDarkTheme()})
+                  ]),
                 ],
               ),
             ),
