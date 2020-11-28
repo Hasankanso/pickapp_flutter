@@ -5,10 +5,13 @@ import 'package:pickapp/classes/screenutil.dart';
 class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   String title;
   List<Widget> actions;
-  MainAppBar({this.title, this.actions});
+  double elevation;
+  MainAppBar({this.title, this.actions, this.elevation});
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
+      elevation: elevation,
       title: Text(
         title,
         style: Styles.titleTextStyle(),

@@ -4,7 +4,10 @@ import 'package:flutter/widgets.dart';
 class Styles {
   static double _fontSize, _titleFontSize, _subValueFontSize;
   static double _largeSize, _mediumSize, _smallSize;
-  static double _smallAppBarHeight = kToolbarHeight, _mediumAppBarHeight = kToolbarHeight, _largetAppBarHeight = kToolbarHeight; //never use these variables in the code, only change their values.
+  static double _smallAppBarHeight = kToolbarHeight,
+      _mediumAppBarHeight = kToolbarHeight,
+      _largetAppBarHeight =
+          kToolbarHeight; //never use these variables in the code, only change their values.
 
   static setFontSizes(
       {double fontSize, double titleFontSize, double subValueFontSize}) {
@@ -28,7 +31,6 @@ class Styles {
   static get smallAppBarHeight => _smallAppBarHeight;
   static get mediumAppBarHeight => _mediumAppBarHeight;
   static get largetAppBarHeight => _largetAppBarHeight;
-
 
   //for app bar
   static titleTextStyle() {
@@ -62,17 +64,17 @@ class Styles {
     );
   }
 
-  static TextStyle labelTextStyle() {
+  static TextStyle labelTextStyle({bold = FontWeight.w400}) {
     return TextStyle(
       color: labelColor(),
       fontSize: _fontSize,
-      fontWeight: FontWeight.w400,
+      fontWeight: bold,
     );
   }
 
-  static TextStyle valueTextStyle() {
+  static TextStyle valueTextStyle({bold = FontWeight.w400}) {
     return TextStyle(
-        color: valueColor(), fontSize: _fontSize, fontWeight: FontWeight.w400);
+        color: valueColor(), fontSize: _fontSize, fontWeight: bold);
   }
 
   static TextStyle subValueTextStyle() {
