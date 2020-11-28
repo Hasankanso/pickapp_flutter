@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
+import 'package:pickapp/pages/Bio.dart';
 import 'package:pickapp/pages/Home.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/Notifications.dart';
@@ -17,6 +18,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Login());
       case '/notifications':
         return MaterialPageRoute(builder: (_) => Notifications());
+      case '/bio':
+        return MaterialPageRoute(builder: (_) => Bio());
       case '/AddRidePage2':
         return MaterialPageRoute(builder: (_) => AddRidePage2());
     }

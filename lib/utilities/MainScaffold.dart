@@ -7,9 +7,14 @@ class MainScaffold extends StatelessWidget {
   MainAppBar appBar;
   Widget body;
   Widget bottomNavigationBar;
-  Color backgroundColor = Styles.secondaryColor();
+  Color backgroundColor;
   MainScaffold(
-      {this.appBar, this.body, this.backgroundColor, this.bottomNavigationBar});
+      {this.appBar,
+      this.body,
+      this.backgroundColor,
+      this.bottomNavigationBar}) {
+    this.backgroundColor ??= Styles.secondaryColor();
+  }
 
   @override
   Widget build(BuildContext context) {

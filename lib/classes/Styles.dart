@@ -6,9 +6,9 @@ class Styles {
   static double _largeSize, _mediumSize, _smallSize;
   static double _smallAppBarHeight = kToolbarHeight,
       _mediumAppBarHeight = kToolbarHeight,
-      _largetAppBarHeight = kToolbarHeight; //never use these variables in the code, only change their values.
+      _largetAppBarHeight =
+          kToolbarHeight; //never use these variables in the code, only change their values.
   static ThemeMode _currentTheme = ThemeMode.system;
-
 
   static ThemeMode currentTheme() {
     return _currentTheme;
@@ -17,7 +17,6 @@ class Styles {
   static void setTheme(ThemeMode theme) {
     _currentTheme = theme;
   }
-
 
   static setFontSizes(
       {double fontSize, double titleFontSize, double subValueFontSize}) {
@@ -43,7 +42,6 @@ class Styles {
   static get mediumAppBarHeight => _mediumAppBarHeight;
 
   static get largetAppBarHeight => _largetAppBarHeight;
-
 
   //for app bar
   static titleTextStyle() {
@@ -77,17 +75,18 @@ class Styles {
     );
   }
 
-  static TextStyle labelTextStyle() {
+  static TextStyle labelTextStyle({bold = FontWeight.w400}) {
     return TextStyle(
       color: labelColor(),
       fontSize: _fontSize,
-      fontWeight: FontWeight.w400,
+      fontWeight: bold,
     );
   }
 
-  static TextStyle valueTextStyle() {
-    return TextStyle(fontSize: _fontSize, fontWeight: FontWeight.w400);
+  static TextStyle valueTextStyle({bold = FontWeight.w400}) {
+    return TextStyle(fontSize: _fontSize, fontWeight: bold);
   }
+
 
   static TextStyle subValueTextStyle() {
     return TextStyle(
@@ -133,5 +132,4 @@ class Styles {
   static double smallIconSize() {
     return _smallSize;
   }
-
 }
