@@ -69,8 +69,6 @@ class ScreenUtil {
 
     _noNavScreenHeight =
         mediaQuery.size.height - kToolbarHeight - _statusBarHeight;
-
-    print(_bottomBarHeight);
   }
 
   double get appBarHeight => _appBarHeight;

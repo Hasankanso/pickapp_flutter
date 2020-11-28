@@ -86,8 +86,7 @@ class Styles {
   }
 
   static TextStyle valueTextStyle() {
-    return TextStyle(
-        color: valueColor(), fontSize: _fontSize, fontWeight: FontWeight.w400);
+    return TextStyle(fontSize: _fontSize, fontWeight: FontWeight.w400);
   }
 
   static TextStyle subValueTextStyle() {

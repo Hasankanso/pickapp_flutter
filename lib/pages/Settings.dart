@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
@@ -10,12 +11,10 @@ import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Switcher.dart';
 
 class Settings extends StatelessWidget {
-  SwitcherController forceDarkThemeConctroller = new SwitcherController();
 
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: MainAppBar(
         title: Lang.getString(context, "Settings"),
       ),
@@ -38,14 +37,12 @@ class Settings extends StatelessWidget {
                 children: <Widget>[
                   LanguagesDropdown(),
                   Row(children: [
-                    Spacer(),
-                    Text("Force Dark Theme"),
-                    Spacer(flex : 13),
+                    Spacer(flex: 1),
+                    Text("Force Dark Theme", style: Styles.valueTextStyle()),
+                    Spacer(flex: 9),
                     Switcher(
-                        isOn: false,
-                        controller: forceDarkThemeConctroller,
-                        onChanged: (bool value) =>
-                            {if (value) App.forceDarkTheme()})
+                        isOn: Cache.darkTheme,
+                        onChanged: (bool value) => {App.forceDarkTheme(value)})
                   ]),
                 ],
               ),
