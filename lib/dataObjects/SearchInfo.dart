@@ -1,4 +1,4 @@
-import 'package:pickapp/DataObjects/User.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 
 class SearchInfo {

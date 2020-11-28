@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainRangeSlider.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Switcher.dart';
@@ -30,192 +27,159 @@ class _AddRideState extends State<AddRide> {
         appBar: AppBar(
           title: Text(Lang.getString(context, "Add_Ride")),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Row(
-                children: [
-                  Expanded(flex: 1, child: Icon(Icons.location_on_outlined)),
-                  Flexible(
-                    flex: 8,
-                    child: TextField(
-                      expands: true,
-                      maxLines: null,
-                      decoration: InputDecoration(labelText: "From"),
-                    ),
-                  ),
-                  Expanded(flex: 1, child: Icon(Icons.swap_calls))
-                ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              ResponsiveWidget.fullWidth(
+                  height: 130,
+                  child: FromToPicker(
+                      fromController: fromController, toController: toController)),
+              VerticalSpacer(height: 30),
+              ResponsiveWidget.fullWidth(
+                  height: 80, child: DateTimeRangePicker(dateTimeController)),
+              VerticalSpacer(height: 10),
+              ResponsiveWidget(
+                width: 270,
+                height: 30,
+                child: Center(
+                  child: Text("Rides Permissions :",
+                  style: Styles.labelTextStyle()),
+                ),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Row(
-                children: [
-                  Expanded(flex: 1, child: Icon(Icons.location_on)),
-                  Flexible(
-                    flex: 8,
-                    child: TextField(
-                      expands: true,
-                      maxLines: null,
-                      decoration: InputDecoration(labelText: "To"),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(),
+              VerticalSpacer(height: 15),
+              ResponsiveWidget.fullWidth(
+                  height: 120,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: SizedBox()),
+                          Expanded(
+                            flex: 4,
+                            child: Row(
+                            children:[
+                              Expanded(
+                                  flex:2,
+                                  child: Icon(Icons.smoke_free,color: Styles.primaryColor(),)
+                              ),
+                              Expanded(
+                                flex:2,
+                                child: Switcher(
+                                  isOn: false,
+                                  controller: switcherController,
+                                ),
+                              ),
+                            ]
+                          ),
+                          ),
+                           Expanded(
+                               flex: 1,
+                               child: SizedBox()),
+                         Expanded(
+                             flex: 4,
+                             child: Row(
+                           children: [
+                             Expanded(
+                                 flex:2,
+                                 child: Icon(Icons.pets,color: Styles.primaryColor(),)
+                             ),
+                             Expanded(
+                               flex:2,
+                               child: Switcher(
+                                 isOn: false,
+                                 controller: switcherController,
+                               ),
+                             ),
+                           ],
+                         )
+                         ),
+                          Expanded(
+                              flex: 1,
+                              child: SizedBox()),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: SizedBox()),
+                          Expanded(
+                            flex: 4,
+                            child: Row(
+                                children:[
+                                  Expanded(
+                                      flex:2,
+                                      child: Icon(Icons.music_off,color: Styles.primaryColor(),)
+                                  ),
+                                  Expanded(
+                                    flex:2,
+                                    child: Switcher(
+                                      isOn: false,
+                                      controller: switcherController,
+                                    ),
+                                  ),
+                                ]
+                            ),
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: SizedBox()),
+                          Expanded(
+                              flex: 4,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      flex:2,
+                                      child: Icon(Icons.hot_tub,color: Styles.primaryColor(),)
+                                  ),
+                                  Expanded(
+                                    flex:2,
+                                    child: Switcher(
+                                      isOn: false,
+                                      controller: switcherController,
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: SizedBox()),
+                        ],
+                      )
+
+                    ],
                   )
-                ],
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: SizedBox(),
-            ),
-            Expanded(
-              flex: 10,
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: DateTimeRangePicker(dateTimeController),
+              ResponsiveWidget(
+                height: 100,
+                width: 100,
+                child: Center(child: TextField(
+                  decoration: InputDecoration(
+                    labelText: "Price",
                   ),
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: NumberPicker(numberController, "Person", 1, 9, 1),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: NumberPicker(numberController, "Luggage", 1, 9, 1),
-                        ),
-                      ],
-                    ),
-                  ),
+                  keyboardType: TextInputType.number,
+                  maxLines: 1,
 
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      children: [
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 2,
-                          child: Text("Smoking"),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Switcher(
-                            isOn: false,
-                            controller: switcherController,
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 2,
-                          child: Text("Pets"),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Switcher(
-                            isOn: false,
-                            controller: switcherController,
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      children: [
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 2,
-                          child: Text("Ac"),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Switcher(
-                            isOn: false,
-                            controller: switcherController,
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                        Expanded(
-                          flex: 2,
-                          child: Text("Music"),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Switcher(
-                            isOn: false,
-                            controller: switcherController,
-                          ),
-                        ),
-                        Expanded(flex: 1, child: SizedBox()),
-                      ],
-                    ),
-                  ),
-                ],
+                ))
+                ,
               ),
-            ),
-            Expanded(
-              flex: 8,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(),
-                  ),
-                  Flexible(
-                    flex: 5,
-                    child: TextField(
-                      expands: true,
-                      maxLines: null,
-                      decoration: InputDecoration(labelText: "Description"),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(),
-                  ),
+              VerticalSpacer(height: 30),
+              ResponsiveWidget(
+                width: 270,
+                height: 53,
+                child: MainButton(
+                  text_key: "Next",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/AddRidePage2");
 
-                ],
+                  },
+                ),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: SizedBox(),
-            ),
-            Expanded(
-              flex: 2,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: RaisedButton(
-                      onPressed: () {},
-                      child: Text("click"),
-                      textColor: Styles.primaryColor(),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         )
     );
   }

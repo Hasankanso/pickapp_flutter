@@ -8,6 +8,7 @@ import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
+import 'package:pickapp/requests/Request.dart';
 
 class App {
   static MyAppState _state;
@@ -25,8 +26,14 @@ class App {
     _state.setLocale(Locale(lang));
   }
 
+  static void forceDarkTheme() async {
+    await Cache.setDarkTheme();
+    _state.setDarkTheme();
+  }
+
   static void init(MyAppState state) {
     _state = state;
+    Request.initBackendless();
   }
 
   //called in Home class

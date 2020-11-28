@@ -69,14 +69,13 @@ class _SearchState extends State<Search>
           ResponsiveWidget.fullWidth(
               height: 30,
               child: NumberPicker(numberController, "Persons", 1, 8)),
-          VerticalSpacer(height: 240),
+          VerticalSpacer(height: 170),
           ResponsiveWidget(
             width: 270,
-            height: 43,
+            height: 50,
             child: MainButton(
               text_key: "Search",
               onPressed: () {
-                Request.initBackendless();
                 MainLocation to = MainLocation(
                     name: toController.description,
                     latitude: toController.location.lat,

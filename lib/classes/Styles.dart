@@ -8,6 +8,15 @@ class Styles {
       _mediumAppBarHeight = kToolbarHeight,
       _largetAppBarHeight =
           kToolbarHeight; //never use these variables in the code, only change their values.
+  static ThemeMode _currentTheme = ThemeMode.system;
+
+  static ThemeMode currentTheme() {
+    return _currentTheme;
+  }
+
+  static void setTheme(ThemeMode theme) {
+    _currentTheme = theme;
+  }
 
   static setFontSizes(
       {double fontSize, double titleFontSize, double subValueFontSize}) {
@@ -29,7 +38,9 @@ class Styles {
   }
 
   static get smallAppBarHeight => _smallAppBarHeight;
+
   static get mediumAppBarHeight => _mediumAppBarHeight;
+
   static get largetAppBarHeight => _largetAppBarHeight;
 
   //for app bar
