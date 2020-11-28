@@ -21,7 +21,7 @@ class _SwitcherState extends State<Switcher> {
 
   @override
   Widget build(BuildContext context) {
-    if (App.isIphone()) {
+    if (!App.isIphone()) {
       return CupertinoSwitch(
         value: widget.isOn,
         onChanged: (bool value) {
