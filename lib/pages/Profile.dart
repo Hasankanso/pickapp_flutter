@@ -69,7 +69,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                         height: ScreenUtil().setHeight(254),
                         child: Column(
                           children: <Widget>[
-                            VerticalSpacer(height: 10),
                             DifferentSizeResponsiveRow(
                               children: [
                                 Expanded(flex: 1, child: SizedBox()),
@@ -185,7 +184,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                             Expanded(
                               flex: 1,
                               child: Icon(
-                                Icons.public,
+                                Icons.bar_chart,
                                 size: Styles.mediumIconSize(),
                                 color: Styles.primaryColor(),
                               ),
