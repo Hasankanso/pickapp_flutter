@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/Items/CarListTile.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
+import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainExpansionTile.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class Profile extends StatefulWidget {
@@ -13,10 +17,7 @@ class Profile extends StatefulWidget {
   _ProfileState createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> {
-  double _userRate = 3.5;
-
-  int hhhh = 70;
+class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -105,12 +106,14 @@ class _ProfileState extends State<Profile> {
                             Column(
                               children: [
                                 Text(
-                                  'Adel Kanso',
+                                  App.person.firstName +
+                                      " " +
+                                      App.person.lastName,
                                   style: Styles.valueTextStyle(
                                       bold: FontWeight.bold),
                                 ),
                                 Text(
-                                  'Lebanon',
+                                  App.person.countryInformations.name,
                                   style: Styles.labelTextStyle(
                                       bold: FontWeight.bold),
                                 ),
@@ -118,11 +121,9 @@ class _ProfileState extends State<Profile> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    getStar(_userRate, 1),
-                                    getStar(_userRate, 2),
-                                    getStar(_userRate, 3),
-                                    getStar(_userRate, 4),
-                                    getStar(_userRate, 5)
+                                    RateStars(
+                                      rating: App.user.person.rateAverage,
+                                    )
                                   ],
                                 ),
                               ],
@@ -145,7 +146,7 @@ class _ProfileState extends State<Profile> {
                   children: <Widget>[
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).pushNamed("/publicInformation");
+                        Navigator.of(context).pushNamed("/details");
                       },
                       child: ResponsiveWidget.fullWidth(
                         height: 70,
@@ -157,12 +158,13 @@ class _ProfileState extends State<Profile> {
                               child: Icon(
                                 Icons.public,
                                 size: Styles.mediumIconSize(),
+                                color: Styles.primaryColor(),
                               ),
                             ),
                             Expanded(
                               flex: 6,
                               child: Text(
-                                "Public information",
+                                Lang.getString(context, "Details"),
                                 style: Styles.valueTextStyle(),
                               ),
                             ),
@@ -172,7 +174,9 @@ class _ProfileState extends State<Profile> {
                     ),
                     _buildDivider(),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/details");
+                      },
                       child: ResponsiveWidget.fullWidth(
                         height: 70,
                         child: Row(
@@ -181,14 +185,15 @@ class _ProfileState extends State<Profile> {
                             Expanded(
                               flex: 1,
                               child: Icon(
-                                Icons.location_on_outlined,
+                                Icons.public,
                                 size: Styles.mediumIconSize(),
+                                color: Styles.primaryColor(),
                               ),
                             ),
                             Expanded(
                               flex: 6,
                               child: Text(
-                                "Regions",
+                                "Statistics",
                                 style: Styles.valueTextStyle(),
                               ),
                             ),
@@ -196,29 +201,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    _buildDivider(),
-                    InkWell(
-                      onTap: () {},
-                      child: ResponsiveWidget.fullWidth(
-                        height: hhhh,
-                        child: MainExpansionTile(
-                          callBack: settt,
-                          leading: Icon(
-                            Icons.local_taxi_outlined,
-                            size: Styles.mediumIconSize(),
-                          ),
-                          title: Text(
-                            "My cars",
-                            style: Styles.valueTextStyle(),
-                          ),
-                          children: <Widget>[
-                            carTile("BMW", "E90", "lib/images/adel.png", 4, 5),
-                            carTile("BMW", "E90", "lib/images/adel.png", 4, 5),
-                            carTile("BMW", "E90", "lib/images/adel.png", 4, 5),
-                          ],
-                        ),
-                      ),
-                    ),
+                    if (App.driver != null) ...driverInfo(),
                   ],
                 ),
               ),
@@ -227,6 +210,71 @@ class _ProfileState extends State<Profile> {
         ],
       ),
     );
+  }
+
+  List<Widget> driverInfo() {
+    return [
+      _buildDivider(),
+      InkWell(
+        onTap: () {},
+        child: ResponsiveWidget.fullWidth(
+          height: 70,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Icon(
+                  Icons.location_on_outlined,
+                  size: Styles.mediumIconSize(),
+                  color: Styles.primaryColor(),
+                ),
+              ),
+              Expanded(
+                flex: 6,
+                child: Text(
+                  Lang.getString(context, "Regions"),
+                  style: Styles.valueTextStyle(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      _buildDivider(),
+      InkWell(
+        onTap: () {},
+        child: AnimatedSize(
+          curve: Curves.fastLinearToSlowEaseIn,
+          vsync: this,
+          duration: Duration(milliseconds: 10),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  constraints: BoxConstraints(minHeight: 70),
+                  child: MainExpansionTile(
+                    leading: Icon(
+                      Icons.local_taxi_outlined,
+                      size: Styles.mediumIconSize(),
+                      color: Styles.primaryColor(),
+                    ),
+                    title: Text(
+                      Lang.getString(context, "My_cars"),
+                      style: Styles.valueTextStyle(),
+                    ),
+                    children: App.driver.cars
+                        .map((Car car) => CarListTile(car))
+                        .toList(growable: true),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+    ];
   }
 
   Container _buildDivider() {
@@ -238,109 +286,5 @@ class _ProfileState extends State<Profile> {
       height: 1.0,
       color: Colors.grey.shade300,
     );
-  }
-
-  Widget carTile(
-      String brand, String name, String imgPath, int seats, int luggage) {
-    return Card(
-      elevation: 1.0,
-      child: ListTile(
-        onTap: () {},
-        leading: CircleAvatar(
-          radius: ScreenUtil().setSp(30),
-          backgroundImage: AssetImage(imgPath),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              brand,
-              style: Styles.headerTextStyle(),
-            ),
-          ],
-        ),
-        subtitle: Row(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    name,
-                    style: Styles.headerTextStyle(),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 2,
-                        child: Row(
-                          children: [
-                            Text(
-                              "Seats: ",
-                              style: Styles.labelTextStyle(),
-                            ),
-                            Text(
-                              seats.toString(),
-                              style:
-                                  Styles.valueTextStyle(bold: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Row(
-                          children: [
-                            Text(
-                              "Luggage: ",
-                              style: Styles.labelTextStyle(),
-                            ),
-                            Text(
-                              luggage.toString(),
-                              style:
-                                  Styles.valueTextStyle(bold: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget getStar(double rating, index) {
-    if (rating >= index) {
-      return Icon(
-        Icons.star,
-        color: Colors.yellow,
-        size: Styles.mediumIconSize(),
-      );
-    } else if (rating.toInt() == index - 1 && rating.toInt() != rating) {
-      return Icon(
-        Icons.star_half,
-        color: Colors.yellow,
-        size: Styles.mediumIconSize(),
-      );
-    } else {
-      return Icon(
-        Icons.star,
-        color: Colors.grey.withOpacity(0.5),
-        size: Styles.mediumIconSize(),
-      );
-    }
-  }
-
-  void settt() {
-    if (hhhh == 70)
-      hhhh = 270;
-    else
-      hhhh = 70;
-    setState(() {});
   }
 }

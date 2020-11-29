@@ -7,12 +7,12 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
-class PublicInformation extends StatefulWidget {
+class Details extends StatefulWidget {
   @override
-  _PublicInformationState createState() => _PublicInformationState();
+  _DetailsState createState() => _DetailsState();
 }
 
-class _PublicInformationState extends State<PublicInformation> {
+class _DetailsState extends State<Details> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -20,7 +20,7 @@ class _PublicInformationState extends State<PublicInformation> {
     String dropdownValue = 'I talk depending on my mood';
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Public_Information"),
+        title: Lang.getString(context, "Details"),
       ),
       body: Column(
         children: [

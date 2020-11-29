@@ -20,7 +20,6 @@
   "Persons": "Persons",
   "Notifications":"Notifications",
   "Next":"Next",
-
   "Contact_Us" : "Contact Us",
   "Send" : "Send",
   "Subject" : "Subject",
@@ -33,7 +32,10 @@
   "Terms_&_Conditions": "Terms & Conditions",
   "Dark_Mode": "Dark Mode",
 
-  "Public_Information": "Public Information",
+  "Details": "Details",
+  "My_cars": "My cars",
+  "Regions": "Regions",
+
   "Luggage":"Luggage",
   "Price":"Price"
 }
