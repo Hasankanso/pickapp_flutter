@@ -148,6 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0-nullsafety.3"
+  configurable_expansion_tile:
+    dependency: "direct main"
+    description:
+      name: configurable_expansion_tile
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   convert:
     dependency: transitive
     description:
@@ -323,7 +330,7 @@ packages:
     source: hosted
     version: "3.1.4"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       url: "https://pub.dartlang.org"
