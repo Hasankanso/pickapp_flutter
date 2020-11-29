@@ -19,7 +19,9 @@ class _SwitcherState extends State<Switcher> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.controller.isOn = widget.isOn;
+    if(widget.controller !=null) {
+      widget.controller.isOn = widget.isOn;
+    }
   }
 
   @override
@@ -41,10 +43,15 @@ class _SwitcherState extends State<Switcher> {
   }
 
   void _onChanged(bool value) {
-    widget.onChanged(value);
+    if (widget.onChanged != null) {
+      widget.onChanged(value);
+    }
+    if (widget.controller != null) {
+      widget.controller.isOn = value;
+    }
+
     setState(() {
       widget.isOn = value;
-      widget.controller.isOn = value;
     });
   }
 }

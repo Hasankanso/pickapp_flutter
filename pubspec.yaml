@@ -29,7 +29,6 @@ dependencies:
   geolocator: ^6.1.4
   rflutter_alert: ^1.0.3
   fluttertoast: ^7.1.1
-  intl: ^0.16.1
   flutter_screenutil: ^3.1.0
   flutter_range_slider: "^1.5.0"
   backendless_sdk: ^6.1.0
@@ -58,9 +57,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
   # To add assets to your application, add an assets section, like this:
   assets:
+    - lib/images/adel.png
+    - lib/images/user.png
     - lib/languages/en.json
     - lib/languages/ar.json
     - lib/languages/fr.json

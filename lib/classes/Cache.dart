@@ -3,47 +3,31 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
   static SharedPreferences _prefs;
+  static bool _initialized = false;
 
-  static Future<SharedPreferences> Init() async {
+  static Future init() async {
     _prefs = await SharedPreferences.getInstance();
+    _initialized = true;
   }
 
-  static Future setLocale(String language_code) async {
-    _prefs = await SharedPreferences.getInstance();
-    _prefs.setString("LANG_CODE", language_code);
+  static bool get loaded => _initialized;
+
+  static void setLocale(String languageCode){
+    _prefs.setString("LANG_CODE", languageCode);
   }
 
-  static Future<String> getLocale() async {
-    _prefs = await SharedPreferences.getInstance();
-    String code = _prefs.getString("LANG_CODE");
-    return code;
-  }
-
-  static Future setDateTimeRangePicker(String isRangePicker) async {
-    _prefs = await SharedPreferences.getInstance();
+  static void setDateTimeRangePicker(String isRangePicker){
     _prefs.setString("isRangePicker", isRangePicker);
   }
 
-  static Future<String> getDateTimeRangePicker() async {
-    _prefs = await SharedPreferences.getInstance();
-    String code = _prefs.getString("isRangePicker");
-    return code;
+  static forceDarkTheme(bool value)
+  {
+    _prefs.setBool("THEME_MODE", value);
   }
 
-  static setDarkTheme() async
-  {
-    print(ThemeMode.dark.toString());
-    _prefs = await SharedPreferences.getInstance();
-    _prefs.setString("THEME_MODE", ThemeMode.dark.toString());
-  }
+  static String get locale => _prefs.getString("LANG_CODE");
 
-  static Future<ThemeMode> getCurrentTheme() async
-  {
-    _prefs = await SharedPreferences.getInstance();
-    String theme = _prefs.getString("THEME_MODE");
-    if(theme == "ThemeMode.dark"){
-      return ThemeMode.dark;
-    }
-    else return null;
-  }
+  static bool get dateTimeRangePicker => _prefs.getBool("isRangePicker") !=null? _prefs.getBool("isRangePicker")? true: false :false;
+
+static bool get darkTheme => _prefs.getBool("THEME_MODE")!=null? _prefs.getBool("THEME_MODE")? true : false : false;
 }

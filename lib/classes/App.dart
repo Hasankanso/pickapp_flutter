@@ -26,9 +26,14 @@ class App {
     _state.setLocale(Locale(lang));
   }
 
-  static void forceDarkTheme() async {
-    await Cache.setDarkTheme();
-    _state.setDarkTheme();
+  static void forceDarkTheme(bool value) async {
+     Cache.forceDarkTheme(value);
+
+     if(value) {
+       _state.setTheme(ThemeMode.dark);
+     } else {
+       _state.setTheme(ThemeMode.system);
+     }
   }
 
   static void init(MyAppState state) {
