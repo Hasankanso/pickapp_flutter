@@ -265,7 +265,9 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                       style: Styles.valueTextStyle(),
                     ),
                     children: App.driver.cars
-                        .map((Car car) => CarListTile(car))
+                        .map((Car car) {
+                          return CarListTile(car);
+                        })
                         .toList(growable: true),
                   ),
                 ),
