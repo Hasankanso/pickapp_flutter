@@ -5,7 +5,6 @@ import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Switcher.dart';
 
 class AddRidePage2 extends StatefulWidget {
   @override
@@ -13,9 +12,10 @@ class AddRidePage2 extends StatefulWidget {
 }
 
 class _AddRidePage2State extends State<AddRidePage2> {
-  SwitcherController switcherController = SwitcherController();
   bool stopOver = false;
   bool kidsSeat = false;
+  final timeController = TextEditingController();
+  final descController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +102,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   Expanded(
                     flex: 3,
                     child: TextField(
+                      controller: timeController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: Lang.getString(context, "Min"),
@@ -120,9 +121,9 @@ class _AddRidePage2State extends State<AddRidePage2> {
               width: 270,
               height: 150,
               child: TextField(
+                controller: descController,
                 decoration: InputDecoration(
-                    labelText: Lang.getString(context, "Description")
-                ),
+                    labelText: Lang.getString(context, "Description")),
                 maxLines: 15,
               ),
             ),
@@ -142,6 +143,11 @@ class _AddRidePage2State extends State<AddRidePage2> {
               child: MainButton(
                 text_key: "Next",
                 onPressed: () {
+                  bool isStoping = stopOver;
+                  bool isCarSeat = kidsSeat;
+                  int time = int.parse(timeController.text);
+                  String desc = descController.text;
+
                   Navigator.of(context).pushNamed("/AddRidePage3");
                 },
               ),

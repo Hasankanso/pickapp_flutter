@@ -47,5 +47,6 @@
   "Choose_Car": "Choose a car ",
   "LBP": "LBP",
   "Choose_Route": "Choose a route from the list below",
-  "Ride_Added": "Ride Added Successfully"
+  "Route": "Route :",
+  "You_Choosed": " You choosed :"
 }

@@ -15,12 +15,14 @@ class AddRidePage3 extends StatefulWidget {
 }
 
 class _AddRidePage3State extends State<AddRidePage3> {
-  NumberController numberController = NumberController();
-  NumberController numberController2 = NumberController();
-  int hhhh = 30;
-  String selectedCar = "Choose a car";
+  NumberController personController = NumberController();
+  NumberController luggageController = NumberController();
+  final priceController = TextEditingController();
+  String selectedCar;
+
   @override
   Widget build(BuildContext context) {
+    selectedCar = Lang.getString(context, "Choose_Car");
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Add_Ride"),
@@ -70,13 +72,13 @@ class _AddRidePage3State extends State<AddRidePage3> {
           ),
           ResponsiveWidget.fullWidth(
               height: 40,
-              child: NumberPicker(numberController, "Persons", 1, 8)),
+              child: NumberPicker(personController, "Persons", 1, 8)),
           VerticalSpacer(
             height: 50,
           ),
           ResponsiveWidget.fullWidth(
               height: 40,
-              child: NumberPicker(numberController2, "Luggage", 1, 8)),
+              child: NumberPicker(luggageController, "Luggage", 1, 8)),
           VerticalSpacer(
             height: 50,
           ),
@@ -94,6 +96,7 @@ class _AddRidePage3State extends State<AddRidePage3> {
                 Expanded(
                     flex: 1,
                     child: TextField(
+                      controller: priceController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           hintText: Lang.getString(context, "LBP")),
@@ -114,6 +117,10 @@ class _AddRidePage3State extends State<AddRidePage3> {
               child: MainButton(
                 text_key: "Next",
                 onPressed: () {
+                  //Car c = the choosen car id ;
+                  int person = personController.chosenNumber;
+                  int luggage = luggageController.chosenNumber;
+                  int price = int.parse(priceController.text);
                   Navigator.of(context).pushNamed("/AddRidePage4");
                 },
               ),
@@ -159,7 +166,7 @@ class _AddRidePage3State extends State<AddRidePage3> {
         ),
         onTap: () {
           CustomToast()
-              .showColoredToast("You Choosed  " + name, Colors.greenAccent);
+              .showColoredToast(Lang.getString(context, "You_Choosed")+ name, Colors.greenAccent);
           setState(() {});
           selectedCar = brand + " / " + name;
         },
