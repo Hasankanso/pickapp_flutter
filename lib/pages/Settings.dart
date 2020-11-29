@@ -28,24 +28,26 @@ class Settings extends StatelessWidget {
               "Generals",
               style: Styles.headerTextStyle(),
             ),
-            Card(
-              margin: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 0,
-              ),
-              child: Column(
-                children: <Widget>[
-                  LanguagesDropdown(),
-                  Row(children: [
-                    Spacer(flex: 1),
-                    Text("Force Dark Theme", style: Styles.valueTextStyle()),
-                    Spacer(flex: 9),
-                    Switcher(
-                        isOn: Cache.darkTheme,
-                        onChanged: (bool value) => {App.forceDarkTheme(value)})
-                  ]),
-                ],
-              ),
+            ResponsiveRow( widgetRealtiveSize: 200,
+              children: [Card(
+                child: Column(
+                  children: <Widget>[
+                    LanguagesDropdown(),
+                    Row(children: [
+                      Spacer(flex: 1),
+                      Text("Force Dark Theme", style: Styles.valueTextStyle()),
+                      Spacer(flex: 9),
+                      Switcher(
+                          isOn: Cache.darkTheme,
+                          onChanged: (bool value) => {App.forceDarkTheme(value)})
+                    ]),
+                  ],
+                ),
+              )],
+            ),
+            Text(
+              "About",
+              style: Styles.headerTextStyle(),
             ),
             Card(
               margin: const EdgeInsets.symmetric(
@@ -53,9 +55,9 @@ class Settings extends StatelessWidget {
                 horizontal: 0,
               ),
               child: ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text("Logout"),
-                onTap: () {},
+                leading: Icon(Icons.email),
+                title: Text(Lang.getString(context, "Contact_Us"), style: Styles.valueTextStyle()),
+                onTap: () {Navigator.of(context).pushNamed("/ContactUs");},
               ),
             ),
             const SizedBox(height: 60.0),

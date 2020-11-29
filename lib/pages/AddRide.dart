@@ -33,7 +33,8 @@ class _AddRideState extends State<AddRide> {
               ResponsiveWidget.fullWidth(
                   height: 130,
                   child: FromToPicker(
-                      fromController: fromController, toController: toController)),
+                      fromController: fromController,
+                      toController: toController)),
               VerticalSpacer(height: 30),
               ResponsiveWidget.fullWidth(
                   height: 80, child: DateTimeRangePicker(dateTimeController)),
@@ -43,7 +44,7 @@ class _AddRideState extends State<AddRide> {
                 height: 30,
                 child: Center(
                   child: Text("Rides Permissions :",
-                  style: Styles.labelTextStyle()),
+                      style: Styles.labelTextStyle()),
                 ),
               ),
               VerticalSpacer(height: 15),
@@ -53,118 +54,105 @@ class _AddRideState extends State<AddRide> {
                     children: [
                       Row(
                         children: [
-                          Expanded(
-                              flex: 1,
-                              child: SizedBox()),
+                          Expanded(flex: 1, child: SizedBox()),
                           Expanded(
                             flex: 4,
-                            child: Row(
-                            children:[
+                            child: Row(children: [
                               Expanded(
-                                  flex:2,
-                                  child: Icon(Icons.smoke_free,color: Styles.primaryColor(),)
-                              ),
+                                  flex: 2,
+                                  child: Icon(
+                                    Icons.smoke_free,
+                                    color: Styles.primaryColor(),
+                                  )),
                               Expanded(
-                                flex:2,
+                                flex: 2,
                                 child: Switcher(
                                   isOn: false,
                                   controller: switcherController,
                                 ),
                               ),
-                            ]
+                            ]),
                           ),
-                          ),
-                           Expanded(
-                               flex: 1,
-                               child: SizedBox()),
-                         Expanded(
-                             flex: 4,
-                             child: Row(
-                           children: [
-                             Expanded(
-                                 flex:2,
-                                 child: Icon(Icons.pets,color: Styles.primaryColor(),)
-                             ),
-                             Expanded(
-                               flex:2,
-                               child: Switcher(
-                                 isOn: false,
-                                 controller: switcherController,
-                               ),
-                             ),
-                           ],
-                         )
-                         ),
-                          Expanded(
-                              flex: 1,
-                              child: SizedBox()),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                              flex: 1,
-                              child: SizedBox()),
-                          Expanded(
-                            flex: 4,
-                            child: Row(
-                                children:[
-                                  Expanded(
-                                      flex:2,
-                                      child: Icon(Icons.music_off,color: Styles.primaryColor(),)
-                                  ),
-                                  Expanded(
-                                    flex:2,
-                                    child: Switcher(
-                                      isOn: false,
-                                      controller: switcherController,
-                                    ),
-                                  ),
-                                ]
-                            ),
-                          ),
-                          Expanded(
-                              flex: 1,
-                              child: SizedBox()),
+                          Expanded(flex: 1, child: SizedBox()),
                           Expanded(
                               flex: 4,
                               child: Row(
                                 children: [
                                   Expanded(
-                                      flex:2,
-                                      child: Icon(Icons.hot_tub,color: Styles.primaryColor(),)
-                                  ),
+                                      flex: 2,
+                                      child: Icon(
+                                        Icons.pets,
+                                        color: Styles.primaryColor(),
+                                      )),
                                   Expanded(
-                                    flex:2,
+                                    flex: 2,
                                     child: Switcher(
                                       isOn: false,
                                       controller: switcherController,
                                     ),
                                   ),
                                 ],
-                              )
-                          ),
+                              )),
+                          Expanded(flex: 1, child: SizedBox()),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(flex: 1, child: SizedBox()),
                           Expanded(
-                              flex: 1,
-                              child: SizedBox()),
+                            flex: 4,
+                            child: Row(children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: Icon(
+                                    Icons.music_off,
+                                    color: Styles.primaryColor(),
+                                  )),
+                              Expanded(
+                                flex: 2,
+                                child: Switcher(
+                                  isOn: false,
+                                  controller: switcherController,
+                                ),
+                              ),
+                            ]),
+                          ),
+                          Expanded(flex: 1, child: SizedBox()),
+                          Expanded(
+                              flex: 4,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      flex: 2,
+                                      child: Icon(
+                                        Icons.hot_tub,
+                                        color: Styles.primaryColor(),
+                                      )),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Switcher(
+                                      isOn: false,
+                                      controller: switcherController,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          Expanded(flex: 1, child: SizedBox()),
                         ],
                       )
-
                     ],
-                  )
-              ),
+                  )),
               ResponsiveWidget(
                 height: 100,
                 width: 100,
-                child: Center(child: TextField(
+                child: Center(
+                    child: TextField(
                   decoration: InputDecoration(
                     labelText: "Price",
                   ),
                   keyboardType: TextInputType.number,
                   maxLines: 1,
-
-                ))
-                ,
+                )),
               ),
               VerticalSpacer(height: 30),
               ResponsiveWidget(
@@ -174,13 +162,11 @@ class _AddRideState extends State<AddRide> {
                   text_key: "Next",
                   onPressed: () {
                     Navigator.of(context).pushNamed("/AddRidePage2");
-
                   },
                 ),
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }

@@ -19,5 +19,14 @@
   "Change": "Change",
   "Persons": "Persons",
   "Notifications":"Notifications",
-  "Next":"Next"
+  "Next":"Next",
+
+  "Contact_Us" : "Contact Us",
+  "Send" : "Send",
+  "Email" : "Email",
+  "Message": "Message",
+  "Full_Name" : "Full Name",
+
+  "Generals": "Generals",
+  "About" : "About"
 }
