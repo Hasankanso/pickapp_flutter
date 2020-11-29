@@ -5,6 +5,7 @@ import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/PublicInformations.dart';
 import 'package:pickapp/pages/Settings.dart';
+import 'package:pickapp/pages/AddRidePage3.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -22,6 +23,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => PublicInformation());
       case '/AddRidePage2':
         return MaterialPageRoute(builder: (_) => AddRidePage2());
+      case '/AddRidePage3':
+        return MaterialPageRoute(builder: (_) => AddRidePage3());
     }
   }
 }

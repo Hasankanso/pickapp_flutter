@@ -82,27 +82,30 @@ class DateTimePickerState extends State<DateTimePicker> {
 
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
-    return Container(
+    return
 
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(7)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 6,
-            offset: Offset(-1, 3), // changes position of shadow
+      ResponsiveWidget(
+        height: 60,
+        width: 270,
+       child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(9)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.9),
+                spreadRadius: 3,
+                blurRadius: 6,
+                offset: Offset(-1, 3), // changes position of shadow
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          VerticalSpacer(height: 12,),
-          DifferentSizeResponsiveRow(
+        child: RaisedButton(
+          color: Colors.grey[200] ,
+          child: DifferentSizeResponsiveRow(
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Icon(
                   Icons.date_range_rounded,
                   size: Styles.mediumIconSize(),
@@ -117,10 +120,8 @@ class DateTimePickerState extends State<DateTimePicker> {
                   style: Styles.valueTextStyle(),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  selectDate(context);
-                },
+              Expanded(
+                flex: 8,
                 child: Text(
                   Lang.getString(context, "Change"),
                   style: Styles.headerTextStyle(),
@@ -128,10 +129,12 @@ class DateTimePickerState extends State<DateTimePicker> {
               ),
             ],
           ),
-          VerticalSpacer(height: 12,),
-        ],
-      )
-    );
+          onPressed: () {
+            selectDate(context);
+          },
+        ),
+      ),
+    );;
   }
 }
 

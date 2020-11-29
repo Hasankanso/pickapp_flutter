@@ -84,9 +84,9 @@ class Styles {
   }
 
   static TextStyle valueTextStyle({bold = FontWeight.w400}) {
-    return TextStyle(
-        color: valueColor(), fontSize: _fontSize, fontWeight: bold);
+    return TextStyle(fontSize: _fontSize, fontWeight: bold);
   }
+
 
   static TextStyle subValueTextStyle() {
     return TextStyle(

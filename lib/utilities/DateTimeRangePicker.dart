@@ -11,18 +11,7 @@ class DateTimeRangePicker extends StatefulWidget {
 }
 
 class DateTimeRangePickerState extends State<DateTimeRangePicker> {
-  bool _show = false;
   bool _isEndDateChanged = false;
-  @override
-  initState() {
-    Cache.getDateTimeRangePicker().then((String isRangePicker) => setState(() {
-          if (isRangePicker == null) {
-            _show = false;
-            return;
-          }
-          _show = isRangePicker == "true";
-        }));
-  }
 
   _startDatePicked() {
     setState(() {
@@ -59,7 +48,7 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
             DateTimePicker(false, widget._controller.startDateController,
                 callBack: _startDatePicked),
             Visibility(
-              visible: _show,
+              visible: Cache.dateTimeRangePicker,
               child: DateTimePicker(
                 false,
                 widget._controller.endDateController,

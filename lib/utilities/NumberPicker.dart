@@ -63,7 +63,7 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
-                  heroTag: "minus",
+                  heroTag: widget._title+"minus",
                   onPressed: _minus,
                   child: Icon(
                     Icons.remove,
@@ -81,7 +81,7 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
-                  heroTag: "plus",
+                  heroTag: widget._title+"plus",
                   onPressed: counterUp,
                   child: Icon(
                     Icons.add,

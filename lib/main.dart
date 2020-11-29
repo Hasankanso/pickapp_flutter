@@ -13,16 +13,11 @@ void main() {
 
 class MyApp extends StatefulWidget {
   @override
-  MyAppState createState() {
-    MyAppState state = new MyAppState();
-    App.init(state);
-    return state;
-  }
+  MyAppState createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
   Locale _locale;
-  bool _cacheLoaded = false;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -30,32 +25,31 @@ class MyAppState extends State<MyApp> {
     });
   }
 
-  void setDarkTheme() {
+  void setTheme(ThemeMode mode) {
     setState(() {
-      Styles.setTheme(ThemeMode.dark);
+      Styles.setTheme(mode);
     });
   }
 
   @override
   void initState() {
+    Cache.init();
     super.initState();
-    Cache.getLocale().then((String lang) =>
-        Cache.getCurrentTheme().then((ThemeMode mode) => setState(() {
-              if (lang != null) {
-                this._locale = Locale(lang);
-              }
-              if (mode != null) {
-              Styles.setTheme(mode);
-              }
-              _cacheLoaded = true;
-            })));
   }
+  void _init(){
+    if (Cache.darkTheme) {
+      Styles.setTheme(ThemeMode.dark);
+    }
+    if (Cache.locale != null) _locale = Locale(Cache.locale);
 
+    App.init(this);
+  }
   @override
   Widget build(BuildContext context) {
-    if (!_cacheLoaded) {
+    if (!Cache.loaded) {
       return SplashScreen();
     } else {
+      _init();
       return MaterialApp(
         title: App.appName,
         locale: _locale,

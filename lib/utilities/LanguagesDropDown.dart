@@ -14,16 +14,11 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
   dynamic _selectedLang;
 
   void initState() {
-    Cache.getLocale().then(
-      (value) => setState(
-        () {
-          Language l = new Language(code: value, flag: null, fullname: null);
-          Lang.langs.asMap().forEach((index, element) => {
-                if (element == l) {_selectedLang = index}
-              });
-        },
-      ),
-    );
+
+    Language l = new Language(code: Cache.locale, flag: null, fullname: null);
+    Lang.langs.asMap().forEach((index, element) => {
+          if (element == l) {_selectedLang = index}
+        });
     super.initState();
   }
 
@@ -42,8 +37,8 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
         value: index,
         child: Row(children: [
           Spacer(),
-          Text(element.fullname),
-          Spacer(flex : 13),
+          Text(element.fullname, style: Styles.valueTextStyle()),
+          Spacer(flex: 13),
           Text(
             element.flag,
             style: TextStyle(fontSize: Styles.largeIconSize()),

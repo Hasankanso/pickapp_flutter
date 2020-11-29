@@ -55,7 +55,8 @@ class _AddRideState extends State<AddRide> {
                         children: [
                           Expanded(
                               flex: 1,
-                              child: SizedBox()),
+                              child: SizedBox()
+                          ),
                           Expanded(
                             flex: 4,
                             child: Row(
@@ -153,23 +154,10 @@ class _AddRideState extends State<AddRide> {
                     ],
                   )
               ),
-              ResponsiveWidget(
-                height: 100,
-                width: 100,
-                child: Center(child: TextField(
-                  decoration: InputDecoration(
-                    labelText: "Price",
-                  ),
-                  keyboardType: TextInputType.number,
-                  maxLines: 1,
-
-                ))
-                ,
-              ),
-              VerticalSpacer(height: 30),
+              VerticalSpacer(height: 60),
               ResponsiveWidget(
                 width: 270,
-                height: 53,
+                height: 50,
                 child: MainButton(
                   text_key: "Next",
                   onPressed: () {
@@ -180,7 +168,9 @@ class _AddRideState extends State<AddRide> {
               ),
             ],
           ),
+          //design price button next page+ dateTimepicker exchange to button,
         )
     );
+    /**/
   }
 }
