@@ -18,7 +18,6 @@ class _AddRidePage3State extends State<AddRidePage3> {
   NumberController numberController = NumberController();
   NumberController numberController2 = NumberController();
   int hhhh = 30;
-  bool hide = false;
   String selectedCar = "Choose a car";
   @override
   Widget build(BuildContext context) {
@@ -33,9 +32,8 @@ class _AddRidePage3State extends State<AddRidePage3> {
           ),
           ResponsiveWidget(
             width: 270,
-            height: hhhh,
+            height: 150,
             child: MainExpansionTile(
-              initiallyExpanded: hide,
               leading: Icon(
                 Icons.local_taxi_outlined,
                 size: Styles.mediumIconSize(),
@@ -110,14 +108,7 @@ class _AddRidePage3State extends State<AddRidePage3> {
       ),
     );
   }
-
-  void settt() {
-    if (hhhh == 30)
-      hhhh = 270;
-    else
-      hhhh = 30;
-    setState(() {});
-  }
+  
 
   Widget carTile(String brand, String name) {
     return Card(
