@@ -238,6 +238,8 @@ class _MainExpansionTileState extends State<MainExpansionTile>
                       _handleTap();
                       widget.callBack();
                     },
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
