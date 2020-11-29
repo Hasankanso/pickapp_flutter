@@ -35,5 +35,15 @@
 
   "Public_Information": "Public Information",
   "Luggage":"Luggage",
-  "Price":"Price"
+  "Price":"Price",
+  "Rides_Permissions": "Rides Permission :",
+  "Description": "Description",
+  "Min": "/Min",
+  "How_Much_Time": "How much time you need ?",
+  "Want_To_Stop_Over": "Do you want to stop over ?",
+  "Do_You_Have_Kids": "Do you have Kids ?",
+  "Choose_Car": "Choose a car ",
+  "LBP": "LBP",
+  "Choose_Route": "Choose a route from the list below",
+  "Ride_Added": "Ride Added Successfully"
 }

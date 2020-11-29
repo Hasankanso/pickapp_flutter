@@ -36,7 +36,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    "Do you have kids seat ?",
+                    Lang.getString(context, "Do_You_Have_Kids"),
                     style: Styles.labelTextStyle(),
                   ),
                 ),
@@ -64,7 +64,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    "Do you want to stop over ?",
+                    Lang.getString(context, "Want_To_Stop_Over"),
                     style: Styles.labelTextStyle(),
                   ),
                 ),
@@ -95,7 +95,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      "How much time you need ?",
+                      Lang.getString(context, "How_Much_Time"),
                       style: Styles.labelTextStyle(),
                     ),
                   ),
@@ -104,7 +104,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                     child: TextField(
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: "       /min",
+                        hintText: Lang.getString(context, "Min"),
                       ),
                       maxLines: 1,
                     ),
@@ -120,7 +120,9 @@ class _AddRidePage2State extends State<AddRidePage2> {
               width: 270,
               height: 150,
               child: TextField(
-                decoration: InputDecoration(labelText: "Description"),
+                decoration: InputDecoration(
+                    labelText: Lang.getString(context, "Description")
+                ),
                 maxLines: 15,
               ),
             ),

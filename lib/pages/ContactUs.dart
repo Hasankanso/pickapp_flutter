@@ -83,7 +83,8 @@ class ContactUs extends StatelessWidget {
                 width: 350,
                 height: 50,
                 child: ResponsiveRow(
-                  children: [MainButton(
+                  children: [
+                    MainButton(
                     text_key: "Send",
                     onPressed: () {},
                   )],
