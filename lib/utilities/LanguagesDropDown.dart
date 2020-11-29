@@ -47,6 +47,7 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
 
     return DropdownButton(
       hint: Text("Select Language"),
+      underline: Container(color: Colors.transparent),
       isExpanded: true,
       value: _selectedLang,
       items: items,

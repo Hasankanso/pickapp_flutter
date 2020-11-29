@@ -20,8 +20,20 @@
   "Persons": "الأشخاص",
   "Notifications":"إشعارات",
   "Next": "التالي",
+
+  "Contact_Us" : "تواصل معنا",
+  "Send" : "إرسال",
+  "Subject" : "الموضوع",
+  "Message": "الرسالة",
+  "Full_Name" : "الإ سم",
+
+  "Generals": "الإعدادات العامة",
+  "About" : "عن التطبيق",
+  "Privacy_Policy": "سياسة الخصوصية",
+  "Terms_&_Conditions": "الأحكام والشروط",
+  "Dark_Mode": "الوضع المظلم",
+
+  "Public_Information": "Public Information",
   "Luggage":"الحقائب",
   "Price":"السعر"
-
-
 }

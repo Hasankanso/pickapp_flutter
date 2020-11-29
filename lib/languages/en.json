@@ -20,6 +20,19 @@
   "Persons": "Persons",
   "Notifications":"Notifications",
   "Next":"Next",
+
+  "Contact_Us" : "Contact Us",
+  "Send" : "Send",
+  "Subject" : "Subject",
+  "Message": "Message",
+  "Full_Name" : "Full Name",
+
+  "Generals": "Generals",
+  "About" : "About",
+  "Privacy_Policy": "Privacy Policy",
+  "Terms_&_Conditions": "Terms & Conditions",
+  "Dark_Mode": "Dark Mode",
+
   "Public_Information": "Public Information",
   "Luggage":"Luggage",
   "Price":"Price"

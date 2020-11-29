@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
+import 'package:pickapp/pages/AddRidePage4.dart';
+import 'package:pickapp/pages/ContactUs.dart';
 import 'package:pickapp/pages/Home.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/Notifications.dart';
@@ -23,8 +25,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => PublicInformation());
       case '/AddRidePage2':
         return MaterialPageRoute(builder: (_) => AddRidePage2());
+      case '/ContactUs' :
+        return MaterialPageRoute(builder: (_) => ContactUs());
       case '/AddRidePage3':
         return MaterialPageRoute(builder: (_) => AddRidePage3());
+      case '/AddRidePage4':
+        return MaterialPageRoute(builder: (_) => AddRidePage4());
     }
   }
 }
