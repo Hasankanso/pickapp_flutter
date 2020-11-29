@@ -30,25 +30,40 @@ class _AddRidePage3State extends State<AddRidePage3> {
           VerticalSpacer(
             height: 20,
           ),
-          ResponsiveWidget(
-            width: 270,
-            height: 150,
-            child: MainExpansionTile(
-              leading: Icon(
-                Icons.local_taxi_outlined,
-                size: Styles.mediumIconSize(),
-                color: Colors.grey,
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: SizedBox(),
               ),
-              title: Text(
-                selectedCar,
-                style: Styles.labelTextStyle(),
+              Expanded(
+                flex: 6,
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  constraints: BoxConstraints(minHeight: 70),
+                  child: MainExpansionTile(
+                    leading: Icon(
+                      Icons.local_taxi_outlined,
+                      size: Styles.mediumIconSize(),
+                      color: Colors.grey,
+                    ),
+                    title: Text(
+                      selectedCar,
+                      style: Styles.labelTextStyle(),
+                    ),
+                    children: <Widget>[
+                      carTile("Honda", "Civic"),
+                      carTile("Jeep", "Laredo"),
+                      carTile("BMW", "E90"),
+                    ],
+                  ),
+                ),
               ),
-              children: <Widget>[
-                carTile("Honda", "Civic"),
-                carTile("Jeep", "Laredo"),
-                carTile("BMW", "E90"),
-              ],
-            ),
+              Expanded(
+                flex: 1,
+                child: SizedBox(),
+              ),
+            ],
           ),
           VerticalSpacer(
             height: 50,
@@ -108,7 +123,6 @@ class _AddRidePage3State extends State<AddRidePage3> {
       ),
     );
   }
-  
 
   Widget carTile(String brand, String name) {
     return Card(
