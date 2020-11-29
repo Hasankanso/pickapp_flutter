@@ -22,7 +22,7 @@ class _AddRidePage3State extends State<AddRidePage3> {
 
   @override
   Widget build(BuildContext context) {
-    selectedCar = Lang.getString(context, "Choose_Car");
+    selectedCar = Lang.getString(context, "Choose_A_Car");
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Add_Ride"),

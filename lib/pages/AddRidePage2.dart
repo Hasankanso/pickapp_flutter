@@ -36,7 +36,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    Lang.getString(context, "Do_You_Have_Kids"),
+                    Lang.getString(context, "Do_You_Have_Kids_Seat"),
                     style: Styles.labelTextStyle(),
                   ),
                 ),
@@ -64,7 +64,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    Lang.getString(context, "Want_To_Stop_Over"),
+                    Lang.getString(context, "Do_You_Want_To_Stop_Over"),
                     style: Styles.labelTextStyle(),
                   ),
                 ),
@@ -95,7 +95,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      Lang.getString(context, "How_Much_Time"),
+                      Lang.getString(context, "How_Much_Time_You_Need"),
                       style: Styles.labelTextStyle(),
                     ),
                   ),
@@ -105,7 +105,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                       controller: timeController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: Lang.getString(context, "Min"),
+                        hintText: Lang.getString(context, "/Min"),
                       ),
                       maxLines: 1,
                     ),
