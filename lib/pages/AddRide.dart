@@ -5,6 +5,8 @@ import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
+import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Switcher.dart';
@@ -23,10 +25,10 @@ class _AddRideState extends State<AddRide> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(Lang.getString(context, "Add_Ride")),
-        ),
+    return MainScaffold(
+        appBar: MainAppBar(
+          title: Lang.getString(context, "Add_Ride"),
+          ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -43,7 +45,7 @@ class _AddRideState extends State<AddRide> {
                 width: 270,
                 height: 30,
                 child: Center(
-                  child: Text("Rides Permissions :",
+                  child: Text(Lang.getString(context, "Rides_Permissions"),
                       style: Styles.labelTextStyle()),
                 ),
               ),

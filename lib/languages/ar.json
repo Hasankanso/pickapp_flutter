@@ -38,5 +38,21 @@
   "Regions": "Regions",
 
   "Luggage":"الحقائب",
-  "Price":"السعر"
+  "Price":"السعر",
+  "Rides_Permissions": "مسموحات الرحلة",
+  "Description": "وصف الرحلة",
+  "Min": "/ دقيقة",
+  "How_Much_Time": "كم من الوقت تحتاج ؟",
+  "Want_To_Stop_Over": "هل تريد التوقف في طريقك؟",
+  "Do_You_Have_Kids": "هل لديك مقعد اطفال؟",
+  "Choose_Car": "اختر سيارة ",
+  "LBP": "ليرة",
+  "Choose_Route": "اختر طريقًا من القائمة أدناه",
+  "Ride_Added": "تمت إضافة الرحلة"
+
+
+
+
+
+
 }
