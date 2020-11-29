@@ -245,21 +245,25 @@ class _MainExpansionTileState extends State<MainExpansionTile>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          flex: 2,
-                          child: widget.leading,
+                          flex: 1,
+                          child: widget.leading == null
+                              ? SizedBox()
+                              : widget.leading,
                         ),
                         Expanded(
-                          flex: 8,
-                          child: widget.title,
+                          flex: 6,
+                          child: Row(
+                            children: [
+                              widget.title,
+                              Expanded(child: SizedBox()),
+                              widget.trailing ??
+                                  RotationTransition(
+                                    turns: _iconTurns,
+                                    child: const Icon(Icons.expand_more),
+                                  ),
+                            ],
+                          ),
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: widget.trailing ??
-                              RotationTransition(
-                                turns: _iconTurns,
-                                child: const Icon(Icons.expand_more),
-                              ),
-                        )
                       ],
                     ),
                   ),
