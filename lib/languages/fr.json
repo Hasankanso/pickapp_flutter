@@ -12,6 +12,7 @@
   "Settings": "Réglages",
   "Pick_a_Color": "Choisis une couleur",
   "DONE" : "TERMINÉ",
+  "Edit": "Edit",
   "CANCEL" : "ANNULER",
   "My_Current_Location" : "Mon Actuelle Place",
   "lang" : "fr",
@@ -22,10 +23,17 @@
 
   "Contact_Us" : "Contact Us",
   "Send" : "Send",
-  "Email" : "Email",
+  "Subject" : "Subject",
   "Message": "Message",
   "Full_Name" : "Full Name",
 
   "Generals": "Generals",
-  "About" : "About"
+  "About" : "About",
+  "Privacy_Policy": "Privacy Policy",
+  "Terms_&_Conditions": "Terms & Conditions",
+  "Dark_Mode": "Dark Mode",
+
+  "Public_Information": "Public Information",
+  "Luggage":"Luggage",
+  "Price":"Price"
 }

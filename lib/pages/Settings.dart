@@ -19,23 +19,24 @@ class Settings extends StatelessWidget {
         title: Lang.getString(context, "Settings"),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             VerticalSpacer(height: 18),
-            Text(
-              "Generals",
-              style: Styles.headerTextStyle(),
+            ResponsiveRow(widgetRealtiveSize: 25,
+              children: [Text(
+                Lang.getString(context, "Generals"),
+                style: Styles.headerTextStyle(),
+              ),]
             ),
-            ResponsiveRow( widgetRealtiveSize: 200,
+            ResponsiveRow(widgetRealtiveSize: 30,
               children: [Card(
                 child: Column(
                   children: <Widget>[
                     LanguagesDropdown(),
                     Row(children: [
                       Spacer(flex: 1),
-                      Text("Force Dark Theme", style: Styles.valueTextStyle()),
+                      Text(Lang.getString(context, "Dark_Mode"), style: Styles.valueTextStyle()),
                       Spacer(flex: 9),
                       Switcher(
                           isOn: Cache.darkTheme,
@@ -45,20 +46,37 @@ class Settings extends StatelessWidget {
                 ),
               )],
             ),
-            Text(
-              "About",
-              style: Styles.headerTextStyle(),
+            VerticalSpacer(height: 18),
+            ResponsiveRow(widgetRealtiveSize: 25,
+              children: [Text(
+                Lang.getString(context, "About"),
+                style: Styles.headerTextStyle(),
+              ),]
             ),
-            Card(
-              margin: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 0,
-              ),
-              child: ListTile(
-                leading: Icon(Icons.email),
-                title: Text(Lang.getString(context, "Contact_Us"), style: Styles.valueTextStyle()),
-                onTap: () {Navigator.of(context).pushNamed("/ContactUs");},
-              ),
+            ResponsiveRow(widgetRealtiveSize: 30,
+              children: [Card(
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.email),
+                      title: Text(Lang.getString(context, "Contact_Us"), style: Styles.valueTextStyle()),
+                      onTap: () {Navigator.of(context).pushNamed("/ContactUs");},
+                    ),
+                    _buildDivider(),
+                    ListTile(
+                      leading: Icon(Icons.policy),
+                      title: Text(Lang.getString(context, "Privacy_Policy"), style: Styles.valueTextStyle()),
+                      onTap: () {},
+                    ),
+                    _buildDivider(),
+                    ListTile(
+                      leading: Icon(Icons.rule),
+                      title: Text(Lang.getString(context, "Terms_&_Conditions"), style: Styles.valueTextStyle()),
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+              )],
             ),
             const SizedBox(height: 60.0),
           ],
@@ -69,29 +87,9 @@ class Settings extends StatelessWidget {
 
   Container _buildDivider() {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 8.0,
-      ),
       width: double.infinity,
       height: 1.0,
       color: Colors.grey.shade300,
     );
   }
 }
-
-/*
-class Settings extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MainScaffold(
-        appBar: MainAppBar(
-          title: Lang.getString(context, "Settings"),
-        ),
-        body: Column(
-          children: [
-            LanguagesDropdown(),
-          ],
-        ));
-  }
-}
-*/

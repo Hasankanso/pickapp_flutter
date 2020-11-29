@@ -14,19 +14,9 @@ class AddRidePage2 extends StatefulWidget {
 
 class _AddRidePage2State extends State<AddRidePage2> {
   SwitcherController switcherController = SwitcherController();
-  bool rememberMe = false;
-  bool show=false;
+  bool stopOver = false;
+  bool kidsSeat = false;
 
-  void _onRememberMeChanged(bool newValue) => setState(() {
-    rememberMe = newValue;
-
-    if (rememberMe) {
-     show=true;
-    } else {
-
-    show=false;
-    }
-  });
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -52,14 +42,21 @@ class _AddRidePage2State extends State<AddRidePage2> {
                 ),
                 Expanded(
                     flex: 3,
-                    child: Switcher(
-                      isOn: false,
-                      controller: switcherController,
+                    child: Checkbox(
+                      materialTapTargetSize: MaterialTapTargetSize.padded,
+                      value: kidsSeat,
+                      onChanged: (bool newValue) {
+                        setState(() {
+                          kidsSeat = newValue;
+                        });
+                      },
                     )),
                 Expanded(flex: 1, child: SizedBox()),
               ]),
             ),
-            VerticalSpacer(height: 20,),
+            VerticalSpacer(
+              height: 20,
+            ),
             ResponsiveWidget.fullWidth(
               height: 50,
               child: Row(children: [
@@ -72,19 +69,25 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   ),
                 ),
                 Expanded(
-                    flex: 3,
-                    child: Checkbox(
-                        value: rememberMe,
-                        onChanged: _onRememberMeChanged
-                    ),
+                  flex: 3,
+                  child: Checkbox(
+                    value: stopOver,
+                    materialTapTargetSize: MaterialTapTargetSize.padded,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        stopOver = newValue;
+                      });
+                    },
+                  ),
                 ),
                 Expanded(flex: 1, child: SizedBox()),
               ]),
             ),
-            VerticalSpacer(height: 20,),
-
+            VerticalSpacer(
+              height: 20,
+            ),
             Visibility(
-              visible: show,
+              visible: stopOver,
               child: ResponsiveWidget.fullWidth(
                 height: 50,
                 child: Row(children: [
@@ -97,36 +100,47 @@ class _AddRidePage2State extends State<AddRidePage2> {
                     ),
                   ),
                   Expanded(
-                      flex: 3,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "       /min"
-                        ),
-                      ),),
+                    flex: 3,
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: "       /min",
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
                   Expanded(flex: 1, child: SizedBox()),
                 ]),
               ),
             ),
-            VerticalSpacer(height: 20,),
+            VerticalSpacer(
+              height: 20,
+            ),
             ResponsiveWidget(
               width: 270,
               height: 150,
               child: TextField(
-                decoration: InputDecoration(
-                  labelText: "Description"
-                ),
+                decoration: InputDecoration(labelText: "Description"),
                 maxLines: 15,
               ),
             ),
-            VerticalSpacer(height: 180,),
+            VerticalSpacer(
+              height: 180,
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: ResponsiveWidget.fullWidth(
+        height: 80,
+        child: Column(
+          children: [
             ResponsiveWidget(
               width: 270,
-              height: 53,
+              height: 50,
               child: MainButton(
                 text_key: "Next",
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/AddRidePage2");
-
+                  Navigator.of(context).pushNamed("/AddRidePage3");
                 },
               ),
             ),

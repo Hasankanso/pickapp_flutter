@@ -25,6 +25,7 @@ class ContactUs extends StatelessWidget {
           ),
           Icon(Icons.drive_eta,
               color: Styles.primaryColor(), size: ScreenUtil().setSp(90)),
+          VerticalSpacer(height : 20),
           ResponsiveWidget(
             width: 270,
             height: 50,
@@ -48,19 +49,21 @@ class ContactUs extends StatelessWidget {
                 controller: c2,
                 style: Styles.valueTextStyle(),
                 decoration: InputDecoration(
-                  labelText: Lang.getString(context, "Email"),
-                  hintText: Lang.getString(context, "Email"),
+                  labelText: Lang.getString(context, "Subject"),
+                  hintText: Lang.getString(context, "Subject"),
                   labelStyle: Styles.labelTextStyle(),
                   hintStyle: Styles.labelTextStyle(),
                 ),
                 keyboardType: TextInputType.emailAddress),
           ),
-          VerticalSpacer(height: 20),
+          VerticalSpacer(height: 60),
           ResponsiveWidget(
             width: 270,
-            height: 300,
+            height: 150,
             child: TextField(
                 controller: c3,
+                minLines: 10,
+                maxLines: 40,
                 style: Styles.valueTextStyle(),
                 decoration: InputDecoration(
                   labelText: Lang.getString(context, "Message"),
@@ -72,15 +75,23 @@ class ContactUs extends StatelessWidget {
           ),
         ]),
       ),
-      bottomNavigationBar: ResponsiveWidget(
-          width: 270,
-          height: 50,
-          child: ResponsiveRow(
-            children: [MainButton(
-              text_key: "Send",
-              onPressed: () {},
-            )],
-          )),
+      bottomNavigationBar: ResponsiveWidget.fullWidth(
+        height: 100,
+        child: Column(
+          children: [
+            ResponsiveWidget(
+                width: 350,
+                height: 50,
+                child: ResponsiveRow(
+                  children: [MainButton(
+                    text_key: "Send",
+                    onPressed: () {},
+                  )],
+                )),
+            VerticalSpacer(height: 50,),
+          ],
+        ),
+      ),
     );
   }
 }

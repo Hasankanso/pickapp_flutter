@@ -4,6 +4,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/MainExpansionTile.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
@@ -12,13 +13,13 @@ class Profile extends StatefulWidget {
   _ProfileState createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
-  int _userRate = 3;
+class _ProfileState extends State<Profile> {
+  double _userRate = 3.5;
 
+  int hhhh = 70;
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: MainAppBar(
         title: Lang.getString(context, "Profile"),
         elevation: 0,
@@ -36,38 +37,35 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(266),
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    height: ScreenUtil().setHeight(266),
-                    width: double.infinity,
-                    color: Styles.secondaryColor(),
-                  ),
-                  Container(
-                    height: ScreenUtil().setHeight(190),
-                    width: double.infinity,
-                    color: Styles.primaryColor(),
-                  ),
-                  Positioned(
-                    left: 15.0,
-                    right: 15.0,
-                    child: Card(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0),
-                      ),
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            height: ScreenUtil().setHeight(266),
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  height: ScreenUtil().setHeight(266),
+                  width: double.infinity,
+                ),
+                Container(
+                  height: ScreenUtil().setHeight(190),
+                  width: double.infinity,
+                  color: Styles.primaryColor(),
+                ),
+                Positioned(
+                  left: 15.0,
+                  right: 15.0,
+                  child: Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7.0),
+                    ),
+                    child: Material(
+                      color: Styles.secondaryColor(),
+                      borderRadius: BorderRadius.circular(7.0),
                       child: Container(
                         height: ScreenUtil().setHeight(254),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(7.0),
-                            color: Styles.secondaryColor()),
                         child: Column(
                           children: <Widget>[
                             VerticalSpacer(height: 10),
@@ -78,17 +76,10 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   flex: 6,
                                   child: Align(
                                     alignment: Alignment.topCenter,
-                                    child: Container(
-                                      height: ScreenUtil().setHeight(120),
-                                      width: ScreenUtil().setHeight(120),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'lib/images/adel.png'),
-                                            fit: BoxFit.cover),
-                                      ),
+                                    child: CircleAvatar(
+                                      radius: ScreenUtil().setSp(40),
+                                      backgroundImage:
+                                          AssetImage('lib/images/adel.png'),
                                     ),
                                   ),
                                 ),
@@ -97,12 +88,16 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   child: Container(
                                     height: ScreenUtil().setHeight(127),
                                     child: Align(
-                                        alignment: Alignment.topRight,
-                                        child: Icon(
+                                      alignment: Alignment.topRight,
+                                      child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
                                           Icons.edit,
                                           color: Styles.primaryColor(),
                                           size: Styles.mediumIconSize(),
-                                        )),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -137,137 +132,198 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                       ),
                     ),
                   ),
-                ],
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(16.0),
+              child: Card(
+                elevation: 3,
+                child: Column(
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/publicInformation");
+                      },
+                      child: ResponsiveWidget.fullWidth(
+                        height: 70,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Icon(
+                                Icons.public,
+                                size: Styles.mediumIconSize(),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 6,
+                              child: Text(
+                                "Public information",
+                                style: Styles.valueTextStyle(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    _buildDivider(),
+                    InkWell(
+                      onTap: () {},
+                      child: ResponsiveWidget.fullWidth(
+                        height: 70,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Icon(
+                                Icons.location_on_outlined,
+                                size: Styles.mediumIconSize(),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 6,
+                              child: Text(
+                                "Regions",
+                                style: Styles.valueTextStyle(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    _buildDivider(),
+                    InkWell(
+                      onTap: () {},
+                      child: ResponsiveWidget.fullWidth(
+                        height: hhhh,
+                        child: MainExpansionTile(
+                          callBack: settt,
+                          leading: Icon(
+                            Icons.local_taxi_outlined,
+                            size: Styles.mediumIconSize(),
+                          ),
+                          title: Text(
+                            "My cars",
+                            style: Styles.valueTextStyle(),
+                          ),
+                          children: <Widget>[
+                            carTile("BMW", "E90", "lib/images/adel.png", 4, 5),
+                            carTile("BMW", "E90", "lib/images/adel.png", 4, 5),
+                            carTile("BMW", "E90", "lib/images/adel.png", 4, 5),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            Card(
-              margin: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 0,
-              ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _buildDivider() {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+      ),
+      width: double.infinity,
+      height: 1.0,
+      color: Colors.grey.shade300,
+    );
+  }
+
+  Widget carTile(
+      String brand, String name, String imgPath, int seats, int luggage) {
+    return Card(
+      elevation: 1.0,
+      child: ListTile(
+        onTap: () {},
+        leading: CircleAvatar(
+          radius: ScreenUtil().setSp(30),
+          backgroundImage: AssetImage(imgPath),
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              brand,
+              style: Styles.headerTextStyle(),
+            ),
+          ],
+        ),
+        subtitle: Row(
+          children: <Widget>[
+            Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.exit_to_app),
-                    title: Text("Info"),
-                    onTap: () {},
+                  Text(
+                    name,
+                    style: Styles.headerTextStyle(),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.exit_to_app),
-                    title: Text("Regions"),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.exit_to_app),
-                    title: Text("My cars"),
-                    onTap: () {},
-                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 2,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Seats: ",
+                              style: Styles.labelTextStyle(),
+                            ),
+                            Text(
+                              seats.toString(),
+                              style:
+                                  Styles.valueTextStyle(bold: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Luggage: ",
+                              style: Styles.labelTextStyle(),
+                            ),
+                            Text(
+                              luggage.toString(),
+                              style:
+                                  Styles.valueTextStyle(bold: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
     );
   }
 
-  Widget getWorks(String imgPath) {
-    return Padding(
-      padding: EdgeInsets.only(right: 10.0),
-      child: Container(
-        height: 100.0,
-        width: 125.0,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(7.0),
-            image:
-                DecorationImage(image: AssetImage(imgPath), fit: BoxFit.cover)),
-      ),
-    );
-  }
-
-  Widget menuCard(String title, String imgPath, String type, int rating,
-      double views, double likes) {
-    return Padding(
-      padding: EdgeInsets.only(left: 10.0, right: 10.0),
-      child: Material(
-        borderRadius: BorderRadius.circular(7.0),
-        elevation: 4.0,
-        child: Container(
-          height: 125.0,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(7.0), color: Colors.white),
-          child: Row(
-            children: <Widget>[
-              SizedBox(width: 10.0),
-              Container(
-                height: 100.0,
-                width: 100.0,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(imgPath), fit: BoxFit.cover),
-                    borderRadius: BorderRadius.circular(7.0)),
-              ),
-              SizedBox(width: 10.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: 15.0),
-                  Text(
-                    title,
-                    style: TextStyle(
-                        fontFamily: 'Comfortaa',
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 7.0),
-                  Text(
-                    type,
-                    style: TextStyle(
-                        fontFamily: 'Comfortaa',
-                        color: Colors.grey,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  SizedBox(height: 7.0),
-                  Row(
-                    children: <Widget>[
-                      getStar(rating, 1),
-                      getStar(rating, 2),
-                      getStar(rating, 3),
-                      getStar(rating, 4),
-                      getStar(rating, 5)
-                    ],
-                  ),
-                  SizedBox(height: 4.0),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.remove_red_eye,
-                          color: Colors.grey.withOpacity(0.4)),
-                      SizedBox(width: 3.0),
-                      Text(views.toString()),
-                      SizedBox(width: 10.0),
-                      Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                      ),
-                      SizedBox(width: 3.0),
-                      Text(likes.toString())
-                    ],
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget getStar(rating, index) {
+  Widget getStar(double rating, index) {
     if (rating >= index) {
       return Icon(
         Icons.star,
+        color: Colors.yellow,
+        size: Styles.mediumIconSize(),
+      );
+    } else if (rating.toInt() == index - 1 && rating.toInt() != rating) {
+      return Icon(
+        Icons.star_half,
         color: Colors.yellow,
         size: Styles.mediumIconSize(),
       );
@@ -278,5 +334,13 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         size: Styles.mediumIconSize(),
       );
     }
+  }
+
+  void settt() {
+    if (hhhh == 70)
+      hhhh = 270;
+    else
+      hhhh = 70;
+    setState(() {});
   }
 }
