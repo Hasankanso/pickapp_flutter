@@ -39,7 +39,7 @@ class AddRidePage4 extends StatelessWidget {
               child: ResponsiveRow(
                 children: [
                   Text(
-                    Lang.getString(context, "Choose_Route")+" :",
+                    Lang.getString(context, "Choose_A_Route_From_The_List_Below") + " :",
                     style: Styles.labelTextStyle(),
                   )
                 ],
@@ -81,6 +81,7 @@ class AddRidePage4 extends StatelessWidget {
               child: MainButton(
                 text_key: "DONE",
                 onPressed: () {
+                  String routeId = "";
                   Navigator.of(context).pushNamed("/");
                   CustomToast().showColoredToast(
                       Lang.getString(context, "Ride_Added"),

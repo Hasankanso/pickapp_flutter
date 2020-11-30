@@ -43,12 +43,13 @@
   "Price":"Price",
   "Rides_Permissions": "Rides Permission :",
   "Description": "Description",
-  "Min": "/Min",
-  "How_Much_Time": "How much time you need ?",
-  "Want_To_Stop_Over": "Do you want to stop over ?",
-  "Do_You_Have_Kids": "Do you have Kids ?",
-  "Choose_Car": "Choose a car ",
+  "/Min": "/Min",
+  "How_Much_Time_You_Need": "How much time you need ?",
+  "Do_You_Want_To_Stop_Over": "Do you want to stop over ?",
+  "Do_You_Have_Kids_Seat": "Do you have Kids seat ?",
+  "Choose_A_Car": "Choose a car ",
   "LBP": "LBP",
-  "Choose_Route": "Choose a route from the list below",
-  "Ride_Added": "Ride Added Successfully"
+  "Choose_A_Route_From_The_List_Below": "Choose a route from the list below",
+  "Route": "Route :",
+  "You_Choosed": " You choosed :"
 }
