@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/utilities/Responsive.dart';
 
 const Duration _kExpand = Duration(milliseconds: 200);
 
@@ -38,6 +39,7 @@ class MainExpansionTile extends StatefulWidget {
     this.onExpansionChanged,
     this.children = const <Widget>[],
     this.trailing,
+    this.height,
     this.initiallyExpanded = false,
     this.maintainState = false,
     this.tilePadding,
@@ -85,6 +87,7 @@ class MainExpansionTile extends StatefulWidget {
 
   /// A widget to display instead of a rotating arrow icon.
   final Widget trailing;
+  final double height;
 
   /// Specifies if the list tile is initially expanded (true) or collapsed (false, the default).
   final bool initiallyExpanded;
@@ -143,10 +146,10 @@ class MainExpansionTile extends StatefulWidget {
   final EdgeInsetsGeometry childrenPadding;
 
   @override
-  _MainExpansionTileState createState() => _MainExpansionTileState();
+  MainExpansionTileState createState() => MainExpansionTileState();
 }
 
-class _MainExpansionTileState extends State<MainExpansionTile>
+class MainExpansionTileState extends State<MainExpansionTile>
     with SingleTickerProviderStateMixin {
   static final Animatable<double> _easeOutTween =
       CurveTween(curve: Curves.easeOut);
@@ -193,6 +196,15 @@ class _MainExpansionTileState extends State<MainExpansionTile>
     super.dispose();
   }
 
+  static MainExpansionTileState of(BuildContext context) {
+    return context
+        .ancestorStateOfType(const TypeMatcher<MainExpansionTileState>());
+  }
+
+  void collapse() {
+    _handleTap();
+  }
+
   void _handleTap() {
     setState(() {
       _isExpanded = !_isExpanded;
@@ -213,66 +225,69 @@ class _MainExpansionTileState extends State<MainExpansionTile>
   }
 
   Widget _buildChildren(BuildContext context, Widget child) {
-    return SingleChildScrollView(
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                ListTileTheme.merge(
-                  iconColor: _iconColor.value,
-                  textColor: _headerColor.value,
-                  child: Column(
-                    children: [
-                      InkWell(
-                        onTap: _handleTap,
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: widget.leading == null
-                                  ? SizedBox()
-                                  : widget.leading,
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Row(
-                                children: [
-                                  widget.title,
-                                  Expanded(child: SizedBox()),
-                                  widget.trailing ??
-                                      RotationTransition(
-                                        turns: _iconTurns,
-                                        child: Icon(
-                                          Icons.expand_more,
-                                          color: Styles.labelColor(),
-                                        ),
-                                      ),
-                                ],
+    return GestureDetector(
+      onTap: () {
+        collapse();
+      },
+      child: SingleChildScrollView(
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  ListTileTheme.merge(
+                    iconColor: _iconColor.value,
+                    textColor: _headerColor.value,
+                    child: Column(
+                      children: [
+                        ResponsiveWidget.fullWidth(
+                          height: widget.height,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: widget.leading == null
+                                    ? SizedBox()
+                                    : widget.leading,
                               ),
-                            ),
-                          ],
+                              Expanded(
+                                flex: 6,
+                                child: Row(
+                                  children: [
+                                    widget.title,
+                                    Expanded(child: SizedBox()),
+                                    widget.trailing ??
+                                        RotationTransition(
+                                          turns: _iconTurns,
+                                          child: Icon(
+                                            Icons.expand_more,
+                                            color: Styles.labelColor(),
+                                          ),
+                                        ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                ClipRect(
-                  child: Align(
-                    alignment: widget.expandedAlignment ?? Alignment.center,
-                    heightFactor: _heightFactor.value,
-                    child: child,
+                  ClipRect(
+                    child: Align(
+                      alignment: widget.expandedAlignment ?? Alignment.center,
+                      heightFactor: _heightFactor.value,
+                      child: child,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

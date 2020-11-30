@@ -90,6 +90,8 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                     child: Align(
                                       alignment: Alignment.topRight,
                                       child: IconButton(
+                                        tooltip: Lang.getString(
+                                            context, "Edit_Account"),
                                         onPressed: () {
                                           Navigator.of(context)
                                               .pushNamed("/EditAccount");
@@ -203,7 +205,10 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    if (App.driver != null) ...driverInfo(),
+                    if (App.driver != null)
+                      ...driverInfo()
+                    else
+                      ...passengerInfo(),
                   ],
                 ),
               ),
@@ -212,6 +217,40 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  List<Widget> passengerInfo() {
+    return [
+      _buildDivider(),
+      InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed("/BecomeDriver");
+        },
+        child: ResponsiveWidget.fullWidth(
+          height: 60,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Icon(
+                  Icons.drive_eta_rounded,
+                  size: Styles.mediumIconSize(),
+                  color: Styles.primaryColor(),
+                ),
+              ),
+              Expanded(
+                flex: 6,
+                child: Text(
+                  Lang.getString(context, "Become_a_driver"),
+                  style: Styles.valueTextStyle(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
   }
 
   List<Widget> driverInfo() {
@@ -255,23 +294,20 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
           child: Row(
             children: [
               Expanded(
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  constraints: BoxConstraints(minHeight: 60),
-                  child: MainExpansionTile(
-                    leading: Icon(
-                      Icons.local_taxi_outlined,
-                      size: Styles.mediumIconSize(),
-                      color: Styles.primaryColor(),
-                    ),
-                    title: Text(
-                      Lang.getString(context, "My_cars"),
-                      style: Styles.valueTextStyle(),
-                    ),
-                    children: App.driver.cars.map((Car car) {
-                      return CarListTile(car);
-                    }).toList(growable: true),
+                child: MainExpansionTile(
+                  height: 60,
+                  leading: Icon(
+                    Icons.local_taxi_outlined,
+                    size: Styles.mediumIconSize(),
+                    color: Styles.primaryColor(),
                   ),
+                  title: Text(
+                    Lang.getString(context, "My_cars"),
+                    style: Styles.valueTextStyle(),
+                  ),
+                  children: App.driver.cars.map((Car car) {
+                    return CarListTile(car);
+                  }).toList(growable: true),
                 ),
               ),
             ],

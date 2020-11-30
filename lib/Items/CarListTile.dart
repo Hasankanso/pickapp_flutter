@@ -4,10 +4,10 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
+import 'package:pickapp/utilities/MainExpansionTile.dart';
 
 class CarListTile extends ListTile {
   final Car car;
-
   CarListTile(this.car);
 
   static Function(BuildContext, int) itemBuilder(List<Car> c) {
@@ -21,7 +21,9 @@ class CarListTile extends ListTile {
     return Card(
       elevation: 1.0,
       child: ListTile(
-        onTap: () {},
+        onTap: () {
+          MainExpansionTileState.of(context).collapse();
+        },
         leading: CircleAvatar(
           radius: ScreenUtil().setSp(30),
           backgroundImage: AssetImage(car.carPictureUrl),

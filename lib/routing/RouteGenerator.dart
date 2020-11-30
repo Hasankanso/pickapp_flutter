@@ -11,6 +11,7 @@ import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/Regions.dart';
 import 'package:pickapp/pages/Settings.dart';
 import 'package:pickapp/pages/Statistics.dart';
+import 'package:pickapp/utilities/BecomeDriver.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -40,6 +41,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Regions());
       case '/EditAccount':
         return MaterialPageRoute(builder: (_) => EditAccount());
+      case '/BecomeDriver':
+        return MaterialPageRoute(builder: (_) => BecomeDriver());
     }
   }
 }
