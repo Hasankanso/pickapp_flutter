@@ -26,7 +26,6 @@ class ScreenUtil {
   static double _statusBarHeight;
   static double _bottomBarHeight;
   static double _textScaleFactor;
-  static double _noNavScreenHeight;
   static double _appBarHeight;
 
   ScreenUtil._();
@@ -67,8 +66,6 @@ class ScreenUtil {
 
     _screenHeight = mediaQuery.size.height - _appBarHeight - _statusBarHeight;
 
-    _noNavScreenHeight =
-        mediaQuery.size.height - kToolbarHeight - _statusBarHeight;
   }
 
   double get appBarHeight => _appBarHeight;
@@ -113,7 +110,6 @@ class ScreenUtil {
 
   double get scaleHeight => _screenHeight / uiSize.height;
 
-  double get noNavScaleHeight => _noNavScreenHeight / uiSize.height;
 
   double get scaleText => scaleWidth;
 
@@ -123,8 +119,6 @@ class ScreenUtil {
   /// Height can also be adapted according to this to ensure no deformation ,
   /// if you want a square
   double setWidth(num width) => width * scaleWidth;
-
-  double setNoNavWidth(num width) => width * scaleWidth;
 
   /// 根据UI设计的设备高度适配
   /// 当发现UI设计中的一屏显示的与当前样式效果不符合时,
@@ -136,7 +130,6 @@ class ScreenUtil {
   /// does not match the current style effect, or if there is a difference in shape.
   double setHeight(num height) => height * scaleHeight;
 
-  double setNoNavHeight(num height) => height * noNavScaleHeight;
 
   ///字体大小适配方法
   ///- [fontSize] UI设计上字体的大小,单位px.
