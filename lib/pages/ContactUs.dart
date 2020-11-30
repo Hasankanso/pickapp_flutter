@@ -6,11 +6,12 @@ import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
+import 'package:mailer2/mailer.dart';
 
 class ContactUs extends StatelessWidget {
-  TextEditingController c1 = new TextEditingController();
-  TextEditingController c2 = new TextEditingController();
-  TextEditingController c3 = new TextEditingController();
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController subjectController = new TextEditingController();
+  TextEditingController messageController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +26,12 @@ class ContactUs extends StatelessWidget {
           ),
           Icon(Icons.drive_eta,
               color: Styles.primaryColor(), size: ScreenUtil().setSp(90)),
-          VerticalSpacer(height : 20),
+          VerticalSpacer(height: 20),
           ResponsiveWidget(
             width: 270,
             height: 50,
             child: TextField(
-              controller: c1,
+              controller: nameController,
               style: Styles.valueTextStyle(),
               decoration: InputDecoration(
                 labelText: Lang.getString(context, "Full_Name"),
@@ -46,7 +47,7 @@ class ContactUs extends StatelessWidget {
             width: 270,
             height: 50,
             child: TextField(
-                controller: c2,
+                controller: subjectController,
                 style: Styles.valueTextStyle(),
                 decoration: InputDecoration(
                   labelText: Lang.getString(context, "Subject"),
@@ -61,7 +62,7 @@ class ContactUs extends StatelessWidget {
             width: 270,
             height: 150,
             child: TextField(
-                controller: c3,
+                controller: messageController,
                 minLines: 10,
                 maxLines: 40,
                 style: Styles.valueTextStyle(),
@@ -85,11 +86,42 @@ class ContactUs extends StatelessWidget {
                 child: ResponsiveRow(
                   children: [
                     MainButton(
-                    text_key: "Send",
-                    onPressed: () {},
-                  )],
+                      text_key: "Send",
+                      onPressed: () {
+                        print(subjectController.text);
+                        print(messageController.text);
+                        var options = new GmailSmtpOptions()
+                          ..username = 'team2020management@gmail.com'
+                          ..password = r'SexyVibes@online#$'; // Note: if you have Google's "app specific passwords" enabled,
+                        // you need to use one of those here.
+
+                        // How you use and store passwords is up to you. Beware of storing passwords in plain.
+
+                        // Create our email transport.
+                        var emailTransport = new SmtpTransport(options);
+
+                        // Create our mail/envelope.
+                        var envelope = new Envelope()
+                          ..from = 'sounalb@gmail.com'
+                         ..recipients.add('sounalb@gmail.com')
+  //                        ..bccRecipients.add('hidden@recipient.com')
+                          ..subject = subjectController.text
+//                          ..attachments.add(
+  //                            new Attachment(file: new File('path/to/file')))
+                          ..text = messageController.text;
+
+                        // Email it.
+                        emailTransport
+                            .send(envelope)
+                            .then((envelope) => print('Email sent!'))
+                            .catchError((e) => print('Error occurred: $e'));
+                      },
+                    )
+                  ],
                 )),
-            VerticalSpacer(height: 50,),
+            VerticalSpacer(
+              height: 50,
+            ),
           ],
         ),
       ),

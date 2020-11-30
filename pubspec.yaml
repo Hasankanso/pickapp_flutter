@@ -32,6 +32,7 @@ dependencies:
   flutter_screenutil: ^3.1.0
   backendless_sdk: ^6.1.0
   validators: ^2.0.0
+  mailer2: ^1.2.5
 
   flutter_localizations:
     sdk: flutter
