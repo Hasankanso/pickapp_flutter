@@ -5,7 +5,6 @@ import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Switcher.dart';
 
 class AddRidePage2 extends StatefulWidget {
   @override
@@ -13,9 +12,10 @@ class AddRidePage2 extends StatefulWidget {
 }
 
 class _AddRidePage2State extends State<AddRidePage2> {
-  SwitcherController switcherController = SwitcherController();
   bool stopOver = false;
   bool kidsSeat = false;
+  final timeController = TextEditingController();
+  final descController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    "Do you have kids seat ?",
+                    Lang.getString(context, "Do_You_Have_Kids_Seat"),
                     style: Styles.labelTextStyle(),
                   ),
                 ),
@@ -64,7 +64,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                 Expanded(
                   flex: 6,
                   child: Text(
-                    "Do you want to stop over ?",
+                    Lang.getString(context, "Do_You_Want_To_Stop_Over"),
                     style: Styles.labelTextStyle(),
                   ),
                 ),
@@ -95,16 +95,17 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      "How much time you need ?",
+                      Lang.getString(context, "How_Much_Time_You_Need"),
                       style: Styles.labelTextStyle(),
                     ),
                   ),
                   Expanded(
                     flex: 3,
                     child: TextField(
+                      controller: timeController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: "       /min",
+                        hintText: Lang.getString(context, "/Min"),
                       ),
                       maxLines: 1,
                     ),
@@ -120,7 +121,9 @@ class _AddRidePage2State extends State<AddRidePage2> {
               width: 270,
               height: 150,
               child: TextField(
-                decoration: InputDecoration(labelText: "Description"),
+                controller: descController,
+                decoration: InputDecoration(
+                    labelText: Lang.getString(context, "Description")),
                 maxLines: 15,
               ),
             ),
@@ -140,6 +143,11 @@ class _AddRidePage2State extends State<AddRidePage2> {
               child: MainButton(
                 text_key: "Next",
                 onPressed: () {
+                  bool isStoping = stopOver;
+                  bool isCarSeat = kidsSeat;
+                  int time = int.parse(timeController.text);
+                  String desc = descController.text;
+
                   Navigator.of(context).pushNamed("/AddRidePage3");
                 },
               ),

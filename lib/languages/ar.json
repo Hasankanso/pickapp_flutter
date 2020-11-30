@@ -33,7 +33,44 @@
   "Terms_&_Conditions": "الأحكام والشروط",
   "Dark_Mode": "الوضع المظلم",
 
-  "Public_Information": "Public Information",
+  "Details": "تفاصيل",
+  "My_cars": "سياراتي",
+  "Regions": "المناطق",
+  "Edit_Account":"تعديل الحساب",
+  "Statistics": "إحصائيات",
+  "Seats":"مقاعد",
+  "Become_a_driver": "كن سائقا",
+  "Chattiness": "ثرثرة",
+  "Bio": "السيرة الذاتية",
+  "Write_your_bio": "اكتب سيرتك الذاتية",
+  "I'm_a_quiet_person": "أنا شخص هادئ",
+  "I_talk_depending_on_my_mood": "أتحدث حسب مزاجي",
+  "I_love_to_chat!": "أنا أحب الدردشة!",
+  "Invalid": "غير صالح",
+  "Cannot_be_empty": "لايمكن أن يكون فارغا",
+  "Too_short": "قصير جدا",
+  "Only_letters": "أحرف فقط",
+
   "Luggage":"الحقائب",
-  "Price":"السعر"
+  "Price":"السعر",
+  "Rides_Permissions": "مسموحات الرحلة",
+  "Description": "وصف الرحلة",
+  "/Min": "/ دقيقة",
+  "How_Much_Time_You_Need": "كم من الوقت تحتاج ؟",
+  "Do_You_Want_To_Stop_Over": "هل تريد التوقف في طريقك؟",
+  "Do_You_Have_Kids_Seat": "هل لديك مقعد اطفال؟",
+  "Choose_A_Car": "اختر سيارة ",
+  "LBP": "ليرة",
+  "Choose_A_Route_From_The_List_Below": "اختر طريقًا من القائمة أدناه",
+  "Ride_Added": "تمت إضافة الرحلة",
+  "Route": "طريق :",
+  "You_Choosed": "لقد اخترت :"
+
+
+
+
+
+
+
+
 }

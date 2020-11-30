@@ -1,26 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
-class PublicInformation extends StatefulWidget {
+class Details extends StatefulWidget {
   @override
-  _PublicInformationState createState() => _PublicInformationState();
+  _DetailsState createState() => _DetailsState();
 }
 
-class _PublicInformationState extends State<PublicInformation> {
+class _DetailsState extends State<Details> {
   final _formKey = GlobalKey<FormState>();
+  final _bioController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (!Validation.isNullOrEmpty(App.person.bio)) {
+      _bioController.text = App.person.bio;
+    }
+    Future.delayed(Duration.zero, () {
+      Lang.getString(context, "Write_your_bio");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = 'I talk depending on my mood';
+    String dropdownValue = App.person.chattiness;
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Public_Information"),
+        title: Lang.getString(context, "Details"),
       ),
       body: Column(
         children: [
@@ -35,25 +49,23 @@ class _PublicInformationState extends State<PublicInformation> {
                       height: 20,
                     ),
                     Text(
-                      "Chattiness",
+                      Lang.getString(context, "Chattiness"),
                       style: Styles.labelTextStyle(),
                     ),
-                    DropdownButton<String>(
+                    DropdownButtonFormField<String>(
                       value: dropdownValue,
                       isExpanded: true,
-                      underline: Container(
-                        height: 1,
-                        color: Colors.grey,
-                      ),
                       onChanged: (String newValue) {
                         setState(() {
                           dropdownValue = newValue;
                         });
                       },
+                      validator: (value) =>
+                          value == null ? 'field required' : null,
                       items: <String>[
-                        "I'm the quiet person",
-                        "I talk depending on my mood",
-                        "I love to chat!",
+                        Lang.getString(context, "I'm_a_quiet_person"),
+                        Lang.getString(context, "I_talk_depending_on_my_mood"),
+                        Lang.getString(context, "I_love_to_chat!"),
                       ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -62,6 +74,7 @@ class _PublicInformationState extends State<PublicInformation> {
                       }).toList(),
                     ),
                     TextFormField(
+                      controller: _bioController,
                       minLines: 4,
                       textInputAction: TextInputAction.done,
                       maxLines: 20,
@@ -69,19 +82,18 @@ class _PublicInformationState extends State<PublicInformation> {
                         LengthLimitingTextInputFormatter(190),
                       ],
                       decoration: InputDecoration(
-                        labelText: "Write your bio",
-                        hintText: "hint",
+                        labelText: Lang.getString(context, "Bio"),
+                        hintText: Lang.getString(context, "Write_your_bio"),
                         labelStyle: Styles.labelTextStyle(),
                         hintStyle: Styles.labelTextStyle(),
                       ),
                       style: Styles.valueTextStyle(),
                       validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please Write your bio';
-                        } else if (value.length < 20) {
-                          return 'Your bio is too short';
-                        }
-                        return null;
+                        return Validation.validate(value, context,
+                            empty: true,
+                            short: true,
+                            length: 20,
+                            alphabeticIgnoreSpaces: true);
                       },
                     ),
                   ],
@@ -100,7 +112,7 @@ class _PublicInformationState extends State<PublicInformation> {
             text_key: "Edit",
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                print("Ok");
+                print(1);
               }
             },
           ),

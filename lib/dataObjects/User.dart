@@ -14,7 +14,7 @@ class User {
       String userStatus,
       String id,
       String verificationCode}) {
-    this.person = _person;
+    this.person = person;
     this.driver = driver;
     this.id = id;
     this.phone = phone;
