@@ -51,7 +51,7 @@ class _SearchState extends State<Search>
             ),
             tooltip: Lang.getString(context, "Notifications"),
             onPressed: () {
-              Navigator.of(context).pushNamed("/notifications");
+              Navigator.of(context).pushNamed("/Notifications");
             },
           )
         ],
@@ -62,7 +62,8 @@ class _SearchState extends State<Search>
             ResponsiveWidget.fullWidth(
                 height: 130,
                 child: FromToPicker(
-                    fromController: fromController, toController: toController)),
+                    fromController: fromController,
+                    toController: toController)),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
                 height: 80, child: DateTimeRangePicker(dateTimeController)),
@@ -91,7 +92,8 @@ class _SearchState extends State<Search>
                       to: to,
                       from: from,
                       passengersNumber: numberController.chosenNumber,
-                      minDate: dateTimeController.startDateController.chosenDate,
+                      minDate:
+                          dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(searchInfo);
                   request.send(response);

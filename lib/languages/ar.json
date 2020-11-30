@@ -33,9 +33,12 @@
   "Terms_&_Conditions": "الأحكام والشروط",
   "Dark_Mode": "الوضع المظلم",
 
-  "Details": "Details",
-  "My_cars": "My cars",
-  "Regions": "Regions",
+  "Details": "تفاصيل",
+  "My_cars": "سياراتي",
+  "Regions": "المناطق",
+  "Edit_Account":"تعديل الحساب",
+  "Statistics": "إحصائيات",
+  "Seats":"مقاعد",
 
   "Luggage":"الحقائب",
   "Price":"السعر",

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
@@ -51,7 +52,7 @@ class CarListTile extends ListTile {
                         child: Row(
                           children: [
                             Text(
-                              "Seats: ",
+                              Lang.getString(context, "Seats") + ": ",
                               style: Styles.labelTextStyle(),
                             ),
                             Text(
@@ -67,7 +68,7 @@ class CarListTile extends ListTile {
                         child: Row(
                           children: [
                             Text(
-                              "Luggage: ",
+                              Lang.getString(context, "Luggage") + ": ",
                               style: Styles.labelTextStyle(),
                             ),
                             Text(

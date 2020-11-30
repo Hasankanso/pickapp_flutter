@@ -46,11 +46,11 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
             child: Stack(
               children: <Widget>[
                 Container(
-                  height: ScreenUtil().setHeight(266),
+                  height: ScreenUtil().setHeight(255),
                   width: double.infinity,
                 ),
                 Container(
-                  height: ScreenUtil().setHeight(190),
+                  height: ScreenUtil().setHeight(183),
                   width: double.infinity,
                   color: Styles.primaryColor(),
                 ),
@@ -66,7 +66,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                       color: Styles.secondaryColor(),
                       borderRadius: BorderRadius.circular(7.0),
                       child: Container(
-                        height: ScreenUtil().setHeight(254),
+                        height: ScreenUtil().setHeight(240),
                         child: Column(
                           children: <Widget>[
                             DifferentSizeResponsiveRow(
@@ -90,7 +90,10 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                     child: Align(
                                       alignment: Alignment.topRight,
                                       child: IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pushNamed("/EditAccount");
+                                        },
                                         icon: Icon(
                                           Icons.edit,
                                           color: Styles.primaryColor(),
@@ -145,10 +148,10 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                   children: <Widget>[
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).pushNamed("/details");
+                        Navigator.of(context).pushNamed("/Details");
                       },
                       child: ResponsiveWidget.fullWidth(
-                        height: 70,
+                        height: 60,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -174,10 +177,10 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                     _buildDivider(),
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).pushNamed("/details");
+                        Navigator.of(context).pushNamed("/Statistics");
                       },
                       child: ResponsiveWidget.fullWidth(
-                        height: 70,
+                        height: 60,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -192,7 +195,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                             Expanded(
                               flex: 6,
                               child: Text(
-                                "Statistics",
+                                Lang.getString(context, "Statistics"),
                                 style: Styles.valueTextStyle(),
                               ),
                             ),
@@ -215,9 +218,11 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
     return [
       _buildDivider(),
       InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).pushNamed("/Regions");
+        },
         child: ResponsiveWidget.fullWidth(
-          height: 70,
+          height: 60,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -252,7 +257,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
               Expanded(
                 child: Container(
                   alignment: Alignment.centerLeft,
-                  constraints: BoxConstraints(minHeight: 70),
+                  constraints: BoxConstraints(minHeight: 60),
                   child: MainExpansionTile(
                     leading: Icon(
                       Icons.local_taxi_outlined,
@@ -263,11 +268,9 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                       Lang.getString(context, "My_cars"),
                       style: Styles.valueTextStyle(),
                     ),
-                    children: App.driver.cars
-                        .map((Car car) {
-                          return CarListTile(car);
-                        })
-                        .toList(growable: true),
+                    children: App.driver.cars.map((Car car) {
+                      return CarListTile(car);
+                    }).toList(growable: true),
                   ),
                 ),
               ),

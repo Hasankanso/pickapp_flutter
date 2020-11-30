@@ -5,15 +5,22 @@ import 'package:pickapp/classes/Styles.dart';
 import 'Responsive.dart';
 
 class NumberPicker extends StatefulWidget {
-  int _value, _min, _max;
+  int _value, _min, _max, counter;
   String _title;
+  bool disabled;
   NumberController controller;
   NumberPicker(this.controller, this._title, this._min, this._max,
-      [defaultCounter]) {
+      {defaultCounter, this.disabled = false}) {
+    if (disabled) {
+      _value = 0;
+      controller.chosenNumber = 0;
+    }
     if (defaultCounter != null) {
       _value = defaultCounter;
+      controller.chosenNumber = defaultCounter;
     } else {
       _value = _min;
+      controller.chosenNumber = _min;
     }
   }
   @override
@@ -21,33 +28,28 @@ class NumberPicker extends StatefulWidget {
 }
 
 class _NumberPickerState extends State<NumberPicker> {
-  int _value;
-  bool isCounterUpDownDisabled = false;
-  @override
-  void initState() {
-    super.initState();
-    _value = widget._value;
-    widget.controller.chosenNumber = widget._value;
-  }
-
   void counterUp() {
-    if (!(_value >= widget._max))
+    if (!(widget._value >= widget._max))
       setState(() {
-        _value++;
+        widget._value++;
         widget.controller.chosenNumber++;
       });
   }
 
   void _minus() {
-    if (!(_value <= widget._min))
+    if (!(widget._value <= widget._min))
       setState(() {
-        _value--;
+        widget._value--;
         widget.controller.chosenNumber--;
       });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.disabled) {
+      widget._value = 0;
+      widget.controller.chosenNumber = 0;
+    }
     return DifferentSizeResponsiveRow(
       children: <Widget>[
         Expanded(flex: 8, child: SizedBox()),
@@ -63,8 +65,14 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
-                  heroTag: widget._title+"minus",
-                  onPressed: _minus,
+                  heroTag: widget._title + "minus",
+                  elevation: 3,
+                  onPressed: () {
+                    if (!widget.disabled) _minus();
+                  },
+                  backgroundColor: !widget.disabled
+                      ? Styles.primaryColor()
+                      : Styles.labelColor(),
                   child: Icon(
                     Icons.remove,
                     color: Styles.secondaryColor(),
@@ -74,15 +82,23 @@ class _NumberPickerState extends State<NumberPicker> {
               ),
               Expanded(
                 flex: 1,
-                child: Text('$_value',
-                    textAlign: TextAlign.center,
-                    style: Styles.valueTextStyle()),
+                child: Text(
+                  widget._value.toString(),
+                  textAlign: TextAlign.center,
+                  style: Styles.valueTextStyle(),
+                ),
               ),
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
-                  heroTag: widget._title+"plus",
-                  onPressed: counterUp,
+                  heroTag: widget._title + "plus",
+                  onPressed: () {
+                    if (!widget.disabled) counterUp();
+                  },
+                  elevation: 3,
+                  backgroundColor: !widget.disabled
+                      ? Styles.primaryColor()
+                      : Styles.labelColor(),
                   child: Icon(
                     Icons.add,
                     color: Styles.secondaryColor(),

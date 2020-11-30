@@ -34,6 +34,9 @@ class App {
             firstName: "Ali",
             lastName: "Loubani",
             rateAverage: 2.5,
+            acomplishedRides: 20,
+            canceledRides: 2,
+            rateCount: 22,
             countryInformations: CountryInformations(name: "Germany")),
         driver: Driver(cars: [
           Car(
