@@ -36,7 +36,8 @@ class MyAppState extends State<MyApp> {
     Cache.init();
     super.initState();
   }
-  void _init(){
+
+  void _init() {
     if (Cache.darkTheme) {
       Styles.setTheme(ThemeMode.dark);
     }
@@ -44,6 +45,7 @@ class MyAppState extends State<MyApp> {
 
     App.init(this);
   }
+
   @override
   Widget build(BuildContext context) {
     if (!Cache.loaded) {

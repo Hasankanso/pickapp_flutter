@@ -79,7 +79,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                     child: CircleAvatar(
                                       radius: ScreenUtil().setSp(40),
                                       backgroundImage:
-                                          AssetImage('lib/images/adel.png'),
+                                          AssetImage("lib/images/adel.png"),
                                     ),
                                   ),
                                 ),

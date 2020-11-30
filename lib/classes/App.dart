@@ -36,6 +36,7 @@ class App {
             rateAverage: 2.5,
             acomplishedRides: 20,
             canceledRides: 2,
+            chattiness: 'أتحدث حسب مزاجي',
             rateCount: 22,
             countryInformations: CountryInformations(name: "Germany")),
         driver: Driver(cars: [
