@@ -33,14 +33,19 @@ class App {
     return User(
         email: 'kansoads@gmail.com',
         person: Person(
-            firstName: "Ali",
-            lastName: "Loubani",
+            firstName: "Hassan",
+            lastName: "Kanso",
             rateAverage: 2.5,
             acomplishedRides: 20,
             canceledRides: 2,
+            profilePictureUrl:
+                "https://cdn.vox-cdn.com/thumbor/qaURkyxczndcpZJgkEKzs2frs_4=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/16307099/1146087607.jpg.jpg",
             chattiness: 2,
             rateCount: 22,
-            countryInformations: CountryInformations(name: "Germany")),
+            countryInformations: CountryInformations(
+              name: "Lebanon",
+              unit: "LL",
+            )),
         driver: Driver(cars: [
           Car(
               maxLuggage: 2,

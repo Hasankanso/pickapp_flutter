@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/RideRoute.dart';
-import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
@@ -48,7 +47,9 @@ class _AddRidePage4State extends State<AddRidePage4> {
               child: ResponsiveRow(
                 children: [
                   Text(
-                    Lang.getString(context, "Choose_A_Route_From_The_List_Below") + " :",
+                    Lang.getString(
+                            context, "Choose_A_Route_From_The_List_Below") +
+                        " :",
                     style: Styles.labelTextStyle(),
                   )
                 ],

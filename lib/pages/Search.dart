@@ -2,11 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/SearchInfo.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/SearchForRides.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
@@ -78,7 +74,8 @@ class _SearchState extends State<Search>
               child: MainButton(
                 text_key: "Search",
                 onPressed: () {
-                  MainLocation to = MainLocation(
+                  Navigator.of(context).pushNamed("/RideResults");
+                  /*MainLocation to = MainLocation(
                       name: toController.description,
                       latitude: toController.location.lat,
                       longitude: toController.location.lng,
@@ -96,7 +93,7 @@ class _SearchState extends State<Search>
                           dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(searchInfo);
-                  request.send(response);
+                  request.send(response);*/
                 },
               ),
             ),

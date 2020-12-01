@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/Items/CarListTile.dart';
@@ -69,6 +70,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                         height: ScreenUtil().setHeight(240),
                         child: Column(
                           children: <Widget>[
+                            VerticalSpacer(height: 10),
                             DifferentSizeResponsiveRow(
                               children: [
                                 Expanded(flex: 1, child: SizedBox()),
@@ -76,11 +78,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                   flex: 6,
                                   child: Align(
                                     alignment: Alignment.topCenter,
-                                    child: CircleAvatar(
-                                      radius: ScreenUtil().setSp(40),
-                                      backgroundImage:
-                                          AssetImage("lib/images/adel.png"),
-                                    ),
+                                    child: _getProfilePicture(),
                                   ),
                                 ),
                                 Expanded(
@@ -121,7 +119,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                   style: Styles.labelTextStyle(
                                       bold: FontWeight.bold),
                                 ),
-                                VerticalSpacer(height: 10),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
@@ -325,6 +322,44 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
       width: double.infinity,
       height: 1.0,
       color: Colors.grey.shade300,
+    );
+  }
+
+  _getProfilePicture() {
+    if (App.person.profilePictureUrl == null) {
+      return CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: ScreenUtil().setSp(40),
+        child: FittedBox(
+          fit: BoxFit.fill,
+          child: Icon(
+            Icons.person,
+            size: ScreenUtil().setSp(100),
+            color: Styles.primaryColor(),
+          ),
+        ),
+      );
+    }
+    return CachedNetworkImage(
+      imageUrl: App.person.profilePictureUrl,
+      imageBuilder: (context, imageProvider) => CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: ScreenUtil().setSp(40),
+        backgroundImage: imageProvider,
+      ),
+      placeholder: (context, url) => CircularProgressIndicator(),
+      errorWidget: (context, url, error) => CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: ScreenUtil().setSp(40),
+        child: FittedBox(
+          fit: BoxFit.fill,
+          child: Icon(
+            Icons.person,
+            size: ScreenUtil().setSp(100),
+            color: Styles.primaryColor(),
+          ),
+        ),
+      ),
     );
   }
 }

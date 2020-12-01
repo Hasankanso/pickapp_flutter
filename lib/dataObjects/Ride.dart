@@ -65,6 +65,7 @@ class Ride {
     this.comment = comment;
     this.mapUrl = mapUrl;
     this.from = from;
+    this.to = to;
     this.leavingDate = leavingDate;
     this.musicAllowed = musicAllowed;
     this.acAllowed = acAllowed;

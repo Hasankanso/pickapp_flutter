@@ -10,6 +10,7 @@ import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Regions.dart';
+import 'package:pickapp/pages/RideResults.dart';
 import 'package:pickapp/pages/Settings.dart';
 import 'package:pickapp/pages/Statistics.dart';
 import 'package:pickapp/pages/TermAndConditions.dart';
@@ -32,7 +33,10 @@ class RouteGenerator {
       case '/ContactUs':
         return MaterialPageRoute(builder: (_) => ContactUs());
       case '/AddRidePage2':
-          return MaterialPageRoute(builder: (_) => AddRidePage2(routedList: args,));
+        return MaterialPageRoute(
+            builder: (_) => AddRidePage2(
+                  routedList: args,
+                ));
       case '/AddRidePage3':
         return MaterialPageRoute(builder: (_) => AddRidePage3());
       case '/AddRidePage4':
@@ -49,6 +53,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => PrivacyPolicy());
       case '/TermAndConditions':
         return MaterialPageRoute(builder: (_) => TermAndConditions());
+      case '/RideResults':
+        return MaterialPageRoute(builder: (_) => RideResults());
     }
   }
 }

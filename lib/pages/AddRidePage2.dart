@@ -6,10 +6,8 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
-import 'AddRide.dart';
-
 class AddRidePage2 extends StatefulWidget {
-  final  List<Object> routedList;
+  final List<Object> routedList;
   const AddRidePage2({Key key, this.routedList}) : super(key: key);
 
   @override
@@ -25,12 +23,8 @@ class _AddRidePage2State extends State<AddRidePage2> {
   final timeController = TextEditingController();
   final descController = TextEditingController();
 
-
-
-
   @override
   Widget build(BuildContext context) {
-
     return MainScaffold(
       appBar: MainAppBar(
         title: list[0].toString(),

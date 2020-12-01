@@ -8,7 +8,6 @@ import 'package:pickapp/pages/ChatPage.dart';
 import 'package:pickapp/pages/MyRides.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Search.dart';
-import 'package:pickapp/utilities/Responsive.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -54,8 +53,8 @@ class _HomeState extends State<Home> {
           onPageChanged: _pageSwipped,
           children: _pages,
         ),
-        bottomNavigationBar: ResponsiveWidget.fullWidth(
-            height: 75,
+        bottomNavigationBar: AspectRatio(
+            aspectRatio: 14 / 2,
             child: BottomNavigationBar(
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
@@ -79,7 +78,7 @@ class _HomeState extends State<Home> {
                 ),
               ],
               currentIndex: _currenIndex,
-              iconSize: ScreenUtil().setSp(19),
+              iconSize: ScreenUtil().setSp(23),
               selectedFontSize: ScreenUtil().setSp(12),
               selectedItemColor: Styles.primaryColor(),
               unselectedItemColor: Styles.labelColor(),
