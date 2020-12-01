@@ -16,13 +16,13 @@ class MyRidesListTile extends ListTile {
     };
   }
 
-  void a() {
-    CustomToast().showColoredToast("Deletion Cancelled !", Colors.red);
-  }
-
-  void b() {
-    CustomToast()
-        .showColoredToast("Ride Deleted Successfully", Colors.greenAccent);
+  void deletationResponse(bool result) {
+    if (result) {
+      CustomToast().showColoredToast("Deletion Cancelled !", Colors.red);
+    } else {
+      CustomToast()
+          .showColoredToast("Ride Deleted Successfully", Colors.greenAccent);
+    }
   }
 
   void cc(String item) {
@@ -106,8 +106,7 @@ class MyRidesListTile extends ListTile {
                                 "Delete",
                                 "Warning !",
                                 "Are you sure you want to delete this car",
-                                a,
-                                b,
+                                deletationResponse,
                                 Colors.red,
                                 Colors.grey,
                                 Colors.blue)

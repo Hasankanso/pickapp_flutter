@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class PopUp extends StatelessWidget {
-  final String btn1Text, btn2Text, title, desc;
-  final Function a;
-  final Function b;
-  final Color titleColor, btn1Color, btn2Color;
+  String positiveText, negativeText, title, desc;
+  Function(bool) response;
+  Color titleColor, positiveColor, negativeColor;
+  Color positiveTextColor = Colors.white;
 
-  PopUp.name(this.btn1Text, this.btn2Text, this.title, this.desc, this.a,
-      this.b, this.titleColor, this.btn1Color, this.btn2Color);
+  PopUp.areYouSure(this.positiveText, this.negativeText, this.desc, this.title, this.response,
+      {bool interest = true}) {
+
+    if (interest) {
+      titleColor = Styles.primaryColor();
+      positiveColor = Styles.primaryColor();
+      negativeColor = Colors.white;
+    } else {
+      titleColor = Colors.red;
+      positiveTextColor = Colors.red;
+      positiveColor = Colors.white;
+      negativeColor = Styles.primaryColor();
+    }
+    this.desc = desc;
+  }
+
+  PopUp.name(this.positiveText, this.negativeText, this.title, this.desc,
+      this.response, this.titleColor, this.positiveColor, this.negativeColor);
 
   @override
   Widget build(BuildContext context) {
@@ -35,24 +53,24 @@ class PopUp extends StatelessWidget {
         buttons: [
           DialogButton(
             child: Text(
-              "$btn1Text",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              "$positiveText",
+              style: TextStyle(color: positiveTextColor, fontSize: 18),
             ),
-            color: btn1Color,
+            color: positiveColor,
             onPressed: () {
               Navigator.pop(dialogContext);
-              a();
+              response(true);
             },
           ),
           DialogButton(
             child: Text(
-              "$btn2Text",
+              "$negativeText",
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
-            color: btn2Color,
+            color: negativeColor,
             onPressed: () {
               Navigator.pop(dialogContext);
-              b();
+              response(false);
             },
           )
         ]).show();

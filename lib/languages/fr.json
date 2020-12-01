@@ -35,5 +35,8 @@
 
   "Public_Information": "Public Information",
   "Luggage":"Luggage",
-  "Price":"Price"
+  "Price":"Price",
+
+  "Yes" : "Yes",
+  "No" : "No"
 }

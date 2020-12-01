@@ -66,13 +66,13 @@ class Settings extends StatelessWidget {
                     ListTile(
                       leading: Icon(Icons.policy),
                       title: Text(Lang.getString(context, "Privacy_Policy"), style: Styles.valueTextStyle()),
-                      onTap: () {},
+                      onTap: () {Navigator.of(context).pushNamed("/PrivacyPolicy");},
                     ),
                     _buildDivider(),
                     ListTile(
                       leading: Icon(Icons.rule),
                       title: Text(Lang.getString(context, "Terms_&_Conditions"), style: Styles.valueTextStyle()),
-                      onTap: () {},
+                      onTap: () {Navigator.of(context).pushNamed("/TermAndConditions");},
                     ),
                   ],
                 ),

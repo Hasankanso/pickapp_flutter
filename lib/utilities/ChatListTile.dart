@@ -11,29 +11,27 @@ class ChatListTile extends ListTile {
 
   ChatListTile(this.o);
 
-  static Function(BuildContext, int) itemBuilder(List<Chat> c){
-    return  (context, index) {
+  static Function(BuildContext, int) itemBuilder(List<Chat> c) {
+    return (context, index) {
       return ChatListTile(c[index]);
     };
   }
 
-
-  void a() {
-    CustomToast().showColoredToast("Deletion Cancelled !", Colors.red);
+  void deletionResponse(bool result) {
+    if (result) {
+      CustomToast().showColoredToast("Deletion Cancelled !", Colors.red);
+    } else {
+      CustomToast()
+          .showColoredToast("Ride Deleted Successfully", Colors.greenAccent);
+    }
   }
+    void cc(String item) {
+      CustomToast()
+          .showColoredToast("You clicked : " + item, Colors.blue);
+    }
 
-  void b() {
-    CustomToast()
-        .showColoredToast("Deleted Successfully", Colors.greenAccent);
-  }
-
-  void cc(String item) {
-    CustomToast()
-        .showColoredToast("You clicked : "+item, Colors.blue);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    @override
+    Widget build(BuildContext context) {
       Chat r = o;
       return Card(
         elevation: 1.0,
@@ -51,9 +49,9 @@ class ChatListTile extends ListTile {
             backgroundColor: Styles.primaryColor(),
             child: Icon(Icons.person,
               size: Styles.mediumIconSize(),
-            color: Styles.valueColor(),),
+              color: Styles.valueColor(),),
           ),
-          title: Text(r.person.firstName+" "+r.person.lastName,
+          title: Text(r.person.firstName + " " + r.person.lastName,
             style: Styles.valueTextStyle(),
           ),
           subtitle: Row(
@@ -65,10 +63,15 @@ class ChatListTile extends ListTile {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text("Hellooooooo  Itss meeeeee",style: Styles.subValueTextStyle(),
+                    Text("Hellooooooo  Itss meeeeee",
+                      style: Styles.subValueTextStyle(),
                     ),
                     SizedBox(height: 10),
-                    Text(r.date.day.toString()+"/"+r.date.month.toString()+"/"+r.date.year.toString()+"     "+ r.date.hour.toString()+":"+r.date.minute.toString()+" PM",style: Styles.subValueTextStyle(),
+                    Text(r.date.day.toString() + "/" + r.date.month.toString() +
+                        "/" + r.date.year.toString() + "     " +
+                        r.date.hour.toString() + ":" +
+                        r.date.minute.toString() + " PM",
+                      style: Styles.subValueTextStyle(),
                     ),
                   ],
                 ),
@@ -86,8 +89,7 @@ class ChatListTile extends ListTile {
                             "Delete",
                             "Warning !",
                             "Are you sure you want to delete this car",
-                            a,
-                            b,
+                            deletionResponse,
                             Colors.red,
                             Colors.grey,
                             Colors.blue)
@@ -106,6 +108,5 @@ class ChatListTile extends ListTile {
           },
         ),
       );
-
+    }
   }
-}
