@@ -30,7 +30,7 @@ class RouteGenerator {
       case '/ContactUs':
         return MaterialPageRoute(builder: (_) => ContactUs());
       case '/AddRidePage2':
-        return MaterialPageRoute(builder: (_) => AddRidePage2());
+          return MaterialPageRoute(builder: (_) => AddRidePage2(routedList: args,));
       case '/AddRidePage3':
         return MaterialPageRoute(builder: (_) => AddRidePage3());
       case '/AddRidePage4':

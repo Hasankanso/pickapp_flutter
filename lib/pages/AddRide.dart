@@ -8,7 +8,6 @@ import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Switcher.dart';
 
@@ -21,7 +20,6 @@ class _AddRideState extends State<AddRide> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
-  NumberController numberController = NumberController();
   SwitcherController smoke = SwitcherController();
   SwitcherController ac = SwitcherController();
   SwitcherController pets = SwitcherController();
@@ -155,24 +153,26 @@ class _AddRideState extends State<AddRide> {
                 child: MainButton(
                   text_key: "Next",
                   onPressed: () {
-                    MainLocation to = MainLocation(
-                        name: toController.description,
-                        latitude: toController.location.lat,
-                        longitude: toController.location.lng,
-                        placeId: toController.placeId);
-                    MainLocation from = MainLocation(
-                        name: fromController.description,
-                        latitude: fromController.location.lat,
-                        longitude: fromController.location.lng,
-                        placeId: fromController.placeId);
-                    DateTime date =
-                        dateTimeController.startDateController.chosenDate;
-                    bool isSmoke = smoke.isOn;
-                    bool isPets = pets.isOn;
-                    bool isAc = ac.isOn;
-                    bool isMusic = music.isOn;
-
-                    Navigator.of(context).pushNamed("/AddRidePage2");
+                    // MainLocation to = MainLocation(
+                    //     name: toController.description,
+                    //     latitude: toController.location.lat,
+                    //     longitude: toController.location.lng,
+                    //     placeId: toController.placeId);
+                    // MainLocation from = MainLocation(
+                    //     name: fromController.description,
+                    //     latitude: fromController.location.lat,
+                    //     longitude: fromController.location.lng,
+                    //     placeId: fromController.placeId);
+                    // DateTime date =
+                    //     dateTimeController.startDateController.chosenDate;
+                    // bool isSmoke = smoke.isOn;
+                    // bool isPets = pets.isOn;
+                    // bool isAc = ac.isOn;
+                    // bool isMusic = music.isOn;
+                    List<Object> dynamicList=new List();
+                    String a="Ali";
+                    dynamicList.add(a);
+                    Navigator.of(context).pushNamed("/AddRidePage2",arguments:dynamicList );
                   },
                 ),
               ),

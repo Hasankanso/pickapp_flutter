@@ -2,20 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/RideRoute.dart';
+import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/MyRidesListTile.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/RouteTile.dart';
 
-class AddRidePage4 extends StatelessWidget {
+class AddRidePage4 extends StatefulWidget {
+  @override
+  _AddRidePage4State createState() => _AddRidePage4State();
+}
+
+class _AddRidePage4State extends State<AddRidePage4> {
   final List<RideRoute> rideRoutes = new List();
+
   RideRoute r1 = new RideRoute("Tyre-Beirut");
+
   RideRoute r2 = new RideRoute("Tyre-Saida");
+
   RideRoute r3 = new RideRoute("Saida-Tripoli");
+
   RideRoute r4 = new RideRoute("Bent Jbeil-Beirut");
 
   @override

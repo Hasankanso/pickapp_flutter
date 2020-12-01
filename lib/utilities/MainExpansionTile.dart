@@ -328,7 +328,7 @@ class MainExpansionTileState extends State<MainExpansionTile>
     return AnimatedBuilder(
       animation: _controller.view,
       builder: _buildChildren,
-      child: shouldRemoveChildren ? null : result,
+      child: shouldRemoveChildren ? !null : result,
     );
   }
 }
