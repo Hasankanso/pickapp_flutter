@@ -6,22 +6,34 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
+import 'AddRide.dart';
+
 class AddRidePage2 extends StatefulWidget {
+  final  List<Object> routedList;
+  const AddRidePage2({Key key, this.routedList}) : super(key: key);
+
   @override
-  _AddRidePage2State createState() => _AddRidePage2State();
+  _AddRidePage2State createState() => _AddRidePage2State(routedList);
 }
 
 class _AddRidePage2State extends State<AddRidePage2> {
+  final List<Object> list;
+  _AddRidePage2State(this.list);
+
   bool stopOver = false;
   bool kidsSeat = false;
   final timeController = TextEditingController();
   final descController = TextEditingController();
 
+
+
+
   @override
   Widget build(BuildContext context) {
+    
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Add_Ride"),
+        title: list[0].toString(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -143,10 +155,10 @@ class _AddRidePage2State extends State<AddRidePage2> {
               child: MainButton(
                 text_key: "Next",
                 onPressed: () {
-                  bool isStoping = stopOver;
-                  bool isCarSeat = kidsSeat;
-                  int time = int.parse(timeController.text);
-                  String desc = descController.text;
+                  // bool isStoping = stopOver;
+                  // bool isCarSeat = kidsSeat;
+                  // int time = int.parse(timeController.text);
+                  // String desc = descController.text;
 
                   Navigator.of(context).pushNamed("/AddRidePage3");
                 },

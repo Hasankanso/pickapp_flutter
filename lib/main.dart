@@ -6,6 +6,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/routing/RouteGenerator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +19,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   Locale _locale;
+  Future<SharedPreferences> cacheFuture;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -33,7 +35,8 @@ class MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    Cache.init();
+    App.init(this);
+    cacheFuture = Cache.init();
     super.initState();
   }
 
@@ -42,58 +45,64 @@ class MyAppState extends State<MyApp> {
       Styles.setTheme(ThemeMode.dark);
     }
     if (Cache.locale != null) _locale = Locale(Cache.locale);
-
-    App.init(this);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!Cache.loaded) {
-      return SplashScreen();
-    } else {
-      _init();
-      return MaterialApp(
-        title: App.appName,
-        locale: _locale,
-        theme: ThemeData(
-          brightness: Brightness.light,
-          primarySwatch: Styles.primaryColor(),
-          primaryTextTheme:
-              TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        themeMode: Styles.currentTheme(),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          primarySwatch: Styles.primaryColor(),
-          primaryTextTheme:
-              TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        supportedLocales: Lang.langs.map((element) => Locale(element.code)),
-        localizationsDelegates: [
-          Lang.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        localeResolutionCallback: (deviceLocale, supportedLocales) {
-          Locale chosen = supportedLocales.first;
-          for (var locale in supportedLocales) {
-            if (locale.languageCode == deviceLocale.languageCode) {
-              chosen = deviceLocale;
-              break;
+    return FutureBuilder<SharedPreferences> (future : cacheFuture,
+    builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+      if (Cache.loading) {
+        return SplashScreen();
+      } else if (Cache.failed) {
+        Cache.init();
+        return SplashScreen();
+      }
+      else {
+        _init();
+        return MaterialApp(
+          title: App.appName,
+          locale: _locale,
+          theme: ThemeData(
+            brightness: Brightness.light,
+            primarySwatch: Styles.primaryColor(),
+            primaryTextTheme:
+            TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          themeMode: Styles.currentTheme(),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            primarySwatch: Styles.primaryColor(),
+            primaryTextTheme:
+            TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          supportedLocales: Lang.langs.map((element) => Locale(element.code)),
+          localizationsDelegates: [
+            Lang.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          localeResolutionCallback: (deviceLocale, supportedLocales) {
+            Locale chosen = supportedLocales.first;
+            for (var locale in supportedLocales) {
+              if (locale.languageCode == deviceLocale.languageCode) {
+                chosen = deviceLocale;
+                break;
+              }
             }
-          }
 
-          //check if locale was cached
-          if (_locale == null) Cache.setLocale(chosen.languageCode);
-          return chosen;
-        },
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        onGenerateRoute: RouteGenerator.generateRoute,
-      );
+            //check if locale was cached
+            if (_locale == null) Cache.setLocale(chosen.languageCode);
+            return chosen;
+          },
+          debugShowCheckedModeBanner: false,
+          initialRoute: '/',
+          onGenerateRoute: RouteGenerator.generateRoute,
+        );
+      }
     }
+    );
   }
 }

@@ -14,7 +14,7 @@ class AddRidePage3 extends StatefulWidget {
   _AddRidePage3State createState() => _AddRidePage3State();
 }
 
-class _AddRidePage3State extends State<AddRidePage3> {
+class _AddRidePage3State extends State<AddRidePage3> with TickerProviderStateMixin {
   NumberController personController = NumberController();
   NumberController luggageController = NumberController();
   final priceController = TextEditingController();
@@ -32,41 +32,32 @@ class _AddRidePage3State extends State<AddRidePage3> {
           VerticalSpacer(
             height: 20,
           ),
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: SizedBox(),
-              ),
-              Expanded(
-                flex: 6,
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  constraints: BoxConstraints(minHeight: 70),
-                  child: MainExpansionTile(
-                    leading: Icon(
-                      Icons.local_taxi_outlined,
-                      size: Styles.mediumIconSize(),
-                      color: Colors.grey,
-                    ),
-                    title: Text(
-                      selectedCar,
-                      style: Styles.labelTextStyle(),
-                    ),
-                    children: <Widget>[
-                      carTile("Honda", "Civic"),
-                      carTile("Jeep", "Laredo"),
-                      carTile("BMW", "E90"),
-                    ],
+          ResponsiveWidget.fullWidth(
+            height: 70,
+
+              child: AnimatedSize(
+                curve: Curves.fastLinearToSlowEaseIn,
+                duration: Duration(milliseconds: 10),
+                vsync: this,
+                child: MainExpansionTile(
+                  leading: Icon(
+                    Icons.local_taxi_outlined,
+                    size: Styles.mediumIconSize(),
+                    color: Colors.grey,
                   ),
+                  title: Text(
+                    selectedCar,
+                    style: Styles.labelTextStyle(),
+                  ),
+                  children: <Widget>[
+                    carTile("Honda", "Civic"),
+                    carTile("Jeep", "Laredo"),
+                    carTile("BMW", "E90"),
+                  ],
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: SizedBox(),
-              ),
-            ],
-          ),
+            ),
+
           VerticalSpacer(
             height: 50,
           ),
@@ -119,8 +110,12 @@ class _AddRidePage3State extends State<AddRidePage3> {
                 onPressed: () {
                   //Car c = the choosen car id ;
                   int person = personController.chosenNumber;
-                  int luggage = luggageController.chosenNumber;
+                   int luggage = luggageController.chosenNumber;
                   int price = int.parse(priceController.text);
+                  List<Object> o= new List();
+                  o.add(luggage);
+                  o.add(person);
+                  o.add(price);
                   Navigator.of(context).pushNamed("/AddRidePage4");
                 },
               ),
@@ -169,6 +164,7 @@ class _AddRidePage3State extends State<AddRidePage3> {
               .showColoredToast(Lang.getString(context, "You_Choosed")+ name, Colors.greenAccent);
           setState(() {});
           selectedCar = brand + " / " + name;
+          MainExpansionTileState.of(context).collapse();
         },
       ),
     );
