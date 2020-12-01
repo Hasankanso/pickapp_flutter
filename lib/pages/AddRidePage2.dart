@@ -30,7 +30,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
 
   @override
   Widget build(BuildContext context) {
-    
+
     return MainScaffold(
       appBar: MainAppBar(
         title: list[0].toString(),
