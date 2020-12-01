@@ -8,9 +8,11 @@ import 'package:pickapp/pages/EditAccount.dart';
 import 'package:pickapp/pages/Home.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/Notifications.dart';
+import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Regions.dart';
 import 'package:pickapp/pages/Settings.dart';
 import 'package:pickapp/pages/Statistics.dart';
+import 'package:pickapp/pages/TermAndConditions.dart';
 import 'package:pickapp/utilities/BecomeDriver.dart';
 
 class RouteGenerator {
@@ -43,6 +45,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => EditAccount());
       case '/BecomeDriver':
         return MaterialPageRoute(builder: (_) => BecomeDriver());
+      case '/PrivacyPolicy':
+        return MaterialPageRoute(builder: (_) => PrivacyPolicy());
+      case '/TermAndConditions':
+        return MaterialPageRoute(builder: (_) => TermAndConditions());
     }
   }
 }

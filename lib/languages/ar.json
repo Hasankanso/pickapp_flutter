@@ -64,7 +64,10 @@
   "Choose_A_Route_From_The_List_Below": "اختر طريقًا من القائمة أدناه",
   "Ride_Added": "تمت إضافة الرحلة",
   "Route": "طريق :",
-  "You_Choosed": "لقد اخترت :"
+  "You_Choosed": "لقد اخترت :",
+
+  "Yes" : "نعم",
+  "No" : "لا"
 
 
 

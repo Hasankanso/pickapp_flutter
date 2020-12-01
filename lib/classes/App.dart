@@ -19,7 +19,7 @@ class App {
   static final String googleKey = "AIzaSyC7U0OEb9200tGZFFFTyLjQdo3goKyuSsw";
   static String dateFormat = 'dd/MM/yyyy';
   static String countryCode = "lb";
-  static User _user = fakeUser();
+  static User _user = _fakeUser();
   static bool _isLoggedIn = true;
   static List<String> _countriesInformationsNames;
 
@@ -28,8 +28,10 @@ class App {
     _state.setLocale(Locale(lang));
   }
 
-  static User fakeUser() {
+  //NEVER USE THIS OUTSIDE OF THIS CLASS!!
+  static User _fakeUser() {
     return User(
+      email: 'kansoads@gmail.com',
         person: Person(
             firstName: "Ali",
             lastName: "Loubani",
@@ -56,7 +58,7 @@ class App {
   }
 
   static void forceDarkTheme(bool value) async {
-    Cache.forceDarkTheme(value);
+    Cache.setTheme(value);
 
     if (value) {
       _state.setTheme(ThemeMode.dark);

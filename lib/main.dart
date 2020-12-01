@@ -6,6 +6,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/routing/RouteGenerator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +19,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   Locale _locale;
+  Future<SharedPreferences> cacheFuture;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -34,7 +36,7 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     App.init(this);
-    Cache.init();
+    cacheFuture = Cache.init();
     super.initState();
   }
 
@@ -47,8 +49,8 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder < bool > (future : Cache.init(),
-    builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+    return FutureBuilder<SharedPreferences> (future : cacheFuture,
+    builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
       if (Cache.loading) {
         return SplashScreen();
       } else if (Cache.failed) {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -26,49 +28,31 @@ class ContactUs extends StatelessWidget {
           ),
           Icon(Icons.drive_eta,
               color: Styles.primaryColor(), size: ScreenUtil().setSp(90)),
-          VerticalSpacer(height: 20),
+          VerticalSpacer(height: 60),
           ResponsiveWidget(
             width: 270,
-            height: 50,
-            child: TextField(
-              controller: nameController,
-              style: Styles.valueTextStyle(),
-              decoration: InputDecoration(
-                labelText: Lang.getString(context, "Full_Name"),
-                hintText: Lang.getString(context, "Full_Name"),
-                labelStyle: Styles.labelTextStyle(),
-                hintStyle: Styles.labelTextStyle(),
-              ),
-              keyboardType: TextInputType.name,
-            ),
-          ),
-          VerticalSpacer(height: 20),
-          ResponsiveWidget(
-            width: 270,
-            height: 50,
+            height: 70,
             child: TextField(
                 controller: subjectController,
                 style: Styles.valueTextStyle(),
                 decoration: InputDecoration(
                   labelText: Lang.getString(context, "Subject"),
-                  hintText: Lang.getString(context, "Subject"),
                   labelStyle: Styles.labelTextStyle(),
                   hintStyle: Styles.labelTextStyle(),
                 ),
                 keyboardType: TextInputType.emailAddress),
           ),
-          VerticalSpacer(height: 60),
+          VerticalSpacer(height: 20),
           ResponsiveWidget(
             width: 270,
             height: 150,
             child: TextField(
                 controller: messageController,
                 minLines: 10,
-                maxLines: 40,
+                maxLines: 50,
                 style: Styles.valueTextStyle(),
                 decoration: InputDecoration(
                   labelText: Lang.getString(context, "Message"),
-                  hintText: Lang.getString(context, "Message"),
                   labelStyle: Styles.labelTextStyle(),
                   hintStyle: Styles.labelTextStyle(),
                 ),
@@ -99,13 +83,14 @@ class ContactUs extends StatelessWidget {
 
                         // Create our email transport.
                         var emailTransport = new SmtpTransport(options);
-
+                        User user = App.user;
+                        assert(user !=null);
                         // Create our mail/envelope.
                         var envelope = new Envelope()
-                          ..from = 'sounalb@gmail.com'
-                         ..recipients.add('sounalb@gmail.com')
+                          ..from = user.email
+                         ..recipients.add("team2020management@gmail.com")
   //                        ..bccRecipients.add('hidden@recipient.com')
-                          ..subject = subjectController.text
+                          ..subject = "[" + user.email + "] " + user.person.firstName + " " + user.person.lastName +": " + subjectController.text
 //                          ..attachments.add(
   //                            new Attachment(file: new File('path/to/file')))
                           ..text = messageController.text;
