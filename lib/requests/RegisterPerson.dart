@@ -29,11 +29,11 @@ class RegisterPerson extends Request<User> {
   @override
   String isValid() {
     if (Validation.isNullOrEmpty(_newUser.person.firstName) ||
-        !Validation.isAlphabet(_newUser.person.firstName)) {
+        !Validation.validAlphabet(_newUser.person.firstName)) {
       return "Your first name must be alphabet only";
     }
     if (Validation.isNullOrEmpty(_newUser.person.lastName) ||
-        !Validation.isAlphabet(_newUser.person.lastName)) {
+        !Validation.validAlphabet(_newUser.person.lastName)) {
       return "Your last name must be alphabet only";
     }
     if (Validation.isNullOrEmpty(_newUser.email) ||
@@ -49,7 +49,7 @@ class RegisterPerson extends Request<User> {
     if (Validation.isNullOrEmpty(_verificationToken)) {
       return "Invalid verification token";
     }
-    if (!Validation.isPhoneNumber(_newUser.phone)) {
+    if (!Validation.validPhoneNumber(_newUser.phone)) {
       return "Invalid phone number";
     }
     return null;

@@ -34,11 +34,11 @@ class EditAccount extends Request<Person> {
       return validateUser;
     }
     if (Validation.isNullOrEmpty(_newPerson.firstName) ||
-        !Validation.isAlphabet(_newPerson.firstName)) {
+        !Validation.validAlphabet(_newPerson.firstName)) {
       return "Your first name must be alphabet only";
     }
     if (Validation.isNullOrEmpty(_newPerson.lastName) ||
-        !Validation.isAlphabet(_newPerson.lastName)) {
+        !Validation.validAlphabet(_newPerson.lastName)) {
       return "Your last name must be alphabet only";
     }
     if (Validation.isNullOrEmpty(_email) || !Validation.validEmail(_email)) {

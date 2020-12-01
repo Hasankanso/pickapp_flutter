@@ -3,7 +3,7 @@ import 'package:pickapp/dataObjects/User.dart';
 import 'package:validators/validators.dart';
 
 class Validation {
-  static bool isPhoneNumber(String number) {
+  static bool validPhoneNumber(String number) {
     //todo validate phone
     return true;
   }
@@ -12,35 +12,40 @@ class Validation {
     return Lang.getString(context, "Invalid");
   }
 
-  static String validate(String value, context,
-      {bool email,
-      bool alphabetic,
-      bool alphabeticIgnoreSpaces,
-      bool phone,
-      bool empty,
-      bool short,
-      int length}) {
-    if (empty == true && isNullOrEmpty(value)) {
+  static String isPhoneNumber(context, String number) {
+    //todo validate phone
+    if (false) {
+      return Lang.getString(context, "Invalid");
+    }
+    return null;
+  }
+
+  static String isEmail(context, String number) {
+    //todo validate email
+    if (false) {
+      return Lang.getString(context, "Invalid");
+    }
+    return null;
+  }
+
+  static String validate(String value, context) {
+    if (isNullOrEmpty(value)) {
       return Lang.getString(context, "Cannot_be_empty");
     }
-    if (short == true && value.length < length) {
-      return Lang.getString(context, "Too_short");
-    }
-    if (alphabetic == true && !isAlphabet(value)) {
-      //todo need arabic validation
+    return null;
+  }
+
+  static String isAlphabeticIgnoreSpaces(context, value) {
+    //todo need arabic validation
+    if (!isAlpha(value.replaceAll(RegExp(r"\s+|,|\."), ""))) {
       return Lang.getString(context, "Only_letters");
     }
-    if (alphabeticIgnoreSpaces == true) {
-      //todo need arabic validation
-      if (!isAlphabet(value.replaceAll(RegExp(r"\s+|,|\."), ""))) {
-        return Lang.getString(context, "Only_letters");
-      }
-    }
-    if (email == true && !validEmail(value)) {
-      return Lang.getString(context, "Invalid");
-    }
-    if (phone == true && !isPhoneNumber(value)) {
-      return Lang.getString(context, "Invalid");
+    return null;
+  }
+
+  static String isShort(context, value, length) {
+    if (value.length < length) {
+      return Lang.getString(context, "Too_short");
     }
     return null;
   }
@@ -58,10 +63,18 @@ class Validation {
   }
 
   static bool validEmail(String emailaddress) {
-    return isEmail(emailaddress);
+    return true;
   }
 
-  static bool isAlphabet(String text) {
+  static bool validAlphabet(String text) {
     return isAlpha(text);
+  }
+
+  static String isAlphabet(context, String text) {
+    //todo need arabic validation
+    if (!isAlpha(text)) {
+      return Lang.getString(context, "Only_letters");
+    }
+    return null;
   }
 }

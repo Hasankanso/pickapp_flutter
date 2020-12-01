@@ -21,7 +21,7 @@ class VerifyAccount extends Request<String> {
 
   @override
   String isValid() {
-    if (!Validation.isPhoneNumber(_phoneNumber)) {
+    if (!Validation.validPhoneNumber(_phoneNumber)) {
       return "Invalid phone number";
     }
     return null;

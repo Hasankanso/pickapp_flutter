@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
@@ -30,29 +29,16 @@ class App {
 
   static User fakeUser() {
     return User(
-        person: Person(
-            firstName: "Ali",
-            lastName: "Loubani",
-            rateAverage: 2.5,
-            acomplishedRides: 20,
-            canceledRides: 2,
-            chattiness: 'أتحدث حسب مزاجي',
-            rateCount: 22,
-            countryInformations: CountryInformations(name: "Germany")),
-        driver: Driver(cars: [
-          Car(
-              maxLuggage: 2,
-              maxSeats: 3,
-              brand: "BMW",
-              name: "C230",
-              carPictureUrl: "lib/images/adel.png"),
-          Car(
-              maxLuggage: 2,
-              maxSeats: 3,
-              brand: "BMW",
-              name: "C230",
-              carPictureUrl: "lib/images/adel.png")
-        ]));
+      person: Person(
+          firstName: "Ali",
+          lastName: "Loubani",
+          rateAverage: 2.5,
+          acomplishedRides: 20,
+          canceledRides: 2,
+          chattiness: 2,
+          rateCount: 22,
+          countryInformations: CountryInformations(name: "Germany")),
+    );
   }
 
   static void forceDarkTheme(bool value) async {

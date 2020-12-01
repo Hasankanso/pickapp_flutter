@@ -23,7 +23,7 @@ class CheckUserExist extends Request<bool> {
 
   @override
   String isValid() {
-    if (!Validation.isPhoneNumber(_user.phone)) {
+    if (!Validation.validPhoneNumber(_user.phone)) {
       return "Invalid phone number";
     }
     return null;

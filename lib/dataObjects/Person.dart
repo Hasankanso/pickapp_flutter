@@ -6,17 +6,11 @@ import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 
 class Person {
-  String _id,
-      _firstName,
-      _lastName,
-      _bio,
-      _chattiness,
-      _image,
-      _profilePictureUrl;
+  String _id, _firstName, _lastName, _bio, _image, _profilePictureUrl;
   DateTime _birthday, _updated;
   bool _gender;
   double _rateAverage;
-  int _acomplishedRides, _canceledRides, _rateCount;
+  int _acomplishedRides, _canceledRides, _rateCount, _chattiness;
   List<Rate> _rates = new List<Rate>();
   List<Ride> _upcomingRides = new List<Ride>();
   File _profilePicture;
@@ -40,7 +34,7 @@ class Person {
     int acomplishedRides,
     CountryInformations countryInformations,
     int canceledRides,
-    String chattiness,
+    int chattiness,
     String phone,
     String bio,
     double rateAverage,

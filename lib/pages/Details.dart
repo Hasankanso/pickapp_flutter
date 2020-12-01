@@ -17,6 +17,8 @@ class Details extends StatefulWidget {
 class _DetailsState extends State<Details> {
   final _formKey = GlobalKey<FormState>();
   final _bioController = TextEditingController();
+  List<String> _items;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -31,7 +33,12 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = App.person.chattiness;
+    int _chattiness = App.person.chattiness;
+    _items = <String>[
+      Lang.getString(context, "I'm_a_quiet_person"),
+      Lang.getString(context, "I_talk_depending_on_my_mood"),
+      Lang.getString(context, "I_love_to_chat!"),
+    ];
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Details"),
@@ -41,7 +48,6 @@ class _DetailsState extends State<Details> {
           ResponsiveRow(
             children: [
               Form(
-                key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -53,20 +59,16 @@ class _DetailsState extends State<Details> {
                       style: Styles.labelTextStyle(),
                     ),
                     DropdownButtonFormField<String>(
-                      value: dropdownValue,
                       isExpanded: true,
+                      key: _formKey,
+                      value: _items[App.person.chattiness],
                       onChanged: (String newValue) {
                         setState(() {
-                          dropdownValue = newValue;
+                          _chattiness = _items.indexOf(newValue);
                         });
                       },
-                      validator: (value) =>
-                          value == null ? 'field required' : null,
-                      items: <String>[
-                        Lang.getString(context, "I'm_a_quiet_person"),
-                        Lang.getString(context, "I_talk_depending_on_my_mood"),
-                        Lang.getString(context, "I_love_to_chat!"),
-                      ].map<DropdownMenuItem<String>>((String value) {
+                      items:
+                          _items.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -89,11 +91,19 @@ class _DetailsState extends State<Details> {
                       ),
                       style: Styles.valueTextStyle(),
                       validator: (value) {
-                        return Validation.validate(value, context,
-                            empty: true,
-                            short: true,
-                            length: 20,
-                            alphabeticIgnoreSpaces: true);
+                        String valid = Validation.validate(value, context);
+                        String alpha =
+                            Validation.isAlphabeticIgnoreSpaces(context, value);
+                        String short = Validation.isShort(context, value, 20);
+
+                        if (valid != null)
+                          return valid;
+                        else if (alpha != null)
+                          return alpha;
+                        else if (short != null)
+                          return short;
+                        else
+                          return null;
                       },
                     ),
                   ],
