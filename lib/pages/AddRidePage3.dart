@@ -21,8 +21,6 @@ class _AddRidePage3State extends State<AddRidePage3>
   final priceController = TextEditingController();
   String selectedCar;
 
-  MainExpansionTile a;
-
   @override
   Widget build(BuildContext context) {
     selectedCar = Lang.getString(context, "Choose_A_Car");
@@ -40,7 +38,7 @@ class _AddRidePage3State extends State<AddRidePage3>
               curve: Curves.fastLinearToSlowEaseIn,
               duration: Duration(milliseconds: 10),
               vsync: this,
-              child: a = MainExpansionTile(
+              child: MainExpansionTile(
                 height: 70,
                 leading: Icon(
                   Icons.local_taxi_outlined,
