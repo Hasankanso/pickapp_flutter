@@ -6,6 +6,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
+import 'package:pickapp/pages/SearchResultFilter.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -22,9 +23,22 @@ class SearchResults extends StatefulWidget {
 }
 
 class _SearchResultsState extends State<SearchResults> {
+  List<Ride> filteredRides;
+
+  void filter(List<Ride> newList) {
+    setState(() {
+      filteredRides = newList;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Ride> rides = widget.searchInfo.rides;
+    List<Ride> rides;
+    if (filteredRides != null) {
+      rides = filteredRides;
+    } else {
+      rides = widget.searchInfo.rides;
+    }
 
     return MainScaffold(
         appBar: MainAppBar(
@@ -121,6 +135,31 @@ class _SearchResultsState extends State<SearchResults> {
                         ))
                   ],
                 )),
+            ResponsiveWidget.fullWidth(
+              height: 40,
+              child: DefaultTabController(
+                length: 2,
+                child: TabBar(
+                  labelStyle: Styles.valueTextStyle(),
+                  labelColor: Theme.of(context).accentColor,
+                  indicatorColor: Colors.transparent,
+                  tabs: [
+                    Tab(text: "Filter"),
+                    Tab(text: "Sort By"),
+                  ],
+                  onTap: (num) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SearchResultsFilter(
+                            rides: widget.searchInfo.rides,
+                            onFiltered: filter,
+                          );
+                        });
+                  },
+                ),
+              ),
+            ),
             Expanded(
               child: AnimationLimiter(
                 child: ListView.builder(
@@ -146,8 +185,9 @@ class _SearchResultsState extends State<SearchResults> {
           height: 60,
           width: 150,
           child: Column(children: [
-            MainButton(text_key: "Filter"),
-            VerticalSpacer(height: 9)
+            VerticalSpacer(height: 1),
+            Text("there's " + rides.length.toString() + " result/s"),
+            VerticalSpacer(height: 8)
           ]),
         ));
   }
