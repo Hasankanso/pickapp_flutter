@@ -38,7 +38,6 @@ class ChatListTile extends ListTile {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        color: Colors.grey[50],
         shadowColor: Styles.primaryColor(),
         child: ListTile(
           shape: RoundedRectangleBorder(

@@ -1,3 +1,4 @@
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 
@@ -7,7 +8,7 @@ class SearchInfo {
   int _passengersNumber;
   int _luggagesNumber;
   User _user;
-
+  List<Ride> _rides;
   MainLocation get from => _from;
 
   set from(MainLocation value) {
@@ -26,6 +27,7 @@ class SearchInfo {
     this.maxDate = maxDate;
     this.passengersNumber = passengersNumber;
   }
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         'from': this.from.toJson(),
         'to': this.to.toJson(),
@@ -34,7 +36,7 @@ class SearchInfo {
         'passengersNumber': this.passengersNumber,
       };
 
-  get to => _to;
+  MainLocation get to => _to;
 
   set to(value) {
     _to = value;
@@ -68,5 +70,12 @@ class SearchInfo {
 
   set user(User value) {
     _user = value;
+  }
+
+
+  List<Ride> get rides => _rides;
+
+  set rides(List<Ride> rides) {
+    _rides = rides;
   }
 }

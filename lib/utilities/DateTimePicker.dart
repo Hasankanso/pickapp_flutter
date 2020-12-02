@@ -88,20 +88,12 @@ class DateTimePickerState extends State<DateTimePicker> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(7)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade300,
-              spreadRadius: 3,
-              blurRadius: 6,
-              offset: Offset(-1, 3), // changes position of shadow
-            ),
-          ],
         ),
         child: RaisedButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(7),
           ),
-          color: Styles.secondaryColor(),
+          color: Theme.of(context).cardColor,
           child: DifferentSizeResponsiveRow(
             children: [
               Expanded(

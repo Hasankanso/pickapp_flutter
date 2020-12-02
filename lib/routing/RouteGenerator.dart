@@ -11,6 +11,7 @@ import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Regions.dart';
 import 'package:pickapp/pages/RideResults.dart';
+import 'package:pickapp/pages/SearchResults.dart';
 import 'package:pickapp/pages/Settings.dart';
 import 'package:pickapp/pages/Statistics.dart';
 import 'package:pickapp/pages/TermAndConditions.dart';
@@ -60,7 +61,7 @@ class RouteGenerator {
       case '/TermAndConditions':
         return MaterialPageRoute(builder: (_) => TermAndConditions());
       case '/RideResults':
-        return MaterialPageRoute(builder: (_) => RideResults());
+        return MaterialPageRoute(builder: (_) => SearchResults(searchInfo: args));
     }
   }
 }

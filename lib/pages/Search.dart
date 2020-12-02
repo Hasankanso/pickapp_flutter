@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/dataObjects/SearchInfo.dart';
+import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/requests/SearchForRides.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
@@ -24,13 +29,197 @@ class _SearchState extends State<Search>
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
   NumberController numberController = NumberController();
-
-  void a() {
-    CustomToast().showColoredToast(" Fuck Notifications !", Colors.amber);
-  }
+  SearchInfo _searchInfo;
 
   response(List<Ride> result, int code, String message) {
+    List<Ride> rides = new List<Ride>();
+
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+
     print(result);
+    _searchInfo.rides = rides;
+    Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
   }
 
   @override
@@ -74,8 +263,7 @@ class _SearchState extends State<Search>
               child: MainButton(
                 text_key: "Search",
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/RideResults");
-                  /*MainLocation to = MainLocation(
+                  MainLocation to = MainLocation(
                       name: toController.description,
                       latitude: toController.location.lat,
                       longitude: toController.location.lng,
@@ -85,15 +273,16 @@ class _SearchState extends State<Search>
                       latitude: fromController.location.lat,
                       longitude: fromController.location.lng,
                       placeId: fromController.placeId);
-                  SearchInfo searchInfo = SearchInfo(
+                  _searchInfo = SearchInfo(
                       to: to,
                       from: from,
                       passengersNumber: numberController.chosenNumber,
                       minDate:
                           dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
-                  Request<List<Ride>> request = SearchForRides(searchInfo);
-                  request.send(response);*/
+                  Request<List<Ride>> request = SearchForRides(_searchInfo);
+                  request.send(response);
+
                 },
               ),
             ),

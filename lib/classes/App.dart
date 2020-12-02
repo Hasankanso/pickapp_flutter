@@ -23,6 +23,8 @@ class App {
   static bool _isLoggedIn = true;
   static List<String> _countriesInformationsNames;
 
+  static Locale locale;
+
   static void changeLanguage(String lang) async {
     await Cache.setLocale(lang);
     _state.setLocale(Locale(lang));

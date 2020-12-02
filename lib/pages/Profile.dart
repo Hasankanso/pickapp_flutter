@@ -64,7 +64,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                       borderRadius: BorderRadius.circular(7.0),
                     ),
                     child: Material(
-                      color: Styles.secondaryColor(),
+                      color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(7.0),
                       child: Container(
                         height: ScreenUtil().setHeight(240),
