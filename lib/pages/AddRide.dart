@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
@@ -58,7 +59,7 @@ class _AddRideState extends State<AddRide> {
                     children: [
                       Row(
                         children: [
-                          Expanded(flex: 1, child: SizedBox()),
+                          Spacer(),
                           Expanded(
                             flex: 4,
                             child: Row(children: [
@@ -97,12 +98,12 @@ class _AddRideState extends State<AddRide> {
                                   ),
                                 ],
                               )),
-                          Expanded(flex: 1, child: SizedBox()),
+                          Spacer(),
                         ],
                       ),
                       Row(
                         children: [
-                          Expanded(flex: 1, child: SizedBox()),
+                          Spacer(),
                           Expanded(
                             flex: 4,
                             child: Row(children: [
@@ -141,7 +142,7 @@ class _AddRideState extends State<AddRide> {
                                   ),
                                 ],
                               )),
-                          Expanded(flex: 1, child: SizedBox()),
+                          Spacer(),
                         ],
                       )
                     ],
@@ -153,26 +154,32 @@ class _AddRideState extends State<AddRide> {
                 child: MainButton(
                   text_key: "Next",
                   onPressed: () {
-                    // MainLocation to = MainLocation(
-                    //     name: toController.description,
-                    //     latitude: toController.location.lat,
-                    //     longitude: toController.location.lng,
-                    //     placeId: toController.placeId);
-                    // MainLocation from = MainLocation(
-                    //     name: fromController.description,
-                    //     latitude: fromController.location.lat,
-                    //     longitude: fromController.location.lng,
-                    //     placeId: fromController.placeId);
-                    // DateTime date =
-                    //     dateTimeController.startDateController.chosenDate;
-                    // bool isSmoke = smoke.isOn;
-                    // bool isPets = pets.isOn;
-                    // bool isAc = ac.isOn;
-                    // bool isMusic = music.isOn;
-                    List<Object> dynamicList=new List();
-                    String a="Ali";
-                    dynamicList.add(a);
-                    Navigator.of(context).pushNamed("/AddRidePage2",arguments:dynamicList );
+                    MainLocation to = MainLocation(
+                        name: toController.description,
+                        latitude: toController.location.lat,
+                        longitude: toController.location.lng,
+                        placeId: toController.placeId);
+                    MainLocation from = MainLocation(
+                        name: fromController.description,
+                        latitude: fromController.location.lat,
+                        longitude: fromController.location.lng,
+                        placeId: fromController.placeId);
+                    DateTime date =
+                        dateTimeController.startDateController.chosenDate;
+                    bool isSmoke = smoke.isOn;
+                    bool isPets = pets.isOn;
+                    bool isAc = ac.isOn;
+                    bool isMusic = music.isOn;
+                    Ride rideInfo = new Ride();
+                    rideInfo.to = to;
+                    rideInfo.from = from;
+                    rideInfo.leavingDate = date;
+                    rideInfo.smokingAllowed = isSmoke;
+                    rideInfo.petsAllowed = isPets;
+                    rideInfo.musicAllowed = isMusic;
+                    rideInfo.acAllowed = isAc;
+                    Navigator.of(context)
+                        .pushNamed("/AddRidePage2", arguments: rideInfo);
                   },
                 ),
               ),

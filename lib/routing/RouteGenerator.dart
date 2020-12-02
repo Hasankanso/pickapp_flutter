@@ -35,12 +35,18 @@ class RouteGenerator {
       case '/AddRidePage2':
         return MaterialPageRoute(
             builder: (_) => AddRidePage2(
-                  routedList: args,
+                  rideInfo: args,
                 ));
       case '/AddRidePage3':
-        return MaterialPageRoute(builder: (_) => AddRidePage3());
+        return MaterialPageRoute(
+            builder: (_) => AddRidePage3(
+                  rideInfo: args,
+                ));
       case '/AddRidePage4':
-        return MaterialPageRoute(builder: (_) => AddRidePage4());
+        return MaterialPageRoute(
+            builder: (_) => AddRidePage4(
+                  rideInfo: args,
+                ));
       case '/Statistics':
         return MaterialPageRoute(builder: (_) => Statistics());
       case '/Regions':

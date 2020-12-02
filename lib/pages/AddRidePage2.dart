@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddRidePage2 extends StatefulWidget {
-  final List<Object> routedList;
-  const AddRidePage2({Key key, this.routedList}) : super(key: key);
+  final Ride rideInfo;
+
+  const AddRidePage2({Key key, this.rideInfo}) : super(key: key);
 
   @override
-  _AddRidePage2State createState() => _AddRidePage2State(routedList);
+  _AddRidePage2State createState() => _AddRidePage2State(rideInfo);
 }
 
 class _AddRidePage2State extends State<AddRidePage2> {
-  final List<Object> list;
-  _AddRidePage2State(this.list);
+  final Ride rideInfo;
+
+  _AddRidePage2State(this.rideInfo);
 
   bool stopOver = false;
   bool kidsSeat = false;
@@ -27,7 +30,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: list[0].toString(),
+        title: Lang.getString(context, "Add_Ride"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -38,7 +41,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
             ResponsiveWidget.fullWidth(
               height: 50,
               child: Row(children: [
-                Expanded(flex: 1, child: SizedBox()),
+                Spacer(),
                 Expanded(
                   flex: 6,
                   child: Text(
@@ -57,7 +60,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                         });
                       },
                     )),
-                Expanded(flex: 1, child: SizedBox()),
+                Spacer(),
               ]),
             ),
             VerticalSpacer(
@@ -66,7 +69,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
             ResponsiveWidget.fullWidth(
               height: 50,
               child: Row(children: [
-                Expanded(flex: 1, child: SizedBox()),
+                Spacer(),
                 Expanded(
                   flex: 6,
                   child: Text(
@@ -86,7 +89,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                     },
                   ),
                 ),
-                Expanded(flex: 1, child: SizedBox()),
+                Spacer(),
               ]),
             ),
             VerticalSpacer(
@@ -97,7 +100,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
               child: ResponsiveWidget.fullWidth(
                 height: 50,
                 child: Row(children: [
-                  Expanded(flex: 1, child: SizedBox()),
+                  Spacer(),
                   Expanded(
                     flex: 6,
                     child: Text(
@@ -116,7 +119,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                       maxLines: 1,
                     ),
                   ),
-                  Expanded(flex: 1, child: SizedBox()),
+                  Spacer(),
                 ]),
               ),
             ),
@@ -149,12 +152,15 @@ class _AddRidePage2State extends State<AddRidePage2> {
               child: MainButton(
                 text_key: "Next",
                 onPressed: () {
-                  // bool isStoping = stopOver;
-                  // bool isCarSeat = kidsSeat;
-                  // int time = int.parse(timeController.text);
-                  // String desc = descController.text;
-
-                  Navigator.of(context).pushNamed("/AddRidePage3");
+                  bool isStoping = stopOver;
+                  bool isKidsSeat = kidsSeat;
+                  int time = int.parse(timeController.text);
+                  String desc = descController.text;
+                  rideInfo.kidSeat = isKidsSeat;
+                  rideInfo.comment = desc;
+                  rideInfo.stopTime = time;
+                  Navigator.of(context)
+                      .pushNamed("/AddRidePage3", arguments: rideInfo);
                 },
               ),
             ),

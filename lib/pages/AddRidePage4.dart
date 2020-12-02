@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/RideRoute.dart';
+import 'package:pickapp/requests/AddRide.dart';
+import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
@@ -11,11 +14,16 @@ import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/RouteTile.dart';
 
 class AddRidePage4 extends StatefulWidget {
+  final Ride rideInfo;
+
+  const AddRidePage4({Key key, this.rideInfo}) : super(key: key);
+
   @override
-  _AddRidePage4State createState() => _AddRidePage4State();
+  _AddRidePage4State createState() => _AddRidePage4State(rideInfo);
 }
 
 class _AddRidePage4State extends State<AddRidePage4> {
+  final Ride rideInfo;
   final List<RideRoute> rideRoutes = new List();
 
   RideRoute r1 = new RideRoute("Tyre-Beirut");
@@ -25,6 +33,11 @@ class _AddRidePage4State extends State<AddRidePage4> {
   RideRoute r3 = new RideRoute("Saida-Tripoli");
 
   RideRoute r4 = new RideRoute("Bent Jbeil-Beirut");
+
+  _AddRidePage4State(this.rideInfo);
+  response(Ride result, int code, String message) {
+    print(result);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +105,9 @@ class _AddRidePage4State extends State<AddRidePage4> {
                 text_key: "DONE",
                 onPressed: () {
                   String routeId = "";
+                  rideInfo.setMap(null) ;
+                  Request<Ride> request=AddRide(rideInfo);
+                  request.send(response);
                   Navigator.of(context).pushNamed("/");
                   CustomToast().showColoredToast(
                       Lang.getString(context, "Ride_Added"),

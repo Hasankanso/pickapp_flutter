@@ -27,10 +27,10 @@ class Ride {
       _reservedSeats,
       _availableLuggages,
       _reservedLuggages,
-      _stopTime;
+      _stopTime,
+      _price;
 
   File _map;
-  double _price;
   User _user;
   List<Passenger> _passengers;
   Car _car;
@@ -57,11 +57,11 @@ class Ride {
       int reservedLuggages,
       int stopTime,
       List<Passenger> passengers,
-      double price,
+      int price,
       User user,
       Car car,
       DateTime updated}) {
-    this.id = id;
+    this.id = "hello";
     this.comment = comment;
     this.mapUrl = mapUrl;
     this.from = from;
@@ -150,10 +150,10 @@ class Ride {
   }
 
   static String validate(Ride ride) {
-    String validateUser = Validation.validateLogin(App.user);
-    if (!Validation.isNullOrEmpty(validateUser)) {
-      return validateUser;
-    }
+    // String validateUser = Validation.validateLogin(App.user);
+    // if (!Validation.isNullOrEmpty(validateUser)) {
+    //   return validateUser;
+    // }
 
     /*String fromValidation = MainLocation.Validate(ride.From);
     if (!App.isNullOrEmpty(fromValidation)) {
@@ -216,6 +216,12 @@ class Ride {
       }
     }
     return null;
+  }
+
+  get price => _price;
+
+  set price(value) {
+    _price = value;
   }
 
   String get id => _id;
@@ -343,11 +349,7 @@ class Ride {
     _stopTime = value;
   }
 
-  double get price => _price;
 
-  set price(double value) {
-    _price = value;
-  }
 
   User get user => _user;
 

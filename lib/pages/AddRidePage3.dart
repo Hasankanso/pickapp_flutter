@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -10,16 +13,23 @@ import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddRidePage3 extends StatefulWidget {
+  final Ride rideInfo;
+
+  const AddRidePage3({Key key, this.rideInfo}) : super(key: key);
+
   @override
-  _AddRidePage3State createState() => _AddRidePage3State();
+  _AddRidePage3State createState() => _AddRidePage3State(rideInfo);
 }
 
 class _AddRidePage3State extends State<AddRidePage3>
     with TickerProviderStateMixin {
+  final Ride rideInfo;
   NumberController personController = NumberController();
   NumberController luggageController = NumberController();
   final priceController = TextEditingController();
   String selectedCar;
+
+  _AddRidePage3State(this.rideInfo);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +85,7 @@ class _AddRidePage3State extends State<AddRidePage3>
               height: 30,
               child: Row(
                 children: [
-                  Expanded(flex: 1, child: SizedBox()),
+                  Spacer(),
                   Expanded(
                       flex: 4,
                       child: Text(
@@ -90,7 +100,7 @@ class _AddRidePage3State extends State<AddRidePage3>
                         decoration: InputDecoration(
                             hintText: Lang.getString(context, "LBP")),
                       )),
-                  Expanded(flex: 1, child: SizedBox()),
+                  Spacer(),
                 ],
               ),
             ),
@@ -107,15 +117,15 @@ class _AddRidePage3State extends State<AddRidePage3>
               child: MainButton(
                 text_key: "Next",
                 onPressed: () {
-                  //Car c = the choosen car id ;
-                  int person = personController.chosenNumber;
+                  int seats = personController.chosenNumber;
                   int luggage = luggageController.chosenNumber;
                   int price = int.parse(priceController.text);
-                  List<Object> o = new List();
-                  o.add(luggage);
-                  o.add(person);
-                  o.add(price);
-                  Navigator.of(context).pushNamed("/AddRidePage4");
+                  rideInfo.availableSeats = seats;
+                  rideInfo.availableLuggages = luggage;
+                  rideInfo.price = price ;
+
+                  Navigator.of(context)
+                      .pushNamed("/AddRidePage4", arguments: rideInfo);
                 },
               ),
             ),
