@@ -26,9 +26,6 @@ class _DetailsState extends State<Details> {
     if (!Validation.isNullOrEmpty(App.person.bio)) {
       _bioController.text = App.person.bio;
     }
-    Future.delayed(Duration.zero, () {
-      Lang.getString(context, "Write_your_bio");
-    });
   }
 
   @override

@@ -9,7 +9,6 @@ import 'package:pickapp/dataObjects/SearchInfo.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/SearchForRides.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
@@ -282,7 +281,6 @@ class _SearchState extends State<Search>
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
                   request.send(response);
-
                 },
               ),
             ),
