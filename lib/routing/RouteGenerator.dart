@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/pages/Account.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
 import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/pages/AddRidePage4.dart';
 import 'package:pickapp/pages/ContactUs.dart';
 import 'package:pickapp/pages/Details.dart';
-import 'package:pickapp/pages/EditAccount.dart';
 import 'package:pickapp/pages/Home.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Regions.dart';
-import 'package:pickapp/pages/RideResults.dart';
 import 'package:pickapp/pages/SearchResults.dart';
 import 'package:pickapp/pages/Settings.dart';
 import 'package:pickapp/pages/Statistics.dart';
@@ -52,8 +51,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Statistics());
       case '/Regions':
         return MaterialPageRoute(builder: (_) => Regions());
-      case '/EditAccount':
-        return MaterialPageRoute(builder: (_) => EditAccount());
+      case '/Account':
+        return MaterialPageRoute(builder: (_) => Account());
       case '/BecomeDriver':
         return MaterialPageRoute(builder: (_) => BecomeDriver());
       case '/PrivacyPolicy':
@@ -61,7 +60,8 @@ class RouteGenerator {
       case '/TermAndConditions':
         return MaterialPageRoute(builder: (_) => TermAndConditions());
       case '/RideResults':
-        return MaterialPageRoute(builder: (_) => SearchResults(searchInfo: args));
+        return MaterialPageRoute(
+            builder: (_) => SearchResults(searchInfo: args));
     }
   }
 }

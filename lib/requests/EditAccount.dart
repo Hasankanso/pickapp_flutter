@@ -5,17 +5,13 @@ import 'package:pickapp/requests/Request.dart';
 
 class EditAccount extends Request<Person> {
   Person _newPerson;
-  String _email;
 
-  EditAccount(this._newPerson, this._email) {
+  EditAccount(this._newPerson) {
     httpPath = "/PersonBusiness/EditPerson";
   }
 
   @override
   Person buildObject(json) {
-    App.user.email = json["email"];
-    //todo sett email in chache
-    //Cache.SetEmail(Program.User.Email);
     return Person.fromJson(json);
   }
 
@@ -23,7 +19,6 @@ class EditAccount extends Request<Person> {
   Map<String, dynamic> getJson() {
     var personJ = _newPerson.toJson();
     personJ['user'] = App.user.id;
-    personJ['email'] = _email;
     return personJ;
   }
 
@@ -40,9 +35,6 @@ class EditAccount extends Request<Person> {
     if (Validation.isNullOrEmpty(_newPerson.lastName) ||
         !Validation.validAlphabet(_newPerson.lastName)) {
       return "Your last name must be alphabet only";
-    }
-    if (Validation.isNullOrEmpty(_email) || !Validation.validEmail(_email)) {
-      return "Invalid Email address";
     }
     if (App.calculateAge(_newPerson.birthday) < 14) {
       return "You are out of legal age.";

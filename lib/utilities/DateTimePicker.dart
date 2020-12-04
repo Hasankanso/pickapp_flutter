@@ -30,12 +30,17 @@ class DateTimePickerState extends State<DateTimePicker> {
 
   selectDate(BuildContext context) async {
     if (widget._isBirthdayPicker) {
+      if (widget.startDate == null) {
+        //initial age is 18 years
+        _initialDate = widget._controller.chosenDate;
+      } else {
+        _initialDate = widget.startDate;
+      }
+
       DateTime initialDate = DateTime.now();
       //max age 100 year
       _minDate =
           DateTime(initialDate.year - 100, initialDate.month, initialDate.day);
-      //initial age is 18 years
-      _initialDate = widget._controller.chosenDate;
       //min age 14 years
       _maxDate =
           DateTime(initialDate.year - 14, initialDate.month, initialDate.day);
@@ -80,6 +85,17 @@ class DateTimePickerState extends State<DateTimePicker> {
     });
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget._isBirthdayPicker && widget.startDate != null) {
+      _initialDate = widget.startDate;
+      widget._controller.chosenDate = widget.startDate;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
     return ResponsiveWidget(

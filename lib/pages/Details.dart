@@ -57,7 +57,6 @@ class _DetailsState extends State<Details> {
                     ),
                     DropdownButtonFormField<String>(
                       isExpanded: true,
-                      key: _formKey,
                       value: _items[App.person.chattiness],
                       onChanged: (String newValue) {
                         setState(() {

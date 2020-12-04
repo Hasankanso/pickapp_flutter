@@ -22,7 +22,7 @@ class App {
   static User _user = _fakeUser();
   static bool _isLoggedIn = true;
   static List<String> _countriesInformationsNames;
-
+  static Map<String, CountryInformations> _countriesInformations;
   static Locale locale;
 
   static void changeLanguage(String lang) async {
@@ -33,6 +33,7 @@ class App {
   //NEVER USE THIS OUTSIDE OF THIS CLASS!!
   static User _fakeUser() {
     return User(
+        id: "BC9CAEF9-9896-487E-9FEA-C33E59DA1825",
         email: 'kansoads@gmail.com',
         person: Person(
             firstName: "Hassan",
@@ -40,6 +41,10 @@ class App {
             rateAverage: 2.5,
             acomplishedRides: 20,
             canceledRides: 2,
+            gender: true,
+            bio:
+                "Some bioooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+            birthday: DateTime(2000, 10, 09),
             profilePictureUrl:
                 "https://cdn.vox-cdn.com/thumbor/qaURkyxczndcpZJgkEKzs2frs_4=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/16307099/1146087607.jpg.jpg",
             chattiness: 2,
@@ -135,6 +140,13 @@ class App {
 
   static set countriesInformationsNames(List<String> value) {
     _countriesInformationsNames = value;
+  }
+
+  static Map<String, CountryInformations> get countriesInformations =>
+      _countriesInformations;
+
+  static set countriesInformations(Map<String, CountryInformations> value) {
+    _countriesInformations = value;
   }
 
   static Driver get driver => user == null ? null : user.driver;

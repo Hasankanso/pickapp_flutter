@@ -36,7 +36,7 @@
   "Details": "تفاصيل",
   "My_cars": "سياراتي",
   "Regions": "المناطق",
-  "Edit_Account":"تعديل الحساب",
+  "Account":"الحساب",
   "Statistics": "إحصائيات",
   "Seats":"مقاعد",
   "Become_a_driver": "كن سائقا",
@@ -54,6 +54,8 @@
   "Edit": "تعديل",
   "First_Name": "الإسم",
   "Last_Name": "العائلة",
+  "Camera": "كاميرا",
+  "Gallery": "الصور",
 
   "Results" : "النتائج",
   "Filter" : "فلتر",

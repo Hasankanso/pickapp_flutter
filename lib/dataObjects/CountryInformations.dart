@@ -20,13 +20,15 @@ class CountryInformations {
     this.countryComponent = countryComponent;
   }
   Map<String, dynamic> toJson() => <String, dynamic>{'id': this.id};
-  CountryInformations.fromJson(Map<String, dynamic> json)
-      : _id = json["objectId"],
-        _name = json["name"],
-        _code = json["code"],
-        _unit = json["unit"],
-        _countryComponent = json["countryComponent"],
-        _digits = json["digits"];
+  factory CountryInformations.fromJson(Map<String, dynamic> json) {
+    return CountryInformations(
+        id: json["objectId"],
+        name: json["name"],
+        code: json["code"],
+        unit: json["unit"],
+        countryComponent: json["countryComponent"],
+        digits: json["digits"]);
+  }
 
   static bool equal(countriesKey, countryName) {
     if (countriesKey.Equals(countryName)) return true;

@@ -88,11 +88,11 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                     child: Align(
                                       alignment: Alignment.topRight,
                                       child: IconButton(
-                                        tooltip: Lang.getString(
-                                            context, "Edit_Account"),
+                                        tooltip:
+                                            Lang.getString(context, "Account"),
                                         onPressed: () {
                                           Navigator.of(context)
-                                              .pushNamed("/EditAccount");
+                                              .pushNamed("/Account");
                                         },
                                         icon: Icon(
                                           Icons.edit,
