@@ -51,6 +51,7 @@ class SearchResultsFilter extends StatelessWidget {
               onPressed: () {
                 filter();
                 onFiltered(rides);
+                Navigator.pop(context);
               })
         ]));
   }

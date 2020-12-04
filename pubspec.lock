@@ -532,6 +532,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  pluto_menu_bar:
+    dependency: "direct main"
+    description:
+      name: pluto_menu_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4"
   pointycastle:
     dependency: transitive
     description:
