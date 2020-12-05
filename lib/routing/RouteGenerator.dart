@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/pages/Account.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
 import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/pages/AddRidePage4.dart';
@@ -51,8 +50,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Statistics());
       case '/Regions':
         return MaterialPageRoute(builder: (_) => Regions());
-      case '/Account':
-        return MaterialPageRoute(builder: (_) => Account());
       case '/BecomeDriver':
         return MaterialPageRoute(builder: (_) => BecomeDriver());
       case '/PrivacyPolicy':

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:intl/intl.dart';
 import 'package:pickapp/Items/RideResultListTile.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -8,10 +8,10 @@ import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
 import 'package:pickapp/pages/SearchResultFilter.dart';
+import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:intl/intl.dart';
 
 class SearchResults extends StatefulWidget {
   SearchInfo searchInfo;
@@ -178,7 +178,10 @@ class _SearchResultsState extends State<SearchResults> {
                           },
                         ),
                         DropdownButton(
-                          icon: Icon(Icons.sort, color: Styles.primaryColor(),),
+                          icon: Icon(
+                            Icons.sort,
+                            color: Styles.primaryColor(),
+                          ),
                           underline: Container(color: Colors.transparent),
                           isExpanded: true,
                           items: [
@@ -205,23 +208,9 @@ class _SearchResultsState extends State<SearchResults> {
             ),
           ),
           Expanded(
-            child: AnimationLimiter(
-              child: ListView.builder(
-                itemCount: rides.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: Duration(milliseconds: 500),
-                    child: SlideAnimation(
-                      verticalOffset: 100.0,
-                      child: FadeInAnimation(
-                        child: RideResultListTile(rides[index]),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+            child: ListBuilder(
+                list: rides,
+                itemBuilder: RideResultListTile.itemBuilder(rides)),
           ),
         ],
       ),

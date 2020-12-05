@@ -19,56 +19,42 @@ class _MainImagePickerState extends State<MainImagePicker> {
 
   @override
   Widget build(BuildContext context) {
-    Widget avatar;
-    if (App.person.profilePictureUrl == null) {
-      avatar = CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: ScreenUtil().setSp(50),
-        child: FittedBox(
-          fit: BoxFit.fill,
-          child: Icon(
-            Icons.person,
-            size: ScreenUtil().setSp(100),
-            color: Styles.primaryColor(),
-          ),
-        ),
-      );
-    } else {
-      avatar = CachedNetworkImage(
-        imageUrl: App.person.profilePictureUrl,
-        imageBuilder: (context, imageProvider) => CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: ScreenUtil().setSp(50),
-          backgroundImage: imageProvider,
-        ),
-        placeholder: (context, url) => CircularProgressIndicator(),
-        errorWidget: (context, url, error) => CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: ScreenUtil().setSp(50),
-          child: FittedBox(
-            fit: BoxFit.fill,
-            child: Icon(
-              Icons.person,
-              size: ScreenUtil().setSp(100),
-              color: Styles.primaryColor(),
-            ),
-          ),
-        ),
-      );
-    }
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: _showBottomSheet,
       child: Stack(
         children: [
-          avatar,
+          CachedNetworkImage(
+            imageUrl: App.person.profilePictureUrl,
+            imageBuilder: (context, imageProvider) => CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: ScreenUtil().setSp(45),
+              backgroundImage: imageProvider,
+            ),
+            placeholder: (context, url) => CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: ScreenUtil().setSp(45),
+                child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: ScreenUtil().setSp(45),
+              child: FittedBox(
+                fit: BoxFit.fill,
+                child: Icon(
+                  Icons.account_circle_outlined,
+                  size: ScreenUtil().setSp(100),
+                  color: Styles.primaryColor(),
+                ),
+              ),
+            ),
+          ),
           Positioned(
             bottom: 5,
             right: 10,
             child: Icon(
               Icons.camera_alt_rounded,
-              color: Styles.primaryColor(),
+              color: Styles.labelColor(),
               size: Styles.mediumIconSize(),
             ),
           ),
@@ -83,20 +69,15 @@ class _MainImagePickerState extends State<MainImagePicker> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
       }
     });
   }
 
   _pickGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
       }
     });
   }

@@ -37,6 +37,7 @@ dependencies:
   cached_network_image: ^2.4.1
   intl: ^0.16.1
   image_picker: ^0.6.7+14
+  flutter_progress_button: '^0.6.4'
 
   flutter_localizations:
     sdk: flutter

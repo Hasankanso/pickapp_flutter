@@ -36,7 +36,6 @@
   "My_cars": "My cars",
   "Regions": "Regions",
   "Statistics": "Statistics",
-  "Account":"Account",
   "Seats":"Seats",
   "Become_a_driver": "Become a driver",
   "Chattiness": "Chattiness",
@@ -55,6 +54,8 @@
   "Last_Name": "Last Name",
   "Camera": "Camera",
   "Gallery": "Gallery",
+  "Country": "Country",
+  "Save": "Save",
 
   "Results" : "Results",
   "Filter" : "Filter",

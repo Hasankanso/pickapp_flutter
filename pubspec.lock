@@ -277,6 +277,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.11"
+  flutter_progress_button:
+    dependency: "direct main"
+    description:
+      name: flutter_progress_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.4"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -532,13 +539,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  pluto_menu_bar:
-    dependency: "direct main"
-    description:
-      name: pluto_menu_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.4"
   pointycastle:
     dependency: transitive
     description:

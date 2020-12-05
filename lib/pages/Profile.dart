@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/Items/CarListTile.dart';
@@ -7,8 +6,10 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
+import 'package:pickapp/utilities/Line.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainExpansionTile.dart';
+import 'package:pickapp/utilities/MainImagePicker.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -18,7 +19,7 @@ class Profile extends StatefulWidget {
   _ProfileState createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> with TickerProviderStateMixin {
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -39,220 +40,177 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: ScreenUtil().setHeight(266),
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  height: ScreenUtil().setHeight(255),
-                  width: double.infinity,
-                ),
-                Container(
-                  height: ScreenUtil().setHeight(183),
-                  width: double.infinity,
-                  color: Styles.primaryColor(),
-                ),
-                Positioned(
-                  left: 15.0,
-                  right: 15.0,
-                  child: Card(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                    ),
-                    child: Material(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(7.0),
-                      child: Container(
-                        height: ScreenUtil().setHeight(240),
-                        child: Column(
-                          children: <Widget>[
-                            VerticalSpacer(height: 10),
-                            DifferentSizeResponsiveRow(
-                              children: [
-                                Expanded(flex: 1, child: SizedBox()),
-                                Expanded(
-                                  flex: 6,
-                                  child: Align(
-                                    alignment: Alignment.topCenter,
-                                    child: _getProfilePicture(),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    height: ScreenUtil().setHeight(127),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(266),
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    height: ScreenUtil().setHeight(183),
+                    width: double.infinity,
+                    color: Styles.primaryColor(),
+                  ),
+                  Positioned(
+                    left: 15.0,
+                    right: 15.0,
+                    child: Card(
+                      margin: EdgeInsets.all(0),
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0),
+                      ),
+                      child: Material(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(7.0),
+                        child: Container(
+                          height: ScreenUtil().setHeight(252),
+                          child: Column(
+                            children: <Widget>[
+                              VerticalSpacer(height: 10),
+                              DifferentSizeResponsiveRow(
+                                children: [
+                                  Expanded(
+                                    flex: 6,
                                     child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: IconButton(
-                                        tooltip:
-                                            Lang.getString(context, "Account"),
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .pushNamed("/Account");
-                                        },
-                                        icon: Icon(
-                                          Icons.edit,
-                                          color: Styles.primaryColor(),
-                                          size: Styles.mediumIconSize(),
-                                        ),
-                                      ),
+                                      alignment: Alignment.topCenter,
+                                      child: MainImagePicker(),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  App.person.firstName +
-                                      " " +
-                                      App.person.lastName,
-                                  style: Styles.valueTextStyle(
-                                      bold: FontWeight.bold),
-                                ),
-                                Text(
-                                  App.person.countryInformations.name,
-                                  style: Styles.labelTextStyle(
-                                      bold: FontWeight.bold),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    RateStars(
-                                      rating: App.user.person.rateAverage,
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    App.person.firstName +
+                                        " " +
+                                        App.person.lastName,
+                                    style: Styles.valueTextStyle(
+                                        bold: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    App.person.countryInformations.name,
+                                    style: Styles.labelTextStyle(
+                                        bold: FontWeight.bold),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      RateStars(
+                                        App.user.person.rateAverage,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Card(
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed("/Details");
+                            },
+                            child: ResponsiveWidget.fullWidth(
+                              height: 60,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Icon(
+                                      Icons.public,
+                                      size: Styles.mediumIconSize(),
+                                      color: Styles.primaryColor(),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 6,
+                                    child: Text(
+                                      Lang.getString(context, "Details"),
+                                      style: Styles.valueTextStyle(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Line(),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed("/Statistics");
+                            },
+                            child: ResponsiveWidget.fullWidth(
+                              height: 60,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Icon(
+                                      Icons.bar_chart,
+                                      size: Styles.mediumIconSize(),
+                                      color: Styles.primaryColor(),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 6,
+                                    child: Text(
+                                      Lang.getString(context, "Statistics"),
+                                      style: Styles.valueTextStyle(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          if (App.driver != null)
+                            DriverInfo()
+                          else
+                            PassengerInfo(),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(16.0),
-              child: Card(
-                elevation: 3,
-                child: Column(
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/Details");
-                      },
-                      child: ResponsiveWidget.fullWidth(
-                        height: 60,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Icon(
-                                Icons.public,
-                                size: Styles.mediumIconSize(),
-                                color: Styles.primaryColor(),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Text(
-                                Lang.getString(context, "Details"),
-                                style: Styles.valueTextStyle(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    _buildDivider(),
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/Statistics");
-                      },
-                      child: ResponsiveWidget.fullWidth(
-                        height: 60,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Icon(
-                                Icons.bar_chart,
-                                size: Styles.mediumIconSize(),
-                                color: Styles.primaryColor(),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Text(
-                                Lang.getString(context, "Statistics"),
-                                style: Styles.valueTextStyle(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (App.driver != null)
-                      ...driverInfo()
-                    else
-                      ...passengerInfo(),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
 
-  List<Widget> passengerInfo() {
-    return [
-      _buildDivider(),
-      InkWell(
-        onTap: () {
-          Navigator.of(context).pushNamed("/BecomeDriver");
-        },
-        child: ResponsiveWidget.fullWidth(
-          height: 60,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 1,
-                child: Icon(
-                  Icons.drive_eta_rounded,
-                  size: Styles.mediumIconSize(),
-                  color: Styles.primaryColor(),
-                ),
-              ),
-              Expanded(
-                flex: 6,
-                child: Text(
-                  Lang.getString(context, "Become_a_driver"),
-                  style: Styles.valueTextStyle(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ];
-  }
+class DriverInfo extends StatefulWidget {
+  @override
+  _DriverInfoState createState() => _DriverInfoState();
+}
 
-  List<Widget> driverInfo() {
-    return [
-      _buildDivider(),
+class _DriverInfoState extends State<DriverInfo> with TickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Line(),
       InkWell(
         onTap: () {
           Navigator.of(context).pushNamed("/Regions");
@@ -281,7 +239,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
           ),
         ),
       ),
-      _buildDivider(),
+      Line(),
       InkWell(
         onTap: () {},
         child: AnimatedSize(
@@ -311,55 +269,43 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
           ),
         ),
       )
-    ];
+    ]);
   }
+}
 
-  Container _buildDivider() {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 8.0,
-      ),
-      width: double.infinity,
-      height: 1.0,
-      color: Colors.grey.shade300,
-    );
-  }
-
-  _getProfilePicture() {
-    if (App.person.profilePictureUrl == null) {
-      return CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: ScreenUtil().setSp(40),
-        child: FittedBox(
-          fit: BoxFit.fill,
-          child: Icon(
-            Icons.person,
-            size: ScreenUtil().setSp(100),
-            color: Styles.primaryColor(),
-          ),
-        ),
-      );
-    }
-    return CachedNetworkImage(
-      imageUrl: App.person.profilePictureUrl,
-      imageBuilder: (context, imageProvider) => CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: ScreenUtil().setSp(40),
-        backgroundImage: imageProvider,
-      ),
-      placeholder: (context, url) => CircularProgressIndicator(),
-      errorWidget: (context, url, error) => CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: ScreenUtil().setSp(40),
-        child: FittedBox(
-          fit: BoxFit.fill,
-          child: Icon(
-            Icons.person,
-            size: ScreenUtil().setSp(100),
-            color: Styles.primaryColor(),
+class PassengerInfo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Line(),
+      InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed("/BecomeDriver");
+        },
+        child: ResponsiveWidget.fullWidth(
+          height: 60,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Icon(
+                  Icons.drive_eta_rounded,
+                  size: Styles.mediumIconSize(),
+                  color: Styles.primaryColor(),
+                ),
+              ),
+              Expanded(
+                flex: 6,
+                child: Text(
+                  Lang.getString(context, "Become_a_driver"),
+                  style: Styles.valueTextStyle(),
+                ),
+              ),
+            ],
           ),
         ),
       ),
-    );
+    ]);
   }
 }

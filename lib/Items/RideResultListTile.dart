@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/RateStars.dart';
-import 'package:pickapp/utilities/Responsive.dart';
 
 class RideResultListTile extends ListTile {
-  final Ride o;
+  final Ride _ride;
 
-  RideResultListTile(this.o);
+  RideResultListTile(this._ride);
 
   static Function(BuildContext, int) itemBuilder(List<Ride> rides) {
     return (context, index) {
@@ -19,138 +19,147 @@ class RideResultListTile extends ListTile {
 
   @override
   Widget build(BuildContext context) {
-    Ride r = o;
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.panorama_fish_eye,
-                            color: Styles.primaryColor(),
-                            size: Styles.smallIconSize()),
-                        Icon(Icons.more_vert,
-                            color: Styles.primaryColor(),
-                            size: Styles.smallIconSize()),
-                        Icon(Icons.circle,
-                            color: Styles.primaryColor(),
-                            size: Styles.smallIconSize()),
-                      ]),
-                ),
-                Expanded(
-                  flex: 12,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        o.from.name,
-                        style: Styles.headerTextStyle(),
-                      ),
-                      VerticalSpacer(
-                        height: 4,
-                      ),
-                      Text(
-                        o.to.name,
-                        style: Styles.headerTextStyle(),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                    flex: 3,
+      child: ListTile(
+        contentPadding: EdgeInsets.all(10),
+        title: Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.panorama_fish_eye,
+                              color: Styles.primaryColor(),
+                              size: Styles.smallIconSize()),
+                          Icon(Icons.more_vert,
+                              color: Styles.primaryColor(),
+                              size: Styles.smallIconSize()),
+                          Icon(Icons.circle,
+                              color: Styles.primaryColor(),
+                              size: Styles.smallIconSize()),
+                        ]),
+                  ),
+                  Expanded(
+                    flex: 12,
+                    child: Text(
+                      _ride.from.name + "\n \n" + _ride.to.name,
+                      style: Styles.headerTextStyle(),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      _ride.price.toInt().toString() +
+                          " " +
+                          App.person.countryInformations.unit,
+                      style: Styles.valueTextStyle(bold: FontWeight.w500),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        subtitle: Padding(
+          padding: EdgeInsets.fromLTRB(0, 7, 0, 0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: Column(
                       children: [
-                        Text(
-                          o.price.toInt().toString() +
-                              " " +
-                              App.person.countryInformations.unit,
-                          style: Styles.valueTextStyle(bold: FontWeight.w500),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 10,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage("lib/images/adel.png"),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 4,
+                              child: CachedNetworkImage(
+                                imageUrl: _ride.person.profilePictureUrl,
+                                imageBuilder: (context, imageProvider) =>
+                                    CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: 30,
+                                  backgroundImage: imageProvider,
+                                ),
+                                placeholder: (context, url) => CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    radius: 30,
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: 30,
+                                  child: FittedBox(
+                                    fit: BoxFit.fill,
+                                    child: Icon(
+                                      Icons.account_circle_outlined,
+                                      size: ScreenUtil().setSp(100),
+                                      color: Styles.primaryColor(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Spacer(
+                              flex: 1,
+                            ),
+                            Expanded(
+                              flex: 12,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: SizedBox(),
-                                  ),
-                                  Expanded(
-                                    flex: 80,
-                                    child: Text(
-                                      o.person.firstName +
-                                          " " +
-                                          o.person.lastName,
-                                      style: Styles.valueTextStyle(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Expanded(
-                                    flex: 5,
-                                    child: RateStars(
-                                      rating: o.user.person.rateAverage,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 4,
-                                    child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Text(
-                                        "04/06 04:30 PM",
-                                        style: Styles.labelTextStyle(),
+                                  Row(
+                                    children: [
+                                      Spacer(
+                                        flex: 1,
                                       ),
-                                    ),
+                                      Expanded(
+                                        flex: 30,
+                                        child: Text(
+                                          _ride.person.firstName +
+                                              " " +
+                                              _ride.person.lastName,
+                                          style: Styles.valueTextStyle(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  RateStars(
+                                    _ride.user.person.rateAverage,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                            Expanded(
+                              flex: 9,
+                              child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: Text(
+                                  "04/06 44:30 PM",
+                                  style: Styles.labelTextStyle(),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
