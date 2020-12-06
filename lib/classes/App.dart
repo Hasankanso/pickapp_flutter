@@ -17,7 +17,7 @@ class App {
   static final String appName = "PickApp";
   static TextStyle textStyling = new TextStyle(fontSize: 30);
   static final String googleKey = "AIzaSyC7U0OEb9200tGZFFFTyLjQdo3goKyuSsw";
-  static String dateFormat = 'dd/MM/yyyy';
+  static String dateFormat = 'dd/MM/yyyy hh:mm a';
   static String countryCode = "lb";
   static User _user = _fakeUser();
   static bool _isLoggedIn = true;

@@ -55,7 +55,7 @@ class DateTimePickerState extends State<DateTimePicker> {
       _maxDate = DateTime.now().add(Duration(days: 365));
     }
 
-    if (App.isIphone() ) {
+    if (!App.isIphone()) {
       DatePicker.showDatePicker(
         context,
         locale: localeType[_appLocale.toString()],
@@ -78,9 +78,41 @@ class DateTimePickerState extends State<DateTimePicker> {
     }
   }
 
+  selectTime(BuildContext context, date) async {
+    DateTime currentTime;
+    currentTime = widget._controller.chosenDate;
+    if (!App.isIphone()) {
+      DatePicker.showTime12hPicker(
+        context,
+        locale: localeType[_appLocale.toString()],
+        currentTime: currentTime,
+        onConfirm: (time) {
+          _setTime(date, time);
+        },
+      );
+    } else if (App.isAndroid()) {
+      TimeOfDay time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(currentTime),
+      );
+      if (time != null) _setTime(date, time);
+    }
+  }
+
   _setDate(date) {
     setState(() {
-      widget._controller.chosenDate = date;
+      if (widget._isBirthdayPicker) {
+        widget._controller.chosenDate = date;
+      } else {
+        selectTime(context, date);
+      }
+    });
+  }
+
+  _setTime(date, time) {
+    setState(() {
+      widget._controller.chosenDate =
+          DateTime(date.year, date.month, date.day, time.hour, time.minute);
       if (widget.callBack != null) widget.callBack();
     });
   }
@@ -98,52 +130,48 @@ class DateTimePickerState extends State<DateTimePicker> {
   @override
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
-    return ResponsiveWidget(
-      height: 60,
-      width: 270,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(7)),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(7)),
+      ),
+      child: RaisedButton(
+        padding: EdgeInsets.all(0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(7),
         ),
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(7),
-          ),
-          color: Theme.of(context).cardColor,
-          child: DifferentSizeResponsiveRow(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Icon(
-                  Icons.date_range_rounded,
-                  size: Styles.mediumIconSize(),
-                  color: Styles.primaryColor(),
-                ),
+        color: Theme.of(context).cardColor,
+        child: DifferentSizeResponsiveRow(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Icon(
+                Icons.date_range_rounded,
+                size: Styles.mediumIconSize(),
+                color: Styles.primaryColor(),
               ),
-              Expanded(
-                flex: 18,
-                child: Text(
-                  DateFormat(App.dateFormat, _appLocale.toString())
-                      .format(widget._controller.chosenDate),
-                  style: Styles.valueTextStyle(),
-                ),
+            ),
+            Expanded(
+              flex: 18,
+              child: Text(
+                DateFormat(App.dateFormat, _appLocale.toString())
+                    .format(widget._controller.chosenDate),
+                style: Styles.valueTextStyle(),
               ),
-              Expanded(
-                flex: 8,
-                child: Text(
-                  Lang.getString(context, "Change"),
-                  style: Styles.headerTextStyle(),
-                ),
+            ),
+            Expanded(
+              flex: 7,
+              child: Text(
+                Lang.getString(context, "Change"),
+                style: Styles.headerTextStyle(),
               ),
-            ],
-          ),
-          onPressed: () {
-            selectDate(context);
-          },
+            ),
+          ],
         ),
+        onPressed: () {
+          selectDate(context);
+        },
       ),
     );
-    ;
   }
 }
 

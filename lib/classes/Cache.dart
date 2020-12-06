@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
@@ -27,14 +26,13 @@ class Cache {
     _prefs.setString("LANG_CODE", languageCode);
   }
 
-  static void setDateTimeRangePicker(String isRangePicker) {
-    _prefs.setString("isRangePicker", isRangePicker);
+  static void setDateTimeRangePicker(bool isRangePicker) {
+    _prefs.setBool("isRangePicker", isRangePicker);
   }
 
   static setTheme(bool value) {
     _prefs.setBool("THEME_MODE", value);
   }
-
 
   static setConditionAccepted(bool value) {
     _prefs.setBool("TERM_CONDITIONS", value);
