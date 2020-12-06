@@ -21,10 +21,15 @@ class _AddRideState extends State<AddRide> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
-  SwitcherController smoke = SwitcherController();
-  SwitcherController ac = SwitcherController();
-  SwitcherController pets = SwitcherController();
-  SwitcherController music = SwitcherController();
+  SwitcherController smokeController = SwitcherController();
+  SwitcherController acController = SwitcherController();
+  SwitcherController petsController = SwitcherController();
+  SwitcherController musicController = SwitcherController();
+
+  IconData smokeIcon = Icons.smoke_free;
+  IconData acIcon = Icons.ac_unit;
+  IconData petsIcon = Icons.pets;
+  IconData musicIcon = Icons.music_off;
 
   @override
   Widget build(BuildContext context) {
@@ -66,19 +71,26 @@ class _AddRideState extends State<AddRide> {
                               Expanded(
                                   flex: 2,
                                   child: Icon(
-                                    Icons.smoke_free,
+                                    smokeIcon,
                                     color: Styles.primaryColor(),
                                   )),
                               Expanded(
                                 flex: 2,
                                 child: Switcher(
-                                  isOn: false,
-                                  controller: smoke,
+                                  isOn: smokeController.isOn,
+                                  controller: smokeController,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      smokeIcon = value == true
+                                          ? Icons.smoking_rooms
+                                          : Icons.smoke_free;
+                                    });
+                                  },
                                 ),
                               ),
                             ]),
                           ),
-                          Expanded(flex: 1, child: SizedBox()),
+                          Spacer(),
                           Expanded(
                               flex: 4,
                               child: Row(
@@ -86,14 +98,21 @@ class _AddRideState extends State<AddRide> {
                                   Expanded(
                                       flex: 2,
                                       child: Icon(
-                                        Icons.pets,
+                                        petsIcon,
                                         color: Styles.primaryColor(),
                                       )),
                                   Expanded(
                                     flex: 2,
                                     child: Switcher(
-                                      isOn: false,
-                                      controller: pets,
+                                      isOn: petsController.isOn,
+                                      controller: petsController,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          petsIcon = value == true
+                                              ? Icons.pets
+                                              : Icons.pets;
+                                        });
+                                      },
                                     ),
                                   ),
                                 ],
@@ -110,14 +129,21 @@ class _AddRideState extends State<AddRide> {
                               Expanded(
                                   flex: 2,
                                   child: Icon(
-                                    Icons.music_off,
+                                    musicIcon,
                                     color: Styles.primaryColor(),
                                   )),
                               Expanded(
                                 flex: 2,
                                 child: Switcher(
-                                  isOn: false,
-                                  controller: music,
+                                  isOn: musicController.isOn,
+                                  controller: musicController,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      musicIcon = value == true
+                                          ? Icons.music_note
+                                          : Icons.music_off;
+                                    });
+                                  },
                                 ),
                               ),
                             ]),
@@ -130,14 +156,21 @@ class _AddRideState extends State<AddRide> {
                                   Expanded(
                                       flex: 2,
                                       child: Icon(
-                                        Icons.hot_tub,
+                                        acIcon,
                                         color: Styles.primaryColor(),
                                       )),
                                   Expanded(
                                     flex: 2,
                                     child: Switcher(
-                                      isOn: false,
-                                      controller: ac,
+                                      isOn: acController.isOn,
+                                      controller: acController,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          acIcon = value == true
+                                              ? Icons.ac_unit
+                                              : Icons.ac_unit;
+                                        });
+                                      },
                                     ),
                                   ),
                                 ],
@@ -166,10 +199,10 @@ class _AddRideState extends State<AddRide> {
                         placeId: fromController.placeId);
                     DateTime date =
                         dateTimeController.startDateController.chosenDate;
-                    bool isSmoke = smoke.isOn;
-                    bool isPets = pets.isOn;
-                    bool isAc = ac.isOn;
-                    bool isMusic = music.isOn;
+                    bool isSmoke = smokeController.isOn;
+                    bool isPets = petsController.isOn;
+                    bool isAc = acController.isOn;
+                    bool isMusic = musicController.isOn;
                     Ride rideInfo = new Ride();
                     rideInfo.to = to;
                     rideInfo.from = from;
