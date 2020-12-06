@@ -4,7 +4,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/DateTimeRangePicker.dart';
+import 'package:pickapp/utilities/DateTimePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -20,7 +20,7 @@ class AddRide extends StatefulWidget {
 class _AddRideState extends State<AddRide> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
-  DateTimeRangeController dateTimeController = DateTimeRangeController();
+  DateTimeController dateTimeController = DateTimeController();
   SwitcherController smokeController = SwitcherController();
   SwitcherController acController = SwitcherController();
   SwitcherController petsController = SwitcherController();
@@ -46,9 +46,10 @@ class _AddRideState extends State<AddRide> {
                       fromController: fromController,
                       toController: toController)),
               VerticalSpacer(height: 30),
-              ResponsiveWidget.fullWidth(
-                  height: 80, child: DateTimeRangePicker(dateTimeController)),
-              VerticalSpacer(height: 10),
+              ResponsiveWidget(
+                width: 270,
+                  height: 60, child: DateTimePicker(false,dateTimeController)),
+              VerticalSpacer(height: 15),
               ResponsiveWidget(
                 width: 270,
                 height: 30,
@@ -197,7 +198,7 @@ class _AddRideState extends State<AddRide> {
                         longitude: fromController.location.lng,
                         placeId: fromController.placeId);
                     DateTime date =
-                        dateTimeController.startDateController.chosenDate;
+                        dateTimeController.chosenDate;
                     bool isSmoke = smokeController.isOn;
                     bool isPets = petsController.isOn;
                     bool isAc = acController.isOn;
