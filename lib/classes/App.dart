@@ -101,6 +101,19 @@ class App {
         smallSize: ScreenUtil().setSp(14.5));
   }
 
+  static void changeScreenReferenceSize(double width, double height) {
+    WidgetsFlutterBinding.ensureInitialized();
+    ScreenUtil.re_init(width, height);
+    Styles.setFontSizes(
+        subValueFontSize: ScreenUtil().setSp(12.24),
+        fontSize: ScreenUtil().setSp(15),
+        titleFontSize: ScreenUtil().setSp(17.64));
+    Styles.setIconSizes(
+        largeSize: ScreenUtil().setSp(27),
+        mediumSize: ScreenUtil().setSp(21),
+        smallSize: ScreenUtil().setSp(14.5));
+  }
+
   static bool isAndroid() {
     return Platform.isAndroid;
   }
@@ -150,5 +163,6 @@ class App {
   }
 
   static Driver get driver => user == null ? null : user.driver;
+
   static Person get person => user == null ? null : user.person;
 }

@@ -65,7 +65,10 @@ class ScreenUtil {
     }
 
     _screenHeight = mediaQuery.size.height - _appBarHeight - _statusBarHeight;
+  }
 
+  static void re_init(double width, double height) {
+    _instance.uiSize = Size(width, height);
   }
 
   double get appBarHeight => _appBarHeight;
@@ -110,7 +113,6 @@ class ScreenUtil {
 
   double get scaleHeight => _screenHeight / uiSize.height;
 
-
   double get scaleText => scaleWidth;
 
   /// 根据UI设计的设备宽度适配
@@ -129,7 +131,6 @@ class ScreenUtil {
   /// when it is found that one screen in the UI design
   /// does not match the current style effect, or if there is a difference in shape.
   double setHeight(num height) => height * scaleHeight;
-
 
   ///字体大小适配方法
   ///- [fontSize] UI设计上字体的大小,单位px.
