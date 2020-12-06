@@ -29,13 +29,14 @@ class _MainImagePickerState extends State<MainImagePicker> {
             imageUrl: App.person.profilePictureUrl,
             imageBuilder: (context, imageProvider) => CircleAvatar(
               backgroundColor: Colors.transparent,
-              radius: ScreenUtil().setSp(45),
               backgroundImage: imageProvider,
+              radius: ScreenUtil().setSp(45),
             ),
             placeholder: (context, url) => CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: ScreenUtil().setSp(45),
-                child: CircularProgressIndicator()),
+              backgroundColor: Colors.transparent,
+              radius: ScreenUtil().setSp(45),
+              child: CircularProgressIndicator(),
+            ),
             errorWidget: (context, url, error) => CircleAvatar(
               backgroundColor: Colors.transparent,
               radius: ScreenUtil().setSp(45),

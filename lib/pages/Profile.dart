@@ -70,40 +70,42 @@ class _ProfileState extends State<Profile> {
                           child: Column(
                             children: <Widget>[
                               VerticalSpacer(height: 10),
-                              DifferentSizeResponsiveRow(
-                                children: [
-                                  Expanded(
-                                    flex: 6,
-                                    child: Align(
-                                      alignment: Alignment.topCenter,
-                                      child: MainImagePicker(),
-                                    ),
-                                  ),
-                                ],
+                              ResponsiveWidget.fullWidth(
+                                height: 110,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: MainImagePicker(),
+                                ),
                               ),
-                              Column(
-                                children: [
-                                  Text(
-                                    App.person.firstName +
-                                        " " +
-                                        App.person.lastName,
-                                    style: Styles.valueTextStyle(
-                                        bold: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    App.person.countryInformations.name,
-                                    style: Styles.labelTextStyle(
-                                        bold: FontWeight.bold),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      RateStars(
-                                        App.user.person.rateAverage,
-                                      )
-                                    ],
-                                  ),
-                                ],
+                              Container(
+                                height: ScreenUtil().setHeight(120),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      App.person.firstName +
+                                          " " +
+                                          App.person.lastName,
+                                      style: Styles.valueTextStyle(
+                                          bold: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      App.person.countryInformations.name,
+                                      style: Styles.labelTextStyle(
+                                          bold: FontWeight.bold),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        RateStars(
+                                          App.user.person.rateAverage,
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
