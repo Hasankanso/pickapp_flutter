@@ -91,10 +91,7 @@ class Styles {
   }
 
   static TextStyle subValueTextStyle() {
-    return TextStyle(
-        color: valueColor(),
-        fontSize: _subValueFontSize,
-        fontWeight: FontWeight.w400);
+    return TextStyle(fontSize: _subValueFontSize, fontWeight: FontWeight.w400);
   }
 
   static double titleFontSize() {
