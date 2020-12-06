@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
@@ -250,42 +251,46 @@ class _SearchState extends State<Search>
                     toController: toController)),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
-                height: 80, child: DateTimeRangePicker(dateTimeController)),
+                height: Cache.dateTimeRangePicker ? 140 : 60,
+                child: DateTimeRangePicker(dateTimeController)),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
                 height: 30,
                 child: NumberPicker(numberController, "Persons", 1, 8)),
-            VerticalSpacer(height: 170),
-            ResponsiveWidget(
-              width: 270,
-              height: 50,
-              child: MainButton(
-                text_key: "Search",
-                onPressed: () {
-                  MainLocation to = MainLocation(
-                      name: toController.description,
-                      latitude: toController.location.lat,
-                      longitude: toController.location.lng,
-                      placeId: toController.placeId);
-                  MainLocation from = MainLocation(
-                      name: fromController.description,
-                      latitude: fromController.location.lat,
-                      longitude: fromController.location.lng,
-                      placeId: fromController.placeId);
-                  _searchInfo = SearchInfo(
-                      to: to,
-                      from: from,
-                      passengersNumber: numberController.chosenNumber,
-                      minDate:
-                          dateTimeController.startDateController.chosenDate,
-                      maxDate: dateTimeController.endDateController.chosenDate);
-                  Request<List<Ride>> request = SearchForRides(_searchInfo);
-                  request.send(response);
-                },
-              ),
-            ),
           ],
         ),
+      ),
+      bottomNavigationBar: ResponsiveWidget.fullWidth(
+        height: 80,
+        child: Column(children: [
+          ResponsiveWidget(
+            width: 270,
+            height: 50,
+            child: MainButton(
+              text_key: "Search",
+              onPressed: () {
+                MainLocation to = MainLocation(
+                    name: toController.description,
+                    latitude: toController.location.lat,
+                    longitude: toController.location.lng,
+                    placeId: toController.placeId);
+                MainLocation from = MainLocation(
+                    name: fromController.description,
+                    latitude: fromController.location.lat,
+                    longitude: fromController.location.lng,
+                    placeId: fromController.placeId);
+                _searchInfo = SearchInfo(
+                    to: to,
+                    from: from,
+                    passengersNumber: numberController.chosenNumber,
+                    minDate: dateTimeController.startDateController.chosenDate,
+                    maxDate: dateTimeController.endDateController.chosenDate);
+                Request<List<Ride>> request = SearchForRides(_searchInfo);
+                request.send(response);
+              },
+            ),
+          ),
+        ]),
       ),
     );
   }

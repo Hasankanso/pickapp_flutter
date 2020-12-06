@@ -52,7 +52,9 @@ class _NumberPickerState extends State<NumberPicker> {
     }
     return DifferentSizeResponsiveRow(
       children: <Widget>[
-        Expanded(flex: 8, child: SizedBox()),
+        Spacer(
+          flex: 8,
+        ),
         Expanded(
           flex: 60,
           child: Row(
@@ -70,9 +72,6 @@ class _NumberPickerState extends State<NumberPicker> {
                   onPressed: () {
                     if (!widget.disabled) _minus();
                   },
-                  backgroundColor: !widget.disabled
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
                   child: Icon(
                     Icons.remove,
                     color: Styles.secondaryColor(),
@@ -96,9 +95,6 @@ class _NumberPickerState extends State<NumberPicker> {
                     if (!widget.disabled) counterUp();
                   },
                   elevation: 3,
-                  backgroundColor: !widget.disabled
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
                   child: Icon(
                     Icons.add,
                     color: Styles.secondaryColor(),
@@ -109,7 +105,9 @@ class _NumberPickerState extends State<NumberPicker> {
             ],
           ),
         ),
-        Expanded(flex: 8, child: SizedBox())
+        Spacer(
+          flex: 8,
+        ),
       ],
     );
   }
