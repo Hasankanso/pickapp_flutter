@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/Items/CarListTile.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -51,7 +52,7 @@ class _ProfileState extends State<Profile> {
                   Container(
                     height: ScreenUtil().setHeight(183),
                     width: double.infinity,
-                    color: Styles.primaryColor(),
+                    color: Cache.darkTheme ? null : Styles.primaryColor(),
                   ),
                   Positioned(
                     left: 15.0,
