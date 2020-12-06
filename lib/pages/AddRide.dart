@@ -59,128 +59,127 @@ class _AddRideState extends State<AddRide> {
               ),
               VerticalSpacer(height: 15),
               ResponsiveWidget.fullWidth(
-                  height: 120,
-                  child: Column(
+                  height: 60,
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          Spacer(),
+                      Spacer(),
+                      Expanded(
+                        flex: 4,
+                        child: Row(children: [
                           Expanded(
-                            flex: 4,
-                            child: Row(children: [
-                              Expanded(
-                                  flex: 2,
-                                  child: Icon(
-                                    smokeIcon,
-                                    color: Styles.primaryColor(),
-                                  )),
-                              Expanded(
-                                flex: 2,
-                                child: Switcher(
-                                  isOn: smokeController.isOn,
-                                  controller: smokeController,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      smokeIcon = value == true
-                                          ? Icons.smoking_rooms
-                                          : Icons.smoke_free;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ]),
-                          ),
-                          Spacer(),
-                          Expanded(
-                              flex: 4,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: 2,
-                                      child: Icon(
-                                        petsIcon,
-                                        color: Styles.primaryColor(),
-                                      )),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Switcher(
-                                      isOn: petsController.isOn,
-                                      controller: petsController,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          petsIcon = value == true
-                                              ? Icons.pets
-                                              : Icons.pets;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ],
+                              flex: 2,
+                              child: Icon(
+                                smokeIcon,
+                                color: Styles.primaryColor(),
                               )),
-                          Spacer(),
-                        ],
+                          Expanded(
+                            flex: 2,
+                            child: Switcher(
+                              isOn: smokeController.isOn,
+                              controller: smokeController,
+                              onChanged: (value) {
+                                setState(() {
+                                  smokeIcon = value == true
+                                      ? Icons.smoking_rooms
+                                      : Icons.smoke_free;
+                                });
+                              },
+                            ),
+                          ),
+                        ]),
                       ),
-                      Row(
-                        children: [
-                          Spacer(),
-                          Expanded(
-                            flex: 4,
-                            child: Row(children: [
+                      Spacer(),
+                      Expanded(
+                          flex: 4,
+                          child: Row(
+                            children: [
                               Expanded(
                                   flex: 2,
                                   child: Icon(
-                                    musicIcon,
+                                    petsIcon,
                                     color: Styles.primaryColor(),
                                   )),
                               Expanded(
                                 flex: 2,
                                 child: Switcher(
-                                  isOn: musicController.isOn,
-                                  controller: musicController,
+                                  isOn: petsController.isOn,
+                                  controller: petsController,
                                   onChanged: (value) {
                                     setState(() {
-                                      musicIcon = value == true
-                                          ? Icons.music_note
-                                          : Icons.music_off;
+                                      petsIcon = value == true
+                                          ? Icons.pets
+                                          : Icons.pets;
                                     });
                                   },
                                 ),
                               ),
-                            ]),
-                          ),
-                          Expanded(flex: 1, child: SizedBox()),
-                          Expanded(
-                              flex: 4,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: 2,
-                                      child: Icon(
-                                        acIcon,
-                                        color: Styles.primaryColor(),
-                                      )),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Switcher(
-                                      isOn: acController.isOn,
-                                      controller: acController,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          acIcon = value == true
-                                              ? Icons.ac_unit
-                                              : Icons.ac_unit;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          Spacer(),
-                        ],
-                      )
+                            ],
+                          )),
+                      Spacer(),
                     ],
                   )),
-              VerticalSpacer(height: 60),
+              ResponsiveWidget.fullWidth(
+                height: 60,
+                child: Row(
+                  children: [
+                    Spacer(),
+                    Expanded(
+                      flex: 4,
+                      child: Row(children: [
+                        Expanded(
+                            flex: 2,
+                            child: Icon(
+                              musicIcon,
+                              color: Styles.primaryColor(),
+                            )),
+                        Expanded(
+                          flex: 2,
+                          child: Switcher(
+                            isOn: musicController.isOn,
+                            controller: musicController,
+                            onChanged: (value) {
+                              setState(() {
+                                musicIcon = value == true
+                                    ? Icons.music_note
+                                    : Icons.music_off;
+                              });
+                            },
+                          ),
+                        ),
+                      ]),
+                    ),
+                    Expanded(flex: 1, child: SizedBox()),
+                    Expanded(
+                        flex: 4,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Icon(
+                                  acIcon,
+                                  color: Styles.primaryColor(),
+                                )),
+                            Expanded(
+                              flex: 2,
+                              child: Switcher(
+                                isOn: acController.isOn,
+                                controller: acController,
+                                onChanged: (value) {
+                                  setState(() {
+                                    acIcon = value == true
+                                        ? Icons.ac_unit
+                                        : Icons.ac_unit;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        )),
+                    Spacer(),
+                  ],
+                ),
+              ),
+              VerticalSpacer(height: 80),
               ResponsiveWidget(
                 width: 270,
                 height: 50,
