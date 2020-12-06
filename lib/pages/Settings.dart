@@ -50,6 +50,16 @@ class Settings extends StatelessWidget {
                             onChanged: (bool value) =>
                                 {App.forceDarkTheme(value)})
                       ]),
+                      Row(children: [
+                        Spacer(flex: 1),
+                        Text(Lang.getString(context, "Dark_Mode"),
+                            style: Styles.valueTextStyle()),
+                        Spacer(flex: 9),
+                        Switcher(
+                            isOn: Cache.dateTimeRangePicker,
+                            onChanged: (bool value) =>
+                                {Cache.setDateTimeRangePicker(value)})
+                      ]),
                     ],
                   ),
                 )
