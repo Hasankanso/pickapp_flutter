@@ -1,7 +1,8 @@
 import 'dart:io';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -29,7 +30,6 @@ class _DetailsState extends State<Details> {
   TextEditingController _bioController = TextEditingController();
   TextEditingController _firstName = TextEditingController();
   TextEditingController _lastName = TextEditingController();
-
   List<bool> _genders;
   bool _gender = App.person.gender;
   DateTimeController _birthday = DateTimeController();
@@ -37,6 +37,8 @@ class _DetailsState extends State<Details> {
   List<String> _countries = [App.person.countryInformations.name];
   int _chattiness = App.person.chattiness;
   List<String> _chattinessItems;
+
+  String formattedDate="Change";
 
   @override
   void initState() {
@@ -71,6 +73,15 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
+
+    _setDate(date) {
+      setState(() {
+
+        final DateFormat formatter = DateFormat('yyyy-MM-dd');
+        final String formatted = formatter.format(date);
+        formattedDate =formatted  ;
+      });
+    }
     _chattinessItems = <String>[
       Lang.getString(context, "I'm_a_quiet_person"),
       Lang.getString(context, "I_talk_depending_on_my_mood"),
@@ -247,25 +258,25 @@ class _DetailsState extends State<Details> {
                   ),
                 ),
                 ResponsiveWidget.fullWidth(
-                  height: 120,
-                  child: Column(
+                  height: 80,
+                  child: ResponsiveRow(
                     children: [
-                      ResponsiveRow(
-                        children: [
-                          Text(
-                            "Birthday",
-                            style: Styles.labelTextStyle(),
-                          ),
-                        ],
+                      Text(
+                        "Birthday",
+                        style: Styles.labelTextStyle(),
                       ),
-                      ResponsiveRow(
-                        children: [
-                          DateTimePicker(
-                            true,
-                            _birthday,
-                            startDate: App.person.birthday,
-                          ),
-                        ],
+                      TextButton(
+                        child: Text(formattedDate.toString(),
+                          style: Styles.valueTextStyle(),
+                        ),
+                        onPressed: (){
+                          DatePicker.showDatePicker(
+                            context,
+                            onConfirm: (date) {
+                              _setDate(date);
+                            },
+                          );
+                        },
                       ),
                     ],
                   ),

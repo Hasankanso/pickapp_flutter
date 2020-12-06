@@ -75,6 +75,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   child: Text(
                     Lang.getString(context, "Do_You_Want_To_Stop_Over"),
                     style: Styles.labelTextStyle(),
+
                   ),
                 ),
                 Expanded(
