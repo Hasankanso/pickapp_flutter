@@ -58,130 +58,50 @@ class _SearchResultsState extends State<SearchResults> {
       ),
       body: Column(
         children: [
-          Card(
-            shape: RoundedRectangleBorder(),
-            child: Column(
+          _TopCard(searchInfo: widget.searchInfo),
+          ResponsiveWidget.fullWidth(
+            height: 30,
+            child: Row(
               children: [
-                ResponsiveWidget.fullWidth(
-                  height: 80,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.panorama_fish_eye,
-                                  color: Styles.primaryColor(),
-                                  size: Styles.smallIconSize()),
-                              Icon(Icons.more_vert,
-                                  color: Styles.primaryColor(),
-                                  size: Styles.smallIconSize()),
-                              Icon(Icons.circle,
-                                  color: Styles.primaryColor(),
-                                  size: Styles.smallIconSize()),
-                            ]),
-                      ),
-                      Expanded(
-                        flex: 8,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      " " + widget.searchInfo.from.name,
-                                      style: Styles.valueTextStyle(),
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    child: Text(
-                                      " " + widget.searchInfo.to.name,
-                                      style: Styles.valueTextStyle(),
-                                      overflow: TextOverflow.fade,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ]),
-                      ),
-                      Expanded(
-                          flex: 7,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.date_range,
-                                      color: Styles.primaryColor(),
-                                      size: Styles.smallIconSize()),
-                                  Text(
-                                      " " +
-                                          DateFormat('dd/MM/yy')
-                                              .add_jm()
-                                              .format(
-                                                  widget.searchInfo.minDate),
-                                      style: Styles.valueTextStyle()),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 1,
-                                    child: Icon(Icons.event_seat,
-                                        color: Styles.primaryColor(),
-                                        size: Styles.smallIconSize()),
-                                  ),
-                                  Spacer(flex: 5),
-                                  Expanded(
-                                    flex: 21,
-                                    child: Text(
-                                        widget.searchInfo.passengersNumber
-                                            .toString(),
-                                        style: Styles.valueTextStyle()),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ))
-                    ],
+                Spacer(),
+                Expanded(
+                  flex: 40,
+                  child: IconButton(
+                    color: Styles.primaryColor(),
+                    icon: Icon(Icons.filter_alt_outlined,
+                        size: Styles.mediumIconSize()),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return SearchResultsFilter(
+                              rides: widget.searchInfo.rides,
+                              onFiltered: filter,
+                            );
+                          });
+                    },
                   ),
                 ),
-                _buildDivider(),
-                ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: DefaultTabController(
-                    length: 2,
-                    child: TabBar(
-                      unselectedLabelColor:
-                          Theme.of(context).textTheme.bodyText1.color,
-                      indicatorColor: Colors.transparent,
-                      tabs: [
-                        IconButton(
-                          color: Styles.primaryColor(),
-                          icon: Icon(Icons.filter_alt_outlined),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return SearchResultsFilter(
-                                    rides: widget.searchInfo.rides,
-                                    onFiltered: filter,
-                                  );
-                                });
-                          },
+                Expanded(
+                  flex: 80,
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 20.0,
+                              spreadRadius: 0.5,
+                              offset: Offset(1.0, 1.0),
+                            ),
+                          ],
                         ),
-                        DropdownButton(
-                          icon: Icon(
-                            Icons.sort,
-                            color: Styles.primaryColor(),
-                          ),
+                        padding: EdgeInsets.only(left: 44.0),
+                        margin:
+                            EdgeInsets.only(top: 64.0, left: 16.0, right: 16.0),
+                        child: DropdownButton(
                           underline: Container(color: Colors.transparent),
                           isExpanded: true,
                           items: [
@@ -200,8 +120,16 @@ class _SearchResultsState extends State<SearchResults> {
                           ],
                           onChanged: sort,
                         ),
-                      ],
-                    ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 7, left: 100),
+                        child: Icon(
+                          Icons.sort,
+                          color: Styles.primaryColor(),
+                          size: Styles.mediumIconSize(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -235,4 +163,74 @@ class _SearchResultsState extends State<SearchResults> {
   }
 
   sortPrice(bool ascending) {}
+}
+
+class _TopCard extends StatelessWidget {
+  SearchInfo searchInfo;
+
+  _TopCard({this.searchInfo});
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveWidget.fullWidth(
+      height: 50,
+      child: Card(
+        shape: RoundedRectangleBorder(),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Spacer(),
+                Expanded(
+                  flex: 40,
+                  child: Text(
+                    searchInfo.from.name,
+                    style: TextStyle(fontSize: ScreenUtil().setSp(10)),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_right_alt,
+                  size: Styles.mediumIconSize(),
+                ),
+                Expanded(
+                  flex: 40,
+                  child: Text(
+                    searchInfo.to.name,
+                    style: TextStyle(fontSize: ScreenUtil().setSp(10)),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+                Spacer(),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Spacer(),
+                Expanded(
+                  flex: 81,
+                  child: Text(
+                    DateFormat('dd/MM/yy').format(searchInfo.minDate) +
+                        ", " +
+                        searchInfo.passengersNumber.toString() +
+                        " " +
+                        Lang.getString(context, "Seats"),
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.caption.color,
+                        fontSize: ScreenUtil().setSp(8)),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
