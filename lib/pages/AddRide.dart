@@ -43,7 +43,7 @@ class _AddRideState extends State<AddRide> {
               VerticalSpacer(height: 30),
               ResponsiveWidget.fullWidth(
                   height: 80, child: DateTimeRangePicker(dateTimeController)),
-              VerticalSpacer(height: 10),
+              VerticalSpacer(height: 20),
               ResponsiveWidget(
                 width: 270,
                 height: 30,
@@ -54,100 +54,100 @@ class _AddRideState extends State<AddRide> {
               ),
               VerticalSpacer(height: 15),
               ResponsiveWidget.fullWidth(
-                  height: 120,
-                  child: Column(
+                  height: 50,
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          Spacer(),
+                      Spacer(),
+                      Expanded(
+                        flex: 4,
+                        child: Row(children: [
                           Expanded(
-                            flex: 4,
-                            child: Row(children: [
-                              Expanded(
-                                  flex: 2,
-                                  child: Icon(
-                                    Icons.smoke_free,
-                                    color: Styles.primaryColor(),
-                                  )),
-                              Expanded(
-                                flex: 2,
-                                child: Switcher(
-                                  isOn: false,
-                                  controller: smoke,
-                                ),
-                              ),
-                            ]),
-                          ),
-                          Expanded(flex: 1, child: SizedBox()),
-                          Expanded(
-                              flex: 4,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: 2,
-                                      child: Icon(
-                                        Icons.pets,
-                                        color: Styles.primaryColor(),
-                                      )),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Switcher(
-                                      isOn: false,
-                                      controller: pets,
-                                    ),
-                                  ),
-                                ],
+                              flex: 2,
+                              child: Icon(
+                                Icons.smoke_free,
+                                color: Styles.primaryColor(),
                               )),
-                          Spacer(),
-                        ],
+                          Expanded(
+                            flex: 2,
+                            child: Switcher(
+                              isOn: false,
+                              controller: smoke,
+                            ),
+                          ),
+                        ]),
                       ),
-                      Row(
-                        children: [
-                          Spacer(),
-                          Expanded(
-                            flex: 4,
-                            child: Row(children: [
+                      Expanded(flex: 1, child: SizedBox()),
+                      Expanded(
+                          flex: 4,
+                          child: Row(
+                            children: [
                               Expanded(
                                   flex: 2,
                                   child: Icon(
-                                    Icons.music_off,
+                                    Icons.pets,
                                     color: Styles.primaryColor(),
                                   )),
                               Expanded(
                                 flex: 2,
                                 child: Switcher(
                                   isOn: false,
-                                  controller: music,
+                                  controller: pets,
                                 ),
                               ),
-                            ]),
-                          ),
-                          Expanded(flex: 1, child: SizedBox()),
-                          Expanded(
-                              flex: 4,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: 2,
-                                      child: Icon(
-                                        Icons.hot_tub,
-                                        color: Styles.primaryColor(),
-                                      )),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Switcher(
-                                      isOn: false,
-                                      controller: ac,
-                                    ),
-                                  ),
-                                ],
-                              )),
-                          Spacer(),
-                        ],
-                      )
+                            ],
+                          )),
+                      Spacer(),
                     ],
                   )),
-              VerticalSpacer(height: 60),
+              VerticalSpacer(height: 15),
+              ResponsiveWidget.fullWidth(
+                height: 50,
+                child:  Row(
+                  children: [
+                    Spacer(),
+                    Expanded(
+                      flex: 4,
+                      child: Row(children: [
+                        Expanded(
+                            flex: 2,
+                            child: Icon(
+                              Icons.music_off,
+                              color: Styles.primaryColor(),
+                            )),
+                        Expanded(
+                          flex: 2,
+                          child: Switcher(
+                            isOn: false,
+                            controller: music,
+                          ),
+                        ),
+                      ]),
+                    ),
+                    Expanded(flex: 1, child: SizedBox()),
+                    Expanded(
+                        flex: 4,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Icon(
+                                  Icons.hot_tub,
+                                  color: Styles.primaryColor(),
+                                )),
+                            Expanded(
+                              flex: 2,
+                              child: Switcher(
+                                isOn: false,
+                                controller: ac,
+                              ),
+                            ),
+                          ],
+                        )),
+                    Spacer(),
+                  ],
+                ),
+              ),
+              VerticalSpacer(height: 15),
               ResponsiveWidget(
                 width: 270,
                 height: 50,
