@@ -66,6 +66,10 @@ class MyAppState extends State<MyApp> {
               theme: ThemeData(
                 brightness: Brightness.light,
                 primarySwatch: Styles.primaryColor(),
+                floatingActionButtonTheme: FloatingActionButtonThemeData(
+                  backgroundColor: Styles.primaryColor(),
+                  foregroundColor: Styles.primaryColor(),
+                ),
                 primaryTextTheme: TextTheme(
                     headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -74,6 +78,10 @@ class MyAppState extends State<MyApp> {
               darkTheme: ThemeData(
                 brightness: Brightness.dark,
                 primarySwatch: Styles.primaryColor(),
+                floatingActionButtonTheme: FloatingActionButtonThemeData(
+                  backgroundColor: Styles.primaryColor(),
+                  foregroundColor: Styles.primaryColor(),
+                ),
                 primaryTextTheme: TextTheme(
                     headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
