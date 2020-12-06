@@ -57,5 +57,5 @@ class _SwitcherState extends State<Switcher> {
 }
 
 class SwitcherController {
-  bool isOn;
+  bool isOn = false;
 }
