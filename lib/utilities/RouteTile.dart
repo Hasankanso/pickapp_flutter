@@ -54,7 +54,7 @@ class RouteTile extends ListTile {
           ),
           onTap: () {
             CustomToast()
-                .showColoredToast(Lang.getString(context, "You_Choosed")+ r.name, Colors.greenAccent);
+                .showShortToast(Lang.getString(context, "You_Choosed")+ r.name, backgroundColor :Colors.greenAccent);
           },
         ),
       ),

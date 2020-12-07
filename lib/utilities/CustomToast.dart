@@ -3,20 +3,22 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pickapp/classes/Styles.dart';
 
 class CustomToast {
-  void showColoredToast(String msg, Color c) {
+  void showShortToast(String msg, {Color backgroundColor = Colors.black54}) {
     Fluttertoast.showToast(
         msg: "$msg",
         toastLength: Toast.LENGTH_SHORT,
-        backgroundColor: c,
+        backgroundColor: backgroundColor,
         fontSize: Styles.fontSize(),
         textColor: Colors.white);
   }
 
-  void showShortToast() {
+  void showLongToast(String msg, {Color backgroundColor = Colors.black54}) {
     Fluttertoast.showToast(
-        msg: "This is Short Toast",
-        toastLength: Toast.LENGTH_SHORT,
-        timeInSecForIosWeb: 1);
+        backgroundColor: backgroundColor,
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        fontSize: Styles.fontSize(),
+        textColor: Colors.white);
   }
 
   void cancelToast() {

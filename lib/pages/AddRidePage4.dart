@@ -109,9 +109,9 @@ class _AddRidePage4State extends State<AddRidePage4> {
                   Request<Ride> request=AddRide(rideInfo);
                   request.send(response);
                   Navigator.of(context).pushNamed("/");
-                  CustomToast().showColoredToast(
+                  CustomToast().showShortToast(
                       Lang.getString(context, "Ride_Added"),
-                      Colors.greenAccent);
+                      backgroundColor : Colors.greenAccent);
                 },
               ),
             ),

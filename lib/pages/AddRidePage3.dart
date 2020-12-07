@@ -169,9 +169,9 @@ class _AddRidePage3State extends State<AddRidePage3>
           ],
         ),
         onTap: () {
-          CustomToast().showColoredToast(
+          CustomToast().showShortToast(
               Lang.getString(context, "You_Choosed") + name,
-              Colors.greenAccent);
+              backgroundColor : Colors.greenAccent);
           setState(() {});
           selectedCar = brand + " / " + name;
           MainExpansionTileState.of(context).collapse();
