@@ -20,7 +20,7 @@ class App {
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
   static String countryCode = "lb";
   static User _user = _fakeUser();
-  static bool _isLoggedIn = true;
+  static bool _isLoggedIn = false;
   static List<String> _countriesInformationsNames;
   static Map<String, CountryInformations> _countriesInformations;
   static Locale locale;

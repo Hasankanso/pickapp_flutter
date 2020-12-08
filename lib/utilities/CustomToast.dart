@@ -21,6 +21,24 @@ class CustomToast {
         textColor: Colors.white);
   }
 
+  void showErrorToast(String msg) {
+    Fluttertoast.showToast(
+        backgroundColor: Colors.redAccent,
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        fontSize: Styles.fontSize(),
+        textColor: Colors.white);
+  }
+
+  void showSuccessToast(String msg) {
+    Fluttertoast.showToast(
+        backgroundColor: Colors.greenAccent,
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        fontSize: Styles.fontSize(),
+        textColor: Colors.white);
+  }
+
   void cancelToast() {
     Fluttertoast.cancel();
   }

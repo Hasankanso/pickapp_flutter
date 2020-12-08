@@ -12,6 +12,7 @@ import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/Line.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainExpansionTile.dart';
@@ -36,8 +37,10 @@ class _ProfileState extends State<Profile> {
 
   _response(Person result, int code, String p3) {
     if (code != HttpStatus.ok) {
-      //todo toast
+      CustomToast().showErrorToast(p3);
     } else {
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       setState(() {
         App.user.person.profilePictureUrl = result.profilePictureUrl;
       });
@@ -75,7 +78,9 @@ class _ProfileState extends State<Profile> {
                   Container(
                     height: ScreenUtil().setHeight(183),
                     width: double.infinity,
-                    color: Cache.darkTheme ? Theme.of(context).primaryColor : Styles.primaryColor(),
+                    color: Cache.darkTheme
+                        ? Theme.of(context).primaryColor
+                        : Styles.primaryColor(),
                   ),
                   Positioned(
                     left: 15.0,

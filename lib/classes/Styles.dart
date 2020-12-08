@@ -60,11 +60,11 @@ class Styles {
   }
 
   //where color is primary
-  static headerTextStyle() {
+  static headerTextStyle({bool underline = false}) {
     return TextStyle(
-      fontSize: _fontSize,
-      color: primaryColor(),
-    );
+        fontSize: _fontSize,
+        color: primaryColor(),
+        decoration: underline ? TextDecoration.underline : null);
   }
 
   static subHeaderTextStyle() {

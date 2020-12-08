@@ -16,6 +16,7 @@ import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/GetCountries.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimePicker.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -377,13 +378,15 @@ class _DetailsState extends State<Details> {
 
   _response(Person result, int code, String p3) {
     if (code != HttpStatus.ok) {
-      //todo toast
+      CustomToast().showErrorToast(p3);
     } else {
       List<Ride> upcomingRides = App.person.upcomingRides;
       List<Rate> rates = App.person.rates;
       result.upcomingRides = upcomingRides;
       result.rates = rates;
       App.user.person = result;
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }
   }
 }
