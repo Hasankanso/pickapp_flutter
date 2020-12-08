@@ -137,12 +137,13 @@ class Settings extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => SizeTest(
-                                      body: FromToPicker(
-                                        fromController: fromController,
-                                        toController: toController,
-                                      ),
-                                      width: 120,
-                                      height: 80),
+                                    width: 260,
+                                    height: 80,
+                                    body: FromToPicker(
+                                      fromController: fromController,
+                                      toController: toController,
+                                    ),
+                                  ),
                                 ));
                           }),
                     ],

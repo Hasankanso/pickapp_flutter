@@ -18,15 +18,15 @@ class ChatListTile extends ListTile {
 
   void deletionResponse(bool result) {
     if (result) {
-      CustomToast().showColoredToast("Deletion Cancelled !", Colors.red);
+      CustomToast().showShortToast("Deletion Cancelled !", backgroundColor :Colors.red);
     } else {
       CustomToast()
-          .showColoredToast("Ride Deleted Successfully", Colors.greenAccent);
+          .showShortToast("Ride Deleted Successfully", backgroundColor :Colors.greenAccent);
     }
   }
 
   void cc(String item) {
-    CustomToast().showColoredToast("You clicked : " + item, Colors.blue);
+    CustomToast().showShortToast("You clicked : " + item, backgroundColor :Colors.blue);
   }
 
   @override

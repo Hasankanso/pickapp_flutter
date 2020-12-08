@@ -24,7 +24,7 @@ dependencies:
   flutter_material_color_picker: ^1.0.5
   flutter_datetime_picker: ^1.4.0
   shared_preferences: ^0.5.12+4
-  flutter_google_places: ^0.2.4
+  flutter_google_places: ^0.2.6
   google_maps_webservice: ^0.0.16
   geolocator: ^6.1.4
   rflutter_alert: ^1.0.3

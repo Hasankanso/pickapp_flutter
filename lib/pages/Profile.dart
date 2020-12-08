@@ -75,7 +75,7 @@ class _ProfileState extends State<Profile> {
                   Container(
                     height: ScreenUtil().setHeight(183),
                     width: double.infinity,
-                    color: Cache.darkTheme ? null : Styles.primaryColor(),
+                    color: Cache.darkTheme ? Theme.of(context).primaryColor : Styles.primaryColor(),
                   ),
                   Positioned(
                     left: 15.0,
