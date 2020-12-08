@@ -87,6 +87,7 @@ class Styles {
     return TextStyle(
       fontSize: _fontSize,
       fontWeight: bold,
+      color: valueColor(),
     );
   }
 

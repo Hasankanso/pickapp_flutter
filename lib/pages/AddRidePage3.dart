@@ -119,13 +119,18 @@ class _AddRidePage3State extends State<AddRidePage3>
                 onPressed: () {
                   int seats = personController.chosenNumber;
                   int luggage = luggageController.chosenNumber;
-                  int price = int.parse(priceController.text);
+
                   rideInfo.availableSeats = seats;
                   rideInfo.availableLuggages = luggage;
-                  rideInfo.price = price ;
+                  if(priceController.text!=""){
+                    int price = int.parse(priceController.text);
+                    rideInfo.price = price ;
+                    Navigator.of(context)
+                        .pushNamed("/AddRidePage4", arguments: rideInfo);
+                  }
+                  else CustomToast().showErrorToast("Enter Price first");
 
-                  Navigator.of(context)
-                      .pushNamed("/AddRidePage4", arguments: rideInfo);
+
                 },
               ),
             ),
