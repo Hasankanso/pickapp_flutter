@@ -3,18 +3,26 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
+import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/MainScaffold.dart';
+
+import 'Responsive.dart';
 
 class MainImagePicker extends StatefulWidget {
+  final VoidCallback callBack;
+  MainImageController controller;
+  String imageUrl;
+
+  MainImagePicker({this.callBack, this.controller, this.imageUrl});
   @override
   _MainImagePickerState createState() => _MainImagePickerState();
 }
 
 class _MainImagePickerState extends State<MainImagePicker> {
   File _image;
+  ImageProvider _imageProvide;
   final picker = ImagePicker();
 
   @override
@@ -25,29 +33,18 @@ class _MainImagePickerState extends State<MainImagePicker> {
       onTap: _showBottomSheet,
       child: Stack(
         children: [
-          CachedNetworkImage(
-            imageUrl: App.person.profilePictureUrl,
-            imageBuilder: (context, imageProvider) => CircleAvatar(
-              backgroundColor: Colors.transparent,
-              backgroundImage: imageProvider,
-              radius: ScreenUtil().setSp(45),
-            ),
-            placeholder: (context, url) => CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: ScreenUtil().setSp(45),
-              child: CircularProgressIndicator(),
-            ),
-            errorWidget: (context, url, error) => CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: ScreenUtil().setSp(45),
-              child: FittedBox(
-                fit: BoxFit.fill,
-                child: Icon(
-                  Icons.account_circle_outlined,
-                  size: ScreenUtil().setSp(100),
-                  color: Styles.primaryColor(),
-                ),
-              ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(400),
+            child: CachedNetworkImage(
+              imageUrl: widget.imageUrl != null ? widget.imageUrl : "",
+              imageBuilder: (context, imageProvider) {
+                this._imageProvide = imageProvider;
+                return Image(image: imageProvider);
+              },
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) {
+                return Image(image: AssetImage("lib/images/user.png"));
+              },
             ),
           ),
           Positioned(
@@ -70,6 +67,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        widget.controller.pickedImage = File(pickedFile.path);
+        if (widget.callBack != null) widget.callBack();
       }
     });
   }
@@ -79,8 +78,17 @@ class _MainImagePickerState extends State<MainImagePicker> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        widget.controller.pickedImage = File(pickedFile.path);
+        if (widget.callBack != null) widget.callBack();
       }
     });
+  }
+
+  _viewImage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ViewImage(_imageProvide)),
+    );
   }
 
   _showBottomSheet() {
@@ -92,37 +100,110 @@ class _MainImagePickerState extends State<MainImagePicker> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               InkWell(
-                onTap: _pickGallery,
-                child: ListTile(
-                  title: Text(
-                    "Gallery",
-                    style: Styles.valueTextStyle(),
+                onTap: _viewImage,
+                child: ResponsiveWidget.fullWidth(
+                  height: 60,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.person_pin_outlined,
+                          color: Styles.primaryColor(),
+                          size: Styles.mediumIconSize(),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 6,
+                        child: Text(
+                          "View",
+                          style: Styles.valueTextStyle(),
+                        ),
+                      ),
+                    ],
                   ),
-                  leading: Icon(
-                    Icons.image,
-                    color: Styles.primaryColor(),
-                    size: Styles.mediumIconSize(),
+                ),
+              ),
+              InkWell(
+                onTap: _pickGallery,
+                child: ResponsiveWidget.fullWidth(
+                  height: 60,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.image,
+                          color: Styles.primaryColor(),
+                          size: Styles.mediumIconSize(),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 6,
+                        child: Text(
+                          "Gallery",
+                          style: Styles.valueTextStyle(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               InkWell(
                 onTap: _takePhoto,
-                child: ListTile(
-                  title: Text(
-                    Lang.getString(context, "Camera"),
-                    style: Styles.valueTextStyle(),
-                  ),
-                  leading: Icon(
-                    Icons.camera,
-                    color: Styles.primaryColor(),
-                    size: Styles.mediumIconSize(),
+                child: ResponsiveWidget.fullWidth(
+                  height: 60,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.camera,
+                          color: Styles.primaryColor(),
+                          size: Styles.mediumIconSize(),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 6,
+                        child: Text(
+                          Lang.getString(context, "Camera"),
+                          style: Styles.valueTextStyle(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class MainImageController {
+  File pickedImage;
+}
+
+class ViewImage extends StatelessWidget {
+  ImageProvider _image;
+  ViewImage(this._image);
+  @override
+  Widget build(BuildContext context) {
+    return MainScaffold(
+      appBar: MainAppBar(
+        title: Lang.getString(context, "Profile"),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Image(image: _image)),
+        ],
+      ),
     );
   }
 }

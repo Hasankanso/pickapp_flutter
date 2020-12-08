@@ -33,6 +33,10 @@ class MyAppState extends State<MyApp> {
     });
   }
 
+  void rangePicker() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     App.init(this);

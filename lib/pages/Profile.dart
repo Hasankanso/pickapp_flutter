@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/Items/CarListTile.dart';
@@ -7,6 +9,9 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
+import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/requests/EditAccount.dart';
+import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Line.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainExpansionTile.dart';
@@ -21,6 +26,24 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  MainImageController _imageController = MainImageController();
+  _onImagePicked() async {
+    Person _person = App.person;
+    await _person.setImage(_imageController.pickedImage);
+    Request<Person> request = EditAccount(_person);
+    request.send(_response);
+  }
+
+  _response(Person result, int code, String p3) {
+    if (code != HttpStatus.ok) {
+      //todo toast
+    } else {
+      setState(() {
+        App.user.person.profilePictureUrl = result.profilePictureUrl;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -46,7 +69,7 @@ class _ProfileState extends State<Profile> {
           children: [
             Container(
               width: double.infinity,
-              height: ScreenUtil().setHeight(266),
+              height: ScreenUtil().setHeight(240),
               child: Stack(
                 children: <Widget>[
                   Container(
@@ -66,50 +89,50 @@ class _ProfileState extends State<Profile> {
                       child: Material(
                         color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(7.0),
-                        child: Container(
-                          height: ScreenUtil().setHeight(252),
-                          child: Column(
-                            children: <Widget>[
-                              VerticalSpacer(height: 10),
-                              ResponsiveWidget.fullWidth(
-                                height: 110,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: MainImagePicker(),
+                        child: Column(
+                          children: <Widget>[
+                            VerticalSpacer(height: 10),
+                            ResponsiveWidget.fullWidth(
+                              height: 110,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: MainImagePicker(
+                                  callBack: _onImagePicked,
+                                  controller: _imageController,
+                                  imageUrl: App.person.profilePictureUrl,
                                 ),
                               ),
-                              Container(
-                                height: ScreenUtil().setHeight(120),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      App.person.firstName +
-                                          " " +
-                                          App.person.lastName,
-                                      style: Styles.valueTextStyle(
-                                          bold: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      App.person.countryInformations.name,
-                                      style: Styles.labelTextStyle(
-                                          bold: FontWeight.bold),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        RateStars(
-                                          App.user.person.rateAverage,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                            ),
+                            Container(
+                              height: ScreenUtil().setHeight(120),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    App.person.firstName +
+                                        " " +
+                                        App.person.lastName,
+                                    style: Styles.valueTextStyle(
+                                        bold: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    App.person.countryInformations.name,
+                                    style: Styles.labelTextStyle(
+                                        bold: FontWeight.bold),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      RateStars(
+                                        App.user.person.rateAverage,
+                                      )
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

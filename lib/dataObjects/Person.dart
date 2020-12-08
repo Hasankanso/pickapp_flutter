@@ -13,7 +13,6 @@ class Person {
   int _acomplishedRides, _canceledRides, _rateCount, _chattiness;
   List<Rate> _rates = new List<Rate>();
   List<Ride> _upcomingRides = new List<Ride>();
-  File _profilePicture;
 
   List<Rate> get rates => _rates;
 
@@ -167,22 +166,17 @@ class Person {
 
   get image => _image;
 
-  set image(value) {
-    _image = value;
+  setImage(File value) async {
+    if (value != null) {
+      List<int> imageBytes = await value.readAsBytesSync();
+      _image = await base64Encode(imageBytes);
+    }
   }
 
   get profilePictureUrl => _profilePictureUrl;
 
   set profilePictureUrl(value) {
     _profilePictureUrl = value;
-  }
-
-  setprofilePictureUrl(File value) async {
-    _profilePicture = value;
-    if (value != null) {
-      List<int> imageBytes = await value.readAsBytesSync();
-      _image = base64Encode(imageBytes);
-    }
   }
 
   DateTime get birthday => _birthday;
@@ -237,12 +231,6 @@ class Person {
 
   set upcomingRides(List<Ride> value) {
     _upcomingRides = value;
-  }
-
-  File get profilePicture => _profilePicture;
-
-  set profilePicture(File value) {
-    _profilePicture = value;
   }
 
   CountryInformations get countryInformations => _countryInformations;

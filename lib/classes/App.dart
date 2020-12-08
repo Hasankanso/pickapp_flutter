@@ -79,6 +79,11 @@ class App {
     }
   }
 
+  static void dateTimeRangePicker(bool value) {
+    Cache.setDateTimeRangePicker(value);
+    _state.rangePicker();
+  }
+
   static void init(MyAppState state) {
     _state = state;
     Request.initBackendless();

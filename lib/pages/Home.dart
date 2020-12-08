@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
           children: _pages,
         ),
         bottomNavigationBar: AspectRatio(
-            aspectRatio: 14 / 2,
+            aspectRatio: 13 / 2,
             child: BottomNavigationBar(
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(

@@ -55,7 +55,7 @@ class DateTimePickerState extends State<DateTimePicker> {
       _maxDate = DateTime.now().add(Duration(days: 365));
     }
 
-    if (!App.isIphone()) {
+    if (App.isIphone()) {
       DatePicker.showDatePicker(
         context,
         locale: localeType[_appLocale.toString()],
@@ -81,7 +81,7 @@ class DateTimePickerState extends State<DateTimePicker> {
   selectTime(BuildContext context, date) async {
     DateTime currentTime;
     currentTime = widget._controller.chosenDate;
-    if (!App.isIphone()) {
+    if (App.isIphone()) {
       DatePicker.showTime12hPicker(
         context,
         locale: localeType[_appLocale.toString()],

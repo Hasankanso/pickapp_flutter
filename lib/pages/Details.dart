@@ -1,8 +1,9 @@
 import 'dart:io';
-import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -38,7 +39,7 @@ class _DetailsState extends State<Details> {
   int _chattiness = App.person.chattiness;
   List<String> _chattinessItems;
 
-  String formattedDate="Change";
+  String formattedDate = "Change";
 
   @override
   void initState() {
@@ -73,15 +74,14 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-
     _setDate(date) {
       setState(() {
-
         final DateFormat formatter = DateFormat('yyyy-MM-dd');
         final String formatted = formatter.format(date);
-        formattedDate =formatted  ;
+        formattedDate = formatted;
       });
     }
+
     _chattinessItems = <String>[
       Lang.getString(context, "I'm_a_quiet_person"),
       Lang.getString(context, "I_talk_depending_on_my_mood"),
@@ -266,10 +266,11 @@ class _DetailsState extends State<Details> {
                         style: Styles.labelTextStyle(),
                       ),
                       TextButton(
-                        child: Text(formattedDate.toString(),
+                        child: Text(
+                          formattedDate.toString(),
                           style: Styles.valueTextStyle(),
                         ),
-                        onPressed: (){
+                        onPressed: () {
                           DatePicker.showDatePicker(
                             context,
                             onConfirm: (date) {
@@ -383,7 +384,6 @@ class _DetailsState extends State<Details> {
       result.upcomingRides = upcomingRides;
       result.rates = rates;
       App.user.person = result;
-      // /Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
     }
   }
 }

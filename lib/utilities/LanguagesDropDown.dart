@@ -14,7 +14,6 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
   dynamic _selectedLang;
 
   void initState() {
-
     Language l = new Language(code: Cache.locale, flag: null, fullname: null);
     Lang.langs.asMap().forEach((index, element) => {
           if (element == l) {_selectedLang = index}
@@ -46,7 +45,7 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
         ]))));
 
     return DropdownButton(
-      hint: Text("Select Language"),
+      hint: Text(Lang.getString(context, "Select_Language")),
       underline: Container(color: Colors.transparent),
       isExpanded: true,
       value: _selectedLang,

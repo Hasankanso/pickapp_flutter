@@ -6,6 +6,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
+import 'package:pickapp/utilities/Line.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -39,7 +40,27 @@ class Settings extends StatelessWidget {
                 Card(
                   child: Column(
                     children: <Widget>[
-                      LanguagesDropdown(),
+                      Row(
+                        children: [
+                          Spacer(flex: 1),
+                          Expanded(
+                            flex: 70,
+                            child: LanguagesDropdown(),
+                          ),
+                        ],
+                      ),
+                      Line(),
+                      Row(children: [
+                        Spacer(flex: 2),
+                        Text(Lang.getString(context, "Date_In_Range"),
+                            style: Styles.valueTextStyle()),
+                        Spacer(flex: 16),
+                        Switcher(
+                            isOn: Cache.dateTimeRangePicker,
+                            onChanged: (bool value) =>
+                                {App.dateTimeRangePicker(value)})
+                      ]),
+                      Line(),
                       Row(children: [
                         Spacer(flex: 1),
                         Text(Lang.getString(context, "Dark_Mode"),
@@ -49,16 +70,6 @@ class Settings extends StatelessWidget {
                             isOn: Cache.darkTheme,
                             onChanged: (bool value) =>
                                 {App.forceDarkTheme(value)})
-                      ]),
-                      Row(children: [
-                        Spacer(flex: 1),
-                        Text(Lang.getString(context, "Dark_Mode"),
-                            style: Styles.valueTextStyle()),
-                        Spacer(flex: 9),
-                        Switcher(
-                            isOn: Cache.dateTimeRangePicker,
-                            onChanged: (bool value) =>
-                                {Cache.setDateTimeRangePicker(value)})
                       ]),
                     ],
                   ),
@@ -86,7 +97,7 @@ class Settings extends StatelessWidget {
                           Navigator.of(context).pushNamed("/ContactUs");
                         },
                       ),
-                      _buildDivider(),
+                      Line(),
                       ListTile(
                         leading: Icon(Icons.policy),
                         title: Text(Lang.getString(context, "Privacy_Policy"),
@@ -95,7 +106,7 @@ class Settings extends StatelessWidget {
                           Navigator.of(context).pushNamed("/PrivacyPolicy");
                         },
                       ),
-                      _buildDivider(),
+                      Line(),
                       ListTile(
                         leading: Icon(Icons.rule),
                         title: Text(
@@ -143,14 +154,6 @@ class Settings extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Container _buildDivider() {
-    return Container(
-      width: double.infinity,
-      height: 1.0,
-      color: Colors.grey.shade300,
     );
   }
 }
