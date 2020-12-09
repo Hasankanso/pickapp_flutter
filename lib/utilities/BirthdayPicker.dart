@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
-
-import 'Responsive.dart';
+import 'package:pickapp/classes/screenutil.dart';
 
 class BirthDayPicker extends StatefulWidget {
   final String value;
@@ -45,7 +45,10 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
           child: TextButton(
             child: Text(
               value,
-              style: Styles.valueTextStyle(),
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(15),
+                color: !Cache.darkTheme ? Styles.valueColor() : Colors.white,
+              ),
             ),
             onPressed: () {
               DatePicker.showDatePicker(
