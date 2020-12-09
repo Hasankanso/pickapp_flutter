@@ -8,12 +8,10 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class DateTimePicker extends StatefulWidget {
-  bool _isBirthdayPicker;
   DateTime startDate;
   final DateTimeController _controller;
   final VoidCallback callBack;
-  DateTimePicker(this._isBirthdayPicker, this._controller,
-      {this.callBack, this.startDate});
+  DateTimePicker(this._controller, {this.callBack, this.startDate});
 
   @override
   DateTimePickerState createState() => DateTimePickerState();
@@ -29,31 +27,14 @@ class DateTimePickerState extends State<DateTimePicker> {
   };
 
   selectDate(BuildContext context) async {
-    if (widget._isBirthdayPicker) {
-      if (widget.startDate == null) {
-        //initial age is 18 years
-        _initialDate = widget._controller.chosenDate;
-      } else {
-        _initialDate = widget.startDate;
-      }
-
-      DateTime initialDate = DateTime.now();
-      //max age 100 year
-      _minDate =
-          DateTime(initialDate.year - 100, initialDate.month, initialDate.day);
-      //min age 14 years
-      _maxDate =
-          DateTime(initialDate.year - 14, initialDate.month, initialDate.day);
+    if (widget.startDate == null) {
+      _minDate = DateTime.now();
     } else {
-      if (widget.startDate == null) {
-        _minDate = DateTime.now();
-      } else {
-        _minDate = widget.startDate;
-      }
-      _initialDate = widget._controller.chosenDate;
-      //max is one year
-      _maxDate = DateTime.now().add(Duration(days: 365));
+      _minDate = widget.startDate;
     }
+    _initialDate = widget._controller.chosenDate;
+    //max is one year
+    _maxDate = DateTime.now().add(Duration(days: 365));
 
     if (App.isIphone()) {
       DatePicker.showDatePicker(
@@ -67,6 +48,9 @@ class DateTimePickerState extends State<DateTimePicker> {
         },
       );
     } else if (App.isAndroid()) {
+      print(_initialDate);
+      print(_minDate);
+      print(DateTime.now());
       DateTime date = await showDatePicker(
         context: context,
         firstDate: _minDate,
@@ -101,11 +85,7 @@ class DateTimePickerState extends State<DateTimePicker> {
 
   _setDate(date) {
     setState(() {
-      if (widget._isBirthdayPicker) {
-        widget._controller.chosenDate = date;
-      } else {
-        selectTime(context, date);
-      }
+      selectTime(context, date);
     });
   }
 
@@ -115,16 +95,6 @@ class DateTimePickerState extends State<DateTimePicker> {
           DateTime(date.year, date.month, date.day, time.hour, time.minute);
       if (widget.callBack != null) widget.callBack();
     });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget._isBirthdayPicker && widget.startDate != null) {
-      _initialDate = widget.startDate;
-      widget._controller.chosenDate = widget.startDate;
-    }
   }
 
   @override
@@ -178,8 +148,8 @@ class DateTimePickerState extends State<DateTimePicker> {
 class DateTimeController {
   DateTime chosenDate;
   DateTimeController() {
-    DateTime initialDate = DateTime.now();
-    chosenDate =
-        DateTime(initialDate.year - 18, initialDate.month, initialDate.day);
+    chosenDate = DateTime.now().add(Duration(
+      minutes: 20,
+    ));
   }
 }
