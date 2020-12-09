@@ -2,9 +2,9 @@ import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/Request.dart';
 
-class Login extends Request<User> {
+class LoginRequest extends Request<User> {
   User _user;
-  Login(this._user) {
+  LoginRequest(this._user) {
     httpPath = "/UserBusiness/Login";
   }
 

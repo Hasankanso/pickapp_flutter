@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class PopUp extends StatelessWidget {
+class PopUp {
   String positiveText, negativeText, title, desc;
   Function(bool) response;
   Color titleColor, positiveColor, negativeColor;
   Color positiveTextColor = Colors.white;
 
-  PopUp.areYouSure(this.positiveText, this.negativeText, this.desc, this.title, this.response,
+  PopUp.areYouSure(this.positiveText, this.negativeText, this.desc, this.title,
+      this.response,
       {bool interest = true}) {
-
     if (interest) {
       titleColor = Styles.primaryColor();
       positiveColor = Styles.primaryColor();
@@ -27,11 +26,6 @@ class PopUp extends StatelessWidget {
 
   PopUp.name(this.positiveText, this.negativeText, this.title, this.desc,
       this.response, this.titleColor, this.positiveColor, this.negativeColor);
-
-  @override
-  Widget build(BuildContext context) {
-    return confirmationPopup(context);
-  }
 
   confirmationPopup(BuildContext dialogContext) {
     var alertStyle = AlertStyle(

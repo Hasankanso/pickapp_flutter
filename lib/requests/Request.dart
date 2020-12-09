@@ -16,7 +16,6 @@ abstract class Request<T> {
   void send(Function(T, int, String) callback) async {
     String valid = isValid();
     print(valid);
-    print(11);
     if (!Validation.isNullOrEmpty(valid)) {
       callback(null, 406, valid);
     } else {

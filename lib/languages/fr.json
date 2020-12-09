@@ -65,7 +65,8 @@
   "Register": "Register",
   "Code": "Code",
   "Welcome_PickApp": "Welcome back to PickApp",
-
+  "Verify": "Verify",
+  "Verification_is_sent":"Verification Code sent to:",
 
   "Results" : "Results",
   "Filter" : "Filter",

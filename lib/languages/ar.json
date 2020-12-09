@@ -65,7 +65,8 @@
   "Register": "تسجيل",
   "Code": "الرمز",
   "Welcome_PickApp": "مرحبًا بك مرة أخرى في PickApp",
-
+  "Verify": "تحقق",
+  "Verification_is_sent":"تم إرسال رمز التحقق إلى:",
 
   "Results" : "النتائج",
   "Filter" : "فلتر",

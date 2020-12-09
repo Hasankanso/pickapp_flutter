@@ -7,6 +7,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/requests/LoginRequest.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/VerifyAccount.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -14,6 +15,7 @@ import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -21,10 +23,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
+  final _phoneFormKey = GlobalKey<FormState>();
+  final _codeFormKey = GlobalKey<FormState>();
+
   var _phone = TextEditingController();
   List<String> _countriesCodes = App.countriesInformationsCodes;
   var _countryCode = "961";
+  User _user;
+  TextEditingController _code = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,19 +49,16 @@ class _LoginState extends State<Login> {
               height: 160,
               child: ResponsiveRow(
                 children: [
-                  FittedBox(
-                    fit: BoxFit.contain,
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage("lib/images/Logo.png"),
-                    ),
+                  Image(
+                    image: AssetImage("lib/images/user.png"),
                   ),
                 ],
               ),
             ),
             Form(
-              key: _formKey,
+              key: _phoneFormKey,
               child: ResponsiveWidget.fullWidth(
-                height: 90,
+                height: 200,
                 child: DifferentSizeResponsiveRow(
                   children: [
                     Spacer(
@@ -137,10 +140,10 @@ class _LoginState extends State<Login> {
               width: 270,
               height: 50,
               child: MainButton(
-                text_key: "Next",
+                text_key: "Login",
                 isRequest: true,
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+                  if (_phoneFormKey.currentState.validate()) {
                     Request<String> request =
                         VerifyAccount("+" + _countryCode + _phone.text);
                     await request.send(respondAccountVerification);
@@ -191,11 +194,91 @@ class _LoginState extends State<Login> {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(error);
     } else {
-      User user = User(phone: "+" + _countryCode + _phone.text);
-      Navigator.of(context)
-          .pushNamed('/LoginConfirmationCode', arguments: user);
+      _user = User(phone: "+" + _countryCode + _phone.text);
+      codePopUp(p1);
+    }
+  }
+
+  codePopUp(String title) {
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.grow,
+      overlayColor: Colors.black45,
+      isCloseButton: true,
+      isOverlayTapDismiss: true,
+      titleStyle: Styles.labelTextStyle(),
+      descStyle: Styles.valueTextStyle(),
+      animationDuration: Duration(milliseconds: 400),
+    );
+    Alert(
+        context: context,
+        style: alertStyle,
+        title: Lang.getString(context, "Verification_is_sent"),
+        desc: title,
+        content: Form(
+          key: _codeFormKey,
+          child: Row(
+            children: [
+              Spacer(
+                flex: 5,
+              ),
+              Expanded(
+                flex: 10,
+                child: TextFormField(
+                  controller: _code,
+                  validator: (value) {
+                    String valid = Validation.validate(value, context);
+                    if (valid != null) return valid;
+                    if (value.length != 5) return Validation.invalid(context);
+                    return null;
+                  },
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(5),
+                  ],
+                  maxLength: 5,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    labelText: Lang.getString(context, "Code"),
+                    hintText: "4#Aok",
+                    labelStyle: Styles.labelTextStyle(),
+                  ),
+                ),
+              ),
+              Spacer(
+                flex: 5,
+              ),
+            ],
+          ),
+        ),
+        buttons: [
+          DialogButton(
+            child: Text(Lang.getString(context, "Verify"),
+                style: Styles.buttonTextStyle(),
+                overflow: TextOverflow.visible),
+            color: Styles.primaryColor(),
+            onPressed: () {
+              if (_codeFormKey.currentState.validate()) {
+                _user.verificationCode = _code.text;
+                Request<User> request = LoginRequest(_user);
+
+                request.send(
+                    (u, code, message) => response(u, code, message, context));
+              }
+            },
+          ),
+        ]).show();
+  }
+
+  void response(User u, int code, String message, context) {
+    if (code != HttpStatus.ok) {
+      CustomToast().showErrorToast(message);
+    } else {
+      App.user = u;
+      //todo cache user
+      //Cache.SetUser(u);
+      App.isLoggedIn = true;
       CustomToast()
-          .showSuccessToast("Verification Code has been sent to: " + p1);
+          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+      Navigator.pop(context);
     }
   }
 }

@@ -6,7 +6,6 @@ import 'package:pickapp/pages/ContactUs.dart';
 import 'package:pickapp/pages/Details.dart';
 import 'package:pickapp/pages/Home.dart';
 import 'package:pickapp/pages/Login.dart';
-import 'package:pickapp/pages/LoginConfirmationCode.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Regions.dart';
@@ -29,8 +28,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Login());
       case '/Register':
         return MaterialPageRoute(builder: (_) => Register());
-      case '/LoginConfirmationCode':
-        return MaterialPageRoute(builder: (_) => LoginConfirmationCode(args));
       case '/Notifications':
         return MaterialPageRoute(builder: (_) => Notifications());
       case '/Details':
