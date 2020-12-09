@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 class MainRangeSlider extends StatefulWidget {
   double min, max, minSelected, maxSelected, step;
   MainRangeSliderController controller;
+  Function(RangeValues) onChanged;
+
   MainRangeSlider({
     this.min = 0,
     this.max = 100,
@@ -11,9 +13,11 @@ class MainRangeSlider extends StatefulWidget {
     this.maxSelected = 80,
     this.step = 10,
     this.controller,
+    this.onChanged,
   });
   @override
   _MainRangeSliderState createState() => _MainRangeSliderState();
+
 }
 
 class _MainRangeSliderState extends State<MainRangeSlider> {
@@ -46,6 +50,9 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
                 widget.controller._values = values;
                 widget.minSelected = values.start.roundToDouble();
                 widget.maxSelected = values.end.roundToDouble();
+                if(widget.onChanged != null) {
+                  widget.onChanged(values);
+                }
               });
             },
           ),

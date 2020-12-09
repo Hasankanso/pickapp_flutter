@@ -15,6 +15,7 @@ import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/GetCountries.dart';
 import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/utilities/BirthdayPicker.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimePicker.dart';
@@ -40,7 +41,7 @@ class _DetailsState extends State<Details> {
   int _chattiness = App.person.chattiness;
   List<String> _chattinessItems;
 
-  String formattedDate = "Change";
+  DateTime value = App.person.birthday;
 
   @override
   void initState() {
@@ -75,14 +76,8 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-    _setDate(date) {
-      setState(() {
-        final DateFormat formatter = DateFormat('yyyy-MM-dd');
-        final String formatted = formatter.format(date);
-        formattedDate = formatted;
-      });
-    }
-
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formattedvalue = formatter.format(value);
     _chattinessItems = <String>[
       Lang.getString(context, "I'm_a_quiet_person"),
       Lang.getString(context, "I_talk_depending_on_my_mood"),
@@ -261,26 +256,7 @@ class _DetailsState extends State<Details> {
                 ResponsiveWidget.fullWidth(
                   height: 80,
                   child: ResponsiveRow(
-                    children: [
-                      Text(
-                        "Birthday",
-                        style: Styles.labelTextStyle(),
-                      ),
-                      TextButton(
-                        child: Text(
-                          formattedDate.toString(),
-                          style: Styles.valueTextStyle(),
-                        ),
-                        onPressed: () {
-                          DatePicker.showDatePicker(
-                            context,
-                            onConfirm: (date) {
-                              _setDate(date);
-                            },
-                          );
-                        },
-                      ),
-                    ],
+                    children: [BirthDayPicker(value: formattedvalue)],
                   ),
                 ),
                 ResponsiveWidget.fullWidth(

@@ -3,6 +3,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -155,13 +156,21 @@ class _AddRidePage2State extends State<AddRidePage2> {
                 onPressed: () {
                   bool isStoping = stopOver;
                   bool isKidsSeat = kidsSeat;
-                  int time = int.parse(timeController.text);
                   String desc = descController.text;
                   rideInfo.kidSeat = isKidsSeat;
                   rideInfo.comment = desc;
-                  rideInfo.stopTime = time;
-                  Navigator.of(context)
-                      .pushNamed("/AddRidePage3", arguments: rideInfo);
+                  if(isStoping==true&&timeController.text!=""){
+                    int time = int.parse(timeController.text);
+                    rideInfo.stopTime = time;
+                    Navigator.of(context)
+                        .pushNamed("/AddRidePage3", arguments: rideInfo);
+                  }
+                  else if(isStoping==false){
+                    Navigator.of(context)
+                        .pushNamed("/AddRidePage3", arguments: rideInfo);
+                  }
+                  else CustomToast().showErrorToast("Enter the stopping time !");
+
                 },
               ),
             ),

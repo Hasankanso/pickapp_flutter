@@ -86,9 +86,11 @@ class Styles {
   static TextStyle valueTextStyle(
       {bold = FontWeight.w400, bool underline = false}) {
     return TextStyle(
-        fontSize: _fontSize,
-        fontWeight: bold,
-        decoration: underline ? TextDecoration.underline : null);
+      fontSize: _fontSize,
+      fontWeight: bold,
+      decoration: underline ? TextDecoration.underline : null,
+      color: valueColor(),
+    );
   }
 
   static TextStyle subValueTextStyle() {

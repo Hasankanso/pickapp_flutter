@@ -163,7 +163,7 @@ class _TopCard extends StatelessWidget {
           ],
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               DateFormat('dd/MM/yy').add_jm().format(searchInfo.minDate) +
