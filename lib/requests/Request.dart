@@ -30,8 +30,27 @@ abstract class Request<T> {
       );
       var decodedResponse = json.decode(response.body);
       print(response.body.toString());
-      callback(buildObject(decodedResponse), response.statusCode,
-          response.reasonPhrase);
+      //extracting code and message
+      var jCode = decodedResponse["code"];
+      var jMessage = decodedResponse["message"];
+
+      if (jCode == null) {
+        var jbody = decodedResponse["body"];
+
+        if (jbody != null) {
+          jCode = jbody["code"];
+          jMessage = jbody["message"];
+        }
+      }
+
+      //check if there's error
+      if (jCode != null) {
+        callback(null, int.parse(jCode), jMessage);
+        return;
+      } else {
+        callback(buildObject(decodedResponse), response.statusCode,
+            response.reasonPhrase);
+      }
     }
   }
 

@@ -1,11 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/Validation.dart';
+import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/requests/Login.dart';
+import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class LoginConfirmationCode extends StatelessWidget {
+  final _form = GlobalKey<FormState>();
+  User _user;
+  LoginConfirmationCode(this._user);
+  TextEditingController _code = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -15,19 +29,40 @@ class LoginConfirmationCode extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-              child: Column(
-                children: <Widget>[
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Code',
-                      labelStyle: Styles.labelTextStyle(),
+          ResponsiveWidget.fullWidth(
+            height: 90,
+            child: DifferentSizeResponsiveRow(
+              children: [
+                Spacer(
+                  flex: 1,
+                ),
+                Form(
+                  key: _form,
+                  child: Expanded(
+                    flex: 10,
+                    child: TextFormField(
+                      controller: _code,
+                      validator: (value) {
+                        String valid = Validation.validate(value, context);
+                        if (valid != null) return valid;
+                        if (value.length != 5)
+                          return Validation.invalid(context);
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        labelText: Lang.getString(context, "Code"),
+                        hintText: "4#Ao",
+                        labelStyle: Styles.labelTextStyle(),
+                      ),
                     ),
                   ),
-                ],
-              )),
-          SizedBox(height: 5.0),
+                ),
+                Spacer(
+                  flex: 1,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
@@ -40,33 +75,33 @@ class LoginConfirmationCode extends StatelessWidget {
               child: MainButton(
                 text_key: "Login",
                 isRequest: true,
-                onPressed: _login,
+                onPressed: () {
+                  if (_form.currentState.validate()) {
+                    _user.verificationCode = _code.text;
+                    Request<User> request = Login(_user);
+                    request.send((u, code, message) =>
+                        response(u, code, message, context));
+                  }
+                },
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'New to PickApp ?',
-                  style: Styles.valueTextStyle(),
-                ),
-                SizedBox(width: 5.0),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/signup');
-                  },
-                  child: Text(
-                    'Register',
-                    style: Styles.headerTextStyle(underline: true),
-                  ),
-                )
-              ],
-            )
           ],
         ),
       ),
     );
   }
 
-  _login() {}
+  void response(User u, int code, String message, context) {
+    if (code != HttpStatus.ok) {
+      CustomToast().showErrorToast(message);
+    } else {
+      App.user = u;
+      //todo cache user
+      //Cache.SetUser(u);
+      App.isLoggedIn = true;
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+      Navigator.pop(context);
+    }
+  }
 }

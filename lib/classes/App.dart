@@ -20,9 +20,26 @@ class App {
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
   static String countryCode = "lb";
   static User _user = _fakeUser();
-  static bool _isLoggedIn = false;
-  static List<String> _countriesInformationsNames;
-  static Map<String, CountryInformations> _countriesInformations;
+  static bool _isLoggedIn = true;
+  static List<String> _countriesInformationsNames = ["Germany", "Lebanon"];
+  static List<String> _countriesInformationsCodes = ["49", "961"];
+
+  static Map<String, CountryInformations> _countriesInformations =
+      <String, CountryInformations>{
+    'Germany': CountryInformations(
+      name: "Germany",
+      id: "CAE25E4F-A78C-12BB-FF38-92A6EC9D4F00",
+      digits: 11,
+      code: "49",
+    ),
+    'Lebanon': CountryInformations(
+      name: "Lebanon",
+      id: "F85258BF-63A7-F939-FF31-C78BB1837300",
+      digits: 8,
+      code: "961",
+    ),
+  };
+
   static Locale locale;
 
   static void changeLanguage(String lang) async {
@@ -156,16 +173,11 @@ class App {
   static List<String> get countriesInformationsNames =>
       _countriesInformationsNames;
 
-  static set countriesInformationsNames(List<String> value) {
-    _countriesInformationsNames = value;
-  }
+  static List<String> get countriesInformationsCodes =>
+      _countriesInformationsCodes;
 
   static Map<String, CountryInformations> get countriesInformations =>
       _countriesInformations;
-
-  static set countriesInformations(Map<String, CountryInformations> value) {
-    _countriesInformations = value;
-  }
 
   static Driver get driver => user == null ? null : user.driver;
 
