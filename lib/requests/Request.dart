@@ -16,6 +16,7 @@ abstract class Request<T> {
   void send(Function(T, int, String) callback) async {
     String valid = isValid();
     print(valid);
+    print(11);
     if (!Validation.isNullOrEmpty(valid)) {
       callback(null, 406, valid);
     } else {
@@ -28,29 +29,33 @@ abstract class Request<T> {
         },
         body: json.encode(data, toEncodable: _dateToIso8601String),
       );
+      response.body.contains("other");
+
       var decodedResponse = json.decode(response.body);
-      print(response.body.toString());
-      //extracting code and message
-      var jCode = decodedResponse["code"];
-      var jMessage = decodedResponse["message"];
+      if (response.body.contains("code")) {
+        //extracting code and message
+        var jCode =
+            response.body.contains("code") ? decodedResponse["code"] : null;
+        var jMessage = decodedResponse["message"];
 
-      if (jCode == null) {
-        var jbody = decodedResponse["body"];
+        if (jCode == null) {
+          print(1);
+          var jbody = decodedResponse["body"];
 
-        if (jbody != null) {
-          jCode = jbody["code"];
-          jMessage = jbody["message"];
+          if (jbody != null) {
+            jCode = jbody["code"];
+            jMessage = jbody["message"];
+          }
+        }
+        //check if there's error
+
+        if (jCode != null) {
+          callback(null, int.parse(jCode), jMessage);
+          return;
         }
       }
-
-      //check if there's error
-      if (jCode != null) {
-        callback(null, int.parse(jCode), jMessage);
-        return;
-      } else {
-        callback(buildObject(decodedResponse), response.statusCode,
-            response.reasonPhrase);
-      }
+      callback(buildObject(decodedResponse), response.statusCode,
+          response.reasonPhrase);
     }
   }
 
