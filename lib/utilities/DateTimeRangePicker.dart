@@ -47,8 +47,7 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
           children: [
             Expanded(
               flex: 10,
-              child: DateTimePicker(
-                  false, widget._controller.startDateController,
+              child: DateTimePicker(widget._controller.startDateController,
                   callBack: _startDatePicked),
             ),
             Visibility(
@@ -62,7 +61,6 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
               child: Expanded(
                 flex: 10,
                 child: DateTimePicker(
-                  false,
                   widget._controller.endDateController,
                   startDate: widget._controller.startDateController.chosenDate,
                   callBack: _endDatePicked,

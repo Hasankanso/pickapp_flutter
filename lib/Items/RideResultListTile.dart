@@ -25,7 +25,6 @@ class RideResultListTile extends ListTile {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.all(10),
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
           child: Column(
@@ -50,9 +49,25 @@ class RideResultListTile extends ListTile {
                   ),
                   Expanded(
                     flex: 12,
-                    child: Text(
-                      _ride.from.name + "\n \n" + _ride.to.name,
-                      style: Styles.headerTextStyle(),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              _ride.from.name,
+                              style: Styles.headerTextStyle(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              _ride.to.name,
+                              style: Styles.headerTextStyle(),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   Expanded(

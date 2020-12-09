@@ -5,8 +5,9 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
-import 'package:pickapp/routing/RouteGenerator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'file:///D:/Projects/AndroidStudioProjects/pickapp_flutter/lib/classes/RouteGenerator.dart';
 
 void main() {
   runApp(MyApp());

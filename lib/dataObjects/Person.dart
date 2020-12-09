@@ -73,6 +73,7 @@ class Person {
       };
 
   factory Person.fromJson(Map<String, dynamic> json) {
+    print(json);
     var birthdayJ = json["birthday"];
     DateTime birthday;
     if (birthdayJ != null) {
@@ -99,7 +100,7 @@ class Person {
       lastName: json["lastName"],
       chattiness: json["chattiness"],
       bio: json["bio"],
-      rateAverage: json["rateAverage"],
+      rateAverage: json["rateAverage"].toDouble(),
       acomplishedRides: json['acomplishedRides'],
       canceledRides: json['canceledRides'],
       rateCount: json['rateCount'],
@@ -121,7 +122,7 @@ class Person {
     var ratesArray = json["rates"];
     if (ratesArray != null) {
       p.rates = List<Rate>.from(ratesArray.map((x) {
-        if (x.HasValues == true) {
+        if (x != null) {
           return Rate.fromJson(x);
         }
       }));

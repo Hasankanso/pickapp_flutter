@@ -89,7 +89,6 @@ class Styles {
       fontSize: _fontSize,
       fontWeight: bold,
       decoration: underline ? TextDecoration.underline : null,
-      color: valueColor(),
     );
   }
 

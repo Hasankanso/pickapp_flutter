@@ -47,8 +47,9 @@ class _AddRideState extends State<AddRide> {
                       toController: toController)),
               VerticalSpacer(height: 30),
               ResponsiveWidget(
-                width: 270,
-                  height: 60, child: DateTimePicker(false,dateTimeController)),
+                  width: 270,
+                  height: 60,
+                  child: DateTimePicker(dateTimeController)),
               VerticalSpacer(height: 15),
               ResponsiveWidget(
                 width: 270,
@@ -197,8 +198,7 @@ class _AddRideState extends State<AddRide> {
                         latitude: fromController.location.lat,
                         longitude: fromController.location.lng,
                         placeId: fromController.placeId);
-                    DateTime date =
-                        dateTimeController.chosenDate;
+                    DateTime date = dateTimeController.chosenDate;
                     bool isSmoke = smokeController.isOn;
                     bool isPets = petsController.isOn;
                     bool isAc = acController.isOn;

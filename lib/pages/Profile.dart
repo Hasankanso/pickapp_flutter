@@ -10,6 +10,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -49,6 +50,9 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    if (!App.isLoggedIn) {
+      return Login();
+    }
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Profile"),
