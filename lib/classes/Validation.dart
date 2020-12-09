@@ -12,6 +12,14 @@ class Validation {
     return Lang.getString(context, "Invalid");
   }
 
+  static String isEmailCode(context, value) {
+    //todo validate email code
+    if (value.length != 4) {
+      return Lang.getString(context, "Invalid");
+    }
+    return null;
+  }
+
   static String isPhoneNumber(context, String number) {
     //todo validate phone
     if (false) {

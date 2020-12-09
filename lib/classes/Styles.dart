@@ -83,11 +83,12 @@ class Styles {
     );
   }
 
-  static TextStyle valueTextStyle({bold = FontWeight.w400}) {
+  static TextStyle valueTextStyle(
+      {bold = FontWeight.w400, bool underline = false}) {
     return TextStyle(
-      fontSize: _fontSize,
-      fontWeight: bold,
-    );
+        fontSize: _fontSize,
+        fontWeight: bold,
+        decoration: underline ? TextDecoration.underline : null);
   }
 
   static TextStyle subValueTextStyle() {
