@@ -47,7 +47,7 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
                 widget.maxSelected.toInt().toString()),
             onChanged: (values) {
               setState(() {
-                widget.controller._values = values;
+                widget.controller.values = values;
                 widget.minSelected = values.start.roundToDouble();
                 widget.maxSelected = values.end.roundToDouble();
                 if(widget.onChanged != null) {
@@ -63,7 +63,7 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
 }
 
 class MainRangeSliderController {
-  RangeValues _values;
-  get minValue => _values.start;
-  get maxValue => _values.end;
+  RangeValues values;
+  get minValue => values.start;
+  get maxValue => values.end;
 }
