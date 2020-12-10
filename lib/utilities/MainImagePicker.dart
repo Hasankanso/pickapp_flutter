@@ -27,6 +27,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.imageUrl);
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
@@ -35,17 +36,19 @@ class _MainImagePickerState extends State<MainImagePicker> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(400),
-            child: CachedNetworkImage(
-              imageUrl: widget.imageUrl != null ? widget.imageUrl : "",
-              imageBuilder: (context, imageProvider) {
-                this._imageProvide = imageProvider;
-                return Image(image: imageProvider);
-              },
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) {
-                return Image(image: AssetImage("lib/images/user.png"));
-              },
-            ),
+            child: widget.imageUrl != null
+                ? CachedNetworkImage(
+                    imageUrl: widget.imageUrl,
+                    imageBuilder: (context, imageProvider) {
+                      this._imageProvide = imageProvider;
+                      return Image(image: imageProvider);
+                    },
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) {
+                      return Image(image: AssetImage("lib/images/user.png"));
+                    },
+                  )
+                : Image(image: AssetImage("lib/images/user.png")),
           ),
           Positioned(
             bottom: 5,

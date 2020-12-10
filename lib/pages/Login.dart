@@ -236,7 +236,6 @@ class _LoginState extends State<Login> {
                   ],
                   maxLength: 5,
                   decoration: InputDecoration(
-                    isDense: true,
                     labelText: Lang.getString(context, "Code"),
                     hintText: "4#Aok",
                     labelStyle: Styles.labelTextStyle(),
