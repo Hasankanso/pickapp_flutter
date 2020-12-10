@@ -34,13 +34,43 @@ class _SearchResultsState extends State<SearchResults> {
     );
   }
 
-  void sort(int index) {
-    print(index);
-  }
-
   void filter(List<Ride> newList) {
     setState(() {
       filteredRides = newList;
+    });
+  }
+
+  sortBestMatch() {
+    setState(() {
+      widget.searchInfo.rides.sort((r1, r2) {
+        Duration distance1 =
+            r1.leavingDate.difference(widget.searchInfo.minDate).abs();
+        Duration distance2 =
+            r2.leavingDate.difference(widget.searchInfo.minDate).abs();
+        return distance1 > distance2 ? -1 : 1;
+      });
+    });
+  }
+
+  sortPrice(bool ascending) {
+    setState(() {
+      if (ascending) {
+        widget.searchInfo.rides.sort((r1, r2) => r1.price > r2.price ? 1 : -1);
+      } else {
+        widget.searchInfo.rides.sort((r1, r2) => r1.price > r2.price ? -1 : 1);
+      }
+    });
+  }
+
+  sortDate(bool ascending) {
+    setState(() {
+      if (ascending) {
+        widget.searchInfo.rides
+            .sort((r1, r2) => r1.leavingDate.isAfter(r2.leavingDate) ? 1 : -1);
+      } else {
+        widget.searchInfo.rides
+            .sort((r1, r2) => r1.leavingDate.isBefore(r2.leavingDate) ? 1 : -1);
+      }
     });
   }
 
@@ -52,8 +82,9 @@ class _SearchResultsState extends State<SearchResults> {
     } else {
       rides = widget.searchInfo.rides;
     }
-    CustomToast()
-        .showLongToast(rides.length.toString() + Lang.getString(context, "RIDES"), backgroundColor :Colors.greenAccent);
+    CustomToast().showLongToast(
+        rides.length.toString() + Lang.getString(context, "RIDES"),
+        backgroundColor: Colors.greenAccent);
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Results"),
@@ -98,19 +129,50 @@ class _SearchResultsState extends State<SearchResults> {
                                 color: Styles.primaryColor(),
                                 size: Styles.mediumIconSize(),
                               ),
+                              onSelected: (int value) {
+                                if (value == 0) {
+                                  sortBestMatch();
+                                } else if (value == 1) {
+                                  sortPrice(true);
+                                } else if (value == 2) {
+                                  sortPrice(false);
+                                } else if (value == 3) {
+                                  sortDate(true);
+                                } else if (value == 4) {
+                                  sortDate(false);
+                                }
+                              },
                               itemBuilder: (BuildContext context) =>
                                   <PopupMenuEntry<int>>[
                                     PopupMenuItem(
                                         value: 0,
                                         child: Row(children: [
-                                          Icon(Icons.upload_rounded),
-                                          Text("Price"),
+                                          Icon(Icons.auto_awesome),
+                                          Text("Best_Match"),
                                         ])),
                                     PopupMenuItem(
                                         value: 1,
                                         child: Row(children: [
+                                          Icon(Icons.upload_rounded),
+                                          Text("Price"),
+                                        ])),
+                                    PopupMenuItem(
+                                        value: 2,
+                                        child: Row(children: [
                                           Icon(Icons.download_rounded),
                                           Text("Price"),
+                                        ])),
+                                    PopupMenuItem(
+                                        value: 3,
+                                        child: Row(children: [
+                                          Icon(Icons.upload_rounded),
+                                          Text("Date"),
+                                        ])),
+                                    PopupMenuItem(
+                                        value: 4,
+                                        child: Row(children: [
+                                          Icon(Icons.download_rounded),
+                                          Text("Date"),
                                         ]))
                                   ]),
                         ),
@@ -128,8 +190,6 @@ class _SearchResultsState extends State<SearchResults> {
       ),
     );
   }
-
-  sortPrice(bool ascending) {}
 }
 
 class _TopCard extends StatelessWidget {
