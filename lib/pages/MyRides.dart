@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/pages/Login.dart';
+import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -18,7 +18,7 @@ class _MyRidesState extends State<MyRides> {
   @override
   Widget build(BuildContext context) {
     if (!App.isLoggedIn) {
-      return Login();
+      return LoginRegister();
     }
     return MainScaffold(
       appBar: MainAppBar(

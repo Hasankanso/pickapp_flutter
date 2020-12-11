@@ -3,7 +3,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/pages/Login.dart';
+import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/utilities/ChatListTile.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -35,7 +35,7 @@ class _ChatPageState extends State<ChatPage>
   @override
   Widget build(BuildContext context) {
     if (!App.isLoggedIn) {
-      return Login();
+      return LoginRegister();
     }
     c1.person = p;
     c1.date = d;

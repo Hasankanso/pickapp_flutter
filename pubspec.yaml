@@ -38,6 +38,7 @@ dependencies:
   intl: ^0.16.1
   image_picker: ^0.6.7+14
   flutter_progress_button: ^0.6.4
+  pie_chart: ^4.0.1
 
   flutter_localizations:
     sdk: flutter

@@ -231,9 +231,6 @@ class _LoginState extends State<Login> {
                     if (value.length != 5) return Validation.invalid(context);
                     return null;
                   },
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(5),
-                  ],
                   maxLength: 5,
                   decoration: InputDecoration(
                     labelText: Lang.getString(context, "Code"),
