@@ -21,6 +21,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
   MainRangeSliderController timeController = new MainRangeSliderController();
 
   List<bool Function(Ride)> constraints = new List<bool Function(Ride)>();
+  ScrollController _scrollController = new ScrollController();
 
   var smokeController = new _BooleanFilterController();
   var petsController = new _BooleanFilterController();
@@ -35,13 +36,33 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
     constraints.add(acConstraint);
   }
 
+  void reset() {
+    setState(() {
+      sliderController.values = RangeValues(0, 100000);
+      MainRangeSliderController timeController =
+          new MainRangeSliderController();
+
+      constraints.clear();
+
+      smokeController.filter = false;
+      smokeController.allowed = false;
+      petsController.filter = false;
+      petsController.allowed = false;
+      acController.filter = false;
+      acController.allowed = false;
+      musicController.filter = false;
+      musicController.allowed = false;
+    });
+  }
+
   bool priceConstraint(Ride r) {
     return r.price <= sliderController.maxValue &&
         r.price >= sliderController.minValue;
   }
 
   bool smokeConstraint(Ride r) {
-    return !smokeController.filter || r.smokingAllowed == smokeController.allowed;
+    return !smokeController.filter ||
+        r.smokingAllowed == smokeController.allowed;
   }
 
   bool petsConstraint(Ride r) {
@@ -49,7 +70,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
   }
 
   bool musicConstraint(Ride r) {
-    return !musicController.filter || r.musicAllowed== musicController.allowed;
+    return !musicController.filter || r.musicAllowed == musicController.allowed;
   }
 
   bool acConstraint(Ride r) {
@@ -76,6 +97,8 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
         textAlign: TextAlign.center,
       ),
       content: SingleChildScrollView(
+        controller: _scrollController,
+        reverse: true,
         child: Column(children: [
           _SliderFilter(
             title: Lang.getString(context, "Price"),
@@ -91,31 +114,43 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
             rightValue: 2359,
             aboluteMaxValue: 2359,
           ),
-          _BooleanFilter(
-              onIcon: Icons.smoking_rooms,
-              offIcon: Icons.smoke_free,
-              controller: smokeController),
-          _BooleanFilter(
-              onIcon: Icons.pets,
-              offIcon: Icons.pets,
-              controller: petsController),
-          _BooleanFilter(
-              onIcon: Icons.ac_unit,
-              offIcon: Icons.ac_unit,
-              controller: acController),
-          _BooleanFilter(
-              onIcon: Icons.music_note,
-              offIcon: Icons.music_off,
-              controller: musicController),
+          ExpansionTile(
+            title: Text("Advanced"),
+            children: [
+              _BooleanFilter(
+                  onIcon: Icons.smoking_rooms,
+                  offIcon: Icons.smoke_free,
+                  controller: smokeController),
+              _BooleanFilter(
+                  onIcon: Icons.pets,
+                  offIcon: Icons.pets,
+                  controller: petsController),
+              _BooleanFilter(
+                  onIcon: Icons.ac_unit,
+                  offIcon: Icons.ac_unit,
+                  controller: acController),
+              _BooleanFilter(
+                  onIcon: Icons.music_note,
+                  offIcon: Icons.music_off,
+                  controller: musicController),
+            ],
+            onExpansionChanged: (newValue) {
+              if (newValue) {
+                _scrollController.animateTo(
+                  _scrollController.position.maxScrollExtent,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 300),
+                );
+              }
+            },
+          ),
         ]),
       ),
       actions: [
         RaisedButton(
             child: Text(Lang.getString(context, "Reset")),
             onPressed: () {
-              filter();
-              widget.onFiltered(widget.rides);
-              Navigator.pop(context);
+              reset();
             }),
         RaisedButton(
             child: Text(Lang.getString(context, "Done")),
@@ -147,14 +182,6 @@ class _BooleanFilter extends StatefulWidget {
 }
 
 class _BooleanFilterState extends State<_BooleanFilter> {
-  Color iconColor = Colors.grey;
-  IconData currIcon;
-
-  @override
-  void initState() {
-    currIcon = widget.offIcon;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -169,13 +196,7 @@ class _BooleanFilterState extends State<_BooleanFilter> {
               onChanged: (bool newValue) {
                 setState(() {
                   widget.controller.filter = newValue;
-                  if (!newValue) {
-                    widget.controller.allowed = false;
-                    currIcon = widget.offIcon;
-                    iconColor = Colors.grey;
-                  } else {
-                    iconColor = Styles.primaryColor();
-                  }
+                  widget.controller.allowed = false;
                 });
               },
             ),
@@ -184,8 +205,9 @@ class _BooleanFilterState extends State<_BooleanFilter> {
         Align(
           alignment: Alignment.centerRight,
           child: Icon(
-            currIcon,
-            color: iconColor,
+            widget.controller.allowed ? widget.onIcon : widget.offIcon,
+            color:
+                widget.controller.filter ? Styles.primaryColor() : Colors.grey,
           ),
         ),
         Align(
@@ -196,7 +218,6 @@ class _BooleanFilterState extends State<_BooleanFilter> {
               isOn: widget.controller.allowed,
               onChanged: (value) {
                 setState(() {
-                  currIcon = value == true ? widget.onIcon : widget.offIcon;
                   widget.controller.allowed = value;
                 });
               },
@@ -233,13 +254,22 @@ class _SliderFilterState extends State<_SliderFilter> {
 
   @override
   void initState() {
-    widget.controller.values = new RangeValues(widget.leftValue.toDouble(), widget.rightValue.toDouble());
-    minValueController.text = widget.leftValue.toString();
-    maxValueController.text = widget.rightValue.toString();
+    widget.controller.values = new RangeValues(
+        widget.leftValue.toDouble(), widget.rightValue.toDouble());
   }
 
   @override
   Widget build(BuildContext context) {
+    minValueController.text = widget.controller.minValue.toInt().toString();
+    maxValueController.text = widget.controller.maxValue.toInt().toString();
+    minValueController.selection =
+        TextSelection.fromPosition(TextPosition(
+            offset: minValueController.text.length));
+    maxValueController.selection =
+        TextSelection.fromPosition(TextPosition(
+            offset: maxValueController.text.length));
+
+
     return ResponsiveWidget(
       width: 260,
       height: 150,
@@ -259,20 +289,16 @@ class _SliderFilterState extends State<_SliderFilter> {
             Expanded(
               flex: 4,
               child: MainRangeSlider(
-                minSelected: widget.leftValue.toDouble(),
-                maxSelected: widget.rightValue.toDouble(),
+                minSelected: widget.controller.minValue,
+                maxSelected: widget.controller.maxValue,
                 step: widget.step.toDouble(),
                 min: 0,
                 max: widget.aboluteMaxValue.toDouble(),
                 controller: widget.controller,
                 onChanged: (values) {
-                  int start = values.start.toInt();
-                  int end = values.end.toInt();
-
-                  minValueController.text = start.toString();
-                  maxValueController.text = end.toString();
-                  widget.leftValue = start;
-                  widget.rightValue = end;
+                  setState(() {
+                  widget.controller.values = values;
+                  });
                 },
               ),
             ),
@@ -298,16 +324,12 @@ class _SliderFilterState extends State<_SliderFilter> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            print("triggered");
                             int newValue = int.parse(value);
-                            if (newValue < widget.rightValue && newValue > 0) {
+                            if (newValue < int.parse(maxValueController.text) && newValue > 0) {
+                              widget.controller.values = new RangeValues(
+                                  newValue.toDouble(),
+                                  widget.controller.maxValue);
                               widget.leftValue = newValue;
-                            } else {
-                              minValueController.text =
-                                  widget.leftValue.toString();
-                              minValueController.selection =
-                                  TextSelection.fromPosition(TextPosition(
-                                      offset: minValueController.text.length));
                             }
                           });
                         },
@@ -338,15 +360,11 @@ class _SliderFilterState extends State<_SliderFilter> {
                         onChanged: (value) {
                           setState(() {
                             int newValue = int.parse(value);
-                            if (newValue > widget.leftValue &&
+                            if (newValue > int.parse(minValueController.text) &&
                                 newValue < widget.aboluteMaxValue) {
+                              widget.controller.values = new RangeValues(
+                                  widget.controller.minValue, newValue.toDouble());
                               widget.rightValue = newValue;
-                            } else {
-                              maxValueController.text =
-                                  widget.rightValue.toString();
-                              maxValueController.selection =
-                                  TextSelection.fromPosition(TextPosition(
-                                      offset: maxValueController.text.length));
                             }
                           });
                         },
