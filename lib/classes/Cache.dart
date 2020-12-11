@@ -31,7 +31,7 @@ class Cache {
 
   static void setDateTimeRangePicker(bool isRangePicker) {
     _prefs.setBool("isRangePicker", isRangePicker);
-    updateDateTimeRangePicker(isRangePicker);
+    rangeDateTimeNotifier.value = isRangePicker;
   }
 
   static setTheme(bool value) {
@@ -49,10 +49,6 @@ class Cache {
           ? true
           : false
       : false;
-
-  static void updateDateTimeRangePicker(bool value) {
-    rangeDateTimeNotifier.value = value;
-  }
 
   static bool get dateTimeRangePicker => _prefs.getBool("isRangePicker") != null
       ? _prefs.getBool("isRangePicker")

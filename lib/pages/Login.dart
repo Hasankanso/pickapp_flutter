@@ -9,6 +9,7 @@ import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/LoginRequest.dart';
 import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/requests/VerifyAccount.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -143,13 +144,11 @@ class _LoginState extends State<Login> {
                 text_key: "Login",
                 isRequest: true,
                 onPressed: () async {
-                  codePopUp("p1");
-
-                  /*if (_phoneFormKey.currentState.validate()) {
+                  if (_phoneFormKey.currentState.validate()) {
                     Request<String> request =
                         VerifyAccount("+" + _countryCode + _phone.text);
                     await request.send(respondAccountVerification);
-                  }*/
+                  }
                 },
               ),
             ),
@@ -259,8 +258,16 @@ class _LoginState extends State<Login> {
             onPressed: () {
               if (_codeFormKey.currentState.validate()) {
                 _user.verificationCode = _code.text;
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                );
                 Request<User> request = LoginRequest(_user);
-
                 request.send(
                     (u, code, message) => response(u, code, message, context));
               }
@@ -272,14 +279,17 @@ class _LoginState extends State<Login> {
   void response(User u, int code, String message, context) {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
+      Navigator.pop(context);
     } else {
       App.user = u;
       //todo cache user
       //Cache.SetUser(u);
       App.isLoggedIn = true;
+      App.isLoggedInNotifier.value = true;
+      App.isLoggedInNotifier.notifyListeners();
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
-      Navigator.pop(context);
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
 }

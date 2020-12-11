@@ -17,18 +17,23 @@ class _MyRidesState extends State<MyRides> {
   final List<Ride> ridesList = new List();
   @override
   Widget build(BuildContext context) {
-    if (!App.isLoggedIn) {
-      return LoginRegister();
-    }
-    return MainScaffold(
-      appBar: MainAppBar(
-        title: Lang.getString(context, "My_Rides"),
-      ),
-      body: Container(
-        child: ListBuilder(
-            list: ridesList,
-            itemBuilder: MyRidesListTile.itemBuilder(ridesList)),
-      ),
+    return ValueListenableBuilder(
+      builder: (BuildContext context, bool isLoggedIn, Widget child) {
+        if (!isLoggedIn) {
+          return LoginRegister();
+        }
+        return MainScaffold(
+          appBar: MainAppBar(
+            title: Lang.getString(context, "My_Rides"),
+          ),
+          body: Container(
+            child: ListBuilder(
+                list: ridesList,
+                itemBuilder: MyRidesListTile.itemBuilder(ridesList)),
+          ),
+        );
+      },
+      valueListenable: App.isLoggedInNotifier,
     );
   }
 }

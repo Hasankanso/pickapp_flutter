@@ -34,9 +34,6 @@ class _ChatPageState extends State<ChatPage>
 
   @override
   Widget build(BuildContext context) {
-    if (!App.isLoggedIn) {
-      return LoginRegister();
-    }
     c1.person = p;
     c1.date = d;
     c2.person = p1;
@@ -46,17 +43,24 @@ class _ChatPageState extends State<ChatPage>
     chatsList.add(c1);
     chatsList.add(c2);
     chatsList.add(c3);
-
-    return MainScaffold(
-      appBar: MainAppBar(
-        title: Lang.getString(context, "Chats"),
-      ),
-      body: Container(
-        child: ListBuilder(
-          list: chatsList,
-          itemBuilder: ChatListTile.itemBuilder(chatsList),
-        ),
-      ),
+    return ValueListenableBuilder(
+      builder: (BuildContext context, bool isLoggedIn, Widget child) {
+        if (!isLoggedIn) {
+          return LoginRegister();
+        }
+        return MainScaffold(
+          appBar: MainAppBar(
+            title: Lang.getString(context, "Chats"),
+          ),
+          body: Container(
+            child: ListBuilder(
+              list: chatsList,
+              itemBuilder: ChatListTile.itemBuilder(chatsList),
+            ),
+          ),
+        );
+      },
+      valueListenable: App.isLoggedInNotifier,
     );
   }
 

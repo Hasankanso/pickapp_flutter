@@ -45,6 +45,7 @@ class MyAppState extends State<MyApp> {
       Styles.setTheme(ThemeMode.dark);
     }
     if (Cache.locale != null) _locale = Locale(Cache.locale);
+    App.isLoggedInNotifier = ValueNotifier<bool>(App.isLoggedIn);
   }
 
   @override
