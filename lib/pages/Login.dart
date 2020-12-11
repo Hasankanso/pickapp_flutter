@@ -9,7 +9,6 @@ import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/LoginRequest.dart';
 import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/VerifyAccount.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -25,6 +24,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _phoneFormKey = GlobalKey<FormState>();
   final _codeFormKey = GlobalKey<FormState>();
+  String _text = "";
 
   var _phone = TextEditingController();
   List<String> _countriesCodes = App.countriesInformationsCodes;
@@ -143,11 +143,13 @@ class _LoginState extends State<Login> {
                 text_key: "Login",
                 isRequest: true,
                 onPressed: () async {
-                  if (_phoneFormKey.currentState.validate()) {
+                  codePopUp("p1");
+
+                  /*if (_phoneFormKey.currentState.validate()) {
                     Request<String> request =
                         VerifyAccount("+" + _countryCode + _phone.text);
                     await request.send(respondAccountVerification);
-                  }
+                  }*/
                 },
               ),
             ),
@@ -231,7 +233,10 @@ class _LoginState extends State<Login> {
                     if (value.length != 5) return Validation.invalid(context);
                     return null;
                   },
-                  maxLength: 5,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(5),
+                  ],
+                  maxLengthEnforced: true,
                   decoration: InputDecoration(
                     labelText: Lang.getString(context, "Code"),
                     hintText: "4#Aok",
