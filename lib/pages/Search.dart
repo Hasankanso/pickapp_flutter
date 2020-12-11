@@ -36,11 +36,72 @@ class _SearchState extends State<Search>
 
     rides.add(Ride(
       from: MainLocation(
+        name: "highest price",
+      ),
+      to: MainLocation(
+        name: "price",
+      ),
+      leavingDate: new DateTime(2020, 10, 10),
+      maxSeats: 2,
+      price: 90000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
         name: "Beirut, Hamra main street",
       ),
       to: MainLocation(
         name: "Nabatieh Al Tahta",
       ),
+      leavingDate: new DateTime(2020, 10, 10),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      leavingDate: new DateTime(2020, 10, 10),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      leavingDate: new DateTime(2020, 10, 10),
+      maxSeats: 2,
+      price: 2000,
+      maxLuggages: 2,
+      availableSeats: 2,
+      availableLuggages: 2,
+      user: App.user,
+    ));
+    rides.add(Ride(
+      from: MainLocation(
+        name: "Beirut, Hamra main street",
+      ),
+      to: MainLocation(
+        name: "Nabatieh Al Tahta",
+      ),
+      leavingDate: new DateTime(2020, 10, 10),
       maxSeats: 2,
       price: 2000,
       maxLuggages: 2,
@@ -57,6 +118,7 @@ class _SearchState extends State<Search>
       ),
       maxSeats: 2,
       price: 2000,
+      leavingDate: new DateTime(2020, 10, 10),
       maxLuggages: 2,
       availableSeats: 2,
       availableLuggages: 2,
@@ -69,6 +131,7 @@ class _SearchState extends State<Search>
       to: MainLocation(
         name: "Nabatieh Al Tahta",
       ),
+      leavingDate: new DateTime(2020, 10, 10),
       maxSeats: 2,
       price: 2000,
       maxLuggages: 2,
@@ -83,6 +146,7 @@ class _SearchState extends State<Search>
       to: MainLocation(
         name: "Nabatieh Al Tahta",
       ),
+      leavingDate: new DateTime(2020, 10, 10),
       maxSeats: 2,
       price: 2000,
       maxLuggages: 2,
@@ -92,68 +156,13 @@ class _SearchState extends State<Search>
     ));
     rides.add(Ride(
       from: MainLocation(
-        name: "Beirut, Hamra main street",
+        name: "Late",
       ),
       to: MainLocation(
-        name: "Nabatieh Al Tahta",
+        name: "Late",
       ),
       maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      maxSeats: 2,
+      leavingDate: new DateTime(2015, 10, 10),
       price: 1000,
       maxLuggages: 2,
       availableSeats: 2,
@@ -162,12 +171,13 @@ class _SearchState extends State<Search>
     ));
     rides.add(Ride(
       from: MainLocation(
-        name: "Beirut, Hamra main street",
+        name: "Mid",
       ),
       to: MainLocation(
-        name: "Nabatieh Al Tahta",
+        name: "Mid",
       ),
       maxSeats: 2,
+      leavingDate: new DateTime(2010, 10, 10),
       price: 40000,
       maxLuggages: 2,
       availableSeats: 2,
@@ -176,12 +186,13 @@ class _SearchState extends State<Search>
     ));
     rides.add(Ride(
       from: MainLocation(
-        name: "Beirut, Hamra main street",
+        name: "Early",
       ),
       to: MainLocation(
-        name: "Nabatieh Al Tahta",
+        name: "Earlyy",
       ),
       maxSeats: 2,
+      leavingDate: new DateTime(2005, 10, 10),
       price: 25000,
       maxLuggages: 2,
       availableSeats: 2,
@@ -195,6 +206,7 @@ class _SearchState extends State<Search>
       to: MainLocation(
         name: "Nabatieh Al Tahta",
       ),
+      leavingDate: new DateTime(2020, 10, 10),
       maxSeats: 2,
       price: 2000,
       maxLuggages: 2,
@@ -209,6 +221,7 @@ class _SearchState extends State<Search>
       to: MainLocation(
         name: "Nabatieh Al Tahta",
       ),
+      leavingDate: new DateTime(2020, 10, 10),
       maxSeats: 2,
       price: 2000,
       maxLuggages: 2,
@@ -250,9 +263,15 @@ class _SearchState extends State<Search>
                     fromController: fromController,
                     toController: toController)),
             VerticalSpacer(height: 30),
-            ResponsiveWidget.fullWidth(
-                height: Cache.dateTimeRangePicker ? 140 : 60,
-                child: DateTimeRangePicker(dateTimeController)),
+            ValueListenableBuilder(
+                builder: (BuildContext context, bool rangeBool, Widget child) {
+                  return ResponsiveWidget.fullWidth(
+                      height: Cache.dateTimeRangePicker ? 140 : 60,
+                      child: DateTimeRangePicker(dateTimeController));
+                },
+              valueListenable: Cache.rangeDateTimeNotifier,
+            ),
+
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
                 height: 30,

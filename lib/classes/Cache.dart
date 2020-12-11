@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
   static SharedPreferences _prefs;
   static bool _loading = false;
   static bool _failed = false;
+  static ValueNotifier<bool> rangeDateTimeNotifier;
 
   static Future<SharedPreferences> init() async {
     _failed = false;
@@ -11,6 +13,7 @@ class Cache {
 
     try {
       _prefs = await SharedPreferences.getInstance();
+      rangeDateTimeNotifier = ValueNotifier<bool>(Cache.dateTimeRangePicker);
     } catch (Exception) {
       _failed = true;
     }
@@ -28,6 +31,7 @@ class Cache {
 
   static void setDateTimeRangePicker(bool isRangePicker) {
     _prefs.setBool("isRangePicker", isRangePicker);
+    updateDateTimeRangePicker(isRangePicker);
   }
 
   static setTheme(bool value) {
@@ -45,6 +49,10 @@ class Cache {
           ? true
           : false
       : false;
+
+  static void updateDateTimeRangePicker(bool value) {
+    rangeDateTimeNotifier.value = value;
+  }
 
   static bool get dateTimeRangePicker => _prefs.getBool("isRangePicker") != null
       ? _prefs.getBool("isRangePicker")

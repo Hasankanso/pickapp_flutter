@@ -58,7 +58,7 @@ class Settings extends StatelessWidget {
                         Switcher(
                             isOn: Cache.dateTimeRangePicker,
                             onChanged: (bool value) =>
-                                {App.dateTimeRangePicker(value)})
+                                {Cache.setDateTimeRangePicker(value)})
                       ]),
                       Line(),
                       Row(children: [
