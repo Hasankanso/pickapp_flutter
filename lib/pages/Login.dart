@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
+import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/LoginRequest.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -281,9 +284,16 @@ class _LoginState extends State<Login> {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
     } else {
+      final userBox = Hive.box("user");
+      User cacheUser = u;
+      Person cachePerson = u.person;
+      cachePerson.rates = null;
+      cacheUser.driver = Driver(
+          id: u.driver.id, cars: u.driver.cars, updated: u.driver.updated);
+      cacheUser.person = cachePerson;
+      userBox.add(cacheUser);
+
       App.user = u;
-      //todo cache user
-      //Cache.SetUser(u);
       App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
       App.isLoggedInNotifier.notifyListeners();

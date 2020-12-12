@@ -1,9 +1,24 @@
+import 'package:hive/hive.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 
+part 'User.g.dart';
+
+@HiveType(typeId: 9)
 class User {
-  String _id, _phone, _email, _verificationCode, _userStatus;
+  @HiveField(0)
+  String _id;
+  @HiveField(1)
+  String _phone;
+  @HiveField(2)
+  String _email;
+  @HiveField(3)
+  String _verificationCode;
+  @HiveField(4)
+  String _userStatus;
+  @HiveField(5)
   Person _person;
+  @HiveField(6)
   Driver _driver;
 
   User(

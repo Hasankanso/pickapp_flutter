@@ -2,27 +2,46 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 
+import 'package:hive/hive.dart';
 import 'package:pickapp/classes/Validation.dart';
 
-class Car {
-  String _id, _name, _color, _brand, _carPictureUrl, _pictureBase64;
-  int _year, _maxLuggage, _maxSeats;
-  File _picture;
+part 'Car.g.dart';
 
+@HiveType(typeId: 0)
+class Car {
+  @HiveField(0)
+  String _id;
+  @HiveField(1)
+  String _name;
+  @HiveField(2)
+  String _color;
+  @HiveField(3)
+  String _brand;
+  @HiveField(4)
+  String _carPictureUrl;
+  @HiveField(5)
+  String _pictureBase64;
+  @HiveField(6)
+  int _year;
+  @HiveField(7)
+  int _maxLuggage;
+  @HiveField(8)
+  int _maxSeats;
+  @HiveField(9)
   DateTime _updated;
 
-  Car(
-      {String id,
-      String name,
-      String color,
-      String brand,
-      String carPictureUrl,
-      int year,
-      int maxLuggage,
-      int maxSeats,
-      String pictureBase64,
-      DateTime updated,
-      File picture}) {
+  Car({
+    String id,
+    String name,
+    String color,
+    String brand,
+    String carPictureUrl,
+    int year,
+    int maxLuggage,
+    int maxSeats,
+    String pictureBase64,
+    DateTime updated,
+  }) {
     this.id = id;
     this.name = name;
     this.color = color;
@@ -33,7 +52,6 @@ class Car {
     this.maxSeats = maxSeats;
     this._pictureBase64 = pictureBase64;
     this.updated = updated;
-    this._picture = picture;
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -114,10 +132,7 @@ class Car {
     _year = value;
   }
 
-  File get imageFile => _picture;
-
-  setImageFile(File value) async {
-    _picture = value;
+  setPictureFile(File value) async {
     if (value != null) {
       List<int> imageBytes = await value.readAsBytesSync();
       _pictureBase64 = base64Encode(imageBytes);

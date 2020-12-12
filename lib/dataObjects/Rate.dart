@@ -1,14 +1,29 @@
+import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 
+part 'Rate.g.dart';
+
+@HiveType(typeId: 6)
 class Rate {
+  @HiveField(0)
   int _grade;
-  String _comment, _reason;
-  Person _rater, _target;
+  @HiveField(1)
+  String _comment;
+  @HiveField(2)
+  String _reason;
+  @HiveField(3)
+  Person _rater;
+  @HiveField(4)
+  Person _target;
+  @HiveField(5)
   Ride _ride;
-  DateTime _creationDate, _updated;
+  @HiveField(6)
+  DateTime _creationDate;
+  @HiveField(7)
+  DateTime _updated;
 
   Rate(
       {int grade,

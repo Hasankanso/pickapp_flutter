@@ -1,19 +1,28 @@
+import 'package:hive/hive.dart';
+import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
 
+part 'SearchInfo.g.dart';
+
+@HiveType(typeId: 8)
 class SearchInfo {
-  MainLocation _from, _to;
-  DateTime _minDate, _maxDate;
+  @HiveField(0)
+  MainLocation _from;
+  @HiveField(1)
+  MainLocation _to;
+  @HiveField(2)
+  DateTime _minDate;
+  @HiveField(3)
+  DateTime _maxDate;
+  @HiveField(4)
   int _passengersNumber;
+  @HiveField(5)
   int _luggagesNumber;
+  @HiveField(6)
   User _user;
+  @HiveField(7)
   List<Ride> _rides;
-  MainLocation get from => _from;
-
-  set from(MainLocation value) {
-    _from = value;
-  }
 
   SearchInfo(
       {MainLocation from,
@@ -35,6 +44,12 @@ class SearchInfo {
         'maxDate': this.maxDate,
         'passengersNumber': this.passengersNumber,
       };
+
+  MainLocation get from => _from;
+
+  set from(MainLocation value) {
+    _from = value;
+  }
 
   MainLocation get to => _to;
 
@@ -71,7 +86,6 @@ class SearchInfo {
   set user(User value) {
     _user = value;
   }
-
 
   List<Ride> get rides => _rides;
 

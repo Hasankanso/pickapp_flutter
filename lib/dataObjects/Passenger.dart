@@ -1,10 +1,21 @@
+import 'package:hive/hive.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 
+part 'Passenger.g.dart';
+
+@HiveType(typeId: 4)
 class Passenger {
+  @HiveField(0)
   Person _person;
+  @HiveField(1)
   String _id;
-  int _luggages, _seats;
+  @HiveField(2)
+  int _luggages;
+  @HiveField(3)
+  int _seats;
+  @HiveField(4)
   DateTime _updated;
+
   Passenger(
       {Person person, int luggages, int seats, String id, DateTime updated}) {
     this.id = id;

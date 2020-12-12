@@ -27,7 +27,6 @@ class _MainImagePickerState extends State<MainImagePicker> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.imageUrl);
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,

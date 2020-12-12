@@ -1,6 +1,22 @@
+import 'package:hive/hive.dart';
+
+part 'CountryInformations.g.dart';
+
+@HiveType(typeId: 1)
 class CountryInformations {
-  String _id, _unit, _name, _countryComponent, _code;
+  @HiveField(0)
+  String _id;
+  @HiveField(1)
+  String _unit;
+  @HiveField(2)
+  String _name;
+  @HiveField(3)
+  String _countryComponent;
+  @HiveField(4)
+  String _code;
+  @HiveField(5)
   int _digits;
+  @HiveField(6)
   DateTime _updated;
 
   CountryInformations(

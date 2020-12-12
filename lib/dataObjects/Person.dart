@@ -1,25 +1,47 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:hive/hive.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 
+part 'Person.g.dart';
+
+@HiveType(typeId: 5)
 class Person {
-  String _id, _firstName, _lastName, _bio, _image, _profilePictureUrl;
-  DateTime _birthday, _updated;
+  @HiveField(0)
+  String _id;
+  @HiveField(1)
+  String _firstName;
+  @HiveField(2)
+  String _lastName;
+  @HiveField(3)
+  String _bio;
+  String _image;
+  @HiveField(4)
+  String _profilePictureUrl;
+  @HiveField(5)
+  DateTime _birthday;
+  @HiveField(6)
   bool _gender;
+  @HiveField(7)
   double _rateAverage;
-  int _acomplishedRides, _canceledRides, _rateCount, _chattiness;
-  List<Rate> _rates = new List<Rate>();
+  @HiveField(8)
+  int _acomplishedRides;
+  @HiveField(9)
+  int _canceledRides;
+  @HiveField(10)
+  int _rateCount;
+  @HiveField(11)
+  int _chattiness;
+  @HiveField(12)
   List<Ride> _upcomingRides = new List<Ride>();
-
-  List<Rate> get rates => _rates;
-
-  set rates(List<Rate> value) {
-    _rates = value;
-  }
-
+  @HiveField(13)
+  List<Rate> _rates = new List<Rate>();
+  @HiveField(14)
+  DateTime _updated;
+  @HiveField(15)
   CountryInformations _countryInformations;
 
   //user
@@ -139,6 +161,12 @@ class Person {
 
   set id(String value) {
     _id = value;
+  }
+
+  List<Rate> get rates => _rates;
+
+  set rates(List<Rate> value) {
+    _rates = value;
   }
 
   get firstName => _firstName;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
@@ -11,29 +12,58 @@ import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 
-class Ride {
-  String _id, _comment, _mapUrl, _mapBase64;
-  MainLocation _from, _to;
-  DateTime _leavingDate;
-  bool _musicAllowed,
-      _acAllowed,
-      _smokingAllowed,
-      _petsAllowed,
-      _kidSeat,
-      _reserved;
-  int _availableSeats,
-      _maxSeats,
-      _maxLuggages,
-      _reservedSeats,
-      _availableLuggages,
-      _reservedLuggages,
-      _stopTime,
-      _price;
+part 'Ride.g.dart';
 
-  File _map;
+@HiveType(typeId: 7)
+class Ride {
+  @HiveField(0)
+  String _id;
+  @HiveField(1)
+  String _comment;
+  @HiveField(2)
+  String _mapUrl;
+  String _mapBase64;
+  @HiveField(3)
+  MainLocation _from;
+  @HiveField(4)
+  MainLocation _to;
+  @HiveField(5)
+  DateTime _leavingDate;
+  @HiveField(6)
+  bool _musicAllowed;
+  @HiveField(7)
+  bool _acAllowed;
+  @HiveField(8)
+  bool _smokingAllowed;
+  @HiveField(9)
+  bool _petsAllowed;
+  @HiveField(10)
+  bool _kidSeat;
+  @HiveField(11)
+  bool _reserved;
+  @HiveField(12)
+  int _availableSeats;
+  @HiveField(13)
+  int _maxSeats;
+  @HiveField(14)
+  int _maxLuggages;
+  @HiveField(15)
+  int _reservedSeats;
+  @HiveField(16)
+  int _availableLuggages;
+  @HiveField(17)
+  int _reservedLuggages;
+  @HiveField(18)
+  int _stopTime;
+  @HiveField(19)
+  int _price;
+  @HiveField(20)
   User _user;
+  @HiveField(21)
   List<Passenger> _passengers;
+  @HiveField(22)
   Car _car;
+  @HiveField(23)
   DateTime _updated;
 
   Ride(
@@ -243,13 +273,11 @@ class Ride {
   }
 
   get mapBase64 => _mapBase64;
-  File get map => _map;
 
   setMap(File value) async {
-    _map = value;
     if (value != null) {
       List<int> imageBytes = await value.readAsBytesSync();
-      _mapBase64 = base64Encode(imageBytes);
+      _mapBase64 = await base64Encode(imageBytes);
     }
   }
 
@@ -348,8 +376,6 @@ class Ride {
   set stopTime(value) {
     _stopTime = value;
   }
-
-
 
   User get user => _user;
 

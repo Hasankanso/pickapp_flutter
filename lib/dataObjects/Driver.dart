@@ -1,10 +1,18 @@
+import 'package:hive/hive.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 
+part 'Driver.g.dart';
+
+@HiveType(typeId: 2)
 class Driver {
+  @HiveField(0)
   String _id;
+  @HiveField(1)
   List<MainLocation> _regions = new List<MainLocation>();
+  @HiveField(2)
   List<Car> _cars;
+  @HiveField(3)
   DateTime _updated;
 
   Driver({

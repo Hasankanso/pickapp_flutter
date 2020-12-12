@@ -1,12 +1,26 @@
 import 'dart:core';
 import 'dart:math';
 
+import 'package:hive/hive.dart';
 import 'package:pickapp/classes/Validation.dart';
 
+part 'MainLocation.g.dart';
+
+@HiveType(typeId: 3)
 class MainLocation {
-  String _name, _id, _placeId;
-  double _latitude, _longitude;
+  @HiveField(0)
+  String _name;
+  @HiveField(1)
+  String _id;
+  @HiveField(2)
+  String _placeId;
+  @HiveField(3)
+  double _latitude;
+  @HiveField(4)
+  double _longitude;
+  @HiveField(5)
   DateTime _updated;
+
   MainLocation(
       {String name,
       String id,

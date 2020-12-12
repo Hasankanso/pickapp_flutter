@@ -2,15 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
+import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/BirthdayPicker.dart';
@@ -332,6 +335,20 @@ class _DetailsState extends State<Details> {
     } else {
       List<Ride> upcomingRides = App.person.upcomingRides;
       List<Rate> rates = App.person.rates;
+
+      final userBox = Hive.box("user");
+      User cacheUser = App.user;
+      Person cachePerson = result;
+      cachePerson.rates = null;
+      cachePerson.upcomingRides = upcomingRides;
+
+      cacheUser.driver = Driver(
+          id: App.user.driver.id,
+          cars: App.user.driver.cars,
+          updated: App.user.driver.updated);
+      cacheUser.person = cachePerson;
+      userBox.add(cacheUser);
+
       result.upcomingRides = upcomingRides;
       result.rates = rates;
       App.user.person = result;
