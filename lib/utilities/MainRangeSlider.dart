@@ -64,6 +64,6 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
 
 class MainRangeSliderController {
   RangeValues values;
-  get minValue => values.start;
-  get maxValue => values.end;
+  double get minValue => values.start;
+  double get maxValue => values.end;
 }
