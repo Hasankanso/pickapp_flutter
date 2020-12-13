@@ -67,6 +67,9 @@
   "Verify": "Verify",
   "Verification_is_sent":"Verification Code sent to:",
   "Birthday": "Birthday",
+  "Male": "Male",
+  "Female": "Female",
+  "Gender": "Gender",
 
   "Results" : "Results",
   "Filter" : "Filter",

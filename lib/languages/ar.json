@@ -39,7 +39,7 @@
   "Statistics": "إحصائيات",
   "Seats":"مقاعد",
   "Become_a_driver": "كن سائقا",
-  "Chattiness": "ثرثرة",
+  "Chattiness": "الثرثرة",
   "Bio": "السيرة الذاتية",
   "Write_your_bio": "اكتب سيرتك الذاتية",
   "I'm_a_quiet_person": "أنا شخص هادئ",
@@ -68,6 +68,9 @@
   "Verify": "تحقق",
   "Verification_is_sent":"تم إرسال رمز التحقق إلى:",
   "Birthday": "تاريخ الميلاد",
+  "Male": "ذكر",
+  "Female": "أنثى",
+  "Gender": "الجنس",
 
   "Results" : "النتائج",
   "Filter" : "فلتر",

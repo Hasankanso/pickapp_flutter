@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
@@ -20,10 +19,10 @@ class App {
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
   static String birthdayFormat = 'dd/MM/yyyy';
   static String countryCode = "lb";
-  static User _user = _fakeUser();
-  static bool _isLoggedIn = true;
+  static User _user;
+  static bool _isLoggedIn = false;
   static ValueNotifier<bool> isLoggedInNotifier;
-  static List<String> _countriesInformationsNames = ["Germany", "Lebanon"];
+  static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
 
   static Map<String, CountryInformations> _countriesInformations =
@@ -47,45 +46,6 @@ class App {
   static void changeLanguage(String lang) async {
     await Cache.setLocale(lang);
     _state.setLocale(Locale(lang));
-  }
-
-  //NEVER USE THIS OUTSIDE OF THIS CLASS!!
-  static User _fakeUser() {
-    return User(
-        id: "BC9CAEF9-9896-487E-9FEA-C33E59DA1825",
-        email: 'kansoads@gmail.com',
-        person: Person(
-            firstName: "Hassan",
-            lastName: "Kanso",
-            rateAverage: 2.5,
-            acomplishedRides: 20,
-            canceledRides: 2,
-            gender: true,
-            bio:
-                "Some bioooooooooooooooooooooooooooooooooooooooooooooooooooooo",
-            birthday: DateTime(2000, 10, 09),
-            profilePictureUrl:
-                "https://cdn.vox-cdn.com/thumbor/qaURkyxczndcpZJgkEKzs2frs_4=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/16307099/1146087607.jpg.jpg",
-            chattiness: 2,
-            rateCount: 22,
-            countryInformations: CountryInformations(
-              name: "Lebanon",
-              unit: "LL",
-            )),
-        driver: Driver(cars: [
-          Car(
-              maxLuggage: 2,
-              maxSeats: 3,
-              brand: "BMW",
-              name: "C230",
-              carPictureUrl: "lib/images/adel.png"),
-          Car(
-              maxLuggage: 2,
-              maxSeats: 3,
-              brand: "BMW",
-              name: "C230",
-              carPictureUrl: "lib/images/adel.png")
-        ]));
   }
 
   static void forceDarkTheme(bool value) async {

@@ -7,6 +7,7 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
@@ -22,6 +23,8 @@ Future<void> main() async {
   Hive.registerAdapter(PersonAdapter());
   Hive.registerAdapter(DriverAdapter());
   Hive.registerAdapter(CountryInformationsAdapter());
+  Hive.registerAdapter(CarAdapter());
+
   await Hive.openBox('user');
   runApp(MyApp());
 }
