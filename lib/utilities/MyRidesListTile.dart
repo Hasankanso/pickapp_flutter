@@ -101,16 +101,7 @@ class MyRidesListTile extends ListTile {
                   children: [
                     IconButton(
                       onPressed: () {
-                        PopUp.name(
-                                "Cancel",
-                                "Delete",
-                                "Warning !",
-                                "Are you sure you want to delete this car",
-                                deletationResponse,
-                                Colors.red,
-                                Colors.grey,
-                                Colors.blue)
-                            .confirmationPopup(context);
+
                       },
                       icon: Icon(Icons.delete, color: Colors.red[500]),
                     )
