@@ -4,6 +4,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/pickapp_google_places.dart';
+import 'package:uuid/uuid.dart';
 
 class LocationFinder extends StatefulWidget {
   LocationEditingController _controller;
@@ -37,7 +38,10 @@ class LocationFinder extends StatefulWidget {
 class _LocationFinderState extends State<LocationFinder> {
   TextEditingController _textEditingController = new TextEditingController();
 
+
   void OpenAutoComplete(BuildContext context) async {
+    String sessionToken = Uuid().v4();
+
     dynamic locPred = await PlacesAutocomplete.show(
         context: context,
         hint: Lang.getString(context, "Search"),
@@ -45,11 +49,13 @@ class _LocationFinderState extends State<LocationFinder> {
         mode: Mode.fullscreen,
         // Mode.overlay
         language: widget._language,
+        sessionToken: sessionToken,
         components: [Component(Component.country, widget._country)]);
     if (locPred == null) {
       FocusScope.of(context).requestFocus(new FocusNode());
       return;
     }
+
     //if user chose current location
     if (locPred.runtimeType == Location) {
       setState(() {
@@ -68,7 +74,7 @@ class _LocationFinderState extends State<LocationFinder> {
     GoogleMapsPlaces _places =
         new GoogleMapsPlaces(apiKey: widget._API_KEY); //Same _API_KEY as above
     PlacesDetailsResponse detail =
-        await _places.getDetailsByPlaceId(locPred.placeId);
+        await _places.getDetailsByPlaceId(locPred.placeId, sessionToken: sessionToken);
     double latitude = detail.result.geometry.location.lat;
     double longitude = detail.result.geometry.location.lng;
     String address = locPred.description;
