@@ -22,6 +22,7 @@ Future<void> main() async {
   Hive.registerAdapter(PersonAdapter());
   Hive.registerAdapter(DriverAdapter());
   Hive.registerAdapter(CountryInformationsAdapter());
+  await Hive.openBox('user');
   runApp(MyApp());
 }
 
@@ -33,6 +34,8 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   Locale _locale;
   Future<SharedPreferences> cacheFuture;
+
+  Future<Box> hiveUserBox;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -63,9 +66,9 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future.wait([cacheFuture, Hive.openBox('user')]),
-        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+    return FutureBuilder<SharedPreferences>(
+        future: cacheFuture,
+        builder: (context, AsyncSnapshot<SharedPreferences> snapshot) {
           if (Cache.loading) {
             return SplashScreen();
           } else if (Cache.failed) {
