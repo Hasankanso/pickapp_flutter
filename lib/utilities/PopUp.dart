@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Styles.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class PopUp {
   String positiveText, negativeText, title, desc;
   Function(bool) response;
-  Color titleColor, positiveColor, negativeColor;
-  Color positiveTextColor = Colors.white;
+  Color titleColor,
+      positiveColor,
+      negativeColor,
+      buttonColor,
+      positiveTextColor,
+      negativeTextColor;
 
   PopUp.areYouSure(this.positiveText, this.negativeText, this.desc, this.title,
-      this.response,
+      this.buttonColor, this.response,
       {bool interest = true}) {
     if (interest) {
-      titleColor = Styles.primaryColor();
-      positiveColor = Styles.primaryColor();
-      negativeColor = Colors.white;
+      titleColor = buttonColor;
+      positiveColor = buttonColor;
+      negativeColor = Colors.transparent;
+      negativeTextColor = buttonColor;
+      positiveTextColor = Colors.white;
     } else {
-      titleColor = Colors.red;
-      positiveTextColor = Colors.red;
-      positiveColor = Colors.white;
-      negativeColor = Styles.primaryColor();
+      titleColor = buttonColor;
+      positiveTextColor = buttonColor;
+      positiveColor = Colors.transparent;
+      negativeColor = buttonColor;
+      negativeTextColor = Colors.white;
     }
     this.desc = desc;
   }
-
-  PopUp.name(this.positiveText, this.negativeText, this.title, this.desc,
-      this.response, this.titleColor, this.positiveColor, this.negativeColor);
 
   confirmationPopup(BuildContext dialogContext) {
     var alertStyle = AlertStyle(
@@ -34,7 +37,7 @@ class PopUp {
       isCloseButton: true,
       isOverlayTapDismiss: true,
       titleStyle: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.red),
+          fontWeight: FontWeight.bold, fontSize: 18, color: buttonColor),
       descStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
       animationDuration: Duration(milliseconds: 400),
     );
@@ -46,6 +49,7 @@ class PopUp {
         desc: "$desc",
         buttons: [
           DialogButton(
+            border: Border.all(width: 2.0, color: buttonColor),
             child: Text(
               "$positiveText",
               style: TextStyle(color: positiveTextColor, fontSize: 18),
@@ -57,9 +61,10 @@ class PopUp {
             },
           ),
           DialogButton(
+            //   border:Border.all(width: 2.0, color: buttonColor),
             child: Text(
               "$negativeText",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              style: TextStyle(color: negativeTextColor, fontSize: 18),
             ),
             color: negativeColor,
             onPressed: () {
