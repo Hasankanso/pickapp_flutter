@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -19,7 +18,6 @@ import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/BirthdayPicker.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/DateTimePicker.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -34,9 +32,9 @@ class _DetailsState extends State<Details> {
   TextEditingController _bioController = TextEditingController();
   TextEditingController _firstName = TextEditingController();
   TextEditingController _lastName = TextEditingController();
-  List<bool> _genders;
+  List<String> _genders = ["Male", "Female"];
   bool _gender = App.person.gender;
-  DateTimeController _birthday = DateTimeController();
+  BirthdayController _birthday = BirthdayController();
   String _country = App.person.countryInformations.name;
   List<String> _countries = App.countriesInformationsNames;
   int _chattiness = App.person.chattiness;
@@ -53,16 +51,10 @@ class _DetailsState extends State<Details> {
     }
     _firstName.text = App.person.firstName;
     _lastName.text = App.person.lastName;
-    if (App.person.gender == true)
-      _genders = [true, false];
-    else
-      _genders = [false, true];
   }
 
   @override
   Widget build(BuildContext context) {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    final String formattedvalue = formatter.format(value);
     _chattinessItems = <String>[
       Lang.getString(context, "I'm_a_quiet_person"),
       Lang.getString(context, "I_talk_depending_on_my_mood"),
@@ -188,7 +180,7 @@ class _DetailsState extends State<Details> {
                               labelText: "Gender",
                             ),
                             isExpanded: true,
-                            value: 'Male',
+                            value: _gender ? "Male" : "Female",
                             validator: (val) {
                               String valid = Validation.validate(val, context);
                               if (valid != null) return valid;
@@ -196,10 +188,10 @@ class _DetailsState extends State<Details> {
                             },
                             onChanged: (String newValue) {
                               setState(() {
-                                _country = newValue;
+                                _gender = newValue == "Male" ? true : false;
                               });
                             },
-                            items: ["Male", "Female"]
+                            items: _genders
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -247,7 +239,7 @@ class _DetailsState extends State<Details> {
                   ResponsiveWidget.fullWidth(
                     height: 80,
                     child: ResponsiveRow(
-                      children: [BirthDayPicker(value: formattedvalue)],
+                      children: [BirthDayPicker(_birthday)],
                     ),
                   ),
                   ResponsiveWidget.fullWidth(

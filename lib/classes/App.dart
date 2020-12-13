@@ -18,6 +18,7 @@ class App {
   static TextStyle textStyling = new TextStyle(fontSize: 30);
   static final String googleKey = "AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0";
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
+  static String birthdayFormat = 'dd/MM/yyyy';
   static String countryCode = "lb";
   static User _user = _fakeUser();
   static bool _isLoggedIn = true;
