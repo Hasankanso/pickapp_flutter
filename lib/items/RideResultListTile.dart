@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
@@ -161,7 +162,11 @@ class RideResultListTile extends ListTile {
                               child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: Text(
-                                  _ride.leavingDate.toString(),
+                                  DateFormat(
+                                          App.dateFormat,
+                                          Localizations.localeOf(context)
+                                              .toString())
+                                      .format(_ride.leavingDate),
                                   style: Styles.labelTextStyle(),
                                 ),
                               ),

@@ -1,42 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 
 class BirthDayPicker extends StatefulWidget {
-  final String value;
-  final Function ShowDatePicker;
+  DateTime startDate;
+  BirthdayController _controller;
 
-  const BirthDayPicker({Key key, this.value, this.ShowDatePicker})
-      : super(key: key);
+  BirthDayPicker(this._controller, {this.startDate});
 
   @override
-  _BirthDayPickerState createState() => _BirthDayPickerState(value);
+  _BirthDayPickerState createState() => _BirthDayPickerState();
 }
 
 class _BirthDayPickerState extends State<BirthDayPicker> {
-  String value;
+  DateTime _minDate, _maxDate, _initialDate;
+  Locale _appLocale;
+  DatePickerTheme _theme;
 
-  _BirthDayPickerState(this.value);
+  Map<String, LocaleType> localeType = {
+    "en": LocaleType.en,
+    "ar": LocaleType.ar,
+    "fr": LocaleType.fr,
+  };
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (widget.startDate == null) {
+      //initial age is 18 years
+      _initialDate = widget._controller.chosenDate;
+    } else {
+      _initialDate = widget.startDate;
+    }
+
+    DateTime initialDate = DateTime.now();
+    //max age 100 year
+    _minDate =
+        DateTime(initialDate.year - 100, initialDate.month, initialDate.day);
+    //min age 14 years
+    _maxDate =
+        DateTime(initialDate.year - 14, initialDate.month, initialDate.day);
+    if (App.isAndroid()) {
+      _theme = DatePickerTheme(
+        headerColor: Styles.primaryColor(),
+        doneStyle: Styles.valueTextStyle(color: Colors.white),
+        cancelStyle: Styles.valueTextStyle(color: Colors.white),
+      );
+    }
+  }
+
+  _setDate(date) {
+    setState(() {
+      widget._controller.chosenDate = date;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    _setDate(date) {
-      setState(() {
-        final DateFormat formatter = DateFormat('yyyy-MM-dd');
-        final String formatted = formatter.format(date);
-        value = formatted;
-      });
-    }
-
+    _appLocale = Localizations.localeOf(context);
     return Row(
       children: [
         Expanded(
           flex: 2,
           child: Text(
-            "Birthday",
+            Lang.getString(context, "Birthday"),
             style: Styles.labelTextStyle(),
           ),
         ),
@@ -44,7 +78,8 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
           flex: 5,
           child: TextButton(
             child: Text(
-              value,
+              DateFormat(App.birthdayFormat, _appLocale.toString())
+                  .format(widget._controller.chosenDate),
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(15),
                 fontWeight: FontWeight.w400,
@@ -54,6 +89,11 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
             onPressed: () {
               DatePicker.showDatePicker(
                 context,
+                theme: _theme,
+                locale: localeType[_appLocale.toString()],
+                minTime: _minDate,
+                maxTime: _maxDate,
+                currentTime: _initialDate,
                 onConfirm: (date) {
                   _setDate(date);
                 },
@@ -63,5 +103,14 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
         ),
       ],
     );
+  }
+}
+
+class BirthdayController {
+  DateTime chosenDate;
+  BirthdayController() {
+    DateTime initialDate = DateTime.now();
+    chosenDate =
+        DateTime(initialDate.year - 18, initialDate.month, initialDate.day);
   }
 }

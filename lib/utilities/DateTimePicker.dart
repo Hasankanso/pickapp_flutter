@@ -48,9 +48,6 @@ class DateTimePickerState extends State<DateTimePicker> {
         },
       );
     } else if (App.isAndroid()) {
-      print(_initialDate);
-      print(_minDate);
-      print(DateTime.now());
       DateTime date = await showDatePicker(
         context: context,
         firstDate: _minDate,
