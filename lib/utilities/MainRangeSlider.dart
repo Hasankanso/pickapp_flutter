@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MainRangeSlider extends StatefulWidget {
-  double min, max, minSelected, maxSelected, step;
+  double minSelected, maxSelected;
+  double min, max, step;
   MainRangeSliderController controller;
   Function(RangeValues) onChanged;
 
@@ -15,15 +17,21 @@ class MainRangeSlider extends StatefulWidget {
     this.controller,
     this.onChanged,
   });
+
   @override
   _MainRangeSliderState createState() => _MainRangeSliderState();
-
 }
 
 class _MainRangeSliderState extends State<MainRangeSlider> {
   @override
   void initState() {
-    // TODO: implement initState
+    widget.controller.values = RangeValues(
+      widget.minSelected.toDouble(),
+      widget.maxSelected.toDouble(),
+    );
+    widget.controller.minAbsolute = widget.min;
+    widget.controller.maxAbsolute = widget.max;
+
     super.initState();
   }
 
@@ -36,21 +44,16 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
             rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
           ),
           child: RangeSlider(
-            values: RangeValues(
-              widget.minSelected.toDouble(),
-              widget.maxSelected.toDouble(),
-            ),
-            min: widget.min.toDouble(),
-            max: widget.max.toDouble(),
+            values: widget.controller.values,
+            min: widget.controller.minAbsolute,
+            max: widget.controller.maxAbsolute,
             divisions: widget.step.toInt(),
-            labels: RangeLabels(widget.minSelected.toInt().toString(),
-                widget.maxSelected.toInt().toString()),
+            labels: RangeLabels(widget.controller.minSelected.toInt().toString(),
+                widget.controller.maxSelected.toInt().toString()),
             onChanged: (values) {
               setState(() {
                 widget.controller.values = values;
-                widget.minSelected = values.start.roundToDouble();
-                widget.maxSelected = values.end.roundToDouble();
-                if(widget.onChanged != null) {
+                if (widget.onChanged != null) {
                   widget.onChanged(values);
                 }
               });
@@ -62,8 +65,89 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
   }
 }
 
+class TimeRangeSlider extends StatefulWidget {
+  double minSelected, maxSelected;
+  MainRangeSliderController controller;
+  Function(RangeValues) onChanged;
+
+  TimeRangeSlider({
+    this.minSelected = 20,
+    this.maxSelected = 80,
+    this.controller,
+    this.onChanged,
+  });
+
+  @override
+  _TimeRangeSliderState createState() => _TimeRangeSliderState();
+}
+
+class _TimeRangeSliderState extends State<TimeRangeSlider> {
+  @override
+  void initState() {
+    widget.controller.values = RangeValues(
+      widget.minSelected.toDouble(),
+      widget.maxSelected.toDouble(),
+    );
+    widget.controller.minAbsolute = 0;
+    widget.controller.maxAbsolute = 1440;
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SliderTheme(
+          data: SliderThemeData(
+            rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
+          ),
+          child: RangeSlider(
+            values: widget.controller.values,
+            min: 0,
+            max: 1440,
+            divisions: 288,
+            labels: RangeLabels(intToTime(widget.controller.minSelected.toInt()),
+                intToTime(widget.controller.maxSelected.toInt())),
+            onChanged: (values) {
+              setState(() {
+                widget.controller.values = values;
+                if (widget.onChanged != null) {
+                  widget.onChanged(values);
+                }
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+NumberFormat formatter = new NumberFormat("00");
+String intToTime(int number){
+  assert(number >= 0);
+  assert(number <= 1440);
+  var f = new NumberFormat();
+  int minutes  = number % 60;
+  int hours = (number/60).floor();
+  return formatter.format(hours) + ":" + formatter.format(minutes);
+}
+
+int toMinutes(int number){
+  return number % 60;
+}
+
+int toHours(int number){
+  return (number/60).floor();
+}
+
 class MainRangeSliderController {
   RangeValues values;
-  double get minValue => values.start;
-  double get maxValue => values.end;
+  double minAbsolute;
+  double maxAbsolute;
+
+  double get minSelected => values.start;
+
+  double get maxSelected => values.end;
 }

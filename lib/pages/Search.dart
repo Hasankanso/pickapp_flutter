@@ -41,7 +41,7 @@ class _SearchState extends State<Search>
       to: MainLocation(
         name: "price",
       ),
-      leavingDate: new DateTime(2020, 10, 10),
+      leavingDate: new DateTime(2020, 10, 10, 15, 0),
       maxSeats: 2,
       price: 90000,
       maxLuggages: 2,
@@ -56,7 +56,7 @@ class _SearchState extends State<Search>
       to: MainLocation(
         name: "Nabatieh Al Tahta",
       ),
-      leavingDate: new DateTime(2020, 10, 10),
+      leavingDate: new DateTime(2020, 10, 10,17,0),
       maxSeats: 2,
       price: 2000,
       maxLuggages: 2,

@@ -35,6 +35,8 @@ class MyAppState extends State<MyApp> {
   Locale _locale;
   Future<SharedPreferences> cacheFuture;
 
+  Future<Box> hiveUserBox;
+
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;

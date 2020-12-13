@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +28,9 @@ class SearchResults extends StatefulWidget {
 class _SearchResultsState extends State<SearchResults> {
   List<Ride> filteredRides;
 
+  bool priceAscending = true;
+  bool dateAscending = true;
+
   Container _buildDivider() {
     return Container(
       width: ScreenUtil().setWidth(340),
@@ -49,28 +54,34 @@ class _SearchResultsState extends State<SearchResults> {
             r2.leavingDate.difference(widget.searchInfo.minDate).abs();
         return distance1 > distance2 ? -1 : 1;
       });
+      dateAscending = true;
+      priceAscending = true;
     });
   }
 
-  sortPrice(bool ascending) {
+  sortPrice() {
     setState(() {
-      if (ascending) {
+      if (priceAscending) {
         widget.searchInfo.rides.sort((r1, r2) => r1.price > r2.price ? 1 : -1);
       } else {
         widget.searchInfo.rides.sort((r1, r2) => r1.price > r2.price ? -1 : 1);
       }
+      priceAscending = !priceAscending;
+      dateAscending = true;
     });
   }
 
-  sortDate(bool ascending) {
+  sortDate() {
     setState(() {
-      if (ascending) {
+      if (dateAscending) {
         widget.searchInfo.rides
             .sort((r1, r2) => r1.leavingDate.isAfter(r2.leavingDate) ? 1 : -1);
       } else {
         widget.searchInfo.rides
             .sort((r1, r2) => r1.leavingDate.isBefore(r2.leavingDate) ? 1 : -1);
       }
+      dateAscending = !dateAscending;
+      priceAscending = true;
     });
   }
 
@@ -133,13 +144,9 @@ class _SearchResultsState extends State<SearchResults> {
                                 if (value == 0) {
                                   sortBestMatch();
                                 } else if (value == 1) {
-                                  sortPrice(true);
+                                  sortPrice();
                                 } else if (value == 2) {
-                                  sortPrice(false);
-                                } else if (value == 3) {
-                                  sortDate(true);
-                                } else if (value == 4) {
-                                  sortDate(false);
+                                  sortDate();
                                 }
                               },
                               itemBuilder: (BuildContext context) =>
@@ -148,32 +155,33 @@ class _SearchResultsState extends State<SearchResults> {
                                         value: 0,
                                         child: Row(children: [
                                           Icon(Icons.auto_awesome),
-                                          Text("Best_Match"),
+                                          Text(
+                                              Lang.getString(
+                                                  context, "Best_Match"),
+                                              style: Styles.valueTextStyle()),
                                         ])),
                                     PopupMenuItem(
                                         value: 1,
                                         child: Row(children: [
-                                          Icon(Icons.upload_rounded),
-                                          Text("Price"),
+                                          Transform.rotate(
+                                              angle: 90 * pi / 180,
+                                              child: Icon(
+                                                Icons.sync_alt,
+                                              )),
+                                          Text(Lang.getString(context, "Price"),
+                                              style: Styles.valueTextStyle()),
                                         ])),
                                     PopupMenuItem(
                                         value: 2,
                                         child: Row(children: [
-                                          Icon(Icons.download_rounded),
-                                          Text("Price"),
+                                          Transform.rotate(
+                                              angle: 90 * pi / 180,
+                                              child: Icon(
+                                                Icons.sync_alt,
+                                              )),
+                                          Text(Lang.getString(context, "Date"),
+                                              style: Styles.valueTextStyle()),
                                         ])),
-                                    PopupMenuItem(
-                                        value: 3,
-                                        child: Row(children: [
-                                          Icon(Icons.upload_rounded),
-                                          Text("Date"),
-                                        ])),
-                                    PopupMenuItem(
-                                        value: 4,
-                                        child: Row(children: [
-                                          Icon(Icons.download_rounded),
-                                          Text("Date"),
-                                        ]))
                                   ]),
                         ),
                       ],

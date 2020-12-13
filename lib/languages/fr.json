@@ -74,6 +74,9 @@
   "Done" : "Done",
   "Reset" : "Reset",
   "Time" : "Time",
+  "Best_Match" : "Best Match",
+  "Date": "Date",
+  "Advanced": "Advanced",
 
   "Luggage":"Luggage",
   "Price":"Price",
@@ -89,6 +92,6 @@
   "Route": "Route :",
   "You_Choosed": " You choosed :",
 
-  "Yes" : "Yes",
-  "No" : "No"
+  "Yes" : "Oui",
+  "No" : "Non"
 }
