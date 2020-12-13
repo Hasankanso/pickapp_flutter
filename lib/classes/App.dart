@@ -25,6 +25,9 @@ class App {
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
 
+  static double maxPriceFilter = 100000; //TODO flexible maximum price
+  static int stepPriceFilter =   100;
+
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
     'Deutschland': CountryInformations(
