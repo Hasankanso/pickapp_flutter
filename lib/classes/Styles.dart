@@ -84,11 +84,12 @@ class Styles {
   }
 
   static TextStyle valueTextStyle(
-      {bold = FontWeight.w400, bool underline = false}) {
+      {bold = FontWeight.w400, bool underline = false, color}) {
     return TextStyle(
       fontSize: _fontSize,
       fontWeight: bold,
       decoration: underline ? TextDecoration.underline : null,
+      color: color,
     );
   }
 

@@ -74,8 +74,6 @@ class MyAppState extends State<MyApp> {
           } else if (Cache.failed) {
             Cache.init();
             return SplashScreen();
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return SplashScreen();
           } else {
             _init();
             final box = Hive.box("user");
