@@ -60,6 +60,11 @@ class _DetailsState extends State<Details> {
       Lang.getString(context, "I_talk_depending_on_my_mood"),
       Lang.getString(context, "I_love_to_chat!"),
     ];
+    _chattinessItems = <String>[
+      Lang.getString(context, "I'm_a_quiet_person"),
+      Lang.getString(context, "I_talk_depending_on_my_mood"),
+      Lang.getString(context, "I_love_to_chat!"),
+    ];
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Details"),
@@ -239,7 +244,12 @@ class _DetailsState extends State<Details> {
                   ResponsiveWidget.fullWidth(
                     height: 80,
                     child: ResponsiveRow(
-                      children: [BirthDayPicker(_birthday)],
+                      children: [
+                        BirthDayPicker(
+                          _birthday,
+                          startDate: App.person.birthday,
+                        )
+                      ],
                     ),
                   ),
                   ResponsiveWidget.fullWidth(
