@@ -16,7 +16,7 @@ class App {
   static MyAppState _state;
   static final String appName = "PickApp";
   static TextStyle textStyling = new TextStyle(fontSize: 30);
-  static final String googleKey = "AIzaSyC7U0OEb9200tGZFFFTyLjQdo3goKyuSsw";
+  static final String googleKey = "AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0";
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
   static String countryCode = "lb";
   static User _user = _fakeUser();
