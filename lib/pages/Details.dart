@@ -344,10 +344,12 @@ class _DetailsState extends State<Details> {
       cachePerson.rates = null;
       cachePerson.upcomingRides = upcomingRides;
 
-      cacheUser.driver = Driver(
-          id: App.user.driver.id,
-          cars: App.user.driver.cars,
-          updated: App.user.driver.updated);
+      if(App.user.driver!=null){
+        cacheUser.driver = Driver(
+            id: App.user.driver.id,
+            cars: App.user.driver.cars,
+            updated: App.user.driver.updated);
+      }
       cacheUser.person = cachePerson;
       userBox.add(cacheUser);
 

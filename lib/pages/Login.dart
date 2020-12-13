@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
                           FilteringTextInputFormatter.digitsOnly,
                           LengthLimitingTextInputFormatter(App
                               .countriesInformations[
-                                  _countryCode == "961" ? "Lebanon" : "Germany"]
+                                  _countryCode == "961" ? "لبنان" : "Deutschland"]
                               .digits),
                         ],
                         controller: _phone,
@@ -288,8 +288,10 @@ class _LoginState extends State<Login> {
       User cacheUser = u;
       Person cachePerson = u.person;
       cachePerson.rates = null;
-      cacheUser.driver = Driver(
-          id: u.driver.id, cars: u.driver.cars, updated: u.driver.updated);
+      if (u.driver != null) {
+        cacheUser.driver = Driver(
+            id: u.driver.id, cars: u.driver.cars, updated: u.driver.updated);
+      }
       cacheUser.person = cachePerson;
       userBox.add(cacheUser);
 
