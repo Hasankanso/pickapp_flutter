@@ -22,6 +22,7 @@ Future<void> main() async {
   Hive.registerAdapter(PersonAdapter());
   Hive.registerAdapter(DriverAdapter());
   Hive.registerAdapter(CountryInformationsAdapter());
+  await Hive.openBox('user');
   runApp(MyApp());
 }
 
@@ -63,15 +64,13 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future.wait([cacheFuture, Hive.openBox('user')]),
-        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+    return FutureBuilder<SharedPreferences>(
+        future: cacheFuture,
+        builder: (context, AsyncSnapshot<SharedPreferences> snapshot) {
           if (Cache.loading) {
             return SplashScreen();
           } else if (Cache.failed) {
             Cache.init();
-            return SplashScreen();
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return SplashScreen();
           } else {
             _init();

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/Items/CarListTile.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -10,6 +9,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/items/CarListTile.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -68,7 +68,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 tooltip: Lang.getString(context, "Settings"),
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/settings");
+                  Navigator.of(context).pushNamed("/Settings");
                 },
               )
             ],
@@ -323,31 +323,38 @@ class PassengerInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       Line(),
-      InkWell(
-        onTap: () {
-          Navigator.of(context).pushNamed("/BecomeDriver");
-        },
-        child: ResponsiveWidget.fullWidth(
-          height: 60,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 1,
-                child: Icon(
-                  Icons.drive_eta_rounded,
-                  size: Styles.mediumIconSize(),
-                  color: Styles.primaryColor(),
+      Card(
+        color: Styles.primaryColor(),
+        margin: EdgeInsets.all(5),
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).pushNamed("/BecomeDriver");
+          },
+          child: ResponsiveWidget.fullWidth(
+            height: 60,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Icon(
+                    Icons.drive_eta_rounded,
+                    size: Styles.mediumIconSize(),
+                    color: Styles.secondaryColor(),
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 6,
-                child: Text(
-                  Lang.getString(context, "Become_a_driver"),
-                  style: Styles.valueTextStyle(),
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    Lang.getString(context, "Become_a_driver"),
+                    style: Styles.valueTextStyle(color: Colors.white),
+                  ),
                 ),
-              ),
-            ],
+                Spacer(
+                  flex: 1,
+                ),
+              ],
+            ),
           ),
         ),
       ),

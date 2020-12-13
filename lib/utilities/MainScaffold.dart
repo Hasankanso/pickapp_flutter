@@ -14,7 +14,9 @@ class MainScaffold extends StatelessWidget {
       {this.appBar,
       this.body,
       this.backgroundColor,
-      this.bottomNavigationBar, this.floatingWidget, this.floatingLocation}) {}
+      this.bottomNavigationBar,
+      this.floatingWidget,
+      this.floatingLocation}) {}
 
   @override
   Widget build(BuildContext context) {

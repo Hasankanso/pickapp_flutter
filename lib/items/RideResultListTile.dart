@@ -161,7 +161,7 @@ class RideResultListTile extends ListTile {
                               child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: Text(
-                                  "04/06 44:30 PM",
+                                  _ride.leavingDate.toString(),
                                   style: Styles.labelTextStyle(),
                                 ),
                               ),
