@@ -32,13 +32,13 @@ class _DetailsState extends State<Details> {
   TextEditingController _bioController = TextEditingController();
   TextEditingController _firstName = TextEditingController();
   TextEditingController _lastName = TextEditingController();
-  List<String> _genders = ["Male", "Female"];
-  bool _gender = App.person.gender;
   BirthdayController _birthday = BirthdayController();
   String _country = App.person.countryInformations.name;
   List<String> _countries = App.countriesInformationsNames;
   int _chattiness = App.person.chattiness;
   List<String> _chattinessItems;
+  List<String> _genders;
+  bool _gender = App.person.gender;
 
   DateTime value = App.person.birthday;
 
@@ -60,6 +60,11 @@ class _DetailsState extends State<Details> {
       Lang.getString(context, "I_talk_depending_on_my_mood"),
       Lang.getString(context, "I_love_to_chat!"),
     ];
+    _genders = <String>[
+      Lang.getString(context, "Male"),
+      Lang.getString(context, "Female"),
+    ];
+
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Details"),
@@ -177,10 +182,10 @@ class _DetailsState extends State<Details> {
                           flex: 5,
                           child: DropdownButtonFormField<String>(
                             decoration: InputDecoration(
-                              labelText: "Gender",
+                              labelText: Lang.getString(context, "Gender"),
                             ),
                             isExpanded: true,
-                            value: _gender ? "Male" : "Female",
+                            value: _gender ? _genders[0] : _genders[1],
                             validator: (val) {
                               String valid = Validation.validate(val, context);
                               if (valid != null) return valid;
@@ -239,7 +244,12 @@ class _DetailsState extends State<Details> {
                   ResponsiveWidget.fullWidth(
                     height: 80,
                     child: ResponsiveRow(
-                      children: [BirthDayPicker(_birthday)],
+                      children: [
+                        BirthDayPicker(
+                          _birthday,
+                          startDate: App.person.birthday,
+                        )
+                      ],
                     ),
                   ),
                   ResponsiveWidget.fullWidth(

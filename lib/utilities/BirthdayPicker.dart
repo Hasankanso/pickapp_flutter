@@ -3,6 +3,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 
@@ -19,6 +20,7 @@ class BirthDayPicker extends StatefulWidget {
 class _BirthDayPickerState extends State<BirthDayPicker> {
   DateTime _minDate, _maxDate, _initialDate;
   Locale _appLocale;
+  DatePickerTheme _theme;
 
   Map<String, LocaleType> localeType = {
     "en": LocaleType.en,
@@ -45,6 +47,13 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
     //min age 14 years
     _maxDate =
         DateTime(initialDate.year - 14, initialDate.month, initialDate.day);
+    if (App.isAndroid()) {
+      _theme = DatePickerTheme(
+        headerColor: Styles.primaryColor(),
+        doneStyle: Styles.valueTextStyle(color: Colors.white),
+        cancelStyle: Styles.valueTextStyle(color: Colors.white),
+      );
+    }
   }
 
   _setDate(date) {
@@ -61,7 +70,7 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
         Expanded(
           flex: 2,
           child: Text(
-            "Birthday",
+            Lang.getString(context, "Birthday"),
             style: Styles.labelTextStyle(),
           ),
         ),
@@ -80,11 +89,7 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
             onPressed: () {
               DatePicker.showDatePicker(
                 context,
-                theme: DatePickerTheme(
-                  headerColor: Styles.primaryColor(),
-                  doneStyle: Styles.valueTextStyle(color: Colors.white),
-                  cancelStyle: Styles.valueTextStyle(color: Colors.white),
-                ),
+                theme: _theme,
                 locale: localeType[_appLocale.toString()],
                 minTime: _minDate,
                 maxTime: _maxDate,

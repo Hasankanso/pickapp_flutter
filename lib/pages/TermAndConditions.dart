@@ -43,6 +43,7 @@ class _TermAndConditions extends State<TermAndConditions> {
                                   Lang.getString(context, "No"),
                                   "Are you sure you want to leave us?",
                                   "Confirmation",
+                                  Colors.red,
                                   (value) => setState(() {
                                         Cache.setConditionAccepted(!value);
                                       }),

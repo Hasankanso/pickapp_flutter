@@ -93,16 +93,7 @@ class ChatListTile extends ListTile {
                 children: [
                   IconButton(
                     onPressed: () {
-                      PopUp.name(
-                              "Cancel",
-                              "Delete",
-                              "Warning !",
-                              "Are you sure you want to delete this car",
-                              deletionResponse,
-                              Colors.red,
-                              Colors.grey,
-                              Colors.blue)
-                          .confirmationPopup(context);
+                    PopUp.areYouSure("Cancel", "Submit", "Are you sure you want to Submit ??", "Activate !!", Colors.greenAccent,clicked,interest: false).confirmationPopup(context);
                     },
                     icon: Icon(Icons.delete, color: Colors.red[500]),
                   )
@@ -116,5 +107,7 @@ class ChatListTile extends ListTile {
         },
       ),
     );
+  }
+  void clicked(bool status){
   }
 }
