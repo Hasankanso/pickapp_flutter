@@ -24,13 +24,12 @@ abstract class Request<T> {
       http.Response response = await http.post(
         host + httpPath,
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         body: json.encode(data, toEncodable: _dateToIso8601String),
       );
-      response.body.contains("other");
 
-      var decodedResponse = json.decode(response.body);
+      var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
       if (response.body.contains("code")) {
         //extracting code and message
         var jCode =
