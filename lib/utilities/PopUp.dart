@@ -7,24 +7,24 @@ class PopUp {
   Color titleColor,
       positiveColor,
       negativeColor,
-      buttonColor,
+      mainColor,
       positiveTextColor,
       negativeTextColor;
 
   PopUp.areYouSure(this.positiveText, this.negativeText, this.desc, this.title,
-      this.buttonColor, this.response,
+      this.mainColor, this.response,
       {bool interest = true}) {
     if (interest) {
-      titleColor = buttonColor;
-      positiveColor = buttonColor;
+      titleColor = mainColor;
+      positiveColor = mainColor;
       negativeColor = Colors.transparent;
-      negativeTextColor = buttonColor;
+      negativeTextColor = mainColor;
       positiveTextColor = Colors.white;
     } else {
-      titleColor = buttonColor;
-      positiveTextColor = buttonColor;
+      titleColor = mainColor;
+      positiveTextColor = mainColor;
       positiveColor = Colors.transparent;
-      negativeColor = buttonColor;
+      negativeColor = mainColor;
       negativeTextColor = Colors.white;
     }
     this.desc = desc;
@@ -37,7 +37,7 @@ class PopUp {
       isCloseButton: true,
       isOverlayTapDismiss: true,
       titleStyle: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 18, color: buttonColor),
+          fontWeight: FontWeight.bold, fontSize: 18, color: mainColor),
       descStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
       animationDuration: Duration(milliseconds: 400),
     );
@@ -49,7 +49,7 @@ class PopUp {
         desc: "$desc",
         buttons: [
           DialogButton(
-            border: Border.all(width: 2.0, color: buttonColor),
+            border: Border.all(width: 2.0, color: mainColor),
             child: Text(
               "$positiveText",
               style: TextStyle(color: positiveTextColor, fontSize: 18),

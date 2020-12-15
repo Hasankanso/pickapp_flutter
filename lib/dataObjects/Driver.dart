@@ -32,6 +32,9 @@ class Driver {
       };
 
   factory Driver.fromJson(Map<String, dynamic> json) {
+    if(json==null){
+      return null;
+    }
     var regions = List<MainLocation>();
     var reg1 = json["region1"];
     MainLocation regL1 = null;

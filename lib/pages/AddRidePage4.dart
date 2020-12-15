@@ -84,7 +84,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
               width: 250,
               height: 250,
               child: Image(
-                image: AssetImage("lib/images/map.jpg"),
+               // image: NetworkImage("https://www.google.com/maps/dir/?api=1&origin=Space+Needle+Seattle+WA&destination=Pike+Place+Market+Seattle+WA&travelmode=bicycling"),
               ),
             ),
             VerticalSpacer(

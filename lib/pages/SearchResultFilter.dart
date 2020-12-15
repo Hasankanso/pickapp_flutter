@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
@@ -9,24 +10,17 @@ import 'package:pickapp/utilities/Switcher.dart';
 class SearchResultsFilter extends StatefulWidget {
   Function(List<Ride>) onFiltered;
   List<Ride> rides;
+  FilterController controller;
 
-  SearchResultsFilter({this.rides, this.onFiltered});
+  SearchResultsFilter({this.rides, this.onFiltered, this.controller});
 
   @override
   _SearchResultsFilterState createState() => _SearchResultsFilterState();
 }
 
 class _SearchResultsFilterState extends State<SearchResultsFilter> {
-  MainRangeSliderController priceController = new MainRangeSliderController();
-  MainRangeSliderController timeController = new MainRangeSliderController();
-
   List<bool Function(Ride)> constraints = new List<bool Function(Ride)>();
   ScrollController _scrollController = new ScrollController();
-
-  var smokeController = new _BooleanFilterController();
-  var petsController = new _BooleanFilterController();
-  var acController = new _BooleanFilterController();
-  var musicController = new _BooleanFilterController();
 
   void init() {
     constraints.add(priceConstraint);
@@ -38,53 +32,74 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
   }
 
   void reset() {
+    FilterController controller = widget.controller;
+
     setState(() {
-      priceController.values = RangeValues(0, 100000);
-      MainRangeSliderController timeController =
-          new MainRangeSliderController();
+      controller.priceController.values = RangeValues(0, App.maxPriceFilter);
+      controller.timeController.values = RangeValues(0, 1440);
 
       constraints.clear();
 
-      smokeController.filter = false;
-      smokeController.allowed = false;
-      petsController.filter = false;
-      petsController.allowed = false;
-      acController.filter = false;
-      acController.allowed = false;
-      musicController.filter = false;
-      musicController.allowed = false;
+      controller.smokeController.filter = false;
+      controller.smokeController.allowed = false;
+      controller.petsController.filter = false;
+      controller.petsController.allowed = false;
+      controller.acController.filter = false;
+      controller.acController.allowed = false;
+      controller.musicController.filter = false;
+      controller.musicController.allowed = false;
+      controller.isExpanded = false;
     });
   }
 
   bool priceConstraint(Ride r) {
-    return r.price <= priceController.maxSelected &&
-        r.price >= priceController.minSelected;
+    FilterController controller = widget.controller;
+
+    return r.price <= controller.priceController.maxSelected &&
+        r.price >= controller.priceController.minSelected;
   }
 
-  
   bool timeConstraint(Ride r) {
+    FilterController controller = widget.controller;
+
     DateTime curr = r.leavingDate;
-    DateTime maxDate = new DateTime(curr.year, curr.month, curr.day, toHours(timeController.maxSelected.toInt()), toMinutes(timeController.maxSelected.toInt()));
-    DateTime minDate = new DateTime(curr.year, curr.month, curr.day, toHours(timeController.minSelected.toInt()), toMinutes(timeController.minSelected.toInt()));
-    return r.leavingDate.isBefore(maxDate) &&
-        r.leavingDate.isAfter(minDate);
+    DateTime maxDate = new DateTime(
+        curr.year,
+        curr.month,
+        curr.day,
+        toHours(controller.timeController.maxSelected.toInt()),
+        toMinutes(controller.timeController.maxSelected.toInt()));
+    DateTime minDate = new DateTime(
+        curr.year,
+        curr.month,
+        curr.day,
+        toHours(controller.timeController.minSelected.toInt()),
+        toMinutes(controller.timeController.minSelected.toInt()));
+    return r.leavingDate.isBefore(maxDate) && r.leavingDate.isAfter(minDate);
   }
-  
+
   bool smokeConstraint(Ride r) {
-    return !smokeController.filter ||
-        r.smokingAllowed == smokeController.allowed;
+    FilterController controller = widget.controller;
+    return !controller.smokeController.filter ||
+        r.smokingAllowed == controller.smokeController.allowed;
   }
 
   bool petsConstraint(Ride r) {
-    return !petsController.filter || r.petsAllowed == petsController.allowed;
+    FilterController controller = widget.controller;
+    return !controller.petsController.filter ||
+        r.petsAllowed == controller.petsController.allowed;
   }
 
   bool musicConstraint(Ride r) {
-    return !musicController.filter || r.musicAllowed == musicController.allowed;
+    FilterController controller = widget.controller;
+    return !controller.musicController.filter ||
+        r.musicAllowed == controller.musicController.allowed;
   }
 
   bool acConstraint(Ride r) {
-    return !acController.filter || r.acAllowed == acController.allowed;
+    FilterController controller = widget.controller;
+    return !controller.acController.filter ||
+        r.acAllowed == controller.acController.allowed;
   }
 
   bool validate(Ride r) {
@@ -100,6 +115,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
 
   @override
   Widget build(BuildContext context) {
+    FilterController controller = widget.controller;
     init();
     return AlertDialog(
       title: Text(
@@ -112,39 +128,45 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
         child: Column(children: [
           _SliderTextFilter(
             title: Lang.getString(context, "Price"),
-            controller: priceController,
-            minSelected: 0,
-            maxSelected: 100000,
-            aboluteMaxValue: 100000,
+            step : App.stepPriceFilter,
+            controller: controller.priceController,
+            minSelected: controller.priceController.minSelected.toInt(),
+            maxSelected: controller.priceController.maxSelected.toInt(),
+            aboluteMaxValue: controller.priceController.maxAbsolute.toInt(),
           ),
           _SliderFilter(
             title: Lang.getString(context, "Time"),
-            controller: timeController,
+            controller: controller.timeController,
             isTime: true,
-            minSelected: 0,
-            maxSelected: 1440,
+            minSelected: controller.timeController.minSelected.toInt(),
+            maxSelected: controller.timeController.maxSelected.toInt(),
           ),
           ExpansionTile(
-            title: Text(Lang.getString(context, "Advanced"), style: Styles.valueTextStyle(),),
+            title: Text(
+              Lang.getString(context, "Advanced"),
+              style: Styles.valueTextStyle(),
+            ),
+            initiallyExpanded: controller.isExpanded,
             children: [
               _BooleanFilter(
                   onIcon: Icons.smoking_rooms,
                   offIcon: Icons.smoke_free,
-                  controller: smokeController),
+                  controller: controller.smokeController),
               _BooleanFilter(
                   onIcon: Icons.pets,
                   offIcon: Icons.pets,
-                  controller: petsController),
+                  controller: controller.petsController),
               _BooleanFilter(
                   onIcon: Icons.ac_unit,
                   offIcon: Icons.ac_unit,
-                  controller: acController),
+                  controller: controller.acController),
               _BooleanFilter(
                   onIcon: Icons.music_note,
                   offIcon: Icons.music_off,
-                  controller: musicController),
+                  controller: controller.musicController),
             ],
             onExpansionChanged: (newValue) {
+              controller.isExpanded = newValue;
               if (newValue) {
                 _scrollController.animateTo(
                   _scrollController.position.maxScrollExtent,
@@ -263,12 +285,6 @@ class _SliderTextFilter extends StatefulWidget {
 class _SliderTextFilterState extends State<_SliderTextFilter> {
   TextEditingController minValueController = new TextEditingController();
   TextEditingController maxValueController = new TextEditingController();
-
-  @override
-  void initState() {
-    widget.controller.values = new RangeValues(
-        widget.minSelected.toDouble(), widget.maxSelected.toDouble());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -412,19 +428,18 @@ class _SliderFilter extends StatefulWidget {
 
   _SliderFilter(
       {this.title = "title",
-        this.controller,
-        this.minSelected = 0,
-        this.maxSelected = 100,
-        this.step = 100,
-        this.aboluteMaxValue = 100,
-        this.isTime = false});
+      this.controller,
+      this.minSelected = 0,
+      this.maxSelected = 100,
+      this.step = 100,
+      this.aboluteMaxValue = 100,
+      this.isTime = false});
 
   @override
   _SliderFilterState createState() => _SliderFilterState();
 }
 
 class _SliderFilterState extends State<_SliderFilter> {
-
   @override
   void initState() {
     widget.controller.values = new RangeValues(
@@ -433,7 +448,6 @@ class _SliderFilterState extends State<_SliderFilter> {
 
   @override
   Widget build(BuildContext context) {
-
     return ResponsiveWidget(
       width: 260,
       height: 110,
@@ -454,31 +468,51 @@ class _SliderFilterState extends State<_SliderFilter> {
               flex: 4,
               child: !widget.isTime
                   ? MainRangeSlider(
-                minSelected: widget.controller.minSelected,
-                maxSelected: widget.controller.maxSelected,
-                step: widget.step.toDouble(),
-                min: 0,
-                max: widget.aboluteMaxValue.toDouble(),
-                controller: widget.controller,
-                onChanged: (values) {
-                  setState(() {
-                    widget.controller.values = values;
-                  });
-                },
-              )
+                      minSelected: widget.controller.minSelected,
+                      maxSelected: widget.controller.maxSelected,
+                      step: widget.step.toDouble(),
+                      min: 0,
+                      max: widget.aboluteMaxValue.toDouble(),
+                      controller: widget.controller,
+                      onChanged: (values) {
+                        setState(() {
+                          widget.controller.values = values;
+                        });
+                      },
+                    )
                   : TimeRangeSlider(
-                  controller: widget.controller,
-                  minSelected: widget.controller.minSelected,
-                  maxSelected: widget.controller.maxSelected,
-                  onChanged: (values) {
-                    setState(() {
-                      widget.controller.values = values;
-                    });
-                  }),
+                      controller: widget.controller,
+                      minSelected: widget.controller.minSelected,
+                      maxSelected: widget.controller.maxSelected,
+                      onChanged: (values) {
+                        setState(() {
+                          widget.controller.values = values;
+                        });
+                      }),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class FilterController {
+  MainRangeSliderController priceController;
+  MainRangeSliderController timeController;
+  var smokeController;
+  var petsController;
+  var acController;
+  var musicController;
+  bool isExpanded;
+
+  FilterController() {
+    priceController = new MainRangeSliderController();
+    timeController = new MainRangeSliderController();
+    smokeController = new _BooleanFilterController();
+    petsController = new _BooleanFilterController();
+    acController = new _BooleanFilterController();
+    musicController = new _BooleanFilterController();
+    isExpanded = false;
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -21,7 +22,6 @@ class SearchResults extends StatefulWidget {
 
   @override
   _SearchResultsState createState() => _SearchResultsState();
-
   SearchResults({Key key, this.searchInfo}) : super(key: key);
 }
 
@@ -30,6 +30,7 @@ class _SearchResultsState extends State<SearchResults> {
 
   bool priceAscending = true;
   bool dateAscending = true;
+  FilterController filterController = new FilterController();
 
   Container _buildDivider() {
     return Container(
@@ -86,6 +87,13 @@ class _SearchResultsState extends State<SearchResults> {
   }
 
   @override
+  void initState() {
+    filterController.priceController.values = new RangeValues(0, App.maxPriceFilter);
+    filterController.priceController.maxAbsolute = App.maxPriceFilter;
+    filterController.timeController.values = new RangeValues(0, 1440);
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Ride> rides;
     if (filteredRides != null) {
@@ -126,6 +134,7 @@ class _SearchResultsState extends State<SearchResults> {
                                   builder: (context) {
                                     return SearchResultsFilter(
                                       rides: widget.searchInfo.rides,
+                                      controller: filterController,
                                       onFiltered: filter,
                                     );
                                   });

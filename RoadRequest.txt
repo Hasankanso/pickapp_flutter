@@ -1,0 +1,19 @@
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
+
+
+
+void getDirection(String origin,String destination) async {
+  String googleMapsApiKey = 'AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0';
+
+  var url = 'https://maps.googleapis.com/maps/api/directions/json?';
+  var response = await http.get(url+ "origin=" + origin + "&destination=" + destination + "&mode=driving&alternatives=true" + "&key=" +googleMapsApiKey);
+  if (response.statusCode == 200) {
+    var jsonResponse = convert.jsonDecode(response.body);
+    print(jsonResponse);
+  } else {
+    print('Request failed with status: ${response.statusCode}.');
+  }
+}
+
+//in the pubspec.yaml add this dependency:   http: ^0.12.2
