@@ -348,6 +348,7 @@ class _DetailsState extends State<Details> {
           id: App.user.driver.id,
           cars: App.user.driver.cars,
           updated: App.user.driver.updated);
+
       cacheUser.person = cachePerson;
       userBox.add(cacheUser);
 
