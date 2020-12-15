@@ -128,13 +128,14 @@ class Ride {
         "maxLuggages": this.maxLuggages,
         "stopTime": this.stopTime,
         "leavingDate": this.leavingDate,
-        "car": this.car.id,
+        "car":"iubewfiubqfioqwnfpiiowfoif",
+       // "car": this.car.id,
         "comment": this.comment,
-        "user": this.user.id,
+        "user": App.user.id,
         "price": this.price,
         "to": this.to.toJson(),
         "from": this.from.toJson(),
-        "map": this.mapBase64
+        //"map": this.mapBase64
       };
 
   factory Ride.fromJson(Map<String, dynamic> json) {
