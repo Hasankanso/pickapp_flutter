@@ -54,12 +54,13 @@ class _ColorPickerState extends State<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: FloatingActionButton(
-      onPressed: _OpenColorPicker,
-      tooltip: Lang.getString(context, "Pick_a_Color"),
-      backgroundColor: _mainColor,
-    ));
+    return Tooltip(
+      message: Lang.getString(context, "Pick_a_Color"),
+      child: RaisedButton(
+        onPressed: _OpenColorPicker,
+        color: _mainColor,
+      ),
+    );
   }
 }
 

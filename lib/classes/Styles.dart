@@ -93,8 +93,9 @@ class Styles {
     );
   }
 
-  static TextStyle subValueTextStyle() {
-    return TextStyle(fontSize: _subValueFontSize, fontWeight: FontWeight.w400);
+  static TextStyle subValueTextStyle({color}) {
+    return TextStyle(
+        fontSize: _subValueFontSize, fontWeight: FontWeight.w400, color: color);
   }
 
   static double titleFontSize() {
@@ -108,6 +109,11 @@ class Styles {
   //primary color of app
   static Color primaryColor() {
     return Colors.blue;
+  }
+
+  //light primary color of app
+  static Color lightPrimaryColor() {
+    return Colors.lightBlue;
   }
 
   static Color secondaryColor() {

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/pages/AddCar.dart';
+import 'package:pickapp/pages/AddCar2.dart';
+import 'package:pickapp/pages/AddCar3.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
 import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/pages/AddRidePage4.dart';
@@ -58,6 +61,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Regions());
       case '/BecomeDriver':
         return MaterialPageRoute(builder: (_) => BecomeDriver());
+      case '/AddCar':
+        return MaterialPageRoute(builder: (_) => AddCar());
+      case "/AddCar2":
+        return MaterialPageRoute(builder: (_) => AddCar2());
+      case "/AddCar3":
+        return MaterialPageRoute(builder: (_) => AddCar3());
       case '/PrivacyPolicy':
         return MaterialPageRoute(builder: (_) => PrivacyPolicy());
       case '/TermAndConditions':

@@ -88,12 +88,11 @@ class _DetailsState extends State<Details> {
                             minLines: 1,
                             textInputAction: TextInputAction.next,
                             inputFormatters: [
-                              LengthLimitingTextInputFormatter(190),
+                              LengthLimitingTextInputFormatter(15),
                             ],
                             decoration: InputDecoration(
                               labelText: Lang.getString(context, "First_Name"),
-                              hintText:
-                                  Lang.getString(context, "Write_your_bio"),
+                              hintText: Lang.getString(context, "Name_hint"),
                               labelStyle: Styles.labelTextStyle(),
                               hintStyle: Styles.labelTextStyle(),
                             ),
@@ -124,7 +123,7 @@ class _DetailsState extends State<Details> {
                             decoration: InputDecoration(
                               labelText: Lang.getString(context, "Last_Name"),
                               hintText:
-                                  Lang.getString(context, "Write_your_bio"),
+                                  Lang.getString(context, "Last_name_hint"),
                               labelStyle: Styles.labelTextStyle(),
                               hintStyle: Styles.labelTextStyle(),
                             ),
@@ -213,7 +212,7 @@ class _DetailsState extends State<Details> {
                     child: DifferentSizeResponsiveRow(
                       children: [
                         Expanded(
-                          flex: 5,
+                          flex: 12,
                           child: DropdownButtonFormField<String>(
                             isExpanded: true,
                             decoration: InputDecoration(
@@ -235,58 +234,64 @@ class _DetailsState extends State<Details> {
                             }).toList(),
                           ),
                         ),
-                        Spacer(
-                          flex: 5,
-                        ),
                       ],
                     ),
                   ),
                   ResponsiveWidget.fullWidth(
                     height: 80,
-                    child: ResponsiveRow(
+                    child: DifferentSizeResponsiveRow(
                       children: [
-                        BirthDayPicker(
-                          _birthday,
-                          startDate: App.person.birthday,
+                        Expanded(
+                          flex: 12,
+                          child: BirthDayPicker(
+                            _birthday,
+                            startDate: App.person.birthday,
+                          ),
                         )
                       ],
                     ),
                   ),
                   ResponsiveWidget.fullWidth(
                     height: 128,
-                    child: ResponsiveRow(
+                    child: DifferentSizeResponsiveRow(
                       children: [
-                        TextFormField(
-                          controller: _bioController,
-                          minLines: 4,
-                          textInputAction: TextInputAction.done,
-                          maxLines: 20,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(190),
-                          ],
-                          decoration: InputDecoration(
-                            labelText: Lang.getString(context, "Bio"),
-                            hintText: Lang.getString(context, "Write_your_bio"),
-                            labelStyle: Styles.labelTextStyle(),
-                            hintStyle: Styles.labelTextStyle(),
-                          ),
-                          style: Styles.valueTextStyle(),
-                          validator: (value) {
-                            String valid = Validation.validate(value, context);
-                            String alpha = Validation.isAlphabeticIgnoreSpaces(
-                                context, value);
-                            String short =
-                                Validation.isShort(context, value, 20);
+                        Expanded(
+                          flex: 12,
+                          child: TextFormField(
+                            controller: _bioController,
+                            minLines: 4,
+                            textInputAction: TextInputAction.done,
+                            maxLines: 20,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(190),
+                            ],
+                            decoration: InputDecoration(
+                              labelText: Lang.getString(context, "Bio"),
+                              hintText:
+                                  Lang.getString(context, "Write_your_bio"),
+                              labelStyle: Styles.labelTextStyle(),
+                              hintStyle: Styles.labelTextStyle(),
+                            ),
+                            style: Styles.valueTextStyle(),
+                            validator: (value) {
+                              String valid =
+                                  Validation.validate(value, context);
+                              String alpha =
+                                  Validation.isAlphabeticIgnoreSpaces(
+                                      context, value);
+                              String short =
+                                  Validation.isShort(context, value, 20);
 
-                            if (valid != null)
-                              return valid;
-                            else if (alpha != null)
-                              return alpha;
-                            else if (short != null)
-                              return short;
-                            else
-                              return null;
-                          },
+                              if (valid != null)
+                                return valid;
+                              else if (alpha != null)
+                                return alpha;
+                              else if (short != null)
+                                return short;
+                              else
+                                return null;
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -344,7 +349,7 @@ class _DetailsState extends State<Details> {
       cachePerson.rates = null;
       cachePerson.upcomingRides = upcomingRides;
 
-      if(App.user.driver!=null){
+      if (App.user.driver != null) {
         cacheUser.driver = Driver(
             id: App.user.driver.id,
             cars: App.user.driver.cars,
