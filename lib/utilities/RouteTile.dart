@@ -10,12 +10,13 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class RouteTile extends ListTile {
   final Object o;
+  Function(String) callBack;
 
-  RouteTile(this.o);
+  RouteTile(this.o,this.callBack);
 
-  static Function(BuildContext, int) itemBuilder(List<RideRoute> c) {
+  static Function(BuildContext, int) itemBuilder(List<RideRoute> c,callBack) {
     return (context, index) {
-      return RouteTile(c[index]);
+      return RouteTile(c[index],callBack);
     };
   }
 
@@ -23,7 +24,7 @@ class RouteTile extends ListTile {
   Widget build(BuildContext context) {
     RideRoute r = o;
     return ResponsiveWidget.fullWidth(
-      height: 60,
+      height:70,
       child: Card(
         elevation: 2.0,
         shape: RoundedRectangleBorder(
@@ -43,18 +44,13 @@ class RouteTile extends ListTile {
           title: Row(
             children: [
               Text(
-                Lang.getString(context, "Route"),
-                style: Styles.labelTextStyle(),
-              ),
-              Text(
                 r.name,
                 style: Styles.valueTextStyle(),
               )
             ],
           ),
           onTap: () {
-            CustomToast()
-                .showShortToast(Lang.getString(context, "You_Choosed")+ r.name, backgroundColor :Colors.greenAccent);
+            callBack(r.points);
           },
         ),
       ),

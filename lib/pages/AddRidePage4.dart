@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -12,6 +15,8 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/RouteTile.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 class AddRidePage4 extends StatefulWidget {
   final Ride rideInfo;
@@ -22,28 +27,66 @@ class AddRidePage4 extends StatefulWidget {
   _AddRidePage4State createState() => _AddRidePage4State(rideInfo);
 }
 
+
 class _AddRidePage4State extends State<AddRidePage4> {
+
   final Ride rideInfo;
   final List<RideRoute> rideRoutes = new List();
 
-  RideRoute r1 = new RideRoute("Tyre-Beirut");
-
-  RideRoute r2 = new RideRoute("Tyre-Saida");
-
-  RideRoute r3 = new RideRoute("Saida-Tripoli");
-
-  RideRoute r4 = new RideRoute("Bent Jbeil-Beirut");
-
+  String mapUrl;
   _AddRidePage4State(this.rideInfo);
+
+  void getDirection(String origin,String destination) async {
+    String googleMapsApiKey = 'AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0';
+    var url = 'https://maps.googleapis.com/maps/api/directions/json?';
+    var response = await http.get(url+ "origin="+origin+"&destination="+destination+"&mode=driving&alternatives=true" + "&key=" +googleMapsApiKey);
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      List<dynamic> roads = jsonResponse["routes"];
+      for(int i=0;i<roads.length;i++){
+        rideRoutes.add(RideRoute(roads[i]["summary"],roads[i]["overview_polyline"]["points"]));
+      }
+      print(jsonResponse);
+    } else {
+       print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+
+  void getMap(String roadPoints) async {
+    String googleMapsApiKey = 'AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0';
+    var staticMapURL = "https://maps.googleapis.com/maps/api/staticmap?";
+    var response = await http.get(staticMapURL + "size=640x640" + "&path=enc%3A" + roadPoints +"&key=" + googleMapsApiKey);
+    if (response.statusCode == 200) {
+      mapUrl=staticMapURL + "size=640x640&path=enc%3A" +roadPoints+"&key=" + googleMapsApiKey;
+      setState(() {
+      });
+    } else {
+      print("Error");
+      return null;
+    }
+  }
+
   response(Ride result, int code, String message) {
     print(result);
   }
+@override
+   void initState()   {
+    super.initState();
+     getMapAndDirection();
+
+}
+void getMapAndDirection() async{
+  await getDirection(rideInfo.from.latitude.toString()+","+rideInfo.from.longitude.toString(),rideInfo.to.latitude.toString()+","+rideInfo.to.longitude.toString()
+  );
+  if(rideRoutes.length>0){
+  getMap(rideRoutes[0].points);
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
-    rideRoutes.add(r1);
-    rideRoutes.add(r2);
-    rideRoutes.add(r3);
 
     return MainScaffold(
       appBar: MainAppBar(
@@ -56,35 +99,45 @@ class _AddRidePage4State extends State<AddRidePage4> {
               height: 20,
             ),
             ResponsiveWidget.fullWidth(
-              height: 40,
-              child: ResponsiveRow(
-                children: [
+              height: 250,
+              child:
+              mapUrl ==null? Text("the sexy man") :
+              CachedNetworkImage(imageUrl: mapUrl,
+                imageBuilder: (context, imageProvider) {
+                return Image(image: imageProvider);
+              },
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) {
+                  return Image(image: AssetImage("lib/images/user.png"));
+                },),
+            ),
+            VerticalSpacer(
+              height: 20,
+            ),
+            ResponsiveWidget.fullWidth(
+              height: 25,
+              child: Center(
+                child:
                   Text(
                     Lang.getString(
-                            context, "Choose_A_Route_From_The_List_Below") +
+                        context, "Choose_A_Route_From_The_List_Below") +
                         " :",
                     style: Styles.labelTextStyle(),
                   )
-                ],
+                ,
               ),
             ),
             VerticalSpacer(
               height: 20,
             ),
+
             ResponsiveWidget.fullWidth(
               height: 220,
               child: Container(
                 color: Colors.grey[100],
                 child: ListBuilder(
                     list: rideRoutes,
-                    itemBuilder: RouteTile.itemBuilder(rideRoutes)),
-              ),
-            ),
-            ResponsiveWidget(
-              width: 250,
-              height: 250,
-              child: Image(
-               // image: NetworkImage("https://www.google.com/maps/dir/?api=1&origin=Space+Needle+Seattle+WA&destination=Pike+Place+Market+Seattle+WA&travelmode=bicycling"),
+                    itemBuilder: RouteTile.itemBuilder(rideRoutes,getMap)),
               ),
             ),
             VerticalSpacer(
