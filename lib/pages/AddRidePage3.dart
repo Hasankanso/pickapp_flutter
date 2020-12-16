@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
@@ -60,9 +61,7 @@ class _AddRidePage3State extends State<AddRidePage3>
                   style: Styles.labelTextStyle(),
                 ),
                 children: <Widget>[
-                  carTile("Honda", "Civic"),
-                  carTile("Jeep", "Laredo"),
-                  carTile("BMW", "E90"),
+                  carTile(App.user.driver.cars[0].name.toString(),App.user.driver.cars[0].name.toString()),
                 ],
               ),
             ),
@@ -117,11 +116,13 @@ class _AddRidePage3State extends State<AddRidePage3>
               child: MainButton(
                 text_key: "Next",
                 onPressed: () {
+
                   int seats = personController.chosenNumber;
                   int luggage = luggageController.chosenNumber;
-
                   rideInfo.availableSeats = seats;
                   rideInfo.availableLuggages = luggage;
+                  rideInfo.car=App.user.driver.cars[0];
+                  //rideInfo.car=null;
                   if(priceController.text!=""){
                     int price = int.parse(priceController.text);
                     rideInfo.price = price ;

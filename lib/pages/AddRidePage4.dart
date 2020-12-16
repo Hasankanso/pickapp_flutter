@@ -157,11 +157,10 @@ void getMapAndDirection() async{
               child: MainButton(
                 text_key: "DONE",
                 onPressed: () {
-                  String routeId = "";
-                  rideInfo.setMap(null) ;
+                  rideInfo.mapUrl=mapUrl ;
                   Request<Ride> request=AddRide(rideInfo);
                   request.send(response);
-                  Navigator.of(context).pushNamed("/");
+               //   Navigator.of(context).pushNamed("/");
                   CustomToast().showShortToast(
                       Lang.getString(context, "Ride_Added"),
                       backgroundColor : Colors.greenAccent);
