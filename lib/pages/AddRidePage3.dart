@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -29,6 +30,7 @@ class _AddRidePage3State extends State<AddRidePage3>
   NumberController luggageController = NumberController();
   final priceController = TextEditingController();
   String selectedCar;
+  Car car;
 
   _AddRidePage3State(this.rideInfo);
 
@@ -60,8 +62,8 @@ class _AddRidePage3State extends State<AddRidePage3>
                   selectedCar,
                   style: Styles.labelTextStyle(),
                 ),
-                children: <Widget>[
-                  carTile(App.user.driver.cars[0].name.toString(),App.user.driver.cars[0].name.toString()),
+                children:[
+                  getCar(),
                 ],
               ),
             ),
@@ -122,7 +124,7 @@ class _AddRidePage3State extends State<AddRidePage3>
                   rideInfo.availableSeats = seats;
                   rideInfo.availableLuggages = luggage;
                   rideInfo.car=App.user.driver.cars[0];
-                  //rideInfo.car=null;
+                  rideInfo.car=car;
                   if(priceController.text!=""){
                     int price = int.parse(priceController.text);
                     rideInfo.price = price ;
@@ -141,7 +143,7 @@ class _AddRidePage3State extends State<AddRidePage3>
     );
   }
 
-  Widget carTile(String brand, String name) {
+  Widget carTile(String carName,Car c) {
     return Card(
       elevation: 2.0,
       shape: RoundedRectangleBorder(
@@ -161,28 +163,27 @@ class _AddRidePage3State extends State<AddRidePage3>
         title: Row(
           children: [
             Text(
-              "Car : ",
+              "Car : "+ carName,
               style: Styles.labelTextStyle(),
             ),
-            Text(
-              brand + "  /",
-              style: Styles.valueTextStyle(),
-            ),
-            Text(
-              name,
-              style: Styles.valueTextStyle(),
-            )
           ],
         ),
         onTap: () {
           CustomToast().showShortToast(
-              Lang.getString(context, "You_Choosed") + name,
+              Lang.getString(context, "You_Choosed") + carName,
               backgroundColor : Colors.greenAccent);
           setState(() {});
-          selectedCar = brand + " / " + name;
+          selectedCar = carName;
+          car=c;
           MainExpansionTileState.of(context).collapse();
         },
       ),
     );
+  }
+
+  Widget  getCar(){
+    for(int i=0;i<App.user.driver.cars.length;i++){
+      return  carTile(App.user.driver.cars[i].brand+" / "+App.user.driver.cars[i].name,App.user.driver.cars[i]);
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
@@ -206,7 +207,7 @@ class _AddRideState extends State<AddRide> {
                     bool isAc = acController.isOn;
                     bool isMusic = musicController.isOn;
                     Ride rideInfo = new Ride();
-                    rideInfo.user= App.user;
+                    rideInfo.user = App.user;
                     rideInfo.to = to;
                     rideInfo.from = from;
                     rideInfo.leavingDate = date;
@@ -214,12 +215,20 @@ class _AddRideState extends State<AddRide> {
                     rideInfo.petsAllowed = isPets;
                     rideInfo.musicAllowed = isMusic;
                     rideInfo.acAllowed = isAc;
-                    if(!App.isLoggedIn){
-                      Navigator.of(context)
-                          .pushNamed("/AddRidePage2", arguments: rideInfo);
+                    if (!App.isLoggedIn) {
+                      if (App.user.driver != null) {
+                        Navigator.of(context)
+                            .pushNamed("/AddRidePage2", arguments: rideInfo);
+                      } else
+                        Navigator.of(context).pushNamed("/Profile");
+                      CustomToast().showErrorToast("Become a driver first");
                     }
-                    else LoginRegister();
+                    // else LoginRegister();
+                    else {
+                      CustomToast().showErrorToast("Login first");
+                      Navigator.of(context).pushNamed("/LoginRegister");
 
+                    }
                   },
                 ),
               ),
