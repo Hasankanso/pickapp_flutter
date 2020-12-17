@@ -109,8 +109,9 @@ class _LoginState extends State<Login> {
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                           LengthLimitingTextInputFormatter(App
-                              .countriesInformations[
-                                  _countryCode == "961" ? "لبنان" : "Deutschland"]
+                              .countriesInformations[_countryCode == "961"
+                                  ? "لبنان"
+                                  : "Deutschland"]
                               .digits),
                         ],
                         controller: _phone,
@@ -279,23 +280,29 @@ class _LoginState extends State<Login> {
         ]).show();
   }
 
-  void response(User u, int code, String message, context) {
+  Future<void> response(User u, int code, String message, context) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
     } else {
+      App.user = u;
+
       final userBox = Hive.box("user");
       User cacheUser = u;
       Person cachePerson = u.person;
       cachePerson.rates = null;
+      print(u.driver);
       if (u.driver != null) {
         cacheUser.driver = Driver(
             id: u.driver.id, cars: u.driver.cars, updated: u.driver.updated);
       }
       cacheUser.person = cachePerson;
-      userBox.add(cacheUser);
+      if (!userBox.containsKey(0)) {
+        await userBox.put(0, cacheUser);
+      } else {
+        userBox.add(cacheUser);
+      }
 
-      App.user = u;
       App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
       App.isLoggedInNotifier.notifyListeners();

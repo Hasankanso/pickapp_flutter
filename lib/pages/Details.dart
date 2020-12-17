@@ -336,7 +336,7 @@ class _DetailsState extends State<Details> {
     );
   }
 
-  _response(Person result, int code, String p3) {
+  _response(Person result, int code, String p3) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
     } else {
@@ -357,7 +357,8 @@ class _DetailsState extends State<Details> {
       }
 
       cacheUser.person = cachePerson;
-      userBox.add(cacheUser);
+
+      await userBox.put(0, cacheUser);
 
       result.upcomingRides = upcomingRides;
       result.rates = rates;

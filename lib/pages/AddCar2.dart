@@ -121,22 +121,23 @@ class RadioItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(9.846153846153847),
       ),
       margin: EdgeInsets.all(10),
-      child: InkWell(
-        onTap: () {
-          this._isSelected = true;
-          _select(_index);
-        },
-        child: Container(
-          width: 64,
-          height: 62,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(9.846153846153847),
-            gradient: _isSelected
-                ? LinearGradient(
-                    colors: [Styles.lightPrimaryColor(), Styles.primaryColor()],
-                  )
-                : null,
-          ),
+      child: Container(
+        width: 64,
+        height: 62,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(9.846153846153847),
+          gradient: _isSelected
+              ? LinearGradient(
+                  colors: [Styles.lightPrimaryColor(), Styles.primaryColor()],
+                )
+              : null,
+        ),
+        child: InkWell(
+          onTap: () {
+            this._isSelected = true;
+            _select(_index);
+          },
+          borderRadius: BorderRadius.circular(9.846153846153847),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

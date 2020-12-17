@@ -83,6 +83,7 @@ class MyAppState extends State<MyApp> {
             if (box.length != 0) {
               App.user = box.getAt(0) as User;
               App.isLoggedIn = true;
+              App.isLoggedInNotifier.value = true;
             }
             return MaterialApp(
               title: App.appName,
