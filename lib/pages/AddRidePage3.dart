@@ -1,8 +1,10 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -28,6 +30,7 @@ class _AddRidePage3State extends State<AddRidePage3>
   NumberController luggageController = NumberController();
   final priceController = TextEditingController();
   String selectedCar;
+  Car car;
 
   _AddRidePage3State(this.rideInfo);
 
@@ -59,10 +62,8 @@ class _AddRidePage3State extends State<AddRidePage3>
                   selectedCar,
                   style: Styles.labelTextStyle(),
                 ),
-                children: <Widget>[
-                  carTile("Honda", "Civic"),
-                  carTile("Jeep", "Laredo"),
-                  carTile("BMW", "E90"),
+                children: [
+                  getCar(),
                 ],
               ),
             ),
@@ -119,18 +120,17 @@ class _AddRidePage3State extends State<AddRidePage3>
                 onPressed: () {
                   int seats = personController.chosenNumber;
                   int luggage = luggageController.chosenNumber;
-
                   rideInfo.availableSeats = seats;
                   rideInfo.availableLuggages = luggage;
-                  if(priceController.text!=""){
+                  rideInfo.car = App.user.driver.cars[0];
+                  rideInfo.car = car;
+                  if (priceController.text != "") {
                     int price = int.parse(priceController.text);
-                    rideInfo.price = price ;
+                    rideInfo.price = price;
                     Navigator.of(context)
                         .pushNamed("/AddRidePage4", arguments: rideInfo);
-                  }
-                  else CustomToast().showErrorToast("Enter Price first");
-
-
+                  } else
+                    CustomToast().showErrorToast("Enter Price first");
                 },
               ),
             ),
@@ -140,7 +140,7 @@ class _AddRidePage3State extends State<AddRidePage3>
     );
   }
 
-  Widget carTile(String brand, String name) {
+  Widget carTile(String carName, Car c) {
     return Card(
       elevation: 2.0,
       shape: RoundedRectangleBorder(
@@ -160,28 +160,29 @@ class _AddRidePage3State extends State<AddRidePage3>
         title: Row(
           children: [
             Text(
-              "Car : ",
+              "Car : " + carName,
               style: Styles.labelTextStyle(),
             ),
-            Text(
-              brand + "  /",
-              style: Styles.valueTextStyle(),
-            ),
-            Text(
-              name,
-              style: Styles.valueTextStyle(),
-            )
           ],
         ),
         onTap: () {
           CustomToast().showShortToast(
-              Lang.getString(context, "You_Choosed") + name,
-              backgroundColor : Colors.greenAccent);
+              Lang.getString(context, "You_Choosed") + carName,
+              backgroundColor: Colors.greenAccent);
           setState(() {});
-          selectedCar = brand + " / " + name;
+          selectedCar = carName;
+          car = c;
           MainExpansionTileState.of(context).collapse();
         },
       ),
     );
+  }
+
+  Widget getCar() {
+    for (int i = 0; i < App.user.driver.cars.length; i++) {
+      return carTile(
+          App.user.driver.cars[i].brand + " / " + App.user.driver.cars[i].name,
+          App.user.driver.cars[i]);
+    }
   }
 }

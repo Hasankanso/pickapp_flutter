@@ -76,7 +76,6 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   child: Text(
                     Lang.getString(context, "Do_You_Want_To_Stop_Over"),
                     style: Styles.labelTextStyle(),
-
                   ),
                 ),
                 Expanded(
@@ -159,18 +158,16 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   String desc = descController.text;
                   rideInfo.kidSeat = isKidsSeat;
                   rideInfo.comment = desc;
-                  if(isStoping==true&&timeController.text!=""){
+                  if (isStoping == true && timeController.text != "") {
                     int time = int.parse(timeController.text);
                     rideInfo.stopTime = time;
                     Navigator.of(context)
                         .pushNamed("/AddRidePage3", arguments: rideInfo);
-                  }
-                  else if(isStoping==false){
+                  } else if (isStoping == false) {
                     Navigator.of(context)
                         .pushNamed("/AddRidePage3", arguments: rideInfo);
-                  }
-                  else CustomToast().showErrorToast("Enter the stopping time !");
-
+                  } else
+                    CustomToast().showErrorToast("Enter the stopping time !");
                 },
               ),
             ),

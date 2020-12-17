@@ -13,6 +13,7 @@ import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
+import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Regions.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/SearchResults.dart';
@@ -74,6 +75,8 @@ class RouteGenerator {
       case '/RideResults':
         return MaterialPageRoute(
             builder: (_) => SearchResults(searchInfo: args));
+      case '/Profile':
+        return MaterialPageRoute(builder: (_) => Profile());
     }
   }
 }

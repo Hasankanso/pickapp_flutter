@@ -9,6 +9,7 @@ class NumberPicker extends StatefulWidget {
   String _title;
   bool disabled;
   NumberController controller;
+
   NumberPicker(this.controller, this._title, this._min, this._max,
       {defaultCounter, this.disabled = false}) {
     if (disabled) {
@@ -23,6 +24,7 @@ class NumberPicker extends StatefulWidget {
       controller.chosenNumber = _min;
     }
   }
+
   @override
   _NumberPickerState createState() => _NumberPickerState();
 }

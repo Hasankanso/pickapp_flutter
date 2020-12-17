@@ -116,6 +116,7 @@ class Ride {
     this.car = car;
     this.updated = updated;
   }
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         'kidSeat': this.kidSeat,
         "acAllowed": this.acAllowed,
@@ -128,14 +129,13 @@ class Ride {
         "maxLuggages": this.maxLuggages,
         "stopTime": this.stopTime,
         "leavingDate": this.leavingDate,
-        "car":"iubewfiubqfioqwnfpiiowfoif",
-       // "car": this.car.id,
+        "car": this.car.id,
         "comment": this.comment,
         "user": App.user.id,
         "price": this.price,
         "to": this.to.toJson(),
         "from": this.from.toJson(),
-        //"map": this.mapBase64
+        "map": this.mapUrl
       };
 
   factory Ride.fromJson(Map<String, dynamic> json) {
@@ -403,6 +403,8 @@ class Ride {
   }
 
   CountryInformations get countryInformations => person.countryInformations;
+
   Driver get driver => user.driver;
+
   Person get person => user.person;
 }
