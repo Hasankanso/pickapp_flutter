@@ -4,13 +4,19 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
+import 'package:pickapp/dataObjects/Car.dart';
+import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainImagePicker.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar extends StatefulWidget {
+  Driver driver;
+  AddCar({this.driver});
+
   @override
   _AddCarState createState() => _AddCarState();
 }
@@ -47,7 +53,7 @@ class _AddCarState extends State<AddCar> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 70,
+                height: 100,
                 child: ResponsiveRow(
                   children: [
                     TextFormField(
@@ -77,7 +83,7 @@ class _AddCarState extends State<AddCar> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 70,
+                height: 100,
                 child: ResponsiveRow(
                   children: [
                     TextFormField(
@@ -108,7 +114,7 @@ class _AddCarState extends State<AddCar> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 70,
+                height: 100,
                 child: ResponsiveRow(
                   children: [
                     TextFormField(
@@ -156,9 +162,23 @@ class _AddCarState extends State<AddCar> {
                 isRequest: false,
                 text_key: "Next",
                 onPressed: () {
-                  //if (_formKey.currentState.validate()) {
-                  Navigator.pushNamed(context, "/AddCar2");
-                  //s}
+                  if (_formKey.currentState.validate()) {
+                    widget.driver.cars = [
+                      Car(
+                        name: _name.text,
+                        brand: _brand.text,
+                        year: int.parse(_year.text),
+                      )
+                    ];
+                    if (_imageController.pickedImage == null) {
+                      return CustomToast()
+                          .showErrorToast("Please select an image");
+                    }
+                    widget.driver.cars[0]
+                        .setPictureFile(_imageController.pickedImage);
+                    Navigator.pushNamed(context, "/AddCar2",
+                        arguments: widget.driver);
+                  }
                 },
               ),
             ),

@@ -1,20 +1,35 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/requests/BecomeDriverRequest.dart';
+import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/ColorPicker.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar3 extends StatefulWidget {
+  Driver driver;
+  AddCar3({this.driver});
+
   @override
   _AddCar3State createState() => _AddCar3State();
 }
 
 class _AddCar3State extends State<AddCar3> {
   ColorController _colorController = ColorController();
-  NumberController personController = NumberController();
-  NumberController luggageController = NumberController();
+  NumberController _seatsController = NumberController();
+  NumberController _luggageController = NumberController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +39,8 @@ class _AddCar3State extends State<AddCar3> {
       ),
       body: Column(
         children: [
-          ResponsiveWidget.fullWidth(
-            height: 60,
-            child: DifferentSizeResponsiveRow(
-              children: [
-                Expanded(
-                    flex: 20,
-                    child: NumberPicker(personController, "Persons", 1, 8)),
-              ],
-            ),
+          VerticalSpacer(
+            height: 30,
           ),
           ResponsiveWidget.fullWidth(
             height: 60,
@@ -40,9 +48,25 @@ class _AddCar3State extends State<AddCar3> {
               children: [
                 Expanded(
                     flex: 20,
-                    child: NumberPicker(luggageController, "Luggage", 1, 8)),
+                    child: NumberPicker(_seatsController, "Persons", 1, 8)),
               ],
             ),
+          ),
+          VerticalSpacer(
+            height: 30,
+          ),
+          ResponsiveWidget.fullWidth(
+            height: 60,
+            child: DifferentSizeResponsiveRow(
+              children: [
+                Expanded(
+                    flex: 20,
+                    child: NumberPicker(_luggageController, "Luggage", 1, 8)),
+              ],
+            ),
+          ),
+          VerticalSpacer(
+            height: 30,
           ),
           ResponsiveWidget.fullWidth(
             height: 60,
@@ -71,6 +95,66 @@ class _AddCar3State extends State<AddCar3> {
           ),
         ],
       ),
+      bottomNavigationBar: ResponsiveWidget.fullWidth(
+        height: 80,
+        child: Column(
+          children: [
+            ResponsiveWidget(
+              width: 270,
+              height: 50,
+              child: MainButton(
+                isRequest: false,
+                text_key: "Edit",
+                onPressed: () {
+                  widget.driver.cars[0].maxLuggage =
+                      _luggageController.chosenNumber;
+                  widget.driver.cars[0].maxSeats =
+                      _seatsController.chosenNumber;
+                  widget.driver.cars[0].color =
+                      _colorController.pickedColor.value;
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  );
+                  Request<Driver> request = BecomeDriverRequest(widget.driver);
+                  request.send(_response);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  _response(Driver p1, int code, String message) async {
+    if (code != HttpStatus.ok) {
+      CustomToast().showErrorToast(message);
+      Navigator.pop(context);
+    } else {
+      final userBox = Hive.box("user");
+      User cacheUser = App.user;
+      Person cachePerson = App.person;
+      cachePerson.rates = null;
+      cacheUser.driver = p1;
+      cacheUser.person = cachePerson;
+
+      if (!userBox.containsKey(0)) {
+        await userBox.put(0, cacheUser);
+      } else {
+        userBox.add(cacheUser);
+      }
+
+      App.user.driver = p1;
+      App.isDriverNotifier.value = true;
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+      Navigator.popUntil(context, (route) => route.isFirst);
+    }
   }
 }

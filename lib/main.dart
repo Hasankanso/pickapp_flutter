@@ -10,6 +10,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
@@ -24,6 +25,7 @@ Future<void> main() async {
   Hive.registerAdapter(DriverAdapter());
   Hive.registerAdapter(CountryInformationsAdapter());
   Hive.registerAdapter(CarAdapter());
+  Hive.registerAdapter(MainLocationAdapter());
 
   await Hive.openBox('user');
   runApp(MyApp());
@@ -65,6 +67,7 @@ class MyAppState extends State<MyApp> {
     }
     if (Cache.locale != null) _locale = Locale(Cache.locale);
     App.isLoggedInNotifier = ValueNotifier<bool>(App.isLoggedIn);
+    App.isDriverNotifier = ValueNotifier<bool>(App.driver != null);
   }
 
   @override

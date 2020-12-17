@@ -2,14 +2,12 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class BecomeDriverRequest extends Request<Driver> {
   Driver _driver;
-  User _user;
 
-  BecomeDriverRequest(this._driver, this._user) {
+  BecomeDriverRequest(this._driver) {
     httpPath = "/DriverBusiness/BecomeDriver";
   }
 
@@ -21,7 +19,7 @@ class BecomeDriverRequest extends Request<Driver> {
   @override
   Map<String, dynamic> getJson() {
     var driverJ = _driver.toJson();
-    driverJ["user"] = _user.id;
+    driverJ["user"] = App.user.id;
     return driverJ;
   }
 
@@ -31,7 +29,7 @@ class BecomeDriverRequest extends Request<Driver> {
     if (!Validation.isNullOrEmpty(validateUser)) {
       return validateUser;
     }
-    if (App.calculateAge(_user.person.birthday) < 18) {
+    if (App.calculateAge(App.person.birthday) < 18) {
       return "You can't be driver since you are under 18 years old";
     }
     if (_driver.regions[0] == null) {

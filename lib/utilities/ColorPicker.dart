@@ -11,8 +11,15 @@ class ColorPicker extends StatefulWidget {
 }
 
 class _ColorPickerState extends State<ColorPicker> {
-  ColorSwatch _tempMainColor;
-  ColorSwatch _mainColor = Styles.primaryColor();
+  Color _tempMainColor;
+  Color _mainColor;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _mainColor = widget._controller.pickedColor;
+  }
+
   void _OpenColorPicker() {
     showDialog(
       context: context,
@@ -54,16 +61,14 @@ class _ColorPickerState extends State<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Tooltip(
-      message: Lang.getString(context, "Pick_a_Color"),
-      child: RaisedButton(
-        onPressed: _OpenColorPicker,
-        color: _mainColor,
-      ),
+    return FloatingActionButton(
+      onPressed: _OpenColorPicker,
+      backgroundColor: _mainColor,
+      tooltip: Lang.getString(context, "Pick_a_Color"),
     );
   }
 }
 
 class ColorController {
-  ColorSwatch pickedColor;
+  Color pickedColor = Styles.primaryColor();
 }

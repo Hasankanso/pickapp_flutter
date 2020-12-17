@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar2 extends StatefulWidget {
+  Driver driver;
+  AddCar2({this.driver});
   @override
   _AddCar2State createState() => _AddCar2State();
 }
 
 class _AddCar2State extends State<AddCar2> {
-  String type;
-  List<bool> _types = [false, false, false, false];
+  String _type;
+  List<bool> _typesBool = [false, false, false, false];
+  List<String> _typesNames = ["Sedan", "SUV", "Hatchback", "Van"];
 
   selectType(int index) {
     setState(() {
-      _types = [false, false, false, false];
-      _types[index] = true;
+      _typesBool = [false, false, false, false];
+      _typesBool[index] = true;
+      _type = _typesNames[index];
     });
   }
 
@@ -47,7 +53,8 @@ class _AddCar2State extends State<AddCar2> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RadioItem(_types[0], 'Sedan', 'lib/images/car2', selectType, 0)
+                RadioItem(_typesBool[0], _typesNames[0], 'lib/images/car2',
+                    selectType, 0)
               ],
             ),
           ),
@@ -56,7 +63,8 @@ class _AddCar2State extends State<AddCar2> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RadioItem(_types[1], 'SUV', 'lib/images/car3', selectType, 1),
+                RadioItem(_typesBool[1], _typesNames[1], 'lib/images/car3',
+                    selectType, 1),
               ],
             ),
           ),
@@ -65,8 +73,8 @@ class _AddCar2State extends State<AddCar2> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RadioItem(
-                    _types[2], 'Hatchback', 'lib/images/car1', selectType, 2),
+                RadioItem(_typesBool[2], _typesNames[2], 'lib/images/car1',
+                    selectType, 2),
               ],
             ),
           ),
@@ -75,7 +83,8 @@ class _AddCar2State extends State<AddCar2> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                RadioItem(_types[3], 'Van', 'lib/images/car4', selectType, 3),
+                RadioItem(_typesBool[3], _typesNames[3], 'lib/images/car4',
+                    selectType, 3),
               ],
             ),
           ),
@@ -92,7 +101,15 @@ class _AddCar2State extends State<AddCar2> {
                 isRequest: false,
                 text_key: "Next",
                 onPressed: () {
-                  Navigator.pushNamed(context, "/AddCar3");
+                  if (_type == null) {
+                    return CustomToast().showErrorToast("Please select type");
+                  }
+                  widget.driver.cars[0].type = _type;
+                  Navigator.pushNamed(
+                    context,
+                    "/AddCar3",
+                    arguments: widget.driver,
+                  );
                 },
               ),
             ),

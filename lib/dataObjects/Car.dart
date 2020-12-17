@@ -14,7 +14,7 @@ class Car {
   @HiveField(1)
   String _name;
   @HiveField(2)
-  String _color;
+  int _color;
   @HiveField(3)
   String _brand;
   @HiveField(4)
@@ -29,12 +29,15 @@ class Car {
   int _maxSeats;
   @HiveField(9)
   DateTime _updated;
+  @HiveField(10)
+  String _type;
 
   Car({
     String id,
     String name,
     String color,
     String brand,
+    String type,
     String carPictureUrl,
     int year,
     int maxLuggage,
@@ -46,6 +49,7 @@ class Car {
     this.name = name;
     this.color = color;
     this.brand = brand;
+    this.type = type;
     this.carPictureUrl = carPictureUrl;
     this.year = year;
     this.maxLuggage = maxLuggage;
@@ -61,6 +65,7 @@ class Car {
         'maxSeats': this.maxSeats,
         'brand': this.brand,
         'name': this.name,
+        'type': this.type,
         'color': this.color,
         'picture': this.pictureBase64,
       };
@@ -68,6 +73,7 @@ class Car {
   Car.fromJson(Map<String, dynamic> json)
       : _id = json["objectId"],
         _name = json["name"],
+        _type = json["type"],
         _year = json['year'],
         _maxLuggage = json['maxLuggage'],
         _maxSeats = json['maxSeats'],
@@ -87,15 +93,14 @@ class Car {
     if (Validation.isNullOrEmpty(car.name) || car.name.length < 2) {
       return "Invalid car name";
     }
-
+    //todo carr type validation
+    if (Validation.isNullOrEmpty(car.type) || car.name.length < 2) {
+      return "Invalid car type";
+    }
     if (Validation.isNullOrEmpty(car.brand) || car.brand.length < 2) {
       return "Invalid car brand";
     }
 
-    var regexItem = new RegExp("/^#[0-9A-F]{6}");
-    if (regexItem.hasMatch(car.color)) {
-      return "Invalid color";
-    }
     if (Validation.isNullOrEmpty(car.pictureBase64)) {
       return "Please enter your car picture";
     }
@@ -106,6 +111,12 @@ class Car {
 
   set id(String value) {
     _id = value;
+  }
+
+  String get type => _type;
+
+  set type(String value) {
+    _type = value;
   }
 
   DateTime get updated => _updated;
@@ -180,6 +191,6 @@ class Car {
 
   @override
   String toString() {
-    return "nice one";
+    return 'Car{_id: $_id, _name: $_name, _color: $_color, _brand: $_brand, _carPictureUrl: $_carPictureUrl, _pictureBase64: $_pictureBase64, _year: $_year, _maxLuggage: $_maxLuggage, _maxSeats: $_maxSeats, _updated: $_updated, _type: $_type}';
   }
 }

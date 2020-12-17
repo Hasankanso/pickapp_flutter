@@ -225,10 +225,18 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ),
-                              if (App.driver != null)
-                                DriverInfo()
-                              else
-                                PassengerInfo(),
+                              ValueListenableBuilder(
+                                builder: (BuildContext context, bool isDriver,
+                                    Widget child) {
+                                  if (isDriver) {
+                                    print(App.driver.toString());
+                                    return DriverInfo();
+                                  } else {
+                                    return PassengerInfo();
+                                  }
+                                },
+                                valueListenable: App.isDriverNotifier,
+                              ),
                             ],
                           ),
                         ),

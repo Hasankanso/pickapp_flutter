@@ -30,6 +30,7 @@ abstract class Request<T> {
       );
 
       var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
+      print(decodedResponse);
       if (response.body.contains("code")) {
         //extracting code and message
         var jCode =
@@ -37,7 +38,6 @@ abstract class Request<T> {
         var jMessage = decodedResponse["message"];
 
         if (jCode == null) {
-          print(1);
           var jbody = decodedResponse["body"];
 
           if (jbody != null) {

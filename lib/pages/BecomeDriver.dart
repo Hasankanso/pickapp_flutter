@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/Line.dart';
@@ -120,7 +121,14 @@ class _BecomeDriverState extends State<BecomeDriver> {
                 isRequest: false,
                 text_key: "Next",
                 onPressed: () {
-                  Navigator.pushNamed(context, "/AddCar");
+                  for (int i = 0; i < _regionsControllers.length; i++) {
+                    _regions[i].name = _regionsControllers[i].description;
+                    _regions[i].placeId = _regionsControllers[i].placeId;
+                    _regions[i].longitude = _regionsControllers[i].location.lng;
+                    _regions[i].latitude = _regionsControllers[i].location.lat;
+                  }
+                  Navigator.pushNamed(context, "/AddCar",
+                      arguments: Driver(regions: _regions));
                 },
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -24,9 +25,23 @@ class CarListTile extends ListTile {
         onTap: () {
           MainExpansionTileState.of(context).collapse();
         },
-        leading: CircleAvatar(
-          radius: ScreenUtil().setSp(30),
-          backgroundImage: AssetImage(car.carPictureUrl),
+        leading: CachedNetworkImage(
+          imageUrl: car.carPictureUrl,
+          imageBuilder: (context, imageProvider) {
+            return CircleAvatar(
+              radius: ScreenUtil().setSp(30),
+              backgroundImage: imageProvider,
+            );
+          },
+          placeholder: (context, url) => CircleAvatar(
+            radius: ScreenUtil().setSp(30),
+            child: CircularProgressIndicator(),
+          ),
+          errorWidget: (context, url, error) {
+            return Image(
+              image: AssetImage("lib/images/user.png"),
+            );
+          },
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

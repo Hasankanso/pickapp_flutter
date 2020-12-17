@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -36,9 +35,7 @@ class LoginRegister extends StatelessWidget {
                             child: MainButton(
                               text_key: "Login",
                               onPressed: () {
-                                print(App.person);
-
-//                                Navigator.of(context).pushNamed('/Login');
+                                Navigator.of(context).pushNamed('/Login');
                               },
                             ),
                           ),

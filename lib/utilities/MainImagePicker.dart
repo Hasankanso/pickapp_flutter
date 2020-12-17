@@ -47,7 +47,9 @@ class _MainImagePickerState extends State<MainImagePicker> {
                       return Image(image: AssetImage("lib/images/user.png"));
                     },
                   )
-                : Image(image: AssetImage("lib/images/user.png")),
+                : _image != null
+                    ? Image(image: AssetImage(_image.path))
+                    : Image(image: AssetImage("lib/images/user.png")),
           ),
           Positioned(
             bottom: 5,
