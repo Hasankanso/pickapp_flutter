@@ -116,6 +116,7 @@ class Ride {
     this.car = car;
     this.updated = updated;
   }
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         'kidSeat': this.kidSeat,
         "acAllowed": this.acAllowed,
@@ -402,6 +403,8 @@ class Ride {
   }
 
   CountryInformations get countryInformations => person.countryInformations;
+
   Driver get driver => user.driver;
+
   Person get person => user.person;
 }

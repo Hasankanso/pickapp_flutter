@@ -62,7 +62,7 @@ class _AddRidePage3State extends State<AddRidePage3>
                   selectedCar,
                   style: Styles.labelTextStyle(),
                 ),
-                children:[
+                children: [
                   getCar(),
                 ],
               ),
@@ -118,22 +118,19 @@ class _AddRidePage3State extends State<AddRidePage3>
               child: MainButton(
                 text_key: "Next",
                 onPressed: () {
-
                   int seats = personController.chosenNumber;
                   int luggage = luggageController.chosenNumber;
                   rideInfo.availableSeats = seats;
                   rideInfo.availableLuggages = luggage;
-                  rideInfo.car=App.user.driver.cars[0];
-                  rideInfo.car=car;
-                  if(priceController.text!=""){
+                  rideInfo.car = App.user.driver.cars[0];
+                  rideInfo.car = car;
+                  if (priceController.text != "") {
                     int price = int.parse(priceController.text);
-                    rideInfo.price = price ;
+                    rideInfo.price = price;
                     Navigator.of(context)
                         .pushNamed("/AddRidePage4", arguments: rideInfo);
-                  }
-                  else CustomToast().showErrorToast("Enter Price first");
-
-
+                  } else
+                    CustomToast().showErrorToast("Enter Price first");
                 },
               ),
             ),
@@ -143,7 +140,7 @@ class _AddRidePage3State extends State<AddRidePage3>
     );
   }
 
-  Widget carTile(String carName,Car c) {
+  Widget carTile(String carName, Car c) {
     return Card(
       elevation: 2.0,
       shape: RoundedRectangleBorder(
@@ -163,7 +160,7 @@ class _AddRidePage3State extends State<AddRidePage3>
         title: Row(
           children: [
             Text(
-              "Car : "+ carName,
+              "Car : " + carName,
               style: Styles.labelTextStyle(),
             ),
           ],
@@ -171,19 +168,21 @@ class _AddRidePage3State extends State<AddRidePage3>
         onTap: () {
           CustomToast().showShortToast(
               Lang.getString(context, "You_Choosed") + carName,
-              backgroundColor : Colors.greenAccent);
+              backgroundColor: Colors.greenAccent);
           setState(() {});
           selectedCar = carName;
-          car=c;
+          car = c;
           MainExpansionTileState.of(context).collapse();
         },
       ),
     );
   }
 
-  Widget  getCar(){
-    for(int i=0;i<App.user.driver.cars.length;i++){
-      return  carTile(App.user.driver.cars[i].brand+" / "+App.user.driver.cars[i].name,App.user.driver.cars[i]);
+  Widget getCar() {
+    for (int i = 0; i < App.user.driver.cars.length; i++) {
+      return carTile(
+          App.user.driver.cars[i].brand + " / " + App.user.driver.cars[i].name,
+          App.user.driver.cars[i]);
     }
   }
 }

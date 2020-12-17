@@ -227,7 +227,6 @@ class _AddRideState extends State<AddRide> {
                     else {
                       CustomToast().showErrorToast("Login first");
                       Navigator.of(context).pushNamed("/LoginRegister");
-
                     }
                   },
                 ),
