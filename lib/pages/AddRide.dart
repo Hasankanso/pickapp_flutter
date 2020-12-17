@@ -215,19 +215,22 @@ class _AddRideState extends State<AddRide> {
                     rideInfo.petsAllowed = isPets;
                     rideInfo.musicAllowed = isMusic;
                     rideInfo.acAllowed = isAc;
-                    if (!App.isLoggedIn) {
+                 //   if (!App.isLoggedIn) {
                       if (App.user.driver != null) {
                         Navigator.of(context)
                             .pushNamed("/AddRidePage2", arguments: rideInfo);
                       } else
-                        Navigator.of(context).pushNamed("/Profile");
-                      CustomToast().showErrorToast("Become a driver first");
-                    }
+                        {
+                          Navigator.of(context).pushNamed("/Profile");
+                          CustomToast().showErrorToast("Become a driver first");
+                        }
+
+                  //  }
                     // else LoginRegister();
-                    else {
-                      CustomToast().showErrorToast("Login first");
-                      Navigator.of(context).pushNamed("/LoginRegister");
-                    }
+                    // else {
+                    //   CustomToast().showErrorToast("Login first");
+                    //   Navigator.of(context).pushNamed("/LoginRegister");
+                    // }
                   },
                 ),
               ),
