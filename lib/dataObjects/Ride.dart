@@ -147,13 +147,12 @@ class Ride {
       leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ);
     }
     User user;
-    if (json["driver"] != null) {
+    if (!Validation.isNullOrEmpty(json["driver"])) {
       Driver driver = Driver.fromJson(json["driver"]);
-      print(driver);
       Person person = Person.fromJson(json["driver"]["person"]);
       user = User(person: person, driver: driver);
     } else {
-      user = User(person: App.person, driver: App.driver);
+      user = User();
     }
     return Ride(
         kidSeat: json["kidSeat"],

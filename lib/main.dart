@@ -11,7 +11,9 @@ import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +28,8 @@ Future<void> main() async {
   Hive.registerAdapter(CountryInformationsAdapter());
   Hive.registerAdapter(CarAdapter());
   Hive.registerAdapter(MainLocationAdapter());
+  Hive.registerAdapter(RideAdapter());
+  Hive.registerAdapter(PassengerAdapter());
 
   await Hive.openBox('user');
   runApp(MyApp());
