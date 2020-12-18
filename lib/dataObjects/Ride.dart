@@ -21,7 +21,6 @@ class Ride {
   @HiveField(1)
   String _comment;
   @HiveField(2)
-  String _mapUrl;
   String _mapBase64;
   @HiveField(3)
   MainLocation _from;
@@ -94,7 +93,6 @@ class Ride {
       DateTime updated}) {
     this.id = "hello";
     this.comment = comment;
-    this.mapUrl = mapUrl;
     this.from = from;
     this.to = to;
     this.leavingDate = leavingDate;
@@ -137,7 +135,7 @@ class Ride {
         "price": this.price,
         "to": this.to.toJson(),
         "from": this.from.toJson(),
-        "map": this.mapUrl
+        "map": this.mapBase64
       };
 
   factory Ride.fromJson(Map<String, dynamic> json) {
@@ -179,7 +177,7 @@ class Ride {
         from: MainLocation.fromJson(json["from"]),
         to: MainLocation.fromJson(json["to"]),
         price: json["price"],
-        mapUrl: json["map"]);
+        mapBase64: json["map"]);
   }
 
   static String validate(Ride ride) {
@@ -275,11 +273,7 @@ class Ride {
     _comment = value;
   }
 
-  get mapUrl => _mapUrl;
 
-  set mapUrl(value) {
-    _mapUrl = value;
-  }
 
   setMap(File value) async {
     if (value != null) {

@@ -19,7 +19,7 @@ class RideAdapter extends TypeAdapter<Ride> {
     return Ride()
       .._id = fields[0] as String
       .._comment = fields[1] as String
-      .._mapUrl = fields[2] as String
+      .._mapBase64 = fields[2] as String
       .._from = fields[3] as MainLocation
       .._to = fields[4] as MainLocation
       .._leavingDate = fields[5] as DateTime
@@ -52,7 +52,7 @@ class RideAdapter extends TypeAdapter<Ride> {
       ..writeByte(1)
       ..write(obj._comment)
       ..writeByte(2)
-      ..write(obj._mapUrl)
+      ..write(obj._mapBase64)
       ..writeByte(3)
       ..write(obj._from)
       ..writeByte(4)
