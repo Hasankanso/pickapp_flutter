@@ -291,7 +291,8 @@ class _SearchState extends State<Search>
             height: 50,
             child: MainButton(
               text_key: "Search",
-              onPressed: () {
+              isRequest: true,
+              onPressed: () async {
                 if (_formKey.currentState.validate()) {
                   if (dateTimeController.startDateController.chosenDate
                       .isBefore(DateTime.now())) {
@@ -318,7 +319,7 @@ class _SearchState extends State<Search>
                           dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
-                  request.send(response);
+                  await request.send(response);
                 }
               },
             ),
