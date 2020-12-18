@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -32,6 +31,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
   final List<RideRoute> rideRoutes = new List();
 
   String mapUrl;
+  String base64Map;
 
   _AddRidePage4State(this.rideInfo);
 
@@ -53,7 +53,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
         rideRoutes.add(RideRoute(
             roads[i]["summary"], roads[i]["overview_polyline"]["points"]));
       }
-      print(jsonResponse);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -69,11 +68,14 @@ class _AddRidePage4State extends State<AddRidePage4> {
         "&key=" +
         googleMapsApiKey);
     if (response.statusCode == 200) {
+     var base64String = base64.encode(response.bodyBytes);
+      print(base64String);
       mapUrl = staticMapURL +
           "size=640x640&path=enc%3A" +
           roadPoints +
           "&key=" +
           googleMapsApiKey;
+     base64Map=base64String;
       setState(() {});
     } else {
       print("Error");
@@ -82,7 +84,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
   }
 
   response(Ride result, int code, String message) {
-    print(result);
+  print(result);
   }
 
   @override
@@ -119,7 +121,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
             ResponsiveWidget.fullWidth(
               height: 250,
               child: mapUrl == null
-                  ? Text("the sexy man")
+                  ? null
                   : CachedNetworkImage(
                       imageUrl: mapUrl,
                       imageBuilder: (context, imageProvider) {
@@ -175,13 +177,12 @@ class _AddRidePage4State extends State<AddRidePage4> {
               child: MainButton(
                 text_key: "DONE",
                 onPressed: () {
-                  rideInfo.mapUrl = mapUrl;
+                  rideInfo.mapUrl=mapUrl;
                   Request<Ride> request = AddRide(rideInfo);
                   request.send(response);
-                  //   Navigator.of(context).pushNamed("/");
-                  CustomToast().showShortToast(
-                      Lang.getString(context, "Ride_Added"),
-                      backgroundColor: Colors.greenAccent);
+                  Navigator.of(context).pushNamed("/");
+                  CustomToast().showSuccessToast(
+                      Lang.getString(context, "Ride_Added"));
                 },
               ),
             ),

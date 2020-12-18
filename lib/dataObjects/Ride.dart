@@ -70,6 +70,7 @@ class Ride {
       {String id,
       String comment,
       String mapUrl,
+      String mapBase64,
       MainLocation from,
       MainLocation to,
       DateTime leavingDate,
@@ -115,6 +116,7 @@ class Ride {
     this.passengers = passengers;
     this.car = car;
     this.updated = updated;
+    this.mapBase64 = mapBase64;
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -261,6 +263,12 @@ class Ride {
     _id = value;
   }
 
+  String get mapBase64 => _mapBase64;
+
+  set mapBase64(String value) {
+    _mapBase64 = value;
+  }
+
   get comment => _comment;
 
   set comment(value) {
@@ -272,8 +280,6 @@ class Ride {
   set mapUrl(value) {
     _mapUrl = value;
   }
-
-  get mapBase64 => _mapBase64;
 
   setMap(File value) async {
     if (value != null) {

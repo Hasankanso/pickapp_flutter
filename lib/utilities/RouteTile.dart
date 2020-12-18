@@ -12,19 +12,22 @@ class RouteTile extends ListTile {
   final Object o;
   Function(String) callBack;
 
-  RouteTile(this.o,this.callBack);
+  RouteTile(this.o, this.callBack);
 
-  static Function(BuildContext, int) itemBuilder(List<RideRoute> c,callBack) {
+  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack) {
     return (context, index) {
-      return RouteTile(c[index],callBack);
+      return RouteTile(c[index], callBack);
     };
   }
 
   @override
   Widget build(BuildContext context) {
     RideRoute r = o;
+    if (r.name.length >= 32) {
+      r.name = r.name.substring(0, 35)+"...";
+    }
     return ResponsiveWidget.fullWidth(
-      height:70,
+      height: 70,
       child: Card(
         elevation: 2.0,
         shape: RoundedRectangleBorder(
