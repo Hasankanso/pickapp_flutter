@@ -128,8 +128,22 @@ class _AddRidePage4State extends State<AddRidePage4> {
                         return Image(image: imageProvider);
                       },
                       placeholder: (context, url) =>
-                          CircularProgressIndicator(
-                            strokeWidth:0.2,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  margin: EdgeInsets.all(5),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.0,
+                                  //  valueColor : AlwaysStoppedAnimation(Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                       errorWidget: (context, url, error) {
                         return Image(image: AssetImage("lib/images/user.png"));
