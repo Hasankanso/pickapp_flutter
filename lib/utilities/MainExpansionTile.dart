@@ -259,14 +259,15 @@ class MainExpansionTileState extends State<MainExpansionTile>
                                   children: [
                                     widget.title,
                                     Expanded(child: SizedBox()),
-                                    widget.trailing ??
-                                        RotationTransition(
-                                          turns: _iconTurns,
-                                          child: Icon(
+                                    RotationTransition(
+                                      turns: _iconTurns,
+                                      child: widget.trailing ??
+                                          Icon(
                                             Icons.expand_more,
                                             color: Styles.labelColor(),
+                                            size: Styles.largeIconSize(),
                                           ),
-                                        ),
+                                    ),
                                   ],
                                 ),
                               ),

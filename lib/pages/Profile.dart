@@ -312,6 +312,17 @@ class _DriverInfoState extends State<DriverInfo> with TickerProviderStateMixin {
                     Lang.getString(context, "My_cars"),
                     style: Styles.valueTextStyle(),
                   ),
+                  trailing: IconButton(
+                    tooltip: Lang.getString(context, "Add_a_car"),
+                    onPressed: () {
+                      print(111);
+                    },
+                    icon: Icon(
+                      Icons.add,
+                      color: Styles.labelColor(),
+                      size: Styles.largeIconSize(),
+                    ),
+                  ),
                   children: App.driver.cars.map((Car car) {
                     return CarListTile(car);
                   }).toList(growable: true),

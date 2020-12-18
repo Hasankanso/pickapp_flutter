@@ -27,15 +27,35 @@ class AddCar3 extends StatefulWidget {
 }
 
 class _AddCar3State extends State<AddCar3> {
+  int _maxSeats, _maxLuggage;
   ColorController _colorController = ColorController();
   NumberController _seatsController = NumberController();
   NumberController _luggageController = NumberController();
 
   @override
+  void didChangeDependencies() {
+    if (widget.driver.cars[0].type == Lang.getString(context, "Sedan")) {
+      _maxSeats = 4;
+      _maxLuggage = 3;
+    } else if (widget.driver.cars[0].type == Lang.getString(context, "SUV")) {
+      _maxSeats = 6;
+      _maxLuggage = 4;
+    } else if (widget.driver.cars[0].type ==
+        Lang.getString(context, "Hatchback")) {
+      _maxSeats = 4;
+      _maxLuggage = 3;
+    } else if (widget.driver.cars[0].type == Lang.getString(context, "Van")) {
+      _maxSeats = 13;
+      _maxLuggage = 7;
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: "Add Car", //Lang.getString(context, "Become_a_driver"),
+        title: Lang.getString(context, "Add_Car"),
       ),
       body: Column(
         children: [
@@ -48,7 +68,8 @@ class _AddCar3State extends State<AddCar3> {
               children: [
                 Expanded(
                     flex: 20,
-                    child: NumberPicker(_seatsController, "Persons", 1, 8)),
+                    child: NumberPicker(_seatsController,
+                        Lang.getString(context, "Seats"), 1, _maxSeats)),
               ],
             ),
           ),
@@ -61,7 +82,8 @@ class _AddCar3State extends State<AddCar3> {
               children: [
                 Expanded(
                     flex: 20,
-                    child: NumberPicker(_luggageController, "Luggage", 1, 8)),
+                    child: NumberPicker(_luggageController,
+                        Lang.getString(context, "Luggage"), 1, _maxLuggage)),
               ],
             ),
           ),
@@ -75,9 +97,9 @@ class _AddCar3State extends State<AddCar3> {
                 flex: 2,
               ),
               Expanded(
-                flex: 10,
+                flex: 9,
                 child: Text(
-                  "Color",
+                  Lang.getString(context, "Color"),
                   style: Styles.labelTextStyle(),
                 ),
               ),
@@ -85,11 +107,11 @@ class _AddCar3State extends State<AddCar3> {
                 flex: 1,
               ),
               Expanded(
-                flex: 6,
+                flex: 5,
                 child: ColorPicker(_colorController),
               ),
               Spacer(
-                flex: 2,
+                flex: 3,
               ),
             ]),
           ),

@@ -17,6 +17,7 @@ class BecomeDriver extends StatefulWidget {
 }
 
 class _BecomeDriverState extends State<BecomeDriver> {
+  final _formKey = GlobalKey<FormState>();
   List<MainLocation> _regions = List<MainLocation>();
   List<RegionsListTile> _regionTiles = List<RegionsListTile>();
   List<LocationEditingController> _regionsControllers =
@@ -67,7 +68,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
                             Expanded(
                               flex: 10,
                               child: Text(
-                                "My living regions:",
+                                Lang.getString(context, "My_living_regions:"),
                                 style: Styles.valueTextStyle(),
                               ),
                             ),
@@ -77,8 +78,8 @@ class _BecomeDriverState extends State<BecomeDriver> {
                                 icon: Icon(Icons.add_location_alt),
                                 iconSize: Styles.largeIconSize(),
                                 color: Styles.primaryColor(),
-                                tooltip:
-                                    "Add a region", //Lang.getString(context, "Settings"),
+                                tooltip: Lang.getString(context,
+                                    "Add_a_region"), //Lang.getString(context, "Settings"),
                                 onPressed: _addRegion,
                               ),
                             ),
@@ -93,19 +94,22 @@ class _BecomeDriverState extends State<BecomeDriver> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              reverse: false,
-              itemBuilder: (context, index) {
-                var _tile = RegionsListTile(
-                    _regions[index],
-                    _regions.length != 1,
-                    index,
-                    removeRegion,
-                    _regionsControllers[index]);
-                _regionTiles.add(_tile);
-                return _tile;
-              },
-              itemCount: _regions.length,
+            child: Form(
+              key: _formKey,
+              child: ListView.builder(
+                reverse: false,
+                itemBuilder: (context, index) {
+                  var _tile = RegionsListTile(
+                      _regions[index],
+                      _regions.length != 1,
+                      index,
+                      removeRegion,
+                      _regionsControllers[index]);
+                  _regionTiles.add(_tile);
+                  return _tile;
+                },
+                itemCount: _regions.length,
+              ),
             ),
           ),
         ],
@@ -121,14 +125,18 @@ class _BecomeDriverState extends State<BecomeDriver> {
                 isRequest: false,
                 text_key: "Next",
                 onPressed: () {
-                  for (int i = 0; i < _regionsControllers.length; i++) {
-                    _regions[i].name = _regionsControllers[i].description;
-                    _regions[i].placeId = _regionsControllers[i].placeId;
-                    _regions[i].longitude = _regionsControllers[i].location.lng;
-                    _regions[i].latitude = _regionsControllers[i].location.lat;
+                  if (_formKey.currentState.validate()) {
+                    for (int i = 0; i < _regionsControllers.length; i++) {
+                      _regions[i].name = _regionsControllers[i].description;
+                      _regions[i].placeId = _regionsControllers[i].placeId;
+                      _regions[i].longitude =
+                          _regionsControllers[i].location.lng;
+                      _regions[i].latitude =
+                          _regionsControllers[i].location.lat;
+                    }
+                    Navigator.pushNamed(context, "/AddCar",
+                        arguments: Driver(regions: _regions));
                   }
-                  Navigator.pushNamed(context, "/AddCar",
-                      arguments: Driver(regions: _regions));
                 },
               ),
             ),
@@ -180,8 +188,7 @@ class RegionsListTile extends StatelessWidget {
                       icon: Icon(Icons.minimize),
                       iconSize: Styles.largeIconSize(),
                       color: Styles.primaryColor(),
-                      tooltip:
-                          "Remove region", //Lang.getString(context, "Settings"),
+                      tooltip: Lang.getString(context, "Remove_region"),
                       onPressed: () {
                         _removeRegion(_index);
                       },

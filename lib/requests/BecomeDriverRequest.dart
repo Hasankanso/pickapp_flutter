@@ -1,6 +1,5 @@
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/requests/Request.dart';
 
@@ -53,9 +52,6 @@ class BecomeDriverRequest extends Request<Driver> {
     }
     if (_driver.regions.length > 3) {
       return "You can't add more than 3 regions";
-    }
-    if (_driver.cars[0] != null) {
-      return Car.validate(_driver.cars[0]);
     }
     return null;
   }

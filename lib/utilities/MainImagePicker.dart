@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:pickapp/utilities/ImageViewer.dart';
 
 import 'Responsive.dart';
 
@@ -22,7 +21,6 @@ class MainImagePicker extends StatefulWidget {
 
 class _MainImagePickerState extends State<MainImagePicker> {
   File _image;
-  ImageProvider _imageProvide;
   final picker = ImagePicker();
 
   @override
@@ -38,10 +36,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
             child: widget.imageUrl != null
                 ? CachedNetworkImage(
                     imageUrl: widget.imageUrl,
-                    imageBuilder: (context, imageProvider) {
-                      this._imageProvide = imageProvider;
-                      return Image(image: imageProvider);
-                    },
+                    imageBuilder: (context, imageProvider) =>
+                        Image(image: imageProvider),
                     placeholder: (context, url) => CircularProgressIndicator(),
                     errorWidget: (context, url, error) {
                       return Image(image: AssetImage("lib/images/user.png"));
@@ -91,7 +87,12 @@ class _MainImagePickerState extends State<MainImagePicker> {
   _viewImage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ViewImage(_imageProvide)),
+      MaterialPageRoute(
+        builder: (context) => ImageViewer(
+          _image,
+          Lang.getString(context, "Profile"),
+        ),
+      ),
     );
   }
 
@@ -191,23 +192,4 @@ class _MainImagePickerState extends State<MainImagePicker> {
 
 class MainImageController {
   File pickedImage;
-}
-
-class ViewImage extends StatelessWidget {
-  ImageProvider _image;
-  ViewImage(this._image);
-  @override
-  Widget build(BuildContext context) {
-    return MainScaffold(
-      appBar: MainAppBar(
-        title: Lang.getString(context, "Profile"),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: Image(image: _image)),
-        ],
-      ),
-    );
-  }
 }
