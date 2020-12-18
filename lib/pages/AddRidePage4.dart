@@ -69,7 +69,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
         googleMapsApiKey);
     if (response.statusCode == 200) {
      var base64String = base64.encode(response.bodyBytes);
-      print(base64String);
+    //  print(base64String);
       mapUrl = staticMapURL +
           "size=640x640&path=enc%3A" +
           roadPoints +
@@ -179,7 +179,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
               child: MainButton(
                 text_key: "DONE",
                 onPressed: () {
-                  rideInfo.mapUrl=mapUrl;
+                  rideInfo.mapBase64=base64Map;
                   Request<Ride> request = AddRide(rideInfo);
                   request.send(response);
                   Navigator.of(context).pushNamed("/");
