@@ -229,7 +229,6 @@ class _ProfileState extends State<Profile> {
                                 builder: (BuildContext context, bool isDriver,
                                     Widget child) {
                                   if (isDriver) {
-                                    print(App.driver.toString());
                                     return DriverInfo();
                                   } else {
                                     return PassengerInfo();

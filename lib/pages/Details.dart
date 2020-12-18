@@ -363,6 +363,8 @@ class _DetailsState extends State<Details> {
       result.upcomingRides = upcomingRides;
       result.rates = rates;
       App.user.person = result;
+      App.isLoggedInNotifier.notifyListeners();
+
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }

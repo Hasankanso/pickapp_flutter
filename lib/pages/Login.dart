@@ -236,7 +236,9 @@ class _LoginState extends State<Login> {
                     if (value.length != 5) return Validation.invalid(context);
                     return null;
                   },
+                  keyboardType: TextInputType.number,
                   inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(5),
                   ],
                   maxLengthEnforced: true,
@@ -291,8 +293,8 @@ class _LoginState extends State<Login> {
       User cacheUser = u;
       Person cachePerson = u.person;
       cachePerson.rates = null;
-      print(u.driver);
       if (u.driver != null) {
+        App.isDriverNotifier.value = true;
         cacheUser.driver = Driver(
             id: u.driver.id, cars: u.driver.cars, updated: u.driver.updated);
       }
@@ -305,7 +307,6 @@ class _LoginState extends State<Login> {
 
       App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
-      App.isLoggedInNotifier.notifyListeners();
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);

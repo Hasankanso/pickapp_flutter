@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -105,32 +104,33 @@ class SearchResultTile extends ListTile {
                           children: <Widget>[
                             Expanded(
                               flex: 4,
-                              child: CachedNetworkImage(
-                                imageUrl: _ride.person.profilePictureUrl,
-                                imageBuilder: (context, imageProvider) =>
-                                    CircleAvatar(
-                                  backgroundColor: Colors.transparent,
-                                  radius: 30,
-                                  backgroundImage: imageProvider,
-                                ),
-                                placeholder: (context, url) => CircleAvatar(
-                                    backgroundColor: Colors.transparent,
-                                    radius: 30,
-                                    child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    CircleAvatar(
-                                  backgroundColor: Colors.transparent,
-                                  radius: 30,
-                                  child: FittedBox(
-                                    fit: BoxFit.fill,
-                                    child: Icon(
-                                      Icons.account_circle_outlined,
-                                      size: ScreenUtil().setSp(100),
-                                      color: Styles.primaryColor(),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              child: _ride.person.profilePictureUrl != null
+                                  ? CachedNetworkImage(
+                                      imageUrl: _ride.person.profilePictureUrl,
+                                      imageBuilder: (context, imageProvider) =>
+                                          CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        radius: 30,
+                                        backgroundImage: imageProvider,
+                                      ),
+                                      placeholder: (context, url) =>
+                                          CircleAvatar(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              radius: 30,
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        radius: 30,
+                                        child: Image(
+                                            image: AssetImage(
+                                                "lib/images/user.png")),
+                                      ),
+                                    )
+                                  : Image(
+                                      image: AssetImage("lib/images/user.png")),
                             ),
                             Spacer(
                               flex: 1,
