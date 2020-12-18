@@ -9,6 +9,7 @@ abstract class Request<T> {
   String httpPath;
 
   Map<String, dynamic> getJson();
+
   String isValid();
 
   T buildObject(json);
@@ -20,7 +21,7 @@ abstract class Request<T> {
       callback(null, 406, valid);
     } else {
       Map<String, dynamic> data = getJson();
-      print(data);
+      print("offlineValidator (deprecated): " + data.toString());
       http.Response response = await http.post(
         host + httpPath,
         headers: <String, String>{
@@ -30,7 +31,7 @@ abstract class Request<T> {
       );
 
       var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
-      print(decodedResponse);
+      print("backendless: " + decodedResponse.toString());
       if (response.body.contains("code")) {
         //extracting code and message
         var jCode =

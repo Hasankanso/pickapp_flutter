@@ -16,6 +16,7 @@ import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Regions.dart';
 import 'package:pickapp/pages/Register.dart';
+import 'package:pickapp/pages/RideDetails.dart';
 import 'package:pickapp/pages/SearchResults.dart';
 import 'package:pickapp/pages/Settings.dart';
 import 'package:pickapp/pages/Statistics.dart';
@@ -80,6 +81,8 @@ class RouteGenerator {
             builder: (_) => SearchResults(searchInfo: args));
       case '/Profile':
         return MaterialPageRoute(builder: (_) => Profile());
+      case '/RideDetails':
+        return MaterialPageRoute(builder : (_) => RideDetails(ride : args));
     }
   }
 }

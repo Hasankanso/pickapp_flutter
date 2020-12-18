@@ -31,6 +31,8 @@ class _SearchState extends State<Search>
   NumberController numberController = NumberController();
   SearchInfo _searchInfo;
 
+  final _formKey = GlobalKey<FormState>();
+
   response(List<Ride> result, int code, String message) {
     List<Ride> rides = new List<Ride>();
 
@@ -56,7 +58,7 @@ class _SearchState extends State<Search>
       to: MainLocation(
         name: "Nabatieh Al Tahta",
       ),
-      leavingDate: new DateTime(2020, 10, 10,17,0),
+      leavingDate: new DateTime(2020, 10, 10, 17, 0),
       maxSeats: 2,
       price: 2000,
       maxLuggages: 2,
@@ -254,29 +256,31 @@ class _SearchState extends State<Search>
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ResponsiveWidget.fullWidth(
-                height: 130,
-                child: FromToPicker(
-                    fromController: fromController,
-                    toController: toController)),
-            VerticalSpacer(height: 30),
-            ValueListenableBuilder(
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ResponsiveWidget.fullWidth(
+                  height: 130,
+                  child: FromToPicker(
+                      fromController: fromController,
+                      toController: toController)),
+              VerticalSpacer(height: 30),
+              ValueListenableBuilder(
                 builder: (BuildContext context, bool rangeBool, Widget child) {
                   return ResponsiveWidget.fullWidth(
                       height: Cache.dateTimeRangePicker ? 140 : 60,
                       child: DateTimeRangePicker(dateTimeController));
                 },
-              valueListenable: Cache.rangeDateTimeNotifier,
-            ),
-
-            VerticalSpacer(height: 30),
-            ResponsiveWidget.fullWidth(
-                height: 30,
-                child: NumberPicker(numberController, "Persons", 1, 8)),
-          ],
+                valueListenable: Cache.rangeDateTimeNotifier,
+              ),
+              VerticalSpacer(height: 30),
+              ResponsiveWidget.fullWidth(
+                  height: 30,
+                  child: NumberPicker(numberController, "Persons", 1, 8)),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
@@ -288,24 +292,34 @@ class _SearchState extends State<Search>
             child: MainButton(
               text_key: "Search",
               onPressed: () {
-                MainLocation to = MainLocation(
-                    name: toController.description,
-                    latitude: toController.location.lat,
-                    longitude: toController.location.lng,
-                    placeId: toController.placeId);
-                MainLocation from = MainLocation(
-                    name: fromController.description,
-                    latitude: fromController.location.lat,
-                    longitude: fromController.location.lng,
-                    placeId: fromController.placeId);
-                _searchInfo = SearchInfo(
-                    to: to,
-                    from: from,
-                    passengersNumber: numberController.chosenNumber,
-                    minDate: dateTimeController.startDateController.chosenDate,
-                    maxDate: dateTimeController.endDateController.chosenDate);
-                Request<List<Ride>> request = SearchForRides(_searchInfo);
-                request.send(response);
+                if (_formKey.currentState.validate()) {
+                  if (dateTimeController.startDateController.chosenDate
+                      .isBefore(DateTime.now())) {
+                    setState(() {
+                      dateTimeController.startDateController.chosenDate =
+                          DateTime.now().add(Duration(minutes: 30));
+                    });
+                  }
+                  MainLocation to = MainLocation(
+                      name: toController.description,
+                      latitude: toController.location.lat,
+                      longitude: toController.location.lng,
+                      placeId: toController.placeId);
+                  MainLocation from = MainLocation(
+                      name: fromController.description,
+                      latitude: fromController.location.lat,
+                      longitude: fromController.location.lng,
+                      placeId: fromController.placeId);
+                  _searchInfo = SearchInfo(
+                      to: to,
+                      from: from,
+                      passengersNumber: numberController.chosenNumber,
+                      minDate:
+                          dateTimeController.startDateController.chosenDate,
+                      maxDate: dateTimeController.endDateController.chosenDate);
+                  Request<List<Ride>> request = SearchForRides(_searchInfo);
+                  request.send(response);
+                }
               },
             ),
           ),

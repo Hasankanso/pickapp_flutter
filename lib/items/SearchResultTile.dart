@@ -7,14 +7,15 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/RateStars.dart';
 
-class RideResultListTile extends ListTile {
+class SearchResultTile extends ListTile {
   final Ride _ride;
+  Function(Ride) onPressed;
 
-  RideResultListTile(this._ride);
+  SearchResultTile(this._ride, {this.onPressed});
 
-  static Function(BuildContext, int) itemBuilder(List<Ride> rides) {
+  static Function(BuildContext, int) itemBuilder(List<Ride> rides, onPressed) {
     return (context, index) {
-      return RideResultListTile(rides[index]);
+      return SearchResultTile(rides[index], onPressed: onPressed);
     };
   }
 
@@ -26,6 +27,11 @@ class RideResultListTile extends ListTile {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: ListTile(
+        onTap: () {
+          if (onPressed != null) {
+            onPressed(_ride);
+          }
+        },
         title: Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
           child: Column(

@@ -14,6 +14,8 @@ class LocationFinder extends StatefulWidget {
   String _country;
   String _API_KEY;
   String _initialDescription;
+  String errorText;
+  String Function(String) onValidate;
 
   LocationFinder(
       {LocationEditingController controller,
@@ -21,7 +23,9 @@ class LocationFinder extends StatefulWidget {
       String hintText,
       String initialDescription,
       String language,
-      String country}) {
+      String country,
+      this.errorText,
+      this.onValidate}) {
     _controller = controller;
     _title = title;
     _hintText = hintText;
@@ -37,7 +41,7 @@ class LocationFinder extends StatefulWidget {
 
 class _LocationFinderState extends State<LocationFinder> {
   TextEditingController _textEditingController = new TextEditingController();
-
+  String _errorText = null;
 
   void OpenAutoComplete(BuildContext context) async {
     String sessionToken = Uuid().v4();
@@ -73,8 +77,8 @@ class _LocationFinderState extends State<LocationFinder> {
     //request longitude and latitude from google_place_details api
     GoogleMapsPlaces _places =
         new GoogleMapsPlaces(apiKey: widget._API_KEY); //Same _API_KEY as above
-    PlacesDetailsResponse detail =
-        await _places.getDetailsByPlaceId(locPred.placeId, sessionToken: sessionToken);
+    PlacesDetailsResponse detail = await _places
+        .getDetailsByPlaceId(locPred.placeId, sessionToken: sessionToken);
     double latitude = detail.result.geometry.location.lat;
     double longitude = detail.result.geometry.location.lng;
     String address = locPred.description;
@@ -92,7 +96,7 @@ class _LocationFinderState extends State<LocationFinder> {
   @override
   Widget build(BuildContext context) {
     _textEditingController.text = widget._initialDescription;
-    return TextField(
+    return TextFormField(
       controller: _textEditingController,
       enableInteractiveSelection: false,
       showCursor: false,
@@ -101,7 +105,17 @@ class _LocationFinderState extends State<LocationFinder> {
         hintText: widget._hintText,
         labelStyle: Styles.labelTextStyle(),
         hintStyle: Styles.labelTextStyle(),
+        errorText: widget.errorText,
       ),
+      validator: (text) {
+          if (text.isEmpty) {
+            return "text is empty";
+          } else if (widget.onValidate != null) {
+            return widget.onValidate(text);
+          } else {
+            return null;
+          }
+      },
       style: Styles.valueTextStyle(),
       focusNode: FocusNode(),
       onTap: () => OpenAutoComplete(context),

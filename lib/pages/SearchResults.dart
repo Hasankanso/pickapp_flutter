@@ -9,7 +9,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
-import 'package:pickapp/items/RideResultListTile.dart';
+import 'package:pickapp/items/SearchResultTile.dart';
 import 'package:pickapp/pages/SearchResultFilter.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
@@ -201,11 +201,16 @@ class _SearchResultsState extends State<SearchResults> {
           Expanded(
             child: ListBuilder(
                 list: rides,
-                itemBuilder: RideResultListTile.itemBuilder(rides)),
+                itemBuilder: SearchResultTile.itemBuilder(rides, OnPressed)),
           ),
         ],
       ),
     );
+  }
+
+
+  void OnPressed(Ride r){
+    Navigator.of(context).pushNamed("/RideDetails", arguments: r);
   }
 }
 

@@ -4,8 +4,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
-
-import 'Responsive.dart';
+import 'package:pickapp/utilities/Responsive.dart';
 
 class FromToPicker extends StatefulWidget {
   LocationEditingController fromController;
@@ -18,43 +17,50 @@ class FromToPicker extends StatefulWidget {
 }
 
 class _FromToPickerState extends State<FromToPicker> {
+  String _fromError = null;
+  String _toError = null;
+
   @override
   Widget build(BuildContext context) {
     return DifferentSizeResponsiveRow(children: [
-        Expanded(
-          flex: 8,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.panorama_fish_eye,
-                    color: Styles.primaryColor(), size: Styles.smallIconSize()),
-                Icon(Icons.more_vert,
-                    color: Styles.primaryColor(), size: Styles.smallIconSize()),
-                Icon(Icons.circle,
-                    color: Styles.primaryColor(), size: Styles.smallIconSize()),
-              ]),
-        ),
+      Expanded(
+        flex: 8,
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Icon(Icons.panorama_fish_eye,
+              color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.more_vert,
+              color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.circle,
+              color: Styles.primaryColor(), size: Styles.smallIconSize()),
+        ]),
+      ),
       Expanded(
         flex: 60,
         child: Column(
           children: [
             Expanded(
               child: LocationFinder(
-                  controller: widget.fromController,
-                  title: Lang.getString(context, "From"),
-                  initialDescription: widget.fromController.description,
-                  hintText: Lang.getString(context, "From_Where"),
-                  language: Lang.getString(context, "lang"),
-                  country: App.countryCode),
+                controller: widget.fromController,
+                title: Lang.getString(context, "From"),
+                initialDescription: widget.fromController.description,
+                hintText: Lang.getString(context, "From_Where"),
+                language: Lang.getString(context, "lang"),
+                country: App.countryCode,
+                errorText: _fromError,
+                onValidate: validate,
+              ),
             ),
             Expanded(
               child: LocationFinder(
-                  controller: widget.toController,
-                  title: Lang.getString(context, "To"),
-                  initialDescription: widget.toController.description,
-                  hintText: Lang.getString(context, "To_Where"),
-                  language: Lang.getString(context, "lang"),
-                  country: App.countryCode),
+                controller: widget.toController,
+                title: Lang.getString(context, "To"),
+                initialDescription: widget.toController.description,
+                hintText: Lang.getString(context, "To_Where"),
+                language: Lang.getString(context, "lang"),
+                country: App.countryCode,
+                errorText: _toError,
+                onValidate: validate,
+              ),
             )
           ],
         ),
@@ -72,5 +78,11 @@ class _FromToPickerState extends State<FromToPicker> {
         ),
       )
     ]);
+  }
+
+  String validate(String text) {
+    if (widget.toController.description == widget.fromController.description) {
+      return "Same Location";
+    }
   }
 }
