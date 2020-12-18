@@ -149,6 +149,7 @@ class Ride {
     User user;
     if (json["driver"] != null) {
       Driver driver = Driver.fromJson(json["driver"]);
+      print(driver);
       Person person = Person.fromJson(json["driver"]["person"]);
       user = User(person: person, driver: driver);
     } else {

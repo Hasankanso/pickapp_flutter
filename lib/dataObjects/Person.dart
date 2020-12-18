@@ -133,7 +133,7 @@ class Person {
     var upcomingRidesArray = json["upcomingRides"];
     if (upcomingRidesArray != null) {
       p._upcomingRides = List<Ride>.from(upcomingRidesArray.map((x) {
-        if (x.HasValues == true) {
+        if (x!=null) {
           if (x.containsKey("ride") && x["ride"].HasValues == true)
             return Ride.fromJson(x["ride"]);
           else
