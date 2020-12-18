@@ -3,7 +3,6 @@ import 'dart:core';
 import 'dart:io';
 
 import 'package:hive/hive.dart';
-import 'package:pickapp/classes/Validation.dart';
 
 part 'Car.g.dart';
 
@@ -80,32 +79,6 @@ class Car {
         _brand = json["brand"],
         _color = json["color"],
         _carPictureUrl = json["picture"];
-
-  static String validate(Car car) {
-    if (car.year == null || car.year > DateTime.now().year || car.year < 1900)
-      return "Please enter a valid car year";
-    if (car.maxLuggage == null || car.maxLuggage < 0 || car.maxLuggage > 10) {
-      return "Max luggage must be less or equal 10";
-    }
-    if (car.maxSeats == null || car.maxSeats < 0 || car.maxSeats > 50) {
-      return "Max seats must be less or equal 50";
-    }
-    if (Validation.isNullOrEmpty(car.name) || car.name.length < 2) {
-      return "Invalid car name";
-    }
-    //todo carr type validation
-    if (Validation.isNullOrEmpty(car.type) || car.name.length < 2) {
-      return "Invalid car type";
-    }
-    if (Validation.isNullOrEmpty(car.brand) || car.brand.length < 2) {
-      return "Invalid car brand";
-    }
-
-    if (Validation.isNullOrEmpty(car.pictureBase64)) {
-      return "Please enter your car picture";
-    }
-    return null;
-  }
 
   String get id => _id;
 

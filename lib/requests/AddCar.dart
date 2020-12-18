@@ -31,6 +31,6 @@ class AddCar extends Request<List<Car>> {
     if (!Validation.isNullOrEmpty(validateUser)) {
       return validateUser;
     }
-    return Car.validate(_car);
+    return null;
   }
 }

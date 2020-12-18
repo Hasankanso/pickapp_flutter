@@ -244,7 +244,7 @@ class _LoginState extends State<Login> {
                   maxLengthEnforced: true,
                   decoration: InputDecoration(
                     labelText: Lang.getString(context, "Code"),
-                    hintText: "4#Aok",
+                    hintText: "02451",
                     labelStyle: Styles.labelTextStyle(),
                   ),
                 ),

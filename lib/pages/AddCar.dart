@@ -32,7 +32,7 @@ class _AddCarState extends State<AddCar> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: "Add Car", //Lang.getString(context, "Become_a_driver"),
+        title: Lang.getString(context, "Add_Car"),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -53,7 +53,7 @@ class _AddCarState extends State<AddCar> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 100,
+                height: 88,
                 child: ResponsiveRow(
                   children: [
                     TextFormField(
@@ -83,7 +83,7 @@ class _AddCarState extends State<AddCar> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 100,
+                height: 88,
                 child: ResponsiveRow(
                   children: [
                     TextFormField(
@@ -114,7 +114,7 @@ class _AddCarState extends State<AddCar> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 100,
+                height: 88,
                 child: ResponsiveRow(
                   children: [
                     TextFormField(
@@ -161,7 +161,7 @@ class _AddCarState extends State<AddCar> {
               child: MainButton(
                 isRequest: false,
                 text_key: "Next",
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     widget.driver.cars = [
                       Car(
@@ -171,10 +171,10 @@ class _AddCarState extends State<AddCar> {
                       )
                     ];
                     if (_imageController.pickedImage == null) {
-                      return CustomToast()
-                          .showErrorToast("Please select an image");
+                      return CustomToast().showErrorToast(
+                          Lang.getString(context, "Select_an_image"));
                     }
-                    widget.driver.cars[0]
+                    await widget.driver.cars[0]
                         .setPictureFile(_imageController.pickedImage);
                     Navigator.pushNamed(context, "/AddCar2",
                         arguments: widget.driver);

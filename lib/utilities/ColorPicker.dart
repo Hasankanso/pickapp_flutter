@@ -27,7 +27,7 @@ class _ColorPickerState extends State<ColorPicker> {
         return AlertDialog(
           contentPadding: EdgeInsets.all(0),
           title: Text(
-            Lang.getString(context, "Pick_a_Color"),
+            Lang.getString(context, "Pick_a_color"),
             style: TextStyle(fontSize: 20, color: Colors.blue),
           ),
           content: MaterialColorPicker(
@@ -64,7 +64,7 @@ class _ColorPickerState extends State<ColorPicker> {
     return FloatingActionButton(
       onPressed: _OpenColorPicker,
       backgroundColor: _mainColor,
-      tooltip: Lang.getString(context, "Pick_a_Color"),
+      tooltip: Lang.getString(context, "Pick_a_color"),
     );
   }
 }

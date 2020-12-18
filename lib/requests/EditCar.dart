@@ -41,6 +41,6 @@ class EditCar extends Request<List<Car>> {
     if (Validation.isNullOrEmpty(_car.id)) {
       return "Objectid should not be null";
     }
-    return Car.validate(_car);
+    return null;
   }
 }
