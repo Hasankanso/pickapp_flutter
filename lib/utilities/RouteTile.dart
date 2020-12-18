@@ -23,8 +23,8 @@ class RouteTile extends ListTile {
   @override
   Widget build(BuildContext context) {
     RideRoute r = o;
-    if (r.name.length >= 32) {
-      r.name = r.name.substring(0, 35)+"...";
+    if (r.name.length >= 25) {
+      r.name = r.name.substring(0, 25)+"...";
     }
     return ResponsiveWidget.fullWidth(
       height: 70,
