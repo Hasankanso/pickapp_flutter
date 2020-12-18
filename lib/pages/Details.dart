@@ -39,8 +39,7 @@ class _DetailsState extends State<Details> {
   List<String> _chattinessItems;
   List<String> _genders;
   bool _gender = App.person.gender;
-
-  DateTime value = App.person.birthday;
+  DateTime _birthdayInit = App.person.birthday;
 
   @override
   void initState() {
@@ -64,7 +63,6 @@ class _DetailsState extends State<Details> {
       Lang.getString(context, "Male"),
       Lang.getString(context, "Female"),
     ];
-
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Details"),
@@ -245,7 +243,7 @@ class _DetailsState extends State<Details> {
                           flex: 12,
                           child: BirthDayPicker(
                             _birthday,
-                            startDate: App.person.birthday,
+                            startDate: _birthdayInit,
                           ),
                         )
                       ],
@@ -316,7 +314,7 @@ class _DetailsState extends State<Details> {
                   if (_formKey.currentState.validate()) {
                     CountryInformations cI =
                         App.countriesInformations[_country];
-                    Person _newPerson = App.person;
+                    Person _newPerson = Person();
                     _newPerson.firstName = _firstName.text;
                     _newPerson.lastName = _lastName.text;
                     _newPerson.birthday = _birthday.chosenDate;

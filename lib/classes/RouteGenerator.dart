@@ -64,13 +64,13 @@ class RouteGenerator {
       case '/BecomeDriver':
         return MaterialPageRoute(builder: (_) => BecomeDriver());
       case '/AddCar':
-        return MaterialPageRoute(builder: (_) => AddCar(driver: args));
+        return MaterialPageRoute(builder: (_) => AddCar(object: args));
       case "/AddCar2":
-        return MaterialPageRoute(builder: (_) => AddCar2(driver: args));
+        return MaterialPageRoute(builder: (_) => AddCar2(object: args));
       case "/AddCar3":
         return MaterialPageRoute(
             builder: (_) => AddCar3(
-                  driver: args,
+                  object: args,
                 ));
       case '/PrivacyPolicy':
         return MaterialPageRoute(builder: (_) => PrivacyPolicy());
@@ -82,7 +82,7 @@ class RouteGenerator {
       case '/Profile':
         return MaterialPageRoute(builder: (_) => Profile());
       case '/RideDetails':
-        return MaterialPageRoute(builder : (_) => RideDetails(ride : args));
+        return MaterialPageRoute(builder: (_) => RideDetails(ride: args));
     }
   }
 }

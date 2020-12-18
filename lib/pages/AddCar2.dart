@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/items/CarTypeItem.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -10,18 +11,30 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar2 extends StatefulWidget {
-  Driver driver;
-  AddCar2({this.driver});
+  Object object;
+  AddCar2({this.object});
   @override
   _AddCar2State createState() => _AddCar2State();
 }
 
 class _AddCar2State extends State<AddCar2> {
+  Driver driver;
+  Car car;
+
   String _type;
   List<bool> _typesBool = [false, false, false, false];
   List<String> _typesNames;
 
-  _getTypesName() {}
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.object.runtimeType == Driver) {
+      driver = widget.object as Driver;
+    } else if (widget.object.runtimeType == Car) {
+      car = widget.object as Car;
+    }
+  }
 
   selectType(int index) {
     setState(() {
@@ -118,12 +131,21 @@ class _AddCar2State extends State<AddCar2> {
                     return CustomToast()
                         .showErrorToast(Lang.getString(context, "Select_type"));
                   }
-                  widget.driver.cars[0].type = _type;
-                  Navigator.pushNamed(
-                    context,
-                    "/AddCar3",
-                    arguments: widget.driver,
-                  );
+                  if (driver != null) {
+                    driver.cars[0].type = _type;
+                    Navigator.pushNamed(
+                      context,
+                      "/AddCar3",
+                      arguments: driver,
+                    );
+                  } else if (car != null) {
+                    car.type = _type;
+                    Navigator.pushNamed(
+                      context,
+                      "/AddCar3",
+                      arguments: car,
+                    );
+                  }
                 },
               ),
             ),

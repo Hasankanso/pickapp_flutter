@@ -54,6 +54,7 @@
   "Last_Name": "Last Name",
   "Camera": "Camera",
   "Gallery": "Gallery",
+  "View": "View",
   "Country": "Country",
   "Save": "Save",
   "Select_Language": "Select Language",
@@ -88,11 +89,13 @@
   "Hatchback": "Hatchback",
   "Van":  "Van",
   "Add_Car": "Add Car",
+  "Add_car": "Add car",
   "Select_car_type:": "Select your car type:",
   "Select_type": "Select type",
   "Color": "couleur",
   "Add_a_car": "Add a car",
-
+  "Now_driver":  "Now you are a driver",
+  "Successfully_added!": "Successfully added!",
 
   "Results" : "Results",
   "Filter" : "Filter",

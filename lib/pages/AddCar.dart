@@ -14,19 +14,32 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar extends StatefulWidget {
-  Driver driver;
-  AddCar({this.driver});
+  Object object;
+  AddCar({this.object});
 
   @override
   _AddCarState createState() => _AddCarState();
 }
 
 class _AddCarState extends State<AddCar> {
+  Driver driver;
+  Car car;
   final _formKey = GlobalKey<FormState>();
   TextEditingController _name = TextEditingController();
   TextEditingController _brand = TextEditingController();
   TextEditingController _year = TextEditingController();
   MainImageController _imageController = MainImageController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.object.runtimeType == Driver) {
+      driver = widget.object as Driver;
+    } else {
+      car = Car();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,21 +176,32 @@ class _AddCarState extends State<AddCar> {
                 text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    widget.driver.cars = [
-                      Car(
-                        name: _name.text,
-                        brand: _brand.text,
-                        year: int.parse(_year.text),
-                      )
-                    ];
                     if (_imageController.pickedImage == null) {
                       return CustomToast().showErrorToast(
                           Lang.getString(context, "Select_an_image"));
                     }
-                    await widget.driver.cars[0]
-                        .setPictureFile(_imageController.pickedImage);
-                    Navigator.pushNamed(context, "/AddCar2",
-                        arguments: widget.driver);
+                    if (driver != null) {
+                      driver.cars = [
+                        Car(
+                          name: _name.text,
+                          brand: _brand.text,
+                          year: int.parse(_year.text),
+                        )
+                      ];
+                      await driver.cars[0]
+                          .setPictureFile(_imageController.pickedImage);
+                      Navigator.pushNamed(context, "/AddCar2",
+                          arguments: driver);
+                    } else if (car != null) {
+                      car = Car(
+                        name: _name.text,
+                        brand: _brand.text,
+                        year: int.parse(_year.text),
+                      );
+                      await car.setPictureFile(_imageController.pickedImage);
+                      print(1);
+                      Navigator.pushNamed(context, "/AddCar2", arguments: car);
+                    }
                   }
                 },
               ),

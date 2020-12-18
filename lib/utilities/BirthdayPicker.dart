@@ -38,6 +38,7 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
       _initialDate = widget._controller.chosenDate;
     } else {
       _initialDate = widget.startDate;
+      widget._controller.chosenDate = widget.startDate;
     }
 
     DateTime initialDate = DateTime.now();
@@ -77,30 +78,30 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
         Expanded(
           flex: 5,
           child: TextButton(
-              child: Text(
-                DateFormat(App.birthdayFormat, _appLocale.toString())
-                    .format(widget._controller.chosenDate),
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(15),
-                  fontWeight: FontWeight.w400,
-                  color: !Cache.darkTheme ? Styles.valueColor() : Colors.white,
-                ),
+            child: Text(
+              DateFormat(App.birthdayFormat, _appLocale.toString())
+                  .format(widget._controller.chosenDate),
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(15),
+                fontWeight: FontWeight.w400,
+                color: !Cache.darkTheme ? Styles.valueColor() : Colors.white,
               ),
-              onPressed: () {
-                DatePicker.showDatePicker(
-                  context,
-                  theme: _theme,
-                  locale: localeType[_appLocale.toString()],
-                  minTime: _minDate,
-                  maxTime: _maxDate,
-                  currentTime: _initialDate,
-                  onConfirm: (date) {
-                    _setDate(date);
-                  },
-                );
-              },
             ),
+            onPressed: () {
+              DatePicker.showDatePicker(
+                context,
+                theme: _theme,
+                locale: localeType[_appLocale.toString()],
+                minTime: _minDate,
+                maxTime: _maxDate,
+                currentTime: _initialDate,
+                onConfirm: (date) {
+                  _setDate(date);
+                },
+              );
+            },
           ),
+        ),
       ],
     );
   }

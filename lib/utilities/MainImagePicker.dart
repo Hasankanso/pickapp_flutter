@@ -122,7 +122,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
                       Expanded(
                         flex: 6,
                         child: Text(
-                          "View",
+                          Lang.getString(context, "View"),
                           style: Styles.valueTextStyle(),
                         ),
                       ),
@@ -148,7 +148,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
                       Expanded(
                         flex: 6,
                         child: Text(
-                          "Gallery",
+                          Lang.getString(context, "Gallery"),
                           style: Styles.valueTextStyle(),
                         ),
                       ),

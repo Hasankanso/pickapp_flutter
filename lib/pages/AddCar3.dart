@@ -5,9 +5,11 @@ import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/requests/AddCar.dart';
 import 'package:pickapp/requests/BecomeDriverRequest.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -19,32 +21,53 @@ import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar3 extends StatefulWidget {
-  Driver driver;
-  AddCar3({this.driver});
+  Object object;
+  AddCar3({this.object});
 
   @override
   _AddCar3State createState() => _AddCar3State();
 }
 
 class _AddCar3State extends State<AddCar3> {
+  Driver driver;
+  Car car;
   int _maxSeats, _maxLuggage;
   ColorController _colorController = ColorController();
   NumberController _seatsController = NumberController();
   NumberController _luggageController = NumberController();
+  var _btnText;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.object.runtimeType == Driver) {
+      driver = widget.object as Driver;
+      _btnText = "Become_a_driver";
+    } else if (widget.object.runtimeType == Car) {
+      car = widget.object as Car;
+      _btnText = "Add_car";
+    }
+  }
 
   @override
   void didChangeDependencies() {
-    if (widget.driver.cars[0].type == Lang.getString(context, "Sedan")) {
+    String _type;
+    if (driver != null) {
+      _type = driver.cars[0].type;
+    } else if (car != null) {
+      _type = car.type;
+    }
+    if (_type == Lang.getString(context, "Sedan")) {
       _maxSeats = 4;
       _maxLuggage = 3;
-    } else if (widget.driver.cars[0].type == Lang.getString(context, "SUV")) {
+    } else if (_type == Lang.getString(context, "SUV")) {
       _maxSeats = 6;
       _maxLuggage = 4;
-    } else if (widget.driver.cars[0].type ==
-        Lang.getString(context, "Hatchback")) {
+    } else if (_type == Lang.getString(context, "Hatchback")) {
       _maxSeats = 4;
       _maxLuggage = 3;
-    } else if (widget.driver.cars[0].type == Lang.getString(context, "Van")) {
+    } else if (_type == Lang.getString(context, "Van")) {
       _maxSeats = 13;
       _maxLuggage = 7;
     }
@@ -68,8 +91,8 @@ class _AddCar3State extends State<AddCar3> {
               children: [
                 Expanded(
                     flex: 20,
-                    child: NumberPicker(_seatsController,
-                        Lang.getString(context, "Seats"), 1, _maxSeats)),
+                    child:
+                        NumberPicker(_seatsController, "Seats", 1, _maxSeats)),
               ],
             ),
           ),
@@ -82,8 +105,8 @@ class _AddCar3State extends State<AddCar3> {
               children: [
                 Expanded(
                     flex: 20,
-                    child: NumberPicker(_luggageController,
-                        Lang.getString(context, "Luggage"), 1, _maxLuggage)),
+                    child: NumberPicker(
+                        _luggageController, "Luggage", 1, _maxLuggage)),
               ],
             ),
           ),
@@ -126,14 +149,8 @@ class _AddCar3State extends State<AddCar3> {
               height: 50,
               child: MainButton(
                 isRequest: false,
-                text_key: "Edit",
+                text_key: _btnText,
                 onPressed: () {
-                  widget.driver.cars[0].maxLuggage =
-                      _luggageController.chosenNumber;
-                  widget.driver.cars[0].maxSeats =
-                      _seatsController.chosenNumber;
-                  widget.driver.cars[0].color =
-                      _colorController.pickedColor.value;
                   showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -143,8 +160,11 @@ class _AddCar3State extends State<AddCar3> {
                       );
                     },
                   );
-                  Request<Driver> request = BecomeDriverRequest(widget.driver);
-                  request.send(_response);
+                  if (driver != null) {
+                    _becomeDriverRequest();
+                  } else if (car != null) {
+                    _addCarRequest();
+                  }
                 },
               ),
             ),
@@ -154,7 +174,23 @@ class _AddCar3State extends State<AddCar3> {
     );
   }
 
-  _response(Driver p1, int code, String message) async {
+  _addCarRequest() {
+    car.maxLuggage = _luggageController.chosenNumber;
+    car.maxSeats = _seatsController.chosenNumber;
+    car.color = _colorController.pickedColor.value;
+    Request<List<Car>> request = AddCar(car);
+    request.send(_addCarResponse);
+  }
+
+  _becomeDriverRequest() {
+    driver.cars[0].maxLuggage = _luggageController.chosenNumber;
+    driver.cars[0].maxSeats = _seatsController.chosenNumber;
+    driver.cars[0].color = _colorController.pickedColor.value;
+    Request<Driver> request = BecomeDriverRequest(driver);
+    request.send(_becomeDriverResponse);
+  }
+
+  _becomeDriverResponse(Driver p1, int code, String message) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
@@ -166,16 +202,35 @@ class _AddCar3State extends State<AddCar3> {
       cacheUser.driver = p1;
       cacheUser.person = cachePerson;
 
-      if (!userBox.containsKey(0)) {
-        await userBox.put(0, cacheUser);
-      } else {
-        userBox.add(cacheUser);
-      }
+      await userBox.put(0, cacheUser);
 
       App.user.driver = p1;
       App.isDriverNotifier.value = true;
+      CustomToast().showSuccessToast(Lang.getString(context, "Now_driver"));
+      Navigator.popUntil(context, (route) => route.isFirst);
+    }
+  }
+
+  _addCarResponse(List<Car> p1, int code, String message) async {
+    if (code != HttpStatus.ok) {
+      CustomToast().showErrorToast(message);
+      Navigator.pop(context);
+    } else {
+      final userBox = Hive.box("user");
+      User cacheUser = App.user;
+      Person cachePerson = App.person;
+      cachePerson.rates = null;
+      cacheUser.driver = App.driver;
+      cacheUser.driver.cars = p1;
+      cacheUser.person = cachePerson;
+
+      await userBox.put(0, cacheUser);
+
+      App.user.driver.cars = p1;
+      App.isDriverNotifier.notifyListeners();
+
       CustomToast()
-          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+          .showSuccessToast(Lang.getString(context, "Successfully_added!"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
