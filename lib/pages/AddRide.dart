@@ -23,6 +23,7 @@ class AddRide extends StatefulWidget {
 }
 
 class _AddRideState extends State<AddRide> {
+  final _formKey = GlobalKey<FormState>();
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
   DateTimeController dateTimeController = DateTimeController();
@@ -53,30 +54,92 @@ class _AddRideState extends State<AddRide> {
                   appBar: MainAppBar(
                     title: Lang.getString(context, "Add_Ride"),
                   ),
-                  body: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        ResponsiveWidget.fullWidth(
-                            height: 130,
-                            child: FromToPicker(
-                                fromController: fromController,
-                                toController: toController)),
-                        VerticalSpacer(height: 30),
-                        ResponsiveWidget(
+                  body: Form(
+                    key: _formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ResponsiveWidget.fullWidth(
+                              height: 130,
+                              child: FromToPicker(
+                                  fromController: fromController,
+                                  toController: toController)),
+                          VerticalSpacer(height: 30),
+                          ResponsiveWidget(
+                              width: 270,
+                              height: 60,
+                              child: DateTimePicker(dateTimeController)),
+                          VerticalSpacer(height: 15),
+                          ResponsiveWidget(
                             width: 270,
-                            height: 60,
-                            child: DateTimePicker(dateTimeController)),
-                        VerticalSpacer(height: 15),
-                        ResponsiveWidget(
-                          width: 270,
-                          height: 30,
-                          child: Center(
-                            child: Text(Lang.getString(context, "Rides_Permissions"),
-                                style: Styles.labelTextStyle()),
+                            height: 30,
+                            child: Center(
+                              child: Text(Lang.getString(context, "Rides_Permissions"),
+                                  style: Styles.labelTextStyle()),
+                            ),
                           ),
-                        ),
-                        VerticalSpacer(height: 15),
-                        ResponsiveWidget.fullWidth(
+                          VerticalSpacer(height: 15),
+                          ResponsiveWidget.fullWidth(
+                              height: 60,
+                              child: Row(
+                                children: [
+                                  Spacer(),
+                                  Expanded(
+                                    flex: 4,
+                                    child: Row(children: [
+                                      Expanded(
+                                          flex: 2,
+                                          child: Icon(
+                                            smokeIcon,
+                                            color: Styles.primaryColor(),
+                                          )),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Switcher(
+                                          isOn: smokeController.isOn,
+                                          controller: smokeController,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              smokeIcon = value == true
+                                                  ? Icons.smoking_rooms
+                                                  : Icons.smoke_free;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
+                                  Spacer(),
+                                  Expanded(
+                                      flex: 4,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                              flex: 2,
+                                              child: Icon(
+                                                petsIcon,
+                                                color: Styles.primaryColor(),
+                                              )),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Switcher(
+                                              isOn: petsController.isOn,
+                                              controller: petsController,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  petsIcon = value == true
+                                                      ? Icons.pets
+                                                      : Icons.pets;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  Spacer(),
+                                ],
+                              )),
+                          ResponsiveWidget.fullWidth(
                             height: 60,
                             child: Row(
                               children: [
@@ -87,26 +150,26 @@ class _AddRideState extends State<AddRide> {
                                     Expanded(
                                         flex: 2,
                                         child: Icon(
-                                          smokeIcon,
+                                          musicIcon,
                                           color: Styles.primaryColor(),
                                         )),
                                     Expanded(
                                       flex: 2,
                                       child: Switcher(
-                                        isOn: smokeController.isOn,
-                                        controller: smokeController,
+                                        isOn: musicController.isOn,
+                                        controller: musicController,
                                         onChanged: (value) {
                                           setState(() {
-                                            smokeIcon = value == true
-                                                ? Icons.smoking_rooms
-                                                : Icons.smoke_free;
+                                            musicIcon = value == true
+                                                ? Icons.music_note
+                                                : Icons.music_off;
                                           });
                                         },
                                       ),
                                     ),
                                   ]),
                                 ),
-                                Spacer(),
+                                Expanded(flex: 1, child: SizedBox()),
                                 Expanded(
                                     flex: 4,
                                     child: Row(
@@ -114,19 +177,19 @@ class _AddRideState extends State<AddRide> {
                                         Expanded(
                                             flex: 2,
                                             child: Icon(
-                                              petsIcon,
+                                              acIcon,
                                               color: Styles.primaryColor(),
                                             )),
                                         Expanded(
                                           flex: 2,
                                           child: Switcher(
-                                            isOn: petsController.isOn,
-                                            controller: petsController,
+                                            isOn: acController.isOn,
+                                            controller: acController,
                                             onChanged: (value) {
                                               setState(() {
-                                                petsIcon = value == true
-                                                    ? Icons.pets
-                                                    : Icons.pets;
+                                                acIcon = value == true
+                                                    ? Icons.ac_unit
+                                                    : Icons.ac_unit;
                                               });
                                             },
                                           ),
@@ -135,105 +198,49 @@ class _AddRideState extends State<AddRide> {
                                     )),
                                 Spacer(),
                               ],
-                            )),
-                        ResponsiveWidget.fullWidth(
-                          height: 60,
-                          child: Row(
-                            children: [
-                              Spacer(),
-                              Expanded(
-                                flex: 4,
-                                child: Row(children: [
-                                  Expanded(
-                                      flex: 2,
-                                      child: Icon(
-                                        musicIcon,
-                                        color: Styles.primaryColor(),
-                                      )),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Switcher(
-                                      isOn: musicController.isOn,
-                                      controller: musicController,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          musicIcon = value == true
-                                              ? Icons.music_note
-                                              : Icons.music_off;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ]),
-                              ),
-                              Expanded(flex: 1, child: SizedBox()),
-                              Expanded(
-                                  flex: 4,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          flex: 2,
-                                          child: Icon(
-                                            acIcon,
-                                            color: Styles.primaryColor(),
-                                          )),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Switcher(
-                                          isOn: acController.isOn,
-                                          controller: acController,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              acIcon = value == true
-                                                  ? Icons.ac_unit
-                                                  : Icons.ac_unit;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                              Spacer(),
-                            ],
+                            ),
                           ),
-                        ),
-                        VerticalSpacer(height: 80),
-                        ResponsiveWidget(
-                          width: 270,
-                          height: 50,
-                          child: MainButton(
-                            text_key: "Next",
-                            onPressed: () {
-                              MainLocation to = MainLocation(
-                                  name: toController.description,
-                                  latitude: toController.location.lat,
-                                  longitude: toController.location.lng,
-                                  placeId: toController.placeId);
-                              MainLocation from = MainLocation(
-                                  name: fromController.description,
-                                  latitude: fromController.location.lat,
-                                  longitude: fromController.location.lng,
-                                  placeId: fromController.placeId);
-                              DateTime date = dateTimeController.chosenDate;
-                              bool isSmoke = smokeController.isOn;
-                              bool isPets = petsController.isOn;
-                              bool isAc = acController.isOn;
-                              bool isMusic = musicController.isOn;
-                              Ride rideInfo = new Ride();
-                              rideInfo.user = App.user;
-                              rideInfo.to = to;
-                              rideInfo.from = from;
-                              rideInfo.leavingDate = date;
-                              rideInfo.smokingAllowed = isSmoke;
-                              rideInfo.petsAllowed = isPets;
-                              rideInfo.musicAllowed = isMusic;
-                              rideInfo.acAllowed = isAc;
-                                Navigator.of(context)
-                                    .pushNamed("/AddRidePage2", arguments: rideInfo);
-                            },
+                          VerticalSpacer(height: 80),
+                          ResponsiveWidget(
+                            width: 270,
+                            height: 50,
+                            child: MainButton(
+                              text_key: "Next",
+                              onPressed: () {
+                                if(_formKey.currentState.validate()){
+                                  MainLocation to = MainLocation(
+                                      name: toController.description,
+                                      latitude: toController.location.lat,
+                                      longitude: toController.location.lng,
+                                      placeId: toController.placeId);
+                                  MainLocation from = MainLocation(
+                                      name: fromController.description,
+                                      latitude: fromController.location.lat,
+                                      longitude: fromController.location.lng,
+                                      placeId: fromController.placeId);
+                                  DateTime date = dateTimeController.chosenDate;
+                                  bool isSmoke = smokeController.isOn;
+                                  bool isPets = petsController.isOn;
+                                  bool isAc = acController.isOn;
+                                  bool isMusic = musicController.isOn;
+                                  Ride rideInfo = new Ride();
+                                  rideInfo.user = App.user;
+                                  rideInfo.to = to;
+                                  rideInfo.from = from;
+                                  rideInfo.leavingDate = date;
+                                  rideInfo.smokingAllowed = isSmoke;
+                                  rideInfo.petsAllowed = isPets;
+                                  rideInfo.musicAllowed = isMusic;
+                                  rideInfo.acAllowed = isAc;
+                                  Navigator.of(context)
+                                      .pushNamed("/AddRidePage2", arguments: rideInfo);
+                                }
+
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ));
             } ,
