@@ -6,6 +6,8 @@ import 'package:pickapp/pages/AddRidePage2.dart';
 import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/pages/AddRidePage4.dart';
 import 'package:pickapp/pages/BecomeDriver.dart';
+import 'package:pickapp/pages/CarDetails.dart';
+import 'package:pickapp/pages/CarView.dart';
 import 'package:pickapp/pages/ContactUs.dart';
 import 'package:pickapp/pages/Details.dart';
 import 'package:pickapp/pages/Home.dart';
@@ -59,18 +61,10 @@ class RouteGenerator {
                 ));
       case '/Statistics':
         return MaterialPageRoute(builder: (_) => Statistics());
-      case '/Regions':
-        return MaterialPageRoute(builder: (_) => Regions());
-      case '/BecomeDriver':
-        return MaterialPageRoute(builder: (_) => BecomeDriver());
-      case '/AddCar':
-        return MaterialPageRoute(builder: (_) => AddCar(object: args));
-      case "/AddCar2":
-        return MaterialPageRoute(builder: (_) => AddCar2(object: args));
-      case "/AddCar3":
+      case "/CarDetails":
         return MaterialPageRoute(
-            builder: (_) => AddCar3(
-                  object: args,
+            builder: (_) => CarDetails(
+                  car: args,
                 ));
       case '/PrivacyPolicy':
         return MaterialPageRoute(builder: (_) => PrivacyPolicy());
@@ -83,6 +77,33 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Profile());
       case '/RideDetails':
         return MaterialPageRoute(builder: (_) => RideDetails(ride: args));
+      case '/Regions':
+        return MaterialPageRoute(builder: (_) => Regions());
+      case '/CarView':
+        return MaterialPageRoute(builder: (_) => CarView());
+
+      //become driver screens
+      case '/BecomeDriver':
+        return MaterialPageRoute(builder: (_) => BecomeDriver());
+      case '/AddCarDriver':
+        return MaterialPageRoute(builder: (_) => AddCar(driver: args));
+      case "/AddCar2Driver":
+        return MaterialPageRoute(builder: (_) => AddCar2(driver: args));
+      case "/AddCar3Driver":
+        return MaterialPageRoute(
+            builder: (_) => AddCar3(
+                  driver: args,
+                ));
+      //add car screens
+      case '/AddCar':
+        return MaterialPageRoute(builder: (_) => AddCar());
+      case "/AddCar2":
+        return MaterialPageRoute(builder: (_) => AddCar2(car: args));
+      case "/AddCar3":
+        return MaterialPageRoute(
+            builder: (_) => AddCar3(
+                  car: args,
+                ));
     }
   }
 }

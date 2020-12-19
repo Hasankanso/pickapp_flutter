@@ -16,6 +16,7 @@ class LocationFinder extends StatefulWidget {
   String _initialDescription;
   String errorText;
   String Function(String) onValidate;
+  bool isUnderlineBorder;
 
   LocationFinder(
       {LocationEditingController controller,
@@ -25,7 +26,8 @@ class LocationFinder extends StatefulWidget {
       String language,
       String country,
       this.errorText,
-      this.onValidate}) {
+      this.onValidate,
+      this.isUnderlineBorder = true}) {
     _controller = controller;
     _title = title;
     _hintText = hintText;
@@ -33,6 +35,7 @@ class LocationFinder extends StatefulWidget {
     _country = country;
     _API_KEY = App.googleKey;
     _initialDescription = initialDescription;
+    isUnderlineBorder = isUnderlineBorder;
   }
 
   @override
@@ -106,15 +109,20 @@ class _LocationFinderState extends State<LocationFinder> {
         labelStyle: Styles.labelTextStyle(),
         hintStyle: Styles.labelTextStyle(),
         errorText: widget.errorText,
+        border: widget.isUnderlineBorder ? null : InputBorder.none,
+        focusedBorder: widget.isUnderlineBorder ? null : InputBorder.none,
+        enabledBorder: widget.isUnderlineBorder ? null : InputBorder.none,
+        errorBorder: widget.isUnderlineBorder ? null : InputBorder.none,
+        disabledBorder: widget.isUnderlineBorder ? null : InputBorder.none,
       ),
       validator: (text) {
-          if (text.isEmpty) {
-            return "text is empty";
-          } else if (widget.onValidate != null) {
-            return widget.onValidate(text);
-          } else {
-            return null;
-          }
+        if (text.isEmpty) {
+          return "text is empty";
+        } else if (widget.onValidate != null) {
+          return widget.onValidate(text);
+        } else {
+          return null;
+        }
       },
       style: Styles.valueTextStyle(),
       focusNode: FocusNode(),

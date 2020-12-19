@@ -287,7 +287,7 @@ class DriverInfo extends StatefulWidget {
   _DriverInfoState createState() => _DriverInfoState();
 }
 
-class _DriverInfoState extends State<DriverInfo> with TickerProviderStateMixin {
+class _DriverInfoState extends State<DriverInfo> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -323,44 +323,42 @@ class _DriverInfoState extends State<DriverInfo> with TickerProviderStateMixin {
       Line(),
       InkWell(
         onTap: () {},
-        child: AnimatedSize(
-          curve: Curves.fastLinearToSlowEaseIn,
-          vsync: this,
-          duration: Duration(milliseconds: 10),
-          child: Row(
-            children: [
-              Expanded(
-                child: MainExpansionTile(
-                  height: 60,
-                  leading: Icon(
-                    Icons.local_taxi_outlined,
-                    size: Styles.mediumIconSize(),
-                    color: Styles.primaryColor(),
-                  ),
-                  title: Text(
-                    Lang.getString(context, "My_cars"),
-                    style: Styles.valueTextStyle(),
-                  ),
-                  trailing: IconButton(
-                    tooltip: Lang.getString(context, "Add_a_car"),
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/AddCar");
-                    },
-                    icon: Icon(
-                      Icons.add,
-                      color: Styles.labelColor(),
-                      size: Styles.largeIconSize(),
-                    ),
-                  ),
-                  children: App.driver.cars.map((Car car) {
-                    return CarListTile(car);
-                  }).toList(growable: true),
+        child: Row(
+          children: [
+            Expanded(
+              child: MainExpansionTile(
+                height: 60,
+                leading: Icon(
+                  Icons.local_taxi_outlined,
+                  size: Styles.mediumIconSize(),
+                  color: Styles.primaryColor(),
                 ),
+                title: Text(
+                  Lang.getString(context, "My_cars"),
+                  style: Styles.valueTextStyle(),
+                ),
+                trailing: !(App.driver.cars.length >= 3)
+                    ? IconButton(
+                        tooltip: Lang.getString(context, "Add_a_car"),
+                        onPressed: () {
+                          print(App.driver.cars.length >= 3);
+                          Navigator.pushNamed(context, "/AddCar");
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          color: Styles.primaryColor(),
+                          size: Styles.largeIconSize(),
+                        ),
+                      )
+                    : null,
+                children: App.driver.cars.map((Car car) {
+                  return CarListTile(car);
+                }).toList(growable: true),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      )
+      ),
     ]);
   }
 }

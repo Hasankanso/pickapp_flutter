@@ -20,7 +20,6 @@
   "Persons": "الأشخاص",
   "Notifications":"إشعارات",
   "Next": "التالي",
-
   "Contact_Us" : "تواصل معنا",
   "Send" : "إرسال",
   "Subject" : "الموضوع",
@@ -39,6 +38,7 @@
   "Statistics": "إحصائيات",
   "Seats":"مقاعد",
   "Become_a_driver": "كن سائقا",
+  "Become_a_Driver": "كن سائقا",
   "Chattiness": "الثرثرة",
   "Bio": "السيرة الذاتية",
   "Write_your_bio": "اكتب سيرتك الذاتية",
@@ -79,7 +79,7 @@
   "Brand": "الماركة",
   "Car_brand_hint": "تويوتا",
   "Year": "السنة",
-  "Region": "منطقة",
+  "Region": "المنطقة",
   "My_living_regions:": "مناطق عيشي:",
   "Add_a_region": "أضف منطقة",
   "Remove_region": "إزالة المنطقة",
@@ -125,12 +125,4 @@
 
   "Yes" : "نعم",
   "No" : "لا"
-
-
-
-
-
-
-
-
 }

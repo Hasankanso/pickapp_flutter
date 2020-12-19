@@ -21,42 +21,30 @@ import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar3 extends StatefulWidget {
-  Object object;
-  AddCar3({this.object});
+  Driver driver;
+  Car car;
+  AddCar3({this.driver, this.car});
 
   @override
   _AddCar3State createState() => _AddCar3State();
 }
 
 class _AddCar3State extends State<AddCar3> {
-  Driver driver;
-  Car car;
   int _maxSeats, _maxLuggage;
   ColorController _colorController = ColorController();
   NumberController _seatsController = NumberController();
   NumberController _luggageController = NumberController();
-  var _btnText;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget.object.runtimeType == Driver) {
-      driver = widget.object as Driver;
-      _btnText = "Become_a_driver";
-    } else if (widget.object.runtimeType == Car) {
-      car = widget.object as Car;
-      _btnText = "Add_car";
-    }
-  }
+  String _btnText;
 
   @override
   void didChangeDependencies() {
     String _type;
-    if (driver != null) {
-      _type = driver.cars[0].type;
-    } else if (car != null) {
-      _type = car.type;
+    if (widget.driver != null) {
+      _btnText = "Become_a_driver";
+      _type = widget.driver.cars[0].type;
+    } else if (widget.car != null) {
+      _type = widget.car.type;
+      _btnText = "Add_car";
     }
     if (_type == Lang.getString(context, "Sedan")) {
       _maxSeats = 4;
@@ -127,14 +115,14 @@ class _AddCar3State extends State<AddCar3> {
                 ),
               ),
               Spacer(
-                flex: 1,
+                flex: 2,
               ),
               Expanded(
-                flex: 5,
+                flex: 3,
                 child: ColorPicker(_colorController),
               ),
               Spacer(
-                flex: 3,
+                flex: 4,
               ),
             ]),
           ),
@@ -160,9 +148,9 @@ class _AddCar3State extends State<AddCar3> {
                       );
                     },
                   );
-                  if (driver != null) {
+                  if (widget.driver != null) {
                     _becomeDriverRequest();
-                  } else if (car != null) {
+                  } else if (widget.car != null) {
                     _addCarRequest();
                   }
                 },
@@ -175,18 +163,18 @@ class _AddCar3State extends State<AddCar3> {
   }
 
   _addCarRequest() {
-    car.maxLuggage = _luggageController.chosenNumber;
-    car.maxSeats = _seatsController.chosenNumber;
-    car.color = _colorController.pickedColor.value;
-    Request<List<Car>> request = AddCar(car);
+    widget.car.maxLuggage = _luggageController.chosenNumber;
+    widget.car.maxSeats = _seatsController.chosenNumber;
+    widget.car.color = _colorController.pickedColor.value;
+    Request<List<Car>> request = AddCar(widget.car);
     request.send(_addCarResponse);
   }
 
   _becomeDriverRequest() {
-    driver.cars[0].maxLuggage = _luggageController.chosenNumber;
-    driver.cars[0].maxSeats = _seatsController.chosenNumber;
-    driver.cars[0].color = _colorController.pickedColor.value;
-    Request<Driver> request = BecomeDriverRequest(driver);
+    widget.driver.cars[0].maxLuggage = _luggageController.chosenNumber;
+    widget.driver.cars[0].maxSeats = _seatsController.chosenNumber;
+    widget.driver.cars[0].color = _colorController.pickedColor.value;
+    Request<Driver> request = BecomeDriverRequest(widget.driver);
     request.send(_becomeDriverResponse);
   }
 

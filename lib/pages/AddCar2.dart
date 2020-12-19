@@ -11,30 +11,17 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar2 extends StatefulWidget {
-  Object object;
-  AddCar2({this.object});
+  Driver driver;
+  Car car;
+  AddCar2({this.driver, this.car});
   @override
   _AddCar2State createState() => _AddCar2State();
 }
 
 class _AddCar2State extends State<AddCar2> {
-  Driver driver;
-  Car car;
-
   String _type;
   List<bool> _typesBool = [false, false, false, false];
   List<String> _typesNames;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget.object.runtimeType == Driver) {
-      driver = widget.object as Driver;
-    } else if (widget.object.runtimeType == Car) {
-      car = widget.object as Car;
-    }
-  }
 
   selectType(int index) {
     setState(() {
@@ -45,16 +32,19 @@ class _AddCar2State extends State<AddCar2> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (_typesNames == null) {
-      _typesNames = [
-        Lang.getString(context, "Sedan"),
-        Lang.getString(context, "SUV"),
-        Lang.getString(context, "Hatchback"),
-        Lang.getString(context, "Van")
-      ];
-    }
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    _typesNames = [
+      Lang.getString(context, "Sedan"),
+      Lang.getString(context, "SUV"),
+      Lang.getString(context, "Hatchback"),
+      Lang.getString(context, "Van")
+    ];
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Add_Car"),
@@ -62,6 +52,9 @@ class _AddCar2State extends State<AddCar2> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          VerticalSpacer(
+            height: 20,
+          ),
           ResponsiveWidget.fullWidth(
             height: 50,
             child: Row(
@@ -131,19 +124,19 @@ class _AddCar2State extends State<AddCar2> {
                     return CustomToast()
                         .showErrorToast(Lang.getString(context, "Select_type"));
                   }
-                  if (driver != null) {
-                    driver.cars[0].type = _type;
+                  if (widget.driver != null) {
+                    widget.driver.cars[0].type = _type;
                     Navigator.pushNamed(
                       context,
-                      "/AddCar3",
-                      arguments: driver,
+                      "/AddCar3Driver",
+                      arguments: widget.driver,
                     );
-                  } else if (car != null) {
-                    car.type = _type;
+                  } else if (widget.car != null) {
+                    widget.car.type = _type;
                     Navigator.pushNamed(
                       context,
                       "/AddCar3",
-                      arguments: car,
+                      arguments: widget.car,
                     );
                   }
                 },

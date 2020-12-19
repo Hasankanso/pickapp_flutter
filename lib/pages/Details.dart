@@ -53,7 +53,9 @@ class _DetailsState extends State<Details> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
     _chattinessItems = <String>[
       Lang.getString(context, "I'm_a_quiet_person"),
       Lang.getString(context, "I_talk_depending_on_my_mood"),
@@ -63,6 +65,10 @@ class _DetailsState extends State<Details> {
       Lang.getString(context, "Male"),
       Lang.getString(context, "Female"),
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Details"),
@@ -145,7 +151,7 @@ class _DetailsState extends State<Details> {
                     ),
                   ),
                   ResponsiveWidget.fullWidth(
-                    height: 100,
+                    height: 115,
                     child: DifferentSizeResponsiveRow(
                       children: [
                         Expanded(
@@ -206,7 +212,7 @@ class _DetailsState extends State<Details> {
                     ),
                   ),
                   ResponsiveWidget.fullWidth(
-                    height: 100,
+                    height: 115,
                     child: DifferentSizeResponsiveRow(
                       children: [
                         Expanded(

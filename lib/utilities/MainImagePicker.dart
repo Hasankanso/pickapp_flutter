@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/utilities/ImageViewer.dart';
 
 import 'Responsive.dart';
@@ -12,9 +13,14 @@ import 'Responsive.dart';
 class MainImagePicker extends StatefulWidget {
   final VoidCallback callBack;
   MainImageController controller;
+  bool isCarPicker;
   String imageUrl;
 
-  MainImagePicker({this.callBack, this.controller, this.imageUrl});
+  MainImagePicker(
+      {this.callBack,
+      this.controller,
+      this.imageUrl,
+      this.isCarPicker = false});
   @override
   _MainImagePickerState createState() => _MainImagePickerState();
 }
@@ -31,22 +37,39 @@ class _MainImagePickerState extends State<MainImagePicker> {
       onTap: _showBottomSheet,
       child: Stack(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(400),
-            child: widget.imageUrl != null
-                ? CachedNetworkImage(
-                    imageUrl: widget.imageUrl,
-                    imageBuilder: (context, imageProvider) =>
-                        Image(image: imageProvider),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) {
-                      return Image(image: AssetImage("lib/images/user.png"));
-                    },
-                  )
-                : _image != null
-                    ? Image(image: AssetImage(_image.path))
-                    : Image(image: AssetImage("lib/images/user.png")),
-          ),
+          widget.imageUrl != null
+              ? CachedNetworkImage(
+                  imageUrl: widget.imageUrl,
+                  imageBuilder: (context, imageProvider) => CircleAvatar(
+                    backgroundColor: Styles.secondaryColor(),
+                    radius: ScreenUtil().setSp(45),
+                    backgroundImage: imageProvider,
+                  ),
+                  placeholder: (context, url) => CircleAvatar(
+                    backgroundColor: Styles.secondaryColor(),
+                    child: CircularProgressIndicator(
+                      backgroundColor: Styles.primaryColor(),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) {
+                    return CircleAvatar(
+                      backgroundColor: Styles.secondaryColor(),
+                      radius: ScreenUtil().setSp(45),
+                      backgroundImage: AssetImage(!widget.isCarPicker
+                          ? "lib/images/user.png"
+                          : "lib/images/car.png"),
+                    );
+                  },
+                )
+              : CircleAvatar(
+                  backgroundColor: Styles.secondaryColor(),
+                  radius: ScreenUtil().setSp(45),
+                  backgroundImage: _image != null
+                      ? AssetImage(_image.path)
+                      : AssetImage(!widget.isCarPicker
+                          ? "lib/images/user.png"
+                          : "lib/images/car.png"),
+                ),
           Positioned(
             bottom: 5,
             right: 10,

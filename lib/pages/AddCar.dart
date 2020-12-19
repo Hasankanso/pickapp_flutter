@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
@@ -14,32 +13,19 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar extends StatefulWidget {
-  Object object;
-  AddCar({this.object});
+  Driver driver;
+  AddCar({this.driver});
 
   @override
   _AddCarState createState() => _AddCarState();
 }
 
 class _AddCarState extends State<AddCar> {
-  Driver driver;
-  Car car;
   final _formKey = GlobalKey<FormState>();
   TextEditingController _name = TextEditingController();
   TextEditingController _brand = TextEditingController();
   TextEditingController _year = TextEditingController();
   MainImageController _imageController = MainImageController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget.object.runtimeType == Driver) {
-      driver = widget.object as Driver;
-    } else {
-      car = Car();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +39,7 @@ class _AddCarState extends State<AddCar> {
           child: Column(
             children: [
               VerticalSpacer(
-                height: 10,
+                height: 20,
               ),
               ResponsiveWidget.fullWidth(
                 height: 110,
@@ -61,12 +47,12 @@ class _AddCarState extends State<AddCar> {
                   alignment: Alignment.center,
                   child: MainImagePicker(
                     controller: _imageController,
-                    imageUrl: App.person.profilePictureUrl,
+                    isCarPicker: true,
                   ),
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 88,
+                height: 100,
                 child: ResponsiveRow(
                   children: [
                     TextFormField(
@@ -96,7 +82,7 @@ class _AddCarState extends State<AddCar> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 88,
+                height: 100,
                 child: ResponsiveRow(
                   children: [
                     TextFormField(
@@ -127,7 +113,7 @@ class _AddCarState extends State<AddCar> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 88,
+                height: 100,
                 child: ResponsiveRow(
                   children: [
                     TextFormField(
@@ -180,26 +166,27 @@ class _AddCarState extends State<AddCar> {
                       return CustomToast().showErrorToast(
                           Lang.getString(context, "Select_an_image"));
                     }
-                    if (driver != null) {
-                      driver.cars = [
+                    print(widget.driver);
+                    if (widget.driver != null) {
+                      widget.driver.cars = [
                         Car(
                           name: _name.text,
                           brand: _brand.text,
                           year: int.parse(_year.text),
                         )
                       ];
-                      await driver.cars[0]
+                      await widget.driver.cars[0]
                           .setPictureFile(_imageController.pickedImage);
-                      Navigator.pushNamed(context, "/AddCar2",
-                          arguments: driver);
-                    } else if (car != null) {
-                      car = Car(
+                      Navigator.pushNamed(context, "/AddCar2Driver",
+                          arguments: widget.driver);
+                    } else {
+                      print(22);
+                      Car car = Car(
                         name: _name.text,
                         brand: _brand.text,
                         year: int.parse(_year.text),
                       );
                       await car.setPictureFile(_imageController.pickedImage);
-                      print(1);
                       Navigator.pushNamed(context, "/AddCar2", arguments: car);
                     }
                   }

@@ -92,6 +92,7 @@ class MyAppState extends State<MyApp> {
               App.user = box.getAt(0) as User;
               App.isLoggedIn = true;
               App.isLoggedInNotifier.value = true;
+              if (App.driver != null) App.isDriverNotifier.value = true;
             }
             return MaterialApp(
               title: App.appName,

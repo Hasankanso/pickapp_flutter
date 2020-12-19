@@ -23,6 +23,7 @@ class CarListTile extends ListTile {
       elevation: 1.0,
       child: ListTile(
         onTap: () {
+          Navigator.pushNamed(context, "/CarDetails", arguments: car);
           MainExpansionTileState.of(context).collapse();
         },
         leading: CachedNetworkImage(

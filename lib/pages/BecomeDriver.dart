@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:pickapp/items/RegionListTile.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/Line.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
@@ -19,7 +19,7 @@ class BecomeDriver extends StatefulWidget {
 class _BecomeDriverState extends State<BecomeDriver> {
   final _formKey = GlobalKey<FormState>();
   List<MainLocation> _regions = List<MainLocation>();
-  List<RegionsListTile> _regionTiles = List<RegionsListTile>();
+  List<RegionListTile> _regionTiles = List<RegionListTile>();
   List<LocationEditingController> _regionsControllers =
       List<LocationEditingController>();
 
@@ -50,46 +50,47 @@ class _BecomeDriverState extends State<BecomeDriver> {
     }
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Become_a_driver"),
+        title: Lang.getString(context, "Become_a_Driver"),
       ),
       body: Column(
         children: [
-          ResponsiveWidget.fullWidth(
-            height: 70,
+          AspectRatio(
+            aspectRatio: 25 / 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Card(
-                    shape: RoundedRectangleBorder(),
-                    child: Column(
-                      children: [
-                        DifferentSizeResponsiveRow(
-                          children: [
-                            Expanded(
-                              flex: 10,
-                              child: Text(
-                                Lang.getString(context, "My_living_regions:"),
-                                style: Styles.valueTextStyle(),
-                              ),
+                  shape: RoundedRectangleBorder(),
+                  child: Column(
+                    children: [
+                      DifferentSizeResponsiveRow(
+                        children: [
+                          Expanded(
+                            flex: 10,
+                            child: Text(
+                              Lang.getString(context, "My_living_regions:"),
+                              style: Styles.valueTextStyle(),
                             ),
-                            Expanded(
-                              flex: 2,
-                              child: IconButton(
-                                icon: Icon(Icons.add_location_alt),
-                                iconSize: Styles.largeIconSize(),
-                                color: Styles.primaryColor(),
-                                tooltip: Lang.getString(context,
-                                    "Add_a_region"), //Lang.getString(context, "Settings"),
-                                onPressed: _addRegion,
-                              ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: IconButton(
+                              icon: Icon(Icons.add_location_alt),
+                              iconSize: Styles.largeIconSize(),
+                              color: Styles.primaryColor(),
+                              tooltip: Lang.getString(context,
+                                  "Add_a_region"), //Lang.getString(context, "Settings"),
+                              onPressed: _addRegion,
                             ),
-                          ],
-                        ),
-                        Line(
-                          margin: false,
-                        ),
-                      ],
-                    )),
+                          ),
+                        ],
+                      ),
+                      Line(
+                        margin: false,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -99,7 +100,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
               child: ListView.builder(
                 reverse: false,
                 itemBuilder: (context, index) {
-                  var _tile = RegionsListTile(
+                  var _tile = RegionListTile(
                       _regions[index],
                       _regions.length != 1,
                       index,
@@ -134,69 +135,12 @@ class _BecomeDriverState extends State<BecomeDriver> {
                       _regions[i].latitude =
                           _regionsControllers[i].location.lat;
                     }
-                    Navigator.pushNamed(context, "/AddCar",
+                    Navigator.pushNamed(context, "/AddCarDriver",
                         arguments: Driver(regions: _regions));
                   }
                 },
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class RegionsListTile extends StatelessWidget {
-  final MainLocation region;
-  bool isDefault;
-  int _index;
-  Function(int) _removeRegion;
-  LocationEditingController regionController;
-
-  RegionsListTile(this.region, this.isDefault, this._index, this._removeRegion,
-      this.regionController);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 1.0,
-      margin: EdgeInsets.all(4),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-        child: DifferentSizeResponsiveRow(
-          children: [
-            Expanded(
-              flex: 10,
-              child: Column(
-                children: [
-                  LocationFinder(
-                    controller: regionController,
-                    title: Lang.getString(context, "Region"),
-                    hintText: Lang.getString(context, "Region"),
-                    initialDescription: regionController.description,
-                    language: Lang.getString(context, "lang"),
-                    country: App.countryCode,
-                  ),
-                ],
-              ),
-            ),
-            isDefault
-                ? Expanded(
-                    flex: 2,
-                    child: IconButton(
-                      icon: Icon(Icons.minimize),
-                      iconSize: Styles.largeIconSize(),
-                      color: Styles.primaryColor(),
-                      tooltip: Lang.getString(context, "Remove_region"),
-                      onPressed: () {
-                        _removeRegion(_index);
-                      },
-                    ),
-                  )
-                : Spacer(
-                    flex: 2,
-                  )
           ],
         ),
       ),

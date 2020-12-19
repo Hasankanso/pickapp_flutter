@@ -18,10 +18,8 @@ class CarTypeItem extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(9.846153846153847),
       ),
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(5),
       child: Container(
-        width: 64,
-        height: 62,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(9.846153846153847),
           gradient: _isSelected
@@ -41,28 +39,18 @@ class CarTypeItem extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 flex: 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image(
-                      image: _isSelected
-                          ? AssetImage(_image + '_white.png')
-                          : AssetImage(_image + '_black.png'),
-                    ),
-                  ],
+                child: Image(
+                  image: _isSelected
+                      ? AssetImage(_image + '_white.png')
+                      : AssetImage(_image + '_black.png'),
                 ),
               ),
               Expanded(
                 flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _text,
-                      style: Styles.subValueTextStyle(
-                          color: _isSelected ? Colors.white : null),
-                    ),
-                  ],
+                child: Text(
+                  _text,
+                  style: Styles.subValueTextStyle(
+                      color: _isSelected ? Colors.white : null),
                 ),
               )
             ],
