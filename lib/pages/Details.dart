@@ -281,7 +281,7 @@ class _DetailsState extends State<Details> {
                               String valid =
                                   Validation.validate(value, context);
                               String alpha =
-                                  Validation.isAlphabeticIgnoreSpaces(
+                                  Validation.isAlphaNumericIgnoreSpaces(
                                       context, value);
                               String short =
                                   Validation.isShort(context, value, 20);
@@ -321,6 +321,7 @@ class _DetailsState extends State<Details> {
                     CountryInformations cI =
                         App.countriesInformations[_country];
                     Person _newPerson = Person();
+                    print(_firstName.text);
                     _newPerson.firstName = _firstName.text;
                     _newPerson.lastName = _lastName.text;
                     _newPerson.birthday = _birthday.chosenDate;

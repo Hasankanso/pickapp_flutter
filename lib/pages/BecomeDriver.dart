@@ -31,6 +31,7 @@ class BecomeDriver extends StatefulWidget {
 
 class _BecomeDriverState extends State<BecomeDriver> {
   final _formKey = GlobalKey<FormState>();
+  var regionsBox;
   List<MainLocation> _regions = List<MainLocation>();
   List<RegionListTile> _regionTiles = List<RegionListTile>();
   List<LocationEditingController> _regionsControllers =
@@ -56,14 +57,21 @@ class _BecomeDriverState extends State<BecomeDriver> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    regionsBox.close();
+    super.dispose();
+  }
+
+  @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     if (widget.isRegionPage) {
       await Hive.openBox("regions");
-      final box = Hive.box("regions");
-      if (box.length != 0) {
-        App.user.driver.regions = box.getAt(0).cast<MainLocation>();
+      regionsBox = Hive.box("regions");
+      if (regionsBox.length != 0) {
+        App.user.driver.regions = regionsBox.getAt(0).cast<MainLocation>();
       }
       _regions = App.driver.regions;
       for (var region in _regions) {
@@ -222,16 +230,11 @@ class _BecomeDriverState extends State<BecomeDriver> {
     } else {
       App.driver.regions = p1.regions;
 
-      await Hive.openBox('regions');
-      final regionsBox = Hive.box("regions");
-
       if (regionsBox.containsKey(0)) {
         await regionsBox.put(0, p1.regions);
       } else {
         await regionsBox.add(p1.regions);
       }
-      regionsBox.close();
-
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }

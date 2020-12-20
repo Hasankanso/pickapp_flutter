@@ -6,6 +6,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/utilities/MainExpansionTile.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 
 class CarListTile extends ListTile {
   final Car car;
@@ -33,19 +34,23 @@ class CarListTile extends ListTile {
           imageUrl: car.carPictureUrl,
           imageBuilder: (context, imageProvider) {
             return CircleAvatar(
+              backgroundColor: Colors.transparent,
               radius: ScreenUtil().setSp(30),
               backgroundImage: imageProvider,
             );
           },
           placeholder: (context, url) => CircleAvatar(
             radius: ScreenUtil().setSp(30),
-            child: CircularProgressIndicator(),
+            backgroundColor: Colors.transparent,
+            child: Spinner(),
           ),
-          errorWidget: (context, url, error) {
-            return Image(
+          errorWidget: (context, url, error) => CircleAvatar(
+            radius: ScreenUtil().setSp(30),
+            backgroundColor: Colors.transparent,
+            child: Image(
               image: AssetImage("lib/images/user.png"),
-            );
-          },
+            ),
+          ),
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

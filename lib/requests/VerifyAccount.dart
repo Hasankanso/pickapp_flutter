@@ -1,4 +1,3 @@
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class VerifyAccount extends Request<String> {
@@ -21,9 +20,6 @@ class VerifyAccount extends Request<String> {
 
   @override
   String isValid() {
-    if (!Validation.validPhoneNumber(_phoneNumber)) {
-      return "Invalid phone number";
-    }
     return null;
   }
 }

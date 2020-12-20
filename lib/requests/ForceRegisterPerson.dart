@@ -35,8 +35,7 @@ class ForceRegisterPerson extends Request<User> {
         !Validation.validAlphabet(_newUser.person.lastName)) {
       return "Your last name must be alphabet only";
     }
-    if (Validation.isNullOrEmpty(_newUser.email) ||
-        !Validation.validEmail(_newUser.email)) {
+    if (Validation.isNullOrEmpty(_newUser.email)) {
       return "Invalid Email address";
     }
     if (App.calculateAge(_newUser.person.birthday) < 14) {
@@ -47,9 +46,6 @@ class ForceRegisterPerson extends Request<User> {
     }
     if (Validation.isNullOrEmpty(_verificationToken)) {
       return "Invalid verification token";
-    }
-    if (!Validation.validPhoneNumber(_newUser.phone)) {
-      return "Invalid phone number";
     }
     return null;
   }

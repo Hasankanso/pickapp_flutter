@@ -262,7 +262,7 @@ class _SearchState extends State<Search>
           child: Column(
             children: [
               ResponsiveWidget.fullWidth(
-                  height: 130,
+                  height: 150,
                   child: FromToPicker(
                       fromController: fromController,
                       toController: toController)),

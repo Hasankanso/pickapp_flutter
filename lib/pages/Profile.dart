@@ -34,7 +34,11 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   MainImageController _imageController = MainImageController();
+  bool _isImageLoading = false;
+
   _onImagePicked() async {
+    _isImageLoading = true;
+    setState(() {});
     Person _person = App.person;
     await _person.setImage(_imageController.pickedImage);
     Request<Person> request = EditAccount(_person);
@@ -72,6 +76,7 @@ class _ProfileState extends State<Profile> {
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       setState(() {
+        _isImageLoading = false;
         App.user.person = result;
       });
     }
@@ -138,6 +143,7 @@ class _ProfileState extends State<Profile> {
                                     alignment: Alignment.center,
                                     child: MainImagePicker(
                                       callBack: _onImagePicked,
+                                      isLoading: _isImageLoading,
                                       controller: _imageController,
                                       imageUrl: App.person.profilePictureUrl,
                                     ),

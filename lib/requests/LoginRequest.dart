@@ -27,9 +27,6 @@ class LoginRequest extends Request<User> {
         _user.verificationCode.length != 5) {
       return "Invalid code";
     }
-    if (!Validation.validPhoneNumber(_user.phone)) {
-      return "Invalid phone number";
-    }
     return null;
   }
 }

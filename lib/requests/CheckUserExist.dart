@@ -1,4 +1,3 @@
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/Request.dart';
 
@@ -23,9 +22,6 @@ class CheckUserExist extends Request<bool> {
 
   @override
   String isValid() {
-    if (!Validation.validPhoneNumber(_user.phone)) {
-      return "Invalid phone number";
-    }
     return null;
   }
 }

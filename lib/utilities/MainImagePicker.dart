@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/utilities/ImageViewer.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 
 import 'Responsive.dart';
 
@@ -15,12 +15,14 @@ class MainImagePicker extends StatefulWidget {
   final VoidCallback callBack;
   MainImageController controller;
   bool isCarPicker;
+  bool isLoading;
   String imageUrl;
 
   MainImagePicker(
       {this.callBack,
       this.controller,
       this.imageUrl,
+      this.isLoading = false,
       this.isCarPicker = false});
   @override
   _MainImagePickerState createState() => _MainImagePickerState();
@@ -38,40 +40,42 @@ class _MainImagePickerState extends State<MainImagePicker> {
       onTap: _showBottomSheet,
       child: Stack(
         children: [
-          widget.imageUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: widget.imageUrl,
-                  imageBuilder: (context, imageProvider) => CircleAvatar(
-                    radius: ScreenUtil().setSp(45),
-                    backgroundImage: imageProvider,
-                  ),
-                  placeholder: (context, url) => CircleAvatar(
-                    backgroundColor:
-                        Cache.darkTheme ? Colors.black12 : Colors.grey[50],
-                    child: CircularProgressIndicator(
-                      backgroundColor: Styles.primaryColor(),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) {
-                    return CircleAvatar(
-                      backgroundColor:
-                          Cache.darkTheme ? Colors.black12 : Colors.grey[50],
+          !widget.isLoading
+              ? widget.imageUrl != null
+                  ? CachedNetworkImage(
+                      imageUrl: widget.imageUrl,
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: ScreenUtil().setSp(45),
+                        backgroundImage: imageProvider,
+                      ),
+                      placeholder: (context, url) => CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        radius: ScreenUtil().setSp(45),
+                        child: Spinner(),
+                      ),
+                      errorWidget: (context, url, error) {
+                        return CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: ScreenUtil().setSp(45),
+                          backgroundImage: AssetImage(!widget.isCarPicker
+                              ? "lib/images/user.png"
+                              : "lib/images/car.png"),
+                        );
+                      },
+                    )
+                  : CircleAvatar(
+                      backgroundColor: Colors.transparent,
                       radius: ScreenUtil().setSp(45),
-                      backgroundImage: AssetImage(!widget.isCarPicker
-                          ? "lib/images/user.png"
-                          : "lib/images/car.png"),
-                    );
-                  },
-                )
+                      backgroundImage: _image != null
+                          ? AssetImage(_image.path)
+                          : AssetImage(!widget.isCarPicker
+                              ? "lib/images/user.png"
+                              : "lib/images/car.png"),
+                    )
               : CircleAvatar(
-                  backgroundColor:
-                      Cache.darkTheme ? Colors.black12 : Colors.grey[50],
+                  backgroundColor: Colors.transparent,
                   radius: ScreenUtil().setSp(45),
-                  backgroundImage: _image != null
-                      ? AssetImage(_image.path)
-                      : AssetImage(!widget.isCarPicker
-                          ? "lib/images/user.png"
-                          : "lib/images/car.png"),
+                  child: Spinner(),
                 ),
           Positioned(
             bottom: 5,
