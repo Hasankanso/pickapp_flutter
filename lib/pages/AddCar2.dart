@@ -19,7 +19,7 @@ class AddCar2 extends StatefulWidget {
 }
 
 class _AddCar2State extends State<AddCar2> {
-  String _type;
+  int _type;
   List<bool> _typesBool = [false, false, false, false];
   List<String> _typesNames;
 
@@ -27,7 +27,7 @@ class _AddCar2State extends State<AddCar2> {
     setState(() {
       _typesBool = [false, false, false, false];
       _typesBool[index] = true;
-      _type = _typesNames[index];
+      _type = index;
     });
   }
 

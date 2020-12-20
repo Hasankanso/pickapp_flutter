@@ -33,7 +33,7 @@ class CarDetails extends StatefulWidget {
 
 class _CarDetailsState extends State<CarDetails> {
   final _formKey = GlobalKey<FormState>();
-  String _type;
+  int _type;
   int _maxSeats, _maxLuggage;
   ColorController _colorController = ColorController();
   NumberController _seatsController = NumberController();
@@ -69,16 +69,16 @@ class _CarDetailsState extends State<CarDetails> {
   }
 
   _setMaxSeatsLuggage() {
-    if (_type == Lang.getString(context, "Sedan")) {
+    if (_type == 0) {
       _maxSeats = 4;
       _maxLuggage = 3;
-    } else if (_type == Lang.getString(context, "SUV")) {
+    } else if (_type == 1) {
       _maxSeats = 6;
       _maxLuggage = 4;
-    } else if (_type == Lang.getString(context, "Hatchback")) {
+    } else if (_type == 2) {
       _maxSeats = 4;
       _maxLuggage = 3;
-    } else if (_type == Lang.getString(context, "Van")) {
+    } else if (_type == 3) {
       _maxSeats = 13;
       _maxLuggage = 7;
     }
@@ -230,10 +230,10 @@ class _CarDetailsState extends State<CarDetails> {
                       flex: 5,
                       child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          labelText: Lang.getString(context, "Country"),
+                          labelText: Lang.getString(context, "Type"),
                         ),
                         isExpanded: true,
-                        value: '$_type',
+                        value: _typeItems[widget.car.type],
                         validator: (val) {
                           String valid = Validation.validate(val, context);
                           if (valid != null) return valid;
@@ -241,7 +241,7 @@ class _CarDetailsState extends State<CarDetails> {
                         },
                         onChanged: (String newValue) {
                           setState(() {
-                            _type = newValue;
+                            _type = _typeItems.indexOf(newValue);
                             _setMaxSeatsLuggage();
                           });
                         },

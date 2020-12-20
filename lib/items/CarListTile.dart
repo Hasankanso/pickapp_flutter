@@ -22,6 +22,9 @@ class CarListTile extends ListTile {
     return Card(
       elevation: 1.0,
       child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(3)),
+        ),
         onTap: () {
           Navigator.pushNamed(context, "/CarDetails", arguments: car);
           MainExpansionTileState.of(context).collapse();

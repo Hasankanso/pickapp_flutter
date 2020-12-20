@@ -36,7 +36,7 @@
   "My_cars": "سياراتي",
   "Regions": "المناطق",
   "Statistics": "إحصائيات",
-  "Seats":"مقاعد",
+  "Seats":"المقاعد",
   "Become_a_driver": "كن سائقا",
   "Become_a_Driver": "كن سائقا",
   "Chattiness": "الثرثرة",
@@ -99,7 +99,7 @@
   "Delete": "حذف",
   "Warning!": "تحذير!",
   "Car_delete_message": "هل أنت متأكد أنك تريد حذف هذه السيارة؟",
-
+  "Type": "النوع",
 
   "Results" : "النتائج",
   "Filter" : "فلتر",

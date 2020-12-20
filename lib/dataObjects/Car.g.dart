@@ -27,7 +27,7 @@ class CarAdapter extends TypeAdapter<Car> {
       .._maxLuggage = fields[7] as int
       .._maxSeats = fields[8] as int
       .._updated = fields[9] as DateTime
-      .._type = fields[10] as String;
+      .._type = fields[10] as int;
   }
 
   @override

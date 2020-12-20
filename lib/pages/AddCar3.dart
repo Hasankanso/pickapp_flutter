@@ -38,7 +38,7 @@ class _AddCar3State extends State<AddCar3> {
 
   @override
   void didChangeDependencies() {
-    String _type;
+    int _type;
     if (widget.driver != null) {
       _btnText = "Become_a_driver";
       _type = widget.driver.cars[0].type;
@@ -46,16 +46,16 @@ class _AddCar3State extends State<AddCar3> {
       _type = widget.car.type;
       _btnText = "Add_car";
     }
-    if (_type == Lang.getString(context, "Sedan")) {
+    if (_type == 0) {
       _maxSeats = 4;
       _maxLuggage = 3;
-    } else if (_type == Lang.getString(context, "SUV")) {
+    } else if (_type == 1) {
       _maxSeats = 6;
       _maxLuggage = 4;
-    } else if (_type == Lang.getString(context, "Hatchback")) {
+    } else if (_type == 2) {
       _maxSeats = 4;
       _maxLuggage = 3;
-    } else if (_type == Lang.getString(context, "Van")) {
+    } else if (_type == 3) {
       _maxSeats = 13;
       _maxLuggage = 7;
     }

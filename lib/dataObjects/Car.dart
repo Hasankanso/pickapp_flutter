@@ -29,14 +29,14 @@ class Car {
   @HiveField(9)
   DateTime _updated;
   @HiveField(10)
-  String _type;
+  int _type;
 
   Car({
     String id,
     String name,
     String color,
     String brand,
-    String type,
+    int type,
     String carPictureUrl,
     int year,
     int maxLuggage,
@@ -86,9 +86,9 @@ class Car {
     _id = value;
   }
 
-  String get type => _type;
+  int get type => _type;
 
-  set type(String value) {
+  set type(int value) {
     _type = value;
   }
 

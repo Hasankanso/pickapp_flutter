@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
@@ -10,10 +11,18 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class CarView extends StatelessWidget {
   Car car;
+  List<String> _typeItems;
+
   CarView({this.car});
 
   @override
   Widget build(BuildContext context) {
+    _typeItems = <String>[
+      Lang.getString(context, "Sedan"),
+      Lang.getString(context, "SUV"),
+      Lang.getString(context, "Hatchback"),
+      Lang.getString(context, "Van")
+    ];
     return MainScaffold(
       appBar: MainAppBar(
         title: "Car detassils",
@@ -120,7 +129,7 @@ class CarView extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            car.type,
+                            _typeItems[car.type],
                             style: Styles.valueTextStyle(),
                           ),
                         ),

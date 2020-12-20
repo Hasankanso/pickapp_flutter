@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -41,19 +42,20 @@ class _MainImagePickerState extends State<MainImagePicker> {
               ? CachedNetworkImage(
                   imageUrl: widget.imageUrl,
                   imageBuilder: (context, imageProvider) => CircleAvatar(
-                    backgroundColor: Styles.secondaryColor(),
                     radius: ScreenUtil().setSp(45),
                     backgroundImage: imageProvider,
                   ),
                   placeholder: (context, url) => CircleAvatar(
-                    backgroundColor: Styles.secondaryColor(),
+                    backgroundColor:
+                        Cache.darkTheme ? Colors.black12 : Colors.grey[50],
                     child: CircularProgressIndicator(
                       backgroundColor: Styles.primaryColor(),
                     ),
                   ),
                   errorWidget: (context, url, error) {
                     return CircleAvatar(
-                      backgroundColor: Styles.secondaryColor(),
+                      backgroundColor:
+                          Cache.darkTheme ? Colors.black12 : Colors.grey[50],
                       radius: ScreenUtil().setSp(45),
                       backgroundImage: AssetImage(!widget.isCarPicker
                           ? "lib/images/user.png"
@@ -62,7 +64,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
                   },
                 )
               : CircleAvatar(
-                  backgroundColor: Styles.secondaryColor(),
+                  backgroundColor:
+                      Cache.darkTheme ? Colors.black12 : Colors.grey[50],
                   radius: ScreenUtil().setSp(45),
                   backgroundImage: _image != null
                       ? AssetImage(_image.path)
