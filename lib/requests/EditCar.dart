@@ -2,14 +2,12 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class EditCar extends Request<List<Car>> {
   Car _car;
-  User _user;
 
-  EditCar(this._car, this._user) {
+  EditCar(this._car) {
     httpPath = "/CarBusiness/UpdateCar";
   }
 
@@ -22,12 +20,14 @@ class EditCar extends Request<List<Car>> {
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, dynamic>{'id': _car.id, 'user': _user.id};
+    var carJ = _car.toJson();
+    carJ["user"] = App.user.id;
+    return carJ;
   }
 
   @override
   String isValid() {
-    String validateUser = Validation.validateLogin(_user);
+    String validateUser = Validation.validateLogin(App.user);
     if (!Validation.isNullOrEmpty(validateUser)) {
       return validateUser;
     }

@@ -96,6 +96,10 @@
   "Add_a_car": "أضف سيارة",
   "Now_driver":  "أنت الآن سائق",
   "Successfully_added!": "أضيف بنجاح!",
+  "Delete": "حذف",
+  "Warning!": "تحذير!",
+  "Car_delete_message": "هل أنت متأكد أنك تريد حذف هذه السيارة؟",
+
 
   "Results" : "النتائج",
   "Filter" : "فلتر",
