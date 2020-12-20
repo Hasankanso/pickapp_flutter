@@ -6,7 +6,8 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   String title;
   List<Widget> actions;
   double elevation;
-  MainAppBar({this.title, this.actions, this.elevation});
+  Widget bottom;
+  MainAppBar({this.title, this.actions, this.elevation, this.bottom});
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -17,6 +18,7 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
         style: Styles.titleTextStyle(),
       ),
       actions: actions,
+      bottom: bottom,
     );
   }
 
