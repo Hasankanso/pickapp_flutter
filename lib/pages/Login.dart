@@ -19,6 +19,7 @@ import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Login extends StatefulWidget {
@@ -270,7 +271,7 @@ class _LoginState extends State<Login> {
                   barrierDismissible: false,
                   builder: (BuildContext context) {
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: Spinner(),
                     );
                   },
                 );

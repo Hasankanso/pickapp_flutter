@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 
@@ -31,7 +32,9 @@ class MainButton extends StatelessWidget {
         defaultWidget: Text(Lang.getString(context, text_key),
             style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
         progressWidget: CircularProgressIndicator(
-          backgroundColor: Styles.secondaryColor(),
+          backgroundColor: !Cache.darkTheme
+              ? Styles.secondaryColor()
+              : Styles.primaryColor(),
         ),
         color: Styles.primaryColor(),
         borderRadius: _radius,

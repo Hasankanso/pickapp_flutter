@@ -5,6 +5,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/RateStars.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 
 class SearchResultTile extends ListTile {
   final Ride _ride;
@@ -115,11 +116,10 @@ class SearchResultTile extends ListTile {
                                       ),
                                       placeholder: (context, url) =>
                                           CircleAvatar(
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              radius: 30,
-                                              child:
-                                                  CircularProgressIndicator()),
+                                        backgroundColor: Colors.transparent,
+                                        radius: 30,
+                                        child: Spinner(),
+                                      ),
                                       errorWidget: (context, url, error) =>
                                           CircleAvatar(
                                         backgroundColor: Colors.transparent,

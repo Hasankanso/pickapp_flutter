@@ -8,6 +8,7 @@ import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 
 class CarView extends StatelessWidget {
   Car car;
@@ -41,9 +42,7 @@ class CarView extends StatelessWidget {
                   ),
                   placeholder: (context, url) => CircleAvatar(
                     backgroundColor: Styles.secondaryColor(),
-                    child: CircularProgressIndicator(
-                      backgroundColor: Styles.primaryColor(),
-                    ),
+                    child: Spinner(),
                   ),
                   errorWidget: (context, url, error) {
                     return Image(

@@ -19,6 +19,7 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 
 class AddCar3 extends StatefulWidget {
   Driver driver;
@@ -144,7 +145,7 @@ class _AddCar3State extends State<AddCar3> {
                     barrierDismissible: false,
                     builder: (BuildContext context) {
                       return Center(
-                        child: CircularProgressIndicator(),
+                        child: Spinner(),
                       );
                     },
                   );

@@ -128,7 +128,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
         child: Column(children: [
           _SliderTextFilter(
             title: Lang.getString(context, "Price"),
-            step : App.stepPriceFilter,
+            step: App.stepPriceFilter,
             controller: controller.priceController,
             minSelected: controller.priceController.minSelected.toInt(),
             maxSelected: controller.priceController.maxSelected.toInt(),
@@ -225,6 +225,7 @@ class _BooleanFilterState extends State<_BooleanFilter> {
             child: Checkbox(
               value: widget.controller.filter,
               materialTapTargetSize: MaterialTapTargetSize.padded,
+              activeColor: Styles.primaryColor(),
               onChanged: (bool newValue) {
                 setState(() {
                   widget.controller.filter = newValue;

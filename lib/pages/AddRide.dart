@@ -6,7 +6,6 @@ import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
@@ -45,9 +44,8 @@ class _AddRideState extends State<AddRide> {
           return LoginRegister();
         }
         return ValueListenableBuilder(
-
-            builder:(BuildContext context,bool isDriver,Widget child){
-              if(!isDriver){
+            builder: (BuildContext context, bool isDriver, Widget child) {
+              if (!isDriver) {
                 return BecomeDriver();
               }
               return MainScaffold(
@@ -60,7 +58,7 @@ class _AddRideState extends State<AddRide> {
                       child: Column(
                         children: [
                           ResponsiveWidget.fullWidth(
-                              height: 130,
+                              height: 150,
                               child: FromToPicker(
                                   fromController: fromController,
                                   toController: toController)),
@@ -74,7 +72,8 @@ class _AddRideState extends State<AddRide> {
                             width: 270,
                             height: 30,
                             child: Center(
-                              child: Text(Lang.getString(context, "Rides_Permissions"),
+                              child: Text(
+                                  Lang.getString(context, "Rides_Permissions"),
                                   style: Styles.labelTextStyle()),
                             ),
                           ),
@@ -200,14 +199,14 @@ class _AddRideState extends State<AddRide> {
                               ],
                             ),
                           ),
-                          VerticalSpacer(height: 80),
+                          VerticalSpacer(height: 60),
                           ResponsiveWidget(
                             width: 270,
                             height: 50,
                             child: MainButton(
                               text_key: "Next",
                               onPressed: () {
-                                if(_formKey.currentState.validate()){
+                                if (_formKey.currentState.validate()) {
                                   MainLocation to = MainLocation(
                                       name: toController.description,
                                       latitude: toController.location.lat,
@@ -232,10 +231,10 @@ class _AddRideState extends State<AddRide> {
                                   rideInfo.petsAllowed = isPets;
                                   rideInfo.musicAllowed = isMusic;
                                   rideInfo.acAllowed = isAc;
-                                  Navigator.of(context)
-                                      .pushNamed("/AddRidePage2", arguments: rideInfo);
+                                  Navigator.of(context).pushNamed(
+                                      "/AddRidePage2",
+                                      arguments: rideInfo);
                                 }
-
                               },
                             ),
                           ),
@@ -243,11 +242,10 @@ class _AddRideState extends State<AddRide> {
                       ),
                     ),
                   ));
-            } ,
+            },
             valueListenable: App.isDriverNotifier);
       },
       valueListenable: App.isLoggedInNotifier,
     );
-
   }
 }
