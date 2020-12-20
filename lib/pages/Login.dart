@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -288,25 +289,37 @@ class _LoginState extends State<Login> {
       Navigator.pop(context);
     } else {
       App.user = u;
-
       final userBox = Hive.box("user");
       User cacheUser = u;
       Person cachePerson = u.person;
       cachePerson.rates = null;
+      var regions = u.driver.regions;
       if (u.driver != null) {
-        App.isDriverNotifier.value = true;
-        cacheUser.driver = Driver(
-            id: u.driver.id, cars: u.driver.cars, updated: u.driver.updated);
+        var d = u.driver;
+        cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
       }
       cacheUser.person = cachePerson;
+      log(userBox.values.toString());
       if (!userBox.containsKey(0)) {
+        print(2);
         await userBox.put(0, cacheUser);
       } else {
+        print(1);
         userBox.add(cacheUser);
       }
+      await Hive.openBox('regions');
+      final regionsBox = Hive.box("regions");
+
+      if (regionsBox.containsKey(0)) {
+        await regionsBox.put(0, regions);
+      } else {
+        regionsBox.add(regions);
+      }
+      regionsBox.close();
 
       App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
+      App.isDriverNotifier.value = true;
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);

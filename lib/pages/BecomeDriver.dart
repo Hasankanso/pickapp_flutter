@@ -1,17 +1,30 @@
+import 'dart:io';
+
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_webservice/directions.dart';
+import 'package:hive/hive.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/items/RegionListTile.dart';
+import 'package:pickapp/requests/EditRegions.dart';
+import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/Line.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
+import 'package:pickapp/utilities/LineDevider.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class BecomeDriver extends StatefulWidget {
+  bool isRegionPage;
+
+  BecomeDriver({this.isRegionPage = false});
+
   @override
   _BecomeDriverState createState() => _BecomeDriverState();
 }
@@ -43,14 +56,64 @@ class _BecomeDriverState extends State<BecomeDriver> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (_regions.isEmpty) {
+  Future<void> didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if (widget.isRegionPage) {
+      await Hive.openBox("regions");
+      final box = Hive.box("regions");
+      if (box.length != 0) {
+        App.user.driver.regions = box.getAt(0).cast<MainLocation>();
+      }
+      _regions = App.driver.regions;
+      for (var region in _regions) {
+        _regionsControllers.add(LocationEditingController(
+          placeId: region.placeId,
+          description: region.name,
+          location: Location(region.latitude, region.longitude),
+        ));
+      }
+      setState(() {});
+    } else {
       _regions.add(MainLocation());
       _regionsControllers.add(LocationEditingController());
+
+      Future.delayed(Duration.zero, () async {
+        Flushbar(
+          message:
+              "Your living regions are required, to make it easier for passengers to reach you",
+          flushbarPosition: FlushbarPosition.TOP,
+          flushbarStyle: FlushbarStyle.GROUNDED,
+          reverseAnimationCurve: Curves.decelerate,
+          forwardAnimationCurve: Curves.decelerate,
+          icon: Icon(
+            Icons.info_outline,
+            color: Styles.primaryColor(),
+            size: Styles.mediumIconSize(),
+          ),
+          mainButton: IconButton(
+            focusColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.clear,
+              color: Styles.secondaryColor(),
+              size: Styles.mediumIconSize(),
+            ),
+          ),
+        )..show(context);
+      });
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Become_a_Driver"),
+        title: Lang.getString(
+            context, widget.isRegionPage ? "Regions" : "Become_a_Driver"),
       ),
       body: Column(
         children: [
@@ -80,12 +143,13 @@ class _BecomeDriverState extends State<BecomeDriver> {
                               color: Styles.primaryColor(),
                               tooltip: Lang.getString(context,
                                   "Add_a_region"), //Lang.getString(context, "Settings"),
-                              onPressed: _addRegion,
+                              onPressed:
+                                  !(_regions.length >= 3) ? _addRegion : null,
                             ),
                           ),
                         ],
                       ),
-                      Line(
+                      LineDevider(
                         margin: false,
                       ),
                     ],
@@ -123,9 +187,9 @@ class _BecomeDriverState extends State<BecomeDriver> {
               width: 270,
               height: 50,
               child: MainButton(
-                isRequest: false,
-                text_key: "Next",
-                onPressed: () {
+                isRequest: true,
+                text_key: widget.isRegionPage ? "Edit" : "Next",
+                onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     for (int i = 0; i < _regionsControllers.length; i++) {
                       _regions[i].name = _regionsControllers[i].description;
@@ -135,8 +199,13 @@ class _BecomeDriverState extends State<BecomeDriver> {
                       _regions[i].latitude =
                           _regionsControllers[i].location.lat;
                     }
-                    Navigator.pushNamed(context, "/AddCarDriver",
-                        arguments: Driver(regions: _regions));
+                    if (widget.isRegionPage) {
+                      Request request = EditRegions(Driver(regions: _regions));
+                      await request.send(_editRegionsResponse);
+                    } else {
+                      Navigator.pushNamed(context, "/AddCarDriver",
+                          arguments: Driver(regions: _regions));
+                    }
                   }
                 },
               ),
@@ -145,5 +214,26 @@ class _BecomeDriverState extends State<BecomeDriver> {
         ),
       ),
     );
+  }
+
+  _editRegionsResponse(p1, int code, String p3) async {
+    if (code != HttpStatus.ok) {
+      CustomToast().showErrorToast(p3);
+    } else {
+      App.driver.regions = p1.regions;
+
+      await Hive.openBox('regions');
+      final regionsBox = Hive.box("regions");
+
+      if (regionsBox.containsKey(0)) {
+        await regionsBox.put(0, p1.regions);
+      } else {
+        await regionsBox.add(p1.regions);
+      }
+      regionsBox.close();
+
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+    }
   }
 }

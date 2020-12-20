@@ -192,6 +192,11 @@ class _AddCar3State extends State<AddCar3> {
 
       await userBox.put(0, cacheUser);
 
+      await Hive.openBox('regions');
+      final regionsBox = Hive.box("regions");
+      await userBox.add(p1.regions);
+      regionsBox.close();
+
       App.user.driver = p1;
       App.isDriverNotifier.value = true;
       CustomToast().showSuccessToast(Lang.getString(context, "Now_driver"));

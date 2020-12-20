@@ -6,7 +6,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
-import 'package:pickapp/utilities/Line.dart';
+import 'package:pickapp/utilities/LineDevider.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -49,7 +49,7 @@ class Settings extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Line(),
+                      LineDevider(),
                       Row(children: [
                         Spacer(flex: 2),
                         Text(Lang.getString(context, "Date_In_Range"),
@@ -60,7 +60,7 @@ class Settings extends StatelessWidget {
                             onChanged: (bool value) =>
                                 {Cache.setDateTimeRangePicker(value)})
                       ]),
-                      Line(),
+                      LineDevider(),
                       Row(children: [
                         Spacer(flex: 1),
                         Text(Lang.getString(context, "Dark_Mode"),
@@ -97,7 +97,7 @@ class Settings extends StatelessWidget {
                           Navigator.of(context).pushNamed("/ContactUs");
                         },
                       ),
-                      Line(),
+                      LineDevider(),
                       ListTile(
                         leading: Icon(Icons.policy),
                         title: Text(Lang.getString(context, "Privacy_Policy"),
@@ -106,7 +106,7 @@ class Settings extends StatelessWidget {
                           Navigator.of(context).pushNamed("/PrivacyPolicy");
                         },
                       ),
-                      Line(),
+                      LineDevider(),
                       ListTile(
                         leading: Icon(Icons.rule),
                         title: Text(

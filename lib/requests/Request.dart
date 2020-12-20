@@ -49,7 +49,7 @@ abstract class Request<T> {
         //check if there's error
 
         if (jCode != null) {
-          callback(null, jCode, jMessage);
+          callback(null, int.tryParse(jCode), jMessage);
           return;
         }
       }

@@ -38,6 +38,11 @@ class User {
     this.verificationCode = verificationCode;
   }
 
+  @override
+  String toString() {
+    return 'User{_id: $_id, _phone: $_phone, _email: $_email, _verificationCode: $_verificationCode, _userStatus: $_userStatus, _person: $_person, _driver: $_driver}';
+  }
+
   bool equals(Object u) {
     return this.person.id == (u as User).person.id;
   }

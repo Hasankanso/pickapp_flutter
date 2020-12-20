@@ -136,6 +136,8 @@ class LocationEditingController {
   String placeId = "";
   String description = "";
 
+  LocationEditingController({this.location, this.placeId, this.description});
+
   swap(LocationEditingController x) {
     String temp_desc = x.description;
     String temp_placeId = x.placeId;

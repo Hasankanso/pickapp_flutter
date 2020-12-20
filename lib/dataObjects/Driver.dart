@@ -9,7 +9,7 @@ class Driver {
   @HiveField(0)
   String _id;
   @HiveField(1)
-  List<MainLocation> _regions = new List<MainLocation>();
+  List<MainLocation> _regions;
   @HiveField(2)
   List<Car> _cars;
   @HiveField(3)
@@ -32,7 +32,7 @@ class Driver {
       };
 
   factory Driver.fromJson(Map<String, dynamic> json) {
-    if(json==null){
+    if (json == null) {
       return null;
     }
     var regions = List<MainLocation>();
@@ -56,7 +56,6 @@ class Driver {
       regL3 = MainLocation.fromJson(reg3);
       regions.add(regL3);
     }
-
     return Driver(
       id: json["objectId"],
       cars: json["cars"] != null

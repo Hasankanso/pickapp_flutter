@@ -19,7 +19,7 @@ import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/Line.dart';
+import 'package:pickapp/utilities/LineDevider.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainExpansionTile.dart';
 import 'package:pickapp/utilities/MainImagePicker.dart';
@@ -223,7 +223,7 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ),
-                              Line(),
+                              LineDevider(),
                               InkWell(
                                 onTap: () {
                                   Navigator.of(context)
@@ -291,10 +291,10 @@ class _DriverInfoState extends State<DriverInfo> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Line(),
+      LineDevider(),
       InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed("/Regions");
+          Navigator.of(context).pushNamed("/BecomeDriver", arguments: true);
         },
         child: ResponsiveWidget.fullWidth(
           height: 60,
@@ -320,7 +320,7 @@ class _DriverInfoState extends State<DriverInfo> {
           ),
         ),
       ),
-      Line(),
+      LineDevider(),
       InkWell(
         onTap: () {},
         child: Row(
@@ -367,7 +367,7 @@ class PassengerInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Line(),
+      LineDevider(),
       Card(
         color: Styles.primaryColor(),
         margin: EdgeInsets.all(5),

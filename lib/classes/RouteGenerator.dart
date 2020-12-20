@@ -16,7 +16,6 @@ import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Profile.dart';
-import 'package:pickapp/pages/Regions.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RideDetails.dart';
 import 'package:pickapp/pages/SearchResults.dart';
@@ -77,14 +76,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Profile());
       case '/RideDetails':
         return MaterialPageRoute(builder: (_) => RideDetails(ride: args));
-      case '/Regions':
-        return MaterialPageRoute(builder: (_) => Regions());
       case '/CarView':
         return MaterialPageRoute(builder: (_) => CarView());
 
       //become driver screens
       case '/BecomeDriver':
-        return MaterialPageRoute(builder: (_) => BecomeDriver());
+        return MaterialPageRoute(
+            builder: (_) => BecomeDriver(
+                  isRegionPage: args,
+                ));
       case '/AddCarDriver':
         return MaterialPageRoute(builder: (_) => AddCar(driver: args));
       case "/AddCar2Driver":

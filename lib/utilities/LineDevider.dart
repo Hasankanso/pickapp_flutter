@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Line extends StatelessWidget {
+class LineDevider extends StatelessWidget {
   bool margin;
-  Line({this.margin = true});
+  LineDevider({this.margin = true});
 
   @override
   Widget build(BuildContext context) {
