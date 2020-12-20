@@ -68,14 +68,14 @@ class _AddRidePage4State extends State<AddRidePage4> {
         "&key=" +
         googleMapsApiKey);
     if (response.statusCode == 200) {
-     var base64String = base64.encode(response.bodyBytes);
-    //  print(base64String);
+      var base64String = base64.encode(response.bodyBytes);
+      //  print(base64String);
       mapUrl = staticMapURL +
           "size=640x640&path=enc%3A" +
           roadPoints +
           "&key=" +
           googleMapsApiKey;
-     base64Map=base64String;
+      base64Map = base64String;
       setState(() {});
     } else {
       print("Error");
@@ -84,7 +84,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
   }
 
   response(Ride result, int code, String message) {
-  print(result);
+    print(result);
   }
 
   @override
@@ -127,24 +127,23 @@ class _AddRidePage4State extends State<AddRidePage4> {
                       imageBuilder: (context, imageProvider) {
                         return Image(image: imageProvider);
                       },
-                      placeholder: (context, url) =>
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Center(
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  margin: EdgeInsets.all(5),
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.0,
-                                  //  valueColor : AlwaysStoppedAnimation(Colors.white),
-                                  ),
-                                ),
+                      placeholder: (context, url) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              margin: EdgeInsets.all(5),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                                //  valueColor : AlwaysStoppedAnimation(Colors.white),
                               ),
-                            ],
+                            ),
                           ),
+                        ],
+                      ),
                       errorWidget: (context, url, error) {
                         return Image(image: AssetImage("lib/images/user.png"));
                       },
@@ -193,12 +192,12 @@ class _AddRidePage4State extends State<AddRidePage4> {
               child: MainButton(
                 text_key: "DONE",
                 onPressed: () {
-                  rideInfo.mapBase64=base64Map;
+                  rideInfo.mapBase64 = base64Map;
                   Request<Ride> request = AddRide(rideInfo);
                   request.send(response);
                   Navigator.of(context).pushNamed("/");
-                  CustomToast().showSuccessToast(
-                      Lang.getString(context, "Ride_Added"));
+                  CustomToast()
+                      .showSuccessToast(Lang.getString(context, "Ride_Added"));
                 },
               ),
             ),
