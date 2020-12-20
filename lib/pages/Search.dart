@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/classes/FakeRequests.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
@@ -35,205 +36,7 @@ class _SearchState extends State<Search>
 
   response(List<Ride> result, int code, String message) {
     List<Ride> rides = new List<Ride>();
-
-    rides.add(Ride(
-      from: MainLocation(
-        name: "highest price",
-      ),
-      to: MainLocation(
-        name: "price",
-      ),
-      leavingDate: new DateTime(2020, 10, 10, 15, 0),
-      maxSeats: 2,
-      price: 90000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      leavingDate: new DateTime(2020, 10, 10, 17, 0),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      leavingDate: new DateTime(2020, 10, 10),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      leavingDate: new DateTime(2020, 10, 10),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      leavingDate: new DateTime(2020, 10, 10),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      maxSeats: 2,
-      price: 2000,
-      leavingDate: new DateTime(2020, 10, 10),
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      leavingDate: new DateTime(2020, 10, 10),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      leavingDate: new DateTime(2020, 10, 10),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Late",
-      ),
-      to: MainLocation(
-        name: "Late",
-      ),
-      maxSeats: 2,
-      leavingDate: new DateTime(2015, 10, 10),
-      price: 1000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Mid",
-      ),
-      to: MainLocation(
-        name: "Mid",
-      ),
-      maxSeats: 2,
-      leavingDate: new DateTime(2010, 10, 10),
-      price: 40000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Early",
-      ),
-      to: MainLocation(
-        name: "Earlyy",
-      ),
-      maxSeats: 2,
-      leavingDate: new DateTime(2005, 10, 10),
-      price: 25000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      leavingDate: new DateTime(2020, 10, 10),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-    rides.add(Ride(
-      from: MainLocation(
-        name: "Beirut, Hamra main street",
-      ),
-      to: MainLocation(
-        name: "Nabatieh Al Tahta",
-      ),
-      leavingDate: new DateTime(2020, 10, 10),
-      maxSeats: 2,
-      price: 2000,
-      maxLuggages: 2,
-      availableSeats: 2,
-      availableLuggages: 2,
-      user: App.user,
-    ));
-
-    print(result);
-    _searchInfo.rides = rides;
+    _searchInfo.rides = result;
     Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
   }
 
@@ -319,7 +122,7 @@ class _SearchState extends State<Search>
                           dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
-                  await request.send(response);
+                  request.send(response);
                 }
               },
             ),

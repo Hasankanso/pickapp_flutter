@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
@@ -36,7 +37,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
   _AddRidePage4State(this.rideInfo);
 
   void getDirection(String origin, String destination) async {
-    String googleMapsApiKey = 'AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0';
     var url = 'https://maps.googleapis.com/maps/api/directions/json?';
     var response = await http.get(url +
         "origin=" +
@@ -45,7 +45,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
         destination +
         "&mode=driving&alternatives=true" +
         "&key=" +
-        googleMapsApiKey);
+        App.googleKey);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       List<dynamic> roads = jsonResponse["routes"];
@@ -59,14 +59,13 @@ class _AddRidePage4State extends State<AddRidePage4> {
   }
 
   void getMap(String roadPoints) async {
-    String googleMapsApiKey = 'AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0';
     var staticMapURL = "https://maps.googleapis.com/maps/api/staticmap?";
     var response = await http.get(staticMapURL +
         "size=640x640" +
         "&path=enc%3A" +
         roadPoints +
         "&key=" +
-        googleMapsApiKey);
+        App.googleKey);
     if (response.statusCode == 200) {
       var base64String = base64.encode(response.bodyBytes);
       //  print(base64String);
@@ -74,7 +73,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
           "size=640x640&path=enc%3A" +
           roadPoints +
           "&key=" +
-          googleMapsApiKey;
+          App.googleKey;
       base64Map = base64String;
       setState(() {});
     } else {

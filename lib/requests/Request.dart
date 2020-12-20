@@ -16,34 +16,37 @@ abstract class Request<T> {
 
   void send(Function(T, int, String) callback) async {
     String valid = isValid();
-    print(valid);
+    print("offlineValidator (deprecated) " + Validation.isNullOrEmpty(valid).toString());
     if (!Validation.isNullOrEmpty(valid)) {
       callback(null, 406, valid);
     } else {
       Map<String, dynamic> data = getJson();
-      print("offlineValidator (deprecated): " + data.toString());
+      String jsonData = json.encode(data, toEncodable: _dateToIso8601String);
+      print("request-data: " + jsonData);
       http.Response response = await http.post(
         host + httpPath,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=utf-8'
         },
-        body: json.encode(data, toEncodable: _dateToIso8601String),
+        body: jsonData,
       );
 
       var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
       print("backendless: " + decodedResponse.toString());
+
       if (response.body.contains("code")) {
+        print("response handled as it has an error in Request class");
         //extracting code and message
         var jCode =
-            response.body.contains("code") ? decodedResponse["code"] : null;
-        var jMessage = decodedResponse["message"];
+            response.body.contains("code") ? decodedResponse[0]["code"] : null;
+        var jMessage = decodedResponse[0]["message"];
 
         if (jCode == null) {
-          var jbody = decodedResponse["body"];
+          var jbody = decodedResponse[0]["body"];
 
           if (jbody != null) {
-            jCode = jbody["code"];
-            jMessage = jbody["message"];
+            jCode = jbody[0]["code"];
+            jMessage = jbody[0]["message"];
           }
         }
         //check if there's error
