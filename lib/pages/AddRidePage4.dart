@@ -168,7 +168,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
             ResponsiveWidget.fullWidth(
               height: 220,
               child: Container(
-                color: Colors.grey[100],
                 child: ListBuilder(
                     list: rideRoutes,
                     itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap)),

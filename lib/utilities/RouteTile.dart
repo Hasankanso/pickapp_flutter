@@ -35,7 +35,6 @@ class _RouteTileState extends State<RouteTile> {
 
   @override
   Widget build(BuildContext context) {
-    bool isSelected = widget.index1 == _selectedIndex;
     var r = widget.r;
     if (r.name.length >= 25) {
       r.name = r.name.substring(0, 25) + "...";
@@ -47,13 +46,11 @@ class _RouteTileState extends State<RouteTile> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        color: Colors.grey[50],
-        shadowColor: Styles.primaryColor(),
         child: ListTile(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          selected: isSelected,
+          selected: widget.index1 == _selectedIndex,
           leading: CircleAvatar(
             backgroundColor: Colors.grey[300],
             child: Icon(Icons.timeline,
@@ -70,6 +67,7 @@ class _RouteTileState extends State<RouteTile> {
           onTap: () {
             callback(r.points);
             _selectedIndex = widget.index1;
+            print(_selectedIndex);
             setState(() {});
           },
         ),
