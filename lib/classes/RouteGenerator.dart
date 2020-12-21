@@ -10,6 +10,7 @@ import 'package:pickapp/pages/CarDetails.dart';
 import 'package:pickapp/pages/CarView.dart';
 import 'package:pickapp/pages/ContactUs.dart';
 import 'package:pickapp/pages/Details.dart';
+import 'package:pickapp/pages/Email.dart';
 import 'package:pickapp/pages/Home.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
@@ -104,6 +105,10 @@ class RouteGenerator {
             builder: (_) => AddCar3(
                   car: args,
                 ));
+      case "/Email":
+        return MaterialPageRoute(
+          builder: (_) => Email(),
+        );
     }
   }
 }

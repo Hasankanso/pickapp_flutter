@@ -14,7 +14,6 @@ import 'package:pickapp/requests/EditRegions.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/LineDevider.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -132,6 +131,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
               children: [
                 Card(
                   shape: RoundedRectangleBorder(),
+                  elevation: 2,
                   child: Column(
                     children: [
                       DifferentSizeResponsiveRow(
@@ -156,9 +156,6 @@ class _BecomeDriverState extends State<BecomeDriver> {
                             ),
                           ),
                         ],
-                      ),
-                      LineDevider(
-                        margin: false,
                       ),
                     ],
                   ),
