@@ -128,5 +128,7 @@
   "You_Choosed": "لقد اخترت :",
 
   "Yes" : "نعم",
-  "No" : "لا"
+  "No" : "لا",
+  "Generate_Rides":"Generate 7 rides"
+
 }

@@ -127,5 +127,6 @@
   "You_Choosed": " You choosed :",
   "Ride_Added": "Ride Added Successfully",
   "Yes" : "Yes",
-  "No" : "No"
+  "No" : "No",
+  "Generate_Rides":"Generate 7 rides"
 }
