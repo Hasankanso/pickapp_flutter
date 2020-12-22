@@ -166,7 +166,6 @@ class _AddCarState extends State<AddCar> {
                       return CustomToast().showErrorToast(
                           Lang.getString(context, "Select_an_image"));
                     }
-                    print(widget.driver);
                     if (widget.driver != null) {
                       widget.driver.cars = [
                         Car(

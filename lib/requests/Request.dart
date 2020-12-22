@@ -16,7 +16,8 @@ abstract class Request<T> {
 
   void send(Function(T, int, String) callback) async {
     String valid = isValid();
-    print("offlineValidator (deprecated) " + Validation.isNullOrEmpty(valid).toString());
+    print("offlineValidator (deprecated) " +
+        Validation.isNullOrEmpty(valid).toString());
     if (!Validation.isNullOrEmpty(valid)) {
       callback(null, 406, valid);
     } else {
@@ -37,12 +38,17 @@ abstract class Request<T> {
       if (decodedResponse[0] == null && decodedResponse["code"] != "null") {
         print("response handled as it has an error in Request class");
         //extracting code and message
-        var jCode =
-            response.body.contains("code") ? decodedResponse["code"] : null;
-        var jMessage = decodedResponse["message"];
+        var jCode = response.body.contains("code")
+            ? decodedResponse is List
+                ? decodedResponse[0]["code"]
+                : null
+            : null;
+        var jMessage =
+            decodedResponse is List ? decodedResponse[0]["message"] : null;
 
         if (jCode == null) {
-          var jbody = decodedResponse["body"];
+          var jbody =
+              decodedResponse is List ? decodedResponse[0]["body"] : null;
 
           if (jbody != null) {
             jCode = jbody["code"];

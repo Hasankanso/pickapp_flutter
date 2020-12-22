@@ -103,6 +103,7 @@
   "Car_delete_message": "Are you sure you want to delete this car?",
   "Type": "Type",
   "Email": "Email",
+  "Email_hint": "Enter your email",
 
   "Results" : "Results",
   "Filter" : "Filter",

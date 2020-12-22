@@ -44,7 +44,7 @@ class Email extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: Lang.getString(context, "Email"),
-                        hintText: Lang.getString(context, "Name_hint"),
+                        hintText: Lang.getString(context, "Email_hint"),
                         labelStyle: Styles.labelTextStyle(),
                         hintStyle: Styles.labelTextStyle(),
                       ),

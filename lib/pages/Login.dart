@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
   final _codeFormKey = GlobalKey<FormState>();
   String _text = "";
 
-  var _phone = TextEditingController();
+  TextEditingController _phone = TextEditingController();
   List<String> _countriesCodes = App.countriesInformationsCodes;
   var _countryCode = "961";
   User _user;
