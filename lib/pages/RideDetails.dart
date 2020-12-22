@@ -9,6 +9,8 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
+import 'CarView.dart';
+
 
 class RideDetails extends StatelessWidget {
   final Ride ride;
@@ -50,7 +52,7 @@ class RideDetails extends StatelessWidget {
                 ),
               ],
             ),
-            CarDetails(car : ride.car),
+            CarView(car : ride.car),
             CarDetails(car : ride.car),
           ],
         ),

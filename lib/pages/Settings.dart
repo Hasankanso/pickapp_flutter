@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/classes/FakeRequests.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
@@ -126,7 +127,7 @@ class Settings extends StatelessWidget {
               widgetRealtiveSize: 30,
               children: [
                 Card(
-                  child: Column(
+                  child: Column(//addRides
                     children: [
                       ListTile(
                           leading: Icon(Icons.car_repair),
@@ -145,6 +146,14 @@ class Settings extends StatelessWidget {
                                     ),
                                   ),
                                 ));
+                          }),
+                      ListTile(
+                          leading: Icon(Icons.create_new_folder),
+                          title:
+                          Text("Generate Rides", style: Styles.valueTextStyle()),
+                          onTap: () {
+                            FakeRequests.ridesCount = 20;
+                            FakeRequests.addRides();
                           }),
                     ],
                   ),

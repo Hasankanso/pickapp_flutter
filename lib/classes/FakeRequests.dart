@@ -8,13 +8,16 @@ import 'package:pickapp/requests/AddRide.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class FakeRequests {
-  void response(dynamic p1, int statusCode, String p3) {
+
+  static int ridesCount = 20;
+
+  static void response(dynamic p1, int statusCode, String p3) {
     if (statusCode == 200) {
       print("fake ride successfully added");
     }
   }
 
-  Future<void> addRides() async {
+  static Future<void> addRides() async {
     {
       MainLocation Dekwene = MainLocation(
         placeId: "ChIJpYsqg0oWHxURju7gIgVyRYk",
@@ -70,7 +73,7 @@ class FakeRequests {
       List<Ride> rides = new List<Ride>();
       Random ranGen = Random();
 
-      for (int i = 0; i < 20; i++) {
+      for (int i = 0; i < ridesCount; i++) {
         int day = ranGen.nextInt(7);
         int hours = ranGen.nextInt(24);
         int month = ranGen.nextInt(56);
