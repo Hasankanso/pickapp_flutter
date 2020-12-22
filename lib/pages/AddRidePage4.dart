@@ -168,7 +168,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
             ResponsiveWidget.fullWidth(
               height: 220,
               child: Container(
-                color: Colors.grey[100],
                 child: ListBuilder(
                     list: rideRoutes,
                     itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap)),
@@ -182,19 +181,42 @@ class _AddRidePage4State extends State<AddRidePage4> {
       ),
       bottomNavigationBar: ResponsiveWidget(
         width: 270,
-        height: 80,
+        height: 100,
         child: Column(
           children: [
             ResponsiveWidget(
               width: 270,
-              height: 50,
+              height: 25,
               child: MainButton(
+                isRequest: true,
                 text_key: "DONE",
                 onPressed: () {
                   rideInfo.mapBase64 = base64Map;
                   Request<Ride> request = AddRide(rideInfo);
                   request.send(response);
                   Navigator.of(context).pushNamed("/");
+                  CustomToast()
+                      .showSuccessToast(Lang.getString(context, "Ride_Added"));
+                },
+              ),
+            ),
+            VerticalSpacer(height: 10),
+            ResponsiveWidget(
+              width: 270,
+              height: 25,
+              child: MainButton(
+                isRequest: true,
+                text_key: "Generate_Rides",
+                onPressed: () {
+                  var today = new DateTime. now();
+                  var sevenDaysFromNow = today. add(new Duration(days: 7));
+                  rideInfo.mapBase64 = base64Map;
+                  rideInfo.leavingDate=sevenDaysFromNow;
+                  for(int i=0;i<=7;i++){
+                    Request<Ride> request = AddRide(rideInfo);
+                    request.send(response);
+                  }
+                  //Navigator.of(context).pushNamed("/");
                   CustomToast()
                       .showSuccessToast(Lang.getString(context, "Ride_Added"));
                 },

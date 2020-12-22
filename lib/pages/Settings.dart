@@ -91,6 +91,15 @@ class Settings extends StatelessWidget {
                   child: Column(
                     children: [
                       ListTile(
+                        leading: Icon(Icons.alternate_email),
+                        title: Text(Lang.getString(context, "Email"),
+                            style: Styles.valueTextStyle()),
+                        onTap: () {
+                          Navigator.of(context).pushNamed("/Email");
+                        },
+                      ),
+                      LineDevider(),
+                      ListTile(
                         leading: Icon(Icons.email),
                         title: Text(Lang.getString(context, "Contact_Us"),
                             style: Styles.valueTextStyle()),

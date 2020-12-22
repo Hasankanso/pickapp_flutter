@@ -67,13 +67,16 @@ class _AddRidePage3State extends State<AddRidePage3>
                     leading: Icon(
                       Icons.local_taxi_outlined,
                       size: Styles.mediumIconSize(),
-                      color: Colors.grey,
+                      color: valueSelected?Styles.primaryColor():Colors.grey,
                     ),
                     title: Text(
                       selectedCar,
                       style: valueSelected
-                          ? Styles.valueTextStyle()
+                          ? Styles.valueTextStyle(
+                        color: Styles.primaryColor()
+                      )
                           : Styles.labelTextStyle(),
+
                     ),
                     children: [
                       getCar(),
@@ -108,7 +111,7 @@ class _AddRidePage3State extends State<AddRidePage3>
                   height: 50,
                 ),
                 ResponsiveWidget.fullWidth(
-                  height: 60,
+                  height: 100,
                   child: Row(
                     children: [
                       Spacer(),

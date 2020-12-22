@@ -69,6 +69,9 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
+                  backgroundColor: widget.disabled
+                      ? Styles.labelColor()
+                      : Styles.primaryColor(),
                   heroTag: widget._title + "minus",
                   elevation: 3,
                   onPressed: () {
@@ -92,6 +95,9 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
+                  backgroundColor: widget.disabled
+                      ? Styles.labelColor()
+                      : Styles.primaryColor(),
                   heroTag: widget._title + "plus",
                   onPressed: () {
                     if (!widget.disabled) counterUp();

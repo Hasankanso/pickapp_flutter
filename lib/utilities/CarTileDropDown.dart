@@ -21,18 +21,17 @@ class _CarTileDropDownState extends State<CarTileDropDown> {
   @override
   Widget build(BuildContext context) {
     return  Card(
-      elevation: 2.0,
+      elevation: 0.1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      color: Colors.grey[50],
-      shadowColor: Styles.primaryColor(),
       child: ListTile(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
+
         ),
         leading: CircleAvatar(
-          backgroundColor: Colors.grey[300],
+          backgroundColor: Colors.grey[200],
           child: Icon(Icons.directions_car,
               size: Styles.mediumIconSize(), color: Styles.primaryColor()),
         ),
