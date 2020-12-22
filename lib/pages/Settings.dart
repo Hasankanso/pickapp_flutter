@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -40,37 +41,46 @@ class Settings extends StatelessWidget {
                 Card(
                   child: Column(
                     children: <Widget>[
-                      Row(
-                        children: [
-                          Spacer(flex: 1),
-                          Expanded(
-                            flex: 70,
-                            child: LanguagesDropdown(),
-                          ),
-                        ],
+                      ResponsiveWidget.fullWidth(
+                        height: 55,
+                        child: Row(
+                          children: [
+                            Spacer(flex: 1),
+                            Expanded(
+                              flex: 70,
+                              child: LanguagesDropdown(),
+                            ),
+                          ],
+                        ),
                       ),
                       LineDevider(),
-                      Row(children: [
-                        Spacer(flex: 2),
-                        Text(Lang.getString(context, "Date_In_Range"),
-                            style: Styles.valueTextStyle()),
-                        Spacer(flex: 16),
-                        Switcher(
-                            isOn: Cache.dateTimeRangePicker,
-                            onChanged: (bool value) =>
-                                {Cache.setDateTimeRangePicker(value)})
-                      ]),
+                      ResponsiveWidget.fullWidth(
+                        height: 55,
+                        child: Row(children: [
+                          Spacer(flex: 2),
+                          Text(Lang.getString(context, "Date_In_Range"),
+                              style: Styles.valueTextStyle()),
+                          Spacer(flex: 16),
+                          Switcher(
+                              isOn: Cache.dateTimeRangePicker,
+                              onChanged: (bool value) =>
+                                  {Cache.setDateTimeRangePicker(value)})
+                        ]),
+                      ),
                       LineDevider(),
-                      Row(children: [
-                        Spacer(flex: 1),
-                        Text(Lang.getString(context, "Dark_Mode"),
-                            style: Styles.valueTextStyle()),
-                        Spacer(flex: 9),
-                        Switcher(
-                            isOn: Cache.darkTheme,
-                            onChanged: (bool value) =>
-                                {App.forceDarkTheme(value)})
-                      ]),
+                      ResponsiveWidget.fullWidth(
+                        height: 55,
+                        child: Row(children: [
+                          Spacer(flex: 1),
+                          Text(Lang.getString(context, "Dark_Mode"),
+                              style: Styles.valueTextStyle()),
+                          Spacer(flex: 9),
+                          Switcher(
+                              isOn: Cache.darkTheme,
+                              onChanged: (bool value) =>
+                                  {App.forceDarkTheme(value)})
+                        ]),
+                      ),
                     ],
                   ),
                 )
@@ -89,41 +99,136 @@ class Settings extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      ListTile(
-                        leading: Icon(Icons.alternate_email),
-                        title: Text(Lang.getString(context, "Email"),
-                            style: Styles.valueTextStyle()),
+                      InkWell(
                         onTap: () {
                           Navigator.of(context).pushNamed("/Email");
                         },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.alternate_email,
+                                  size: Styles.largeIconSize(),
+                                  color: !Cache.darkTheme
+                                      ? Colors.grey.shade500
+                                      : null,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text(Lang.getString(context, "Email"),
+                                    style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       LineDevider(),
-                      ListTile(
-                        leading: Icon(Icons.email),
-                        title: Text(Lang.getString(context, "Contact_Us"),
-                            style: Styles.valueTextStyle()),
+                      InkWell(
                         onTap: () {
                           Navigator.of(context).pushNamed("/ContactUs");
                         },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.email,
+                                  size: Styles.largeIconSize(),
+                                  color: !Cache.darkTheme
+                                      ? Colors.grey.shade500
+                                      : null,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text(
+                                    Lang.getString(context, "Contact_Us"),
+                                    style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       LineDevider(),
-                      ListTile(
-                        leading: Icon(Icons.policy),
-                        title: Text(Lang.getString(context, "Privacy_Policy"),
-                            style: Styles.valueTextStyle()),
+                      InkWell(
                         onTap: () {
                           Navigator.of(context).pushNamed("/PrivacyPolicy");
                         },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.policy,
+                                  size: Styles.largeIconSize(),
+                                  color: !Cache.darkTheme
+                                      ? Colors.grey.shade500
+                                      : null,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text(
+                                    Lang.getString(context, "Privacy_Policy"),
+                                    style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       LineDevider(),
-                      ListTile(
-                        leading: Icon(Icons.rule),
-                        title: Text(
-                            Lang.getString(context, "Terms_&_Conditions"),
-                            style: Styles.valueTextStyle()),
+                      InkWell(
                         onTap: () {
                           Navigator.of(context).pushNamed("/TermAndConditions");
                         },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.rule,
+                                  size: Styles.largeIconSize(),
+                                  color: !Cache.darkTheme
+                                      ? Colors.grey.shade500
+                                      : null,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text(
+                                    Lang.getString(
+                                        context, "Terms_&_Conditions"),
+                                    style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -137,30 +242,95 @@ class Settings extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      ListTile(
-                          leading: Icon(Icons.car_repair),
-                          title:
-                              Text("Test Size", style: Styles.valueTextStyle()),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SizeTest(
-                                    width: 260,
-                                    height: 80,
-                                    body: FromToPicker(
-                                      fromController: fromController,
-                                      toController: toController,
-                                    ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SizeTest(
+                                  width: 260,
+                                  height: 80,
+                                  body: FromToPicker(
+                                    fromController: fromController,
+                                    toController: toController,
                                   ),
-                                ));
-                          }),
+                                ),
+                              ));
+                        },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.car_repair,
+                                  size: Styles.largeIconSize(),
+                                  color: !Cache.darkTheme
+                                      ? Colors.grey.shade500
+                                      : null,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text("Test Size",
+                                    style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      LineDevider(),
+                      InkWell(
+                        onTap: () async {
+                          await Hive.openBox("regions");
+                          var regionB = Hive.box("regions");
+                          regionB.clear();
+                          var userB = Hive.box("user");
+                          userB.clear();
+                          App.user = null;
+                          App.isLoggedIn = false;
+                          App.isDriverNotifier.value = false;
+                          App.isLoggedInNotifier.value = false;
+                          Navigator.pop(context);
+                        },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.cached_outlined,
+                                  size: Styles.largeIconSize(),
+                                  color: !Cache.darkTheme
+                                      ? Colors.grey.shade500
+                                      : null,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text("Clear cache",
+                                    style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 )
               ],
             ),
-            const SizedBox(height: 60.0),
+            VerticalSpacer(height: 60),
           ],
         ),
       ),
