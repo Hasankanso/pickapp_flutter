@@ -59,6 +59,7 @@
   "Country": "Country",
   "Save": "Save",
   "Select_Language": "Select Language",
+  "Language": "Language",
   "Date_In_Range": "Date In Range",
   "Successfully_edited!": "Successfully edited!",
   "Login": "Login",
@@ -114,6 +115,7 @@
   "Date": "Date",
   "Advanced": "Advanced",
   "Reserve" : "Reserve",
+  "Ride_Details" : "Ride Details",
 
   "Luggage":"Luggage",
   "Price":"Price",

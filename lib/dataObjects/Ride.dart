@@ -65,6 +65,9 @@ class Ride {
   @HiveField(23)
   DateTime _updated;
 
+  @HiveField(24)
+  String mapUrl;
+
   Ride(
       {String id,
       String comment,
@@ -115,6 +118,7 @@ class Ride {
     this.car = car;
     this.updated = updated;
     this.mapBase64 = mapBase64;
+    this.mapUrl = mapUrl;
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -178,7 +182,8 @@ class Ride {
         from: MainLocation.fromJson(json["from"]),
         to: MainLocation.fromJson(json["to"]),
         price: json["price"],
-        mapBase64: json["map"]);
+        mapBase64: json["map"],
+        mapUrl: json["map"]);
   }
 
   static String validate(Ride ride) {

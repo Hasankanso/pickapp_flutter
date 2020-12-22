@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/classes/FakeRequests.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
@@ -241,6 +242,7 @@ class Settings extends StatelessWidget {
               children: [
                 Card(
                   child: Column(
+                    //addRides
                     children: [
                       InkWell(
                         onTap: () {
@@ -319,6 +321,39 @@ class Settings extends StatelessWidget {
                               Expanded(
                                 flex: 18,
                                 child: Text("Clear cache",
+                                    style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      LineDevider(),
+                      InkWell(
+                        onTap: () async {
+                          FakeRequests.ridesCount = 20;
+                          FakeRequests.addRides();
+                        },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.create_new_folder,
+                                  size: Styles.largeIconSize(),
+                                  color: !Cache.darkTheme
+                                      ? Colors.grey.shade500
+                                      : null,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text("Generate Rides",
                                     style: Styles.valueTextStyle()),
                               ),
                             ],
