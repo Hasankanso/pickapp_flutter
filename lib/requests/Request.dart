@@ -34,19 +34,19 @@ abstract class Request<T> {
       var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
       print("backendless: " + decodedResponse.toString());
 
-      if (response.body.contains("code")) {
+      if (decodedResponse[0] == null && decodedResponse["code"] != "null") {
         print("response handled as it has an error in Request class");
         //extracting code and message
         var jCode =
-            response.body.contains("code") ? decodedResponse[0]["code"] : null;
-        var jMessage = decodedResponse[0]["message"];
+            response.body.contains("code") ? decodedResponse["code"] : null;
+        var jMessage = decodedResponse["message"];
 
         if (jCode == null) {
-          var jbody = decodedResponse[0]["body"];
+          var jbody = decodedResponse["body"];
 
           if (jbody != null) {
-            jCode = jbody[0]["code"];
-            jMessage = jbody[0]["message"];
+            jCode = jbody["code"];
+            jMessage = jbody["message"];
           }
         }
         //check if there's error

@@ -60,14 +60,7 @@ class FakeRequests {
         latitude: 33.4345947,
         longitude: 35.8361633,
       );
-      List<MainLocation> locations = [
-        Dekwene,
-        Saida,
-        Doueir,
-        Beirut,
-        Tyre,
-        Tripoli
-      ];
+
 
       DateTime now = new DateTime.now();
       List<Ride> rides = new List<Ride>();
@@ -86,6 +79,15 @@ class FakeRequests {
         bool ac = ranGen.nextBool();
         bool kidSeat = ranGen.nextBool();
         int stopTime = ranGen.nextInt(31);
+
+        List<MainLocation> locations = [
+          Dekwene,
+          Saida,
+          Doueir,
+          Beirut,
+          Tyre,
+          Tripoli
+        ];
 
         int fromIndex = ranGen.nextInt(locations.length);
         MainLocation from = locations[fromIndex];

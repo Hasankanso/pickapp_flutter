@@ -118,6 +118,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
     FilterController controller = widget.controller;
     init();
     return AlertDialog(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       title: Text(
         Lang.getString(context, "Filter"),
         textAlign: TextAlign.center,
@@ -300,7 +301,7 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
       width: 260,
       height: 150,
       child: Card(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).cardColor,
         child: Column(
           children: [
             Expanded(
@@ -453,7 +454,7 @@ class _SliderFilterState extends State<_SliderFilter> {
       width: 260,
       height: 110,
       child: Card(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).cardColor,
         child: Column(
           children: [
             Expanded(

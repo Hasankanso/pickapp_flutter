@@ -115,7 +115,7 @@ class _SearchResultsState extends State<SearchResults> {
               child: Column(
                 children: [
                   ResponsiveWidget.fullWidth(
-                      height: 40,
+                      height: 55,
                       child: _TopCard(searchInfo: widget.searchInfo)),
                   _buildDivider(),
                   ResponsiveWidget.fullWidth(
@@ -228,7 +228,7 @@ class _TopCard extends StatelessWidget {
           children: [
             Text(
               searchInfo.from.name,
-              style: TextStyle(fontSize: ScreenUtil().setSp(10)),
+              style: TextStyle(fontSize: ScreenUtil().setSp(15)),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
@@ -238,7 +238,7 @@ class _TopCard extends StatelessWidget {
             ),
             Text(
               searchInfo.to.name,
-              style: TextStyle(fontSize: ScreenUtil().setSp(10)),
+              style: TextStyle(fontSize: ScreenUtil().setSp(15)),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
@@ -256,7 +256,7 @@ class _TopCard extends StatelessWidget {
                   "   ",
               style: TextStyle(
                   color: Theme.of(context).textTheme.caption.color,
-                  fontSize: ScreenUtil().setSp(8)),
+                  fontSize: ScreenUtil().setSp(12)),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),

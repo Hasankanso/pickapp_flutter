@@ -58,6 +58,7 @@
   "Country": "البلد",
   "Save": "حفظ",
   "Select_Language": "إختر اللغة",
+  "Language": "اللغة",
   "Date_In_Range": "التاريخ في نطاق",
   "Successfully_edited!": "تم التعديل بنجاح!",
   "Login": "تسجيل الدخول",
@@ -112,6 +113,7 @@
   "Date": "التاريخ",
   "Advanced": "متقدم",
   "Reserve" : "حجز",
+  "Ride_Details" : "تفاصيل الرحلة",
 
   "Luggage":"الحقائب",
   "Price":"السعر",
