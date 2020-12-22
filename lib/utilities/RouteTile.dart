@@ -12,12 +12,13 @@ class RouteTile extends StatefulWidget {
   final RideRoute r;
   Function(String) callBack;
   final int index1;
+  Function showHide;
 
-  RouteTile(this.r, this.callBack, this.index1);
+  RouteTile(this.r, this.callBack, this.index1,this.showHide);
 
-  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack) {
+  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack,showHide) {
     return (context, index) {
-      return RouteTile(c[index], callBack, index);
+      return RouteTile(c[index], callBack, index,showHide);
     };
   }
 
@@ -40,7 +41,7 @@ class _RouteTileState extends State<RouteTile> {
       r.name = r.name.substring(0, 25) + "...";
     }
     return ResponsiveWidget.fullWidth(
-      height: 85,
+      height: 70,
       child: Card(
         elevation: 2.0,
         shape: RoundedRectangleBorder(
@@ -61,9 +62,16 @@ class _RouteTileState extends State<RouteTile> {
           ),
           onTap: () {
             callback(r.points);
-            _selectedIndex = widget.index1;
-            print(_selectedIndex);
-            setState(() {});
+             widget.showHide();
+            print(_selectedIndex.toString()+"prev");
+
+            setState(() {
+
+              _selectedIndex = widget.index1;
+
+            });
+            print(_selectedIndex.toString()+"new");
+
           },
         ),
       ),

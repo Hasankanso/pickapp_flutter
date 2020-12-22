@@ -17,6 +17,7 @@ import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/RouteTile.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:pickapp/utilities/Spinner.dart';
 
 class AddRidePage4 extends StatefulWidget {
   final Ride rideInfo;
@@ -30,7 +31,7 @@ class AddRidePage4 extends StatefulWidget {
 class _AddRidePage4State extends State<AddRidePage4> {
   final Ride rideInfo;
   final List<RideRoute> rideRoutes = new List();
-
+  bool showHide=false;
   String mapUrl;
   String base64Map;
 
@@ -68,7 +69,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
         App.googleKey);
     if (response.statusCode == 200) {
       var base64String = base64.encode(response.bodyBytes);
-      //  print(base64String);
+        //print("The base64 is :"+base64String);
       mapUrl = staticMapURL +
           "size=640x640&path=enc%3A" +
           roadPoints +
@@ -135,9 +136,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                               height: 30,
                               width: 30,
                               margin: EdgeInsets.all(5),
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.0,
-                                //  valueColor : AlwaysStoppedAnimation(Colors.white),
+                              child: Spinner(
                               ),
                             ),
                           ),
@@ -170,7 +169,9 @@ class _AddRidePage4State extends State<AddRidePage4> {
               child: Container(
                 child: ListBuilder(
                     list: rideRoutes,
-                    itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap)),
+                    itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap,(){
+                      showHide=true;
+                    })),
               ),
             ),
             VerticalSpacer(
@@ -179,50 +180,31 @@ class _AddRidePage4State extends State<AddRidePage4> {
           ],
         ),
       ),
-      bottomNavigationBar: ResponsiveWidget(
-        width: 270,
-        height: 100,
-        child: Column(
-          children: [
-            ResponsiveWidget(
-              width: 270,
-              height: 25,
-              child: MainButton(
-                isRequest: true,
-                text_key: "DONE",
-                onPressed : ()async {
-                  rideInfo.mapBase64 = base64Map;
-                  Request<Ride> request = AddRide(rideInfo);
-                   await  request.send(response);
-                  Navigator.of(context).pushNamed("/");
-                  CustomToast()
-                      .showSuccessToast(Lang.getString(context, "Ride_Added"));
-                },
-              ),
-            ),
-            VerticalSpacer(height: 10),
-            ResponsiveWidget(
-              width: 270,
-              height: 25,
-              child: MainButton(
-                isRequest: true,
-                text_key: "Generate_Rides",
-                onPressed: () {
-                  var today = new DateTime. now();
-                  var sevenDaysFromNow = today. add(new Duration(days: 7));
-                  rideInfo.mapBase64 = base64Map;
-                  rideInfo.leavingDate=sevenDaysFromNow;
-                  for(int i=0;i<=7;i++){
+      bottomNavigationBar: Visibility(
+        visible: showHide,
+        child: ResponsiveWidget(
+          width: 270,
+          height: 100,
+          child: Column(
+            children: [
+              ResponsiveWidget(
+                width: 270,
+                height: 50,
+                child: MainButton(
+                  isRequest: true,
+                  text_key: "DONE",
+                  onPressed : ()async {
+                    rideInfo.mapBase64 = base64Map;
                     Request<Ride> request = AddRide(rideInfo);
-                    request.send(response);
-                  }
-                  //Navigator.of(context).pushNamed("/");
-                  CustomToast()
-                      .showSuccessToast(Lang.getString(context, "Ride_Added"));
-                },
+                     await  request.send(response);
+                    Navigator.of(context).pushNamed("/");
+                    CustomToast()
+                        .showSuccessToast(Lang.getString(context, "Ride_Added"));
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
