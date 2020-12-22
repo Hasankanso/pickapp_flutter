@@ -190,10 +190,10 @@ class _AddRidePage4State extends State<AddRidePage4> {
               child: MainButton(
                 isRequest: true,
                 text_key: "DONE",
-                onPressed: () {
+                onPressed : ()async {
                   rideInfo.mapBase64 = base64Map;
                   Request<Ride> request = AddRide(rideInfo);
-                  request.send(response);
+                   await  request.send(response);
                   Navigator.of(context).pushNamed("/");
                   CustomToast()
                       .showSuccessToast(Lang.getString(context, "Ride_Added"));

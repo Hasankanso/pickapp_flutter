@@ -40,7 +40,7 @@ class _RouteTileState extends State<RouteTile> {
       r.name = r.name.substring(0, 25) + "...";
     }
     return ResponsiveWidget.fullWidth(
-      height: 70,
+      height: 85,
       child: Card(
         elevation: 2.0,
         shape: RoundedRectangleBorder(
@@ -51,18 +51,13 @@ class _RouteTileState extends State<RouteTile> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           selected: widget.index1 == _selectedIndex,
-          leading: CircleAvatar(
-            backgroundColor: Colors.grey[300],
-            child: Icon(Icons.timeline,
-                size: Styles.mediumIconSize(), color: Styles.primaryColor()),
+          leading: Icon(Icons.timeline,
+              size: Styles.mediumIconSize(),
+              color: Styles.primaryColor(),
           ),
-          title: Row(
-            children: [
-              Text(
-                r.name,
-                style: Styles.valueTextStyle(),
-              )
-            ],
+          title: Text(
+            r.name,
+            style: Styles.valueTextStyle(),
           ),
           onTap: () {
             callback(r.points);

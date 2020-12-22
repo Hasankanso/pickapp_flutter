@@ -104,7 +104,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
               Visibility(
                 visible: stopOver,
                 child: ResponsiveWidget.fullWidth(
-                  height: 50,
+                  height: 100,
                   child: Row(children: [
                     Spacer(),
                     Expanded(
@@ -116,13 +116,28 @@ class _AddRidePage2State extends State<AddRidePage2> {
                     ),
                     Expanded(
                       flex: 3,
-                      child: TextField(
-                        controller: timeController,
+                      child: TextFormField(
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: Lang.getString(context, "/Min"),
-                        ),
+                        controller: timeController,
+                        minLines: 1,
+                        textInputAction: TextInputAction.done,
                         maxLines: 1,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(8),
+                        ],
+                        decoration: InputDecoration(
+                          labelText: Lang.getString(context, "/Min"),
+                          labelStyle: Styles.labelTextStyle(),
+                        ),
+                        style: Styles.valueTextStyle(),
+                        validator: (value) {
+                          String valid = Validation.validate(value, context);
+                          Validation.isNullOrEmpty(value);
+                          if (valid != null)
+                            return valid;
+                          else
+                            return null;
+                        },
                       ),
                     ),
                     Spacer(),
