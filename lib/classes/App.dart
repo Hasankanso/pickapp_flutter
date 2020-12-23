@@ -7,6 +7,7 @@ import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -25,7 +26,7 @@ class App {
   static ValueNotifier<bool> isDriverNotifier;
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
-
+  static List<Ride> rides;
   static double maxPriceFilter = 100000; //TODO flexible maximum price
   static int stepPriceFilter = 100;
 

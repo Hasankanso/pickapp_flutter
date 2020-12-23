@@ -15,7 +15,7 @@ class MyRides extends StatefulWidget {
 }
 
 class _MyRidesState extends State<MyRides> {
-  final List<Ride> ridesList = new List();
+  final List<Ride> ridesList = App.rides;
 
   @override
   Widget build(BuildContext context) {
