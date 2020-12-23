@@ -16,6 +16,7 @@ import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/Phone.dart';
+import 'package:pickapp/pages/Phone2.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Register.dart';
@@ -114,6 +115,11 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => Phone(
                   args,
+                ));
+      case "/Phone2":
+        return MaterialPageRoute(
+            builder: (_) => Phone2(
+                  user: args,
                 ));
     }
   }

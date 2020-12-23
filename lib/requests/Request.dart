@@ -38,7 +38,17 @@ abstract class Request<T> {
       if (decodedResponse[0] == null && decodedResponse["code"] != "null") {
         print("response handled as it has an error in Request class");
         //extracting code and message
-        var jCode = response.body.contains("code")
+        var jCode =
+            response.body.contains("code") ? decodedResponse["code"] : null;
+        var jMessage = decodedResponse["message"];
+        if (jCode == null) {
+          var jbody = decodedResponse["body"];
+          if (jbody != null) {
+            jCode = jbody["code"];
+            jMessage = jbody["message"];
+          }
+        }
+        /*var jCode = response.body.contains("code")
             ? decodedResponse is List
                 ? decodedResponse[0]["code"]
                 : null
@@ -54,7 +64,7 @@ abstract class Request<T> {
             jCode = jbody["code"];
             jMessage = jbody["message"];
           }
-        }
+        }*/
         //check if there's error
 
         if (jCode != null) {
