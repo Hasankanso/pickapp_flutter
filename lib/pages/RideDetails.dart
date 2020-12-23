@@ -82,9 +82,10 @@ class RideDetails extends StatelessWidget {
                     ),
                   ),
                   VerticalSpacer(height: 10),
-                  Text("Description", textAlign: TextAlign.start,),
+                  _Title(text : "Description"),
                   Text(ride.comment),
-                  VerticalSpacer(height: 10),
+                  VerticalSpacer(height: 30),
+                  _Title(text : "Details"),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -109,21 +110,60 @@ class RideDetails extends StatelessWidget {
                             : Styles.labelColor(),
                       ),
                       Icon(
-                        ride.musicAllowed
-                            ? Icons.music_note
-                            : Icons.music_off,
+                        ride.musicAllowed ? Icons.music_note : Icons.music_off,
                         color: ride.musicAllowed
                             ? Styles.primaryColor()
                             : Styles.labelColor(),
                       ),
                     ],
                   ),
-                  VerticalSpacer(height: 10),
-                  Text("Date " + DateFormat(App.dateFormat).format(ride.leavingDate)),
-                  Text("available Seats " + ride.availableSeats.toString()),
-                  Text("available Luggage " + ride.availableLuggages.toString()),
-                  Text("stop Time " + ride.stopTime.toString()),
-                  Text("price " + ride.price.toString()),
+                  VerticalSpacer(height: 30),
+
+                  Row(
+                    children: [
+                      Spacer(),
+                      Expanded(flex: 6, child: _Title(text : "Date")),
+                      Spacer(flex : 6),
+                      Expanded(flex : 20, child: Text(DateFormat(App.dateFormat).format(ride.leavingDate), maxLines: 1,)),
+                      Spacer(),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Spacer(flex : 1),
+                      Expanded(flex: 20, child: _Title(text : "available Seats")),
+                      Spacer(flex : 6),
+                      Expanded(flex : 6, child: Text(ride.availableSeats.toString())),
+                      Spacer(flex : 3),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Spacer(flex : 1),
+                      Expanded(flex: 20, child: _Title(text : "available Luggage")),
+                      Spacer(flex : 6),
+                      Expanded(flex : 6, child: Text(ride.availableLuggages.toString())),
+                      Spacer(flex : 3),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Spacer(flex : 1),
+                      Expanded(flex: 20, child: _Title(text : "stop Time")),
+                      Spacer(flex : 6),
+                      Expanded(flex : 6, child: Text(ride.stopTime.toString())),
+                      Spacer(flex : 3),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Spacer(flex : 1),
+                      Expanded(flex: 20, child: _Title(text : "price")),
+                      Spacer(flex : 6),
+                      Expanded(flex : 6, child: Text(ride.price.toString() + ride.countryInformations.unit)),
+                      Spacer(flex : 3),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -158,5 +198,24 @@ class RideDetails extends StatelessWidget {
     } else {
       print("SMTH WRONG RESERVE SEAT");
     }
+  }
+}
+
+class _Title extends StatelessWidget {
+  String text;
+
+  _Title({this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          text,
+          textAlign: TextAlign.start,
+          style: Styles.valueTextStyle(bold: FontWeight.bold),
+          maxLines: 1,
+          overflow: TextOverflow.clip,
+        ));
   }
 }
