@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Car.dart';
+import 'package:pickapp/utilities/Responsive.dart';
 import 'MainExpansionTile.dart';
 
 class CarTileDropDown extends StatefulWidget {
@@ -20,34 +21,29 @@ class _CarTileDropDownState extends State<CarTileDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    return  Card(
-      elevation: 0.1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      child: ListTile(
+    return  ResponsiveWidget.fullWidth(
+      height: 100,
+      child: Card(
+        elevation: 0.1,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-
         ),
-        leading: CircleAvatar(
-          backgroundColor: Colors.grey[200],
-          child: Icon(Icons.directions_car,
+        child: ListTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          leading: Icon(Icons.directions_car,
               size: Styles.mediumIconSize(), color: Styles.primaryColor()),
+          title: Text(
+            "Car : " + widget.carName,
+            style: Styles.labelTextStyle(),
+          ),
+          onTap: () {
+            MainExpansionTileState.of(context).collapse();
+            a();
+            setState(() {});
+          },
         ),
-        title: Row(
-          children: [
-            Text(
-              "Car : " + widget.carName,
-              style: Styles.labelTextStyle(),
-            ),
-          ],
-        ),
-        onTap: () {
-          MainExpansionTileState.of(context).collapse();
-          a();
-          setState(() {});
-        },
       ),
     );
   }

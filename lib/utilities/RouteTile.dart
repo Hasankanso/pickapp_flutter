@@ -5,6 +5,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/RideRoute.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
+import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/PopUp.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
@@ -12,12 +13,14 @@ class RouteTile extends StatefulWidget {
   final RideRoute r;
   Function(String) callBack;
   final int index1;
+  Function showHide;
+  ListController listController;
 
-  RouteTile(this.r, this.callBack, this.index1);
+  RouteTile(this.r, this.callBack, this.index1,this.showHide, this.listController);
 
-  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack) {
+  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack, showHide, ListController listController) {
     return (context, index) {
-      return RouteTile(c[index], callBack, index);
+      return RouteTile(c[index], callBack, index,showHide, listController);
     };
   }
 
@@ -27,7 +30,6 @@ class RouteTile extends StatefulWidget {
 
 class _RouteTileState extends State<RouteTile> {
   final Function callback;
-  int _selectedIndex;
 
   _RouteTileState(
     this.callback,
@@ -50,25 +52,22 @@ class _RouteTileState extends State<RouteTile> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          selected: widget.index1 == _selectedIndex,
-          leading: CircleAvatar(
-            backgroundColor: Colors.grey[300],
-            child: Icon(Icons.timeline,
-                size: Styles.mediumIconSize(), color: Styles.primaryColor()),
+          selected: widget.index1 == widget.listController.selected,
+          leading: Icon(Icons.timeline,
+              size: Styles.mediumIconSize(),
+              color: Styles.primaryColor(),
           ),
-          title: Row(
-            children: [
-              Text(
-                r.name,
-                style: Styles.valueTextStyle(),
-              )
-            ],
+          title: Text(
+            r.name,
+            style: Styles.valueTextStyle(),
           ),
           onTap: () {
             callback(r.points);
-            _selectedIndex = widget.index1;
-            print(_selectedIndex);
-            setState(() {});
+             widget.showHide();
+            setState(() {
+              widget.listController.selected = widget.index1;
+            });
+
           },
         ),
       ),
