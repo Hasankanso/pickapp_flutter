@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'MainExpansionTile.dart';
+import '../utilities/MainExpansionTile.dart';
 
 class CarTileDropDown extends StatefulWidget {
   final String carName;
