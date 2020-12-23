@@ -44,6 +44,8 @@ dependencies:
   uuid: 2.2.2
   http: ^0.12.2
   flushbar: ^1.10.4
+  firebase_core: ^0.5.3
+  firebase_auth: ^0.18.4+1
 
 
   flutter_localizations:

@@ -1,25 +1,37 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/requests/CheckUserExist.dart';
+import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:pickapp/utilities/PopUp.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
-class Phone extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController _phone = TextEditingController();
-  TextEditingController _code = TextEditingController();
-
+class Phone extends StatefulWidget {
   User _user;
   Phone(this._user);
 
   @override
+  _PhoneState createState() => _PhoneState();
+}
+
+class _PhoneState extends State<Phone> {
+  final _formKey = GlobalKey<FormState>();
+  bool _isForceRegister = false;
+  TextEditingController _phone = TextEditingController();
+  TextEditingController _code = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    _code.text = _user.person.countryInformations.code;
+    _code.text = widget._user.person.countryInformations.code;
     return MainScaffold(
       appBar: MainAppBar(
         title: "Phone",
@@ -62,7 +74,7 @@ class Phone extends StatelessWidget {
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(
-                            _user.person.countryInformations.digits),
+                            widget._user.person.countryInformations.digits),
                       ],
                       controller: _phone,
                       textInputAction: TextInputAction.done,
@@ -93,12 +105,21 @@ class Phone extends StatelessWidget {
               width: 270,
               height: 50,
               child: MainButton(
-                isRequest: false,
+                isRequest: true,
                 text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    _user.phone = _phone.text;
-                    //Navigator.pushNamed(context, "/Phone", arguments: _newUser);
+                    widget._user.phone = _phone.text;
+                    if (!_isForceRegister) {
+                      User checkUser =
+                          User(phone: "+" + _code.text + _phone.text);
+                      Request<bool> request = CheckUserExist(checkUser);
+                      await request.send(_checkUserExistResponse);
+                    } else {
+                      widget._user.phone = "+" + _code.text + _phone.text;
+                      Navigator.of(context)
+                          .pushNamed('/Phone2', arguments: widget._user);
+                    }
                   }
                 },
               ),
@@ -107,5 +128,42 @@ class Phone extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _checkUserExistResponse(bool userExist, int statusCode, String message) {
+    if (statusCode != HttpStatus.ok) {
+      CustomToast().showErrorToast(message);
+    } else {
+      if (userExist == true) {
+        PopUp.areYouSure(
+                "Skip",
+                "Login",
+                "Account with phone +" +
+                    _code.text +
+                    _phone.text +
+                    " already registred, " +
+                    "if it's not your account please skip.",
+                "Account already exist",
+                Styles.primaryColor(),
+                (bool) => bool ? _skip() : _login(),
+                interest: false,
+                hideClose: true,
+                close: () {})
+            .confirmationPopup(context);
+      } else {
+        widget._user.phone = "+" + _code.text + _phone.text;
+        Navigator.of(context).pushNamed('/Phone2', arguments: widget._user);
+      }
+    }
+  }
+
+  _login() {
+    Navigator.of(context).pushNamed('/Login');
+  }
+
+  _skip() {
+    _isForceRegister = true;
+    widget._user.phone = "+" + _code.text + _phone.text;
+    Navigator.of(context).pushNamed('/Phone2', arguments: widget._user);
   }
 }

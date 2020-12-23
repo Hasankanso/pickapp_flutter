@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -300,12 +299,9 @@ class _LoginState extends State<Login> {
         cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
       }
       cacheUser.person = cachePerson;
-      log(userBox.values.toString());
       if (!userBox.containsKey(0)) {
-        print(2);
         await userBox.put(0, cacheUser);
       } else {
-        print(1);
         userBox.add(cacheUser);
       }
       await Hive.openBox('regions');

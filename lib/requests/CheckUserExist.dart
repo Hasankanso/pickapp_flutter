@@ -10,7 +10,7 @@ class CheckUserExist extends Request<bool> {
 
   @override
   bool buildObject(json) {
-    return json["exist"];
+    return json["exist"] == "true";
   }
 
   @override

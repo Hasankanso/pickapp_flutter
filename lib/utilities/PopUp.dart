@@ -4,6 +4,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class PopUp {
   String positiveText, negativeText, title, desc;
   Function(bool) response;
+  Function close;
+  bool hideClose;
   Color titleColor,
       positiveColor,
       negativeColor,
@@ -13,7 +15,7 @@ class PopUp {
 
   PopUp.areYouSure(this.positiveText, this.negativeText, this.desc, this.title,
       this.mainColor, this.response,
-      {bool interest = true}) {
+      {bool interest = true, this.hideClose = false, this.close}) {
     if (interest) {
       titleColor = mainColor;
       positiveColor = mainColor;
@@ -34,7 +36,7 @@ class PopUp {
     var alertStyle = AlertStyle(
       animationType: AnimationType.grow,
       overlayColor: Colors.black87,
-      isCloseButton: true,
+      isCloseButton: !hideClose,
       isOverlayTapDismiss: true,
       titleStyle: TextStyle(
           fontWeight: FontWeight.bold, fontSize: 18, color: mainColor),
@@ -47,6 +49,7 @@ class PopUp {
         style: alertStyle,
         title: "$title",
         desc: "$desc",
+        closeFunction: close(),
         buttons: [
           DialogButton(
             border: Border.all(width: 2.0, color: mainColor),
