@@ -123,7 +123,8 @@ class _AddRidePage2State extends State<AddRidePage2> {
                         textInputAction: TextInputAction.done,
                         maxLines: 1,
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(8),
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(3),
                         ],
                         decoration: InputDecoration(
                           labelText: Lang.getString(context, "/Min"),

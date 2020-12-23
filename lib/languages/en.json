@@ -117,7 +117,7 @@
   "Ride_Details" : "Ride Details",
   "Luggage":"Luggage",
   "Price":"Price",
-  "Rides_Permissions": "Rides Permission :",
+  "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",
   "/Min": "/Min",
   "How_Much_Time_You_Need": "How much time you need ?",
@@ -131,5 +131,6 @@
   "Ride_Added": "Ride Added Successfully",
   "Yes" : "Yes",
   "No" : "No",
-  "Generate_Rides":"Generate 7 rides"
+  "Generate_Rides":"Generate 7 rides",
+  "Select_car": "Select car!"
 }

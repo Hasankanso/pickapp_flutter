@@ -58,30 +58,25 @@ class _AddRidePage3State extends State<AddRidePage3>
                 VerticalSpacer(
                   height: 20,
                 ),
-                AnimatedSize(
-                  curve: Curves.fastLinearToSlowEaseIn,
-                  duration: Duration(milliseconds: 10),
-                  vsync: this,
-                  child: MainExpansionTile(
-                    height: 70,
-                    leading: Icon(
-                      Icons.local_taxi_outlined,
-                      size: Styles.mediumIconSize(),
-                      color: valueSelected?Styles.primaryColor():Colors.grey,
-                    ),
-                    title: Text(
-                      selectedCar,
-                      style: valueSelected
-                          ? Styles.valueTextStyle(
-                        color: Styles.primaryColor()
-                      )
-                          : Styles.labelTextStyle(),
-
-                    ),
-                    children: [
-                      getCar(),
-                    ],
+                MainExpansionTile(
+                  height: 70,
+                  leading: Icon(
+                    Icons.local_taxi_outlined,
+                    size: Styles.mediumIconSize(),
+                    color: valueSelected?Styles.primaryColor():Colors.grey,
                   ),
+                  title: Text(
+                    selectedCar,
+                    style: valueSelected
+                        ? Styles.valueTextStyle(
+                      color: Styles.primaryColor()
+                    )
+                        : Styles.labelTextStyle(),
+
+                  ),
+                  children: [
+                    getCar(),
+                  ],
                 ),
                 VerticalSpacer(
                   height: 50,
@@ -130,6 +125,7 @@ class _AddRidePage3State extends State<AddRidePage3>
                           textInputAction: TextInputAction.done,
                           maxLines: 1,
                           inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(8),
                           ],
                           decoration: InputDecoration(
@@ -180,7 +176,7 @@ class _AddRidePage3State extends State<AddRidePage3>
                       Navigator.of(context)
                           .pushNamed("/AddRidePage4", arguments: rideInfo);
                     } else
-                      CustomToast().showErrorToast("Select a car first !!");
+                      CustomToast().showErrorToast(Lang.getString(context, "Select_car"));
                   }
                 },
               ),

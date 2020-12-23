@@ -31,7 +31,6 @@ class AddRidePage4 extends StatefulWidget {
 class _AddRidePage4State extends State<AddRidePage4> {
   final Ride rideInfo;
   final List<RideRoute> rideRoutes = new List();
-  bool showHide=false;
   String mapUrl;
   String base64Map;
   ListController listController = new ListController();
@@ -169,9 +168,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                 child: Container(
                   child: ListBuilder(
                     list: rideRoutes,
-                    itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap,(){
-                      showHide=true;
-                    }, listController), ),
+                    itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap, listController), ),
               ),
             ),
             VerticalSpacer(
@@ -180,31 +177,28 @@ class _AddRidePage4State extends State<AddRidePage4> {
           ],
         ),
       ),
-      bottomNavigationBar: Visibility(
-        visible: showHide,
-        child: ResponsiveWidget(
-          width: 270,
-          height: 100,
-          child: Column(
-            children: [
-              ResponsiveWidget(
-                width: 270,
-                height: 50,
-                child: MainButton(
-                  isRequest: true,
-                  text_key: "DONE",
-                  onPressed : ()async {
-                    rideInfo.mapBase64 = base64Map;
-                    Request<Ride> request = AddRide(rideInfo);
-                     await  request.send(response);
-                    Navigator.of(context).pushNamed("/");
-                    CustomToast()
-                        .showSuccessToast(Lang.getString(context, "Ride_Added"));
-                  },
-                ),
+      bottomNavigationBar: ResponsiveWidget(
+        width: 270,
+        height: 100,
+        child: Column(
+          children: [
+            ResponsiveWidget(
+              width: 270,
+              height: 50,
+              child: MainButton(
+                isRequest: true,
+                text_key: "DONE",
+                onPressed : ()async {
+                  rideInfo.mapBase64 = base64Map;
+                  Request<Ride> request = AddRide(rideInfo);
+                   await  request.send(response);
+                  Navigator.of(context).pushNamed("/");
+                  CustomToast()
+                      .showSuccessToast(Lang.getString(context, "Successfully_added!"));
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

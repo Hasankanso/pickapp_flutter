@@ -118,11 +118,11 @@
 
   "Luggage":"الحقائب",
   "Price":"السعر",
-  "Rides_Permissions": "مسموحات الرحلة",
+  "Rides_Permissions": "مسموحات الرحلة :",
   "Description": "وصف الرحلة",
   "/Min": "/ دقيقة",
   "How_Much_Time_You_Need": "كم من الوقت تحتاج ؟",
-  "Do_You_Want_To_Stop_Over": "هل تريد التوقف في طريقك؟",
+  "Do_You_Want_To_Stop_Over": "هل تود الوقوف اثناء الرحلة ؟",
   "Do_You_Have_Kids_Seat": "هل لديك مقعد اطفال؟",
   "Choose_A_Car": "اختر سيارة ",
   "LBP": "ليرة",
@@ -133,6 +133,8 @@
 
   "Yes" : "نعم",
   "No" : "لا",
-  "Generate_Rides":"Generate 7 rides"
+  "Generate_Rides":"Generate 7 rides",
+  "Select_car": "اختر سيارة!"
+
 
 }

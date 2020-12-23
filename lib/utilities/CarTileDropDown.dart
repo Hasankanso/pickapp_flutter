@@ -22,7 +22,7 @@ class _CarTileDropDownState extends State<CarTileDropDown> {
   @override
   Widget build(BuildContext context) {
     return  ResponsiveWidget.fullWidth(
-      height: 100,
+      height: 70,
       child: Card(
         elevation: 0.1,
         shape: RoundedRectangleBorder(

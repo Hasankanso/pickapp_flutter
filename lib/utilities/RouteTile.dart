@@ -16,11 +16,11 @@ class RouteTile extends StatefulWidget {
   Function showHide;
   ListController listController;
 
-  RouteTile(this.r, this.callBack, this.index1,this.showHide, this.listController);
+  RouteTile(this.r, this.callBack, this.index1, this.listController);
 
-  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack, showHide, ListController listController) {
+  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack, ListController listController) {
     return (context, index) {
-      return RouteTile(c[index], callBack, index,showHide, listController);
+      return RouteTile(c[index], callBack, index, listController);
     };
   }
 
@@ -63,7 +63,6 @@ class _RouteTileState extends State<RouteTile> {
           ),
           onTap: () {
             callback(r.points);
-             widget.showHide();
             setState(() {
               widget.listController.selected = widget.index1;
             });
