@@ -5,6 +5,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/RideRoute.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
+import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/PopUp.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
@@ -13,12 +14,13 @@ class RouteTile extends StatefulWidget {
   Function(String) callBack;
   final int index1;
   Function showHide;
+  ListController listController;
 
-  RouteTile(this.r, this.callBack, this.index1,this.showHide);
+  RouteTile(this.r, this.callBack, this.index1,this.showHide, this.listController);
 
-  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack,showHide) {
+  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack, showHide, ListController listController) {
     return (context, index) {
-      return RouteTile(c[index], callBack, index,showHide);
+      return RouteTile(c[index], callBack, index,showHide, listController);
     };
   }
 
@@ -28,7 +30,6 @@ class RouteTile extends StatefulWidget {
 
 class _RouteTileState extends State<RouteTile> {
   final Function callback;
-  int _selectedIndex;
 
   _RouteTileState(
     this.callback,
@@ -51,7 +52,7 @@ class _RouteTileState extends State<RouteTile> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          selected: widget.index1 == _selectedIndex,
+          selected: widget.index1 == widget.listController.selected,
           leading: Icon(Icons.timeline,
               size: Styles.mediumIconSize(),
               color: Styles.primaryColor(),
@@ -63,14 +64,9 @@ class _RouteTileState extends State<RouteTile> {
           onTap: () {
             callback(r.points);
              widget.showHide();
-            print(_selectedIndex.toString()+"prev");
-
             setState(() {
-
-              _selectedIndex = widget.index1;
-
+              widget.listController.selected = widget.index1;
             });
-            print(_selectedIndex.toString()+"new");
 
           },
         ),

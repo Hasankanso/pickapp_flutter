@@ -34,7 +34,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
   bool showHide=false;
   String mapUrl;
   String base64Map;
-
+  ListController listController = new ListController();
   _AddRidePage4State(this.rideInfo);
 
   void getDirection(String origin, String destination) async {
@@ -166,12 +166,12 @@ class _AddRidePage4State extends State<AddRidePage4> {
             ),
             ResponsiveWidget.fullWidth(
               height: 220,
-              child: Container(
-                child: ListBuilder(
+                child: Container(
+                  child: ListBuilder(
                     list: rideRoutes,
                     itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap,(){
                       showHide=true;
-                    })),
+                    }, listController), ),
               ),
             ),
             VerticalSpacer(
