@@ -35,7 +35,7 @@ class _PhoneState extends State<Phone> {
     _code.text = widget._user.person.countryInformations.code;
     return MainScaffold(
       appBar: MainAppBar(
-        title: "Phone",
+        title: Lang.getString(context, "Phone"),
       ),
       body: Form(
         key: _formKey,
@@ -137,14 +137,13 @@ class _PhoneState extends State<Phone> {
       _userHasBeenChecked = true;
       if (userExist == true) {
         PopUp.areYouSure(
-                "Skip",
-                "Login",
-                "Account with phone +" +
+                Lang.getString(context, "Skip"),
+                Lang.getString(context, "Login"),
+                Lang.getString(context, "Account_with_phone") +
                     _code.text +
                     _phone.text +
-                    " already registred, " +
-                    "if it's not your account please skip.",
-                "Account already exist",
+                    Lang.getString(context, "Exist_desc"),
+                Lang.getString(context, "Account_already_exist"),
                 Styles.primaryColor(),
                 (bool) => bool ? _skip() : _login(),
                 interest: false,

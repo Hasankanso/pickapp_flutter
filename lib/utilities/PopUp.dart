@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class PopUp {
@@ -55,7 +56,8 @@ class PopUp {
             border: Border.all(width: 2.0, color: mainColor),
             child: Text(
               "$positiveText",
-              style: TextStyle(color: positiveTextColor, fontSize: 18),
+              style: TextStyle(
+                  color: positiveTextColor, fontSize: Styles.fontSize()),
             ),
             color: positiveColor,
             onPressed: () {
@@ -64,10 +66,10 @@ class PopUp {
             },
           ),
           DialogButton(
-            //   border:Border.all(width: 2.0, color: buttonColor),
             child: Text(
               "$negativeText",
-              style: TextStyle(color: negativeTextColor, fontSize: 18),
+              style: TextStyle(
+                  color: negativeTextColor, fontSize: Styles.fontSize()),
             ),
             color: negativeColor,
             onPressed: () {

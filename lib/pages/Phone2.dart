@@ -32,29 +32,33 @@ class Phone2 extends StatefulWidget {
 
 class _Phone2State extends State<Phone2> {
   String _verificationId = "";
+  String _idToken;
   final _formKey = GlobalKey<FormState>();
   bool _isCounterStillOn = true;
   TextEditingController _smsCode = TextEditingController();
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   Timer _timer;
   int _timeout = 120;
-  String _resendCodeTimer = "Resend code in " + 120.toString() + "";
+  String _resendCodeTimer;
+  String _resendCodeLocale, _resendCodeInLocale, _secondsLocale;
 
   void _resendTimer() {
+    _timeout = 120;
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
       (Timer timer) {
         if (_timeout == 0) {
           setState(() {
-            _resendCodeTimer = "Resend code";
+            _resendCodeTimer = _resendCodeLocale;
             _isCounterStillOn = false;
             timer.cancel();
           });
         } else {
           setState(() {
             _timeout--;
-            _resendCodeTimer = "Resend code in " + _timeout.toString() + "s";
+            _resendCodeTimer =
+                _resendCodeInLocale + _timeout.toString() + _secondsLocale;
           });
         }
       },
@@ -72,6 +76,11 @@ class _Phone2State extends State<Phone2> {
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+    _resendCodeLocale = Lang.getString(context, "Resend_code");
+    _resendCodeInLocale = Lang.getString(context, "Resend_code_in");
+    _secondsLocale = Lang.getString(context, "Resend_code_seconds");
+    _resendCodeTimer =
+        _resendCodeInLocale + _timeout.toString() + _secondsLocale;
     await _sendCode();
     _resendTimer();
   }
@@ -80,7 +89,7 @@ class _Phone2State extends State<Phone2> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: "Phone",
+        title: Lang.getString(context, "Phone"),
       ),
       body: Form(
         key: _formKey,
@@ -161,15 +170,15 @@ class _Phone2State extends State<Phone2> {
               child: DifferentSizeResponsiveRow(
                 children: [
                   Spacer(
-                    flex: 7,
+                    flex: 6,
                   ),
                   Expanded(
                     flex: 22,
                     child: TextButton(
                       onPressed: !_isCounterStillOn
                           ? () async {
-                              await _sendCode();
                               _resendTimer();
+                              await _sendCode();
                             }
                           : null,
                       child: Row(
@@ -188,7 +197,7 @@ class _Phone2State extends State<Phone2> {
                     ),
                   ),
                   Spacer(
-                    flex: 7,
+                    flex: 6,
                   ),
                 ],
               ),
@@ -240,6 +249,8 @@ class _Phone2State extends State<Phone2> {
 
     auth.PhoneVerificationFailed verificationFailed =
         (auth.FirebaseAuthException authException) {
+      print(
+          'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
       CustomToast().showErrorToast(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
     };
@@ -272,20 +283,21 @@ class _Phone2State extends State<Phone2> {
 
   Future<void> _firebaseVerification() async {
     try {
+      print(_verificationId);
       final auth.AuthCredential credential = auth.PhoneAuthProvider.credential(
         verificationId: _verificationId,
         smsCode: _smsCode.text,
       );
       final auth.User user =
           (await _auth.signInWithCredential(credential)).user;
-
+      _idToken = await user.getIdToken();
       if (!widget.isForceRegister) {
-        Request<User> registerRequest = RegisterPerson(widget.user, user.uid);
+        Request<User> registerRequest = RegisterPerson(widget.user, _idToken);
         registerRequest.send(_registerResponse);
         return;
       } else {
         Request<User> registerRequest =
-            ForceRegisterPerson(user.uid, widget.user);
+            ForceRegisterPerson(_idToken, widget.user);
         registerRequest.send(_registerResponse);
         return;
       }
@@ -315,7 +327,6 @@ class _Phone2State extends State<Phone2> {
 
       App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
-      App.isDriverNotifier.value = true;
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);
