@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/AddCar.dart';
 import 'package:pickapp/pages/AddCar2.dart';
 import 'package:pickapp/pages/AddCar3.dart';
@@ -119,7 +120,8 @@ class RouteGenerator {
       case "/Phone2":
         return MaterialPageRoute(
             builder: (_) => Phone2(
-                  user: args,
+                  user: ((args as List)[0] as User),
+                  isForceRegister: (args as List)[1],
                 ));
     }
   }

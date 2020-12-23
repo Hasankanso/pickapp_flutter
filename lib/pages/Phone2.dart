@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -8,7 +9,6 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/ForceRegisterPerson.dart';
@@ -33,16 +33,47 @@ class Phone2 extends StatefulWidget {
 class _Phone2State extends State<Phone2> {
   String _verificationId = "";
   final _formKey = GlobalKey<FormState>();
-  bool _isForceRegister = false;
-  bool _codeSent = false;
+  bool _isCounterStillOn = true;
   TextEditingController _smsCode = TextEditingController();
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
+  Timer _timer;
+  int _timeout = 120;
+  String _resendCodeTimer = "Resend code in " + 120.toString() + "";
+
+  void _resendTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_timeout == 0) {
+          setState(() {
+            _resendCodeTimer = "Resend code";
+            _isCounterStillOn = false;
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _timeout--;
+            _resendCodeTimer = "Resend code in " + _timeout.toString() + "s";
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     await _sendCode();
+    _resendTimer();
   }
 
   @override
@@ -57,21 +88,33 @@ class _Phone2State extends State<Phone2> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ResponsiveWidget.fullWidth(
-              height: 100,
+              height: 50,
               child: DifferentSizeResponsiveRow(
                 children: [
                   Spacer(
-                    flex: 1,
+                    flex: 8,
                   ),
                   Expanded(
-                    flex: 34,
-                    child: Text(
-                        Lang.getString(context, "Verification_is_sent") +
-                            "\n" +
-                            widget.user.phone),
+                    flex: 20,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            size: Styles.smallIconSize(),
+                          ),
+                          Text(
+                            " " + widget.user.phone,
+                            style: Styles.valueTextStyle(),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   Spacer(
-                    flex: 1,
+                    flex: 8,
                   ),
                 ],
               ),
@@ -81,10 +124,10 @@ class _Phone2State extends State<Phone2> {
               child: DifferentSizeResponsiveRow(
                 children: [
                   Spacer(
-                    flex: 1,
+                    flex: 11,
                   ),
                   Expanded(
-                    flex: 34,
+                    flex: 14,
                     child: TextFormField(
                       controller: _smsCode,
                       validator: (value) {
@@ -108,7 +151,44 @@ class _Phone2State extends State<Phone2> {
                     ),
                   ),
                   Spacer(
-                    flex: 1,
+                    flex: 11,
+                  ),
+                ],
+              ),
+            ),
+            ResponsiveWidget.fullWidth(
+              height: 50,
+              child: DifferentSizeResponsiveRow(
+                children: [
+                  Spacer(
+                    flex: 7,
+                  ),
+                  Expanded(
+                    flex: 22,
+                    child: TextButton(
+                      onPressed: !_isCounterStillOn
+                          ? () async {
+                              await _sendCode();
+                              _resendTimer();
+                            }
+                          : null,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.sms_outlined,
+                            size: Styles.smallIconSize(),
+                          ),
+                          Text(
+                            " " + _resendCodeTimer,
+                            style: Styles.valueTextStyle(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Spacer(
+                    flex: 7,
                   ),
                 ],
               ),
@@ -125,7 +205,7 @@ class _Phone2State extends State<Phone2> {
               height: 50,
               child: MainButton(
                 isRequest: false,
-                text_key: "Verify",
+                text_key: "Register",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     widget.user.verificationCode = _smsCode.text;
@@ -138,7 +218,7 @@ class _Phone2State extends State<Phone2> {
                         );
                       },
                     );
-                    FirebaseVerification();
+                    _firebaseVerification();
                   }
                 },
               ),
@@ -149,10 +229,10 @@ class _Phone2State extends State<Phone2> {
     );
   }
 
-  void _sendCode() async {
+  _sendCode() async {
+    _isCounterStillOn = true;
     auth.PhoneVerificationCompleted verificationCompleted =
         (auth.PhoneAuthCredential phoneAuthCredential) async {
-      _codeSent = false;
       await _auth.signInWithCredential(phoneAuthCredential);
       CustomToast().showSuccessToast(
           "Phone number automatically verified and user signed in: ${phoneAuthCredential}");
@@ -160,14 +240,12 @@ class _Phone2State extends State<Phone2> {
 
     auth.PhoneVerificationFailed verificationFailed =
         (auth.FirebaseAuthException authException) {
-      _codeSent = false;
       CustomToast().showErrorToast(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
     };
 
     auth.PhoneCodeSent codeSent =
         (String verificationId, [int forceResendingToken]) async {
-      _codeSent = true;
       CustomToast()
           .showSuccessToast('Please enter your phone verification code.');
       _verificationId = verificationId;
@@ -176,25 +254,23 @@ class _Phone2State extends State<Phone2> {
     auth.PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationId) {
       print("timeout");
-      _codeSent = false;
       _verificationId = verificationId;
     };
 
     try {
       await _auth.verifyPhoneNumber(
           phoneNumber: widget.user.phone,
-          timeout: const Duration(seconds: 5),
+          timeout: const Duration(seconds: 120),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
           codeSent: codeSent,
           codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
     } catch (e) {
-      _codeSent = false;
       CustomToast().showErrorToast("Failed to Verify Phone Number: ${e}");
     }
   }
 
-  Future<void> FirebaseVerification() async {
+  Future<void> _firebaseVerification() async {
     try {
       final auth.AuthCredential credential = auth.PhoneAuthProvider.credential(
         verificationId: _verificationId,
@@ -205,12 +281,12 @@ class _Phone2State extends State<Phone2> {
 
       if (!widget.isForceRegister) {
         Request<User> registerRequest = RegisterPerson(widget.user, user.uid);
-        registerRequest.send(response);
+        registerRequest.send(_registerResponse);
         return;
       } else {
         Request<User> registerRequest =
             ForceRegisterPerson(user.uid, widget.user);
-        registerRequest.send(response);
+        registerRequest.send(_registerResponse);
         return;
       }
     } catch (e) {
@@ -220,7 +296,7 @@ class _Phone2State extends State<Phone2> {
     }
   }
 
-  Future<void> response(User u, int code, String message) async {
+  Future<void> _registerResponse(User u, int code, String message) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
@@ -230,26 +306,12 @@ class _Phone2State extends State<Phone2> {
       User cacheUser = u;
       Person cachePerson = u.person;
       cachePerson.rates = null;
-      var regions = u.driver.regions;
-      if (u.driver != null) {
-        var d = u.driver;
-        cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
-      }
       cacheUser.person = cachePerson;
       if (!userBox.containsKey(0)) {
         await userBox.put(0, cacheUser);
       } else {
         userBox.add(cacheUser);
       }
-      await Hive.openBox('regions');
-      final regionsBox = Hive.box("regions");
-
-      if (regionsBox.containsKey(0)) {
-        await regionsBox.put(0, regions);
-      } else {
-        regionsBox.add(regions);
-      }
-      regionsBox.close();
 
       App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;

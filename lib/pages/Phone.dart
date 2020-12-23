@@ -26,6 +26,7 @@ class Phone extends StatefulWidget {
 class _PhoneState extends State<Phone> {
   final _formKey = GlobalKey<FormState>();
   bool _isForceRegister = false;
+  bool _userHasBeenChecked = false;
   TextEditingController _phone = TextEditingController();
   TextEditingController _code = TextEditingController();
 
@@ -76,6 +77,7 @@ class _PhoneState extends State<Phone> {
                         LengthLimitingTextInputFormatter(
                             widget._user.person.countryInformations.digits),
                       ],
+                      onChanged: (value) => _userHasBeenChecked = false,
                       controller: _phone,
                       textInputAction: TextInputAction.done,
                       validator: (value) {
@@ -109,16 +111,14 @@ class _PhoneState extends State<Phone> {
                 text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    widget._user.phone = _phone.text;
-                    if (!_isForceRegister) {
-                      User checkUser =
-                          User(phone: "+" + _code.text + _phone.text);
+                    widget._user.phone = "+" + _code.text + _phone.text;
+                    if (!_userHasBeenChecked) {
+                      User checkUser = User(phone: widget._user.phone);
                       Request<bool> request = CheckUserExist(checkUser);
                       await request.send(_checkUserExistResponse);
                     } else {
-                      widget._user.phone = "+" + _code.text + _phone.text;
-                      Navigator.of(context)
-                          .pushNamed('/Phone2', arguments: widget._user);
+                      Navigator.of(context).pushNamed('/Phone2',
+                          arguments: [widget._user, _isForceRegister]);
                     }
                   }
                 },
@@ -134,6 +134,7 @@ class _PhoneState extends State<Phone> {
     if (statusCode != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
     } else {
+      _userHasBeenChecked = true;
       if (userExist == true) {
         PopUp.areYouSure(
                 "Skip",
@@ -151,8 +152,8 @@ class _PhoneState extends State<Phone> {
                 close: () {})
             .confirmationPopup(context);
       } else {
-        widget._user.phone = "+" + _code.text + _phone.text;
-        Navigator.of(context).pushNamed('/Phone2', arguments: widget._user);
+        Navigator.of(context)
+            .pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
       }
     }
   }
@@ -163,7 +164,7 @@ class _PhoneState extends State<Phone> {
 
   _skip() {
     _isForceRegister = true;
-    widget._user.phone = "+" + _code.text + _phone.text;
-    Navigator.of(context).pushNamed('/Phone2', arguments: widget._user);
+    Navigator.of(context)
+        .pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
   }
 }

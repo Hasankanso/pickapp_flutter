@@ -416,7 +416,7 @@ class _CarDetailsState extends State<CarDetails> {
       App.isDriverNotifier.notifyListeners();
 
       CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+          .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

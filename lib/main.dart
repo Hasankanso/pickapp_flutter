@@ -115,6 +115,7 @@ class MyAppState extends State<MyApp> {
                 brightness: Brightness.dark,
                 accentColor: Styles.secondaryColor(),
                 primarySwatch: Styles.primaryColor(),
+                toggleableActiveColor: Styles.primaryColor(),
                 floatingActionButtonTheme: FloatingActionButtonThemeData(
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
