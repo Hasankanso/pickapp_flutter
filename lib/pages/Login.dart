@@ -293,10 +293,23 @@ class _LoginState extends State<Login> {
       User cacheUser = u;
       Person cachePerson = u.person;
       cachePerson.rates = null;
-      var regions = u.driver.regions;
+      var regions;
       if (u.driver != null) {
+        regions = u.driver.regions;
+
+        await Hive.openBox('regions');
+        final regionsBox = Hive.box("regions");
+
+        if (regionsBox.containsKey(0)) {
+          await regionsBox.put(0, regions);
+        } else {
+          regionsBox.add(regions);
+        }
+        regionsBox.close();
+
         var d = u.driver;
         cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
+        App.isDriverNotifier.value = true;
       }
       cacheUser.person = cachePerson;
       if (!userBox.containsKey(0)) {
@@ -316,9 +329,8 @@ class _LoginState extends State<Login> {
 
       App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
-      App.isDriverNotifier.value = true;
       CustomToast()
-          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+          .showSuccessToast(Lang.getString(context, "Welcome_back_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

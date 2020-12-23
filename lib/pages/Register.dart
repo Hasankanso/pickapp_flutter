@@ -9,7 +9,6 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/utilities/BirthdayPicker.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainImagePicker.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -262,10 +261,6 @@ class _RegisterState extends State<Register> {
                 text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    if (_imageController.pickedImage == null) {
-                      return CustomToast().showErrorToast(
-                          Lang.getString(context, "Select_an_image"));
-                    }
                     CountryInformations cI =
                         App.countriesInformations[_country];
                     Person _newPerson = Person();
