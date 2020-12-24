@@ -124,6 +124,8 @@
   "Advanced": "متقدم",
   "Reserve" : "حجز",
   "Ride_Details" : "تفاصيل الرحلة",
+  "Available_Seats": "المقاعد المتاحة",
+  "Stop_Duration" : "مدة التوقف",
 
   "Luggage":"الحقائب",
   "Price":"السعر",
@@ -144,6 +146,4 @@
   "No" : "لا",
   "Generate_Rides":"Generate 7 rides",
   "Select_car": "اختر سيارة!"
-
-
 }

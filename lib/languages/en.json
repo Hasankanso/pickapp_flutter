@@ -125,6 +125,9 @@
   "Ride_Details" : "Ride Details",
   "Luggage":"Luggage",
   "Price":"Price",
+  "Available_Seats": "Available Seats",
+  "Stop_Duration" : "Stop Duration",
+
   "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",
   "/Min": "/Min",
