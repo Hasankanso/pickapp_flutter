@@ -26,7 +26,6 @@ class App {
   static ValueNotifier<bool> isDriverNotifier;
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
-  static List<Ride> rides;
   static double maxPriceFilter = 100000; //TODO flexible maximum price
   static int stepPriceFilter = 100;
 

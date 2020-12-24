@@ -192,7 +192,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
                   rideInfo.mapBase64 = base64Map;
                   Request<Ride> request = AddRide(rideInfo);
                    await  request.send(response);
-                   App.rides.add(rideInfo);
                   Navigator.of(context).pushNamed("/");
                   CustomToast()
                       .showSuccessToast(Lang.getString(context, "Successfully_added!"));
