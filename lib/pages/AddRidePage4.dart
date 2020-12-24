@@ -1,11 +1,15 @@
 import 'dart:convert';
+import 'dart:convert' as convert;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/RideRoute.dart';
+import 'package:pickapp/items/RouteTile.dart';
 import 'package:pickapp/requests/AddRide.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -14,9 +18,6 @@ import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'file:///C:/Users/Ali/Desktop/pickApp_Flutter/pickapp_flutter/lib/items/RouteTile.dart';
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
 import 'package:pickapp/utilities/Spinner.dart';
 
 class AddRidePage4 extends StatefulWidget {
@@ -68,7 +69,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
         App.googleKey);
     if (response.statusCode == 200) {
       var base64String = base64.encode(response.bodyBytes);
-        //print("The base64 is :"+base64String);
+      //print("The base64 is :"+base64String);
       mapUrl = staticMapURL +
           "size=640x640&path=enc%3A" +
           roadPoints +
@@ -112,7 +113,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
         title: Lang.getString(context, "Add_Ride"),
       ),
       body: SingleChildScrollView(
-      child: Column(
+        child: Column(
           children: [
             VerticalSpacer(
               height: 20,
@@ -135,8 +136,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                               height: 30,
                               width: 30,
                               margin: EdgeInsets.all(5),
-                              child: Spinner(
-                              ),
+                              child: Spinner(),
                             ),
                           ),
                         ],
@@ -165,10 +165,12 @@ class _AddRidePage4State extends State<AddRidePage4> {
             ),
             ResponsiveWidget.fullWidth(
               height: 220,
-                child: Container(
-                  child: ListBuilder(
-                    list: rideRoutes,
-                    itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap, listController), ),
+              child: Container(
+                child: ListBuilder(
+                  list: rideRoutes,
+                  itemBuilder:
+                      RouteTile.itemBuilder(rideRoutes, getMap, listController),
+                ),
               ),
             ),
             VerticalSpacer(
@@ -188,13 +190,13 @@ class _AddRidePage4State extends State<AddRidePage4> {
               child: MainButton(
                 isRequest: true,
                 text_key: "DONE",
-                onPressed : ()async {
+                onPressed: () async {
                   rideInfo.mapBase64 = base64Map;
                   Request<Ride> request = AddRide(rideInfo);
-                   await  request.send(response);
+                  await request.send(response);
                   Navigator.of(context).pushNamed("/");
-                  CustomToast()
-                      .showSuccessToast(Lang.getString(context, "Successfully_added!"));
+                  CustomToast().showSuccessToast(
+                      Lang.getString(context, "Successfully_added!"));
                 },
               ),
             ),

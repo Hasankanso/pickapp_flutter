@@ -1,16 +1,13 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/items/CarTileDropDown.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'file:///C:/Users/Ali/Desktop/pickApp_Flutter/pickapp_flutter/lib/items/CarTileDropDown.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainExpansionTile.dart';
@@ -59,44 +56,43 @@ class _AddRidePage3State extends State<AddRidePage3>
                   height: 20,
                 ),
                 InkWell(
-                  child:
-                  Row(
+                  child: Row(
                     children: [
                       Expanded(
-                        child: MainExpansionTile(
-                          height: 70,
-                          leading: Icon(
-                            Icons.local_taxi_outlined,
-                            size: Styles.mediumIconSize(),
-                            color: valueSelected?Styles.primaryColor():Colors.grey,
+                        child: AnimatedSize(
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          duration: Duration(milliseconds: 1),
+                          vsync: this,
+                          child: MainExpansionTile(
+                            height: 70,
+                            leading: Icon(
+                              Icons.local_taxi_outlined,
+                              size: Styles.mediumIconSize(),
+                              color: valueSelected
+                                  ? Styles.primaryColor()
+                                  : Colors.grey,
+                            ),
+                            title: Text(
+                              selectedCar,
+                              style: valueSelected
+                                  ? Styles.valueTextStyle(
+                                      color: Styles.primaryColor())
+                                  : Styles.labelTextStyle(),
+                            ),
+                            children: App.driver.cars.map((Car c) {
+                              return CarTileDropDown(
+                                  carName: c.brand + " / " + c.name,
+                                  car: c,
+                                  a: () {
+                                    selectedCar = c.brand + " / " + c.name;
+                                    car = c;
+                                    valueSelected = true;
+                                    setState(() {});
+                                  });
+                            }).toList(growable: true),
+
+                            //  getCar(),
                           ),
-                          title: Text(
-                            selectedCar,
-                            style: valueSelected
-                                ? Styles.valueTextStyle(
-                              color: Styles.primaryColor()
-                            )
-                                : Styles.labelTextStyle(),
-
-                          ),
-                          children: App.driver.cars.map((Car c) {
-                            return CarTileDropDown(
-                                carName: c.brand +
-                                    " / " +
-                                    c.name,
-                                car: c,
-                                a: () {
-                                  selectedCar = c.brand +
-                                      " / " +
-                                      c.name;
-                                  car = c;
-                                  valueSelected = true;
-                                  setState(() {});
-                                });
-                          }).toList(growable: true),
-
-                          //  getCar(),
-
                         ),
                       ),
                     ],
@@ -200,7 +196,8 @@ class _AddRidePage3State extends State<AddRidePage3>
                       Navigator.of(context)
                           .pushNamed("/AddRidePage4", arguments: rideInfo);
                     } else
-                      CustomToast().showErrorToast(Lang.getString(context, "Select_car"));
+                      CustomToast().showErrorToast(
+                          Lang.getString(context, "Select_car"));
                   }
                 },
               ),
