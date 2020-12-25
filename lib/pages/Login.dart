@@ -38,6 +38,14 @@ class _LoginState extends State<Login> {
   TextEditingController _code = TextEditingController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _phone.dispose();
+    _code.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
@@ -201,11 +209,11 @@ class _LoginState extends State<Login> {
       CustomToast().showErrorToast(error);
     } else {
       _user = User(phone: "+" + _countryCode + _phone.text);
-      codePopUp(p1);
+      codePopUp(context, p1);
     }
   }
 
-  codePopUp(String title) {
+  codePopUp(BuildContext context, String title) {
     var alertStyle = AlertStyle(
       animationType: AnimationType.grow,
       overlayColor: Colors.black45,

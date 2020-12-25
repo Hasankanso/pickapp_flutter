@@ -98,6 +98,7 @@
   "Add_a_car": "Add a car",
   "Now_driver":  "Now you are a driver",
   "Successfully_added!": "Successfully added!",
+  "Successfully_deleted!": "Successfully _deleted!",
   "Delete": "Delete",
   "Warning!": "Warning!",
   "Car_delete_message": "Are you sure you want to delete this car?",
@@ -111,6 +112,9 @@
   "Resend_code": "Resend code",
   "Resend_code_in": "Resend code in ",
   "Resend_code_seconds": "s",
+  "Delete_message":"You have an upcoming ride in this car",
+  "No_driver_anymore": "This is your last car, if you delete it you will no longer be a driver",
+  "Regions_require_message": "Your living regions are required, to let passengers alert you when they need a drive",
 
   "Results" : "Results",
   "Filter" : "Filter",
@@ -125,6 +129,9 @@
   "Ride_Details" : "Ride Details",
   "Luggage":"Luggage",
   "Price":"Price",
+  "Available_Seats": "Available Seats",
+  "Stop_Duration" : "Stop Duration",
+
   "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",
   "/Min": "/Min",

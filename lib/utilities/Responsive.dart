@@ -63,6 +63,18 @@ class VerticalSpacer extends StatelessWidget {
   }
 }
 
+class ResponsiveSpacer extends StatelessWidget{
+  final double width, height;
+
+  ResponsiveSpacer({this.width=0, this.height = 0});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(width : ScreenUtil().setWidth(width) ,height: ScreenUtil().setHeight(height));
+  }
+
+}
+
 class DifferentSizeResponsiveRow extends StatelessWidget {
   List<Widget> children;
 

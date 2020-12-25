@@ -66,9 +66,10 @@ abstract class Request<T> {
           }
         }*/
         //check if there's error
-
         if (jCode != null) {
-          callback(null, int.tryParse(jCode), jMessage);
+          callback(
+              null, jCode is String ? int.tryParse(jCode) : jCode, jMessage);
+          //callback(null, int.tryParse(jCode), jMessage);
           return;
         }
       }

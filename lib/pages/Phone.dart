@@ -31,6 +31,14 @@ class _PhoneState extends State<Phone> {
   TextEditingController _code = TextEditingController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _phone.dispose();
+    _code.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _code.text = widget._user.person.countryInformations.code;
     return MainScaffold(
@@ -137,19 +145,18 @@ class _PhoneState extends State<Phone> {
       _userHasBeenChecked = true;
       if (userExist == true) {
         PopUp.areYouSure(
-                Lang.getString(context, "Skip"),
-                Lang.getString(context, "Login"),
-                Lang.getString(context, "Account_with_phone") +
-                    _code.text +
-                    _phone.text +
-                    Lang.getString(context, "Exist_desc"),
-                Lang.getString(context, "Account_already_exist"),
-                Styles.primaryColor(),
-                (bool) => bool ? _skip() : _login(),
-                interest: false,
-                hideClose: true,
-                close: () {})
-            .confirmationPopup(context);
+          Lang.getString(context, "Skip"),
+          Lang.getString(context, "Login"),
+          Lang.getString(context, "Account_with_phone") +
+              _code.text +
+              _phone.text +
+              Lang.getString(context, "Exist_desc"),
+          Lang.getString(context, "Account_already_exist"),
+          Styles.primaryColor(),
+          (bool) => bool ? _skip() : _login(),
+          interest: false,
+          hideClose: true,
+        ).confirmationPopup(context);
       } else {
         Navigator.of(context)
             .pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);

@@ -22,7 +22,7 @@ class RegionListTile extends StatelessWidget {
       elevation: 1.0,
       margin: EdgeInsets.all(4),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: DifferentSizeResponsiveRow(
           children: [
             Expanded(

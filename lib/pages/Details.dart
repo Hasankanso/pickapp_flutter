@@ -42,6 +42,15 @@ class _DetailsState extends State<Details> {
   DateTime _birthdayInit = App.person.birthday;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _bioController.dispose();
+    _firstName.dispose();
+    _lastName.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();

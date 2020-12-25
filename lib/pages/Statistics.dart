@@ -16,6 +16,7 @@ class Statistics extends StatelessWidget {
     return MainScaffold(
       appBar: MainAppBar(title: Lang.getString(context, "Statistics")),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

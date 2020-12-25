@@ -32,6 +32,15 @@ class _AddCar2State extends State<AddCar2> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.car.type != null) {
+      selectType(widget.car.type);
+    }
+  }
+
+  @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();

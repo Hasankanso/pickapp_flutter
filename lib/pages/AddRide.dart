@@ -58,7 +58,7 @@ class _AddRideState extends State<AddRide> {
                     child: Column(
                       children: [
                         ResponsiveWidget.fullWidth(
-                            height: 150,
+                            height: 170,
                             child: FromToPicker(
                                 fromController: fromController,
                                 toController: toController)),

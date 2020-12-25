@@ -87,8 +87,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
 
       Future.delayed(Duration.zero, () async {
         Flushbar(
-          message:
-              "Your living regions are required, to make it easier for passengers to reach you",
+          message: Lang.getString(context, "Regions_require_message"),
           flushbarPosition: FlushbarPosition.TOP,
           flushbarStyle: FlushbarStyle.GROUNDED,
           reverseAnimationCurve: Curves.decelerate,
@@ -125,7 +124,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
       body: Column(
         children: [
           AspectRatio(
-            aspectRatio: 25 / 4,
+            aspectRatio: 22 / 4,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

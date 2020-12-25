@@ -69,6 +69,7 @@ class _Phone2State extends State<Phone2> {
   void dispose() {
     // TODO: implement dispose
     _timer.cancel();
+    _smsCode.dispose();
     super.dispose();
   }
 

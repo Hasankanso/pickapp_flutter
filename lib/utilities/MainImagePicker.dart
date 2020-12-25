@@ -92,8 +92,12 @@ class _MainImagePickerState extends State<MainImagePicker> {
   }
 
   _takePhoto() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
+    var pickedFile;
+    try {
+      pickedFile = await picker.getImage(source: ImageSource.camera);
+    } catch (PlatformException) {
+      return;
+    }
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -104,7 +108,12 @@ class _MainImagePickerState extends State<MainImagePicker> {
   }
 
   _pickGallery() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    var pickedFile;
+    try {
+      pickedFile = await picker.getImage(source: ImageSource.gallery);
+    } catch (PlatformException) {
+      return;
+    }
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);

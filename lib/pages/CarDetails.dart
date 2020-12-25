@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -43,6 +44,7 @@ class _CarDetailsState extends State<CarDetails> {
   TextEditingController _yearController = TextEditingController();
   List<String> _typeItems;
   MainImageController _imageController = MainImageController();
+  int i = 0;
 
   @override
   void initState() {
@@ -90,27 +92,53 @@ class _CarDetailsState extends State<CarDetails> {
       appBar: MainAppBar(
         title: "Car details",
         actions: [
-          App.driver.cars.length != 1
-              ? IconButton(
+          IconButton(
+            icon: Icon(
+              Icons.delete,
+              color: Colors.red,
+              size: Styles.largeIconSize(),
+            ),
+            tooltip: Lang.getString(context, "Delete"),
+            onPressed: () {
+              if (i == 0) if (App.driver.cars.length == 1) {
+                i++;
+                Flushbar(
+                  message: Lang.getString(context, "No_driver_anymore"),
+                  flushbarPosition: FlushbarPosition.TOP,
+                  flushbarStyle: FlushbarStyle.GROUNDED,
+                  reverseAnimationCurve: Curves.decelerate,
+                  forwardAnimationCurve: Curves.decelerate,
                   icon: Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                    size: Styles.largeIconSize(),
+                    Icons.info_outline,
+                    color: Styles.primaryColor(),
+                    size: Styles.mediumIconSize(),
                   ),
-                  tooltip: Lang.getString(context, "Delete"),
-                  onPressed: () {
-                    PopUp.areYouSure(
-                            Lang.getString(context, "Yes"),
-                            Lang.getString(context, "No"),
-                            Lang.getString(context, "Car_delete_message"),
-                            Lang.getString(context, "Warning!"),
-                            Colors.red,
-                            (bool) => bool ? _deleteCarRequest() : null,
-                            interest: false)
-                        .confirmationPopup(context);
-                  },
-                )
-              : Container(),
+                  mainButton: IconButton(
+                    focusColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      Icons.clear,
+                      color: Styles.secondaryColor(),
+                      size: Styles.mediumIconSize(),
+                    ),
+                  ),
+                )..show(context);
+                return;
+              }
+              PopUp.areYouSure(
+                      Lang.getString(context, "Yes"),
+                      Lang.getString(context, "No"),
+                      Lang.getString(context, "Car_delete_message"),
+                      Lang.getString(context, "Warning!"),
+                      Colors.red,
+                      (bool) => bool ? _deleteCarRequest() : null,
+                      interest: false)
+                  .confirmationPopup(context);
+            },
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -394,8 +422,15 @@ class _CarDetailsState extends State<CarDetails> {
   }
 
   _deleteCarRequest() async {
+    for (var item in App.person.upcomingRides) {
+      if (item.car.id == widget.car.id) {
+        return CustomToast()
+            .showErrorToast(Lang.getString(context, "Delete_car_message"));
+      }
+    }
+
     Request<List<Car>> request = DeleteCar(widget.car);
-    await request.send(_deleteCarResponse);
+    request.send(_deleteCarResponse);
   }
 
   _deleteCarResponse(List<Car> p1, int code, String message) async {

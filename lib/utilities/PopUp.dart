@@ -50,7 +50,7 @@ class PopUp {
         style: alertStyle,
         title: "$title",
         desc: "$desc",
-        closeFunction: close(),
+        closeFunction: close,
         buttons: [
           DialogButton(
             border: Border.all(width: 2.0, color: mainColor),

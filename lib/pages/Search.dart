@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/FakeRequests.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
@@ -65,7 +63,7 @@ class _SearchState extends State<Search>
           child: Column(
             children: [
               ResponsiveWidget.fullWidth(
-                  height: 150,
+                  height: 170,
                   child: FromToPicker(
                       fromController: fromController,
                       toController: toController)),

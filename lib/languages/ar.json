@@ -98,6 +98,7 @@
   "Add_a_car": "أضف سيارة",
   "Now_driver":  "أنت الآن سائق",
   "Successfully_added!": "أضيف بنجاح!",
+  "Successfully_deleted!": "تم الحذف بنجاح!",
   "Delete": "حذف",
   "Warning!": "تحذير!",
   "Car_delete_message": "هل أنت متأكد أنك تريد حذف هذه السيارة؟",
@@ -111,6 +112,9 @@
   "Resend_code": "أعد إرسال الرمز",
   "Resend_code_in": "أعد إرسال الرمز بعد ",
   "Resend_code_seconds": " ثانية",
+  "Delete_car_message":"لديك رحلة قادمة في هذه السيارة",
+  "No_driver_anymore": "هذه هي سيارتك الأخيرة ، إذا حذفتها فلن تكون سائقًا بعد الآن",
+  "Regions_require_message": "مناطق المعيشة الخاصة بك مطلوبة ، للسماح للركاب بتنبيهك عندما يحتاجون إلى القيادة",
 
 
   "Results" : "النتائج",
@@ -124,6 +128,8 @@
   "Advanced": "متقدم",
   "Reserve" : "حجز",
   "Ride_Details" : "تفاصيل الرحلة",
+  "Available_Seats": "المقاعد المتاحة",
+  "Stop_Duration" : "مدة التوقف",
 
   "Luggage":"الحقائب",
   "Price":"السعر",
@@ -144,6 +150,4 @@
   "No" : "لا",
   "Generate_Rides":"Generate 7 rides",
   "Select_car": "اختر سيارة!"
-
-
 }

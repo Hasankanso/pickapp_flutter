@@ -33,6 +33,15 @@ class _RegisterState extends State<Register> {
   MainImageController _imageController = MainImageController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _firstName.dispose();
+    _lastName.dispose();
+    _email.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();

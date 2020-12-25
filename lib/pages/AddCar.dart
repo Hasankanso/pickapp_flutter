@@ -26,6 +26,16 @@ class _AddCarState extends State<AddCar> {
   TextEditingController _brand = TextEditingController();
   TextEditingController _year = TextEditingController();
   MainImageController _imageController = MainImageController();
+  Car car = Car();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _name.dispose();
+    _brand.dispose();
+    _year.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,24 +177,18 @@ class _AddCarState extends State<AddCar> {
                           Lang.getString(context, "Select_an_image"));
                     }
                     if (widget.driver != null) {
-                      widget.driver.cars = [
-                        Car(
-                          name: _name.text,
-                          brand: _brand.text,
-                          year: int.parse(_year.text),
-                        )
-                      ];
+                      car.name = _name.text;
+                      car.brand = _brand.text;
+                      car.year = int.parse(_year.text);
+                      widget.driver.cars = [car];
                       await widget.driver.cars[0]
                           .setPictureFile(_imageController.pickedImage);
                       Navigator.pushNamed(context, "/AddCar2Driver",
                           arguments: widget.driver);
                     } else {
-                      print(22);
-                      Car car = Car(
-                        name: _name.text,
-                        brand: _brand.text,
-                        year: int.parse(_year.text),
-                      );
+                      car.name = _name.text;
+                      car.brand = _brand.text;
+                      car.year = int.parse(_year.text);
                       await car.setPictureFile(_imageController.pickedImage);
                       Navigator.pushNamed(context, "/AddCar2", arguments: car);
                     }

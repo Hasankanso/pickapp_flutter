@@ -38,7 +38,9 @@ class _AddCar3State extends State<AddCar3> {
   String _btnText;
 
   @override
-  void didChangeDependencies() {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     int _type;
     if (widget.driver != null) {
       _btnText = "Become_a_driver";
@@ -60,7 +62,6 @@ class _AddCar3State extends State<AddCar3> {
       _maxSeats = 13;
       _maxLuggage = 7;
     }
-    super.didChangeDependencies();
   }
 
   @override
