@@ -347,7 +347,6 @@ class _DriverInfoState extends State<DriverInfo> {
                     ? IconButton(
                         tooltip: Lang.getString(context, "Add_a_car"),
                         onPressed: () {
-                          print(App.driver.cars.length >= 3);
                           Navigator.pushNamed(context, "/AddCar");
                         },
                         icon: Icon(
@@ -379,7 +378,7 @@ class PassengerInfo extends StatelessWidget {
         margin: EdgeInsets.all(5),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed("/BecomeDriver");
+            Navigator.of(context).pushNamed("/BecomeDriver", arguments: false);
           },
           child: ResponsiveWidget.fullWidth(
             height: 60,

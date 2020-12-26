@@ -29,12 +29,46 @@ class _AddCarState extends State<AddCar> {
   Car car = Car();
 
   @override
-  void dispose() {
+  void dispose() async {
     // TODO: implement dispose
+    if (widget.driver != null) {
+      if (widget.driver.cars == null || widget.driver.cars.length == 0) {
+        widget.driver.cars = [car];
+      }
+      if (!Validation.isNullOrEmpty(_name.text))
+        widget.driver.cars[0].name = _name.text;
+      if (!Validation.isNullOrEmpty(_brand.text))
+        widget.driver.cars[0].brand = _brand.text;
+      if (!Validation.isNullOrEmpty(_year.text))
+        widget.driver.cars[0].year = int.parse(_year.text);
+      if (_imageController.pickedImage != null) {
+        widget.driver.cars[0].imageFile = _imageController.pickedImage;
+      }
+    }
     _name.dispose();
     _brand.dispose();
     _year.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.driver != null) {
+      if (widget.driver.cars != null) {
+        if (!Validation.isNullOrEmpty(widget.driver.cars[0].name))
+          _name.text = widget.driver.cars[0].name;
+        if (!Validation.isNullOrEmpty(widget.driver.cars[0].brand))
+          _brand.text = widget.driver.cars[0].brand;
+        if (widget.driver.cars[0].year != null)
+          _year.text = widget.driver.cars[0].year.toString();
+        if (widget.driver.cars[0].imageFile != null)
+          _imageController.pickedImage = widget.driver.cars[0].imageFile;
+      } else {
+        widget.driver.cars = [Car()];
+      }
+    }
   }
 
   @override
@@ -177,12 +211,20 @@ class _AddCarState extends State<AddCar> {
                           Lang.getString(context, "Select_an_image"));
                     }
                     if (widget.driver != null) {
-                      car.name = _name.text;
-                      car.brand = _brand.text;
-                      car.year = int.parse(_year.text);
-                      widget.driver.cars = [car];
+                      if (widget.driver.cars != null &&
+                          widget.driver.cars.length == 1) {
+                        widget.driver.cars[0].name = _name.text;
+                        widget.driver.cars[0].brand = _brand.text;
+                        widget.driver.cars[0].year = int.parse(_year.text);
+                      } else {
+                        car.name = _name.text;
+                        car.brand = _brand.text;
+                        car.year = int.parse(_year.text);
+                        widget.driver.cars = [car];
+                      }
                       await widget.driver.cars[0]
                           .setPictureFile(_imageController.pickedImage);
+
                       Navigator.pushNamed(context, "/AddCar2Driver",
                           arguments: widget.driver);
                     } else {

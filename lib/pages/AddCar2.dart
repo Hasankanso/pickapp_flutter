@@ -32,11 +32,24 @@ class _AddCar2State extends State<AddCar2> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    if (_type != null) {
+      if (widget.car != null)
+        widget.car.type = _type;
+      else if (widget.driver.cars != null) widget.driver.cars[0].type = _type;
+    }
+    super.dispose();
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.car.type != null) {
+    if ((widget.car != null && widget.car.type != null))
       selectType(widget.car.type);
+    else if (widget.driver != null && widget.driver.cars[0].type != null) {
+      selectType(widget.driver.cars[0].type);
     }
   }
 

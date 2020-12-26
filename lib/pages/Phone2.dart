@@ -320,10 +320,10 @@ class _Phone2State extends State<Phone2> {
       Person cachePerson = u.person;
       cachePerson.rates = null;
       cacheUser.person = cachePerson;
-      if (!userBox.containsKey(0)) {
+      if (userBox.containsKey(0)) {
         await userBox.put(0, cacheUser);
       } else {
-        userBox.add(cacheUser);
+        await userBox.add(cacheUser);
       }
 
       App.isLoggedIn = true;

@@ -291,7 +291,8 @@ class Settings extends StatelessWidget {
                         onTap: () async {
                           await Hive.openBox("regions");
                           var regionB = Hive.box("regions");
-                          regionB.clear();
+                          await regionB.clear();
+                          regionB.close();
                           var userB = Hive.box("user");
                           userB.clear();
                           App.user = null;

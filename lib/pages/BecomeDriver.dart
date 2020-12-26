@@ -29,6 +29,7 @@ class BecomeDriver extends StatefulWidget {
 }
 
 class _BecomeDriverState extends State<BecomeDriver> {
+  Driver driver = Driver();
   final _formKey = GlobalKey<FormState>();
   var regionsBox;
   List<MainLocation> _regions = List<MainLocation>();
@@ -47,18 +48,17 @@ class _BecomeDriverState extends State<BecomeDriver> {
 
   removeRegion(int index) {
     if (_regions.length > 1) {
-      setState(() {
-        _regions.removeAt(index);
-        _regionTiles.removeAt(index);
-        _regionsControllers.removeAt(index);
-      });
+      _regions.removeAt(index);
+      _regionTiles.removeAt(index);
+      _regionsControllers.removeAt(index);
+      setState(() {});
     }
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    regionsBox.close();
+    if (regionsBox != null) regionsBox.close();
     super.dispose();
   }
 
@@ -204,11 +204,13 @@ class _BecomeDriverState extends State<BecomeDriver> {
                           _regionsControllers[i].location.lat;
                     }
                     if (widget.isRegionPage) {
-                      Request request = EditRegions(Driver(regions: _regions));
+                      driver.regions = _regions;
+                      Request request = EditRegions(driver);
                       await request.send(_editRegionsResponse);
                     } else {
+                      driver.regions = _regions;
                       Navigator.pushNamed(context, "/AddCarDriver",
-                          arguments: Driver(regions: _regions));
+                          arguments: driver);
                     }
                   }
                 },

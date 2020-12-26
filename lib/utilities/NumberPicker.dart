@@ -11,17 +11,18 @@ class NumberPicker extends StatefulWidget {
   NumberController controller;
 
   NumberPicker(this.controller, this._title, this._min, this._max,
-      {defaultCounter, this.disabled = false}) {
+      {this.disabled = false}) {
     if (disabled) {
       _value = 0;
       controller.chosenNumber = 0;
-    }
-    if (defaultCounter != null) {
-      _value = defaultCounter;
-      controller.chosenNumber = defaultCounter;
+      return;
     } else {
-      _value = _min;
-      controller.chosenNumber = _min;
+      if (controller.chosenNumber == null) {
+        _value = _min;
+        controller.chosenNumber = _min;
+      } else {
+        _value = controller.chosenNumber;
+      }
     }
   }
 
@@ -123,4 +124,5 @@ class _NumberPickerState extends State<NumberPicker> {
 
 class NumberController {
   int chosenNumber;
+  NumberController({this.chosenNumber});
 }

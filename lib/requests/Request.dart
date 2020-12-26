@@ -35,7 +35,9 @@ abstract class Request<T> {
       var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
       print("backendless: " + decodedResponse.toString());
 
-      if (decodedResponse[0] == null && decodedResponse["code"] != "null") {
+      if (decodedResponse.length != 0 &&
+          decodedResponse[0] == null &&
+          decodedResponse["code"] != "null") {
         print("response handled as it has an error in Request class");
         //extracting code and message
         var jCode =

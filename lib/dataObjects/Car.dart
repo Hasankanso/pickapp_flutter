@@ -30,6 +30,13 @@ class Car {
   DateTime _updated;
   @HiveField(10)
   int _type;
+  File _imageFile;
+
+  File get imageFile => _imageFile;
+
+  set imageFile(File value) {
+    _imageFile = value;
+  }
 
   Car({
     String id,

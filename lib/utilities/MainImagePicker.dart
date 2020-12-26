@@ -31,6 +31,13 @@ class MainImagePicker extends StatefulWidget {
 class _MainImagePickerState extends State<MainImagePicker> {
   File _image;
   final picker = ImagePicker();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.controller.pickedImage != null)
+      _image = widget.controller.pickedImage;
+  }
 
   @override
   Widget build(BuildContext context) {

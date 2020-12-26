@@ -71,4 +71,9 @@ class _ColorPickerState extends State<ColorPicker> {
 
 class ColorController {
   Color pickedColor = Styles.primaryColor();
+  ColorController({int pickedColor}) {
+    if (pickedColor != null) {
+      this.pickedColor = Color(pickedColor);
+    }
+  }
 }

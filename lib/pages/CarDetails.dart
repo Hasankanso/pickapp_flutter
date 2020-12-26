@@ -55,6 +55,9 @@ class _CarDetailsState extends State<CarDetails> {
     _nameController.text = widget.car.name;
     _brandController.text = widget.car.brand;
     _yearController.text = widget.car.year.toString();
+    _seatsController.chosenNumber = widget.car.maxSeats;
+    _luggageController.chosenNumber = widget.car.maxLuggage;
+    _colorController = ColorController(pickedColor: widget.car.color);
   }
 
   @override
@@ -109,8 +112,8 @@ class _CarDetailsState extends State<CarDetails> {
                   reverseAnimationCurve: Curves.decelerate,
                   forwardAnimationCurve: Curves.decelerate,
                   icon: Icon(
-                    Icons.info_outline,
-                    color: Styles.primaryColor(),
+                    Icons.warning_amber_outlined,
+                    color: Colors.red,
                     size: Styles.mediumIconSize(),
                   ),
                   mainButton: IconButton(
@@ -410,7 +413,6 @@ class _CarDetailsState extends State<CarDetails> {
       cacheUser.driver = App.driver;
       cacheUser.driver.cars = p1;
       cacheUser.person = cachePerson;
-
       await userBox.put(0, cacheUser);
 
       App.user.driver.cars = p1;
@@ -441,13 +443,26 @@ class _CarDetailsState extends State<CarDetails> {
       User cacheUser = App.user;
       Person cachePerson = App.person;
       cachePerson.rates = null;
-      cacheUser.driver = App.driver;
-      cacheUser.driver.cars = p1;
       cacheUser.person = cachePerson;
 
-      await userBox.put(0, cacheUser);
+      if (p1 != null && p1.isNotEmpty) {
+        cacheUser.driver = App.driver;
+        cacheUser.driver.cars = p1;
+      } else {
+        cacheUser.driver = null;
+        await Hive.openBox("regions");
+        var regionB = Hive.box("regions");
+        await regionB.clear();
+        regionB.close();
+      }
 
-      App.user.driver.cars = p1;
+      await userBox.put(0, cacheUser);
+      if (p1 != null && p1.isNotEmpty) {
+        App.user.driver.cars = p1;
+      } else {
+        App.user.driver = null;
+        App.isDriverNotifier.value = false;
+      }
       App.isDriverNotifier.notifyListeners();
 
       CustomToast()

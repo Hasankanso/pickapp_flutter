@@ -62,6 +62,42 @@ class _AddCar3State extends State<AddCar3> {
       _maxSeats = 13;
       _maxLuggage = 7;
     }
+    if (widget.car != null) {
+      if (widget.car.maxSeats != null)
+        _seatsController.chosenNumber = widget.car.maxSeats;
+      if (widget.car.maxLuggage != null)
+        _luggageController.chosenNumber = widget.car.maxLuggage;
+      if (widget.car.color != null)
+        _colorController.pickedColor = Color(widget.car.color);
+    } else if (widget.driver != null) {
+      if (widget.driver.cars[0].maxSeats != null)
+        _seatsController.chosenNumber = widget.driver.cars[0].maxSeats;
+      if (widget.driver.cars[0].maxLuggage != null)
+        _luggageController.chosenNumber = widget.driver.cars[0].maxLuggage;
+      if (widget.driver.cars[0].color != null)
+        _colorController.pickedColor = Color(widget.driver.cars[0].color);
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if (widget.car != null) {
+      if (_seatsController.chosenNumber != null)
+        widget.car.maxSeats = _seatsController.chosenNumber;
+      if (_luggageController.chosenNumber != null)
+        widget.car.maxLuggage = _luggageController.chosenNumber;
+      if (_colorController.pickedColor != null)
+        widget.car.color = _colorController.pickedColor.value;
+    } else if (widget.driver.cars != null) {
+      if (_seatsController.chosenNumber != null)
+        widget.driver.cars[0].maxSeats = _seatsController.chosenNumber;
+      if (_luggageController.chosenNumber != null)
+        widget.driver.cars[0].maxLuggage = _luggageController.chosenNumber;
+      if (_colorController.pickedColor != null)
+        widget.driver.cars[0].color = _colorController.pickedColor.value;
+    }
+    super.dispose();
   }
 
   @override
@@ -195,10 +231,14 @@ class _AddCar3State extends State<AddCar3> {
       await userBox.put(0, cacheUser);
 
       await Hive.openBox('regions');
-      final regionsBox = Hive.box("regions");
-      await userBox.add(p1.regions);
-      regionsBox.close();
+      var regionsBox = Hive.box("regions");
+      if (regionsBox.containsKey(0)) {
+        await regionsBox.put(0, p1.regions);
+      } else {
+        await regionsBox.add(p1.regions);
+      }
 
+      regionsBox.close();
       App.user.driver = p1;
       App.isDriverNotifier.value = true;
       CustomToast().showSuccessToast(Lang.getString(context, "Now_driver"));

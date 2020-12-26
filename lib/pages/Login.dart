@@ -41,7 +41,6 @@ class _LoginState extends State<Login> {
   void dispose() {
     // TODO: implement dispose
     _phone.dispose();
-    _code.dispose();
     super.dispose();
   }
 
