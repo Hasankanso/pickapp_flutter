@@ -116,6 +116,8 @@
   "Delete_car_message":"You have an upcoming ride in this car",
   "No_driver_anymore": "This is your last car, if you delete it you will no longer be a driver",
   "Regions_require_message": "Your living regions are required, to let passengers alert you when they need a drive",
+  "Sms_code_hint": "Enter the code that you will receive",
+  "To_many_sms":"We have blocked all sms code request from this device.",
 
 
   "Results" : "Results",
