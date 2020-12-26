@@ -24,6 +24,7 @@ class RideDetails extends StatelessWidget {
   int seats = 1;
   int luggage = 1;
 
+
   RideDetails({this.ride});
 
   @override
@@ -44,6 +45,7 @@ class RideDetails extends StatelessWidget {
           ),
         ),
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             RideView(
                 ride: ride,

@@ -104,7 +104,7 @@ class _SearchResultsState extends State<SearchResults> {
       rides = widget.searchInfo.rides;
     }
     CustomToast().showLongToast(
-        rides.length.toString() + Lang.getString(context, "RIDES"),
+        rides.length.toString() + " " + Lang.getString(context, "RIDES"),
         backgroundColor: Colors.greenAccent);
     return MainScaffold(
       appBar: MainAppBar(
