@@ -20,6 +20,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  User _newUser = User();
   final _formKey = GlobalKey<FormState>();
   TextEditingController _firstName = TextEditingController();
   TextEditingController _lastName = TextEditingController();
@@ -280,8 +281,8 @@ class _RegisterState extends State<Register> {
                     _newPerson.gender = _gender;
                     await _newPerson.setImage(_imageController.pickedImage);
 
-                    User _newUser =
-                        User(person: _newPerson, email: _email.text);
+                    _newUser.person = _newPerson;
+                    _newUser.email = _email.text;
                     Navigator.pushNamed(context, "/Phone", arguments: _newUser);
                   }
                 },

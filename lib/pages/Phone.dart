@@ -31,8 +31,21 @@ class _PhoneState extends State<Phone> {
   TextEditingController _code = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget._user.phone != null) {
+      _phone.text = (widget._user.phone)
+          .split("+" + widget._user.person.countryInformations.code)[1];
+    }
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
+    if (!Validation.isNullOrEmpty(_phone.text)) {
+      widget._user.phone = "+" + _code.text + _phone.text;
+    }
     _phone.dispose();
     _code.dispose();
     super.dispose();

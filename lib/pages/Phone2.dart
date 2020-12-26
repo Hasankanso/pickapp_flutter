@@ -41,6 +41,7 @@ class _Phone2State extends State<Phone2> {
   int _timeout = 120;
   String _resendCodeTimer;
   String _resendCodeLocale, _resendCodeInLocale, _secondsLocale;
+  auth.UserCredential _userCredential;
 
   void _resendTimer() {
     _timeout = 120;
@@ -107,7 +108,9 @@ class _Phone2State extends State<Phone2> {
                   Expanded(
                     flex: 20,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -219,16 +222,11 @@ class _Phone2State extends State<Phone2> {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     widget.user.verificationCode = _smsCode.text;
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return Center(
-                          child: Spinner(),
-                        );
-                      },
-                    );
-                    _firebaseVerification();
+                    if (_userCredential == null) {
+                      _firebaseVerification();
+                    } else {
+                      _register(true);
+                    }
                   }
                 },
               ),
@@ -243,23 +241,23 @@ class _Phone2State extends State<Phone2> {
     _isCounterStillOn = true;
     auth.PhoneVerificationCompleted verificationCompleted =
         (auth.PhoneAuthCredential phoneAuthCredential) async {
-      await _auth.signInWithCredential(phoneAuthCredential);
-      CustomToast().showSuccessToast(
-          "Phone number automatically verified and user signed in: ${phoneAuthCredential}");
+      _userCredential = await _auth.signInWithCredential(phoneAuthCredential);
+      _idToken = await _userCredential.user.getIdToken();
+      _register(true);
     };
 
     auth.PhoneVerificationFailed verificationFailed =
         (auth.FirebaseAuthException authException) {
-      print(
-          'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
+      if (authException.code == "too-many-requests") {
+        CustomToast().showErrorToast(Lang.getString(context, "To_many_sms"));
+      }
       CustomToast().showErrorToast(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
     };
 
     auth.PhoneCodeSent codeSent =
         (String verificationId, [int forceResendingToken]) async {
-      CustomToast()
-          .showSuccessToast('Please enter your phone verification code.');
+      CustomToast().showSuccessToast(Lang.getString(context, "Sms_code_hint"));
       _verificationId = verificationId;
     };
 
@@ -283,8 +281,16 @@ class _Phone2State extends State<Phone2> {
   }
 
   Future<void> _firebaseVerification() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Center(
+          child: Spinner(),
+        );
+      },
+    );
     try {
-      print(_verificationId);
       final auth.AuthCredential credential = auth.PhoneAuthProvider.credential(
         verificationId: _verificationId,
         smsCode: _smsCode.text,
@@ -292,20 +298,35 @@ class _Phone2State extends State<Phone2> {
       final auth.User user =
           (await _auth.signInWithCredential(credential)).user;
       _idToken = await user.getIdToken();
-      if (!widget.isForceRegister) {
-        Request<User> registerRequest = RegisterPerson(widget.user, _idToken);
-        registerRequest.send(_registerResponse);
-        return;
-      } else {
-        Request<User> registerRequest =
-            ForceRegisterPerson(_idToken, widget.user);
-        registerRequest.send(_registerResponse);
-        return;
-      }
+      _register(false);
     } catch (e) {
-      print(e);
+      CustomToast().showErrorToast("faild to sign in: " + e);
       Navigator.pop(context);
-      CustomToast().showErrorToast("Failed to sign in");
+    }
+  }
+
+  _register(bool showSpinner) {
+    if (showSpinner == true) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(
+            child: Spinner(),
+          );
+        },
+      );
+    }
+
+    if (!widget.isForceRegister) {
+      Request<User> registerRequest = RegisterPerson(widget.user, _idToken);
+      registerRequest.send(_registerResponse);
+      return;
+    } else {
+      Request<User> registerRequest =
+          ForceRegisterPerson(_idToken, widget.user);
+      registerRequest.send(_registerResponse);
+      return;
     }
   }
 
