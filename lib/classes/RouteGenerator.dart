@@ -6,6 +6,7 @@ import 'package:pickapp/pages/AddCar3.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
 import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/pages/AddRidePage4.dart';
+import 'package:pickapp/pages/AddRidePage5.dart';
 import 'package:pickapp/pages/BecomeDriver.dart';
 import 'package:pickapp/pages/CarDetails.dart';
 import 'package:pickapp/pages/CarView.dart';
@@ -62,6 +63,11 @@ class RouteGenerator {
             builder: (_) => AddRidePage4(
                   rideInfo: args,
                 ));
+      case '/AddRidePage5':
+        return MaterialPageRoute(
+            builder: (_) => AddRidePage5(
+              rideInfo: args,
+            ));
       case '/Statistics':
         return MaterialPageRoute(builder: (_) => Statistics());
       case "/CarDetails":

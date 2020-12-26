@@ -189,14 +189,10 @@ class _AddRidePage4State extends State<AddRidePage4> {
               height: 50,
               child: MainButton(
                 isRequest: true,
-                text_key: "DONE",
+                text_key: "Next",
                 onPressed: () async {
                   rideInfo.mapBase64 = base64Map;
-                  Request<Ride> request = AddRide(rideInfo);
-                  await request.send(response);
-                  Navigator.of(context).pushNamed("/");
-                  CustomToast().showSuccessToast(
-                      Lang.getString(context, "Successfully_added!"));
+                  Navigator.of(context).pushNamed("/AddRidePage5",arguments: rideInfo);
                 },
               ),
             ),
