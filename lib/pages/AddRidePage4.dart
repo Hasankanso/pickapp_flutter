@@ -31,10 +31,12 @@ class AddRidePage4 extends StatefulWidget {
 
 class _AddRidePage4State extends State<AddRidePage4> {
   final Ride rideInfo;
+  bool mapReady = false;
   final List<RideRoute> rideRoutes = new List();
   String mapUrl;
   String base64Map;
   ListController listController = new ListController();
+
   _AddRidePage4State(this.rideInfo);
 
   void getDirection(String origin, String destination) async {
@@ -102,6 +104,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
             "," +
             rideInfo.to.longitude.toString());
     if (rideRoutes.length > 0) {
+      mapReady = true;
       getMap(rideRoutes[0].points);
     }
   }
@@ -113,71 +116,91 @@ class _AddRidePage4State extends State<AddRidePage4> {
         title: Lang.getString(context, "Add_Ride"),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            VerticalSpacer(
-              height: 20,
-            ),
-            ResponsiveWidget.fullWidth(
-              height: 250,
-              child: mapUrl == null
-                  ? null
-                  : CachedNetworkImage(
-                      imageUrl: mapUrl,
-                      imageBuilder: (context, imageProvider) {
-                        return Image(image: imageProvider);
-                      },
-                      placeholder: (context, url) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              margin: EdgeInsets.all(5),
-                              child: Spinner(),
+        child: mapReady == true
+            ? Column(
+                children: [
+                  VerticalSpacer(
+                    height: 20,
+                  ),
+                  ResponsiveWidget.fullWidth(
+                    height: 250,
+                    child: mapUrl == null
+                        ? null
+                        : CachedNetworkImage(
+                            imageUrl: mapUrl,
+                            imageBuilder: (context, imageProvider) {
+                              return Image(image: imageProvider);
+                            },
+                            placeholder: (context, url) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Center(
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    margin: EdgeInsets.all(5),
+                                    child: Spinner(),
+                                  ),
+                                ),
+                              ],
                             ),
+                            errorWidget: (context, url, error) {
+                              return Image(
+                                  image: AssetImage("lib/images/user.png"));
+                            },
                           ),
-                        ],
+                  ),
+                  VerticalSpacer(
+                    height: 20,
+                  ),
+                  ResponsiveWidget.fullWidth(
+                    height: 25,
+                    child: Center(
+                      child: Text(
+                        Lang.getString(
+                                context, "Choose_A_Route_From_The_List_Below") +
+                            " :",
+                        style: Styles.labelTextStyle(),
                       ),
-                      errorWidget: (context, url, error) {
-                        return Image(image: AssetImage("lib/images/user.png"));
-                      },
                     ),
-            ),
-            VerticalSpacer(
-              height: 20,
-            ),
-            ResponsiveWidget.fullWidth(
-              height: 25,
-              child: Center(
-                child: Text(
-                  Lang.getString(
-                          context, "Choose_A_Route_From_The_List_Below") +
-                      " :",
-                  style: Styles.labelTextStyle(),
-                ),
+                  ),
+                  VerticalSpacer(
+                    height: 20,
+                  ),
+                  ResponsiveWidget.fullWidth(
+                    height: 220,
+                    child: Container(
+                      child: ListBuilder(
+                        list: rideRoutes,
+                        itemBuilder: RouteTile.itemBuilder(
+                            rideRoutes, getMap, listController),
+                      ),
+                    ),
+                  ),
+                  VerticalSpacer(
+                    height: 20,
+                  ),
+                ],
+              )
+            : Column(
+                children: [
+                  VerticalSpacer(
+                    height: 250,
+                  ),
+                  Center(
+                      child: ResponsiveWidget(
+                    width: 60,
+                    height: 60,
+                    child: Spinner(),
+                  )),
+                  VerticalSpacer(height: 25),
+                  Text(
+                    Lang.getString(context, "Loading_Map"),
+                    style: Styles.labelTextStyle(),
+                  )
+                ],
               ),
-            ),
-            VerticalSpacer(
-              height: 20,
-            ),
-            ResponsiveWidget.fullWidth(
-              height: 220,
-              child: Container(
-                child: ListBuilder(
-                  list: rideRoutes,
-                  itemBuilder:
-                      RouteTile.itemBuilder(rideRoutes, getMap, listController),
-                ),
-              ),
-            ),
-            VerticalSpacer(
-              height: 20,
-            ),
-          ],
-        ),
       ),
       bottomNavigationBar: ResponsiveWidget(
         width: 270,
@@ -190,9 +213,10 @@ class _AddRidePage4State extends State<AddRidePage4> {
               child: MainButton(
                 isRequest: true,
                 text_key: "Next",
-                onPressed: () async {
+                onPressed: () {
                   rideInfo.mapBase64 = base64Map;
-                  Navigator.of(context).pushNamed("/AddRidePage5",arguments: rideInfo);
+                  Navigator.of(context)
+                      .pushNamed("/AddRidePage5", arguments: rideInfo);
                 },
               ),
             ),
