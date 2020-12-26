@@ -208,9 +208,8 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 onPressed: () async {
                   Request<Ride> request = AddRide(ride);
                   await request.send(response);
-                  Navigator.of(context).pushNamed(
-                    "/",
-                  );
+                  Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+
                   CustomToast().showSuccessToast(
                       Lang.getString(context, "Successfully_added!"));
                 },

@@ -202,25 +202,28 @@ class _AddRidePage4State extends State<AddRidePage4> {
                 ],
               ),
       ),
-      bottomNavigationBar: ResponsiveWidget(
-        width: 270,
-        height: 100,
-        child: Column(
-          children: [
-            ResponsiveWidget(
-              width: 270,
-              height: 50,
-              child: MainButton(
-                isRequest: true,
-                text_key: "Next",
-                onPressed: () {
-                  rideInfo.mapBase64 = base64Map;
-                  Navigator.of(context)
-                      .pushNamed("/AddRidePage5", arguments: rideInfo);
-                },
+      bottomNavigationBar: Visibility(
+        visible: mapReady,
+        child: ResponsiveWidget(
+          width: 270,
+          height: 100,
+          child: Column(
+            children: [
+              ResponsiveWidget(
+                width: 270,
+                height: 50,
+                child: MainButton(
+                  isRequest: true,
+                  text_key: "Next",
+                  onPressed: () {
+                    rideInfo.mapBase64 = base64Map;
+                    Navigator.of(context)
+                        .pushNamed("/AddRidePage5", arguments: rideInfo);
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
