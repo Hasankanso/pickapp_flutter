@@ -7,11 +7,18 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   List<Widget> actions;
   double elevation;
   PreferredSizeWidget bottom;
-  MainAppBar({this.title, this.actions, this.elevation, this.bottom});
+  bool hideBackBtn;
+  MainAppBar(
+      {this.title,
+      this.actions,
+      this.elevation,
+      this.bottom,
+      this.hideBackBtn = false});
   @override
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
+      automaticallyImplyLeading: !hideBackBtn,
       elevation: elevation,
       title: Text(
         title,
@@ -23,5 +30,6 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(ScreenUtil().appBarHeight + (bottom?.preferredSize?.height ?? 0.0));
+  Size get preferredSize => Size.fromHeight(
+      ScreenUtil().appBarHeight + (bottom?.preferredSize?.height ?? 0.0));
 }

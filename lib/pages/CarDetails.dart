@@ -170,32 +170,6 @@ class _CarDetailsState extends State<CarDetails> {
                     Expanded(
                       flex: 5,
                       child: TextFormField(
-                        controller: _nameController,
-                        minLines: 1,
-                        textInputAction: TextInputAction.next,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
-                        ],
-                        decoration: InputDecoration(
-                          labelText: Lang.getString(context, "Name"),
-                          hintText: Lang.getString(context, "Car_name_hint"),
-                          labelStyle: Styles.labelTextStyle(),
-                          hintStyle: Styles.labelTextStyle(),
-                        ),
-                        style: Styles.valueTextStyle(),
-                        validator: (value) {
-                          String valid = Validation.validate(value, context);
-                          if (valid != null)
-                            return valid;
-                          else if (value.length < 2)
-                            return Validation.invalid(context);
-                          return null;
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: TextFormField(
                         controller: _brandController,
                         minLines: 1,
                         textInputAction: TextInputAction.next,
@@ -212,6 +186,32 @@ class _CarDetailsState extends State<CarDetails> {
                         validator: (value) {
                           String valid = Validation.validate(value, context);
 
+                          if (valid != null)
+                            return valid;
+                          else if (value.length < 2)
+                            return Validation.invalid(context);
+                          return null;
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: TextFormField(
+                        controller: _nameController,
+                        minLines: 1,
+                        textInputAction: TextInputAction.next,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(20),
+                        ],
+                        decoration: InputDecoration(
+                          labelText: Lang.getString(context, "Name"),
+                          hintText: Lang.getString(context, "Car_name_hint"),
+                          labelStyle: Styles.labelTextStyle(),
+                          hintStyle: Styles.labelTextStyle(),
+                        ),
+                        style: Styles.valueTextStyle(),
+                        validator: (value) {
+                          String valid = Validation.validate(value, context);
                           if (valid != null)
                             return valid;
                           else if (value.length < 2)

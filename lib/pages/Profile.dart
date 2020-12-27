@@ -42,12 +42,14 @@ class _ProfileState extends State<Profile> {
     Person _person = App.person;
     await _person.setImage(_imageController.pickedImage);
     Request<Person> request = EditAccount(_person);
-    request.send(_response);
+    request.send(
+        (result, code, message) => _response(result, code, message, context));
   }
 
-  _response(Person result, int code, String p3) async {
+  _response(Person result, int code, String p3, context) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
+      _isImageLoading = false;
     } else {
       List<Ride> upcomingRides = App.person.upcomingRides;
       List<Rate> rates = App.person.rates;

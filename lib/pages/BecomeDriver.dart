@@ -203,6 +203,27 @@ class _BecomeDriverState extends State<BecomeDriver> {
                       _regions[i].latitude =
                           _regionsControllers[i].location.lat;
                     }
+
+                    if (_regions.length == 2) {
+                      if (_regions[0].latitude == _regions[1].latitude &&
+                          _regions[0].longitude == _regions[1].longitude) {
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Regions_validation"));
+                      }
+                    }
+                    if (_regions.length == 3) {
+                      if (_regions[0].latitude == _regions[2].latitude &&
+                          _regions[0].longitude == _regions[2].longitude) {
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Regions_validation"));
+                      }
+                      if (_regions[1].latitude == _regions[2].latitude &&
+                          _regions[1].longitude == _regions[2].longitude) {
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Regions_validation"));
+                      }
+                    }
+
                     if (widget.isRegionPage) {
                       driver.regions = _regions;
                       Request request = EditRegions(driver);

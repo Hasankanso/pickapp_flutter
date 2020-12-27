@@ -181,8 +181,11 @@ class _AddCar3State extends State<AddCar3> {
                     context: context,
                     barrierDismissible: false,
                     builder: (BuildContext context) {
-                      return Center(
-                        child: Spinner(),
+                      return WillPopScope(
+                        onWillPop: () async => false,
+                        child: Center(
+                          child: Spinner(),
+                        ),
                       );
                     },
                   );

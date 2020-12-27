@@ -4,6 +4,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/pages/BecomeDriver.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/DateTimePicker.dart';
@@ -13,8 +14,6 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Switcher.dart';
-
-import 'BecomeDriver.dart';
 
 class AddRide extends StatefulWidget {
   @override
