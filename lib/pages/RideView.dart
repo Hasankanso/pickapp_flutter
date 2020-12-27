@@ -12,183 +12,208 @@ import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Spinner.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+
+Widget _scrollingList(ScrollController sc){
+  return ListView.builder(
+    controller: sc,
+    itemCount: 50,
+    itemBuilder: (BuildContext context, int i){
+      return Container(
+        padding: const EdgeInsets.all(12.0),
+        child: Text("$i"),
+      );
+    },
+  );
+}
+
 class RideView extends StatelessWidget {
   final Ride ride;
   final String buttonTextKey;
   final void Function(Ride) callback;
+  ScrollController scrollController = new ScrollController();
 
   RideView({this.ride, this.buttonTextKey, this.callback});
 
   @override
   Widget build(BuildContext context) {
     return SlidingUpPanel(
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
-      backdropEnabled: true,
+      defaultPanelState: PanelState.OPEN,
       backdropOpacity: 0.3,
+      backdropEnabled: true,
       backdropTapClosesPanel: true,
       parallaxEnabled: true,
       parallaxOffset: .5,
-      maxHeight: ScreenUtil().setHeight(520),
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
+      maxHeight: ScreenUtil().setHeight(500),
       minHeight: ScreenUtil().setHeight(120),
-      panel: Column(children: [
-        ResponsiveWidget.fullWidth(
-          height: 80,
-          child: Column(children: [
-            VerticalSpacer(height: 10),
-            ResponsiveWidget(
-              width: 270,
-              height: 50,
-              child: MainButton(
-                text_key: buttonTextKey,
-                onPressed: () {
-                  callback(ride);
-                },
-                isRequest: true,
+
+      panel: Column(
+        children: [
+          ResponsiveWidget.fullWidth(
+            height: 80,
+            child: Column(children: [
+              VerticalSpacer(height: 10),
+              ResponsiveWidget(
+                width: 270,
+                height: 50,
+                child: MainButton(
+                  text_key: buttonTextKey,
+                  onPressed: () {
+                    callback(ride);
+                  },
+                  isRequest: true,
+                ),
               ),
-            ),
-          ]),
-        ),
-        DifferentSizeResponsiveRow(children: [
-          Expanded(
-            flex: 2,
-            child: Text(Lang.getString(context, "From"),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Styles.labelTextStyle(bold: FontWeight.bold)),
+            ]),
           ),
-          Expanded(
-            flex: 10,
-            child: Text(
-              ride.from.name,
-              maxLines: 1,
-              style: Styles.valueTextStyle(),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              Lang.getString(context, "To"),
-              maxLines: 1,
-              style: Styles.labelTextStyle(bold: FontWeight.bold),
-            ),
-          ),
-          Expanded(
-            flex: 10,
-            child: Text(
-              ride.to.name,
-              maxLines: 1,
-              style: Styles.valueTextStyle(),
-              overflow: TextOverflow.ellipsis,
-            ),
-          )
-        ]),
-        ResponsiveSpacer(
-          height: 20,
-        ),
-        _Title(text: Lang.getString(context, "Description")),
-        Text(ride.comment),
-        VerticalSpacer(height: 30),
-        _Title(text: Lang.getString(context, "Details")),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Icon(
-              Icons.pets,
-              color: ride.petsAllowed
-                  ? Styles.primaryColor()
-                  : Styles.labelColor(),
-            ),
-            Icon(
-              ride.smokingAllowed ? Icons.smoking_rooms : Icons.smoke_free,
-              color: ride.smokingAllowed
-                  ? Styles.primaryColor()
-                  : Styles.labelColor(),
-            ),
-            Icon(
-              Icons.ac_unit,
-              color:
-                  ride.acAllowed ? Styles.primaryColor() : Styles.labelColor(),
-            ),
-            Icon(
-              ride.musicAllowed ? Icons.music_note : Icons.music_off,
-              color: ride.musicAllowed
-                  ? Styles.primaryColor()
-                  : Styles.labelColor(),
-            ),
-          ],
-        ),
-        VerticalSpacer(height: 30),
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _Title(text: Lang.getString(context, "Date")),
-                  _Title(text: Lang.getString(context, "Available_Seats")),
-                  _Title(text: Lang.getString(context, "Luggage")),
-                  _Title(text: Lang.getString(context, "Stop_Duration")),
-                  _Title(text: Lang.getString(context, "Price")),
-                ],
+          VerticalSpacer(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _Title(text: Lang.getString(context, "From")),
+                    _Title(text: Lang.getString(context, "To")),
+                    _Title(text: Lang.getString(context, "Date")),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  ResponsiveWidget.fullWidth(
-                    height: 40,
-                    child: Text(
-                      DateFormat(App.dateFormat).format(ride.leavingDate),
-                      maxLines: 1,
-                      style: Styles.valueTextStyle(),
-                      overflow: TextOverflow.clip,
+              Expanded(
+                child: Column(
+                  children: [
+                    ResponsiveWidget.fullWidth(
+                      height: 40,
+                      child: Text(
+                        ride.from.name,
+                        maxLines: 1,
+                        style: Styles.valueTextStyle(),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  ResponsiveWidget.fullWidth(
-                    height: 40,
-                    child: Text(
-                      ride.availableSeats.toString(),
-                      maxLines: 1,
-                      style: Styles.valueTextStyle(),
-                      overflow: TextOverflow.clip,
+                    ResponsiveWidget.fullWidth(
+                      height: 40,
+                      child: Text(
+                        ride.to.name,
+                        maxLines: 1,
+                        style: Styles.valueTextStyle(),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  ResponsiveWidget.fullWidth(
-                    height: 40,
-                    child: Text(
-                      ride.availableLuggages.toString(),
-                      maxLines: 1,
-                      style: Styles.valueTextStyle(),
-                      overflow: TextOverflow.clip,
+                    ResponsiveWidget.fullWidth(
+                      height: 40,
+                      child: Text(
+                        DateFormat(App.dateFormat).format(ride.leavingDate),
+                        maxLines: 1,
+                        style: Styles.valueTextStyle(),
+                        overflow: TextOverflow.clip,
+                      ),
                     ),
-                  ),
-                  ResponsiveWidget.fullWidth(
-                    height: 40,
-                    child: Text(
-                      ride.stopTime.toString(),
-                      maxLines: 1,
-                      style: Styles.valueTextStyle(),
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
-                  ResponsiveWidget.fullWidth(
-                    height: 40,
-                    child: Text(
-                      ride.price.toString() + ride.countryInformations.unit,
-                      maxLines: 1,
-                      style: Styles.valueTextStyle(),
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ]),
+            ],
+          ),
+          ResponsiveSpacer(
+            height: 20,
+          ),
+          _Title(text: Lang.getString(context, "Description")),
+          ResponsiveRow(children: [Text(ride.comment)]),
+          VerticalSpacer(height: 30),
+          _Title(text: Lang.getString(context, "Details")),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                Icons.pets,
+                color: ride.petsAllowed
+                    ? Styles.primaryColor()
+                    : Styles.labelColor(),
+              ),
+              Icon(
+                ride.smokingAllowed ? Icons.smoking_rooms : Icons.smoke_free,
+                color: ride.smokingAllowed
+                    ? Styles.primaryColor()
+                    : Styles.labelColor(),
+              ),
+              Icon(
+                Icons.ac_unit,
+                color: ride.acAllowed
+                    ? Styles.primaryColor()
+                    : Styles.labelColor(),
+              ),
+              Icon(
+                ride.musicAllowed ? Icons.music_note : Icons.music_off,
+                color: ride.musicAllowed
+                    ? Styles.primaryColor()
+                    : Styles.labelColor(),
+              ),
+            ],
+          ),
+          VerticalSpacer(height: 30),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    _Title(text: Lang.getString(context, "Available_Seats")),
+                    _Title(text: Lang.getString(context, "Luggage")),
+                    _Title(text: Lang.getString(context, "Stop_Duration")),
+                    _Title(text: Lang.getString(context, "Price")),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    ResponsiveWidget.fullWidth(
+                      height: 40,
+                      child: Text(
+                        ride.availableSeats.toString(),
+                        maxLines: 1,
+                        style: Styles.valueTextStyle(),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
+                    ResponsiveWidget.fullWidth(
+                      height: 40,
+                      child: Text(
+                        ride.availableLuggages.toString(),
+                        maxLines: 1,
+                        style: Styles.valueTextStyle(),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
+                    ResponsiveWidget.fullWidth(
+                      height: 40,
+                      child: Text(
+                        ride.stopTime.toString(),
+                        maxLines: 1,
+                        style: Styles.valueTextStyle(),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
+                    ResponsiveWidget.fullWidth(
+                      height: 40,
+                      child: Text(
+                        ride.price.toString() + ride.countryInformations.unit,
+                        maxLines: 1,
+                        style: Styles.valueTextStyle(),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
       body: Center(
         child: GridTile(
           child: FittedBox(
@@ -207,15 +232,6 @@ class RideView extends StatelessWidget {
                   image: AssetImage("lib/images/map.jpg"),
                 );
               },
-            ),
-          ),
-          footer: Container(
-            height: ScreenUtil().setHeight(40),
-            color: Colors.black.withOpacity(0.3),
-            alignment: Alignment.center,
-            child: Text(
-              ride.from.name + " to " + ride.to.name,
-              style: Styles.titleTextStyle(),
             ),
           ),
         ),

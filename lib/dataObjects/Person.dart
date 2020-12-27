@@ -238,7 +238,7 @@ class Person {
     _acomplishedRides = value;
   }
 
-  get canceledRides => _canceledRides;
+  int get canceledRides => _canceledRides;
 
   set canceledRides(value) {
     _canceledRides = value;

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as PathProvider;
@@ -34,6 +35,10 @@ Future<void> main() async {
   Hive.registerAdapter(PassengerAdapter());
 
   await Hive.openBox('user');
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Styles.primaryColor(), // navigation bar color
+  ));
   runApp(MyApp());
 }
 
