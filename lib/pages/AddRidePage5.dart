@@ -29,7 +29,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
   _AddRidePage5State(this.ride);
 
   response(Ride result, int code, String message) {
-    print(message);
+    App.user.person.upcomingRides.add(result);
   }
 
   @override

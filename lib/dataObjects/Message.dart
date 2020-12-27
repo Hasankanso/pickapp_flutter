@@ -1,29 +1,11 @@
+import 'package:pickapp/dataObjects/Person.dart';
+
 class Message {
-  bool _owner;
-  DateTime _sendDate;
-  String _content;
+  final DateTime date;
+  final String message;
+  final Person person;
 
-  Message({String content, DateTime sendDate, bool owner}) {
-    this.owner = owner;
-    this.sendDate = sendDate;
-    this.content = content;
-  }
 
-  bool get owner => _owner;
+  Message({this.message, this.date, this.person});
 
-  set owner(bool value) {
-    _owner = value;
-  }
-
-  DateTime get sendDate => _sendDate;
-
-  String get content => _content;
-
-  set content(String value) {
-    _content = value;
-  }
-
-  set sendDate(DateTime value) {
-    _sendDate = value;
-  }
 }

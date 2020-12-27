@@ -24,6 +24,7 @@ class RideDetails extends StatelessWidget {
   int seats = 1;
   int luggage = 1;
 
+
   RideDetails({this.ride});
 
   @override

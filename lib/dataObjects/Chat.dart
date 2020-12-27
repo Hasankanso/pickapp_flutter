@@ -31,6 +31,10 @@ class Chat {
     _id = value;
   }
 
+  void addMessage(String message){
+    _messages.add(Message(message : message, date : DateTime.now(), person : _person));
+  }
+
   bool get isNewMessage => _isNewMessage;
 
   set isNewMessage(bool value) {
@@ -45,9 +49,6 @@ class Chat {
 
   List<Message> get messages => _messages;
 
-  set messages(List<Message> value) {
-    _messages = value;
-  }
 
   DateTime get date => _date;
 

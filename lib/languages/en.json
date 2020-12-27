@@ -136,6 +136,8 @@
   "Price":"Price",
   "Available_Seats": "Available Seats",
   "Stop_Duration" : "Stop Duration",
+  "Accomplished_Rides": "Accomplished Rides",
+  "Canceled_Rides" : "Canceled Rides",
 
   "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",

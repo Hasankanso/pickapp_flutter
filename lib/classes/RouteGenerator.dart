@@ -11,6 +11,7 @@ import 'package:pickapp/pages/BecomeDriver.dart';
 import 'package:pickapp/pages/CarDetails.dart';
 import 'package:pickapp/pages/CarView.dart';
 import 'package:pickapp/pages/ContactUs.dart';
+import 'package:pickapp/pages/Conversation.dart';
 import 'package:pickapp/pages/Details.dart';
 import 'package:pickapp/pages/Email.dart';
 import 'package:pickapp/pages/Home.dart';
@@ -135,6 +136,11 @@ class RouteGenerator {
                   user: ((args as List)[0] as User),
                   isForceRegister: (args as List)[1],
                   idToken: (args as List)[2],
+                ));
+      case '/Conversation':
+        return MaterialPageRoute(
+            builder: (_) => Conversation(
+                  chat: args,
                 ));
     }
   }

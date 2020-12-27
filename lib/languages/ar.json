@@ -135,6 +135,8 @@
   "Ride_Details" : "تفاصيل الرحلة",
   "Available_Seats": "المقاعد المتاحة",
   "Stop_Duration" : "مدة التوقف",
+  "Accomplished_Rides": "الرحلات المنجزة",
+  "Canceled_Rides" : "الرحلات الملغاة",
 
   "Luggage":"الحقائب",
   "Price":"السعر",

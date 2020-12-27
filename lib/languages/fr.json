@@ -136,6 +136,8 @@
   "Ride_Details" : "Ride Details",
   "Available_Seats": "Available Seats",
   "Stop_Duration" : "Stop Duration",
+  "Accomplished_Rides": "Accomplished Rides",
+  "Canceled_Rides" : "Canceled Rides",
 
   "Luggage":"Luggage",
   "Price":"Price",

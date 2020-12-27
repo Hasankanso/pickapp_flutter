@@ -18,7 +18,7 @@ class MyRides extends StatefulWidget {
 }
 
 class _MyRidesState extends State<MyRides> {
-  final List<Ride> ridesList = new List();
+   List<Ride> ridesList = App.user.person.upcomingRides;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _MyRidesState extends State<MyRides> {
             title: Lang.getString(context, "My_Rides"),
           ),
           body: Container(
-            child: ridesList == null
+            child: ridesList.length>0
                 ? ListBuilder(
                     list: ridesList,
                     itemBuilder: MyRidesTile.itemBuilder(ridesList, () {

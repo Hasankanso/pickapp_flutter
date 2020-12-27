@@ -1,21 +1,23 @@
+import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
+import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
-import 'package:pickapp/utilities/ChatListTile.dart';
+import 'package:pickapp/items/ChatListTile.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 
-class ChatPage extends StatefulWidget {
+class ChatListPage extends StatefulWidget {
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _ChatListPageState createState() => _ChatListPageState();
 }
 
-class _ChatPageState extends State<ChatPage>
-    with AutomaticKeepAliveClientMixin<ChatPage> {
+class _ChatListPageState extends State<ChatListPage>
+    with AutomaticKeepAliveClientMixin<ChatListPage> {
   DateTime d = DateTime.now();
 
   Person p = new Person.name("Ali", "Loubani");
@@ -36,10 +38,14 @@ class _ChatPageState extends State<ChatPage>
   Widget build(BuildContext context) {
     c1.person = p;
     c1.date = d;
+    c1.addMessage("hiii");
+
     c2.person = p1;
     c2.date = d;
-    c3.person = p2;
+    c2.addMessage("pinki");
+    c3.person = App.person;
     c3.date = d;
+    c3.addMessage("pinko");
     chatsList.add(c1);
     chatsList.add(c2);
     chatsList.add(c3);
@@ -55,13 +61,17 @@ class _ChatPageState extends State<ChatPage>
           body: Container(
             child: ListBuilder(
               list: chatsList,
-              itemBuilder: ChatListTile.itemBuilder(chatsList),
+              itemBuilder: ChatListTile.itemBuilder(chatsList, OnPressed),
             ),
           ),
         );
       },
       valueListenable: App.isLoggedInNotifier,
     );
+  }
+
+  void OnPressed(Chat c) {
+    Navigator.of(context).pushNamed("/Conversation", arguments: c);
   }
 
   @override
