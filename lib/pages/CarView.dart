@@ -62,7 +62,7 @@ class CarView extends StatelessWidget {
       panel: Column(children: [
         VerticalSpacer(height: 20),
         ResponsiveWidget.fullWidth(
-          height: 30,
+          height: 40,
           child: Text(
             car.brand + ", " + car.name,
             maxLines: 1,
@@ -71,43 +71,83 @@ class CarView extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        ResponsiveWidget.fullWidth(
-          height: 40,
-          child: DifferentSizeResponsiveRow(
-            children: [
-              Expanded(
-                flex: 10,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 7,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          Lang.getString(context, "Year"),
-                          style: Styles.labelTextStyle(),
-                        ),
-                      ),
-                    ),
-                    Spacer(
-                      flex: 1,
-                    ),
-                    Expanded(
-                      flex: 25,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          car.year.toString(),
-                          style: Styles.valueTextStyle(),
-                        ),
-                      ),
-                    ),
-                  ],
+        VerticalSpacer(height : 20),
+        Row(children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Year"),
+                  ),
                 ),
-              ),
-            ],
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Type"),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Seats"),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Language"),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Color"),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+          Expanded(
+            child: Column(
+              children: [
+                ResponsiveWidget.fullWidth(
+                    height: 40,child: _Value(text: car.year.toString())),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Value(
+                   text: _typeItems[car.type],
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Value(
+                    text : car.maxSeats.toString(),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Value(
+                  text:  car.maxLuggage.toString(),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(car.color),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ]),
+
         ResponsiveWidget.fullWidth(
           height: 40,
           child: DifferentSizeResponsiveRow(
@@ -118,12 +158,8 @@ class CarView extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 7,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          Lang.getString(context, "Type"),
-                          style: Styles.labelTextStyle(),
-                        ),
+                      child: _Title(
+                        text: Lang.getString(context, "Type"),
                       ),
                     ),
                     Spacer(
@@ -155,12 +191,8 @@ class CarView extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 7,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          Lang.getString(context, "Seats"),
-                          style: Styles.labelTextStyle(),
-                        ),
+                      child: _Title(
+                        text: Lang.getString(context, "Seats"),
                       ),
                     ),
                     Spacer(
@@ -192,12 +224,8 @@ class CarView extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 7,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          Lang.getString(context, "Language"),
-                          style: Styles.labelTextStyle(),
-                        ),
+                      child: _Title(
+                        text: Lang.getString(context, "Language"),
                       ),
                     ),
                     Spacer(
@@ -229,12 +257,8 @@ class CarView extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 7,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          Lang.getString(context, "Color"),
-                          style: Styles.labelTextStyle(),
-                        ),
+                      child: _Title(
+                        text: Lang.getString(context, "Color"),
                       ),
                     ),
                     Expanded(
@@ -272,7 +296,7 @@ class _Title extends StatelessWidget {
       child: Row(
         children: [
           ResponsiveSpacer(
-            width: 10,
+            width: 15,
           ),
           Align(
               alignment: AlignmentDirectional.topStart,
@@ -285,6 +309,29 @@ class _Title extends StatelessWidget {
               )),
         ],
       ),
+    );
+  }
+}
+
+class _Value extends StatelessWidget {
+  String text;
+  int maxlines;
+
+  _Value({this.text, this.maxlines});
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveWidget.fullWidth(
+      height: 40,
+      child: Align(
+          alignment: AlignmentDirectional.topStart,
+          child: Text(
+            text,
+            textAlign: TextAlign.start,
+            style: Styles.valueTextStyle(),
+            maxLines: maxlines,
+            overflow: TextOverflow.ellipsis,
+          )),
     );
   }
 }

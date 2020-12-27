@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -18,6 +19,7 @@ class App {
   static TextStyle textStyling = new TextStyle(fontSize: 30);
   static final String googleKey = "AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0";
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
+  static String hourFormat = 'hh:mm a';
   static String birthdayFormat = 'dd/MM/yyyy';
   static String countryCode = "lb";
   static User _user;
@@ -28,6 +30,7 @@ class App {
   static List<String> _countriesInformationsCodes = ["49", "961"];
   static double maxPriceFilter = 100000; //TODO flexible maximum price
   static int stepPriceFilter = 100;
+  static Channel inboxChannel;
 
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
@@ -60,6 +63,11 @@ class App {
     } else {
       _state.setTheme(ThemeMode.system);
     }
+  }
+
+  static Future<void> messageReceived(String message){
+    print("message received");
+    print(message);
   }
 
   static void init(MyAppState state) {
@@ -115,6 +123,12 @@ class App {
 
   static set user(User value) {
     _user = value;
+
+    print(value.person.id);
+    Backendless.messaging.subscribe(value.person.id).then((ch) {
+      ch.addMessageListener<String>(messageReceived);
+      inboxChannel = ch;
+    });
   }
 
   static int calculateAge(DateTime date) {

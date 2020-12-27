@@ -45,7 +45,6 @@ class RideDetails extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
           children: [
             RideView(
                 ride: ride,
