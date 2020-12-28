@@ -88,6 +88,7 @@ class _ConversationState extends State<Conversation> {
         child: Row(
           children: [
             Expanded(flex: 5,
+
               child: TextFormField(
                 controller: msgInputController,
                 decoration: InputDecoration(
@@ -100,9 +101,10 @@ class _ConversationState extends State<Conversation> {
                 ),
               ),
             ),
-            Expanded(flex: 1,
-                child: RaisedButton(
-                    child: Text("Send"), onPressed: sendMessage)),
+            Expanded(
+                flex: 1,
+                child:
+                    RaisedButton(child: Text("Send"), onPressed: sendMessage)),
           ],
         ),
       ),

@@ -25,6 +25,7 @@ class _ChatListPageState extends State<ChatListPage>
 
   @override
   void initState(){
+    print("subscribing to my messaging channel");
     Backendless.messaging.subscribe(App.person.id).then((ch) {
       ch.addMessageListener<String>(messageReceived);
       myChannel = ch;

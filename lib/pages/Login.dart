@@ -276,8 +276,11 @@ class _LoginState extends State<Login> {
                   context: context,
                   barrierDismissible: false,
                   builder: (BuildContext context) {
-                    return Center(
-                      child: Spinner(),
+                    return WillPopScope(
+                      onWillPop: () async => false,
+                      child: Center(
+                        child: Spinner(),
+                      ),
                     );
                   },
                 );

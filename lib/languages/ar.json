@@ -118,6 +118,10 @@
   "Sms_code_hint": "أدخل الرمز الذي ستتلقاه",
   "To_many_sms":"لقد حظرنا جميع طلبات رمز الرسائل القصيرة من هذا الجهاز.",
   "Contact" : "تواصل",
+  "Code_has_expired": "إنتهت صلاحية الرمز",
+  "Incorrect_verification_code": "رمز التحقق غير صحيح",
+  "Regions_validation": "لا يمكن تكرار المناطق",
+
 
   "Results" : "النتائج",
   "Filter" : "فلتر",

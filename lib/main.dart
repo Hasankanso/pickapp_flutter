@@ -94,7 +94,6 @@ class MyAppState extends State<MyApp> {
           } else {
             _init();
             final box = Hive.box("user");
-            //box.deleteFromDisk();
             if (box.length != 0) {
               App.user = box.getAt(0) as User;
               App.isLoggedIn = true;
@@ -121,6 +120,7 @@ class MyAppState extends State<MyApp> {
                 accentColor: Styles.secondaryColor(),
                 primarySwatch: Styles.primaryColor(),
                 toggleableActiveColor: Styles.primaryColor(),
+                textSelectionHandleColor: Styles.primaryColor(),
                 floatingActionButtonTheme: FloatingActionButtonThemeData(
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),

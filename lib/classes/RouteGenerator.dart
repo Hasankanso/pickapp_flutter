@@ -67,8 +67,8 @@ class RouteGenerator {
       case '/AddRidePage5':
         return MaterialPageRoute(
             builder: (_) => AddRidePage5(
-              rideInfo: args,
-            ));
+                  rideInfo: args,
+                ));
       case '/Statistics':
         return MaterialPageRoute(builder: (_) => Statistics());
       case "/CarDetails":
@@ -130,9 +130,18 @@ class RouteGenerator {
                   user: ((args as List)[0] as User),
                   isForceRegister: (args as List)[1],
                 ));
-
+      case '/RegisterDetails':
+        return MaterialPageRoute(
+            builder: (_) => Details(
+                  user: ((args as List)[0] as User),
+                  isForceRegister: (args as List)[1],
+                  idToken: (args as List)[2],
+                ));
       case '/Conversation':
-        return MaterialPageRoute(builder: (_) => Conversation(chat: args,));
+        return MaterialPageRoute(
+            builder: (_) => Conversation(
+                  chat: args,
+                ));
     }
   }
 }

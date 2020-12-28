@@ -1,19 +1,12 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/requests/ForceRegisterPerson.dart';
-import 'package:pickapp/requests/RegisterPerson.dart';
-import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -222,11 +215,18 @@ class _Phone2State extends State<Phone2> {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     widget.user.verificationCode = _smsCode.text;
-                    if (_userCredential == null) {
+                    if (_idToken == null)
                       _firebaseVerification();
-                    } else {
-                      _register(true);
-                    }
+                    else
+                      Navigator.pushNamed(
+                        context,
+                        "/RegisterDetails",
+                        arguments: [
+                          widget.user,
+                          widget.isForceRegister,
+                          _idToken
+                        ],
+                      );
                   }
                 },
               ),
@@ -243,18 +243,22 @@ class _Phone2State extends State<Phone2> {
         (auth.PhoneAuthCredential phoneAuthCredential) async {
       _userCredential = await _auth.signInWithCredential(phoneAuthCredential);
       _idToken = await _userCredential.user.getIdToken();
-      _register(true);
+      Navigator.pushNamed(
+        context,
+        "/RegisterDetails",
+        arguments: [widget.user, widget.isForceRegister, _idToken],
+      );
     };
-
     auth.PhoneVerificationFailed verificationFailed =
         (auth.FirebaseAuthException authException) {
       if (authException.code == "too-many-requests") {
         CustomToast().showErrorToast(Lang.getString(context, "To_many_sms"));
       }
+      print(
+          'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
       CustomToast().showErrorToast(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
     };
-
     auth.PhoneCodeSent codeSent =
         (String verificationId, [int forceResendingToken]) async {
       CustomToast().showSuccessToast(Lang.getString(context, "Sms_code_hint"));
@@ -285,8 +289,11 @@ class _Phone2State extends State<Phone2> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return Center(
-          child: Spinner(),
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Center(
+            child: Spinner(),
+          ),
         );
       },
     );
@@ -298,60 +305,26 @@ class _Phone2State extends State<Phone2> {
       final auth.User user =
           (await _auth.signInWithCredential(credential)).user;
       _idToken = await user.getIdToken();
-      _register(false);
-    } catch (e) {
-      CustomToast().showErrorToast("faild to sign in: " + e);
       Navigator.pop(context);
-    }
-  }
-
-  _register(bool showSpinner) {
-    if (showSpinner == true) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return Center(
-            child: Spinner(),
-          );
-        },
+      Navigator.pushNamed(
+        context,
+        "/RegisterDetails",
+        arguments: [widget.user, widget.isForceRegister, _idToken],
       );
-    }
-
-    if (!widget.isForceRegister) {
-      Request<User> registerRequest = RegisterPerson(widget.user, _idToken);
-      registerRequest.send(_registerResponse);
-      return;
-    } else {
-      Request<User> registerRequest =
-          ForceRegisterPerson(_idToken, widget.user);
-      registerRequest.send(_registerResponse);
-      return;
-    }
-  }
-
-  Future<void> _registerResponse(User u, int code, String message) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
-      Navigator.pop(context);
-    } else {
-      App.user = u;
-      final userBox = Hive.box("user");
-      User cacheUser = u;
-      Person cachePerson = u.person;
-      cachePerson.rates = null;
-      cacheUser.person = cachePerson;
-      if (userBox.containsKey(0)) {
-        await userBox.put(0, cacheUser);
-      } else {
-        await userBox.add(cacheUser);
+    } catch (e) {
+      auth.FirebaseAuthException exception = (e as auth.FirebaseAuthException);
+      if (exception.code == "session-expired") {
+        CustomToast()
+            .showErrorToast(Lang.getString(context, "Code_has_expired"));
+      } else if (exception.code == "invalid-verification-code") {
+        CustomToast().showErrorToast(
+            Lang.getString(context, "Incorrect_verification_code"));
       }
-
-      App.isLoggedIn = true;
-      App.isLoggedInNotifier.value = true;
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
-      Navigator.popUntil(context, (route) => route.isFirst);
+      CustomToast().showErrorToast("faild to sign in: code:" +
+          exception.code +
+          " message: " +
+          exception.message);
+      Navigator.pop(context);
     }
   }
 }
