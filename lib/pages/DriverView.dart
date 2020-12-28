@@ -5,7 +5,10 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
+import 'package:pickapp/dataObjects/Chat.dart';
+import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Spinner.dart';
@@ -85,6 +88,22 @@ class _DriverViewState extends State<DriverView> {
         ],
       ),
       panel: Column(children: [
+        ResponsiveWidget(
+          height : 40,
+          width: 220,
+          child: MainButton(
+            text_key: "Contact",
+            onPressed: () {
+              Navigator.of(context).pushNamed("/Conversation",
+                  arguments: new Chat(
+                      id: widget.user.person.id,
+                      messages: new List<Message>(),
+                      person: widget.user.person,
+                      date: DateTime.now(),
+                      isNewMessage: true));
+            },
+          ),
+        ),
         VerticalSpacer(height: 20),
         ResponsiveWidget.fullWidth(
           height: 30,

@@ -65,10 +65,6 @@ class App {
     }
   }
 
-  static Future<void> messageReceived(String message){
-    print("message received");
-    print(message);
-  }
 
   static void init(MyAppState state) {
     _state = state;
@@ -123,12 +119,6 @@ class App {
 
   static set user(User value) {
     _user = value;
-
-    print(value.person.id);
-    Backendless.messaging.subscribe(value.person.id).then((ch) {
-      ch.addMessageListener<String>(messageReceived);
-      inboxChannel = ch;
-    });
   }
 
   static int calculateAge(DateTime date) {

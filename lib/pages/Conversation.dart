@@ -1,11 +1,7 @@
 import 'package:backendless_sdk/backendless_sdk.dart';
-import 'package:conversation/widgets/conversation_input_widget.dart';
-import 'package:conversation/widgets/conversation_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
-import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/items/TextMessageTile.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
@@ -32,10 +28,47 @@ class _ConversationState extends State<Conversation> {
   }
 
   void sendMessage() {
+    String msg = msgInputController.text;
+
+    print("Sending a message to " + widget.chat.person.firstName);
+    Backendless.messaging.publish(msg,
+        channelName: widget.chat.person.id.toString()).then((value) {
+      switch(value.status){
+        case PublishStatusEnum.PUBLISHED: {
+          addMessage(msg);
+          print("message sent");
+        }
+        break;
+
+        case PublishStatusEnum.FAILED: {
+          print("Failed");
+        }
+        break;
+
+        case PublishStatusEnum.CANCELLED :{
+          print("message canceled before getting sent.");
+        }
+        break;
+
+        case PublishStatusEnum.UNKNOWN :{
+            print("it's unkown if the message has been sent or not");
+        }
+        break;
 
 
-    Backendless.messaging.publish(msgInputController.text,
-        channelName: widget.chat.person.id.toString());
+        case PublishStatusEnum.SCHEDULED:{
+            print("message scheduled");
+            addMessage(msg);
+        }
+        break;
+
+        default: {
+          print("Something else");
+        }
+        break;
+      }
+  }
+    );
   }
 
   @override
@@ -54,7 +87,7 @@ class _ConversationState extends State<Conversation> {
         height: 120,
         child: Row(
           children: [
-            Expanded(flex : 5,
+            Expanded(flex: 5,
               child: TextFormField(
                 controller: msgInputController,
                 decoration: InputDecoration(
@@ -67,7 +100,9 @@ class _ConversationState extends State<Conversation> {
                 ),
               ),
             ),
-            Expanded(flex : 1, child: RaisedButton(child: Text("Send"), onPressed: sendMessage)),
+            Expanded(flex: 1,
+                child: RaisedButton(
+                    child: Text("Send"), onPressed: sendMessage)),
           ],
         ),
       ),

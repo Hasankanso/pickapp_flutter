@@ -16,8 +16,28 @@ class ChatListPage extends StatefulWidget {
   _ChatListPageState createState() => _ChatListPageState();
 }
 
+
 class _ChatListPageState extends State<ChatListPage>
     with AutomaticKeepAliveClientMixin<ChatListPage> {
+
+  static Channel myChannel;
+  static bool newMessageReceived = false;
+
+  @override
+  void initState(){
+    Backendless.messaging.subscribe(App.person.id).then((ch) {
+      ch.addMessageListener<String>(messageReceived);
+      myChannel = ch;
+    });
+  }
+
+  Future<void> messageReceived(String message){
+    print("message received");
+    print(message);
+    //TODO store message in hive, and update state, here.
+  }
+
+
   DateTime d = DateTime.now();
 
   Person p = new Person.name("Ali", "Loubani");
