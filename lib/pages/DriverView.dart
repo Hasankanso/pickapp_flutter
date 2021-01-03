@@ -95,12 +95,7 @@ class _DriverViewState extends State<DriverView> {
             text_key: "Contact",
             onPressed: () {
               Navigator.of(context).pushNamed("/Conversation",
-                  arguments: new Chat(
-                      id: widget.user.person.id,
-                      messages: new List<Message>(),
-                      person: widget.user.person,
-                      date: DateTime.now(),
-                      isNewMessage: true));
+                  arguments: widget.user.person);
             },
           ),
         ),

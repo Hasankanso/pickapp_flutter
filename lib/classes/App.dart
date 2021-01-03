@@ -11,6 +11,7 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
+import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class App {
@@ -32,6 +33,7 @@ class App {
   static int stepPriceFilter = 100;
   static Channel inboxChannel;
 
+  static ValueNotifier<bool> newMessageInbox = ValueNotifier(false);
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
     'Deutschland': CountryInformations(

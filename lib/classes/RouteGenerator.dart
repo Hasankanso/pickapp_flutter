@@ -137,11 +137,17 @@ class RouteGenerator {
                   isForceRegister: (args as List)[1],
                   idToken: (args as List)[2],
                 ));
-      case '/Conversation':
+      case '/ExistingConversation':
         return MaterialPageRoute(
             builder: (_) => Conversation(
                   chat: args,
                 ));
+
+      case '/Conversation':
+        return MaterialPageRoute(
+            builder: (_) => Conversation.from(
+              person: args,
+            ));
     }
   }
 }

@@ -15,6 +15,7 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/ForceRegisterPerson.dart';
 import 'package:pickapp/requests/RegisterPerson.dart';
@@ -526,6 +527,7 @@ class _DetailsState extends State<Details> {
 
       App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
+      Inbox.subscribeToChannel();
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);

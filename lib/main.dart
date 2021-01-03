@@ -10,13 +10,16 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Car.dart';
+import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,6 +27,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final path = await PathProvider.getApplicationDocumentsDirectory();
+
   Hive.init(path.path);
   Hive.registerAdapter(UserAdapter());
   Hive.registerAdapter(PersonAdapter());
@@ -33,7 +37,8 @@ Future<void> main() async {
   Hive.registerAdapter(MainLocationAdapter());
   Hive.registerAdapter(RideAdapter());
   Hive.registerAdapter(PassengerAdapter());
-
+  Hive.registerAdapter(ChatAdapter());
+  Hive.registerAdapter(MessageAdapter());
   await Hive.openBox('user');
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -51,7 +56,6 @@ class MyAppState extends State<MyApp> {
   Locale _locale;
   Future<SharedPreferences> cacheFuture;
 
-  Future<Box> hiveUserBox;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -99,6 +103,7 @@ class MyAppState extends State<MyApp> {
               App.isLoggedIn = true;
               App.isLoggedInNotifier.value = true;
               if (App.driver != null) App.isDriverNotifier.value = true;
+              Inbox.subscribeToChannel();
             }
             return MaterialApp(
               title: App.appName,

@@ -2,8 +2,10 @@ import 'package:hive/hive.dart';
 import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 
+part 'Chat.g.dart';
 
-@HiveType(typeId: 10)
+
+@HiveType(typeId : 10)
 class Chat{
   @HiveField(0)
   String _id;
@@ -44,8 +46,13 @@ class Chat{
     _id = value;
   }
 
-  void addMessage(String message){
-    _messages.add(Message(message : message, date : DateTime.now(), person : _person));
+  void addMessage(Message message){
+    print("adding message to hive and chat");
+    _messages.add(message);
+
+    assert(Hive.isBoxOpen('chat'));
+
+    Hive.box('chat').put(person.id, this);
   }
 
   bool get isNewMessage => _isNewMessage;
@@ -67,20 +74,5 @@ class Chat{
 
   set date(DateTime value) {
     _lastMessagedate = value;
-  }
-
-  @override
-  Chat read(BinaryReader reader) {
-    // TODO: implement read
-    throw UnimplementedError();
-  }
-
-  @override
-  // TODO: implement typeId
-  int get typeId => throw UnimplementedError();
-
-  @override
-  void write(BinaryWriter writer, Chat obj) {
-    // TODO: implement write
   }
 }
