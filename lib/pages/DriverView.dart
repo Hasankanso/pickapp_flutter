@@ -87,23 +87,47 @@ class _DriverViewState extends State<DriverView> {
           )
         ],
       ),
-      panel: Column(children: [
-        ResponsiveWidget(
-          height : 40,
-          width: 220,
-          child: MainButton(
-            text_key: "Contact",
-            onPressed: () {
-              Navigator.of(context).pushNamed("/Conversation",
-                  arguments: widget.user.person);
-            },
-          ),
+      panelBuilder: (ScrollController sc) => _Panel(controller : sc, user : widget.user, chattinessItems: _chattinessItems, dataMap: dataMap),
+    );
+  }
+}
+
+class _Panel extends StatelessWidget {
+  User user;
+  ScrollController controller;
+  List<String> chattinessItems;
+  Map<String, double> dataMap;
+
+  _Panel({this.user, this.controller, this.chattinessItems, this.dataMap});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      controller: controller,
+      child: Column(children: [
+        ResponsiveWidget.fullWidth(
+          height: 80,
+          child: Column(children: [
+            VerticalSpacer(height: 10),
+            ResponsiveWidget(
+              width: 270,
+              height: 50,
+              child: MainButton(
+                text_key: "Contact",
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed("/Conversation", arguments: user.person);
+                },
+                isRequest: true,
+              ),
+            ),
+          ]),
         ),
         VerticalSpacer(height: 20),
         ResponsiveWidget.fullWidth(
           height: 30,
           child: Text(
-            widget.user.person.firstName + " " + widget.user.person.lastName,
+            user.person.firstName + " " + user.person.lastName,
             maxLines: 1,
             style: Styles.valueTextStyle(bold: FontWeight.w800),
             overflow: TextOverflow.clip,
@@ -113,8 +137,11 @@ class _DriverViewState extends State<DriverView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RateStars(
-              App.user.person.rateAverage,
+            Card(
+              elevation: 10,
+              child: RateStars(
+                App.user.person.rateAverage,
+              ),
             )
           ],
         ),
@@ -176,7 +203,7 @@ class _DriverViewState extends State<DriverView> {
                   ResponsiveWidget.fullWidth(
                     height: 40,
                     child: Text(
-                      _chattinessItems[widget.user.person.chattiness],
+                      chattinessItems[user.person.chattiness],
                       maxLines: 1,
                       style: Styles.valueTextStyle(),
                       overflow: TextOverflow.clip,
@@ -193,7 +220,7 @@ class _DriverViewState extends State<DriverView> {
             ResponsiveWidget.fullWidth(
               height: 40,
               child: Text(
-                widget.user.person.bio,
+                user.person.bio,
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 style: Styles.valueTextStyle(),

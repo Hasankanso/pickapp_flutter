@@ -1,21 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/pages/DriverView.dart';
-import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/RideView.dart';
-import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/ReserveSeat.dart';
-import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'CarView.dart';
 
@@ -45,6 +36,7 @@ class RideDetails extends StatelessWidget {
           ),
         ),
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: [
             RideView(
                 ride: ride,

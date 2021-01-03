@@ -50,6 +50,7 @@ class App {
     ),
   };
 
+
   static Locale locale;
 
   static void changeLanguage(String lang) async {
