@@ -33,18 +33,20 @@ class Validation {
   static String isAlphabeticIgnoreSpaces(context, value) {
     //todo need arabic validation
     //ignore space todo
-    if (!RegExp(r"^[\u0621-\u064Aa-zA-Z]*$").hasMatch(value)) {
+    if (!RegExp(r"^[\u0621-\u064Aa-zA-Z\ ]*$").hasMatch(value)) {
       return Lang.getString(context, "Only_letters");
     }
     return null;
   }
 
-  static String isAlphaNumericIgnoreSpaces(context, value) {
+  static String isAlphaNumericIgnoreSpaces(context, String value) {
     //todo need arabic validation
     //ignore space todo
-    if (!RegExp(r"^[\u0621-\u064A\u0660-\u0669a-zA-Z0-9\.\,\!\?]*$",
-            unicode: false)
-        .hasMatch(value)) {
+    if (!RegExp(
+      r"^[\u0621-\u064A\u0660-\u0669a-zA-Z0-9\.\,\!\?\،\:\'\ \-\_\;\(\)\`]*$",
+      unicode: false,
+      multiLine: true,
+    ).hasMatch(value)) {
       return Lang.getString(context, "Only_letters");
     }
     return null;
