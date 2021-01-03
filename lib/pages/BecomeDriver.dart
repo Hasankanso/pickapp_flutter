@@ -30,10 +30,9 @@ class BecomeDriver extends StatefulWidget {
 
 class _BecomeDriverState extends State<BecomeDriver> {
   Driver driver = Driver();
-  final _formKey = GlobalKey<FormState>();
   var regionsBox;
   List<MainLocation> _regions = List<MainLocation>();
-  List<RegionListTile> _regionTiles = List<RegionListTile>();
+  List<String> _errorTexts = List<String>();
   List<LocationEditingController> _regionsControllers =
       List<LocationEditingController>();
 
@@ -42,16 +41,18 @@ class _BecomeDriverState extends State<BecomeDriver> {
       setState(() {
         _regions.add(MainLocation());
         _regionsControllers.add(LocationEditingController());
+        _errorTexts.add(null);
       });
     }
   }
 
   removeRegion(int index) {
     if (_regions.length > 1) {
-      _regions.removeAt(index);
-      _regionTiles.removeAt(index);
-      _regionsControllers.removeAt(index);
-      setState(() {});
+      setState(() {
+        _regions.removeAt(index);
+        _regionsControllers.removeAt(index);
+        _errorTexts.removeAt(index);
+      });
     }
   }
 
@@ -79,12 +80,13 @@ class _BecomeDriverState extends State<BecomeDriver> {
           description: region.name,
           location: Location(region.latitude, region.longitude),
         ));
+        _errorTexts.add(null);
       }
       setState(() {});
     } else {
       _regions.add(MainLocation());
       _regionsControllers.add(LocationEditingController());
-
+      _errorTexts.add(null);
       Future.delayed(Duration.zero, () async {
         Flushbar(
           message: Lang.getString(context, "Regions_require_message"),
@@ -163,22 +165,17 @@ class _BecomeDriverState extends State<BecomeDriver> {
             ),
           ),
           Expanded(
-            child: Form(
-              key: _formKey,
-              child: ListView.builder(
-                reverse: false,
-                itemBuilder: (context, index) {
-                  var _tile = RegionListTile(
-                      _regions[index],
-                      _regions.length != 1,
-                      index,
-                      removeRegion,
-                      _regionsControllers[index]);
-                  _regionTiles.add(_tile);
-                  return _tile;
-                },
-                itemCount: _regions.length,
-              ),
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return RegionListTile(
+                  _regions.length != 1,
+                  index,
+                  removeRegion,
+                  _regionsControllers[index],
+                  _errorTexts[index],
+                );
+              },
+              itemCount: _regions.length,
             ),
           ),
         ],
@@ -194,7 +191,16 @@ class _BecomeDriverState extends State<BecomeDriver> {
                 isRequest: true,
                 text_key: widget.isRegionPage ? "Edit" : "Next",
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+                  bool isValid = true;
+                  for (int i = 0; i < _regionsControllers.length; i++) {
+                    var validate = _regionsControllers[i].validate(context);
+                    _errorTexts[i] = validate;
+                    if (validate != null) {
+                      isValid = false;
+                    }
+                  }
+                  setState(() {});
+                  if (isValid) {
                     for (int i = 0; i < _regionsControllers.length; i++) {
                       _regions[i].name = _regionsControllers[i].description;
                       _regions[i].placeId = _regionsControllers[i].placeId;
@@ -207,20 +213,29 @@ class _BecomeDriverState extends State<BecomeDriver> {
                     if (_regions.length == 2) {
                       if (_regions[0].latitude == _regions[1].latitude &&
                           _regions[0].longitude == _regions[1].longitude) {
-                        return CustomToast().showErrorToast(
-                            Lang.getString(context, "Regions_validation"));
+                        _errorTexts[0] =
+                            Lang.getString(context, "Regions_validation");
+                        _errorTexts[1] =
+                            Lang.getString(context, "Regions_validation");
+                        return;
                       }
                     }
                     if (_regions.length == 3) {
                       if (_regions[0].latitude == _regions[2].latitude &&
                           _regions[0].longitude == _regions[2].longitude) {
-                        return CustomToast().showErrorToast(
-                            Lang.getString(context, "Regions_validation"));
+                        _errorTexts[0] =
+                            Lang.getString(context, "Regions_validation");
+                        _errorTexts[2] =
+                            Lang.getString(context, "Regions_validation");
+                        return;
                       }
                       if (_regions[1].latitude == _regions[2].latitude &&
                           _regions[1].longitude == _regions[2].longitude) {
-                        return CustomToast().showErrorToast(
-                            Lang.getString(context, "Regions_validation"));
+                        _errorTexts[1] =
+                            Lang.getString(context, "Regions_validation");
+                        _errorTexts[2] =
+                            Lang.getString(context, "Regions_validation");
+                        return;
                       }
                     }
 

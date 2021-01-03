@@ -26,8 +26,14 @@ class GPSTile extends StatelessWidget {
   }
 
   Future<Location> getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    Position position;
+    try {
+      position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+    } catch (PlatformException) {
+      return null;
+    }
+    print(position.latitude);
     return new Location(position.latitude, position.longitude);
   }
 }

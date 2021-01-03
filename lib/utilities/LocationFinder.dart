@@ -3,6 +3,7 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/utilities/pickapp_google_places.dart';
 import 'package:uuid/uuid.dart';
 
@@ -44,11 +45,9 @@ class LocationFinder extends StatefulWidget {
 
 class _LocationFinderState extends State<LocationFinder> {
   TextEditingController _textEditingController = new TextEditingController();
-  String _errorText = null;
 
   void OpenAutoComplete(BuildContext context) async {
     String sessionToken = Uuid().v4();
-
     dynamic locPred = await PlacesAutocomplete.show(
         context: context,
         hint: Lang.getString(context, "Search"),
@@ -99,7 +98,7 @@ class _LocationFinderState extends State<LocationFinder> {
   @override
   Widget build(BuildContext context) {
     _textEditingController.text = widget._initialDescription;
-    return TextFormField(
+    return TextField(
       controller: _textEditingController,
       enableInteractiveSelection: false,
       showCursor: false,
@@ -115,15 +114,6 @@ class _LocationFinderState extends State<LocationFinder> {
         errorBorder: widget.isUnderlineBorder ? null : InputBorder.none,
         disabledBorder: widget.isUnderlineBorder ? null : InputBorder.none,
       ),
-      validator: (text) {
-        if (text.isEmpty) {
-          return "text is empty";
-        } else if (widget.onValidate != null) {
-          return widget.onValidate(text);
-        } else {
-          return null;
-        }
-      },
       style: Styles.valueTextStyle(),
       focusNode: FocusNode(),
       onTap: () => OpenAutoComplete(context),
@@ -150,5 +140,16 @@ class LocationEditingController {
     this.description = temp_desc;
     this.placeId = temp_placeId;
     this.location = temp_location;
+  }
+
+  validate(context, {LocationEditingController x}) {
+    String _isEmpty = Validation.validate(this.description, context);
+    if (_isEmpty != null) {
+      return _isEmpty;
+    } else if (x != null && this.description == x.description) {
+      return Lang.getString(context, "Same_location");
+    } else {
+      return null;
+    }
   }
 }

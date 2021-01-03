@@ -2,13 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/LoginRequest.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -299,46 +297,7 @@ class _LoginState extends State<Login> {
       Navigator.pop(context);
     } else {
       App.user = u;
-      final userBox = Hive.box("user");
-      User cacheUser = u;
-      Person cachePerson = u.person;
-      cachePerson.rates = null;
-      var regions;
-      if (u.driver != null) {
-        regions = u.driver.regions;
-
-        await Hive.openBox('regions');
-        final regionsBox = Hive.box("regions");
-
-        if (regionsBox.containsKey(0)) {
-          await regionsBox.put(0, regions);
-        } else {
-          regionsBox.add(regions);
-        }
-        regionsBox.close();
-
-        var d = u.driver;
-        cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
-        App.isDriverNotifier.value = true;
-      }
-      cacheUser.person = cachePerson;
-      if (!userBox.containsKey(0)) {
-        await userBox.put(0, cacheUser);
-      } else {
-        userBox.add(cacheUser);
-      }
-      await Hive.openBox('regions');
-      final regionsBox = Hive.box("regions");
-
-      if (regionsBox.containsKey(0)) {
-        await regionsBox.put(0, regions);
-      } else {
-        regionsBox.add(regions);
-      }
-      regionsBox.close();
-
-      App.isLoggedIn = true;
-      App.isLoggedInNotifier.value = true;
+      await Cache.setUserCache(u);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_back_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);

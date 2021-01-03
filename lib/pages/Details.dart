@@ -2,18 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/ForceRegisterPerson.dart';
 import 'package:pickapp/requests/RegisterPerson.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -372,7 +370,6 @@ class _DetailsState extends State<Details> {
                         text_key: "Save",
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            /*
                             CountryInformations cI =
                                 App.countriesInformations[_country];
                             Person _newPerson = Person();
@@ -384,7 +381,7 @@ class _DetailsState extends State<Details> {
                             _newPerson.bio = _bioController.text;
                             _newPerson.chattiness = _chattiness;
                             Request<Person> request = EditAccount(_newPerson);
-                            await request.send(_response);*/
+                            await request.send(_response);
                           }
                         },
                       ),
@@ -453,30 +450,12 @@ class _DetailsState extends State<Details> {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
     } else {
-      List<Ride> upcomingRides = App.person.upcomingRides;
-      List<Rate> rates = App.person.rates;
-
-      final userBox = Hive.box("user");
-      User cacheUser = App.user;
-      Person cachePerson = result;
-      cachePerson.rates = null;
-      cachePerson.upcomingRides = upcomingRides;
-
-      if (App.user.driver != null) {
-        cacheUser.driver = Driver(
-            id: App.user.driver.id,
-            cars: App.user.driver.cars,
-            updated: App.user.driver.updated);
-      }
-
-      cacheUser.person = cachePerson;
-
-      await userBox.put(0, cacheUser);
-
-      result.upcomingRides = upcomingRides;
-      result.rates = rates;
+      result.rates = App.person.rates;
+      result.upcomingRides = App.person.upcomingRides;
       App.user.person = result;
-      App.isLoggedInNotifier.notifyListeners();
+
+      User u = App.user;
+      await Cache.setUserCache(u);
 
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
@@ -512,19 +491,7 @@ class _DetailsState extends State<Details> {
       Navigator.pop(context);
     } else {
       App.user = u;
-      final userBox = Hive.box("user");
-      User cacheUser = u;
-      Person cachePerson = u.person;
-      cachePerson.rates = null;
-      cacheUser.person = cachePerson;
-      if (userBox.containsKey(0)) {
-        await userBox.put(0, cacheUser);
-      } else {
-        await userBox.add(cacheUser);
-      }
-
-      App.isLoggedIn = true;
-      App.isLoggedInNotifier.value = true;
+      await Cache.setUserCache(u);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);

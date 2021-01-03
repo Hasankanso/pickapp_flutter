@@ -29,8 +29,7 @@ class _SearchState extends State<Search>
   DateTimeRangeController dateTimeController = DateTimeRangeController();
   NumberController numberController = NumberController();
   SearchInfo _searchInfo;
-
-  final _formKey = GlobalKey<FormState>();
+  String _fromError, _toError;
 
   response(List<Ride> result, int code, String message) {
     List<Ride> rides = new List<Ride>();
@@ -57,31 +56,31 @@ class _SearchState extends State<Search>
           )
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ResponsiveWidget.fullWidth(
-                  height: 170,
-                  child: FromToPicker(
-                      fromController: fromController,
-                      toController: toController)),
-              VerticalSpacer(height: 30),
-              ValueListenableBuilder(
-                builder: (BuildContext context, bool rangeBool, Widget child) {
-                  return ResponsiveWidget.fullWidth(
-                      height: Cache.dateTimeRangePicker ? 140 : 60,
-                      child: DateTimeRangePicker(dateTimeController));
-                },
-                valueListenable: Cache.rangeDateTimeNotifier,
-              ),
-              VerticalSpacer(height: 30),
-              ResponsiveWidget.fullWidth(
-                  height: 35,
-                  child: NumberPicker(numberController, "Persons", 1, 8)),
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ResponsiveWidget.fullWidth(
+                height: 170,
+                child: FromToPicker(
+                  fromController: fromController,
+                  toController: toController,
+                  fromError: _fromError,
+                  toError: _toError,
+                )),
+            VerticalSpacer(height: 30),
+            ValueListenableBuilder(
+              builder: (BuildContext context, bool rangeBool, Widget child) {
+                return ResponsiveWidget.fullWidth(
+                    height: Cache.dateTimeRangePicker ? 140 : 60,
+                    child: DateTimeRangePicker(dateTimeController));
+              },
+              valueListenable: Cache.rangeDateTimeNotifier,
+            ),
+            VerticalSpacer(height: 30),
+            ResponsiveWidget.fullWidth(
+                height: 35,
+                child: NumberPicker(numberController, "Persons", 1, 8)),
+          ],
         ),
       ),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
@@ -94,7 +93,15 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                if (_formKey.currentState.validate()) {
+                String _validateFrom =
+                    fromController.validate(context, x: toController);
+                String _validateTo =
+                    toController.validate(context, x: fromController);
+                _fromError = _validateFrom;
+                _toError = _validateTo;
+                setState(() {});
+                if (_validateFrom != null || _validateTo != null) {
+                } else {
                   if (dateTimeController.startDateController.chosenDate
                       .isBefore(DateTime.now())) {
                     setState(() {

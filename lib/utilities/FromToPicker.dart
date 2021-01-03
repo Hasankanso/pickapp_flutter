@@ -9,17 +9,16 @@ import 'package:pickapp/utilities/Responsive.dart';
 class FromToPicker extends StatefulWidget {
   LocationEditingController fromController;
   LocationEditingController toController;
+  String fromError, toError;
 
-  FromToPicker({this.fromController, this.toController});
+  FromToPicker(
+      {this.fromController, this.toController, this.fromError, this.toError});
 
   @override
   _FromToPickerState createState() => _FromToPickerState();
 }
 
 class _FromToPickerState extends State<FromToPicker> {
-  String _fromError = null;
-  String _toError = null;
-
   @override
   Widget build(BuildContext context) {
     return DifferentSizeResponsiveRow(children: [
@@ -46,8 +45,7 @@ class _FromToPickerState extends State<FromToPicker> {
                 hintText: Lang.getString(context, "From_Where"),
                 language: Lang.getString(context, "lang"),
                 country: App.countryCode,
-                errorText: _fromError,
-                onValidate: validate,
+                errorText: widget.fromError,
               ),
             ),
             Expanded(
@@ -58,8 +56,7 @@ class _FromToPickerState extends State<FromToPicker> {
                 hintText: Lang.getString(context, "To_Where"),
                 language: Lang.getString(context, "lang"),
                 country: App.countryCode,
-                errorText: _toError,
-                onValidate: validate,
+                errorText: widget.toError,
               ),
             )
           ],
@@ -71,18 +68,14 @@ class _FromToPickerState extends State<FromToPicker> {
           icon: Icon(Icons.sync),
           iconSize: Styles.mediumIconSize(),
           onPressed: () {
-            setState(() {
+            if (widget.fromController.description != null &&
+                widget.toController.description != null) {
               widget.fromController.swap(widget.toController);
-            });
+              setState(() {});
+            }
           },
         ),
       )
     ]);
-  }
-
-  String validate(String text) {
-    if (widget.toController.description == widget.fromController.description) {
-      return "Same Location";
-    }
   }
 }

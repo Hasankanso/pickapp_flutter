@@ -1,12 +1,13 @@
 library flutter_google_places.src;
 
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:pickapp/utilities/GPSTile.dart';
+import 'package:rxdart/rxdart.dart';
 
 class PlacesAutocompleteWidget extends StatefulWidget {
   final String apiKey;
@@ -82,7 +83,7 @@ class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
   Widget build(BuildContext context) {
     final appBar = AppBar(title: AppBarPlacesAutoCompleteTextField());
     final body = PlacesAutocompleteResult(
-      onTap:  Navigator.of(context).pop,
+      onTap: Navigator.of(context).pop,
       logo: widget.logo,
     );
     return Scaffold(appBar: appBar, body: body);
@@ -246,11 +247,12 @@ class _PlacesAutocompleteResult extends State<PlacesAutocompleteResult> {
     super.dispose();
   }
 
-  void onTap(dynamic r){
-    if(!isDestroyed) {
+  void onTap(dynamic r) {
+    if (!isDestroyed) {
       widget.onTap(r);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final state = PlacesAutocompleteWidget.of(context);
@@ -424,20 +426,25 @@ abstract class PlacesAutocompleteState extends State<PlacesAutocompleteWidget> {
       setState(() {
         _searching = true;
       });
-
-      final res = await _places.autocomplete(
-        value,
-        offset: widget.offset,
-        location: widget.location,
-        radius: widget.radius,
-        language: widget.language,
-        sessionToken: widget.sessionToken,
-        types: widget.types,
-        components: widget.components,
-        strictbounds: widget.strictbounds,
-        region: widget.region,
-      );
-
+      var res;
+      try {
+        res = await _places.autocomplete(
+          value,
+          offset: widget.offset,
+          location: widget.location,
+          radius: widget.radius,
+          language: widget.language,
+          sessionToken: widget.sessionToken,
+          types: widget.types,
+          components: widget.components,
+          strictbounds: widget.strictbounds,
+          region: widget.region,
+        );
+      } catch (e) {}
+      if (res == null) {
+        onResponse(null);
+        return;
+      }
       if (res.errorMessage?.isNotEmpty == true ||
           res.status == "REQUEST_DENIED") {
         onResponseError(res);

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
@@ -24,6 +29,40 @@ class Cache {
   static bool get loading => _loading;
 
   static bool get failed => _failed;
+
+  static setUserCache(u) async {
+    final userBox = Hive.box("user");
+    User cacheUser = u;
+    Person cachePerson = u.person;
+    cachePerson.rates = null;
+    cacheUser.person = cachePerson;
+
+    if (u.driver != null) {
+      var regions = u.driver.regions;
+
+      await Hive.openBox('regions');
+      final regionsBox = Hive.box("regions");
+
+      if (regionsBox.containsKey(0)) {
+        await regionsBox.put(0, regions);
+      } else {
+        regionsBox.add(regions);
+      }
+      regionsBox.close();
+
+      var d = u.driver;
+      cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
+      App.isDriverNotifier.value = true;
+    }
+    if (!userBox.containsKey(0)) {
+      await userBox.put(0, cacheUser);
+    } else {
+      userBox.add(cacheUser);
+    }
+
+    App.isLoggedIn = true;
+    App.isLoggedInNotifier.value = true;
+  }
 
   static void setLocale(String languageCode) {
     _prefs.setString("LANG_CODE", languageCode);

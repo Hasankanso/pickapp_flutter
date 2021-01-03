@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class RegionListTile extends StatelessWidget {
-  final MainLocation region;
   bool isDefault;
   int _index;
   Function(int) _removeRegion;
   LocationEditingController regionController;
+  String errorText;
 
-  RegionListTile(this.region, this.isDefault, this._index, this._removeRegion,
-      this.regionController);
+  RegionListTile(this.isDefault, this._index, this._removeRegion,
+      this.regionController, this.errorText);
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +36,7 @@ class RegionListTile extends StatelessWidget {
                     language: Lang.getString(context, "lang"),
                     country: App.countryCode,
                     isUnderlineBorder: false,
+                    errorText: errorText,
                   ),
                 ],
               ),
