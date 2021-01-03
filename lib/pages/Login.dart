@@ -8,6 +8,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/requests/LoginRequest.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/VerifyAccount.dart';
@@ -298,6 +299,7 @@ class _LoginState extends State<Login> {
     } else {
       App.user = u;
       await Cache.setUserCache(u);
+      Inbox.subscribeToChannel();
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_back_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);

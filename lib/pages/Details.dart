@@ -11,6 +11,7 @@ import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/ForceRegisterPerson.dart';
 import 'package:pickapp/requests/RegisterPerson.dart';
@@ -492,6 +493,7 @@ class _DetailsState extends State<Details> {
     } else {
       App.user = u;
       await Cache.setUserCache(u);
+      Inbox.subscribeToChannel();
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);
