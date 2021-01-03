@@ -9,14 +9,12 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/Inbox.dart';
-import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/ForceRegisterPerson.dart';
 import 'package:pickapp/requests/RegisterPerson.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -375,6 +373,7 @@ class _DetailsState extends State<Details> {
                         text_key: "Save",
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
+                            /*
                             CountryInformations cI =
                                 App.countriesInformations[_country];
                             Person _newPerson = Person();
@@ -386,7 +385,7 @@ class _DetailsState extends State<Details> {
                             _newPerson.bio = _bioController.text;
                             _newPerson.chattiness = _chattiness;
                             Request<Person> request = EditAccount(_newPerson);
-                            await request.send(_response);
+                            await request.send(_response);*/
                           }
                         },
                       ),
