@@ -123,7 +123,9 @@
   "Incorrect_verification_code": "Incorrect verification code",
   "Regions_validation": "Regions cannot be duplicated",
   "Same_location": "Same location",
-
+  "Another_device_use_account": "Another device logged in to this account.",
+  "Email_confirmation_pending": "Please verify your email address to get it all secured!",
+  "Disabled_account": "Your account is blocked! Contact us for more information",
 
   "Results" : "Results",
   "Filter" : "Filter",

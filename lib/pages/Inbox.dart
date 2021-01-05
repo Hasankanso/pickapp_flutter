@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -8,7 +6,6 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/items/ChatListTile.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -20,7 +17,6 @@ class Inbox extends StatefulWidget {
   static Channel channel;
 
   static void subscribeToChannel() {
-
     print("subscribing to my messaging channel");
     if (channel != null) {
       channel.isJoined().then((joined) {
@@ -82,30 +78,18 @@ class _InboxState extends State<Inbox>
     with AutomaticKeepAliveClientMixin<Inbox> {
   Future<Box> box = Hive.openBox('chat');
 
-
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      builder: (BuildContext context, bool isLoggedIn, Widget child) {
-        if (!isLoggedIn) {
-          return LoginRegister();
-        }
-
-        return FutureBuilder<Box>(
-            future: box,
-            builder: (BuildContext context, AsyncSnapshot<Box> snapshot) {
-              return MainScaffold(
-                appBar: MainAppBar(
-                  title: Lang.getString(context, "Chats"),
-                ),
-                body: Hive.isBoxOpen('chat')
-                    ? _Body(snapshot.data)
-                    : Spinner(),
-              );
-            });
-      },
-      valueListenable: App.isLoggedInNotifier,
-    );
+    return FutureBuilder<Box>(
+        future: box,
+        builder: (BuildContext context, AsyncSnapshot<Box> snapshot) {
+          return MainScaffold(
+            appBar: MainAppBar(
+              title: Lang.getString(context, "Chats"),
+            ),
+            body: Hive.isBoxOpen('chat') ? _Body(snapshot.data) : Spinner(),
+          );
+        });
   }
 
   @override

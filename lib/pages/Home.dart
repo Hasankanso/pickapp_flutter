@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Inbox.dart';
+import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/pages/MyRides.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Search.dart';
+import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/requests/Startup.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -44,45 +51,88 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //startup request
+    if (App.user != null) {
+      Request<String> request = Startup(App.user);
+      request.send((userStatus, code, message) =>
+          response(userStatus, code, message, context));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     App.setContext(context);
-    return Scaffold(
-        backgroundColor: Styles.secondaryColor(),
-        body: PageView(
-          controller: pageController,
-          onPageChanged: _pageSwipped,
-          children: _pages,
-        ),
-        bottomNavigationBar: AspectRatio(
-            aspectRatio: 13 / 2,
-            child: BottomNavigationBar(
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.list_alt),
-                    label: Lang.getString(context, "My_Rides")),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.drive_eta),
-                  label: Lang.getString(context, "Add_Ride"),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  label: Lang.getString(context, "Search"),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.chat_outlined),
-                  label: Lang.getString(context, "Chats"),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.account_circle),
-                  label: Lang.getString(context, "Profile"),
-                ),
-              ],
-              currentIndex: _currenIndex,
-              iconSize: ScreenUtil().setSp(23),
-              selectedFontSize: ScreenUtil().setSp(12),
-              selectedItemColor: Styles.primaryColor(),
-              unselectedItemColor: Styles.labelColor(),
-              onTap: _bottomTapped,
-            )));
+    return ValueListenableBuilder(
+      builder: (BuildContext context, bool isLoggedIn, Widget child) {
+        if (!isLoggedIn) {
+          return LoginRegister();
+        }
+        return Scaffold(
+            backgroundColor: Styles.secondaryColor(),
+            body: PageView(
+              controller: pageController,
+              onPageChanged: _pageSwipped,
+              children: _pages,
+            ),
+            bottomNavigationBar: AspectRatio(
+                aspectRatio: 13 / 2,
+                child: BottomNavigationBar(
+                  items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.list_alt),
+                        label: Lang.getString(context, "My_Rides")),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.drive_eta),
+                      label: Lang.getString(context, "Add_Ride"),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.search),
+                      label: Lang.getString(context, "Search"),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.chat_outlined),
+                      label: Lang.getString(context, "Chats"),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.account_circle),
+                      label: Lang.getString(context, "Profile"),
+                    ),
+                  ],
+                  currentIndex: _currenIndex,
+                  iconSize: ScreenUtil().setSp(23),
+                  selectedFontSize: ScreenUtil().setSp(12),
+                  selectedItemColor: Styles.primaryColor(),
+                  unselectedItemColor: Styles.labelColor(),
+                  onTap: _bottomTapped,
+                )));
+      },
+      valueListenable: App.isLoggedInNotifier,
+    );
+  }
+
+  response(String userStatus, int code, String message, context) async {
+    if (code != HttpStatus.ok) {
+      if (code == -1 || code == -2) {
+        await Hive.openBox("regions");
+        var regionB = Hive.box("regions");
+        await regionB.clear();
+        regionB.close();
+        var userB = Hive.box("user");
+        userB.clear();
+        App.user = null;
+        App.isLoggedIn = false;
+        App.isDriverNotifier.value = false;
+        App.isLoggedInNotifier.value = false;
+        CustomToast().showErrorToast(Lang.getString(context, message));
+      } else if (code == -3) {
+        CustomToast().showErrorToast(Lang.getString(context, message));
+      } else {
+        print(22);
+        CustomToast().showErrorToast(message);
+      }
+    } else {}
   }
 }

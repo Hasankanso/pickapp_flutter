@@ -122,7 +122,9 @@
   "Incorrect_verification_code": "رمز التحقق غير صحيح",
   "Regions_validation": "لا يمكن تكرار المناطق",
   "Same_location": "نفس الموقع",
-
+  "Another_device_use_account": "قام جهاز آخر بتسجيل الدخول إلى هذا الحساب.",
+  "Email_confirmation_pending": "يرجى التحقق من عنوان بريدك الإلكتروني للحصول على كل شيء مؤمن!",
+  "Disabled_account": "تم حظر حسابك! اتصل بنا للحصول على مزيد من المعلومات",
 
   "Results" : "النتائج",
   "Filter" : "فلتر",

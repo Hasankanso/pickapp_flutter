@@ -79,7 +79,6 @@ class Email extends StatelessWidget {
                     Request<String> request = ChangeEmail(_email.text);
                     await request.send((value, code, message) =>
                         _response(value, code, message, context));
-                    print(1);
                   }
                 },
               ),
@@ -103,8 +102,8 @@ class Email extends StatelessWidget {
       cacheUser.email = p1;
       await userBox.put(0, cacheUser);
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+      CustomToast().showSuccessToast(
+          Lang.getString(context, "Email_confirmation_pending"));
     }
   }
 }

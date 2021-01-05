@@ -26,8 +26,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  final path = await PathProvider.getApplicationDocumentsDirectory();
 
+  final path = await PathProvider.getApplicationDocumentsDirectory();
   Hive.init(path.path);
   Hive.registerAdapter(UserAdapter());
   Hive.registerAdapter(PersonAdapter());
@@ -55,7 +55,6 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   Locale _locale;
   Future<SharedPreferences> cacheFuture;
-
 
   void setLocale(Locale locale) {
     setState(() {

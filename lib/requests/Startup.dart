@@ -1,21 +1,21 @@
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/Request.dart';
 
-class LoginRequest extends Request<User> {
+class Startup extends Request<String> {
   User _user;
-  LoginRequest(this._user) {
-    httpPath = "/UserBusiness/Login";
+  Startup(this._user) {
+    httpPath = "/UserBusiness/Startup";
   }
 
   @override
-  User buildObject(json) {
-    return User.fromJson(json);
+  String buildObject(json) {
+    return json["userStatus"];
   }
 
   @override
   Map<String, dynamic> getJson() {
     return <String, dynamic>{
-      'phone': _user.phone,
+      'id': _user.id,
       'verificationCode': _user.verificationCode
     };
   }

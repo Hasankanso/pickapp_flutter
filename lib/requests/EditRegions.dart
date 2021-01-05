@@ -29,28 +29,6 @@ class EditRegions extends Request<Driver> {
     if (!Validation.isNullOrEmpty(validateUser)) {
       return validateUser;
     }
-    if (_driver.regions[0] == null) {
-      return "You should add at least 1 region";
-    }
-    if (_driver.regions.length == 2) {
-      if (_driver.regions[0].latitude == _driver.regions[1].latitude &&
-          _driver.regions[0].longitude == _driver.regions[1].longitude) {
-        return "Regions can't be dublicated";
-      }
-    }
-    if (_driver.regions.length == 3) {
-      if (_driver.regions[0].latitude == _driver.regions[2].latitude &&
-          _driver.regions[0].longitude == _driver.regions[2].longitude) {
-        return "Regions can't be dublicated";
-      }
-      if (_driver.regions[1].latitude == _driver.regions[2].latitude &&
-          _driver.regions[1].longitude == _driver.regions[2].longitude) {
-        return "Regions can't be dublicated";
-      }
-    }
-    if (_driver.regions.length > 3) {
-      return "You can't add more than 3 regions";
-    }
     return null;
   }
 }

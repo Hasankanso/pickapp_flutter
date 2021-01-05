@@ -10,7 +10,6 @@ class ChangeEmail extends Request<String> {
 
   @override
   String buildObject(json) {
-    print(json["email"].toString());
     return json["email"].toString();
   }
 

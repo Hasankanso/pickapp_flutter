@@ -4,6 +4,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/pages/Inbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
@@ -62,6 +63,7 @@ class Cache {
 
     App.isLoggedIn = true;
     App.isLoggedInNotifier.value = true;
+    Inbox.subscribeToChannel();
   }
 
   static void setLocale(String languageCode) {

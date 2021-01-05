@@ -31,19 +31,15 @@ class Validation {
   }
 
   static String isAlphabeticIgnoreSpaces(context, value) {
-    //todo need arabic validation
-    //ignore space todo
-    if (!RegExp(r"^[\u0621-\u064Aa-zA-Z\ ]*$").hasMatch(value)) {
+    if (!RegExp(r"^[\u0621-\u064Aa-zA-Z\‎\ \‏]*$").hasMatch(value)) {
       return Lang.getString(context, "Only_letters");
     }
     return null;
   }
 
   static String isAlphaNumericIgnoreSpaces(context, String value) {
-    //todo need arabic validation
-    //ignore space todo
     if (!RegExp(
-      r"^[\u0621-\u064A\u0660-\u0669a-zA-Z0-9\.\,\!\?\،\:\'\ \-\_\;\(\)\`]*$",
+      r"^[\u0621-\u064A\u0660-\u0669a-zA-Z0-9\.\؛\٫\,\!\?\،\:\'\ \‎\-\_\;\(\)\`\‏]*$",
       unicode: false,
       multiLine: true,
     ).hasMatch(value)) {
@@ -67,18 +63,6 @@ class Validation {
   static String validateLogin(User user) {
     if (Validation.isNullOrEmpty(user.id)) {
       return "Please login";
-    }
-    return null;
-  }
-
-  static bool validAlphabet(String text) {
-    return RegExp(r"^[\u0621-\u064Aa-zA-Z]*$").hasMatch(text);
-  }
-
-  static String isAlphabet(context, String text) {
-    //todo need arabic validation
-    if (!RegExp(r"^[\u0621-\u064Aa-zA-Z]*$").hasMatch(text)) {
-      return Lang.getString(context, "Only_letters");
     }
     return null;
   }

@@ -57,6 +57,7 @@ class User {
       : _id = json["objectId"],
         _phone = json["phone"],
         _email = json["email"],
+        _verificationCode = json["verificationCode"],
         _userStatus = json["userStatus"],
         _driver = Driver.fromJson(json["driver"]),
         _person = Person.fromJson(json["person"]);

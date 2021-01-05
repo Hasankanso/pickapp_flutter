@@ -378,6 +378,12 @@ class _CarDetailsState extends State<CarDetails> {
                   isRequest: true,
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
+                      for (var item in App.person.upcomingRides) {
+                        if (item.car.id == widget.car.id) {
+                          return CustomToast().showErrorToast(
+                              Lang.getString(context, "Delete_car_message"));
+                        }
+                      }
                       Car car = widget.car;
                       car.name = _nameController.text;
                       car.brand = _brandController.text;

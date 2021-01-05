@@ -319,11 +319,12 @@ class _Phone2State extends State<Phone2> {
       } else if (exception.code == "invalid-verification-code") {
         CustomToast().showErrorToast(
             Lang.getString(context, "Incorrect_verification_code"));
+      } else {
+        CustomToast().showErrorToast("faild to sign in: code:" +
+            exception.code +
+            " message: " +
+            exception.message);
       }
-      CustomToast().showErrorToast("faild to sign in: code:" +
-          exception.code +
-          " message: " +
-          exception.message);
       Navigator.pop(context);
     }
   }

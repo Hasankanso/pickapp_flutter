@@ -28,20 +28,6 @@ class EditAccount extends Request<Person> {
     if (!Validation.isNullOrEmpty(validateUser)) {
       return validateUser;
     }
-    if (Validation.isNullOrEmpty(_newPerson.firstName) ||
-        !Validation.validAlphabet(_newPerson.firstName)) {
-      return "Your first name must be alphabet only";
-    }
-    if (Validation.isNullOrEmpty(_newPerson.lastName) ||
-        !Validation.validAlphabet(_newPerson.lastName)) {
-      return "Your last name must be alphabet only";
-    }
-    if (App.calculateAge(_newPerson.birthday) < 14) {
-      return "You are out of legal age.";
-    }
-    if (Validation.isNullOrEmpty(_newPerson.countryInformations.id)) {
-      return "Please choose your country";
-    }
     return null;
   }
 }
