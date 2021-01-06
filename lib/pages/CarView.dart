@@ -27,7 +27,7 @@ class CarView extends StatelessWidget {
       parallaxOffset: .5,
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
-      maxHeight: ScreenUtil().setHeight(220),
+      maxHeight: ScreenUtil().setHeight(280),
       minHeight: ScreenUtil().setHeight(80),
       body: ResponsiveWidget.fullWidth(
         height: 300,

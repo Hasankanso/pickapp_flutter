@@ -30,11 +30,13 @@ class Passenger {
     if (creationDateJ != null) {
       creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ);
     }
+
     return Passenger(
         id: json["objectId"],
         seats: json["seats"],
         luggages: json["luggages"],
         person: Person.fromJson(json["person"]));
+
   }
 
   Person get person => _person;

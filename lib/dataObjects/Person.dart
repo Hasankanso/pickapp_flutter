@@ -95,7 +95,8 @@ class Person {
       };
 
   factory Person.fromJson(Map<String, dynamic> json) {
-    print(json);
+    if(json == null) return null;
+
     var birthdayJ = json["birthday"];
     DateTime birthday;
     if (birthdayJ != null) {

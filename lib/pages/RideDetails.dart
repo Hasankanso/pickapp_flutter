@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/pages/DriverView.dart';
 import 'package:pickapp/pages/RideView.dart';
 import 'package:pickapp/requests/ReserveSeat.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/Spinner.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'CarView.dart';
 
 class RideDetails extends StatelessWidget {
   final Ride ride;
-  int seats = 1;
-  int luggage = 1;
-
 
   RideDetails({this.ride});
 
@@ -40,25 +41,12 @@ class RideDetails extends StatelessWidget {
           children: [
             RideView(
                 ride: ride,
-                buttonTextKey: "Reserve",
-                callback: onReservePressed),
+                buttonTextKey: "Reserve"),
             DriverView(user: ride.user),
             CarView(car: ride.car),
           ],
         ),
       ),
     );
-  }
-
-  void onReservePressed(Ride r) {
-    ReserveSeat(r, App.user, seats, luggage).send(response);
-  }
-
-  response(Ride r, int status, String reason) {
-    if (status == 200) {
-      print("ride " + ride.id + " ");
-    } else {
-      print("SMTH WRONG RESERVE SEAT");
-    }
   }
 }

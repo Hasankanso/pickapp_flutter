@@ -32,13 +32,14 @@ class _SearchState extends State<Search>
   String _fromError, _toError;
 
   response(List<Ride> result, int code, String message) {
-    List<Ride> rides = new List<Ride>();
     _searchInfo.rides = result;
+
     Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
   }
 
   @override
   Widget build(BuildContext context) {
+
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Search_for_Ride"),
