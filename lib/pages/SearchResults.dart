@@ -98,11 +98,13 @@ class _SearchResultsState extends State<SearchResults> {
   @override
   Widget build(BuildContext context) {
     List<Ride> rides;
+
     if (filteredRides != null) {
       rides = filteredRides;
     } else {
       rides = widget.searchInfo.rides;
     }
+
     CustomToast().showLongToast(
         rides.length.toString() + " " + Lang.getString(context, "RIDES"),
         backgroundColor: Colors.greenAccent);

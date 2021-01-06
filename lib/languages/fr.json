@@ -146,6 +146,10 @@
   "Stop_Duration" : "Stop Duration",
   "Accomplished_Rides": "Accomplished Rides",
   "Canceled_Rides" : "Canceled Rides",
+  "Confirm" : "Confirm",
+  "Reserve_Seats_Luggage": "Reserve Seats and Luggage Space",
+  "Ride_Reserved_Success": "Seats Reserved Successfully",
+  "Ride_Reserved_Failed": "Failed to Reserve",
 
   "Luggage":"Luggage",
   "Price":"Price",

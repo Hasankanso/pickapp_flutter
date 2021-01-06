@@ -94,7 +94,7 @@ class Ride {
       User user,
       Car car,
       DateTime updated}) {
-    this.id = "hello";
+    this.id = id;
     this.comment = comment;
     this.from = from;
     this.to = to;
@@ -151,12 +151,14 @@ class Ride {
 
     User user;
     if (!Validation.isNullOrEmpty(json["driver"].toString())) {
-      Driver driver = Driver.fromJson(json["driver"]);
-      Person person = Person.fromJson(json["driver"]["person"]);
+      Map<String, dynamic> driverJ = json["driver"];
+      Driver driver = Driver.fromJson(driverJ);
+      Person person = Person.fromJson(driverJ["person"]);
       user = User(person: person, driver: driver);
     } else {
       user = User();
     }
+
     return Ride(
         kidSeat: json["kidSeat"],
         id: json["objectId"],
