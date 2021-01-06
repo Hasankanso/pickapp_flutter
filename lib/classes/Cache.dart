@@ -37,32 +37,32 @@ class Cache {
     Person cachePerson = u.person;
     cachePerson.rates = null;
     cacheUser.person = cachePerson;
-
+    var regions;
     if (u.driver != null) {
-      var regions = u.driver.regions;
+      regions = u.driver.regions;
+      var d = u.driver;
+      cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
+      App.isDriverNotifier.value = true;
+    }
 
+    if (!userBox.containsKey(0)) {
+      await userBox.put(0, cacheUser);
+    } else {
+      userBox.add(cacheUser);
+    }
+    if (regions != null) {
       await Hive.openBox('regions');
       final regionsBox = Hive.box("regions");
-
       if (regionsBox.containsKey(0)) {
         await regionsBox.put(0, regions);
       } else {
         regionsBox.add(regions);
       }
       regionsBox.close();
-
-      var d = u.driver;
-      cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
-      App.isDriverNotifier.value = true;
     }
-    if (!userBox.containsKey(0)) {
-      await userBox.put(0, cacheUser);
-    } else {
-      userBox.add(cacheUser);
-    }
-
     App.isLoggedIn = true;
     App.isLoggedInNotifier.value = true;
+    App.isLoggedInNotifier.notifyListeners();
     Inbox.subscribeToChannel();
   }
 

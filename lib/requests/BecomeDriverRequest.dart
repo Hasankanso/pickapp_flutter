@@ -28,9 +28,6 @@ class BecomeDriverRequest extends Request<Driver> {
     if (!Validation.isNullOrEmpty(validateUser)) {
       return validateUser;
     }
-    if (App.calculateAge(App.person.birthday) < 18) {
-      return "You can't be driver since you are under 18 years old";
-    }
     return null;
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -31,6 +32,8 @@ class MainImagePicker extends StatefulWidget {
 class _MainImagePickerState extends State<MainImagePicker> {
   File _image;
   final picker = ImagePicker();
+  ImageProvider _downloadedImage;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -51,10 +54,13 @@ class _MainImagePickerState extends State<MainImagePicker> {
               ? widget.imageUrl != null
                   ? CachedNetworkImage(
                       imageUrl: widget.imageUrl,
-                      imageBuilder: (context, imageProvider) => CircleAvatar(
-                        radius: ScreenUtil().setSp(45),
-                        backgroundImage: imageProvider,
-                      ),
+                      imageBuilder: (context, imageProvider) {
+                        _downloadedImage = imageProvider;
+                        return CircleAvatar(
+                          radius: ScreenUtil().setSp(45),
+                          backgroundImage: imageProvider,
+                        );
+                      },
                       placeholder: (context, url) => CircleAvatar(
                         backgroundColor: Colors.transparent,
                         radius: ScreenUtil().setSp(45),
@@ -101,8 +107,10 @@ class _MainImagePickerState extends State<MainImagePicker> {
   _takePhoto() async {
     var pickedFile;
     try {
-      pickedFile = await picker.getImage(source: ImageSource.camera);
+      pickedFile =
+          await picker.getImage(source: ImageSource.camera, imageQuality: 50);
     } catch (PlatformException) {
+      openAppSettings();
       return;
     }
     setState(() {
@@ -117,8 +125,10 @@ class _MainImagePickerState extends State<MainImagePicker> {
   _pickGallery() async {
     var pickedFile;
     try {
-      pickedFile = await picker.getImage(source: ImageSource.gallery);
+      pickedFile =
+          await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
     } catch (PlatformException) {
+      openAppSettings();
       return;
     }
     setState(() {
@@ -137,6 +147,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
         builder: (context) => ImageViewer(
           _image,
           Lang.getString(context, "Profile"),
+          imageProvider: _downloadedImage,
+          isCarPicker: widget.isCarPicker,
         ),
       ),
     );
@@ -145,11 +157,25 @@ class _MainImagePickerState extends State<MainImagePicker> {
   _showBottomSheet() {
     showModalBottomSheet<void>(
       context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10.0), topLeft: Radius.circular(10.0)),
+      ),
       builder: (BuildContext context) {
         return Container(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              Container(
+                height: 10,
+              ),
+              Container(
+                width: 35,
+                height: 5,
+                decoration: new BoxDecoration(
+                    color: Colors.grey.shade400,
+                    borderRadius: new BorderRadius.all(Radius.circular(10))),
+              ),
               InkWell(
                 onTap: _viewImage,
                 child: ResponsiveWidget.fullWidth(

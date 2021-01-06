@@ -79,8 +79,10 @@ class _LocationFinderState extends State<LocationFinder> {
     //request longitude and latitude from google_place_details api
     GoogleMapsPlaces _places =
         new GoogleMapsPlaces(apiKey: widget._API_KEY); //Same _API_KEY as above
-    PlacesDetailsResponse detail = await _places
-        .getDetailsByPlaceId(locPred.placeId, sessionToken: sessionToken);
+    PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
+        locPred.placeId,
+        sessionToken: sessionToken,
+        fields: ["geometry"]);
     double latitude = detail.result.geometry.location.lat;
     double longitude = detail.result.geometry.location.lng;
     String address = locPred.description;
@@ -97,6 +99,7 @@ class _LocationFinderState extends State<LocationFinder> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget._initialDescription == null) _textEditingController.text = "";
     _textEditingController.text = widget._initialDescription;
     return TextField(
       controller: _textEditingController,

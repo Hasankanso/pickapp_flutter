@@ -8,10 +8,8 @@ import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
-import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class App {
@@ -22,7 +20,8 @@ class App {
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
   static String hourFormat = 'hh:mm a';
   static String birthdayFormat = 'dd/MM/yyyy';
-  static String countryCode = "lb";
+  static String countryCode =
+      "lb"; //todo person.countryInformations.countryComponent;
   static User _user;
   static bool _isLoggedIn = false;
   static ValueNotifier<bool> isLoggedInNotifier;
@@ -50,7 +49,6 @@ class App {
     ),
   };
 
-
   static Locale locale;
 
   static void changeLanguage(String lang) async {
@@ -67,7 +65,6 @@ class App {
       _state.setTheme(ThemeMode.system);
     }
   }
-
 
   static void init(MyAppState state) {
     _state = state;

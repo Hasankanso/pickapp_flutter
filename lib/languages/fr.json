@@ -126,6 +126,10 @@
   "Another_device_use_account": "Another device logged in to this account.",
   "Email_confirmation_pending": "Please verify your email address to get it all secured!",
   "Disabled_account": "Your account is blocked! Contact us for more information",
+  "Under_age": "You can't be a driver since you are under 18 years old",
+  "Car_Details": "Car Details",
+  "Security": "Security",
+  "Booking_history": "Booking history",
 
   "Results" : "Results",
   "Filter" : "Filter",

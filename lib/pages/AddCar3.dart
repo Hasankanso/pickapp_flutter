@@ -212,6 +212,10 @@ class _AddCar3State extends State<AddCar3> {
   }
 
   _becomeDriverRequest() {
+    if (App.calculateAge(App.person.birthday) < 18) {
+      Navigator.pop(context);
+      return CustomToast().showErrorToast(Lang.getString(context, "Under_age"));
+    }
     widget.driver.cars[0].maxLuggage = _luggageController.chosenNumber;
     widget.driver.cars[0].maxSeats = _seatsController.chosenNumber;
     widget.driver.cars[0].color = _colorController.pickedColor.value;

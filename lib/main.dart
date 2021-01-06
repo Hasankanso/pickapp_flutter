@@ -149,7 +149,6 @@ class MyAppState extends State<MyApp> {
                     break;
                   }
                 }
-
                 //check if locale was cached
                 if (_locale == null) Cache.setLocale(chosen.languageCode);
                 App.locale = chosen;

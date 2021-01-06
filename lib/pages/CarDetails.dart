@@ -11,6 +11,7 @@ import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/pages/CarView.dart';
 import 'package:pickapp/requests/DeleteCar.dart';
 import 'package:pickapp/requests/EditCar.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -93,7 +94,7 @@ class _CarDetailsState extends State<CarDetails> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: "Car details",
+        title: Lang.getString(context, "Car_Details"),
         actions: [
           IconButton(
             icon: Icon(
@@ -367,7 +368,20 @@ class _CarDetailsState extends State<CarDetails> {
                 child: MainButton(
                   text_key: "View",
                   isRequest: true,
-                  onPressed: () async {},
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MainScaffold(
+                                appBar: MainAppBar(
+                                  title: Lang.getString(context, "Car_Details"),
+                                ),
+                                body: CarView(
+                                  car: widget.car,
+                                ),
+                              )),
+                    );
+                  },
                 ),
               ),
               ResponsiveWidget(

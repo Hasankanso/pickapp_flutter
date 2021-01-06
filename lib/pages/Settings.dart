@@ -102,38 +102,6 @@ class Settings extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed("/Email");
-                        },
-                        child: ResponsiveWidget.fullWidth(
-                          height: 64,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Icon(
-                                  Icons.alternate_email,
-                                  size: Styles.largeIconSize(),
-                                  color: !Cache.darkTheme
-                                      ? Colors.grey.shade500
-                                      : null,
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 18,
-                                child: Text(Lang.getString(context, "Email"),
-                                    style: Styles.valueTextStyle()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LineDevider(),
-                      InkWell(
-                        onTap: () {
                           Navigator.of(context).pushNamed("/ContactUs");
                         },
                         child: ResponsiveWidget.fullWidth(

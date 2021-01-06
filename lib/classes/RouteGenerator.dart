@@ -25,6 +25,7 @@ import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RideDetails.dart';
 import 'package:pickapp/pages/SearchResults.dart';
+import 'package:pickapp/pages/Security.dart';
 import 'package:pickapp/pages/Settings.dart';
 import 'package:pickapp/pages/Statistics.dart';
 import 'package:pickapp/pages/TermAndConditions.dart';
@@ -49,6 +50,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Details());
       case '/ContactUs':
         return MaterialPageRoute(builder: (_) => ContactUs());
+      case '/Security':
+        return MaterialPageRoute(builder: (_) => Security());
       case '/AddRidePage2':
         return MaterialPageRoute(
             builder: (_) => AddRidePage2(
@@ -146,8 +149,8 @@ class RouteGenerator {
       case '/Conversation':
         return MaterialPageRoute(
             builder: (_) => Conversation.from(
-              person: args,
-            ));
+                  person: args,
+                ));
     }
   }
 }

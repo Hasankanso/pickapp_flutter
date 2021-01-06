@@ -6,14 +6,18 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 
 class ImageViewer extends StatelessWidget {
   File _image;
-  String title;
+  String _title;
+  ImageProvider imageProvider;
+  bool isCarPicker;
 
-  ImageViewer(this._image, this.title);
+  ImageViewer(this._image, this._title,
+      {this.imageProvider, this.isCarPicker = false});
+
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: title,
+        title: _title,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -21,7 +25,12 @@ class ImageViewer extends StatelessWidget {
           Center(
             child: _image != null
                 ? Image(image: AssetImage(_image.path))
-                : Image(image: AssetImage("lib/images/user.png")),
+                : imageProvider != null
+                    ? Image(image: imageProvider)
+                    : Image(
+                        image: AssetImage(!isCarPicker
+                            ? "lib/images/user.png"
+                            : "lib/images/car.png")),
           ),
         ],
       ),
