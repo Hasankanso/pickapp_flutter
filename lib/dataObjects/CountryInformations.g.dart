@@ -23,7 +23,11 @@ class CountryInformationsAdapter extends TypeAdapter<CountryInformations> {
       .._countryComponent = fields[3] as String
       .._code = fields[4] as String
       .._digits = fields[5] as int
-      .._updated = fields[6] as DateTime;
+      .._updated = fields[6] as DateTime
+      .._minPrice = fields[7] as double
+      ..maxPrice = fields[8] as double
+      .._drivingAge = fields[9] as int
+      .._priceStep = fields[10] as double;
   }
 
   @override
@@ -43,7 +47,15 @@ class CountryInformationsAdapter extends TypeAdapter<CountryInformations> {
       ..writeByte(5)
       ..write(obj._digits)
       ..writeByte(6)
-      ..write(obj._updated);
+      ..write(obj._updated)
+      ..writeByte(7)
+      ..write(obj._minPrice)
+      ..writeByte(8)
+      ..write(obj._maxPrice)
+      ..writeByte(9)
+      ..write(obj._drivingAge)
+      ..writeByte(10)
+      ..write(obj._priceStep);
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class SendContactUs extends Request<String> {
@@ -15,7 +14,14 @@ class SendContactUs extends Request<String> {
   @override
   Map<String, dynamic> getJson() {
     return <String, dynamic>{
-      'user': App.user.id,
+      'user': {
+        'email': App.user.email,
+        'phone': App.user.phone,
+        'person': {
+          'firstName': App.person.firstName,
+          'lastName': App.person.lastName,
+        }
+      },
       'subject': this._subject,
       'message': this._message
     };
@@ -23,18 +29,6 @@ class SendContactUs extends Request<String> {
 
   @override
   String isValid() {
-    if (Validation.isNullOrEmpty(_subject)) {
-      return "Subject cannot be empty";
-    }
-    if (_subject.length < 10) {
-      return "Subject is too short.";
-    }
-    if (Validation.isNullOrEmpty(_message)) {
-      return "Message cannot be empty";
-    }
-    if (_message.length < 70) {
-      return "Message is too short.";
-    }
     return null;
   }
 }

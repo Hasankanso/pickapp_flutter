@@ -28,8 +28,9 @@ class App {
   static ValueNotifier<bool> isDriverNotifier;
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
-  static double maxPriceFilter = 100000; //TODO flexible maximum price
-  static int stepPriceFilter = 100;
+  static double maxPriceFilter = person.countryInformations.maxPrice;
+  static double minPriceFilter = person.countryInformations.minPrice;
+  static int stepPriceFilter = person.countryInformations.priceStep.toInt();
   static Channel inboxChannel;
 
   static ValueNotifier<bool> newMessageInbox = ValueNotifier(false);

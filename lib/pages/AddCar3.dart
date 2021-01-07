@@ -212,7 +212,8 @@ class _AddCar3State extends State<AddCar3> {
   }
 
   _becomeDriverRequest() {
-    if (App.calculateAge(App.person.birthday) < 18) {
+    if (App.calculateAge(App.person.birthday) <
+        App.person.countryInformations.drivingAge) {
       Navigator.pop(context);
       return CustomToast().showErrorToast(Lang.getString(context, "Under_age"));
     }
