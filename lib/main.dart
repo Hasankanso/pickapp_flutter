@@ -110,6 +110,7 @@ class MyAppState extends State<MyApp> {
               theme: ThemeData(
                 brightness: Brightness.light,
                 primarySwatch: Styles.primaryColor(),
+                accentIconTheme: IconThemeData(color: Styles.labelColor()),
                 floatingActionButtonTheme: FloatingActionButtonThemeData(
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
@@ -125,6 +126,7 @@ class MyAppState extends State<MyApp> {
                 primarySwatch: Styles.primaryColor(),
                 toggleableActiveColor: Styles.primaryColor(),
                 textSelectionHandleColor: Styles.primaryColor(),
+                accentIconTheme: IconThemeData(color: Styles.secondaryColor()),
                 floatingActionButtonTheme: FloatingActionButtonThemeData(
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),

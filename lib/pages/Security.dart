@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/LineDevider.dart';
@@ -39,9 +38,7 @@ class Security extends StatelessWidget {
                               child: Icon(
                                 Icons.alternate_email,
                                 size: Styles.largeIconSize(),
-                                color: !Cache.darkTheme
-                                    ? Colors.grey.shade500
-                                    : null,
+                                color: Theme.of(context).accentIconTheme.color,
                               ),
                             ),
                             Spacer(
@@ -71,9 +68,7 @@ class Security extends StatelessWidget {
                               child: Icon(
                                 Icons.phone,
                                 size: Styles.largeIconSize(),
-                                color: !Cache.darkTheme
-                                    ? Colors.grey.shade500
-                                    : null,
+                                color: Theme.of(context).accentIconTheme.color,
                               ),
                             ),
                             Spacer(

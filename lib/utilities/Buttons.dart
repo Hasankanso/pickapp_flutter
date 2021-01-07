@@ -32,7 +32,8 @@ class MainButton extends StatelessWidget {
         defaultWidget: Text(Lang.getString(context, text_key),
             style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
         progressWidget: CircularProgressIndicator(
-          backgroundColor: !Cache.darkTheme
+          backgroundColor: (!Cache.darkTheme &&
+                  MediaQuery.of(context).platformBrightness != Brightness.dark)
               ? Styles.secondaryColor()
               : Styles.primaryColor(),
         ),

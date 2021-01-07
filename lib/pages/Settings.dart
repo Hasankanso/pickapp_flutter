@@ -78,6 +78,9 @@ class Settings extends StatelessWidget {
                           Spacer(flex: 9),
                           Switcher(
                               isOn: Cache.darkTheme,
+                              isDisabled:
+                                  MediaQuery.of(context).platformBrightness ==
+                                      Brightness.dark,
                               onChanged: (bool value) =>
                                   {App.forceDarkTheme(value)})
                         ]),
@@ -114,9 +117,8 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.email,
                                   size: Styles.largeIconSize(),
-                                  color: !Cache.darkTheme
-                                      ? Colors.grey.shade500
-                                      : null,
+                                  color:
+                                      Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -147,9 +149,8 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.policy,
                                   size: Styles.largeIconSize(),
-                                  color: !Cache.darkTheme
-                                      ? Colors.grey.shade500
-                                      : null,
+                                  color:
+                                      Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -180,9 +181,8 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.rule,
                                   size: Styles.largeIconSize(),
-                                  color: !Cache.darkTheme
-                                      ? Colors.grey.shade500
-                                      : null,
+                                  color:
+                                      Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -237,9 +237,8 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.car_repair,
                                   size: Styles.largeIconSize(),
-                                  color: !Cache.darkTheme
-                                      ? Colors.grey.shade500
-                                      : null,
+                                  color:
+                                      Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -279,9 +278,8 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.cached_outlined,
                                   size: Styles.largeIconSize(),
-                                  color: !Cache.darkTheme
-                                      ? Colors.grey.shade500
-                                      : null,
+                                  color:
+                                      Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -312,9 +310,8 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.create_new_folder,
                                   size: Styles.largeIconSize(),
-                                  color: !Cache.darkTheme
-                                      ? Colors.grey.shade500
-                                      : null,
+                                  color:
+                                      Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(

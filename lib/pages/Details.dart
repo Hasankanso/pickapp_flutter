@@ -425,7 +425,10 @@ class _DetailsState extends State<Details> {
                                 style: TextStyle(
                                   fontSize: ScreenUtil().setSp(15),
                                   fontWeight: FontWeight.w400,
-                                  color: !Cache.darkTheme
+                                  color: (!Cache.darkTheme &&
+                                          MediaQuery.of(context)
+                                                  .platformBrightness !=
+                                              Brightness.dark)
                                       ? Styles.valueColor()
                                       : Colors.white,
                                 ),

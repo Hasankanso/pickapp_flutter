@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -116,9 +115,7 @@ class _ProfileState extends State<Profile> {
                       Container(
                         height: ScreenUtil().setHeight(183),
                         width: double.infinity,
-                        color: Cache.darkTheme
-                            ? Theme.of(context).primaryColor
-                            : Styles.primaryColor(),
+                        color: Theme.of(context).primaryColor,
                       ),
                       Positioned(
                         left: 15.0,
