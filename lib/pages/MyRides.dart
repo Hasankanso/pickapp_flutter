@@ -19,7 +19,10 @@ class _MyRidesState extends State<MyRides> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (App.user != null) ridesList = App.user.person.upcomingRides;
+    if (App.user != null)
+     {
+       ridesList = App.user.person.upcomingRides;
+     }
   }
 
   @override
@@ -29,12 +32,11 @@ class _MyRidesState extends State<MyRides> {
         title: Lang.getString(context, "My_Rides"),
       ),
       body: Container(
-        child: ridesList.length > 0
+        child: App.user.person.upcomingRides.length > 0
             ? ListBuilder(
                 list: ridesList,
-                itemBuilder: MyRidesTile.itemBuilder(ridesList, () {
-                  print("hello");
-                }))
+                itemBuilder: MyRidesTile.itemBuilder(ridesList)
+              )
             : Center(
                 child: Text("No Upcoming rides !",
                     style: Styles.valueTextStyle())),

@@ -1,23 +1,19 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
 
 class MyRidesTile extends ListTile {
   final Ride _ride;
-  Function(Ride) onPressed;
 
   MyRidesTile(this._ride, {onPressed});
 
-  static Function(BuildContext, int) itemBuilder(List<Ride> rides, onPressed) {
+  static Function(BuildContext, int) itemBuilder(List<Ride> rides) {
     return (context, index) {
-      return MyRidesTile(rides[index], onPressed: onPressed);
+      return MyRidesTile(rides[index]);
     };
   }
 
@@ -68,9 +64,7 @@ class MyRidesTile extends ListTile {
                     children: [
                       ListTile(
                         onTap: () {
-                          if (onPressed != null) {
-                            onPressed(_ride);
-                          }
+                          Navigator.of(context).pushNamed("/RideDetails", arguments: _ride);
                         },
                         title: Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
@@ -92,9 +86,9 @@ class MyRidesTile extends ListTile {
                                             Expanded(
                                               flex: 30,
                                               child: Text(
-                                                _ride.person.firstName +
+                                                _ride.person.firstName.toString() +
                                                     " " +
-                                                    _ride.person.lastName,
+                                                    _ride.person.lastName.toString(),
                                                 style: Styles.valueTextStyle(),
                                               ),
                                             ),
@@ -229,24 +223,7 @@ class MyRidesTile extends ListTile {
                 )
               ],
             ),
-            VerticalSpacer(
-              height: 20,
-            ),
-            ResponsiveRow(
-              children: [
-                RaisedButton(
-                  onPressed: () {},
-                  child: Text("Cancel Ride"),
-                ),
-                RaisedButton(
-                  onPressed: () {},
-                  child: Text("Edit"),
-                ),
-              ],
-            ),
-            VerticalSpacer(
-              height: 10,
-            )
+
           ],
         ));
   }

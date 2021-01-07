@@ -168,8 +168,8 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   validator: (value) {
                     String valid = Validation.validate(value, context);
                     String alpha =
-                        Validation.isAlphabeticIgnoreSpaces(context, value);
-                    String short = Validation.isShort(context, value, 20);
+                        Validation.isAlphaNumericIgnoreSpaces(context, value);
+                    String short = Validation.isShort(context, value, 10);
 
                     if (valid != null)
                       return valid;

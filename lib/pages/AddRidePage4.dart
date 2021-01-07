@@ -36,6 +36,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
   String mapUrl;
   String base64Map;
   ListController listController = new ListController();
+  ScrollController controller=new ScrollController();
 
   _AddRidePage4State(this.rideInfo);
 
@@ -179,7 +180,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                     ),
                   ),
                   VerticalSpacer(
-                    height: 20,
+                    height: 40,
                   ),
                 ],
               )
@@ -206,7 +207,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
         visible: mapReady,
         child: ResponsiveWidget(
           width: 270,
-          height: 100,
+          height: 95,
           child: Column(
             children: [
               ResponsiveWidget(
