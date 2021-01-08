@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
+import 'package:pickapp/dataObjects/CountryInformations.dart';
+import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/CheckUserExist.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -29,12 +32,14 @@ class _PhoneState extends State<Phone> {
   bool _userHasBeenChecked = false;
   TextEditingController _phone = TextEditingController();
   TextEditingController _code = TextEditingController();
+  List<String> _countriesCodes = App.countriesInformationsCodes;
+  var _countryCode = "961";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget._user.phone != null) {
+    if (widget._user != null && widget._user.phone != null) {
       _phone.text = (widget._user.phone)
           .split("+" + widget._user.person.countryInformations.code)[1];
     }
@@ -43,7 +48,7 @@ class _PhoneState extends State<Phone> {
   @override
   void dispose() {
     // TODO: implement dispose
-    if (!Validation.isNullOrEmpty(_phone.text)) {
+    if (widget._user != null && !Validation.isNullOrEmpty(_phone.text)) {
       widget._user.phone = "+" + _code.text + _phone.text;
     }
     _phone.dispose();
@@ -53,7 +58,9 @@ class _PhoneState extends State<Phone> {
 
   @override
   Widget build(BuildContext context) {
-    _code.text = widget._user.person.countryInformations.code;
+    if (widget._user != null) {
+      _code.text = widget._user.person.countryInformations.code;
+    }
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Phone"),
@@ -70,18 +77,54 @@ class _PhoneState extends State<Phone> {
                   Spacer(
                     flex: 1,
                   ),
-                  Expanded(
-                    flex: 4,
-                    child: TextFormField(
-                      controller: _code,
-                      textAlign: TextAlign.end,
-                      enableInteractiveSelection: false,
-                      showCursor: false,
-                      readOnly: true,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        labelText: Lang.getString(context, "Code"),
-                        labelStyle: Styles.labelTextStyle(),
+                  Visibility(
+                    visible: widget._user == null,
+                    child: Expanded(
+                      flex: 10,
+                      child: Align(
+                        child: DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                              labelText: "",
+                              labelStyle: TextStyle(
+                                  fontSize: 8, color: Colors.transparent)),
+                          value: '$_countryCode',
+                          validator: (val) {
+                            String valid = Validation.validate(val, context);
+                            if (valid != null) return valid;
+                            return null;
+                          },
+                          onChanged: (String newValue) {
+                            setState(() {
+                              _countryCode = newValue;
+                            });
+                          },
+                          items: _countriesCodes
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget._user != null,
+                    child: Expanded(
+                      flex: 4,
+                      child: TextFormField(
+                        controller: _code,
+                        textAlign: TextAlign.end,
+                        enableInteractiveSelection: false,
+                        showCursor: false,
+                        readOnly: true,
+                        enabled: false,
+                        decoration: InputDecoration(
+                          labelText: Lang.getString(context, "Code"),
+                          labelStyle: Styles.labelTextStyle(),
+                        ),
                       ),
                     ),
                   ),
@@ -95,8 +138,13 @@ class _PhoneState extends State<Phone> {
                       keyboardType: TextInputType.number,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(
-                            widget._user.person.countryInformations.digits),
+                        LengthLimitingTextInputFormatter(widget._user != null
+                            ? widget._user.person.countryInformations.digits
+                            : App
+                                .countriesInformations[_countryCode == "961"
+                                    ? "لبنان"
+                                    : "Deutschland"]
+                                .digits),
                       ],
                       onChanged: (value) => _userHasBeenChecked = false,
                       controller: _phone,
@@ -132,14 +180,35 @@ class _PhoneState extends State<Phone> {
                 text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    widget._user.phone = "+" + _code.text + _phone.text;
-                    if (!_userHasBeenChecked) {
-                      User checkUser = User(phone: widget._user.phone);
-                      Request<bool> request = CheckUserExist(checkUser);
-                      await request.send(_checkUserExistResponse);
+                    if (widget._user != null) {
+                      widget._user.phone = "+" + _code.text + _phone.text;
+                      if (!_userHasBeenChecked) {
+                        User checkUser = User(phone: widget._user.phone);
+                        Request<bool> request = CheckUserExist(checkUser);
+                        await request.send(_checkUserExistResponse);
+                      } else {
+                        Navigator.of(context).pushNamed('/Phone2',
+                            arguments: [widget._user, _isForceRegister]);
+                      }
                     } else {
-                      Navigator.of(context).pushNamed('/Phone2',
-                          arguments: [widget._user, _isForceRegister]);
+                      if (App.user.phone == "+" + _countryCode + _phone.text) {
+                        return CustomToast().showErrorToast("+" +
+                            _countryCode +
+                            _phone.text +
+                            Lang.getString(context, "Same_phone"));
+                      }
+                      Person p = Person(
+                          countryInformations: CountryInformations(
+                              id: App
+                                  .countriesInformations[_countryCode == "961"
+                                      ? "لبنان"
+                                      : "Deutschland"]
+                                  .id));
+                      Navigator.of(context).pushNamed('/Phone2ChangePhone',
+                          arguments: User(
+                              id: App.user.id,
+                              phone: "+" + _countryCode + _phone.text,
+                              person: p));
                     }
                   }
                 },

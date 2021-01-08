@@ -56,7 +56,7 @@ class Security extends StatelessWidget {
                     LineDevider(),
                     InkWell(
                       onTap: () {
-                        //Navigator.of(context).pushNamed("/ContactUs");
+                        Navigator.pushNamed(context, "/Phone");
                       },
                       child: ResponsiveWidget.fullWidth(
                         height: 64,

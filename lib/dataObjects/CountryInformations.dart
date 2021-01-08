@@ -58,9 +58,15 @@ class CountryInformations {
         name: json["name"],
         code: json["code"],
         unit: json["unit"],
-        maxPrice: (json["maxPrice"] as int).toDouble(),
-        minPrice: (json["minPrice"] as int).toDouble(),
-        priceStep: (json["priceStep"] as int).toDouble(),
+        maxPrice: json["maxPrice"] is int
+            ? (json["maxPrice"] as int).toDouble()
+            : json["maxPrice"],
+        minPrice: json["minPrice"] is int
+            ? (json["minPrice"] as int).toDouble()
+            : json["minPrice"],
+        priceStep: json["priceStep"] is int
+            ? (json["priceStep"] as int).toDouble()
+            : json["priceStep"],
         drivingAge: json["drivingAge"],
         countryComponent: json["countryComponent"],
         digits: json["digits"]);

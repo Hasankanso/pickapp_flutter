@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/requests/ChangePhone.dart';
+import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -17,7 +22,8 @@ import 'package:pickapp/utilities/Spinner.dart';
 class Phone2 extends StatefulWidget {
   User user;
   bool isForceRegister = false;
-  Phone2({this.user, this.isForceRegister});
+  User oldUser;
+  Phone2({this.user, this.isForceRegister, this.oldUser});
 
   @override
   _Phone2State createState() => _Phone2State();
@@ -112,7 +118,9 @@ class _Phone2State extends State<Phone2> {
                             size: Styles.smallIconSize(),
                           ),
                           Text(
-                            " " + widget.user.phone,
+                            widget.user == null
+                                ? " " + widget.oldUser.phone
+                                : " " + widget.user.phone,
                             style: Styles.valueTextStyle(),
                           ),
                         ],
@@ -214,19 +222,42 @@ class _Phone2State extends State<Phone2> {
                 text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    widget.user.verificationCode = _smsCode.text;
+                    if (widget.user != null) {
+                      widget.user.verificationCode = _smsCode.text;
+                    } else if (widget.oldUser != null) {
+                      widget.oldUser.verificationCode = _smsCode.text;
+                    }
                     if (_idToken == null)
                       _firebaseVerification();
-                    else
-                      Navigator.pushNamed(
-                        context,
-                        "/RegisterDetails",
-                        arguments: [
-                          widget.user,
-                          widget.isForceRegister,
-                          _idToken
-                        ],
-                      );
+                    else {
+                      if (widget.user != null) {
+                        Navigator.pushNamed(
+                          context,
+                          "/RegisterDetails",
+                          arguments: [
+                            widget.user,
+                            widget.isForceRegister,
+                            _idToken
+                          ],
+                        );
+                      } else if (widget.oldUser != null) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return WillPopScope(
+                              onWillPop: () async => false,
+                              child: Center(
+                                child: Spinner(),
+                              ),
+                            );
+                          },
+                        );
+                        Request<User> request =
+                            ChangePhone(widget.oldUser, _idToken);
+                        request.send(_changePhoneResponse);
+                      }
+                    }
                   }
                 },
               ),
@@ -243,11 +274,28 @@ class _Phone2State extends State<Phone2> {
         (auth.PhoneAuthCredential phoneAuthCredential) async {
       _userCredential = await _auth.signInWithCredential(phoneAuthCredential);
       _idToken = await _userCredential.user.getIdToken();
-      Navigator.pushNamed(
-        context,
-        "/RegisterDetails",
-        arguments: [widget.user, widget.isForceRegister, _idToken],
-      );
+      if (widget.user != null) {
+        Navigator.pushNamed(
+          context,
+          "/RegisterDetails",
+          arguments: [widget.user, widget.isForceRegister, _idToken],
+        );
+      } else if (widget.oldUser != null) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return WillPopScope(
+              onWillPop: () async => false,
+              child: Center(
+                child: Spinner(),
+              ),
+            );
+          },
+        );
+        Request<User> request = ChangePhone(widget.oldUser, _idToken);
+        request.send(_changePhoneResponse);
+      }
     };
     auth.PhoneVerificationFailed verificationFailed =
         (auth.FirebaseAuthException authException) {
@@ -272,7 +320,8 @@ class _Phone2State extends State<Phone2> {
 
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber: widget.user.phone,
+          phoneNumber:
+              widget.user != null ? widget.user.phone : widget.oldUser.phone,
           timeout: const Duration(seconds: 120),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
@@ -304,12 +353,17 @@ class _Phone2State extends State<Phone2> {
       final auth.User user =
           (await _auth.signInWithCredential(credential)).user;
       _idToken = await user.getIdToken();
-      Navigator.pop(context);
-      Navigator.pushNamed(
-        context,
-        "/RegisterDetails",
-        arguments: [widget.user, widget.isForceRegister, _idToken],
-      );
+      if (widget.user != null) {
+        Navigator.pop(context);
+        Navigator.pushNamed(
+          context,
+          "/RegisterDetails",
+          arguments: [widget.user, widget.isForceRegister, _idToken],
+        );
+      } else if (widget.oldUser != null) {
+        Request<User> request = ChangePhone(widget.oldUser, _idToken);
+        request.send(_changePhoneResponse);
+      }
     } catch (e) {
       auth.FirebaseAuthException exception = (e as auth.FirebaseAuthException);
       if (exception.code == "session-expired") {
@@ -325,6 +379,24 @@ class _Phone2State extends State<Phone2> {
             exception.message);
       }
       Navigator.pop(context);
+    }
+  }
+
+  _changePhoneResponse(User u, int code, String message) async {
+    Navigator.pop(context);
+    if (code != HttpStatus.ok) {
+      CustomToast().showErrorToast(message);
+    } else {
+      User localUser = u;
+      localUser.driver = App.driver;
+      localUser.person.upcomingRides = App.person.upcomingRides;
+      localUser.person.rates = App.person.rates;
+
+      App.user = localUser;
+      await Cache.setUserCache(localUser);
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
 }
