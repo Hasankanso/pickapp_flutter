@@ -98,7 +98,7 @@ class Person {
       };
 
   factory Person.fromJson(Map<String, dynamic> json) {
-    if(json == null) return null;
+    if (json == null) return null;
 
     var birthdayJ = json["birthday"];
     DateTime birthday;
@@ -134,11 +134,17 @@ class Person {
       profilePictureUrl: json['image'],
       countryInformations: countryInformations,
     );
-    p.networkImage = new NetworkImage(p.profilePictureUrl?? "");
+
+    if (p.profilePictureUrl == null) {
+      p.networkImage = new AssetImage("lib/images/user.png");
+    } else {
+      p.networkImage = new NetworkImage(p.profilePictureUrl);
+    }
+
     var upcomingRidesArray = json["upcomingRides"];
     if (upcomingRidesArray != null) {
       p._upcomingRides = List<Ride>.from(upcomingRidesArray.map((x) {
-        if (x!=null) {
+        if (x != null) {
           if (x.containsKey("ride") && x["ride"].HasValues == true)
             return Ride.fromJson(x["ride"]);
           else

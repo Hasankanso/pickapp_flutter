@@ -92,7 +92,12 @@ class RouteGenerator {
       case '/Profile':
         return MaterialPageRoute(builder: (_) => Profile());
       case '/RideDetails':
-        return MaterialPageRoute(builder: (_) => RideDetails(ride: args));
+        return MaterialPageRoute(
+            builder: (_) => RideDetails(
+                  (args as List)[0],
+                  buttonText: (args as List)[1],
+                  onPressed: (args as List)[2],
+                ));
       case '/CarView':
         return MaterialPageRoute(builder: (_) => CarView());
 
@@ -192,9 +197,7 @@ class RouteGenerator {
                 ));
 
       case '/RatesView':
-        return MaterialPageRoute(
-          builder: (_) => RatesView(args)
-        );
+        return MaterialPageRoute(builder: (_) => RatesView(args));
     }
   }
 }

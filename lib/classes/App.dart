@@ -28,9 +28,9 @@ class App {
   static ValueNotifier<bool> isDriverNotifier;
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
-  static double maxPriceFilter = person.countryInformations.maxPrice;
-  static double minPriceFilter = person.countryInformations.minPrice;
-  static int stepPriceFilter = person.countryInformations.priceStep.toInt();
+  static dynamic maxPriceFilter;
+  static dynamic minPriceFilter;
+  static dynamic stepPriceFilter;
   static Channel inboxChannel;
 
   static ValueNotifier<bool> newMessageInbox = ValueNotifier(false);
@@ -120,6 +120,9 @@ class App {
 
   static set user(User value) {
     _user = value;
+    maxPriceFilter = person.countryInformations.maxPrice;
+    minPriceFilter = person.countryInformations.minPrice;
+    stepPriceFilter = person.countryInformations.priceStep;
   }
 
   static int calculateAge(DateTime date) {

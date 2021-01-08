@@ -10,8 +10,9 @@ class MainButton extends StatelessWidget {
   Function onPressed;
   double _radius = 8;
   bool isRequest;
+  String text;
 
-  MainButton({this.text_key, this.onPressed, this.isRequest = false});
+  MainButton({this.text_key, this.onPressed, this.isRequest = false, this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +24,13 @@ class MainButton extends StatelessWidget {
         color: Styles.primaryColor(),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(_radius)),
-        child: Text(Lang.getString(context, text_key),
+        child: Text(Lang.getString(context, text_key)?? this.text?? "No Text",
             style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
         onPressed: onPressed,
       );
     } else {
       return ProgressButton(
-        defaultWidget: Text(Lang.getString(context, text_key),
+        defaultWidget: Text(Lang.getString(context, text_key)?? this.text ?? "No Text",
             style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
         progressWidget: CircularProgressIndicator(
           backgroundColor: (!Cache.darkTheme &&

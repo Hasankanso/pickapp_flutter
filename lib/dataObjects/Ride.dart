@@ -162,7 +162,7 @@ class Ride {
       user = User();
     }
 
-    Ride r =  new Ride(
+    Ride r = new Ride(
       kidSeat: json["kidSeat"],
       id: json["objectId"],
       acAllowed: json["acAllowed"],
@@ -191,7 +191,11 @@ class Ride {
       mapUrl: json["map"],
     );
 
-    r.mapImage= new NetworkImage(r.mapUrl ?? "");
+    if (r.mapUrl == null) {
+      r.mapImage = new AssetImage("lib/images/map.jpg");
+    } else {
+      r.mapImage = new NetworkImage(r.mapUrl);
+    }
 
     return r;
   }

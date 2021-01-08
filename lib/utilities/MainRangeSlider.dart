@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 class MainRangeSlider extends StatefulWidget {
   double minSelected, maxSelected;
-  double min, max, step;
+  dynamic min, max, step;
   MainRangeSliderController controller;
   Function(RangeValues) onChanged;
 
@@ -26,8 +26,8 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
   @override
   void initState() {
     widget.controller.values = RangeValues(
-      widget.minSelected.toDouble(),
-      widget.maxSelected.toDouble(),
+      widget.minSelected,
+      widget.maxSelected,
     );
     widget.controller.minAbsolute = widget.min;
     widget.controller.maxAbsolute = widget.max;
@@ -45,11 +45,11 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
           ),
           child: RangeSlider(
             values: widget.controller.values,
-            min: widget.controller.minAbsolute,
-            max: widget.controller.maxAbsolute,
-            divisions: widget.step.toInt(),
+            min: widget.controller.minAbsolute is double? widget.controller.minAbsolute : widget.controller.minAbsolute.toDouble(),
+            max: widget.controller.maxAbsolute is double? widget.controller.maxAbsolute : widget.controller.maxAbsolute.toDouble(),
+            divisions: widget.step,
             labels: RangeLabels(widget.controller.minSelected.toInt().toString(),
-                widget.controller.maxSelected.toInt().toString()),
+                widget.controller.maxSelected.toString()),
             onChanged: (values) {
               setState(() {
                 widget.controller.values = values;
@@ -144,10 +144,10 @@ int toHours(int number){
 
 class MainRangeSliderController {
   RangeValues values;
-  double minAbsolute;
-  double maxAbsolute;
+  dynamic minAbsolute;
+  dynamic maxAbsolute;
 
-  double get minSelected => values.start;
+  dynamic get minSelected => values.start;
 
-  double get maxSelected => values.end;
+  dynamic get maxSelected => values.end;
 }

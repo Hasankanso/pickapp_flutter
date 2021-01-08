@@ -19,13 +19,13 @@ class CountryInformations {
   @HiveField(6)
   DateTime _updated;
   @HiveField(7)
-  double _minPrice;
+  dynamic _minPrice;
   @HiveField(8)
-  double _maxPrice;
+  dynamic _maxPrice;
   @HiveField(9)
   int _drivingAge;
   @HiveField(10)
-  double _priceStep;
+  dynamic _priceStep;
 
   CountryInformations(
       {String id,
@@ -34,10 +34,10 @@ class CountryInformations {
       int digits,
       String code,
       DateTime updated,
-      double minPrice,
-      double maxPrice,
+      dynamic minPrice,
+      dynamic maxPrice,
       int drivingAge,
-      double priceStep,
+      dynamic priceStep,
       String countryComponent}) {
     this.id = id;
     this.updated = updated;
@@ -51,16 +51,18 @@ class CountryInformations {
     this._priceStep = priceStep;
     this.countryComponent = countryComponent;
   }
+
   Map<String, dynamic> toJson() => <String, dynamic>{'id': this.id};
+
   factory CountryInformations.fromJson(Map<String, dynamic> json) {
     return CountryInformations(
         id: json["objectId"],
         name: json["name"],
         code: json["code"],
         unit: json["unit"],
-        maxPrice: (json["maxPrice"] as int).toDouble(),
-        minPrice: (json["minPrice"] as int).toDouble(),
-        priceStep: (json["priceStep"] as int).toDouble(),
+        maxPrice: json["maxPrice"],
+        minPrice: json["minPrice"],
+        priceStep: json["priceStep"],
         drivingAge: json["drivingAge"],
         countryComponent: json["countryComponent"],
         digits: json["digits"]);
@@ -76,15 +78,15 @@ class CountryInformations {
     return _unit;
   }
 
-  double get priceStep => _priceStep;
+  get priceStep => _priceStep;
 
-  set priceStep(double value) {
+  set priceStep(dynamic value) {
     _priceStep = value;
   }
 
   double get minPrice => _minPrice;
 
-  set minPrice(double value) {
+  set minPrice(dynamic value) {
     _minPrice = value;
   }
 
@@ -130,9 +132,9 @@ class CountryInformations {
     _updated = value;
   }
 
-  double get maxPrice => _maxPrice;
+  dynamic get maxPrice => _maxPrice;
 
-  set maxPrice(double value) {
+  set maxPrice(dynamic value) {
     _maxPrice = value;
   }
 

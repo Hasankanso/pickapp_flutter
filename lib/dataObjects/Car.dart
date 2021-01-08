@@ -89,7 +89,9 @@ class Car {
         _brand = json["brand"],
         _color = json["color"],
         _carPictureUrl = json["picture"],
-        networkImage = new NetworkImage(json["picture"]?? "");
+        networkImage = json["picture"] == null
+            ? new AssetImage("lib/images/car.png")
+            : new NetworkImage(json["picture"]);
 
   String get id => _id;
 
