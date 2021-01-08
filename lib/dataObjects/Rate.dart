@@ -9,7 +9,7 @@ part 'Rate.g.dart';
 @HiveType(typeId: 6)
 class Rate {
   @HiveField(0)
-  int _grade;
+  double _grade;
   @HiveField(1)
   String _comment;
   @HiveField(2)
@@ -26,7 +26,7 @@ class Rate {
   DateTime _updated;
 
   Rate(
-      {int grade,
+      {double grade,
       String comment,
       String reason,
       Person rater,
@@ -93,9 +93,9 @@ class Rate {
     return null;
   }
 
-  int get grade => _grade;
+  double get grade => _grade;
 
-  set grade(int value) {
+  set grade(double value) {
     _grade = value;
   }
 

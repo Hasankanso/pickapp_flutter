@@ -17,7 +17,7 @@ class RateAdapter extends TypeAdapter<Rate> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Rate()
-      .._grade = fields[0] as int
+      .._grade = fields[0] as double
       .._comment = fields[1] as String
       .._reason = fields[2] as String
       .._rater = fields[3] as Person

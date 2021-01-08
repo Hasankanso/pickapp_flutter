@@ -21,6 +21,11 @@ class SearchResultTile extends ListTile {
 
   @override
   Widget build(BuildContext context) {
+    if (_ride.person.networkImage == null) {
+      _ride.person.networkImage =
+          new NetworkImage(_ride.person.profilePictureUrl ?? "");
+    }
+
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
@@ -130,7 +135,14 @@ class SearchResultTile extends ListTile {
                                       ),
                                     )
                                   : Image(
-                                      image: AssetImage("lib/images/user.png")),
+                                      image: _ride.person.networkImage,
+                                      errorBuilder: (context, url, error) {
+                                        return Image(
+                                          image:
+                                              AssetImage("lib/images/user.png"),
+                                        );
+                                      },
+                                    ),
                             ),
                             Spacer(
                               flex: 1,

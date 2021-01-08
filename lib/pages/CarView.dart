@@ -34,16 +34,9 @@ class CarView extends StatelessWidget {
         child: GridTile(
           child: FittedBox(
             fit: BoxFit.fill,
-            child: CachedNetworkImage(
-              imageUrl: car.carPictureUrl,
-              imageBuilder: (context, imageProvider) => Image(
-                image: imageProvider,
-              ),
-              placeholder: (context, url) => CircleAvatar(
-                backgroundColor: Styles.secondaryColor(),
-                child: Spinner(),
-              ),
-              errorWidget: (context, url, error) {
+            child: Image(
+              image : car.networkImage,
+              errorBuilder: (context, url, error) {
                 return Image(
                   image: AssetImage("lib/images/car.png"),
                 );
