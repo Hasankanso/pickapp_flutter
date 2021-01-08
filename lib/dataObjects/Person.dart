@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
@@ -43,6 +44,8 @@ class Person {
   DateTime _updated;
   @HiveField(15)
   CountryInformations _countryInformations;
+
+  ImageProvider networkImage;
 
   //user
   String _phone;
@@ -131,6 +134,7 @@ class Person {
       profilePictureUrl: json['image'],
       countryInformations: countryInformations,
     );
+    p.networkImage = new NetworkImage(p.profilePictureUrl?? "");
     var upcomingRidesArray = json["upcomingRides"];
     if (upcomingRidesArray != null) {
       p._upcomingRides = List<Ride>.from(upcomingRidesArray.map((x) {

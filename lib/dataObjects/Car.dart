@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
 part 'Car.g.dart';
@@ -31,6 +33,7 @@ class Car {
   @HiveField(10)
   int _type;
   File _imageFile;
+  ImageProvider networkImage;
 
   File get imageFile => _imageFile;
 
@@ -85,7 +88,8 @@ class Car {
         _maxSeats = json['maxSeats'],
         _brand = json["brand"],
         _color = json["color"],
-        _carPictureUrl = json["picture"];
+        _carPictureUrl = json["picture"],
+        networkImage = new NetworkImage(json["picture"]?? "");
 
   String get id => _id;
 

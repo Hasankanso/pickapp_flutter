@@ -1,17 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Chat.dart';
-import 'package:pickapp/dataObjects/Message.dart';
+import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -47,6 +44,7 @@ class _DriverViewState extends State<DriverView> {
 
   @override
   Widget build(BuildContext context) {
+
     return SlidingUpPanel(
       backdropOpacity: 0.3,
       backdropEnabled: true,
@@ -64,18 +62,11 @@ class _DriverViewState extends State<DriverView> {
             child: GridTile(
               child: FittedBox(
                 fit: BoxFit.fill,
-                child: CachedNetworkImage(
-                  imageUrl: widget.user.person.profilePictureUrl ?? "",
-                  imageBuilder: (context, imageProvider) => Image(
-                    image: imageProvider,
-                  ),
-                  placeholder: (context, url) => CircleAvatar(
-                    backgroundColor: Styles.secondaryColor(),
-                    child: Spinner(),
-                  ),
-                  errorWidget: (context, url, error) {
+                child: Image(
+                  image: widget.user.person.networkImage,
+                  errorBuilder: (context, url, error){
                     return Image(
-                      image: AssetImage("lib/images/user.png"),
+                        image: AssetImage("lib/images/user.png"),
                     );
                   },
                 ),
@@ -102,6 +93,18 @@ class _Panel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Rate> rates = new List<Rate>();
+    Person p1 = new Person(firstName: "Ali", lastName: "Loubani");
+    Person p2 = new Person(firstName: "Adel", lastName: "Kanso");
+    rates.add(new Rate(grade: 4, comment: "he's friendly guy, would do it again!", reason: "really bad", rater: p1, creationDate: DateTime.now()));
+    rates.add(new Rate(grade: 2, comment: "he's guy, would do it again!", reason: "really bad", rater: p2,  creationDate: DateTime.now()));
+    rates.add(new Rate(grade: 1, comment: "he's fr again!", reason: "really bad", rater: p1,  creationDate: DateTime.now()));
+    rates.add(new Rate(grade: 5, comment: "he's friendly guy, would do it again!", reason: "really bad", rater: p1,  creationDate: DateTime.now()));
+    rates.add(new Rate(grade: 3, comment: " again!", reason: "really bad", rater: p2,  creationDate: DateTime.now()));
+
+    user.person.rates = rates;
+    user.person.rateAverage = 4.8;
+
     return SingleChildScrollView(
       controller: controller,
       child: Column(children: [
@@ -137,10 +140,13 @@ class _Panel extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Card(
-              elevation: 10,
-              child: RateStars(
-                App.user.person.rateAverage,
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, "/RatesView", arguments: user.person.rates),
+              child: Card(
+                elevation: 10,
+                child: RateStars(
+                  user.person.rateAverage,
+                ),
               ),
             )
           ],

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Validation.dart';
@@ -67,6 +68,8 @@ class Ride {
 
   @HiveField(24)
   String mapUrl;
+
+  ImageProvider mapImage;
 
   Ride(
       {String id,
@@ -159,33 +162,38 @@ class Ride {
       user = User();
     }
 
-    return Ride(
-        kidSeat: json["kidSeat"],
-        id: json["objectId"],
-        acAllowed: json["acAllowed"],
-        musicAllowed: json["musicAllowed"],
-        smokingAllowed: json["smokingAllowed"],
-        petsAllowed: json["petsAllowed"],
-        availableLuggages: json["availableLuggages"],
-        maxSeats: json["maxSeats"],
-        maxLuggages: json["maxLuggages"],
-        availableSeats: json["availableSeats"],
-        stopTime: json["stopTime"],
-        comment: json["comment"],
-        user: user,
-        car: Car.fromJson(json["car"]),
-        passengers: json["passengers"] != null
-            ? List<Passenger>.from(
-                json["passengers"].map((x) => Passenger.fromJson(x)))
-            : null,
-        leavingDate: leavingDate,
-        reservedLuggages: json["reservedLuggages"],
-        reservedSeats: json["reservedSeats"],
-        from: MainLocation.fromJson(json["from"]),
-        to: MainLocation.fromJson(json["to"]),
-        price: json["price"],
-        mapBase64: json["map"],
-        mapUrl: json["map"]);
+    Ride r =  new Ride(
+      kidSeat: json["kidSeat"],
+      id: json["objectId"],
+      acAllowed: json["acAllowed"],
+      musicAllowed: json["musicAllowed"],
+      smokingAllowed: json["smokingAllowed"],
+      petsAllowed: json["petsAllowed"],
+      availableLuggages: json["availableLuggages"],
+      maxSeats: json["maxSeats"],
+      maxLuggages: json["maxLuggages"],
+      availableSeats: json["availableSeats"],
+      stopTime: json["stopTime"],
+      comment: json["comment"],
+      user: user,
+      car: Car.fromJson(json["car"]),
+      passengers: json["passengers"] != null
+          ? List<Passenger>.from(
+              json["passengers"].map((x) => Passenger.fromJson(x)))
+          : null,
+      leavingDate: leavingDate,
+      reservedLuggages: json["reservedLuggages"],
+      reservedSeats: json["reservedSeats"],
+      from: MainLocation.fromJson(json["from"]),
+      to: MainLocation.fromJson(json["to"]),
+      price: json["price"],
+      mapBase64: json["map"],
+      mapUrl: json["map"],
+    );
+
+    r.mapImage= new NetworkImage(r.mapUrl ?? "");
+
+    return r;
   }
 
   static String validate(Ride ride) {
@@ -280,8 +288,6 @@ class Ride {
   set comment(value) {
     _comment = value;
   }
-
-
 
   setMap(File value) async {
     if (value != null) {

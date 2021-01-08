@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/AddCar.dart';
 import 'package:pickapp/pages/AddCar2.dart';
@@ -22,6 +23,7 @@ import 'package:pickapp/pages/Phone.dart';
 import 'package:pickapp/pages/Phone2.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Profile.dart';
+import 'package:pickapp/pages/RatesView.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RideDetails.dart';
 import 'package:pickapp/pages/SearchResults.dart';
@@ -151,6 +153,11 @@ class RouteGenerator {
             builder: (_) => Conversation.from(
                   person: args,
                 ));
+
+      case '/RatesView':
+        return MaterialPageRoute(
+          builder: (_) => RatesView(args)
+        );
     }
   }
 }
