@@ -1,12 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/ChangeEmail.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -93,14 +92,8 @@ class Email extends StatelessWidget {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
     } else {
-      final userBox = Hive.box("user");
-      User cacheUser = App.user;
-      cacheUser.person.rates = null;
-      if (App.user.driver != null) {
-        cacheUser.driver.regions = null;
-      }
-      cacheUser.email = p1;
-      await userBox.put(0, cacheUser);
+      App.user.email = p1;
+      Cache.setUserCache(App.user.email);
 
       CustomToast().showSuccessToast(
           Lang.getString(context, "Email_confirmation_pending"));
