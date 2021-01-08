@@ -51,7 +51,8 @@ class User {
         "phone": this.phone,
         "email": this.email,
         "verificationCode": this.verificationCode,
-        "person": this.person.toJson()
+        "person": this.person.toJson(),
+        "driver": this.driver != null ? this.driver.toJson() : null
       };
   User.fromJson(Map<String, dynamic> json)
       : _id = json["objectId"],

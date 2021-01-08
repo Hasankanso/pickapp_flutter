@@ -7,8 +7,10 @@ class Switcher extends StatefulWidget {
   bool isOn = false;
   SwitcherController controller;
   void Function(bool) onChanged;
+  bool isDisabled;
 
-  Switcher({this.isOn, this.controller, this.onChanged});
+  Switcher(
+      {this.isOn, this.controller, this.onChanged, this.isDisabled = false});
 
   @override
   _SwitcherState createState() => _SwitcherState();
@@ -19,7 +21,7 @@ class _SwitcherState extends State<Switcher> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.controller !=null) {
+    if (widget.controller != null) {
       widget.controller.isOn = widget.isOn;
     }
   }
@@ -29,12 +31,12 @@ class _SwitcherState extends State<Switcher> {
     if (App.isIphone()) {
       return CupertinoSwitch(
         value: widget.isOn,
-        onChanged: _onChanged,
+        onChanged: !widget.isDisabled ? _onChanged : null,
         activeColor: Styles.primaryColor(),
       );
     } else if (App.isAndroid()) {
       return Switch(
-        onChanged: _onChanged,
+        onChanged: !widget.isDisabled ? _onChanged : null,
         value: widget.isOn,
         activeColor: Styles.primaryColor(),
         inactiveThumbColor: Styles.labelColor(),

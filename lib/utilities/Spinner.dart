@@ -6,7 +6,10 @@ class Spinner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
-      backgroundColor: Cache.darkTheme ? Styles.primaryColor() : null,
+      backgroundColor: (Cache.darkTheme &&
+              MediaQuery.of(context).platformBrightness == Brightness.dark)
+          ? Styles.primaryColor()
+          : null,
     );
   }
 }

@@ -17,12 +17,12 @@ class RegisterPerson extends Request<User> {
 
   @override
   Map<String, dynamic> getJson() {
-    var personJ = _newUser.toJson();
+    var userJ = _newUser.toJson();
 
     if (!Validation.isNullOrEmpty(_newUser.person.image)) {
-      personJ["image"] = _newUser.person.image;
+      userJ["image"] = _newUser.person.image;
     }
-    return <String, dynamic>{'person': personJ, 'idToken': _verificationToken};
+    return <String, dynamic>{'user': userJ, 'idToken': _verificationToken};
   }
 
   @override

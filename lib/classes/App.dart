@@ -28,25 +28,26 @@ class App {
   static ValueNotifier<bool> isDriverNotifier;
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
-  static double maxPriceFilter = 100000; //TODO flexible maximum price
-  static int stepPriceFilter = 100;
+  static double maxPriceFilter = person.countryInformations.maxPrice;
+  static double minPriceFilter = person.countryInformations.minPrice;
+  static int stepPriceFilter = person.countryInformations.priceStep.toInt();
   static Channel inboxChannel;
 
   static ValueNotifier<bool> newMessageInbox = ValueNotifier(false);
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
     'Deutschland': CountryInformations(
-      name: "Deutschland",
-      id: "CAE25E4F-A78C-12BB-FF38-92A6EC9D4F00",
-      digits: 11,
-      code: "49",
-    ),
+        name: "Deutschland",
+        id: "CAE25E4F-A78C-12BB-FF38-92A6EC9D4F00",
+        digits: 11,
+        code: "49",
+        drivingAge: 18),
     'لبنان': CountryInformations(
-      name: "لبنان",
-      id: "F85258BF-63A7-F939-FF31-C78BB1837300",
-      digits: 8,
-      code: "961",
-    ),
+        name: "لبنان",
+        id: "F85258BF-63A7-F939-FF31-C78BB1837300",
+        digits: 8,
+        code: "961",
+        drivingAge: 18),
   };
 
   static Locale locale;

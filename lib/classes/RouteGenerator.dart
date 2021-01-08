@@ -25,6 +25,7 @@ import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/RatesView.dart';
 import 'package:pickapp/pages/Register.dart';
+import 'package:pickapp/pages/RegisterDriver.dart';
 import 'package:pickapp/pages/RideDetails.dart';
 import 'package:pickapp/pages/SearchResults.dart';
 import 'package:pickapp/pages/Security.dart';
@@ -138,6 +139,42 @@ class RouteGenerator {
       case '/RegisterDetails':
         return MaterialPageRoute(
             builder: (_) => Details(
+                  user: ((args as List)[0] as User),
+                  isForceRegister: (args as List)[1],
+                  idToken: (args as List)[2],
+                ));
+      case '/RegisterDriver':
+        return MaterialPageRoute(
+            builder: (_) => RegisterDriver(
+                  user: ((args as List)[0] as User),
+                  isForceRegister: (args as List)[1],
+                  idToken: (args as List)[2],
+                ));
+      //register driver screens
+      case '/BecomeDriverRegister':
+        return MaterialPageRoute(
+            builder: (_) => BecomeDriver(
+                  user: ((args as List)[0] as User),
+                  isForceRegister: (args as List)[1],
+                  idToken: (args as List)[2],
+                ));
+      case '/AddCarRegister':
+        return MaterialPageRoute(
+            builder: (_) => AddCar(
+                  user: ((args as List)[0] as User),
+                  isForceRegister: (args as List)[1],
+                  idToken: (args as List)[2],
+                ));
+      case "/AddCar2Register":
+        return MaterialPageRoute(
+            builder: (_) => AddCar2(
+                  user: ((args as List)[0] as User),
+                  isForceRegister: (args as List)[1],
+                  idToken: (args as List)[2],
+                ));
+      case "/AddCar3Register":
+        return MaterialPageRoute(
+            builder: (_) => AddCar3(
                   user: ((args as List)[0] as User),
                   isForceRegister: (args as List)[1],
                   idToken: (args as List)[2],

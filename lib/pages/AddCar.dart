@@ -5,6 +5,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -14,7 +15,11 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class AddCar extends StatefulWidget {
   Driver driver;
-  AddCar({this.driver});
+  bool isForceRegister;
+  User user;
+  String idToken;
+
+  AddCar({this.driver, this.isForceRegister, this.user, this.idToken});
 
   @override
   _AddCarState createState() => _AddCarState();
@@ -44,6 +49,20 @@ class _AddCarState extends State<AddCar> {
       if (_imageController.pickedImage != null) {
         widget.driver.cars[0].imageFile = _imageController.pickedImage;
       }
+    } else if (widget.user != null) {
+      if (widget.user.driver.cars == null ||
+          widget.user.driver.cars.length == 0) {
+        widget.user.driver.cars = [car];
+      }
+      if (!Validation.isNullOrEmpty(_name.text))
+        widget.user.driver.cars[0].name = _name.text;
+      if (!Validation.isNullOrEmpty(_brand.text))
+        widget.user.driver.cars[0].brand = _brand.text;
+      if (!Validation.isNullOrEmpty(_year.text))
+        widget.user.driver.cars[0].year = int.parse(_year.text);
+      if (_imageController.pickedImage != null) {
+        widget.user.driver.cars[0].imageFile = _imageController.pickedImage;
+      }
     }
     _name.dispose();
     _brand.dispose();
@@ -67,6 +86,19 @@ class _AddCarState extends State<AddCar> {
           _imageController.pickedImage = widget.driver.cars[0].imageFile;
       } else {
         widget.driver.cars = [Car()];
+      }
+    } else if (widget.user != null) {
+      if (widget.user.driver.cars != null) {
+        if (!Validation.isNullOrEmpty(widget.user.driver.cars[0].name))
+          _name.text = widget.user.driver.cars[0].name;
+        if (!Validation.isNullOrEmpty(widget.user.driver.cars[0].brand))
+          _brand.text = widget.user.driver.cars[0].brand;
+        if (widget.user.driver.cars[0].year != null)
+          _year.text = widget.user.driver.cars[0].year.toString();
+        if (widget.user.driver.cars[0].imageFile != null)
+          _imageController.pickedImage = widget.user.driver.cars[0].imageFile;
+      } else {
+        widget.user.driver.cars = [Car()];
       }
     }
   }
@@ -227,6 +259,28 @@ class _AddCarState extends State<AddCar> {
 
                       Navigator.pushNamed(context, "/AddCar2Driver",
                           arguments: widget.driver);
+                    }
+                    if (widget.user != null) {
+                      if (widget.user.driver.cars != null &&
+                          widget.user.driver.cars.length == 1) {
+                        widget.user.driver.cars[0].name = _name.text;
+                        widget.user.driver.cars[0].brand = _brand.text;
+                        widget.user.driver.cars[0].year = int.parse(_year.text);
+                      } else {
+                        car.name = _name.text;
+                        car.brand = _brand.text;
+                        car.year = int.parse(_year.text);
+                        widget.user.driver.cars = [car];
+                      }
+                      await widget.user.driver.cars[0]
+                          .setPictureFile(_imageController.pickedImage);
+
+                      Navigator.pushNamed(context, "/AddCar2Register",
+                          arguments: [
+                            widget.user,
+                            widget.isForceRegister,
+                            widget.idToken
+                          ]);
                     } else {
                       car.name = _name.text;
                       car.brand = _brand.text;

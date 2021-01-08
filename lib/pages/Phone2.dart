@@ -211,7 +211,7 @@ class _Phone2State extends State<Phone2> {
               height: 50,
               child: MainButton(
                 isRequest: false,
-                text_key: "Register",
+                text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     widget.user.verificationCode = _smsCode.text;
@@ -267,7 +267,6 @@ class _Phone2State extends State<Phone2> {
 
     auth.PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationId) {
-      print("timeout");
       _verificationId = verificationId;
     };
 

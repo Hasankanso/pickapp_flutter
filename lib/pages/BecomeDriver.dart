@@ -9,6 +9,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/items/RegionListTile.dart';
 import 'package:pickapp/requests/EditRegions.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -21,8 +22,15 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class BecomeDriver extends StatefulWidget {
   bool isRegionPage;
+  bool isForceRegister;
+  User user;
+  String idToken;
 
-  BecomeDriver({this.isRegionPage = false});
+  BecomeDriver(
+      {this.isRegionPage = false,
+      this.isForceRegister,
+      this.user,
+      this.idToken});
 
   @override
   _BecomeDriverState createState() => _BecomeDriverState();
@@ -83,6 +91,36 @@ class _BecomeDriverState extends State<BecomeDriver> {
         _errorTexts.add(null);
       }
       setState(() {});
+    } else if (widget.user != null) {
+      _regions.add(MainLocation());
+      _regionsControllers.add(LocationEditingController());
+      _errorTexts.add(null);
+      Future.delayed(Duration.zero, () async {
+        Flushbar(
+          message: Lang.getString(context, "Regions_require_message"),
+          flushbarPosition: FlushbarPosition.TOP,
+          flushbarStyle: FlushbarStyle.GROUNDED,
+          reverseAnimationCurve: Curves.decelerate,
+          forwardAnimationCurve: Curves.decelerate,
+          icon: Icon(
+            Icons.info_outline,
+            color: Styles.primaryColor(),
+            size: Styles.mediumIconSize(),
+          ),
+          mainButton: IconButton(
+            focusColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.clear,
+              color: Styles.secondaryColor(),
+              size: Styles.mediumIconSize(),
+            ),
+          ),
+        )..show(context);
+      });
     } else {
       _regions.add(MainLocation());
       _regionsControllers.add(LocationEditingController());
@@ -243,6 +281,14 @@ class _BecomeDriverState extends State<BecomeDriver> {
                       driver.regions = _regions;
                       Request request = EditRegions(driver);
                       await request.send(_editRegionsResponse);
+                    } else if (widget.user != null) {
+                      widget.user.driver.regions = _regions;
+                      Navigator.pushNamed(context, "/AddCarRegister",
+                          arguments: [
+                            widget.user,
+                            widget.isForceRegister,
+                            widget.idToken
+                          ]);
                     } else {
                       driver.regions = _regions;
                       Navigator.pushNamed(context, "/AddCarDriver",

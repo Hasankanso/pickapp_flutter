@@ -3,6 +3,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/items/CarTypeItem.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -13,7 +14,12 @@ import 'package:pickapp/utilities/Responsive.dart';
 class AddCar2 extends StatefulWidget {
   Driver driver;
   Car car;
-  AddCar2({this.driver, this.car});
+  bool isForceRegister;
+  User user;
+  String idToken;
+
+  AddCar2(
+      {this.driver, this.car, this.isForceRegister, this.user, this.idToken});
   @override
   _AddCar2State createState() => _AddCar2State();
 }
@@ -37,7 +43,9 @@ class _AddCar2State extends State<AddCar2> {
     if (_type != null) {
       if (widget.car != null)
         widget.car.type = _type;
-      else if (widget.driver.cars != null) widget.driver.cars[0].type = _type;
+      else if (widget.driver != null)
+        widget.driver.cars[0].type = _type;
+      else if (widget.user != null) widget.user.driver.cars[0].type = _type;
     }
     super.dispose();
   }
@@ -50,6 +58,8 @@ class _AddCar2State extends State<AddCar2> {
       selectType(widget.car.type);
     else if (widget.driver != null && widget.driver.cars[0].type != null) {
       selectType(widget.driver.cars[0].type);
+    } else if (widget.user != null && widget.user.driver.cars[0].type != null) {
+      selectType(widget.user.driver.cars[0].type);
     }
   }
 
@@ -160,6 +170,14 @@ class _AddCar2State extends State<AddCar2> {
                       "/AddCar3",
                       arguments: widget.car,
                     );
+                  } else if (widget.user != null) {
+                    widget.user.driver.cars[0].type = _type;
+                    Navigator.pushNamed(context, "/AddCar3Register",
+                        arguments: [
+                          widget.user,
+                          widget.isForceRegister,
+                          widget.idToken
+                        ]);
                   }
                 },
               ),

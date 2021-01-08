@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Car.dart';
@@ -11,6 +12,8 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/AddCar.dart';
 import 'package:pickapp/requests/BecomeDriverRequest.dart';
+import 'package:pickapp/requests/ForceRegisterPerson.dart';
+import 'package:pickapp/requests/RegisterPerson.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/ColorPicker.dart';
@@ -24,7 +27,12 @@ import 'package:pickapp/utilities/Spinner.dart';
 class AddCar3 extends StatefulWidget {
   Driver driver;
   Car car;
-  AddCar3({this.driver, this.car});
+  bool isForceRegister;
+  User user;
+  String idToken;
+
+  AddCar3(
+      {this.driver, this.car, this.isForceRegister, this.user, this.idToken});
 
   @override
   _AddCar3State createState() => _AddCar3State();
@@ -48,6 +56,9 @@ class _AddCar3State extends State<AddCar3> {
     } else if (widget.car != null) {
       _type = widget.car.type;
       _btnText = "Add_car";
+    } else if (widget.user != null) {
+      _btnText = "Register";
+      _type = widget.user.driver.cars[0].type;
     }
     if (_type == 0) {
       _maxSeats = 4;
@@ -76,6 +87,13 @@ class _AddCar3State extends State<AddCar3> {
         _luggageController.chosenNumber = widget.driver.cars[0].maxLuggage;
       if (widget.driver.cars[0].color != null)
         _colorController.pickedColor = Color(widget.driver.cars[0].color);
+    } else if (widget.user != null) {
+      if (widget.user.driver.cars[0].maxSeats != null)
+        _seatsController.chosenNumber = widget.user.driver.cars[0].maxSeats;
+      if (widget.user.driver.cars[0].maxLuggage != null)
+        _luggageController.chosenNumber = widget.user.driver.cars[0].maxLuggage;
+      if (widget.user.driver.cars[0].color != null)
+        _colorController.pickedColor = Color(widget.user.driver.cars[0].color);
     }
   }
 
@@ -89,13 +107,20 @@ class _AddCar3State extends State<AddCar3> {
         widget.car.maxLuggage = _luggageController.chosenNumber;
       if (_colorController.pickedColor != null)
         widget.car.color = _colorController.pickedColor.value;
-    } else if (widget.driver.cars != null) {
+    } else if (widget.driver != null) {
       if (_seatsController.chosenNumber != null)
         widget.driver.cars[0].maxSeats = _seatsController.chosenNumber;
       if (_luggageController.chosenNumber != null)
         widget.driver.cars[0].maxLuggage = _luggageController.chosenNumber;
       if (_colorController.pickedColor != null)
         widget.driver.cars[0].color = _colorController.pickedColor.value;
+    } else if (widget.user != null) {
+      if (_seatsController.chosenNumber != null)
+        widget.user.driver.cars[0].maxSeats = _seatsController.chosenNumber;
+      if (_luggageController.chosenNumber != null)
+        widget.user.driver.cars[0].maxLuggage = _luggageController.chosenNumber;
+      if (_colorController.pickedColor != null)
+        widget.user.driver.cars[0].color = _colorController.pickedColor.value;
     }
     super.dispose();
   }
@@ -193,6 +218,8 @@ class _AddCar3State extends State<AddCar3> {
                     _becomeDriverRequest();
                   } else if (widget.car != null) {
                     _addCarRequest();
+                  } else if (widget.user != null) {
+                    _registerRequest();
                   }
                 },
               ),
@@ -201,6 +228,21 @@ class _AddCar3State extends State<AddCar3> {
         ),
       ),
     );
+  }
+
+  _registerRequest() {
+    widget.user.driver.cars[0].maxLuggage = _luggageController.chosenNumber;
+    widget.user.driver.cars[0].maxSeats = _seatsController.chosenNumber;
+    widget.user.driver.cars[0].color = _colorController.pickedColor.value;
+
+    Request<User> registerRequest;
+
+    if (!widget.isForceRegister) {
+      registerRequest = RegisterPerson(widget.user, widget.idToken);
+    } else {
+      registerRequest = ForceRegisterPerson(widget.idToken, widget.user);
+    }
+    registerRequest.send(_registerResponse);
   }
 
   _addCarRequest() {
@@ -212,7 +254,8 @@ class _AddCar3State extends State<AddCar3> {
   }
 
   _becomeDriverRequest() {
-    if (App.calculateAge(App.person.birthday) < 18) {
+    if (App.calculateAge(App.person.birthday) <
+        App.person.countryInformations.drivingAge) {
       Navigator.pop(context);
       return CustomToast().showErrorToast(Lang.getString(context, "Under_age"));
     }
@@ -221,6 +264,21 @@ class _AddCar3State extends State<AddCar3> {
     widget.driver.cars[0].color = _colorController.pickedColor.value;
     Request<Driver> request = BecomeDriverRequest(widget.driver);
     request.send(_becomeDriverResponse);
+  }
+
+  Future<void> _registerResponse(User u, int code, String message) async {
+    if (code != HttpStatus.ok) {
+      CustomToast().showErrorToast(message);
+      Navigator.pop(context);
+    } else {
+      App.user = u;
+      await Cache.setUserCache(u);
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+      CustomToast().showSuccessToast(
+          Lang.getString(context, "Email_confirmation_pending"));
+      Navigator.popUntil(context, (route) => route.isFirst);
+    }
   }
 
   _becomeDriverResponse(Driver p1, int code, String message) async {

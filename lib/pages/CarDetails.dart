@@ -260,30 +260,42 @@ class _CarDetailsState extends State<CarDetails> {
                     ),
                     Expanded(
                       flex: 5,
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          labelText: Lang.getString(context, "Type"),
-                        ),
-                        isExpanded: true,
-                        value: _typeItems[widget.car.type],
-                        validator: (val) {
-                          String valid = Validation.validate(val, context);
-                          if (valid != null) return valid;
-                          return null;
-                        },
-                        onChanged: (String newValue) {
-                          setState(() {
-                            _type = _typeItems.indexOf(newValue);
-                            _setMaxSeatsLuggage();
-                          });
-                        },
-                        items: _typeItems
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                      child: Column(
+                        children: [
+                          Spacer(
+                            flex: 1,
+                          ),
+                          Expanded(
+                            flex: 9,
+                            child: DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                labelText: Lang.getString(context, "Type"),
+                                labelStyle: Styles.labelTextStyle(),
+                              ),
+                              isExpanded: true,
+                              value: _typeItems[widget.car.type],
+                              validator: (val) {
+                                String valid =
+                                    Validation.validate(val, context);
+                                if (valid != null) return valid;
+                                return null;
+                              },
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  _type = _typeItems.indexOf(newValue);
+                                  _setMaxSeatsLuggage();
+                                });
+                              },
+                              items: _typeItems.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

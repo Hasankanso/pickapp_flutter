@@ -18,6 +18,14 @@ class CountryInformations {
   int _digits;
   @HiveField(6)
   DateTime _updated;
+  @HiveField(7)
+  double _minPrice;
+  @HiveField(8)
+  double _maxPrice;
+  @HiveField(9)
+  int _drivingAge;
+  @HiveField(10)
+  double _priceStep;
 
   CountryInformations(
       {String id,
@@ -26,6 +34,10 @@ class CountryInformations {
       int digits,
       String code,
       DateTime updated,
+      double minPrice,
+      double maxPrice,
+      int drivingAge,
+      double priceStep,
       String countryComponent}) {
     this.id = id;
     this.updated = updated;
@@ -33,6 +45,10 @@ class CountryInformations {
     this.name = name;
     this.digits = digits;
     this.code = code;
+    this._drivingAge = drivingAge;
+    this._maxPrice = maxPrice;
+    this._minPrice = minPrice;
+    this._priceStep = priceStep;
     this.countryComponent = countryComponent;
   }
   Map<String, dynamic> toJson() => <String, dynamic>{'id': this.id};
@@ -42,6 +58,10 @@ class CountryInformations {
         name: json["name"],
         code: json["code"],
         unit: json["unit"],
+        maxPrice: (json["maxPrice"] as int).toDouble(),
+        minPrice: (json["minPrice"] as int).toDouble(),
+        priceStep: (json["priceStep"] as int).toDouble(),
+        drivingAge: json["drivingAge"],
         countryComponent: json["countryComponent"],
         digits: json["digits"]);
   }
@@ -54,6 +74,18 @@ class CountryInformations {
   @override
   String toString() {
     return _unit;
+  }
+
+  double get priceStep => _priceStep;
+
+  set priceStep(double value) {
+    _priceStep = value;
+  }
+
+  double get minPrice => _minPrice;
+
+  set minPrice(double value) {
+    _minPrice = value;
   }
 
   get unit => _unit;
@@ -96,5 +128,17 @@ class CountryInformations {
 
   set updated(DateTime value) {
     _updated = value;
+  }
+
+  double get maxPrice => _maxPrice;
+
+  set maxPrice(double value) {
+    _maxPrice = value;
+  }
+
+  int get drivingAge => _drivingAge;
+
+  set drivingAge(int value) {
+    _drivingAge = value;
   }
 }

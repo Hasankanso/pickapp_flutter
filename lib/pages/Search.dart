@@ -39,7 +39,6 @@ class _SearchState extends State<Search>
 
   @override
   Widget build(BuildContext context) {
-
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Search_for_Ride"),
@@ -128,7 +127,7 @@ class _SearchState extends State<Search>
                           dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
-                  request.send(response);
+                  await request.send(response);
                 }
               },
             ),

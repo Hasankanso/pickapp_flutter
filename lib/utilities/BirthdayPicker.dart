@@ -84,7 +84,11 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(15),
                 fontWeight: FontWeight.w400,
-                color: !Cache.darkTheme ? Styles.valueColor() : Colors.white,
+                color: (!Cache.darkTheme &&
+                        MediaQuery.of(context).platformBrightness !=
+                            Brightness.dark)
+                    ? Styles.valueColor()
+                    : Colors.white,
               ),
             ),
             onPressed: () {

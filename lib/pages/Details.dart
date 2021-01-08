@@ -397,7 +397,7 @@ class _DetailsState extends State<Details> {
                       height: 50,
                       child: MainButton(
                         isRequest: false,
-                        text_key: "Register",
+                        text_key: "Next",
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             widget.user.person.bio = _bioController.text;
@@ -425,7 +425,10 @@ class _DetailsState extends State<Details> {
                                 style: TextStyle(
                                   fontSize: ScreenUtil().setSp(15),
                                   fontWeight: FontWeight.w400,
-                                  color: !Cache.darkTheme
+                                  color: (!Cache.darkTheme &&
+                                          MediaQuery.of(context)
+                                                  .platformBrightness !=
+                                              Brightness.dark)
                                       ? Styles.valueColor()
                                       : Colors.white,
                                 ),
@@ -462,26 +465,36 @@ class _DetailsState extends State<Details> {
   }
 
   _register() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          onWillPop: () async => false,
-          child: Center(
-            child: Spinner(),
-          ),
-        );
-      },
-    );
+    if (App.calculateAge(widget.user.person.birthday) <
+        widget.user.person.countryInformations.drivingAge) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: Center(
+              child: Spinner(),
+            ),
+          );
+        },
+      );
 
-    Request<User> registerRequest;
-    if (!widget.isForceRegister) {
-      registerRequest = RegisterPerson(widget.user, widget.idToken);
+      Request<User> registerRequest;
+      if (!widget.isForceRegister) {
+        registerRequest = RegisterPerson(widget.user, widget.idToken);
+      } else {
+        registerRequest = ForceRegisterPerson(widget.idToken, widget.user);
+      }
+      registerRequest.send(_registerResponse);
     } else {
-      registerRequest = ForceRegisterPerson(widget.idToken, widget.user);
+      //open become
+      Navigator.pushNamed(
+        context,
+        "/RegisterDriver",
+        arguments: [widget.user, widget.isForceRegister, widget.idToken],
+      );
     }
-    registerRequest.send(_registerResponse);
   }
 
   Future<void> _registerResponse(User u, int code, String message) async {
