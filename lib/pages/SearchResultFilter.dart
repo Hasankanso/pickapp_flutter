@@ -131,9 +131,9 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
             title: Lang.getString(context, "Price"),
             step: App.stepPriceFilter,
             controller: controller.priceController,
-            minSelected: controller.priceController.minSelected,
-            maxSelected: controller.priceController.maxSelected,
-            aboluteMaxValue: controller.priceController.maxAbsolute,
+            minSelected: controller.priceController.minSelected.toInt(),
+            maxSelected: controller.priceController.maxSelected.toInt(),
+            aboluteMaxValue: controller.priceController.maxAbsolute.toInt(),
           ),
           _SliderFilter(
             title: Lang.getString(context, "Time"),
@@ -265,8 +265,8 @@ class _BooleanFilterState extends State<_BooleanFilter> {
 
 class _SliderTextFilter extends StatefulWidget {
   MainRangeSliderController controller;
-  dynamic minSelected, maxSelected;
-  dynamic aboluteMaxValue;
+  int minSelected, maxSelected;
+  int aboluteMaxValue;
   int step;
   String title;
   bool isTime;
@@ -290,8 +290,8 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
 
   @override
   Widget build(BuildContext context) {
-    minValueController.text = widget.controller.minSelected.toString();
-    maxValueController.text = widget.controller.maxSelected.toString();
+    minValueController.text = widget.controller.minSelected.toInt().toString();
+    maxValueController.text = widget.controller.maxSelected.toInt().toString();
     minValueController.selection = TextSelection.fromPosition(
         TextPosition(offset: minValueController.text.length));
     maxValueController.selection = TextSelection.fromPosition(
@@ -319,9 +319,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                   ? MainRangeSlider(
                       minSelected: widget.controller.minSelected,
                       maxSelected: widget.controller.maxSelected,
-                      step: widget.step,
+                      step: widget.step.toDouble(),
                       min: 0,
-                      max: widget.aboluteMaxValue,
+                      max: widget.aboluteMaxValue.toDouble(),
                       controller: widget.controller,
                       onChanged: (values) {
                         setState(() {

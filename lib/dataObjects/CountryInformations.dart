@@ -19,13 +19,13 @@ class CountryInformations {
   @HiveField(6)
   DateTime _updated;
   @HiveField(7)
-  dynamic _minPrice;
+  double _minPrice;
   @HiveField(8)
-  dynamic _maxPrice;
+  double _maxPrice;
   @HiveField(9)
   int _drivingAge;
   @HiveField(10)
-  dynamic _priceStep;
+  double _priceStep;
 
   CountryInformations(
       {String id,
@@ -34,10 +34,10 @@ class CountryInformations {
       int digits,
       String code,
       DateTime updated,
-      dynamic minPrice,
-      dynamic maxPrice,
+      double minPrice,
+      double maxPrice,
       int drivingAge,
-      dynamic priceStep,
+      double priceStep,
       String countryComponent}) {
     this.id = id;
     this.updated = updated;
@@ -60,9 +60,15 @@ class CountryInformations {
         name: json["name"],
         code: json["code"],
         unit: json["unit"],
-        maxPrice: json["maxPrice"],
-        minPrice: json["minPrice"],
-        priceStep: json["priceStep"],
+        maxPrice: json["maxPrice"] is int
+            ? (json["maxPrice"] as int).toDouble()
+            : json["maxPrice"],
+        minPrice: json["minPrice"] is int
+            ? (json["minPrice"] as int).toDouble()
+            : json["minPrice"],
+        priceStep: json["priceStep"] is int
+            ? (json["priceStep"] as int).toDouble()
+            : json["priceStep"],
         drivingAge: json["drivingAge"],
         countryComponent: json["countryComponent"],
         digits: json["digits"]);
@@ -78,15 +84,15 @@ class CountryInformations {
     return _unit;
   }
 
-  get priceStep => _priceStep;
+  double get priceStep => _priceStep;
 
-  set priceStep(dynamic value) {
+  set priceStep(double value) {
     _priceStep = value;
   }
 
   double get minPrice => _minPrice;
 
-  set minPrice(dynamic value) {
+  set minPrice(double value) {
     _minPrice = value;
   }
 
@@ -132,9 +138,9 @@ class CountryInformations {
     _updated = value;
   }
 
-  dynamic get maxPrice => _maxPrice;
+  double get maxPrice => _maxPrice;
 
-  set maxPrice(dynamic value) {
+  set maxPrice(double value) {
     _maxPrice = value;
   }
 

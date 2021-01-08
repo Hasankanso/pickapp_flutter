@@ -34,6 +34,7 @@ class Cache {
   static setUserCache(u) async {
     final userBox = Hive.box("user");
     User cacheUser = u;
+
     Person cachePerson = u.person;
     cachePerson.rates = null;
     cacheUser.person = cachePerson;
@@ -45,7 +46,7 @@ class Cache {
       App.isDriverNotifier.value = true;
     }
 
-    if (!userBox.containsKey(0)) {
+    if (userBox.containsKey(0)) {
       await userBox.put(0, cacheUser);
     } else {
       userBox.add(cacheUser);

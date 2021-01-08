@@ -141,6 +141,11 @@ class RouteGenerator {
                   user: ((args as List)[0] as User),
                   isForceRegister: (args as List)[1],
                 ));
+      case "/Phone2ChangePhone":
+        return MaterialPageRoute(
+            builder: (_) => Phone2(
+                  oldUser: args,
+                ));
       case '/RegisterDetails':
         return MaterialPageRoute(
             builder: (_) => Details(
