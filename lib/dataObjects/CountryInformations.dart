@@ -51,7 +51,9 @@ class CountryInformations {
     this._priceStep = priceStep;
     this.countryComponent = countryComponent;
   }
+
   Map<String, dynamic> toJson() => <String, dynamic>{'id': this.id};
+
   factory CountryInformations.fromJson(Map<String, dynamic> json) {
     return CountryInformations(
         id: json["objectId"],

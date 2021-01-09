@@ -191,7 +191,11 @@ class Ride {
       mapUrl: json["map"],
     );
 
-    r.mapImage = new NetworkImage(r._mapUrl ?? "");
+    if (r.mapUrl == null) {
+      r.mapImage = new AssetImage("lib/images/map.jpg");
+    } else {
+      r.mapImage = new NetworkImage(r.mapUrl);
+    }
 
     return r;
   }
