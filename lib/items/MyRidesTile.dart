@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/RateStars.dart';
@@ -8,7 +9,6 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class MyRidesTile extends ListTile {
   final Ride _ride;
-
   MyRidesTile(this._ride, {onPressed});
 
   static Function(BuildContext, int) itemBuilder(List<Ride> rides) {
@@ -63,9 +63,14 @@ class MyRidesTile extends ListTile {
                   child: Column(
                     children: [
                       ListTile(
-                        onTap: () {
-                          Navigator.of(context).pushNamed("/RideDetails", arguments: _ride);
-                        },
+                        onTap: App.checkIfDriver(_ride)==false ?()  {
+                          Navigator.of(context).pushNamed("/RideDetails", arguments: [_ride ,Lang.getString(context, "Reserve"),(ride){}]);
+                        }
+                        :()  {
+                          Navigator.of(context).pushNamed("/RideDetails2", arguments: _ride);
+                        }
+
+                        ,
                         title: Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
                           child: Column(

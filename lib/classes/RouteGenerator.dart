@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/AddCar.dart';
 import 'package:pickapp/pages/AddCar2.dart';
@@ -27,6 +28,7 @@ import 'package:pickapp/pages/RatesView.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RegisterDriver.dart';
 import 'package:pickapp/pages/RideDetails.dart';
+import 'package:pickapp/pages/RideDetails2.dart';
 import 'package:pickapp/pages/SearchResults.dart';
 import 'package:pickapp/pages/Security.dart';
 import 'package:pickapp/pages/Settings.dart';
@@ -75,6 +77,9 @@ class RouteGenerator {
             builder: (_) => AddRidePage5(
                   rideInfo: args,
                 ));
+      case '/RideDetails2':
+        return MaterialPageRoute(
+            builder: (_) => RideDetails2(ride:args));
       case '/Statistics':
         return MaterialPageRoute(builder: (_) => Statistics());
       case "/CarDetails":
