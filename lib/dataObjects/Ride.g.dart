@@ -16,9 +16,7 @@ class RideAdapter extends TypeAdapter<Ride> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Ride(
-      mapUrl: fields[24] as String,
-    )
+    return Ride()
       .._id = fields[0] as String
       .._comment = fields[1] as String
       .._mapBase64 = fields[2] as String
@@ -42,7 +40,8 @@ class RideAdapter extends TypeAdapter<Ride> {
       .._user = fields[20] as User
       .._passengers = (fields[21] as List)?.cast<Passenger>()
       .._car = fields[22] as Car
-      .._updated = fields[23] as DateTime;
+      .._updated = fields[23] as DateTime
+      .._mapUrl = fields[24] as String;
   }
 
   @override
@@ -98,7 +97,7 @@ class RideAdapter extends TypeAdapter<Ride> {
       ..writeByte(23)
       ..write(obj._updated)
       ..writeByte(24)
-      ..write(obj.mapUrl);
+      ..write(obj._mapUrl);
   }
 
   @override

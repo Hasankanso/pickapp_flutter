@@ -93,6 +93,10 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
+                /*List<String> channels = ["default"];
+                Backendless.messaging.registerDevice(channels).then((response) {
+                  print("Device registered!");
+                });*/
                 String _validateFrom =
                     fromController.validate(context, x: toController);
                 String _validateTo =

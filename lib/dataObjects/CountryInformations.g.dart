@@ -25,7 +25,7 @@ class CountryInformationsAdapter extends TypeAdapter<CountryInformations> {
       .._digits = fields[5] as int
       .._updated = fields[6] as DateTime
       .._minPrice = fields[7] as double
-      ..maxPrice = fields[8] as double
+      .._maxPrice = fields[8] as double
       .._drivingAge = fields[9] as int
       .._priceStep = fields[10] as double;
   }
@@ -33,7 +33,7 @@ class CountryInformationsAdapter extends TypeAdapter<CountryInformations> {
   @override
   void write(BinaryWriter writer, CountryInformations obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)

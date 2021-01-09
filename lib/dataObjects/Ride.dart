@@ -67,7 +67,7 @@ class Ride {
   DateTime _updated;
 
   @HiveField(24)
-  String mapUrl;
+  String _mapUrl;
 
   ImageProvider mapImage;
 
@@ -121,7 +121,7 @@ class Ride {
     this.car = car;
     this.updated = updated;
     this.mapBase64 = mapBase64;
-    this.mapUrl = mapUrl;
+    this._mapUrl = mapUrl;
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -162,7 +162,7 @@ class Ride {
       user = User();
     }
 
-    Ride r =  new Ride(
+    Ride r = new Ride(
       kidSeat: json["kidSeat"],
       id: json["objectId"],
       acAllowed: json["acAllowed"],
@@ -191,7 +191,7 @@ class Ride {
       mapUrl: json["map"],
     );
 
-    r.mapImage= new NetworkImage(r.mapUrl ?? "");
+    r.mapImage = new NetworkImage(r._mapUrl ?? "");
 
     return r;
   }
@@ -402,6 +402,12 @@ class Ride {
 
   set car(Car value) {
     _car = value;
+  }
+
+  String get mapUrl => _mapUrl;
+
+  set mapUrl(String value) {
+    _mapUrl = value;
   }
 
   DateTime get updated => _updated;

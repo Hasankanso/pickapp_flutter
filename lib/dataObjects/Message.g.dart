@@ -17,10 +17,11 @@ class MessageAdapter extends TypeAdapter<Message> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Message(
+      senderId: fields[3] as String,
       message: fields[1] as String,
       date: fields[0] as DateTime,
       myMessage: fields[2] as bool,
-    )..senderId = fields[3] as String;
+    );
   }
 
   @override
