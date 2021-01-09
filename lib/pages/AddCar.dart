@@ -256,11 +256,9 @@ class _AddCarState extends State<AddCar> {
                       }
                       await widget.driver.cars[0]
                           .setPictureFile(_imageController.pickedImage);
-
                       Navigator.pushNamed(context, "/AddCar2Driver",
                           arguments: widget.driver);
-                    }
-                    if (widget.user != null) {
+                    } else if (widget.user != null) {
                       if (widget.user.driver.cars != null &&
                           widget.user.driver.cars.length == 1) {
                         widget.user.driver.cars[0].name = _name.text;
