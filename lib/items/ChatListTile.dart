@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -51,17 +52,23 @@ class ChatListTile extends ListTile {
       },
 
 
-      leading:CachedNetworkImage(
-        imageUrl: chat.person.profilePictureUrl ?? "",
-        imageBuilder: (context, imageProvider) => CircleAvatar(
-          radius: ScreenUtil().setSp(20),
-          backgroundImage: imageProvider,
-        ),
-        placeholder: (context, url) => CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: ScreenUtil().setSp(20),
-          child: Spinner(),
-        ),
+      leading: Validation.isNullOrEmpty(chat.person.profilePictureUrl) ? CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: ScreenUtil().setSp(20),
+        backgroundImage: AssetImage("lib/images/user.png"),
+      ) : CachedNetworkImage(
+        imageUrl: chat.person.profilePictureUrl,
+        imageBuilder: (context, imageProvider) =>
+            CircleAvatar(
+              radius: ScreenUtil().setSp(20),
+              backgroundImage: imageProvider,
+            ),
+        placeholder: (context, url) =>
+            CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: ScreenUtil().setSp(20),
+              child: Spinner(),
+            ),
         errorWidget: (context, url, error) {
           return CircleAvatar(
             backgroundColor: Colors.transparent,
@@ -76,13 +83,15 @@ class ChatListTile extends ListTile {
           SizedBox(
             width: 16.0,
           ),
-          Text(now.difference(chat.date).inHours < 12
+          Text(now
+              .difference(chat.date)
+              .inHours < 12
               ? DateFormat(App.hourFormat).format(chat.date)
               : isSameDate(now, chat.date)
-                  ? Lang.getString(context, "Today")
-                  : now.year == chat.date.year
-                      ? DateFormat("dd.MM").format(chat.date)
-                      : DateFormat(App.birthdayFormat).format(chat.date)),
+              ? Lang.getString(context, "Today")
+              : now.year == chat.date.year
+              ? DateFormat("dd.MM").format(chat.date)
+              : DateFormat(App.birthdayFormat).format(chat.date)),
         ],
       ),
       subtitle: Text(chat.messages.last.message),
