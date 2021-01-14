@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -30,6 +31,7 @@ class _SearchState extends State<Search>
   NumberController numberController = NumberController();
   SearchInfo _searchInfo;
   String _fromError, _toError;
+  static const MethodChannel _channel = MethodChannel('aaaa');
 
   response(List<Ride> result, int code, String message) {
     _searchInfo.rides = result;
@@ -93,10 +95,6 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                /*List<String> channels = ["default"];
-                Backendless.messaging.registerDevice(channels).then((response) {
-                  print("Device registered!");
-                });*/
                 String _validateFrom =
                     fromController.validate(context, x: toController);
                 String _validateTo =

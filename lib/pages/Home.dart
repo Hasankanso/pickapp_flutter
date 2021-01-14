@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -15,6 +17,8 @@ import 'package:pickapp/pages/Search.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/Startup.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class Home extends StatefulWidget {
   @override
@@ -50,16 +54,60 @@ class _HomeState extends State<Home> {
     }
   }
 
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    //startup request
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
     if (App.user != null) {
-      Request<String> request = Startup(App.user);
+      //List<String> channels = ["default"];
+      List<String> deviceObjectIds = List<String>();
+      //await Backendless.messaging.registerDevice(channels).then((response) {
+      //var ids = response.toJson()["channelRegistrations"];
+      //for (final channel in channels) deviceObjectIds.add(ids["$channel"]);
+      //});
+      Request<String> request = Startup(App.user, deviceObjectIds);
       request.send((userStatus, code, message) =>
           response(userStatus, code, message, context));
     }
+  }
+
+  pushLocalNotification(
+      {@required String title,
+      @required String message,
+      @required Duration duration,
+      @required String payload,
+      String subtitle}) async {
+    String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation(currentTimeZone));
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        title,
+        message,
+        tz.TZDateTime.now(tz.local).add(duration),
+        NotificationDetails(
+            android: AndroidNotificationDetails(
+                'ss', 'sss', 'upcoming ride channel description',
+                color: Colors.blue,
+                importance: Importance.high,
+                priority: Priority.high,
+                channelShowBadge: true,
+                enableVibration: true,
+                autoCancel: true,
+                subText: subtitle,
+                fullScreenIntent: true),
+            iOS: IOSNotificationDetails(
+              presentBadge: true,
+              presentSound: true,
+              subtitle: subtitle,
+            )),
+        androidAllowWhileIdle: true,
+        payload: payload,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
   }
 
   @override
@@ -72,6 +120,16 @@ class _HomeState extends State<Home> {
         }
         return Scaffold(
             backgroundColor: Styles.secondaryColor(),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                pushLocalNotification(
+                  title: 'Upcoming ride',
+                  message: 'You have a ride after 30 minutes',
+                  payload: "UpcomingRide",
+                  duration: Duration(seconds: 10),
+                );
+              },
+            ),
             body: PageView(
               controller: pageController,
               onPageChanged: _pageSwipped,
@@ -130,7 +188,6 @@ class _HomeState extends State<Home> {
       } else if (code == -3) {
         CustomToast().showErrorToast(Lang.getString(context, message));
       } else {
-        print(22);
         CustomToast().showErrorToast(message);
       }
     } else {}

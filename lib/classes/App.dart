@@ -11,7 +11,6 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
-import 'package:pickapp/requests/Request.dart';
 
 class App {
   static MyAppState _state;
@@ -57,14 +56,17 @@ class App {
     await Cache.setLocale(lang);
     _state.setLocale(Locale(lang));
   }
- static bool checkIfDriver(Ride ride){
-    if(ride.user.driver!=null){
-      if(ride.user.driver==App.user.driver)
+
+  static bool checkIfDriver(Ride ride) {
+    if (ride.user.driver != null) {
+      if (ride.user.driver == App.user.driver)
         return true;
-      else return false;
-    }
-    else return false;
- }
+      else
+        return false;
+    } else
+      return false;
+  }
+
   static void forceDarkTheme(bool value) async {
     Cache.setTheme(value);
 
@@ -77,7 +79,6 @@ class App {
 
   static void init(MyAppState state) {
     _state = state;
-    Request.initBackendless();
   }
 
   //called in Home class
