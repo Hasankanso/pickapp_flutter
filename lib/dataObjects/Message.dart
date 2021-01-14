@@ -29,7 +29,7 @@ class Message {
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-    "senderId": "$senderId",
+    "partnerId": "$senderId",
     "message": "$message",
     "myMessage": "$myMessage",
     "date": "$date"
