@@ -4,6 +4,7 @@ import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Person.dart';
@@ -42,7 +43,7 @@ class _ConversationState extends State<Conversation> {
     Chat c = widget.chatNotifier.value;
     String targetId = c.person.id;
 
-    Message msg = new Message(senderId : targetId, message : text, myMessage: true);
+    Message msg = new Message(senderId: App.person.id, message : text, myMessage: true);
 
     print("Sending " + msg.toJson().toString() + " to " + c.person.firstName);
     Backendless.messaging

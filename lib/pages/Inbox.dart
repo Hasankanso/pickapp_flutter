@@ -1,3 +1,4 @@
+
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -7,6 +8,8 @@ import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/items/ChatListTile.dart';
+import 'package:pickapp/requests/GetPerson.dart';
+import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Spinner.dart';
@@ -35,8 +38,8 @@ class Inbox extends StatefulWidget {
     }
   }
 
-  static Future<Chat> loadOrCreateNewChat(
-      Person person, String personId) async {
+  static Future<Chat> loadOrCreateNewChat(Person person, String personId,
+      {Message msg}) async {
     var box;
 
     if (Hive.isBoxOpen('chat')) {
@@ -49,12 +52,23 @@ class Inbox extends StatefulWidget {
     if (c != null) {
       return c;
     } else {
-      return new Chat(
-          id: personId,
+      Request<Person> getUser = GetPerson(new Person(id: personId));
+      await getUser.send(
+          (Person p1, int p2, String p3) => personReceived(msg, p1, p2, p3));
+      return null;
+    }
+  }
+
+  static Chat personReceived(Message msg, Person p1, int p2, String p3) {
+    if (p2 == 200) {
+      Chat newChat = new Chat(
+          id: p1.id,
           date: DateTime.now(),
           messages: new List<Message>(),
-          person: person,
+          person: p1,
           isNewMessage: false);
+
+      newChat.addMessage(msg);
     }
   }
 
@@ -67,10 +81,9 @@ class Inbox extends StatefulWidget {
         message: message['message'].toString(),
         date: null,
         myMessage: message['myMessage'].toString() == "true");
-//Message msg = Message.fromJson(message);
+
     print(msg.toString());
-    loadOrCreateNewChat(null, msg.senderId)
-        .then((value) => value.addMessage(msg));
+    loadOrCreateNewChat(null, msg.senderId, msg: msg);
   }
 }
 
