@@ -1,4 +1,3 @@
-
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -38,8 +37,8 @@ class Inbox extends StatefulWidget {
     }
   }
 
-  static Future<Chat> loadOrCreateNewChat(Person person, String personId,
-      {Message msg}) async {
+  static Future<Chat> loadOrCreateNewChat(
+      Person person, String personId) async {
     var box;
 
     if (Hive.isBoxOpen('chat')) {
@@ -52,10 +51,41 @@ class Inbox extends StatefulWidget {
     if (c != null) {
       return c;
     } else {
-      Request<Person> getUser = GetPerson(new Person(id: personId));
+      return new Chat(
+          id: personId,
+          date: DateTime.now(),
+          messages: new List<Message>(),
+          person: person,
+          isNewMessage: false);
+    }
+  }
+
+  static Future<void> messageReceived(Map message) async {
+    print("received message");
+
+    Message msg = new Message(
+        senderId: message['senderId'].toString(),
+        message: message['message'].toString(),
+        date: null,
+        myMessage: message['myMessage'].toString() == "true");
+
+    print(msg.toString());
+
+    var box;
+
+    if (Hive.isBoxOpen('chat')) {
+      box = Hive.box('chat');
+    } else {
+      box = await Hive.openBox('chat');
+    }
+
+    Chat c = box.get(msg.senderId) as Chat;
+    if (c != null) {
+      return c;
+    } else {
+      Request<Person> getUser = GetPerson(new Person(id: msg.senderId));
       await getUser.send(
           (Person p1, int p2, String p3) => personReceived(msg, p1, p2, p3));
-      return null;
     }
   }
 
@@ -70,20 +100,6 @@ class Inbox extends StatefulWidget {
 
       newChat.addMessage(msg);
     }
-  }
-
-  static Future<void> messageReceived(Map message) {
-    print("received message");
-
-//TODO problem by parsing Message object
-    Message msg = new Message(
-        senderId: message['senderId'].toString(),
-        message: message['message'].toString(),
-        date: null,
-        myMessage: message['myMessage'].toString() == "true");
-
-    print(msg.toString());
-    loadOrCreateNewChat(null, msg.senderId, msg: msg);
   }
 }
 
