@@ -2,15 +2,20 @@ import 'dart:io' show Platform;
 
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/MainNotification.dart';
+import 'package:pickapp/dataObjects/Person.dart' as p;
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class App {
   static MyAppState _state;
@@ -32,6 +37,7 @@ class App {
   static dynamic minPriceFilter;
   static dynamic stepPriceFilter;
   static Channel inboxChannel;
+  static List<MainNotification> notifications = List<MainNotification>();
 
   static ValueNotifier<bool> newMessageInbox = ValueNotifier(false);
   static Map<String, CountryInformations> _countriesInformations =
@@ -129,9 +135,11 @@ class App {
 
   static set user(User value) {
     _user = value;
-    maxPriceFilter = person.countryInformations.maxPrice;
-    minPriceFilter = person.countryInformations.minPrice;
-    stepPriceFilter = person.countryInformations.priceStep;
+    if (value != null) {
+      maxPriceFilter = person.countryInformations.maxPrice;
+      minPriceFilter = person.countryInformations.minPrice;
+      stepPriceFilter = person.countryInformations.priceStep;
+    }
   }
 
   static int calculateAge(DateTime date) {
@@ -159,5 +167,46 @@ class App {
 
   static Driver get driver => user == null ? null : user.driver;
 
-  static Person get person => user == null ? null : user.person;
+  static p.Person get person => user == null ? null : user.person;
+
+  static pushLocalNotification(
+      {String title,
+      String description,
+      String id,
+      String action,
+      Duration duration,
+      String subtitle}) async {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    MainNotification notification = MainNotification(
+        title: title, description: description, id: id, action: action);
+    String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation(currentTimeZone));
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        notification.title,
+        notification.description,
+        tz.TZDateTime.now(tz.local).add(duration),
+        NotificationDetails(
+            android: AndroidNotificationDetails(
+                'kk', 'sddd', 'upcoming ride channel description',
+                color: Colors.blue,
+                importance: Importance.high,
+                priority: Priority.high,
+                channelShowBadge: true,
+                enableVibration: true,
+                autoCancel: true,
+                subText: subtitle,
+                fullScreenIntent: true),
+            iOS: IOSNotificationDetails(
+              presentBadge: true,
+              presentSound: true,
+              subtitle: subtitle,
+            )),
+        androidAllowWhileIdle: true,
+        payload: notification.toJson().toString(),
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
+  }
 }

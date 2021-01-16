@@ -66,7 +66,10 @@ Future<void> main() async {
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (String payload) async {
     if (payload != null) {
-      print('notification payload: $payload');
+      print(23);
+      //App.notifications.add(MainNotification.fromJson(json.decode(payload)));
+      print(App.notifications[0].title);
+      print(22222);
     }
   });
   runApp(MyApp());

@@ -3,7 +3,6 @@ import 'dart:core';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
 part 'Car.g.dart';
