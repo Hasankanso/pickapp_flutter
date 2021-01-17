@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
         }
         return Scaffold(
             backgroundColor: Styles.secondaryColor(),
-            floatingActionButton: FloatingActionButton(
+            /*floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 App.pushLocalNotification(
                   title: 'lak lah mch hek',
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
                   duration: Duration(seconds: 10),
                 );
               },
-            ),
+            ),*/
             body: PageView(
               controller: pageController,
               onPageChanged: _pageSwipped,
