@@ -51,9 +51,11 @@ class _HomeState extends State<Home> {
   }
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+    await App.initializeNotification(context);
+
     if (App.user != null) {
       //List<String> channels = ["default"];
       List<String> deviceObjectIds = List<String>();
@@ -77,17 +79,17 @@ class _HomeState extends State<Home> {
         }
         return Scaffold(
             backgroundColor: Styles.secondaryColor(),
-            /*floatingActionButton: FloatingActionButton(
+            floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 App.pushLocalNotification(
-                  title: 'Upcoming ride',
-                  description: 'You have a ride after 30 minutes',
+                  title: 'lak lah mch hek',
+                  description: 'bs 3rft lfekra wen',
                   action: "UpcomingRide",
                   id: "aaaaaa",
                   duration: Duration(seconds: 10),
                 );
               },
-            ),*/
+            ),
             body: PageView(
               controller: pageController,
               onPageChanged: _pageSwipped,

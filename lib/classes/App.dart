@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:backendless_sdk/backendless_sdk.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -169,6 +171,54 @@ class App {
 
   static p.Person get person => user == null ? null : user.person;
 
+  static initializeNotification(context) async {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    final IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings(
+            requestSoundPermission: true,
+            requestBadgePermission: true,
+            requestAlertPermission: true,
+            onDidReceiveLocalNotification:
+                (int id, String title, String body, String payload) async {
+              // display a dialog with the notification details, tap ok to go to another page
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => CupertinoAlertDialog(
+                  title: Text(title),
+                  content: Text(body),
+                  actions: [
+                    CupertinoDialogAction(
+                      isDefaultAction: true,
+                      child: Text('Ok'),
+                      onPressed: () async {
+                        Navigator.of(context, rootNavigator: true).pop();
+                        //do somthing like open screen
+                      },
+                    )
+                  ],
+                ),
+              );
+            });
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: (String payload) async {
+      if (payload != null) {
+        print(11111);
+        print(payload);
+
+        App.notifications.add(MainNotification.fromJson(json.decode(payload)));
+      }
+    });
+  }
+
   static pushLocalNotification(
       {String title,
       String description,
@@ -178,6 +228,7 @@ class App {
       String subtitle}) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
+
     MainNotification notification = MainNotification(
         title: title, description: description, id: id, action: action);
     String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
@@ -190,22 +241,29 @@ class App {
         tz.TZDateTime.now(tz.local).add(duration),
         NotificationDetails(
             android: AndroidNotificationDetails(
-                'kk', 'sddd', 'upcoming ride channel description',
-                color: Colors.blue,
-                importance: Importance.high,
-                priority: Priority.high,
-                channelShowBadge: true,
-                enableVibration: true,
-                autoCancel: true,
-                subText: subtitle,
-                fullScreenIntent: true),
+              'hklokkkkkkllllkjkh',
+              'ljhlllkjljbbkk',
+              'upcoming ride channel description',
+              importance: Importance.max,
+              priority: Priority.high,
+              color: Styles.primaryColor(),
+              channelShowBadge: true,
+              enableVibration: true,
+              ledColor: Styles.primaryColor(),
+              showWhen: true,
+              ledOnMs: 1000,
+              visibility: NotificationVisibility.public,
+              ledOffMs: 500,
+              autoCancel: true,
+              subText: subtitle,
+            ),
             iOS: IOSNotificationDetails(
               presentBadge: true,
               presentSound: true,
               subtitle: subtitle,
             )),
         androidAllowWhileIdle: true,
-        payload: notification.toJson().toString(),
+        payload: json.encode(notification.toJson()),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
   }
