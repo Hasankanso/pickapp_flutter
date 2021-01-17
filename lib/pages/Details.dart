@@ -8,6 +8,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/classes/screenutil.dart';
+import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/EditAccount.dart';
@@ -340,6 +341,8 @@ class _DetailsState extends State<Details> {
                             _newPerson.gender = _gender;
                             _newPerson.bio = _bioController.text;
                             _newPerson.chattiness = _chattiness;
+                            _newPerson.countryInformations =
+                                CountryInformations();
                             Request<Person> request = EditAccount(_newPerson);
                             await request.send(_response);
                           }

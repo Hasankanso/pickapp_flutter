@@ -44,7 +44,6 @@ class _DriverViewState extends State<DriverView> {
 
   @override
   Widget build(BuildContext context) {
-
     return SlidingUpPanel(
       backdropOpacity: 0.3,
       backdropEnabled: true,
@@ -64,9 +63,9 @@ class _DriverViewState extends State<DriverView> {
                 fit: BoxFit.fill,
                 child: Image(
                   image: widget.user.person.networkImage,
-                  errorBuilder: (context, url, error){
+                  errorBuilder: (context, url, error) {
                     return Image(
-                        image: AssetImage("lib/images/user.png"),
+                      image: AssetImage("lib/images/user.png"),
                     );
                   },
                 ),
@@ -78,7 +77,11 @@ class _DriverViewState extends State<DriverView> {
           )
         ],
       ),
-      panelBuilder: (ScrollController sc) => _Panel(controller : sc, user : widget.user, chattinessItems: _chattinessItems, dataMap: dataMap),
+      panelBuilder: (ScrollController sc) => _Panel(
+          controller: sc,
+          user: widget.user,
+          chattinessItems: _chattinessItems,
+          dataMap: dataMap),
     );
   }
 }
@@ -96,11 +99,36 @@ class _Panel extends StatelessWidget {
     List<Rate> rates = new List<Rate>();
     Person p1 = new Person(firstName: "Ali", lastName: "Loubani");
     Person p2 = new Person(firstName: "Adel", lastName: "Kanso");
-    rates.add(new Rate(grade: 4, comment: "he's friendly guy, would do it again!", reason: "really bad", rater: p1, creationDate: DateTime.now()));
-    rates.add(new Rate(grade: 2, comment: "he's guy, would do it again!", reason: "really bad", rater: p2,  creationDate: DateTime.now()));
-    rates.add(new Rate(grade: 1, comment: "he's fr again!", reason: "really bad", rater: p1,  creationDate: DateTime.now()));
-    rates.add(new Rate(grade: 5, comment: "he's friendly guy, would do it again!", reason: "really bad", rater: p1,  creationDate: DateTime.now()));
-    rates.add(new Rate(grade: 3, comment: " again!", reason: "really bad", rater: p2,  creationDate: DateTime.now()));
+    rates.add(new Rate(
+        grade: 4,
+        comment: "he's friendly guy, would do it again!",
+        reason: 0,
+        rater: p1,
+        creationDate: DateTime.now()));
+    rates.add(new Rate(
+        grade: 2,
+        comment: "he's guy, would do it again!",
+        reason: 2,
+        rater: p2,
+        creationDate: DateTime.now()));
+    rates.add(new Rate(
+        grade: 1,
+        comment: "he's fr again!",
+        reason: 2,
+        rater: p1,
+        creationDate: DateTime.now()));
+    rates.add(new Rate(
+        grade: 5,
+        comment: "he's friendly guy, would do it again!",
+        reason: 2,
+        rater: p1,
+        creationDate: DateTime.now()));
+    rates.add(new Rate(
+        grade: 3,
+        comment: " again!",
+        reason: 2,
+        rater: p2,
+        creationDate: DateTime.now()));
 
     user.person.rates = rates;
     user.person.rateAverage = 4.8;
@@ -141,7 +169,8 @@ class _Panel extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, "/RatesView", arguments: user.person.rates),
+              onTap: () => Navigator.pushNamed(context, "/RatesView",
+                  arguments: user.person.rates),
               child: Card(
                 elevation: 10,
                 child: RateStars(

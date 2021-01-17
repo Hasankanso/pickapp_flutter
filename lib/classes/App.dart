@@ -19,6 +19,8 @@ import 'package:pickapp/main.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'Localizations.dart';
+
 class App {
   static MyAppState _state;
   static final String appName = "PickApp";
@@ -217,6 +219,14 @@ class App {
         App.notifications.add(MainNotification.fromJson(json.decode(payload)));
       }
     });
+  }
+
+  static List<String> getRateReasons(context) {
+    return <String>[
+      Lang.getString(context, "I'm_a_quiet_person"),
+      Lang.getString(context, "I_talk_depending_on_my_mood"),
+      Lang.getString(context, "I_love_to_chat!"),
+    ];
   }
 
   static pushLocalNotification(
