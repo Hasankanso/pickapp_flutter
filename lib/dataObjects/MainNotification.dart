@@ -1,32 +1,48 @@
 class MainNotification {
+  int _id;
+  String _objectId;
+  String _action;
   String _title;
   String _description;
-  String _id;
-  String _action;
+  String _subtitle;
+  DateTime _scheduleDate;
 
-  MainNotification({
-    String title,
-    String description,
-    String id,
-    String action,
-  }) {
+  MainNotification(
+      {String title,
+      String description,
+      int id,
+      String objectId,
+      String action,
+      DateTime scheduleDate,
+      String subtitle}) {
     this.id = id;
+    this.objectId = objectId;
     this.description = description;
     this.title = title;
-    this.action = _action;
+    this.action = action;
+    this.scheduleDate = scheduleDate;
+    this.subtitle = subtitle;
   }
 
   MainNotification.fromJson(Map<String, dynamic> json)
-      : _id = json["id"],
+      : _objectId = json["objectId"],
         _action = json["action"],
         _title = json["title"],
+        _subtitle = json["subtitle"],
         _description = json["description"];
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': this.id,
+        'objectId': this.objectId,
         'action': this.action,
         'title': this.title,
         'description': this.description,
+        'subtitle': this.subtitle,
       };
+
+  String get objectId => _objectId;
+
+  set objectId(String value) {
+    _objectId = value;
+  }
 
   String get title => _title;
 
@@ -50,5 +66,17 @@ class MainNotification {
 
   set id(value) {
     _id = value;
+  }
+
+  String get subtitle => _subtitle;
+
+  set subtitle(String value) {
+    _subtitle = value;
+  }
+
+  DateTime get scheduleDate => _scheduleDate;
+
+  set scheduleDate(DateTime value) {
+    _scheduleDate = value;
   }
 }

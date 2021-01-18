@@ -124,6 +124,14 @@ class Ride {
     this._mapUrl = mapUrl;
   }
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Ride && runtimeType == other.runtimeType && _id == other._id;
+
+  @override
+  int get hashCode => _id.hashCode;
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         'kidSeat': this.kidSeat,
         "acAllowed": this.acAllowed,

@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
     Inbox(),
     Profile(),
   ];
+
   PageController pageController = PageController(
     initialPage: 2,
     keepPage: true,
@@ -63,13 +64,14 @@ class _HomeState extends State<Home> {
             backgroundColor: Styles.secondaryColor(),
             /*floatingActionButton: FloatingActionButton(
               onPressed: () async {
-                App.pushLocalNotification(
+                MainNotification upcomingride = UpcomingRidesNotification(
                   title: 'lak lah mch hek',
                   description: 'bs 3rft lfekra wen',
                   action: "UpcomingRide",
-                  id: "aaaaaa",
-                  duration: Duration(seconds: 10),
+                  id: 0,
+                  scheduleDate: DateTime.now().add(Duration(seconds: 10)),
                 );
+                App.pushLocalNotification(upcomingride);
               },
             ),*/
             body: PageView(

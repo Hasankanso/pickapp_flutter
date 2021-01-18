@@ -173,6 +173,14 @@ class App {
 
   static p.Person get person => user == null ? null : user.person;
 
+  static List<String> getRateReasons(context) {
+    return <String>[
+      Lang.getString(context, "I'm_a_quiet_person"),
+      Lang.getString(context, "I_talk_depending_on_my_mood"),
+      Lang.getString(context, "I_love_to_chat!"),
+    ];
+  }
+
   static initializeNotification(context) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -186,7 +194,7 @@ class App {
             requestAlertPermission: true,
             onDidReceiveLocalNotification:
                 (int id, String title, String body, String payload) async {
-              // display a dialog with the notification details, tap ok to go to another page
+              //todo display a dialog with the notification details, tap ok to go to another page
               showDialog(
                 context: context,
                 builder: (BuildContext context) => CupertinoAlertDialog(
@@ -213,42 +221,46 @@ class App {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String payload) async {
       if (payload != null) {
-        print(11111);
-        print(payload);
-
-        App.notifications.add(MainNotification.fromJson(json.decode(payload)));
+        MainNotification notification =
+            MainNotification.fromJson(json.decode(payload));
+        switch (notification.action) {
+          case 'upcomingRide':
+            {
+              //todo open ride details
+            }
+            break;
+          default:
+            {
+              //todo open default notification screen
+            }
+            break;
+        }
       }
     });
   }
 
-  static List<String> getRateReasons(context) {
-    return <String>[
-      Lang.getString(context, "I'm_a_quiet_person"),
-      Lang.getString(context, "I_talk_depending_on_my_mood"),
-      Lang.getString(context, "I_love_to_chat!"),
-    ];
-  }
-
-  static pushLocalNotification(
-      {String title,
-      String description,
-      String id,
-      String action,
-      Duration duration,
-      String subtitle}) async {
+  static pushLocalNotification(MainNotification notification) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
 
-    MainNotification notification = MainNotification(
-        title: title, description: description, id: id, action: action);
+    App.notifications.add(notification);
+
     String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
+        notification.id,
         notification.title,
         notification.description,
-        tz.TZDateTime.now(tz.local).add(duration),
+        tz.TZDateTime(
+            tz.local,
+            notification.scheduleDate.year,
+            notification.scheduleDate.month,
+            notification.scheduleDate.day,
+            notification.scheduleDate.hour,
+            notification.scheduleDate.minute,
+            notification.scheduleDate.second,
+            notification.scheduleDate.millisecond),
         NotificationDetails(
             android: AndroidNotificationDetails(
               'hklokkkkkkllllkjkh',
@@ -265,16 +277,28 @@ class App {
               visibility: NotificationVisibility.public,
               ledOffMs: 500,
               autoCancel: true,
-              subText: subtitle,
+              subText: notification.subtitle,
             ),
             iOS: IOSNotificationDetails(
               presentBadge: true,
               presentSound: true,
-              subtitle: subtitle,
+              subtitle: notification.subtitle,
             )),
         androidAllowWhileIdle: true,
         payload: json.encode(notification.toJson()),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
+  }
+
+  static deleteNotification(int id) async {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  static deleteAllNotifications() async {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 }

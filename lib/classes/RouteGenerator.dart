@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/pages/AddAlert.dart';
 import 'package:pickapp/pages/AddCar.dart';
 import 'package:pickapp/pages/AddCar2.dart';
 import 'package:pickapp/pages/AddCar3.dart';
@@ -208,6 +209,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RatesView(args));
       case '/AddRate':
         return MaterialPageRoute(builder: (_) => AddRate());
+      case '/AddAlert':
+        return MaterialPageRoute(builder: (_) => AddAlert());
     }
   }
 }

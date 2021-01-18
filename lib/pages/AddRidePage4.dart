@@ -10,10 +10,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/RideRoute.dart';
 import 'package:pickapp/items/RouteTile.dart';
-import 'package:pickapp/requests/AddRide.dart';
-import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -36,7 +33,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
   String mapUrl;
   String base64Map;
   ListController listController = new ListController();
-  ScrollController controller=new ScrollController();
+  ScrollController controller = new ScrollController();
 
   _AddRidePage4State(this.rideInfo);
 
