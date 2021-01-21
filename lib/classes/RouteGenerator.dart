@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/AddAlert.dart';
 import 'package:pickapp/pages/AddCar.dart';
@@ -17,8 +18,10 @@ import 'package:pickapp/pages/Conversation.dart';
 import 'package:pickapp/pages/Details.dart';
 import 'package:pickapp/pages/Email.dart';
 import 'package:pickapp/pages/Home.dart';
+import 'package:pickapp/pages/HowItWorks.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
+import 'package:pickapp/pages/MyRidesHistory.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/Phone.dart';
 import 'package:pickapp/pages/Phone2.dart';
@@ -79,6 +82,11 @@ class RouteGenerator {
                 ));
       case '/RideDetails2':
         return MaterialPageRoute(builder: (_) => RideDetails2(ride: args));
+      case '/HowItWorks':
+        return MaterialPageRoute(builder: (_) => HowItWorks());
+      case '/MyRidesHistory':
+        return PageTransition(
+            type: PageTransitionType.rightToLeft, child: MyRidesHistory());
       case '/Statistics':
         return MaterialPageRoute(builder: (_) => Statistics());
       case "/CarDetails":

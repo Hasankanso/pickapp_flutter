@@ -3,14 +3,12 @@ import 'dart:io';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/CarView.dart';
 import 'package:pickapp/requests/DeleteCar.dart';
 import 'package:pickapp/requests/EditCar.dart';
@@ -438,16 +436,8 @@ class _CarDetailsState extends State<CarDetails> {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
     } else {
-      final userBox = Hive.box("user");
-      User cacheUser = App.user;
-      Person cachePerson = App.person;
-      cachePerson.rates = null;
-      cacheUser.driver = App.driver;
-      cacheUser.driver.cars = p1;
-      cacheUser.person = cachePerson;
-      await userBox.put(0, cacheUser);
-
       App.user.driver.cars = p1;
+      await Cache.setUserCache(App.user);
       App.isDriverNotifier.notifyListeners();
 
       CustomToast()
@@ -471,30 +461,10 @@ class _CarDetailsState extends State<CarDetails> {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
     } else {
-      final userBox = Hive.box("user");
-      User cacheUser = App.user;
-      Person cachePerson = App.person;
-      cachePerson.rates = null;
-      cacheUser.person = cachePerson;
+      App.user.driver.cars = p1;
 
-      if (p1 != null && p1.isNotEmpty) {
-        cacheUser.driver = App.driver;
-        cacheUser.driver.cars = p1;
-      } else {
-        cacheUser.driver = null;
-        await Hive.openBox("regions");
-        var regionB = Hive.box("regions");
-        await regionB.clear();
-        regionB.close();
-      }
+      await Cache.setUserCache(App.user);
 
-      await userBox.put(0, cacheUser);
-      if (p1 != null && p1.isNotEmpty) {
-        App.user.driver.cars = p1;
-      } else {
-        App.user.driver = null;
-        App.isDriverNotifier.value = false;
-      }
       App.isDriverNotifier.notifyListeners();
 
       CustomToast()

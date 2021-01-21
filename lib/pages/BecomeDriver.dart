@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/directions.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
@@ -310,11 +311,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
     } else {
       App.driver.regions = p1.regions;
 
-      if (regionsBox.containsKey(0)) {
-        await regionsBox.put(0, p1.regions);
-      } else {
-        await regionsBox.add(p1.regions);
-      }
+      await Cache.setUserCache(App.user);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }

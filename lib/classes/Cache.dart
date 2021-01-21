@@ -31,7 +31,7 @@ class Cache {
 
   static bool get failed => _failed;
 
-  static setUserCache(u) async {
+  static setUserCache(User u) async {
     final userBox = Hive.box("user");
     User cacheUser = u;
 
@@ -39,7 +39,7 @@ class Cache {
     cachePerson.rates = null;
     cacheUser.person = cachePerson;
     var regions;
-    if (u.driver != null) {
+    if (u.driver != null && u.driver.cars != null && u.driver.cars.isNotEmpty) {
       regions = u.driver.regions;
       var d = u.driver;
       cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
@@ -51,16 +51,25 @@ class Cache {
     } else {
       userBox.add(cacheUser);
     }
-    if (regions != null) {
-      await Hive.openBox('regions');
-      final regionsBox = Hive.box("regions");
+
+    await Hive.openBox('regions');
+    final regionsBox = Hive.box("regions");
+
+    if (regions != null && u.driver.cars != null && u.driver.cars.isNotEmpty) {
       if (regionsBox.containsKey(0)) {
         await regionsBox.put(0, regions);
       } else {
         regionsBox.add(regions);
       }
-      regionsBox.close();
+    } else {
+      await regionsBox.clear();
+      if (App.user != null) {
+        App.user.driver = null;
+        App.isDriverNotifier.value = false;
+      }
     }
+    regionsBox.close();
+
     App.isLoggedIn = true;
     App.isLoggedInNotifier.value = true;
     App.isLoggedInNotifier.notifyListeners();

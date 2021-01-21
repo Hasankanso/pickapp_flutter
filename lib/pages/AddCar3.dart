@@ -1,14 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/AddCar.dart';
 import 'package:pickapp/requests/BecomeDriverRequest.dart';
@@ -286,25 +284,10 @@ class _AddCar3State extends State<AddCar3> {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
     } else {
-      final userBox = Hive.box("user");
-      User cacheUser = App.user;
-      Person cachePerson = App.person;
-      cachePerson.rates = null;
-      cacheUser.driver = p1;
-      cacheUser.person = cachePerson;
-
-      await userBox.put(0, cacheUser);
-
-      await Hive.openBox('regions');
-      var regionsBox = Hive.box("regions");
-      if (regionsBox.containsKey(0)) {
-        await regionsBox.put(0, p1.regions);
-      } else {
-        await regionsBox.add(p1.regions);
-      }
-
-      regionsBox.close();
       App.user.driver = p1;
+
+      await Cache.setUserCache(App.user);
+
       App.isDriverNotifier.value = true;
       CustomToast().showSuccessToast(Lang.getString(context, "Now_driver"));
       Navigator.popUntil(context, (route) => route.isFirst);
@@ -316,17 +299,8 @@ class _AddCar3State extends State<AddCar3> {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
     } else {
-      final userBox = Hive.box("user");
-      User cacheUser = App.user;
-      Person cachePerson = App.person;
-      cachePerson.rates = null;
-      cacheUser.driver = App.driver;
-      cacheUser.driver.cars = p1;
-      cacheUser.person = cachePerson;
-
-      await userBox.put(0, cacheUser);
-
       App.user.driver.cars = p1;
+      await Cache.setUserCache(App.user);
       App.isDriverNotifier.notifyListeners();
 
       CustomToast()

@@ -137,7 +137,7 @@ class Settings extends StatelessWidget {
                       LineDevider(),
                       InkWell(
                         onTap: () {
-                          //Navigator.of(context).pushNamed("/ContactUs");
+                          Navigator.of(context).pushNamed("/HowItWorks");
                         },
                         child: ResponsiveWidget.fullWidth(
                           height: 64,
@@ -225,37 +225,6 @@ class Settings extends StatelessWidget {
                                 child: Text(
                                     Lang.getString(
                                         context, "Terms_&_Conditions"),
-                                    style: Styles.valueTextStyle()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LineDevider(),
-                      InkWell(
-                        onTap: () {
-                          //Navigator.of(context).pushNamed("/ContactUs");
-                        },
-                        child: ResponsiveWidget.fullWidth(
-                          height: 64,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Icon(
-                                  Icons.local_police_outlined,
-                                  size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 18,
-                                child: Text(Lang.getString(context, "Licenses"),
                                     style: Styles.valueTextStyle()),
                               ),
                             ],

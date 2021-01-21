@@ -2,17 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/items/CarListTile.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -52,27 +50,10 @@ class _ProfileState extends State<Profile> {
       List<Ride> upcomingRides = App.person.upcomingRides;
       List<Rate> rates = App.person.rates;
 
-      final userBox = Hive.box("user");
-      User cacheUser = App.user;
-      Person cachePerson = result;
-      cachePerson.rates = null;
-      cachePerson.upcomingRides = upcomingRides;
-
-      if (App.user.driver != null) {
-        cacheUser.driver = Driver(
-            id: App.user.driver.id,
-            cars: App.user.driver.cars,
-            updated: App.user.driver.updated);
-      }
-
-      cacheUser.person = cachePerson;
-
-      await userBox.put(0, cacheUser);
-
       result.upcomingRides = upcomingRides;
       result.rates = rates;
       App.user.person = result;
-
+      await Cache.setUserCache(App.user);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       setState(() {
@@ -169,7 +150,8 @@ class _ProfileState extends State<Profile> {
                                         children: <Widget>[
                                           RateStars(
                                             App.user.person.rateAverage,
-                                          )
+                                            onPressed: () {},
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -288,7 +270,8 @@ class _ProfileState extends State<Profile> {
                               LineDevider(),
                               InkWell(
                                 onTap: () {
-                                  //Navigator.of(context).pushNamed("/Security");
+                                  Navigator.of(context)
+                                      .pushNamed("/MyRidesHistory");
                                 },
                                 child: ResponsiveWidget.fullWidth(
                                   height: 60,
@@ -308,7 +291,7 @@ class _ProfileState extends State<Profile> {
                                         flex: 6,
                                         child: Text(
                                           Lang.getString(
-                                              context, "Booking_history"),
+                                              context, "My_Rides_History"),
                                           style: Styles.valueTextStyle(),
                                         ),
                                       ),
