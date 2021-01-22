@@ -209,6 +209,75 @@ class _ProfileState extends State<Profile> {
                               LineDevider(),
                               InkWell(
                                 onTap: () {
+                                  Navigator.of(context).pushNamed("/Security");
+                                },
+                                child: ResponsiveWidget.fullWidth(
+                                  height: 60,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Icon(
+                                          Icons.security,
+                                          size: Styles.mediumIconSize(),
+                                          color: Styles.primaryColor(),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 6,
+                                        child: Text(
+                                          Lang.getString(context, "Security"),
+                                          style: Styles.valueTextStyle(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              ValueListenableBuilder(
+                                builder: (BuildContext context, bool isDriver,
+                                    Widget child) {
+                                  if (isDriver) {
+                                    return DriverInfo();
+                                  } else {
+                                    return Container();
+                                  }
+                                },
+                                valueListenable: App.isDriverNotifier,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                ValueListenableBuilder(
+                  builder: (BuildContext context, bool isDriver, Widget child) {
+                    if (isDriver) {
+                      return Container();
+                    } else {
+                      return PassengerInfo();
+                    }
+                  },
+                  valueListenable: App.isDriverNotifier,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Card(
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7.0),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              InkWell(
+                                onTap: () {
                                   Navigator.of(context)
                                       .pushNamed("/Statistics");
                                 },
@@ -230,36 +299,6 @@ class _ProfileState extends State<Profile> {
                                         flex: 6,
                                         child: Text(
                                           Lang.getString(context, "Statistics"),
-                                          style: Styles.valueTextStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              LineDevider(),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed("/Security");
-                                },
-                                child: ResponsiveWidget.fullWidth(
-                                  height: 60,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Icon(
-                                          Icons.security,
-                                          size: Styles.mediumIconSize(),
-                                          color: Styles.primaryColor(),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 6,
-                                        child: Text(
-                                          Lang.getString(context, "Security"),
                                           style: Styles.valueTextStyle(),
                                         ),
                                       ),
@@ -298,17 +337,6 @@ class _ProfileState extends State<Profile> {
                                     ],
                                   ),
                                 ),
-                              ),
-                              ValueListenableBuilder(
-                                builder: (BuildContext context, bool isDriver,
-                                    Widget child) {
-                                  if (isDriver) {
-                                    return DriverInfo();
-                                  } else {
-                                    return PassengerInfo();
-                                  }
-                                },
-                                valueListenable: App.isDriverNotifier,
                               ),
                             ],
                           ),
@@ -410,43 +438,50 @@ class _DriverInfoState extends State<DriverInfo> {
 class PassengerInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      LineDevider(),
-      Card(
-        color: Styles.primaryColor(),
-        margin: EdgeInsets.all(5),
-        child: InkWell(
-          onTap: () {
-            Navigator.of(context).pushNamed("/BecomeDriver", arguments: false);
-          },
-          child: ResponsiveWidget.fullWidth(
-            height: 60,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Icon(
-                    Icons.drive_eta_rounded,
-                    size: Styles.mediumIconSize(),
-                    color: Styles.secondaryColor(),
+    return Row(children: [
+      Expanded(
+          child: Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
+              child: Card(
+                color: Styles.primaryColor(),
+                margin: EdgeInsets.all(5),
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.0),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed("/BecomeDriver", arguments: false);
+                  },
+                  child: ResponsiveWidget.fullWidth(
+                    height: 60,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Icon(
+                            Icons.drive_eta_rounded,
+                            size: Styles.mediumIconSize(),
+                            color: Styles.secondaryColor(),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Text(
+                            Lang.getString(context, "Become_a_driver"),
+                            style: Styles.valueTextStyle(color: Colors.white),
+                          ),
+                        ),
+                        Spacer(
+                          flex: 1,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    Lang.getString(context, "Become_a_driver"),
-                    style: Styles.valueTextStyle(color: Colors.white),
-                  ),
-                ),
-                Spacer(
-                  flex: 1,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+              )))
     ]);
   }
 }
