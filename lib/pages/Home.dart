@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -46,10 +47,10 @@ class _HomeState extends State<Home> {
   }
 
   @override
-  Future<void> didChangeDependencies() async {
+  void initState() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    await App.initializeNotification(context);
+    App.initializeLocaleNotification(context);
   }
 
   @override
@@ -62,18 +63,6 @@ class _HomeState extends State<Home> {
         }
         return Scaffold(
             backgroundColor: Styles.secondaryColor(),
-            /*floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                MainNotification upcomingride = UpcomingRidesNotification(
-                  title: 'lak lah mch hek',
-                  description: 'bs 3rft lfekra wen',
-                  action: "UpcomingRide",
-                  id: 0,
-                  scheduleDate: DateTime.now().add(Duration(seconds: 10)),
-                );
-                App.pushLocalNotification(upcomingride);
-              },
-            ),*/
             body: PageView(
               controller: pageController,
               onPageChanged: _pageSwipped,

@@ -153,6 +153,11 @@ class Ride {
         "map": this.mapBase64
       };
 
+  @override
+  String toString() {
+    return 'Ride{_id: $_id, _comment: $_comment, _mapBase64: $_mapBase64, _from: $_from, _to: $_to, _leavingDate: $_leavingDate, _musicAllowed: $_musicAllowed, _acAllowed: $_acAllowed, _smokingAllowed: $_smokingAllowed, _petsAllowed: $_petsAllowed, _kidSeat: $_kidSeat, _reserved: $_reserved, _availableSeats: $_availableSeats, _maxSeats: $_maxSeats, _maxLuggages: $_maxLuggages, _reservedSeats: $_reservedSeats, _availableLuggages: $_availableLuggages, _reservedLuggages: $_reservedLuggages, _stopTime: $_stopTime, _price: $_price, _user: $_user, _passengers: $_passengers, _car: $_car, _updated: $_updated, _mapUrl: $_mapUrl, mapImage: $mapImage}';
+  }
+
   factory Ride.fromJson(Map<String, dynamic> json) {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;

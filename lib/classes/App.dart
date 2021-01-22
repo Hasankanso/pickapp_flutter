@@ -14,6 +14,7 @@ import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainNotification.dart';
 import 'package:pickapp/dataObjects/Person.dart' as p;
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/dataObjects/UpcomingRidesNotification.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -181,7 +182,7 @@ class App {
     ];
   }
 
-  static initializeNotification(context) async {
+  static initializeLocaleNotification(context) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
 
@@ -194,7 +195,6 @@ class App {
             requestAlertPermission: true,
             onDidReceiveLocalNotification:
                 (int id, String title, String body, String payload) async {
-              //todo display a dialog with the notification details, tap ok to go to another page
               showDialog(
                 context: context,
                 builder: (BuildContext context) => CupertinoAlertDialog(
@@ -205,8 +205,7 @@ class App {
                       isDefaultAction: true,
                       child: Text('Ok'),
                       onPressed: () async {
-                        Navigator.of(context, rootNavigator: true).pop();
-                        //do somthing like open screen
+                        _localeNotificationCallBack(payload, context);
                       },
                     )
                   ],
@@ -218,32 +217,31 @@ class App {
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String payload) async {
-      if (payload != null) {
-        MainNotification notification =
-            MainNotification.fromJson(json.decode(payload));
-        switch (notification.action) {
-          case 'upcomingRide':
-            {
-              //todo open ride details
-            }
-            break;
-          default:
-            {
-              //todo open default notification screen
-            }
-            break;
-        }
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: (payload) =>
+          _localeNotificationCallBack(payload, context),
+    );
+  }
+
+  static Future<dynamic> _localeNotificationCallBack(String payload, context) {
+    if (payload != null) {
+      MainNotification n = MainNotification.fromJson(json.decode(payload));
+      switch (n.action) {
+        case 'upcomingRide':
+          UpcomingRidesNotification notification =
+              UpcomingRidesNotification.fromMainNotification(notification: n);
+          notification.setRideFromList(App.person.upcomingRides);
+          Navigator.pushNamed(context, "/RideDetails2",
+              arguments: notification.ride);
+          break;
       }
-    });
+    }
   }
 
   static pushLocalNotification(MainNotification notification) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
-
-    App.notifications.add(notification);
 
     String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     tz.initializeTimeZones();
@@ -263,9 +261,9 @@ class App {
             notification.scheduleDate.millisecond),
         NotificationDetails(
             android: AndroidNotificationDetails(
-              'hklokkkkkkllllkjkh',
-              'ljhlllkjljbbkk',
-              'upcoming ride channel description',
+              'pickapp-channel',
+              'PickApp',
+              'This channel is for PickApp',
               importance: Importance.max,
               priority: Priority.high,
               color: Styles.primaryColor(),
@@ -288,15 +286,16 @@ class App {
         payload: json.encode(notification.toJson()),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
+    //todo cache notification
   }
 
-  static deleteNotification(int id) async {
+  static deleteLocalNotification(int id) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.cancel(id);
   }
 
-  static deleteAllNotifications() async {
+  static deleteAllLocalNotifications() async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.cancelAll();

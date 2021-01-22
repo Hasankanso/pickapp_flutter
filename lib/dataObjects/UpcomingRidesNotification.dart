@@ -4,18 +4,14 @@ import 'package:pickapp/dataObjects/Ride.dart';
 class UpcomingRidesNotification extends MainNotification {
   Ride ride;
 
-  UpcomingRidesNotification(
-      {String title,
-      String description,
-      int id,
-      String action,
-      DateTime scheduleDate,
-      Ride ride}) {
-    super.id = id;
-    super.description = description;
-    super.title = title;
-    super.action = action;
-    super.scheduleDate = scheduleDate;
+  UpcomingRidesNotification.fromMainNotification(
+      {MainNotification notification}) {
+    super.id = notification.id;
+    super.description = notification.description;
+    super.title = notification.title;
+    super.action = notification.action;
+    super.scheduleDate = notification.scheduleDate;
+    super.objectId = notification.objectId;
     this.ride = ride;
   }
 
