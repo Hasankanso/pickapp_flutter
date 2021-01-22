@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/MainNotification.dart';
+import 'package:pickapp/notifications/MainNotification.dart';
 
 class NotificationListTile extends ListTile {
   final MainNotification notification;

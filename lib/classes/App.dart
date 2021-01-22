@@ -1,22 +1,23 @@
 import 'dart:convert';
-import 'dart:io' show Platform;
+import 'dart:io' show File, Platform;
 
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/MainNotification.dart';
 import 'package:pickapp/dataObjects/Person.dart' as p;
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/UpcomingRidesNotification.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
+import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -203,9 +204,17 @@ class App {
                   actions: [
                     CupertinoDialogAction(
                       isDefaultAction: true,
-                      child: Text('Ok'),
+                      child: Text(Lang.getString(context, "Dismiss")),
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      isDefaultAction: true,
+                      child: Text(Lang.getString(context, "Show")),
                       onPressed: () async {
                         _localeNotificationCallBack(payload, context);
+                        Navigator.of(context).pop();
                       },
                     )
                   ],
@@ -224,16 +233,17 @@ class App {
     );
   }
 
-  static Future<dynamic> _localeNotificationCallBack(String payload, context) {
+  static _localeNotificationCallBack(String payload, context) {
     if (payload != null) {
-      MainNotification n = MainNotification.fromJson(json.decode(payload));
-      switch (n.action) {
+      MainNotification notification =
+          MainNotification.fromJson(json.decode(payload));
+      switch (notification.action) {
         case 'upcomingRide':
-          UpcomingRidesNotification notification =
-              UpcomingRidesNotification.fromMainNotification(notification: n);
-          notification.setRideFromList(App.person.upcomingRides);
-          Navigator.pushNamed(context, "/RideDetails2",
-              arguments: notification.ride);
+          Ride ride = App.getRideFromObjectId(notification.objectId);
+          Navigator.pushNamed(context, "/RideDetails2", arguments: ride);
+          break;
+        default:
+          //for default notification
           break;
       }
     }
@@ -242,6 +252,25 @@ class App {
   static pushLocalNotification(MainNotification notification) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
+    var androidImage;
+    var iosImage;
+
+    if (notification.imageUrl != null) {
+      //todo put image file name
+      final directory = await getApplicationDocumentsDirectory();
+      final String imagePath = '${directory.path}/test';
+      final Response response = await get("url");
+      final file = File(imagePath);
+      await file.writeAsBytes(response.bodyBytes);
+
+      androidImage = BigPictureStyleInformation(
+        FilePathAndroidBitmap(imagePath),
+      );
+
+      iosImage = <IOSNotificationAttachment>[
+        IOSNotificationAttachment(imagePath)
+      ];
+    }
 
     String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     tz.initializeTimeZones();
@@ -275,13 +304,14 @@ class App {
               visibility: NotificationVisibility.public,
               ledOffMs: 500,
               autoCancel: true,
+              styleInformation: androidImage,
               subText: notification.subtitle,
             ),
             iOS: IOSNotificationDetails(
-              presentBadge: true,
-              presentSound: true,
-              subtitle: notification.subtitle,
-            )),
+                presentBadge: true,
+                presentSound: true,
+                subtitle: notification.subtitle,
+                attachments: iosImage)),
         androidAllowWhileIdle: true,
         payload: json.encode(notification.toJson()),
         uiLocalNotificationDateInterpretation:
@@ -299,5 +329,13 @@ class App {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  static Ride getRideFromObjectId(String objectId) {
+    for (final ride in person.upcomingRides) {
+      if (ride.id == objectId) {
+        return ride;
+      }
+    }
   }
 }

@@ -48,8 +48,8 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
+    // TODO: implement initState
+    super.initState();
     App.initializeLocaleNotification(context);
   }
 

@@ -6,6 +6,7 @@ class MainNotification {
   String _description;
   String _subtitle;
   DateTime _scheduleDate;
+  String _imageUrl;
 
   MainNotification(
       {String title,
@@ -14,6 +15,7 @@ class MainNotification {
       String objectId,
       String action,
       DateTime scheduleDate,
+      String imageUrl,
       String subtitle}) {
     this.id = id;
     this.objectId = objectId;
@@ -21,6 +23,7 @@ class MainNotification {
     this.title = title;
     this.action = action;
     this.scheduleDate = scheduleDate;
+    this.imageUrl = imageUrl;
     this.subtitle = subtitle;
   }
 
@@ -29,14 +32,23 @@ class MainNotification {
         _action = json["action"],
         _title = json["title"],
         _subtitle = json["subtitle"],
-        _description = json["description"];
+        _description = json["description"],
+        _imageUrl = json["imageUrl"];
+
   Map<String, dynamic> toJson() => <String, dynamic>{
         'objectId': this.objectId,
         'action': this.action,
         'title': this.title,
         'description': this.description,
         'subtitle': this.subtitle,
+        'imageUrl': this.imageUrl
       };
+
+  String get imageUrl => _imageUrl;
+
+  set imageUrl(String value) {
+    _imageUrl = value;
+  }
 
   String get objectId => _objectId;
 

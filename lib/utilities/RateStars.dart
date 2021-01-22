@@ -10,16 +10,16 @@ class RateStars extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (onPressed != null) {
-      return TextButton(
-        onPressed: onPressed,
-        child: Row(
-          children: [
-            Icon(
-              Icons.arrow_back_ios_rounded,
-              color: Colors.transparent,
-              size: Styles.mediumIconSize(),
-            ),
-            Row(
+      return Row(
+        children: [
+          Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Colors.transparent,
+            size: Styles.mediumIconSize(),
+          ),
+          TextButton(
+            onPressed: onPressed,
+            child: Row(
               mainAxisAlignment: mainAxisAlignment == null
                   ? MainAxisAlignment.center
                   : mainAxisAlignment,
@@ -57,8 +57,8 @@ class RateStars extends StatelessWidget {
                 }
               }),
             ),
-          ],
-        ),
+          ),
+        ],
       );
     } else {
       return Row(

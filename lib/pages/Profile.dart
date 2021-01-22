@@ -169,7 +169,7 @@ class _ProfileState extends State<Profile> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 5.0),
                         child: Card(
                           elevation: 3,
                           shape: RoundedRectangleBorder(
@@ -236,17 +236,6 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ),
-                              ValueListenableBuilder(
-                                builder: (BuildContext context, bool isDriver,
-                                    Widget child) {
-                                  if (isDriver) {
-                                    return DriverInfo();
-                                  } else {
-                                    return Container();
-                                  }
-                                },
-                                valueListenable: App.isDriverNotifier,
-                              ),
                             ],
                           ),
                         ),
@@ -254,21 +243,34 @@ class _ProfileState extends State<Profile> {
                     ),
                   ],
                 ),
-                ValueListenableBuilder(
-                  builder: (BuildContext context, bool isDriver, Widget child) {
-                    if (isDriver) {
-                      return Container();
-                    } else {
-                      return PassengerInfo();
-                    }
-                  },
-                  valueListenable: App.isDriverNotifier,
-                ),
+                Row(children: [
+                  Expanded(
+                      child: Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 5.0, 16.0, 5.0),
+                          child: Card(
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0),
+                              ),
+                              child: Column(children: [
+                                ValueListenableBuilder(
+                                  builder: (BuildContext context, bool isDriver,
+                                      Widget child) {
+                                    if (isDriver) {
+                                      return DriverInfo();
+                                    } else {
+                                      return PassengerInfo();
+                                    }
+                                  },
+                                  valueListenable: App.isDriverNotifier,
+                                ),
+                              ]))))
+                ]),
                 Row(
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: EdgeInsets.fromLTRB(16.0, 5.0, 16.0, 8.0),
                         child: Card(
                           elevation: 3,
                           shape: RoundedRectangleBorder(
@@ -364,7 +366,6 @@ class _DriverInfoState extends State<DriverInfo> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      LineDevider(),
       InkWell(
         onTap: () {
           Navigator.of(context).pushNamed("/BecomeDriver", arguments: true);
@@ -438,50 +439,36 @@ class _DriverInfoState extends State<DriverInfo> {
 class PassengerInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Expanded(
-          child: Padding(
-              padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
-              child: Card(
-                color: Styles.primaryColor(),
-                margin: EdgeInsets.all(5),
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.0),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushNamed("/BecomeDriver", arguments: false);
-                  },
-                  child: ResponsiveWidget.fullWidth(
-                    height: 60,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Icon(
-                            Icons.drive_eta_rounded,
-                            size: Styles.mediumIconSize(),
-                            color: Styles.secondaryColor(),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 6,
-                          child: Text(
-                            Lang.getString(context, "Become_a_driver"),
-                            style: Styles.valueTextStyle(color: Colors.white),
-                          ),
-                        ),
-                        Spacer(
-                          flex: 1,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )))
-    ]);
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed("/BecomeDriver", arguments: false);
+      },
+      child: ResponsiveWidget.fullWidth(
+        height: 60,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Icon(
+                Icons.drive_eta_rounded,
+                size: Styles.mediumIconSize(),
+                color: Styles.secondaryColor(),
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: Text(
+                Lang.getString(context, "Become_a_driver"),
+                style: Styles.valueTextStyle(color: Colors.white),
+              ),
+            ),
+            Spacer(
+              flex: 1,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
