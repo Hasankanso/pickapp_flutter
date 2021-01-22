@@ -155,6 +155,8 @@
   "Canceled_Rides" : "الرحلات الملغاة",
   "Confirm" : "تم",
   "Reserve_Seats_Luggage": "حجز مقاعد و مكان للحقائب",
+  "Reviews" : "مراجعات",
+  "Accomplished_rides": "رحلات المنجزة",
 
   "Ride_Reserved_Success": "تم حجز المقاعد",
   "Ride_Reserved_Failed": "فشلت عملية الحجز",

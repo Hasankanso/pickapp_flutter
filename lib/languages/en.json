@@ -157,6 +157,8 @@
   "Canceled_Rides" : "Canceled Rides",
   "Confirm" : "Confirm",
   "Reserve_Seats_Luggage": "Reserve Seats and Luggage Space",
+  "Reviews" : "Reviews",
+  "Accomplished_rides": "Accomplished_rides",
 
   "Ride_Reserved_Success": "Seats Reserved Successfully",
   "Ride_Reserved_Failed": "Failed to Reserve",

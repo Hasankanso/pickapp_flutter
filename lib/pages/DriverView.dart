@@ -11,6 +11,7 @@ import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class DriverView extends StatefulWidget {
   final User user;
@@ -91,8 +92,12 @@ class _Panel extends StatelessWidget {
   ScrollController controller;
   List<String> chattinessItems;
   Map<String, double> dataMap;
+  double accomplishedCanceledRatio = 0;
 
-  _Panel({this.user, this.controller, this.chattinessItems, this.dataMap});
+  _Panel({this.user, this.controller, this.chattinessItems, this.dataMap}) {
+    accomplishedCanceledRatio = user.person.acomplishedRides /
+        (user.person.acomplishedRides + user.person.canceledRides);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +112,8 @@ class _Panel extends StatelessWidget {
         creationDate: DateTime.now()));
     rates.add(new Rate(
         grade: 2,
-        comment: "he's guy, would do it again!",
+        comment:
+            "he's guy, would do it again asd esdf sf vsd sdf sdgfsdg dfg dfg fd g dsfgbdg hd glkfdsjg dflk gjf glkdfjg fdlkjlk!",
         reason: 2,
         rater: p2,
         creationDate: DateTime.now()));
@@ -166,59 +172,42 @@ class _Panel extends StatelessWidget {
           ),
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, "/RatesView",
                   arguments: user.person.rates),
               child: Card(
-                elevation: 10,
                 child: RateStars(
                   user.person.rateAverage,
                 ),
               ),
+            ),
+            LinearPercentIndicator(
+              width: 140.0,
+              lineHeight: 15.0,
+              percent: accomplishedCanceledRatio,
+              center: Text(
+                (accomplishedCanceledRatio * 100).toInt().toString() + "%",
+                style: Styles.buttonTextStyle(size : 12),
+              ),
+              backgroundColor: Colors.red,
+              progressColor: Colors.green,
             )
+            ,
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(user.person.rates.length.toString() +
+                " " +
+                Lang.getString(context, "Reviews")),
+            Text(user.person.acomplishedRides.toString() + "/" + (user.person.acomplishedRides + user.person.canceledRides).toInt().toString() + " " + Lang.getString(context, "Accomplished_rides")),
           ],
         ),
         VerticalSpacer(
           height: 20,
-        ),
-        Row(
-          children: [
-            Spacer(flex: 1),
-            Expanded(
-              flex: 3,
-              child: Card(
-                child: PieChart(
-                  dataMap: dataMap,
-                  ringStrokeWidth: 8,
-                  chartLegendSpacing: 30,
-                  animationDuration: Duration(milliseconds: 800),
-                  chartRadius: ScreenUtil().setSp(50),
-                  colorList: [
-                    Colors.blue,
-                    Colors.red,
-                  ],
-                  initialAngleInDegree: 0,
-                  chartType: ChartType.ring,
-                  legendOptions: LegendOptions(
-                    showLegendsInRow: false,
-                    legendPosition: LegendPosition.right,
-                    showLegends: true,
-                    legendTextStyle: Styles.valueTextStyle(),
-                  ),
-                  chartValuesOptions: ChartValuesOptions(
-                    chartValueStyle: Styles.valueTextStyle(),
-                    showChartValueBackground: false,
-                    showChartValues: true,
-                    decimalPlaces: 0,
-                    showChartValuesInPercentage: false,
-                    showChartValuesOutside: true,
-                  ),
-                ),
-              ),
-            ),
-          ],
         ),
         VerticalSpacer(height: 20),
         Row(
@@ -253,13 +242,13 @@ class _Panel extends StatelessWidget {
         ResponsiveRow(
           children: [
             ResponsiveWidget.fullWidth(
-              height: 40,
+              height: 65,
               child: Text(
                 user.person.bio,
                 textAlign: TextAlign.center,
-                maxLines: 1,
+                maxLines: 7,
                 style: Styles.valueTextStyle(),
-                overflow: TextOverflow.clip,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
