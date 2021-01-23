@@ -9,6 +9,7 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class MyRidesTile extends ListTile {
   final Ride _ride;
+
   MyRidesTile(this._ride, {onPressed});
 
   static Function(BuildContext, int) itemBuilder(List<Ride> rides) {
@@ -63,14 +64,27 @@ class MyRidesTile extends ListTile {
                   child: Column(
                     children: [
                       ListTile(
-                        onTap: App.checkIfDriver(_ride)==false ?()  {
-                          Navigator.of(context).pushNamed("/RideDetails", arguments: [_ride ,Lang.getString(context, "Reserve"),(ride){}]);
-                        }
-                        :()  {
-                          Navigator.of(context).pushNamed("/RideDetails2", arguments: _ride);
-                        }
-
-                        ,
+                        onTap: App.checkIfDriver(_ride) == true
+                            ? () {
+                                Navigator.of(context).pushNamed("/RideDetails",
+                                    arguments: [
+                                      _ride,
+                                      Lang.getString(context, "Reserve"),
+                                      (ride) {}
+                                    ]);
+                              }
+                            : () {
+                          Navigator.of(context).pushNamed("/RideDetails2",
+                              arguments: [
+                                _ride,
+                                "hello",
+                                    (ride) {
+                                    if(_ride.reserved==false){
+                                      print(_ride.maxSeats);
+                                    }
+                                    }
+                              ]);
+                              },
                         title: Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
                           child: Column(
@@ -91,9 +105,11 @@ class MyRidesTile extends ListTile {
                                             Expanded(
                                               flex: 30,
                                               child: Text(
-                                                _ride.person.firstName.toString() +
+                                                _ride.person.firstName
+                                                        .toString() +
                                                     " " +
-                                                    _ride.person.lastName.toString(),
+                                                    _ride.person.lastName
+                                                        .toString(),
                                                 style: Styles.valueTextStyle(),
                                               ),
                                             ),
@@ -205,7 +221,7 @@ class MyRidesTile extends ListTile {
                                                           .countryInformations
                                                           .unit,
                                                   style: Styles.valueTextStyle(
-                                                      bold: FontWeight.w500),
+                                                      bold: FontWeight.w400),
                                                 ),
                                               ),
                                             ),
@@ -228,7 +244,6 @@ class MyRidesTile extends ListTile {
                 )
               ],
             ),
-
           ],
         ));
   }

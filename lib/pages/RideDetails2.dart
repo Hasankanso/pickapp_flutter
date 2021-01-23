@@ -12,7 +12,7 @@ class RideDetails2 extends StatelessWidget {
   final Ride ride;
   String buttonText;
   void Function(Ride) onPressed;
-  RideDetails2({this.ride});
+  RideDetails2(this.ride, {this.buttonText, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

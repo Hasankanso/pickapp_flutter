@@ -79,7 +79,10 @@ class RouteGenerator {
                 ));
       case '/RideDetails2':
         return MaterialPageRoute(
-            builder: (_) => RideDetails2(ride:args));
+            builder: (_) => RideDetails2((args as List)[0],
+              buttonText: (args as List)[1],
+              onPressed: (args as List)[2],
+            ));
       case '/Statistics':
         return MaterialPageRoute(builder: (_) => Statistics());
       case "/CarDetails":

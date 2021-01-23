@@ -59,7 +59,7 @@ class App {
   }
  static bool checkIfDriver(Ride ride){
     if(ride.user.driver!=null){
-      if(ride.user.driver==App.user.driver)
+      if(ride.user.driver.id.toString()==App.user.driver.id.toString())
         return true;
       else return false;
     }

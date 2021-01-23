@@ -47,65 +47,71 @@ class _AddRidePage5State extends State<AddRidePage5> {
             Row(
               children: [
                 Expanded(
-                  child:
-                  Column(
+                  child: Column(
                     children: [
-                      _Title(text :Lang.getString(context, "From")),
-                      _Title(text :Lang.getString(context, "To")),
+                      _Title(text: Lang.getString(context, "From")),
+                      _Title(text: Lang.getString(context, "To")),
                     ],
-
                   ),
                 ),
                 Expanded(
-                  child:
-                  Column(
+                  child: Column(
                     children: [
                       _Value(
-                       text: ride.from.name,
+                        text: ride.from.name,
                         maxlines: 1,
                       ),
                       _Value(
-                        text:
-                        ride.to.name,
+                        text: ride.to.name,
                         maxlines: 1,
-
                       ),
-
                     ],
-
                   ),
                 )
               ],
             ),
-
             VerticalSpacer(height: 20),
             _Title(text: Lang.getString(context, "Details")),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Icon(
-                  Icons.pets,
-                  color: ride.petsAllowed
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
+                Card(
+                  elevation: 3,
+                  child: Icon(
+                    Icons.pets,
+                    color: ride.petsAllowed
+                        ? Styles.primaryColor()
+                        : Styles.labelColor(),
+                  ),
                 ),
-                Icon(
-                  ride.smokingAllowed ? Icons.smoking_rooms : Icons.smoke_free,
-                  color: ride.smokingAllowed
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
+                Card(
+                  elevation: 3,
+                  child: Icon(
+                    ride.smokingAllowed
+                        ? Icons.smoking_rooms
+                        : Icons.smoke_free,
+                    color: ride.smokingAllowed
+                        ? Styles.primaryColor()
+                        : Styles.labelColor(),
+                  ),
                 ),
-                Icon(
-                  Icons.ac_unit,
-                  color: ride.acAllowed
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
+                Card(
+                  elevation: 3,
+                  child: Icon(
+                    Icons.ac_unit,
+                    color: ride.acAllowed
+                        ? Styles.primaryColor()
+                        : Styles.labelColor(),
+                  ),
                 ),
-                Icon(
-                  ride.musicAllowed ? Icons.music_note : Icons.music_off,
-                  color: ride.musicAllowed
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
+                Card(
+                  elevation: 3,
+                  child: Icon(
+                    ride.musicAllowed ? Icons.music_note : Icons.music_off,
+                    color: ride.musicAllowed
+                        ? Styles.primaryColor()
+                        : Styles.labelColor(),
+                  ),
                 ),
               ],
             ),
@@ -157,10 +163,12 @@ class _AddRidePage5State extends State<AddRidePage5> {
                       ),
                       ResponsiveWidget.fullWidth(
                         height: 40,
-                        child: Text(ride.stopTime == null ? "0 " +
-                            Lang.getString(context, "/Min")
-                            : ride.stopTime.toString() + " " +
-                            Lang.getString(context, "/Min"),
+                        child: Text(
+                          ride.stopTime == null
+                              ? "0 " + Lang.getString(context, "/Min")
+                              : ride.stopTime.toString() +
+                                  " " +
+                                  Lang.getString(context, "/Min"),
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
                           overflow: TextOverflow.clip,
@@ -169,7 +177,8 @@ class _AddRidePage5State extends State<AddRidePage5> {
                       ResponsiveWidget.fullWidth(
                         height: 40,
                         child: Text(
-                          ride.price.toString() + " " +
+                          ride.price.toString() +
+                              " " +
                               ride.countryInformations.unit,
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
@@ -181,16 +190,16 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
               ],
             ),
-
             VerticalSpacer(height: 20),
             _Title(text: Lang.getString(context, "Description")),
             ResponsiveRow(
               children: [
-                _Value(text:ride.comment,
-                maxlines: 3,),
+                _Value(
+                  text: ride.comment,
+                  maxlines: 3,
+                ),
               ],
             ),
-
           ],
         ),
       ),
@@ -208,7 +217,8 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 onPressed: () async {
                   Request<Ride> request = AddRide(ride);
                   await request.send(response);
-                  Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, "/", (Route<dynamic> route) => false);
 
                   CustomToast().showSuccessToast(
                       Lang.getString(context, "Successfully_added!"));
@@ -255,7 +265,7 @@ class _Value extends StatelessWidget {
   String text;
   int maxlines;
 
-  _Value({this.text,this.maxlines});
+  _Value({this.text, this.maxlines});
 
   @override
   Widget build(BuildContext context) {
@@ -269,8 +279,7 @@ class _Value extends StatelessWidget {
             style: Styles.valueTextStyle(),
             maxLines: maxlines,
             overflow: TextOverflow.ellipsis,
-          )
-      ),
+          )),
     );
   }
 }
