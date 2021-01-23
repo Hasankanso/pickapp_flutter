@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 
@@ -13,7 +12,7 @@ class Rate {
   @HiveField(1)
   String _comment;
   @HiveField(2)
-  String _reason;
+  int _reason;
   @HiveField(3)
   Person _rater;
   @HiveField(4)
@@ -28,7 +27,7 @@ class Rate {
   Rate(
       {double grade,
       String comment,
-      String reason,
+      int reason,
       Person rater,
       Person target,
       Ride ride,
@@ -73,24 +72,6 @@ class Rate {
         target: Person.fromJson(json["target"]),
         ride: Ride.fromJson(json["ride"]),
         updated: updated);
-  }
-  static String validate(Rate rate) {
-    if (rate.grade == null || rate.grade < 0 || rate.grade > 5) {
-      return "Invalid rate";
-    }
-    if (rate.grade < 3 && Validation.isNullOrEmpty(rate.comment)) {
-      return "Please state the reason of low rate";
-    }
-    if (Validation.isNullOrEmpty(rate.rater.id)) {
-      return "Invalid reviewer object id";
-    }
-    if (Validation.isNullOrEmpty(rate.target.id)) {
-      return "Invalid target object id";
-    }
-    if (Validation.isNullOrEmpty(rate.ride.id)) {
-      return "Invalid ride object id";
-    }
-    return null;
   }
 
   double get grade => _grade;

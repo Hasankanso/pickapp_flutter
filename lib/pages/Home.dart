@@ -1,7 +1,5 @@
-import 'dart:io';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -12,9 +10,6 @@ import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/pages/MyRides.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Search.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/Startup.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -30,6 +25,7 @@ class _HomeState extends State<Home> {
     Inbox(),
     Profile(),
   ];
+
   PageController pageController = PageController(
     initialPage: 2,
     keepPage: true,
@@ -54,12 +50,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //startup request
-    if (App.user != null) {
-      Request<String> request = Startup(App.user);
-      request.send((userStatus, code, message) =>
-          response(userStatus, code, message, context));
-    }
+    App.initializeLocaleNotification(context);
   }
 
   @override
@@ -111,28 +102,5 @@ class _HomeState extends State<Home> {
       },
       valueListenable: App.isLoggedInNotifier,
     );
-  }
-
-  response(String userStatus, int code, String message, context) async {
-    if (code != HttpStatus.ok) {
-      if (code == -1 || code == -2) {
-        await Hive.openBox("regions");
-        var regionB = Hive.box("regions");
-        await regionB.clear();
-        regionB.close();
-        var userB = Hive.box("user");
-        userB.clear();
-        App.user = null;
-        App.isLoggedIn = false;
-        App.isDriverNotifier.value = false;
-        App.isLoggedInNotifier.value = false;
-        CustomToast().showErrorToast(Lang.getString(context, message));
-      } else if (code == -3) {
-        CustomToast().showErrorToast(Lang.getString(context, message));
-      } else {
-        print(22);
-        CustomToast().showErrorToast(message);
-      }
-    } else {}
   }
 }

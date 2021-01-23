@@ -90,7 +90,7 @@ abstract class Request<T> {
   static void initBackendless() async {
     String APPLICATION_ID = "5FB0EA72-A363-4451-FFA5-A56F031D6600";
     String API_KEY = "C8502745-CB10-4F56-9FD5-3EFCE59F1926";
-    Backendless.initApp(APPLICATION_ID, API_KEY, API_KEY);
+    await Backendless.initApp(APPLICATION_ID, API_KEY, API_KEY);
     host = "https://api.backendless.com/" +
         await Backendless.getApplicationId() +
         "/" +

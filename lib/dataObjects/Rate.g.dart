@@ -19,7 +19,7 @@ class RateAdapter extends TypeAdapter<Rate> {
     return Rate()
       .._grade = fields[0] as double
       .._comment = fields[1] as String
-      .._reason = fields[2] as String
+      .._reason = fields[2] as int
       .._rater = fields[3] as Person
       .._target = fields[4] as Person
       .._ride = fields[5] as Ride

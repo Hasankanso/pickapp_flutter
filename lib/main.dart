@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,11 +23,19 @@ import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
+import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/requests/Startup.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Request.initBackendless();
   await Firebase.initializeApp();
+
+  App.isLoggedInNotifier = ValueNotifier<bool>(App.isLoggedIn);
+  App.isDriverNotifier = ValueNotifier<bool>(App.driver != null);
 
   final path = await PathProvider.getApplicationDocumentsDirectory();
   Hive.init(path.path);
@@ -41,9 +51,19 @@ Future<void> main() async {
   Hive.registerAdapter(MessageAdapter());
   await Hive.openBox('user');
 
+  final box = Hive.box("user");
+  if (box.length != 0) {
+    App.user = box.getAt(0) as User;
+    App.isLoggedIn = true;
+    App.isLoggedInNotifier.value = true;
+    if (App.driver != null) App.isDriverNotifier.value = true;
+    Inbox.subscribeToChannel();
+  }
+
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Styles.primaryColor(), // navigation bar color
   ));
+
   runApp(MyApp());
 }
 
@@ -80,8 +100,23 @@ class MyAppState extends State<MyApp> {
       Styles.setTheme(ThemeMode.dark);
     }
     if (Cache.locale != null) _locale = Locale(Cache.locale);
-    App.isLoggedInNotifier = ValueNotifier<bool>(App.isLoggedIn);
-    App.isDriverNotifier = ValueNotifier<bool>(App.driver != null);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if (App.user != null) {
+      //List<String> channels = ["default"];
+      List<String> deviceObjectIds = List<String>();
+      //await Backendless.messaging.registerDevice(channels).then((response) {
+      //var ids = response.toJson()["channelRegistrations"];
+      //for (final channel in channels) deviceObjectIds.add(ids["$channel"]);
+      //});
+      Request<String> request = Startup(App.user, deviceObjectIds);
+      request.send((userStatus, code, message) =>
+          response(userStatus, code, message, context));
+    }
   }
 
   @override
@@ -96,14 +131,6 @@ class MyAppState extends State<MyApp> {
             return SplashScreen();
           } else {
             _init();
-            final box = Hive.box("user");
-            if (box.length != 0) {
-              App.user = box.getAt(0) as User;
-              App.isLoggedIn = true;
-              App.isLoggedInNotifier.value = true;
-              if (App.driver != null) App.isDriverNotifier.value = true;
-              Inbox.subscribeToChannel();
-            }
             return MaterialApp(
               title: App.appName,
               locale: _locale,
@@ -154,6 +181,7 @@ class MyAppState extends State<MyApp> {
                 //check if locale was cached
                 if (_locale == null) Cache.setLocale(chosen.languageCode);
                 App.locale = chosen;
+
                 return chosen;
               },
               debugShowCheckedModeBanner: false,
@@ -162,5 +190,27 @@ class MyAppState extends State<MyApp> {
             );
           }
         });
+  }
+
+  response(String userStatus, int code, String message, context) async {
+    if (code != HttpStatus.ok) {
+      if (code == -1 || code == -2) {
+        await Hive.openBox("regions");
+        var regionB = Hive.box("regions");
+        await regionB.clear();
+        regionB.close();
+        var userB = Hive.box("user");
+        userB.clear();
+        App.user = null;
+        App.isLoggedIn = false;
+        App.isDriverNotifier.value = false;
+        App.isLoggedInNotifier.value = false;
+        CustomToast().showErrorToast(Lang.getString(context, message));
+      } else if (code == -3) {
+        CustomToast().showErrorToast(Lang.getString(context, message));
+      } else {
+        CustomToast().showErrorToast(message);
+      }
+    } else {}
   }
 }

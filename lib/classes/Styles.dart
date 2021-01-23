@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pickapp/classes/screenutil.dart';
 
 class Styles {
   static double _fontSize, _titleFontSize, _subValueFontSize;
@@ -52,9 +53,10 @@ class Styles {
   }
 
   //  button text or wherever background primary
-  static buttonTextStyle() {
+  static buttonTextStyle({size}) {
+    double realSize = size == null? _fontSize : ScreenUtil().setSp(size);
     return TextStyle(
-      fontSize: _fontSize,
+      fontSize: realSize,
       color: secondaryColor(),
     );
   }
@@ -75,10 +77,12 @@ class Styles {
     );
   }
 
-  static TextStyle labelTextStyle({bold = FontWeight.w400}) {
+  static TextStyle labelTextStyle({bold = FontWeight.w400, size}) {
+    double realSize = size == null? _fontSize : ScreenUtil().setSp(size);
+
     return TextStyle(
       color: labelColor(),
-      fontSize: _fontSize,
+      fontSize: realSize,
       fontWeight: bold,
     );
   }

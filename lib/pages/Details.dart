@@ -38,8 +38,6 @@ class _DetailsState extends State<Details> {
   TextEditingController _firstName = TextEditingController();
   TextEditingController _lastName = TextEditingController();
   BirthdayController _birthday = BirthdayController();
-  String _country;
-  List<String> _countries;
   int _chattiness;
   List<String> _chattinessItems;
   List<String> _genders;
@@ -59,9 +57,7 @@ class _DetailsState extends State<Details> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _countries = App.countriesInformationsNames;
     if (widget.user == null) {
-      _country = App.person.countryInformations.name;
       _chattiness = App.person.chattiness;
       _gender = App.person.gender;
       _birthdayInit = App.person.birthday;
@@ -74,7 +70,6 @@ class _DetailsState extends State<Details> {
       _chattiness = 1;
 
       //these values doesn't affect anything, we stored it just to prevent country dropdown from error
-      _country = "لبنان";
       _gender = false;
     }
   }
@@ -191,37 +186,7 @@ class _DetailsState extends State<Details> {
                             child: DifferentSizeResponsiveRow(
                               children: [
                                 Expanded(
-                                  flex: 5,
-                                  child: DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
-                                      labelText:
-                                          Lang.getString(context, "Country"),
-                                    ),
-                                    isExpanded: true,
-                                    value: '$_country',
-                                    validator: (val) {
-                                      String valid =
-                                          Validation.validate(val, context);
-                                      if (valid != null) return valid;
-                                      return null;
-                                    },
-                                    onChanged: (String newValue) {
-                                      setState(() {
-                                        _country = newValue;
-                                      });
-                                    },
-                                    items: _countries
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
+                                  flex: 12,
                                   child: DropdownButtonFormField<String>(
                                     decoration: InputDecoration(
                                       labelText:
@@ -369,16 +334,15 @@ class _DetailsState extends State<Details> {
                         text_key: "Save",
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            CountryInformations cI =
-                                App.countriesInformations[_country];
                             Person _newPerson = Person();
                             _newPerson.firstName = _firstName.text;
                             _newPerson.lastName = _lastName.text;
                             _newPerson.birthday = _birthday.chosenDate;
-                            _newPerson.countryInformations = cI;
                             _newPerson.gender = _gender;
                             _newPerson.bio = _bioController.text;
                             _newPerson.chattiness = _chattiness;
+                            _newPerson.countryInformations =
+                                CountryInformations();
                             Request<Person> request = EditAccount(_newPerson);
                             await request.send(_response);
                           }

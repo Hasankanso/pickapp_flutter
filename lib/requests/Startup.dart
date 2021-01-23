@@ -3,7 +3,8 @@ import 'package:pickapp/requests/Request.dart';
 
 class Startup extends Request<String> {
   User _user;
-  Startup(this._user) {
+  List<String> _deviceIds;
+  Startup(this._user, this._deviceIds) {
     httpPath = "/UserBusiness/Startup";
   }
 
@@ -16,7 +17,8 @@ class Startup extends Request<String> {
   Map<String, dynamic> getJson() {
     return <String, dynamic>{
       'id': _user.id,
-      'verificationCode': _user.verificationCode
+      'verificationCode': _user.verificationCode,
+      'deviceIds': _deviceIds
     };
   }
 

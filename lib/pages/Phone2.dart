@@ -322,7 +322,7 @@ class _Phone2State extends State<Phone2> {
       await _auth.verifyPhoneNumber(
           phoneNumber:
               widget.user != null ? widget.user.phone : widget.oldUser.phone,
-          timeout: const Duration(seconds: 120),
+          timeout: Duration(seconds: 120),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
           codeSent: codeSent,

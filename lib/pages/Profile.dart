@@ -2,17 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/items/CarListTile.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -52,27 +50,10 @@ class _ProfileState extends State<Profile> {
       List<Ride> upcomingRides = App.person.upcomingRides;
       List<Rate> rates = App.person.rates;
 
-      final userBox = Hive.box("user");
-      User cacheUser = App.user;
-      Person cachePerson = result;
-      cachePerson.rates = null;
-      cachePerson.upcomingRides = upcomingRides;
-
-      if (App.user.driver != null) {
-        cacheUser.driver = Driver(
-            id: App.user.driver.id,
-            cars: App.user.driver.cars,
-            updated: App.user.driver.updated);
-      }
-
-      cacheUser.person = cachePerson;
-
-      await userBox.put(0, cacheUser);
-
       result.upcomingRides = upcomingRides;
       result.rates = rates;
       App.user.person = result;
-
+      await Cache.setUserCache(App.user);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       setState(() {
@@ -169,7 +150,8 @@ class _ProfileState extends State<Profile> {
                                         children: <Widget>[
                                           RateStars(
                                             App.user.person.rateAverage,
-                                          )
+                                            onPressed: () {},
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -187,7 +169,7 @@ class _ProfileState extends State<Profile> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 5.0),
                         child: Card(
                           elevation: 3,
                           shape: RoundedRectangleBorder(
@@ -227,6 +209,77 @@ class _ProfileState extends State<Profile> {
                               LineDevider(),
                               InkWell(
                                 onTap: () {
+                                  Navigator.of(context).pushNamed("/Security");
+                                },
+                                child: ResponsiveWidget.fullWidth(
+                                  height: 60,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Icon(
+                                          Icons.security,
+                                          size: Styles.mediumIconSize(),
+                                          color: Styles.primaryColor(),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 6,
+                                        child: Text(
+                                          Lang.getString(context, "Security"),
+                                          style: Styles.valueTextStyle(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(children: [
+                  Expanded(
+                      child: Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 5.0, 16.0, 5.0),
+                          child: Card(
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0),
+                              ),
+                              child: Column(children: [
+                                ValueListenableBuilder(
+                                  builder: (BuildContext context, bool isDriver,
+                                      Widget child) {
+                                    if (isDriver) {
+                                      return DriverInfo();
+                                    } else {
+                                      return PassengerInfo();
+                                    }
+                                  },
+                                  valueListenable: App.isDriverNotifier,
+                                ),
+                              ]))))
+                ]),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(16.0, 5.0, 16.0, 8.0),
+                        child: Card(
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7.0),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              InkWell(
+                                onTap: () {
                                   Navigator.of(context)
                                       .pushNamed("/Statistics");
                                 },
@@ -258,37 +311,8 @@ class _ProfileState extends State<Profile> {
                               LineDevider(),
                               InkWell(
                                 onTap: () {
-                                  Navigator.of(context).pushNamed("/Security");
-                                },
-                                child: ResponsiveWidget.fullWidth(
-                                  height: 60,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Icon(
-                                          Icons.security,
-                                          size: Styles.mediumIconSize(),
-                                          color: Styles.primaryColor(),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 6,
-                                        child: Text(
-                                          Lang.getString(context, "Security"),
-                                          style: Styles.valueTextStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              LineDevider(),
-                              InkWell(
-                                onTap: () {
-                                  //Navigator.of(context).pushNamed("/Security");
+                                  Navigator.of(context)
+                                      .pushNamed("/MyRidesHistory");
                                 },
                                 child: ResponsiveWidget.fullWidth(
                                   height: 60,
@@ -308,24 +332,13 @@ class _ProfileState extends State<Profile> {
                                         flex: 6,
                                         child: Text(
                                           Lang.getString(
-                                              context, "Booking_history"),
+                                              context, "My_Rides_History"),
                                           style: Styles.valueTextStyle(),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ),
-                              ValueListenableBuilder(
-                                builder: (BuildContext context, bool isDriver,
-                                    Widget child) {
-                                  if (isDriver) {
-                                    return DriverInfo();
-                                  } else {
-                                    return PassengerInfo();
-                                  }
-                                },
-                                valueListenable: App.isDriverNotifier,
                               ),
                             ],
                           ),
@@ -353,7 +366,6 @@ class _DriverInfoState extends State<DriverInfo> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      LineDevider(),
       InkWell(
         onTap: () {
           Navigator.of(context).pushNamed("/BecomeDriver", arguments: true);
@@ -427,43 +439,36 @@ class _DriverInfoState extends State<DriverInfo> {
 class PassengerInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      LineDevider(),
-      Card(
-        color: Styles.primaryColor(),
-        margin: EdgeInsets.all(5),
-        child: InkWell(
-          onTap: () {
-            Navigator.of(context).pushNamed("/BecomeDriver", arguments: false);
-          },
-          child: ResponsiveWidget.fullWidth(
-            height: 60,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Icon(
-                    Icons.drive_eta_rounded,
-                    size: Styles.mediumIconSize(),
-                    color: Styles.secondaryColor(),
-                  ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    Lang.getString(context, "Become_a_driver"),
-                    style: Styles.valueTextStyle(color: Colors.white),
-                  ),
-                ),
-                Spacer(
-                  flex: 1,
-                ),
-              ],
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed("/BecomeDriver", arguments: false);
+      },
+      child: ResponsiveWidget.fullWidth(
+        height: 60,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Icon(
+                Icons.drive_eta_rounded,
+                size: Styles.mediumIconSize(),
+                color: Styles.secondaryColor(),
+              ),
             ),
-          ),
+            Expanded(
+              flex: 6,
+              child: Text(
+                Lang.getString(context, "Become_a_driver"),
+                style: Styles.valueTextStyle(color: Colors.white),
+              ),
+            ),
+            Spacer(
+              flex: 1,
+            ),
+          ],
         ),
       ),
-    ]);
+    );
   }
 }

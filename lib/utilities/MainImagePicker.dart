@@ -144,13 +144,13 @@ class _MainImagePickerState extends State<MainImagePicker> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ImageViewer(
-          _image,
-          Lang.getString(context, "Profile"),
-          imageProvider: _downloadedImage,
-          isCarPicker: widget.isCarPicker,
-        ),
-      ),
+          builder: (context) => ImageViewer(
+                _image,
+                Lang.getString(context, "Profile"),
+                imageProvider: _downloadedImage,
+                isCarPicker: widget.isCarPicker,
+              ),
+          fullscreenDialog: true),
     );
   }
 
