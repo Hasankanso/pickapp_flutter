@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/SearchForRides.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -97,15 +95,6 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                MainNotification upcomingride = MainNotification(
-                  title: 'Upcoming Ride',
-                  description: 'bs 3rft lfekra wen',
-                  action: "upcomingRide",
-                  id: 0,
-                  objectId: "5A16585F-9B51-4C86-A25E-030B55160C00",
-                  scheduleDate: DateTime.now().add(Duration(seconds: 10)),
-                );
-                App.pushLocalNotification(upcomingride);
                 String _validateFrom =
                     fromController.validate(context, x: toController);
                 String _validateTo =

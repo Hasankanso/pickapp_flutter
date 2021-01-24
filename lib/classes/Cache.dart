@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
@@ -43,7 +42,6 @@ class Cache {
       regions = u.driver.regions;
       var d = u.driver;
       cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
-      App.isDriverNotifier.value = true;
     }
 
     if (userBox.containsKey(0)) {
@@ -63,16 +61,9 @@ class Cache {
       }
     } else {
       await regionsBox.clear();
-      if (App.user != null) {
-        App.user.driver = null;
-        App.isDriverNotifier.value = false;
-      }
     }
     regionsBox.close();
 
-    App.isLoggedIn = true;
-    App.isLoggedInNotifier.value = true;
-    App.isLoggedInNotifier.notifyListeners();
     Inbox.subscribeToChannel();
   }
 

@@ -25,14 +25,10 @@ class RateStars extends StatelessWidget {
                   : mainAxisAlignment,
               children: List<Widget>.generate(6, (int index) {
                 if (index == 5) {
-                  return Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_forward_ios_sharp,
-                        color: Colors.grey.withOpacity(0.5),
-                        size: Styles.mediumIconSize(),
-                      ),
-                    ],
+                  return Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    color: Colors.grey.withOpacity(0.5),
+                    size: Styles.mediumIconSize(),
                   );
                 }
                 if (_rating >= index + 1) {

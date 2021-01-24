@@ -423,6 +423,9 @@ class _DetailsState extends State<Details> {
       User u = App.user;
       await Cache.setUserCache(u);
 
+      App.isLoggedIn = true;
+      App.isLoggedInNotifier.value = true;
+      App.isLoggedInNotifier.notifyListeners();
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }
@@ -468,6 +471,12 @@ class _DetailsState extends State<Details> {
     } else {
       App.user = u;
       await Cache.setUserCache(u);
+      App.isDriverNotifier.value = false;
+      App.user.driver = null;
+
+      App.isLoggedIn = true;
+      App.isLoggedInNotifier.value = true;
+      App.isLoggedInNotifier.notifyListeners();
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       CustomToast().showSuccessToast(

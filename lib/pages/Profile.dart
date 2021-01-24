@@ -150,7 +150,10 @@ class _ProfileState extends State<Profile> {
                                         children: <Widget>[
                                           RateStars(
                                             App.user.person.rateAverage,
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                  context, "/RatesViewProfile");
+                                            },
                                           ),
                                         ],
                                       ),

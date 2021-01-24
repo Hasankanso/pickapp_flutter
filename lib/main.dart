@@ -21,6 +21,7 @@ import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -49,6 +50,7 @@ Future<void> main() async {
   Hive.registerAdapter(PassengerAdapter());
   Hive.registerAdapter(ChatAdapter());
   Hive.registerAdapter(MessageAdapter());
+  Hive.registerAdapter(MainNotificationAdapter());
   await Hive.openBox('user');
 
   final box = Hive.box("user");

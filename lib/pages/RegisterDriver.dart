@@ -148,6 +148,12 @@ class _RegisterDriverState extends State<RegisterDriver> {
     } else {
       App.user = u;
       await Cache.setUserCache(u);
+      App.isDriverNotifier.value = false;
+      App.user.driver = null;
+
+      App.isLoggedIn = true;
+      App.isLoggedInNotifier.value = true;
+      App.isLoggedInNotifier.notifyListeners();
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       CustomToast().showSuccessToast(

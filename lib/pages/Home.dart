@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    App.initializeLocaleNotification(context);
+    //MainNotification.initializeLocaleNotification(context);
   }
 
   @override
