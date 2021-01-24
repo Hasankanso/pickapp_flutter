@@ -8,6 +8,7 @@ import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/RateStars.dart';
+import 'package:pickapp/utilities/RatesView.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -171,72 +172,66 @@ class _Panel extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
+        VerticalSpacer(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(children: [
+              Icon(
+                Icons.speed,
+              ),
+              Text(
+                (user.person.acomplishedRides + user.person.canceledRides)
+                    .toInt()
+                    .toString() +
+                    " " +
+                    Lang.getString(context, "Rides"),
+                style: Styles.valueTextStyle(size: 12),
+              ),
+            ]),
+            LinearPercentIndicator(
+              width: 250.0,
+              lineHeight: 14.0,
+              percent: accomplishedCanceledRatio,
+              center: Text(
+                (accomplishedCanceledRatio * 100).toInt().toString() + "%",
+                style: Styles.buttonTextStyle(size: 12),
+              ),
+              backgroundColor: Colors.red,
+              progressColor: Colors.green,
+            ),
+          ],
+        ),
+        VerticalSpacer(
+          height: 5,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, "/RatesView",
                   arguments: user.person.rates),
-              child: Card(
-                child: RateStars(
-                  user.person.rateAverage,
-                ),
-              ),
-            ),
-            LinearPercentIndicator(
-              width: 140.0,
-              lineHeight: 15.0,
-              percent: accomplishedCanceledRatio,
-              center: Text(
-                (accomplishedCanceledRatio * 100).toInt().toString() + "%",
-                style: Styles.buttonTextStyle(size : 12),
-              ),
-              backgroundColor: Colors.red,
-              progressColor: Colors.green,
-            )
-            ,
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(user.person.rates.length.toString() +
-                " " +
-                Lang.getString(context, "Reviews")),
-            Text(user.person.acomplishedRides.toString() + "/" + (user.person.acomplishedRides + user.person.canceledRides).toInt().toString() + " " + Lang.getString(context, "Accomplished_rides")),
-          ],
-        ),
-        VerticalSpacer(
-          height: 20,
-        ),
-        VerticalSpacer(height: 20),
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _Title(text: Lang.getString(context, "Chattiness")),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  ResponsiveWidget.fullWidth(
-                    height: 40,
-                    child: Text(
-                      chattinessItems[user.person.chattiness],
-                      maxLines: 1,
-                      style: Styles.valueTextStyle(),
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
-                ],
+              child: ResponsiveWidget.fullWidth(
+                height: 100,
+                child: RatesView(
+                    rates: user.person.rates,
+                    stats: user.person.statistics,
+                    rateAverage: user.person.rateAverage),
               ),
             ),
           ],
+        ),
+        VerticalSpacer(height: 30),
+        _Title(text: Lang.getString(context, "Chattiness")),
+        ResponsiveWidget.fullWidth(
+          height: 40,
+          child: Text(
+            chattinessItems[user.person.chattiness],
+            maxLines: 1,
+            textAlign : TextAlign.center,
+            style: Styles.valueTextStyle(),
+            overflow: TextOverflow.clip,
+          ),
         ),
         _Title(text: Lang.getString(context, "Bio")),
         ResponsiveRow(

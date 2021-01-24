@@ -82,7 +82,7 @@ class Settings extends StatelessWidget {
                                   MediaQuery.of(context).platformBrightness ==
                                       Brightness.dark,
                               onChanged: (bool value) =>
-                                  {App.forceDarkTheme(value)})
+                                  {App.setTheme(value)})
                         ]),
                       ),
                     ],

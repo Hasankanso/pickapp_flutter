@@ -6,13 +6,13 @@ import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 
-class RatesView extends StatelessWidget {
+class RatesListPage extends StatelessWidget {
 
 
-  List<Rate> rates;
+  final List<Rate> rates;
 
 
-  RatesView(this.rates);
+  RatesListPage(this.rates);
 
   @override
   Widget build(BuildContext context) {

@@ -27,7 +27,7 @@ import 'package:pickapp/pages/Phone.dart';
 import 'package:pickapp/pages/Phone2.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Profile.dart';
-import 'package:pickapp/pages/RatesView.dart';
+import 'package:pickapp/pages/RatesListPage.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RegisterDriver.dart';
 import 'package:pickapp/pages/RideDetails.dart';
@@ -262,7 +262,7 @@ class RouteGenerator {
 
       case '/RatesView':
         return PageTransition(
-            type: PageTransitionType.rightToLeft, child: RatesView(args));
+            type: PageTransitionType.rightToLeft, child: RatesListPage(args));
       case '/AddRate':
         return PageTransition(
             type: PageTransitionType.rightToLeft, child: AddRate());

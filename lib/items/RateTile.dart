@@ -61,8 +61,18 @@ class RateTile extends ListTile {
                 flex: 3,
                 child: Row(
                   children: [
+
                     ResponsiveWidget(
                         height: 20, width: 120, child: RateStars(rate.grade)),
+                  ],
+                ),
+              ),
+              Expanded(flex : 3,
+                child: Row(
+                  children: [
+                    ResponsiveSpacer(
+                      width: 12,
+                    ),
                     Text(reasons[rate.reason],
                         style: Styles.labelTextStyle(size: 13.0)),
                   ],
