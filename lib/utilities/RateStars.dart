@@ -5,10 +5,14 @@ class RateStars extends StatelessWidget {
   double _rating;
   MainAxisAlignment mainAxisAlignment;
   Function onPressed;
-  RateStars(this._rating, {this.mainAxisAlignment, this.onPressed});
+  double size;
+
+  RateStars(this._rating, {this.mainAxisAlignment, this.onPressed, this.size});
 
   @override
   Widget build(BuildContext context) {
+    size = size == null ? Styles.mediumIconSize() : size;
+
     if (onPressed != null) {
       return Row(
         children: [
@@ -28,27 +32,27 @@ class RateStars extends StatelessWidget {
                   return Icon(
                     Icons.arrow_forward_ios_sharp,
                     color: Colors.grey.withOpacity(0.5),
-                    size: Styles.mediumIconSize(),
+                    size: size,
                   );
                 }
                 if (_rating >= index + 1) {
                   return Icon(
                     Icons.star,
                     color: Colors.yellow,
-                    size: Styles.mediumIconSize(),
+                    size: size,
                   );
                 } else if (_rating.toInt() == index &&
                     _rating.toInt() != _rating) {
                   return Icon(
                     Icons.star_half,
                     color: Colors.yellow,
-                    size: Styles.mediumIconSize(),
+                    size: size,
                   );
                 } else {
                   return Icon(
                     Icons.star,
                     color: Colors.grey.withOpacity(0.5),
-                    size: Styles.mediumIconSize(),
+                    size: size,
                   );
                 }
               }),
@@ -66,19 +70,19 @@ class RateStars extends StatelessWidget {
             return Icon(
               Icons.star,
               color: Colors.yellow,
-              size: Styles.mediumIconSize(),
+              size: size,
             );
           } else if (_rating.toInt() == index && _rating.toInt() != _rating) {
             return Icon(
               Icons.star_half,
               color: Colors.yellow,
-              size: Styles.mediumIconSize(),
+              size: size,
             );
           } else {
             return Icon(
               Icons.star,
               color: Colors.grey.withOpacity(0.5),
-              size: Styles.mediumIconSize(),
+              size: size,
             );
           }
         }),

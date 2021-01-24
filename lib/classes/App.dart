@@ -72,7 +72,7 @@ class App {
       return false;
   }
 
-  static void forceDarkTheme(bool value) async {
+  static void setTheme(bool value) async {
     Cache.setTheme(value);
 
     if (value) {

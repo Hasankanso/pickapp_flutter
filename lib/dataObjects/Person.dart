@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/dataObjects/UserStatistics.dart';
 
 part 'Person.g.dart';
 
@@ -45,6 +46,10 @@ class Person {
   @HiveField(15)
   CountryInformations _countryInformations;
 
+  UserStatistics _statistics;
+
+  UserStatistics get statistics => _statistics;
+
   ImageProvider networkImage;
 
   //user
@@ -82,6 +87,8 @@ class Person {
     this.gender = gender;
     this.birthday = birthday;
     this.profilePictureUrl = profilePictureUrl;
+
+    _statistics = new UserStatistics(1, 2, 3, 4, 5, rateAverage);
   }
 
   Person.name(this._firstName, this._lastName);
@@ -279,3 +286,4 @@ class Person {
     _countryInformations = value;
   }
 }
+

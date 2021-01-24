@@ -54,7 +54,7 @@ class Styles {
 
   //  button text or wherever background primary
   static buttonTextStyle({size}) {
-    double realSize = size == null? _fontSize : ScreenUtil().setSp(size);
+    double realSize = size == null ? _fontSize : ScreenUtil().setSp(size);
     return TextStyle(
       fontSize: realSize,
       color: secondaryColor(),
@@ -78,7 +78,7 @@ class Styles {
   }
 
   static TextStyle labelTextStyle({bold = FontWeight.w400, size}) {
-    double realSize = size == null? _fontSize : ScreenUtil().setSp(size);
+    double realSize = size == null ? _fontSize : ScreenUtil().setSp(size);
 
     return TextStyle(
       color: labelColor(),
@@ -88,9 +88,11 @@ class Styles {
   }
 
   static TextStyle valueTextStyle(
-      {bold = FontWeight.w400, bool underline = false, color}) {
+      {bold = FontWeight.w400, bool underline = false, color, int size}) {
+    double realSize = size == null ? _fontSize : ScreenUtil().setSp(size);
+
     return TextStyle(
-      fontSize: _fontSize,
+      fontSize: realSize,
       fontWeight: bold,
       decoration: underline ? TextDecoration.underline : null,
       color: color,
