@@ -66,7 +66,8 @@ class _SearchState extends State<Search>
                     visible: isNewNotification,
                     child: Positioned(
                       top: 14,
-                      left: 11,
+                      left: !App.isLTR ? 11 : null,
+                      right: App.isLTR ? 11 : null,
                       child: Container(
                         width: 10,
                         height: 10,

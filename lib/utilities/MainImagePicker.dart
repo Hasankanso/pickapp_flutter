@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -92,7 +93,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
                 ),
           Positioned(
             bottom: 5,
-            right: 10,
+            left: !App.isLTR ? 10 : null,
+            right: App.isLTR ? 10 : null,
             child: Icon(
               Icons.camera_alt_rounded,
               color: Styles.labelColor(),
@@ -105,6 +107,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
   }
 
   _takePhoto() async {
+    Navigator.pop(context);
     var pickedFile;
     try {
       pickedFile =
@@ -123,6 +126,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
   }
 
   _pickGallery() async {
+    Navigator.pop(context);
     var pickedFile;
     try {
       pickedFile =
@@ -141,6 +145,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
   }
 
   _viewImage() {
+    Navigator.pop(context);
     Navigator.push(
       context,
       MaterialPageRoute(
