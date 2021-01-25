@@ -47,6 +47,7 @@ class _SearchState extends State<Search>
         title: Lang.getString(context, "Search_for_Ride"),
         actions: [
           Stack(
+            alignment: AlignmentDirectional.center,
             children: [
               IconButton(
                 icon: Icon(
