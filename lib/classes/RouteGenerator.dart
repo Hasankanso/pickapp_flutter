@@ -31,7 +31,7 @@ import 'package:pickapp/pages/RatesListPage.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RegisterDriver.dart';
 import 'package:pickapp/pages/RideDetails.dart';
-import 'package:pickapp/pages/RideDetails2.dart';
+import 'package:pickapp/pages/UpcomingRideDetails.dart';
 import 'package:pickapp/pages/SearchResults.dart';
 import 'package:pickapp/pages/Security.dart';
 import 'package:pickapp/pages/Settings.dart';
@@ -90,10 +90,10 @@ class RouteGenerator {
             child: AddRidePage5(
               rideInfo: args,
             ));
-      case '/RideDetails2':
+      case '/UpcomingRideDetails':
         return PageTransition(
             type: isLTR,
-            child: RideDetails2(
+            child: UpcomingRideDetails(
               (args as List)[0],
               buttonText: (args as List)[1],
               onPressed: (args as List)[2],

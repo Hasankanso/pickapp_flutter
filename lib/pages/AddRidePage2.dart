@@ -127,7 +127,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                           LengthLimitingTextInputFormatter(3),
                         ],
                         decoration: InputDecoration(
-                          labelText: Lang.getString(context, "/Min"),
+                          labelText: Lang.getString(context, "Min"),
                           labelStyle: Styles.labelTextStyle(),
                         ),
                         style: Styles.valueTextStyle(),

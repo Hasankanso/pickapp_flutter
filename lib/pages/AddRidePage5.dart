@@ -4,8 +4,6 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/pages/RideDetails.dart';
-import 'package:pickapp/pages/RideView.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -47,6 +45,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
             Row(
               children: [
                 Expanded(
+                  flex: 1,
                   child: Column(
                     children: [
                       _Title(text: Lang.getString(context, "From")),
@@ -55,6 +54,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                   ),
                 ),
                 Expanded(
+                  flex: 2,
                   child: Column(
                     children: [
                       _Value(
@@ -75,43 +75,31 @@ class _AddRidePage5State extends State<AddRidePage5> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Card(
-                  elevation: 3,
-                  child: Icon(
-                    Icons.pets,
-                    color: ride.petsAllowed
-                        ? Styles.primaryColor()
-                        : Styles.labelColor(),
-                  ),
+                Icon(
+                  Icons.pets,
+                  color: ride.petsAllowed
+                      ? Styles.primaryColor()
+                      : Styles.labelColor(),
                 ),
-                Card(
-                  elevation: 3,
-                  child: Icon(
-                    ride.smokingAllowed
-                        ? Icons.smoking_rooms
-                        : Icons.smoke_free,
-                    color: ride.smokingAllowed
-                        ? Styles.primaryColor()
-                        : Styles.labelColor(),
-                  ),
+                Icon(
+                  ride.smokingAllowed
+                      ? Icons.smoking_rooms
+                      : Icons.smoke_free,
+                  color: ride.smokingAllowed
+                      ? Styles.primaryColor()
+                      : Styles.labelColor(),
                 ),
-                Card(
-                  elevation: 3,
-                  child: Icon(
-                    Icons.ac_unit,
-                    color: ride.acAllowed
-                        ? Styles.primaryColor()
-                        : Styles.labelColor(),
-                  ),
+                Icon(
+                  Icons.ac_unit,
+                  color: ride.acAllowed
+                      ? Styles.primaryColor()
+                      : Styles.labelColor(),
                 ),
-                Card(
-                  elevation: 3,
-                  child: Icon(
-                    ride.musicAllowed ? Icons.music_note : Icons.music_off,
-                    color: ride.musicAllowed
-                        ? Styles.primaryColor()
-                        : Styles.labelColor(),
-                  ),
+                Icon(
+                  ride.musicAllowed ? Icons.music_note : Icons.music_off,
+                  color: ride.musicAllowed
+                      ? Styles.primaryColor()
+                      : Styles.labelColor(),
                 ),
               ],
             ),
@@ -119,25 +107,39 @@ class _AddRidePage5State extends State<AddRidePage5> {
             Row(
               children: [
                 Expanded(
+                  flex:2,
+
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _Title(text: Lang.getString(context, "Date")),
+                      _Title(text: Lang.getString(context, "Car")),
                       _Title(text: Lang.getString(context, "Available_Seats")),
                       _Title(text: Lang.getString(context, "Luggage")),
+                      _Title(text: Lang.getString(context, "Kid's_Seat")),
                       _Title(text: Lang.getString(context, "Stop_Duration")),
                       _Title(text: Lang.getString(context, "Price")),
                     ],
                   ),
                 ),
                 Expanded(
+                  flex:3,
+
                   child: Column(
                     children: [
                       ResponsiveWidget.fullWidth(
                         height: 40,
                         child: Text(
                           DateFormat(App.dateFormat).format(ride.leavingDate),
+                          maxLines: 1,
+                          style: Styles.valueTextStyle(),
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
+                      ResponsiveWidget.fullWidth(
+                        height: 40,
+                        child: Text(ride.car.brand.toString()+" "+ride.car.name.toString(),
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
                           overflow: TextOverflow.clip,
@@ -163,12 +165,27 @@ class _AddRidePage5State extends State<AddRidePage5> {
                       ),
                       ResponsiveWidget.fullWidth(
                         height: 40,
+                        child: ride.kidSeat==true?Text("1",
+                          maxLines: 1,
+                          style: Styles.valueTextStyle(),
+                          overflow: TextOverflow.clip,
+                        ):
+                        Text("0",
+                          maxLines: 1,
+                          style: Styles.valueTextStyle(),
+                          overflow: TextOverflow.clip,
+                        )
+                        ,
+                      ),
+                      ResponsiveWidget.fullWidth(
+                        height: 40,
                         child: Text(
                           ride.stopTime == null
-                              ? "0 " + Lang.getString(context, "/Min")
+                              ? "0 " +
+                              Lang.getString(context, "Min")
                               : ride.stopTime.toString() +
                                   " " +
-                                  Lang.getString(context, "/Min"),
+                                  Lang.getString(context, "Min"),
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
                           overflow: TextOverflow.clip,
@@ -178,8 +195,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                         height: 40,
                         child: Text(
                           ride.price.toString() +
-                              " " +
-                              ride.countryInformations.unit,
+                              " " +ride.countryInformations.unit,
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
                           overflow: TextOverflow.clip,

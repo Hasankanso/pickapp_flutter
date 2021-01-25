@@ -74,7 +74,7 @@ class MyRidesTile extends ListTile {
                                     ]);
                               }
                             : () {
-                          Navigator.of(context).pushNamed("/RideDetails2",
+                          Navigator.of(context).pushNamed("/UpcomingRideDetails",
                               arguments: [
                                 _ride,
                                 "hello",

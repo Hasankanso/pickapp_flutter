@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/pages/PassengersView.dart';
 import 'package:pickapp/pages/RideView.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 
-class RideDetails2 extends StatelessWidget {
+class UpcomingRideDetails extends StatelessWidget {
   final Ride ride;
   String buttonText;
   void Function(Ride) onPressed;
-  RideDetails2(this.ride, {this.buttonText, this.onPressed});
+  UpcomingRideDetails(this.ride, {this.buttonText, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
