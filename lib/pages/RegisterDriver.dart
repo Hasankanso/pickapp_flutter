@@ -151,7 +151,6 @@ class _RegisterDriverState extends State<RegisterDriver> {
       App.isDriverNotifier.value = false;
       App.user.driver = null;
 
-      App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
       App.isLoggedInNotifier.notifyListeners();
       CustomToast()

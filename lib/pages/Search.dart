@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -45,16 +46,43 @@ class _SearchState extends State<Search>
       appBar: MainAppBar(
         title: Lang.getString(context, "Search_for_Ride"),
         actions: [
-          IconButton(
-            icon: Icon(
-              Icons.notifications_outlined,
-              color: Styles.secondaryColor(),
-              size: Styles.largeIconSize(),
-            ),
-            tooltip: Lang.getString(context, "Notifications"),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/Notifications");
-            },
+          Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.notifications_outlined,
+                  color: Styles.secondaryColor(),
+                  size: Styles.largeIconSize(),
+                ),
+                tooltip: Lang.getString(context, "Notifications"),
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/Notifications");
+                },
+              ),
+              ValueListenableBuilder(
+                builder: (BuildContext context, bool isNewNotification,
+                    Widget child) {
+                  return Visibility(
+                    visible: isNewNotification,
+                    child: Positioned(
+                      top: 14,
+                      left: !App.isLTR ? 11 : null,
+                      right: App.isLTR ? 11 : null,
+                      child: Container(
+                        width: 10,
+                        height: 10,
+                        decoration: new BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                valueListenable: App.isNewNotificationNotifier,
+              ),
+            ],
           )
         ],
       ),

@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as PathProvider;
+import 'package:pickapp/dataObjects/Car.dart';
+import 'package:pickapp/dataObjects/Chat.dart';
+import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
+import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:pickapp/dataObjects/Message.dart';
+import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,6 +74,56 @@ class Cache {
     regionsBox.close();
 
     Inbox.subscribeToChannel();
+  }
+
+  static Future<void> initializeHive() async {
+    final path = await PathProvider.getApplicationDocumentsDirectory();
+    Hive.init(path.path);
+    Hive.registerAdapter(UserAdapter());
+    Hive.registerAdapter(PersonAdapter());
+    Hive.registerAdapter(DriverAdapter());
+    Hive.registerAdapter(CountryInformationsAdapter());
+    Hive.registerAdapter(CarAdapter());
+    Hive.registerAdapter(MainLocationAdapter());
+    Hive.registerAdapter(RideAdapter());
+    Hive.registerAdapter(PassengerAdapter());
+    Hive.registerAdapter(ChatAdapter());
+    Hive.registerAdapter(MessageAdapter());
+    Hive.registerAdapter(MainNotificationAdapter());
+  }
+
+  static Future<User> getUser() async {
+    User user;
+    await Hive.openBox('user');
+
+    final box = Hive.box("user");
+    if (box.length != 0) {
+      user = box.getAt(0) as User;
+    }
+    return user;
+  }
+
+  static Future<List<MainNotification>> getNotifications() async {
+    List<MainNotification> notifications;
+    await Hive.openBox('localNotifications');
+    final notificationsBox = Hive.box("localNotifications");
+    if (notificationsBox.length != 0) {
+      notifications = notificationsBox.getAt(0).cast<MainNotification>();
+    }
+    notificationsBox.close();
+    return notifications;
+  }
+
+  static Future<void> setNotifications(
+      List<MainNotification> notifications) async {
+    await Hive.openBox('localNotifications');
+    final box = Hive.box("localNotifications");
+    if (box.containsKey(0)) {
+      await box.put(0, notifications);
+    } else {
+      box.add(notifications);
+    }
+    box.close();
   }
 
   static void setLocale(String languageCode) {

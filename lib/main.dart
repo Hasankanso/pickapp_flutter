@@ -5,23 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart' as PathProvider;
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/dataObjects/Chat.dart';
-import 'package:pickapp/dataObjects/CountryInformations.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/Message.dart';
-import 'package:pickapp/dataObjects/Passenger.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -35,31 +23,19 @@ Future<void> main() async {
   await Request.initBackendless();
   await Firebase.initializeApp();
 
-  App.isLoggedInNotifier = ValueNotifier<bool>(App.isLoggedIn);
+  App.isLoggedInNotifier = ValueNotifier<bool>(false);
   App.isDriverNotifier = ValueNotifier<bool>(App.driver != null);
 
-  final path = await PathProvider.getApplicationDocumentsDirectory();
-  Hive.init(path.path);
-  Hive.registerAdapter(UserAdapter());
-  Hive.registerAdapter(PersonAdapter());
-  Hive.registerAdapter(DriverAdapter());
-  Hive.registerAdapter(CountryInformationsAdapter());
-  Hive.registerAdapter(CarAdapter());
-  Hive.registerAdapter(MainLocationAdapter());
-  Hive.registerAdapter(RideAdapter());
-  Hive.registerAdapter(PassengerAdapter());
-  Hive.registerAdapter(ChatAdapter());
-  Hive.registerAdapter(MessageAdapter());
-  Hive.registerAdapter(MainNotificationAdapter());
-  await Hive.openBox('user');
+  await Cache.initializeHive();
 
-  final box = Hive.box("user");
-  if (box.length != 0) {
-    App.user = box.getAt(0) as User;
-    App.isLoggedIn = true;
+  App.user = await Cache.getUser();
+  if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
     Inbox.subscribeToChannel();
+
+    //get notifications
+    App.notifications = await Cache.getNotifications();
   }
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -204,7 +180,6 @@ class MyAppState extends State<MyApp> {
         var userB = Hive.box("user");
         userB.clear();
         App.user = null;
-        App.isLoggedIn = false;
         App.isDriverNotifier.value = false;
         App.isLoggedInNotifier.value = false;
         CustomToast().showErrorToast(Lang.getString(context, message));

@@ -2,6 +2,8 @@ import 'package:hive/hive.dart';
 
 //import 'package:timezone/data/latest.dart' as tz;
 //import 'package:timezone/timezone.dart' as tz;
+//import 'package:pickapp/classes/App.dart';
+// import 'package:pickapp/classes/Cache.dart';
 
 part 'MainNotification.g.dart';
 
@@ -241,7 +243,12 @@ class MainNotification {
         payload: json.encode(notification.toJson()),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
-    //todo cache notification
+    if(App.notifications!=null){
+      App.notifications.add(notification);
+    } else {
+      App.notifications=[notification];
+    }
+    await Cache.setNotifications(App.notifications);
   }
 
   static deleteLocalNotification(int id) async {
