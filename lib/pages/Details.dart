@@ -423,7 +423,6 @@ class _DetailsState extends State<Details> {
       User u = App.user;
       await Cache.setUserCache(u);
 
-      App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
       App.isLoggedInNotifier.notifyListeners();
       CustomToast()
@@ -474,7 +473,6 @@ class _DetailsState extends State<Details> {
       App.isDriverNotifier.value = false;
       App.user.driver = null;
 
-      App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
       App.isLoggedInNotifier.notifyListeners();
       CustomToast()

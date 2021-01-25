@@ -27,7 +27,6 @@ class App {
   static String countryCode =
       "lb"; //todo person.countryInformations.countryComponent;
   static User _user;
-  static bool _isLoggedIn = false;
   static ValueNotifier<bool> isLoggedInNotifier;
   static ValueNotifier<bool> isDriverNotifier;
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
@@ -40,6 +39,8 @@ class App {
   static Locale locale;
   static ValueNotifier<bool> newMessageInbox = ValueNotifier(false);
   static bool isLTR;
+  static ValueNotifier<bool> isNewNotificationNotifier =
+      ValueNotifier<bool>(false);
 
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
@@ -123,12 +124,6 @@ class App {
 
   static bool isIphone() {
     return Platform.isIOS;
-  }
-
-  static bool get isLoggedIn => _isLoggedIn;
-
-  static set isLoggedIn(bool value) {
-    _isLoggedIn = value;
   }
 
   static User get user => _user;

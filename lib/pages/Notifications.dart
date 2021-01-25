@@ -10,10 +10,18 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 
 class Notifications extends StatelessWidget {
-  List<MainNotification> notifications = App.notifications;
+  List<MainNotification> notifications = List<MainNotification>();
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => App.isNewNotificationNotifier.value = false);
+
+    for (int i = 0; i < App.notifications.length; i++) {
+      if (App.notifications[i].scheduleDate.compareTo(DateTime.now()) >= 0) {
+        notifications.add(App.notifications[i]);
+      }
+    }
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Notifications"),

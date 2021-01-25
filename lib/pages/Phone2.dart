@@ -394,7 +394,6 @@ class _Phone2State extends State<Phone2> {
 
       App.user = localUser;
       await Cache.setUserCache(localUser);
-      App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
       App.isLoggedInNotifier.notifyListeners();
       CustomToast()

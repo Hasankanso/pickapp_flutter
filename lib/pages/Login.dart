@@ -299,7 +299,6 @@ class _LoginState extends State<Login> {
       App.user = u;
       await Cache.setUserCache(u);
       if (App.user.driver != null) App.isDriverNotifier.value = true;
-      App.isLoggedIn = true;
       App.isLoggedInNotifier.value = true;
       App.isLoggedInNotifier.notifyListeners();
 
