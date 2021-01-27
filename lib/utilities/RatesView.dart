@@ -27,6 +27,8 @@ class RatesView extends StatelessWidget {
 
     double width = 200.0;
     double lineHeight = 10.0;
+    Color backgroundColor = Colors.grey.shade300;
+    Color mainColor = Colors.green;
 
     return Row(
       children: [
@@ -65,8 +67,8 @@ class RatesView extends StatelessWidget {
                     width: width,
                     lineHeight: lineHeight,
                     percent: fivesRatio,
-                    backgroundColor: Colors.grey,
-                    progressColor: Colors.green,
+                    backgroundColor: backgroundColor,
+                    progressColor: mainColor,
                   ),
                 ],
               ),
@@ -77,8 +79,8 @@ class RatesView extends StatelessWidget {
                     width: width,
                     lineHeight: lineHeight,
                     percent: foursRatio,
-                    backgroundColor: Colors.grey,
-                    progressColor: Colors.green,
+                    backgroundColor: backgroundColor,
+                    progressColor: mainColor,
                   ),
                 ],
               ),
@@ -89,8 +91,8 @@ class RatesView extends StatelessWidget {
                     width: width,
                     lineHeight: lineHeight,
                     percent: threesRatio,
-                    backgroundColor: Colors.grey,
-                    progressColor: Colors.green,
+                    backgroundColor: backgroundColor,
+                    progressColor: mainColor,
                   ),
                 ],
               ),
@@ -101,8 +103,8 @@ class RatesView extends StatelessWidget {
                     width: width,
                     lineHeight: lineHeight,
                     percent: twosRatio,
-                    backgroundColor: Colors.grey,
-                    progressColor: Colors.green,
+                    backgroundColor: backgroundColor,
+                    progressColor: mainColor,
                   ),
                 ],
               ),
@@ -113,8 +115,8 @@ class RatesView extends StatelessWidget {
                     width: width,
                     lineHeight: lineHeight,
                     percent: onesRatio,
-                    backgroundColor: Colors.grey,
-                    progressColor: Colors.green,
+                    backgroundColor: backgroundColor,
+                    progressColor: mainColor,
                   ),
                 ],
               )

@@ -71,13 +71,10 @@ class App {
 
 
   static bool checkIfDriver(Ride ride) {
-    if (ride.user.driver != null) {
-      if (ride.user.driver == App.user.driver)
+      if (ride.user.driver != null && ride.user.driver == App.user.driver)
         return true;
       else
         return false;
-    } else
-      return false;
   }
 
   static void setTheme(bool value) async {
@@ -338,5 +335,6 @@ class App {
         return ride;
       }
     }
+    return null;
   }
 }

@@ -19,6 +19,7 @@ import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Spinner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -105,7 +106,8 @@ class _SearchResultsState extends State<SearchResults> {
     filterController.priceController.maxAbsolute = App.maxPriceFilter;
     filterController.timeController.values = new RangeValues(0, 1440);
 
-    seatsController = TextEditingController(text: widget.searchInfo.passengersNumber.toString());
+    seatsController = TextEditingController(
+        text: widget.searchInfo.passengersNumber.toString());
     luggageController = TextEditingController(text: "0");
   }
 
@@ -234,9 +236,19 @@ class _SearchResultsState extends State<SearchResults> {
   }
 
   void OnPressed(Ride r) {
-    Navigator.of(context).pushNamed("/RideDetails", arguments: [r, Lang.getString(context, "Reserve"), (Ride r) => seatsLuggagePopUp(r, context)]);
-  }
+    Function callbackFunction;
+    String buttonName = "Back";
+    if ((App.user.driver != null && r.driver.id == App.user.driver.id) ||
+        App.getRideFromObjectId(r.id) != null) {
+      callbackFunction = (Ride r) => Navigator.of(context).pop();
+    } else {
+      callbackFunction = (Ride r) => seatsLuggagePopUp(r, context);
+      buttonName = Lang.getString(context, "Reserve");
+    }
 
+    Navigator.of(context).pushNamed("/RideDetails",
+        arguments: [r, buttonName, callbackFunction]);
+  }
 
   void response(Ride r, int status, String reason, BuildContext context) {
     if (status == 200) {
@@ -259,6 +271,8 @@ class _SearchResultsState extends State<SearchResults> {
       descStyle: Styles.valueTextStyle(),
       animationDuration: Duration(milliseconds: 400),
     );
+    NumberController seatsController = new NumberController();
+    NumberController luggageController = new NumberController();
     Alert(
         context: context,
         style: alertStyle,
@@ -271,49 +285,18 @@ class _SearchResultsState extends State<SearchResults> {
               ResponsiveRow(
                 widgetRealtiveSize: 10,
                 children: [
-                  TextFormField(
-                    controller: seatsController,
-                    validator: (value) {
-                      String valid = Validation.validate(value, context);
-                      if (valid != null) return valid;
-                      return null;
-                    },
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(5),
-                    ],
-                    maxLengthEnforced: true,
-                    decoration: InputDecoration(
-                      labelText: Lang.getString(context, "Seats"),
-                      hintText: "1",
-                      labelStyle: Styles.labelTextStyle(),
-                    ),
-                  ),
+                  NumberPicker(seatsController,
+                      Lang.getString(context, "Seats"), 1, ride.availableSeats),
                 ],
               ),
               ResponsiveRow(
                 widgetRealtiveSize: 10,
                 children: [
-                  TextFormField(
-                    controller: luggageController,
-                    validator: (value) {
-                      String valid = Validation.validate(value, context);
-                      if (valid != null) return valid;
-                      return null;
-                    },
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(5),
-                    ],
-                    maxLengthEnforced: true,
-                    decoration: InputDecoration(
-                      labelText: Lang.getString(context, "Luggage"),
-                      hintText: "0",
-                      labelStyle: Styles.labelTextStyle(),
-                    ),
-                  ),
+                  NumberPicker(
+                      luggageController,
+                      Lang.getString(context, "Luggage"),
+                      0,
+                      ride.availableLuggages),
                 ],
               ),
             ],
@@ -327,8 +310,6 @@ class _SearchResultsState extends State<SearchResults> {
             color: Styles.primaryColor(),
             onPressed: () {
               if (_codeFormKey.currentState.validate()) {
-                int seats = int.parse(seatsController.text);
-                int luggage = int.parse(luggageController.text);
                 showDialog(
                   context: context,
                   barrierDismissible: false,
@@ -341,7 +322,11 @@ class _SearchResultsState extends State<SearchResults> {
                     );
                   },
                 );
-                Request<Ride> req = ReserveSeat(ride, App.user, seats, luggage);
+                Request<Ride> req = ReserveSeat(
+                    ride,
+                    App.user,
+                    seatsController.chosenNumber,
+                    luggageController.chosenNumber);
                 req.send((r, status, reason) =>
                     response(ride, status, reason, context));
               }
@@ -350,7 +335,6 @@ class _SearchResultsState extends State<SearchResults> {
         ]).show();
   }
 }
-
 
 class _TopCard extends StatelessWidget {
   SearchInfo searchInfo;

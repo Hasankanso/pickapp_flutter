@@ -161,7 +161,7 @@ class _Panel extends StatelessWidget {
             ),
           ]),
         ),
-        VerticalSpacer(height: 20),
+        VerticalSpacer(height: 15),
         ResponsiveWidget.fullWidth(
           height: 30,
           child: Text(
@@ -172,10 +172,11 @@ class _Panel extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        VerticalSpacer(height: 20),
+        VerticalSpacer(height: 15),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            ResponsiveSpacer(width: 45,),
             Column(children: [
               Icon(
                 Icons.speed,
@@ -189,9 +190,10 @@ class _Panel extends StatelessWidget {
                 style: Styles.valueTextStyle(size: 12),
               ),
             ]),
+            ResponsiveSpacer(width: 30,),
             LinearPercentIndicator(
-              width: 250.0,
-              lineHeight: 14.0,
+              width: 209.0,
+              lineHeight: 16.0,
               percent: accomplishedCanceledRatio,
               center: Text(
                 (accomplishedCanceledRatio * 100).toInt().toString() + "%",
@@ -203,7 +205,7 @@ class _Panel extends StatelessWidget {
           ],
         ),
         VerticalSpacer(
-          height: 5,
+          height: 30,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -221,18 +223,26 @@ class _Panel extends StatelessWidget {
             ),
           ],
         ),
-        VerticalSpacer(height: 30),
+        VerticalSpacer(height: 15),
         _Title(text: Lang.getString(context, "Chattiness")),
         ResponsiveWidget.fullWidth(
           height: 40,
-          child: Text(
-            chattinessItems[user.person.chattiness],
-            maxLines: 1,
-            textAlign : TextAlign.center,
-            style: Styles.valueTextStyle(),
-            overflow: TextOverflow.clip,
+          child: Row(
+            children: [
+              ResponsiveSpacer(width : 15),
+              Align(alignment:  AlignmentDirectional.topStart,
+                child: Text(
+                  chattinessItems[user.person.chattiness],
+                  maxLines: 1,
+                  textAlign : TextAlign.start,
+                  style: Styles.valueTextStyle(),
+                  overflow: TextOverflow.clip,
+                ),
+              ),
+            ],
           ),
         ),
+        VerticalSpacer(height: 5),
         _Title(text: Lang.getString(context, "Bio")),
         ResponsiveRow(
           children: [
