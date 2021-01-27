@@ -8,7 +8,6 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/SearchForRides.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -47,16 +46,43 @@ class _SearchState extends State<Search>
       appBar: MainAppBar(
         title: Lang.getString(context, "Search_for_Ride"),
         actions: [
-          IconButton(
-            icon: Icon(
-              Icons.notifications_outlined,
-              color: Styles.secondaryColor(),
-              size: Styles.largeIconSize(),
-            ),
-            tooltip: Lang.getString(context, "Notifications"),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/Notifications");
-            },
+          Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.notifications_outlined,
+                  color: Styles.secondaryColor(),
+                  size: Styles.largeIconSize(),
+                ),
+                tooltip: Lang.getString(context, "Notifications"),
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/Notifications");
+                },
+              ),
+              ValueListenableBuilder(
+                builder: (BuildContext context, bool isNewNotification,
+                    Widget child) {
+                  return Visibility(
+                    visible: isNewNotification,
+                    child: Positioned(
+                      top: 14,
+                      left: !App.isLTR ? 11 : null,
+                      right: App.isLTR ? 11 : null,
+                      child: Container(
+                        width: 10,
+                        height: 10,
+                        decoration: new BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                valueListenable: App.isNewNotificationNotifier,
+              ),
+            ],
           )
         ],
       ),
@@ -97,15 +123,6 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                MainNotification upcomingride = MainNotification(
-                  title: 'Upcoming Ride',
-                  description: 'bs 3rft lfekra wen',
-                  action: "upcomingRide",
-                  id: 0,
-                  objectId: "5A16585F-9B51-4C86-A25E-030B55160C00",
-                  scheduleDate: DateTime.now().add(Duration(seconds: 10)),
-                );
-                App.pushLocalNotification(upcomingride);
                 String _validateFrom =
                     fromController.validate(context, x: toController);
                 String _validateTo =

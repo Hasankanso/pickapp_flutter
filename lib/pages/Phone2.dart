@@ -394,6 +394,8 @@ class _Phone2State extends State<Phone2> {
 
       App.user = localUser;
       await Cache.setUserCache(localUser);
+      App.isLoggedInNotifier.value = true;
+      App.isLoggedInNotifier.notifyListeners();
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       Navigator.popUntil(context, (route) => route.isFirst);

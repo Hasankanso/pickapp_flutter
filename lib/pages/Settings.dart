@@ -81,8 +81,7 @@ class Settings extends StatelessWidget {
                               isDisabled:
                                   MediaQuery.of(context).platformBrightness ==
                                       Brightness.dark,
-                              onChanged: (bool value) =>
-                                  {App.setTheme(value)})
+                              onChanged: (bool value) => {App.setTheme(value)})
                         ]),
                       ),
                     ],
@@ -295,7 +294,6 @@ class Settings extends StatelessWidget {
                           var userB = Hive.box("user");
                           userB.clear();
                           App.user = null;
-                          App.isLoggedIn = false;
                           App.isDriverNotifier.value = false;
                           App.isLoggedInNotifier.value = false;
                           Navigator.pop(context);

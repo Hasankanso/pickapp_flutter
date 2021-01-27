@@ -139,6 +139,7 @@
   "Reason": "السبب",
   "Dismiss": "تجاهل",
   "Show": "إظهار",
+  "No_notifications!": "لا يوجد إشعارات!",
 
   "Results" : "النتائج",
   "Filter" : "فلتر",
@@ -167,7 +168,7 @@
   "Price":"السعر",
   "Rides_Permissions": "مسموحات الرحلة :",
   "Description": "وصف الرحلة",
-  "/Min": "/ دقيقة",
+  "Min": " دقيقة",
   "How_Much_Time_You_Need": "كم من الوقت تحتاج ؟",
   "Do_You_Want_To_Stop_Over": "هل تود الوقوف اثناء الرحلة ؟",
   "Do_You_Have_Kids_Seat": "هل لديك مقعد اطفال؟",
@@ -183,7 +184,12 @@
   "Generate_Rides":"Generate 7 rides",
   "Select_car": "اختر سيارة!",
   "Loading_Map": "جاري تحميل الخريطة ...",
-  "Passengers": "الركاب"
+  "Passengers": "الركاب",
+  "Kid's_Seat": "مقعد اطفال",
+  "Add_Seat": "يجب إضافة مقعد واحد على الأقل",
+  "Car": "السيارة"
+
+
 
 
 }

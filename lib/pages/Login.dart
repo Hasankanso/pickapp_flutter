@@ -298,6 +298,10 @@ class _LoginState extends State<Login> {
     } else {
       App.user = u;
       await Cache.setUserCache(u);
+      if (App.user.driver != null) App.isDriverNotifier.value = true;
+      App.isLoggedInNotifier.value = true;
+      App.isLoggedInNotifier.notifyListeners();
+
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_back_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);

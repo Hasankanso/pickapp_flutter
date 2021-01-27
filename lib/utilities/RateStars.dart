@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Styles.dart';
 
 class RateStars extends StatelessWidget {
@@ -11,7 +12,7 @@ class RateStars extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    size = size ==null? Styles.mediumIconSize() : size;
+    size = size == null ? Styles.mediumIconSize() : size;
 
     if (onPressed != null) {
       return Row(
@@ -29,15 +30,14 @@ class RateStars extends StatelessWidget {
                   : mainAxisAlignment,
               children: List<Widget>.generate(6, (int index) {
                 if (index == 5) {
-                  return Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_forward_ios_sharp,
+                  return Directionality(
+                      textDirection:
+                          App.isLTR ? TextDirection.ltr : TextDirection.rtl,
+                      child: Icon(
+                        Icons.arrow_forward_ios,
                         color: Colors.grey.withOpacity(0.5),
                         size: size,
-                      ),
-                    ],
-                  );
+                      ));
                 }
                 if (_rating >= index + 1) {
                   return Icon(

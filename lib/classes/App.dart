@@ -1,13 +1,8 @@
-import 'dart:convert';
-import 'dart:io' show File, Platform;
+import 'dart:io' show Platform;
 
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:http/http.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -18,8 +13,6 @@ import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
 import 'Localizations.dart';
 
@@ -34,7 +27,6 @@ class App {
   static String countryCode =
       "lb"; //todo person.countryInformations.countryComponent;
   static User _user;
-  static bool _isLoggedIn = false;
   static ValueNotifier<bool> isLoggedInNotifier;
   static ValueNotifier<bool> isDriverNotifier;
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
@@ -44,8 +36,12 @@ class App {
   static dynamic stepPriceFilter;
   static Channel inboxChannel;
   static List<MainNotification> notifications = List<MainNotification>();
-
+  static Locale locale;
   static ValueNotifier<bool> newMessageInbox = ValueNotifier(false);
+  static bool isLTR;
+  static ValueNotifier<bool> isNewNotificationNotifier =
+      ValueNotifier<bool>(false);
+
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
     'Deutschland': CountryInformations(
@@ -62,13 +58,10 @@ class App {
         drivingAge: 18),
   };
 
-  static Locale locale;
-
-  static void changeLanguage(String lang) async {
+  static void changeLanguage(String lang, context) async {
     await Cache.setLocale(lang);
     _state.setLocale(Locale(lang));
   }
-
 
   static bool checkIfDriver(Ride ride) {
       if (ride.user.driver != null && ride.user.driver == App.user.driver)
@@ -106,6 +99,7 @@ class App {
         largeSize: ScreenUtil().setSp(27),
         mediumSize: ScreenUtil().setSp(21),
         smallSize: ScreenUtil().setSp(14.5));
+    App.isLTR = Directionality.of(context) == TextDirection.ltr;
   }
 
   static void changeScreenReferenceSize(double width, double height) {
@@ -127,12 +121,6 @@ class App {
 
   static bool isIphone() {
     return Platform.isIOS;
-  }
-
-  static bool get isLoggedIn => _isLoggedIn;
-
-  static set isLoggedIn(bool value) {
-    _isLoggedIn = value;
   }
 
   static User get user => _user;
@@ -179,154 +167,6 @@ class App {
       Lang.getString(context, "I_talk_depending_on_my_mood"),
       Lang.getString(context, "I_love_to_chat!"),
     ];
-  }
-
-  static initializeLocaleNotification(context) async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-
-    AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    final IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
-            requestSoundPermission: true,
-            requestBadgePermission: true,
-            requestAlertPermission: true,
-            onDidReceiveLocalNotification:
-                (int id, String title, String body, String payload) async {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => CupertinoAlertDialog(
-                  title: Text(title),
-                  content: Text(body),
-                  actions: [
-                    CupertinoDialogAction(
-                      isDefaultAction: true,
-                      child: Text(Lang.getString(context, "Dismiss")),
-                      onPressed: () async {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    CupertinoDialogAction(
-                      isDefaultAction: true,
-                      child: Text(Lang.getString(context, "Show")),
-                      onPressed: () async {
-                        _localeNotificationCallBack(payload, context);
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ),
-              );
-            });
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: (payload) =>
-          _localeNotificationCallBack(payload, context),
-    );
-  }
-
-  static _localeNotificationCallBack(String payload, context) {
-    if (payload != null) {
-      MainNotification notification =
-          MainNotification.fromJson(json.decode(payload));
-      switch (notification.action) {
-        case 'upcomingRide':
-          Ride ride = App.getRideFromObjectId(notification.objectId);
-          Navigator.pushNamed(context, "/RideDetails2", arguments: ride);
-          break;
-        default:
-          //for default notification
-          break;
-      }
-    }
-  }
-
-  static pushLocalNotification(MainNotification notification) async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-    var androidImage;
-    var iosImage;
-
-    if (notification.imageUrl != null) {
-      //todo put image file name
-      final directory = await getApplicationDocumentsDirectory();
-      final String imagePath = '${directory.path}/test';
-      final Response response = await get("url");
-      final file = File(imagePath);
-      await file.writeAsBytes(response.bodyBytes);
-
-      androidImage = BigPictureStyleInformation(
-        FilePathAndroidBitmap(imagePath),
-      );
-
-      iosImage = <IOSNotificationAttachment>[
-        IOSNotificationAttachment(imagePath)
-      ];
-    }
-
-    String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
-    tz.initializeTimeZones();
-    tz.setLocalLocation(tz.getLocation(currentTimeZone));
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        notification.id,
-        notification.title,
-        notification.description,
-        tz.TZDateTime(
-            tz.local,
-            notification.scheduleDate.year,
-            notification.scheduleDate.month,
-            notification.scheduleDate.day,
-            notification.scheduleDate.hour,
-            notification.scheduleDate.minute,
-            notification.scheduleDate.second,
-            notification.scheduleDate.millisecond),
-        NotificationDetails(
-            android: AndroidNotificationDetails(
-              'pickapp-channel',
-              'PickApp',
-              'This channel is for PickApp',
-              importance: Importance.max,
-              priority: Priority.high,
-              color: Styles.primaryColor(),
-              channelShowBadge: true,
-              enableVibration: true,
-              ledColor: Styles.primaryColor(),
-              showWhen: true,
-              ledOnMs: 1000,
-              visibility: NotificationVisibility.public,
-              ledOffMs: 500,
-              autoCancel: true,
-              styleInformation: androidImage,
-              subText: notification.subtitle,
-            ),
-            iOS: IOSNotificationDetails(
-                presentBadge: true,
-                presentSound: true,
-                subtitle: notification.subtitle,
-                attachments: iosImage)),
-        androidAllowWhileIdle: true,
-        payload: json.encode(notification.toJson()),
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
-    //todo cache notification
-  }
-
-  static deleteLocalNotification(int id) async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-    await flutterLocalNotificationsPlugin.cancel(id);
-  }
-
-  static deleteAllLocalNotifications() async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-    await flutterLocalNotificationsPlugin.cancelAll();
   }
 
   static Ride getRideFromObjectId(String objectId) {

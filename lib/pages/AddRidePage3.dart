@@ -144,7 +144,7 @@ class _AddRidePage3State extends State<AddRidePage3>
                             LengthLimitingTextInputFormatter(8),
                           ],
                           decoration: InputDecoration(
-                            labelText: Lang.getString(context, "LBP"),
+                            labelText: rideInfo.countryInformations.unit,
                             labelStyle: Styles.labelTextStyle(),
                             hintStyle: Styles.labelTextStyle(),
                           ),
@@ -180,16 +180,22 @@ class _AddRidePage3State extends State<AddRidePage3>
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     if (valueSelected) {
-                      int seats = personController.chosenNumber;
-                      int luggage = luggageController.chosenNumber;
-                      rideInfo.availableSeats = seats;
-                      rideInfo.availableLuggages = luggage;
-                      rideInfo.car = App.user.driver.cars[0];
-                      rideInfo.car = car;
-                      int price = int.parse(priceController.text);
-                      rideInfo.price = price;
-                      Navigator.of(context)
-                          .pushNamed("/AddRidePage4", arguments: rideInfo);
+                      if(personController.chosenNumber>0){
+                        int seats = personController.chosenNumber;
+                        int luggage = luggageController.chosenNumber;
+                        rideInfo.availableSeats = seats;
+                        rideInfo.availableLuggages = luggage;
+                        rideInfo.car = App.user.driver.cars[0];
+                        rideInfo.car = car;
+                        int price = int.parse(priceController.text);
+                        rideInfo.price = price;
+                        Navigator.of(context)
+                            .pushNamed("/AddRidePage4", arguments: rideInfo);
+
+                      }
+                      else
+                        CustomToast().showErrorToast(Lang.getString(context, "Add_Seat"));
+
                     } else
                       CustomToast().showErrorToast(
                           Lang.getString(context, "Select_car"));
@@ -202,6 +208,4 @@ class _AddRidePage3State extends State<AddRidePage3>
       ),
     );
   }
-
-
 }

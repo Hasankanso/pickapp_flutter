@@ -24,7 +24,7 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
   void onChanged(dynamic value) {
     setState(() {
       Language l = Lang.langs[value];
-      App.changeLanguage(l.code);
+      App.changeLanguage(l.code, context);
       _selectedLang = value;
     });
   }

@@ -341,7 +341,7 @@ class _CarDetailsState extends State<CarDetails> {
                 child: DifferentSizeResponsiveRow(
                   children: [
                     Spacer(
-                      flex: 2,
+                      flex: 1,
                     ),
                     Expanded(
                       flex: 9,
@@ -351,7 +351,7 @@ class _CarDetailsState extends State<CarDetails> {
                       ),
                     ),
                     Spacer(
-                      flex: 2,
+                      flex: 3,
                     ),
                     Expanded(
                       flex: 3,
@@ -464,6 +464,10 @@ class _CarDetailsState extends State<CarDetails> {
       App.user.driver.cars = p1;
 
       await Cache.setUserCache(App.user);
+      if (App.user.driver.cars == null || App.user.driver.cars.length == 0) {
+        App.isDriverNotifier.value = false;
+        App.user.driver = null;
+      }
 
       App.isDriverNotifier.notifyListeners();
 

@@ -7,10 +7,7 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 
 class RatesListPage extends StatelessWidget {
-
-
   final List<Rate> rates;
-
 
   RatesListPage(this.rates);
 
@@ -18,10 +15,10 @@ class RatesListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> reasons = App.getRateReasons(context);
     return MainScaffold(
-      appBar: MainAppBar(title: "Rates",),
-      body: ListBuilder(
-          list: rates,
-          itemBuilder: RateTile.itemBuilder(rates, reasons)),
-    );
+        appBar: MainAppBar(
+          title: "Rates",
+        ),
+        body: ListBuilder(
+            list: rates, itemBuilder: RateTile.itemBuilder(rates, reasons)));
   }
 }

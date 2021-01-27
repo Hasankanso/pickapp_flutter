@@ -50,12 +50,19 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    App.initializeLocaleNotification(context);
+    //MainNotification.initializeLocaleNotification(context);
   }
 
   @override
   Widget build(BuildContext context) {
     App.setContext(context);
+    if (App.notifications != null &&
+        App.notifications.isNotEmpty &&
+        App.notifications[App.notifications.length - 1].scheduleDate
+                .compareTo(DateTime.now()) >=
+            0) {
+      App.isNewNotificationNotifier.value = true;
+    }
     return ValueListenableBuilder(
       builder: (BuildContext context, bool isLoggedIn, Widget child) {
         if (!isLoggedIn) {

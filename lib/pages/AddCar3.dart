@@ -271,6 +271,8 @@ class _AddCar3State extends State<AddCar3> {
     } else {
       App.user = u;
       await Cache.setUserCache(u);
+      App.isDriverNotifier.value = true;
+
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       CustomToast().showSuccessToast(
