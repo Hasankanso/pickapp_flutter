@@ -51,26 +51,25 @@ class _DriverViewState extends State<DriverView> {
       backdropEnabled: true,
       backdropTapClosesPanel: true,
       maxHeight: ScreenUtil().setHeight(520),
-      minHeight: ScreenUtil().setHeight(280),
+      minHeight: ScreenUtil().setHeight(120),
       parallaxEnabled: true,
       parallaxOffset: .5,
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       body: Column(
         children: [
-          ResponsiveWidget.fullWidth(
-            height: 300,
-            child: GridTile(
-              child: FittedBox(
-                fit: BoxFit.fill,
-                child: Image(
-                  image: widget.user.person.networkImage,
-                  errorBuilder: (context, url, error) {
-                    return Image(
-                      image: AssetImage("lib/images/user.png"),
-                    );
-                  },
-                ),
+          Container(
+            color: Colors.black,
+            child: FittedBox(
+              alignment: Alignment.topCenter,
+              fit: BoxFit.contain,
+              child: Image(
+                image: widget.user.person.networkImage,
+                errorBuilder: (context, url, error) {
+                  return Image(
+                    image: AssetImage("lib/images/user.png"),
+                  );
+                },
               ),
             ),
           ),
@@ -161,7 +160,7 @@ class _Panel extends StatelessWidget {
             ),
           ]),
         ),
-        VerticalSpacer(height: 15),
+        VerticalSpacer(height: 10),
         ResponsiveWidget.fullWidth(
           height: 30,
           child: Text(
@@ -172,7 +171,7 @@ class _Panel extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        VerticalSpacer(height: 15),
+        VerticalSpacer(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -192,7 +191,7 @@ class _Panel extends StatelessWidget {
             ]),
             ResponsiveSpacer(width: 30,),
             LinearPercentIndicator(
-              width: 209.0,
+              width: 234.0,
               lineHeight: 16.0,
               percent: accomplishedCanceledRatio,
               center: Text(

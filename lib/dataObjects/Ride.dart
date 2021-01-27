@@ -186,7 +186,7 @@ class Ride {
       maxSeats: json["maxSeats"],
       maxLuggages: json["maxLuggages"],
       availableSeats: json["availableSeats"],
-      stopTime: json["stopTime"],
+      stopTime: json["stopTime"] == null? 0 : json["stopTime"],
       comment: json["comment"],
       user: user,
       car: Car.fromJson(json["car"]),

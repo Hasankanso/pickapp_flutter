@@ -19,7 +19,6 @@ class CarView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return SlidingUpPanel(
-      defaultPanelState: PanelState.OPEN,
       backdropOpacity: 0.3,
       backdropEnabled: true,
       backdropTapClosesPanel: true,
@@ -33,7 +32,8 @@ class CarView extends StatelessWidget {
         height: 300,
         child: GridTile(
           child: FittedBox(
-            fit: BoxFit.fill,
+            alignment: Alignment.topLeft,
+            fit: BoxFit.contain,
             child: Image(
               image : car.networkImage,
               errorBuilder: (context, url, error) {

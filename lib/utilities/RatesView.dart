@@ -25,7 +25,7 @@ class RatesView extends StatelessWidget {
     double twosRatio = stats.twos / ratesCount;
     double onesRatio = stats.ones / ratesCount;
 
-    double width = 200.0;
+    double width = 225.0;
     double lineHeight = 10.0;
     Color backgroundColor = Colors.grey.shade300;
     Color mainColor = Colors.green;
