@@ -71,19 +71,6 @@ class MyAppState extends State<MyApp> {
     App.init(this);
     cacheFuture = Cache.init();
     super.initState();
-  }
-
-  void _init() {
-    if (Cache.darkTheme) {
-      Styles.setTheme(ThemeMode.dark);
-    }
-    if (Cache.locale != null) _locale = Locale(Cache.locale);
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
     if (App.user != null) {
       //List<String> channels = ["default"];
       List<String> deviceObjectIds = List<String>();
@@ -95,6 +82,13 @@ class MyAppState extends State<MyApp> {
       request.send((userStatus, code, message) =>
           response(userStatus, code, message, context));
     }
+  }
+
+  void _init() {
+    if (Cache.darkTheme) {
+      Styles.setTheme(ThemeMode.dark);
+    }
+    if (Cache.locale != null) _locale = Locale(Cache.locale);
   }
 
   @override
