@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Styles.dart';
 
 class RateStars extends StatelessWidget {
@@ -30,14 +29,11 @@ class RateStars extends StatelessWidget {
                   : mainAxisAlignment,
               children: List<Widget>.generate(6, (int index) {
                 if (index == 5) {
-                  return Directionality(
-                      textDirection:
-                          App.isLTR ? TextDirection.ltr : TextDirection.rtl,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.grey.withOpacity(0.5),
-                        size: size,
-                      ));
+                  return Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.grey.withOpacity(0.5),
+                    size: size,
+                  );
                 }
                 if (_rating >= index + 1) {
                   return Icon(

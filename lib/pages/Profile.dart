@@ -183,6 +183,9 @@ class _ProfileState extends State<Profile> {
                                 onTap: () {
                                   Navigator.of(context).pushNamed("/Details");
                                 },
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(7.0),
+                                    topLeft: Radius.circular(7.0)),
                                 child: ResponsiveWidget.fullWidth(
                                   height: 60,
                                   child: Row(
@@ -213,6 +216,9 @@ class _ProfileState extends State<Profile> {
                                 onTap: () {
                                   Navigator.of(context).pushNamed("/Security");
                                 },
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(7.0),
+                                    bottomLeft: Radius.circular(7.0)),
                                 child: ResponsiveWidget.fullWidth(
                                   height: 60,
                                   child: Row(
@@ -285,6 +291,9 @@ class _ProfileState extends State<Profile> {
                                   Navigator.of(context)
                                       .pushNamed("/Statistics");
                                 },
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(7.0),
+                                    topLeft: Radius.circular(7.0)),
                                 child: ResponsiveWidget.fullWidth(
                                   height: 60,
                                   child: Row(
@@ -316,6 +325,9 @@ class _ProfileState extends State<Profile> {
                                   Navigator.of(context)
                                       .pushNamed("/MyRidesHistory");
                                 },
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(7.0),
+                                    bottomLeft: Radius.circular(7.0)),
                                 child: ResponsiveWidget.fullWidth(
                                   height: 60,
                                   child: Row(
@@ -372,6 +384,8 @@ class _DriverInfoState extends State<DriverInfo> {
         onTap: () {
           Navigator.of(context).pushNamed("/BecomeDriver", arguments: true);
         },
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(7.0), topLeft: Radius.circular(7.0)),
         child: ResponsiveWidget.fullWidth(
           height: 60,
           child: Row(
@@ -399,6 +413,9 @@ class _DriverInfoState extends State<DriverInfo> {
       LineDevider(),
       InkWell(
         onTap: () {},
+        borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(7.0),
+            bottomLeft: Radius.circular(7.0)),
         child: Row(
           children: [
             Expanded(
@@ -441,10 +458,13 @@ class _DriverInfoState extends State<DriverInfo> {
 class PassengerInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
+    return RaisedButton(
+      onPressed: () {
         Navigator.of(context).pushNamed("/BecomeDriver", arguments: false);
       },
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+      color: Styles.primaryColor(),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.0)),
       child: ResponsiveWidget.fullWidth(
         height: 60,
         child: Row(
