@@ -169,35 +169,38 @@ class _BecomeDriverState extends State<BecomeDriver> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Card(
-                  shape: RoundedRectangleBorder(),
-                  elevation: 2,
-                  child: Column(
-                    children: [
-                      DifferentSizeResponsiveRow(
-                        children: [
-                          Expanded(
-                            flex: 10,
-                            child: Text(
-                              Lang.getString(context, "My_living_regions:"),
-                              style: Styles.valueTextStyle(),
+                Expanded(
+                  child: Card(
+                    shape: RoundedRectangleBorder(),
+                    elevation: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        DifferentSizeResponsiveRow(
+                          children: [
+                            Expanded(
+                              flex: 10,
+                              child: Text(
+                                Lang.getString(context, "My_living_regions:"),
+                                style: Styles.valueTextStyle(),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: IconButton(
-                              icon: Icon(Icons.add_location_alt),
-                              iconSize: Styles.largeIconSize(),
-                              color: Styles.primaryColor(),
-                              tooltip: Lang.getString(context,
-                                  "Add_a_region"), //Lang.getString(context, "Settings"),
-                              onPressed:
-                                  !(_regions.length >= 3) ? _addRegion : null,
+                            Expanded(
+                              flex: 2,
+                              child: IconButton(
+                                icon: Icon(Icons.add_location_alt),
+                                iconSize: Styles.largeIconSize(),
+                                color: Styles.primaryColor(),
+                                tooltip: Lang.getString(context,
+                                    "Add_a_region"), //Lang.getString(context, "Settings"),
+                                onPressed:
+                                    !(_regions.length >= 3) ? _addRegion : null,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

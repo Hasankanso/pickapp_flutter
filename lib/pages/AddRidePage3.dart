@@ -113,7 +113,7 @@ class _AddRidePage3State extends State<AddRidePage3>
                     child: NumberPicker(
                       luggageController,
                       "Luggage",
-                      1,
+                      0,
                       car == null ? null : car.maxLuggage,
                       disabled: !valueSelected,
                     )),
@@ -180,22 +180,16 @@ class _AddRidePage3State extends State<AddRidePage3>
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     if (valueSelected) {
-                      if(personController.chosenNumber>0){
-                        int seats = personController.chosenNumber;
-                        int luggage = luggageController.chosenNumber;
-                        rideInfo.availableSeats = seats;
-                        rideInfo.availableLuggages = luggage;
-                        rideInfo.car = App.user.driver.cars[0];
-                        rideInfo.car = car;
-                        int price = int.parse(priceController.text);
-                        rideInfo.price = price;
-                        Navigator.of(context)
-                            .pushNamed("/AddRidePage4", arguments: rideInfo);
-
-                      }
-                      else
-                        CustomToast().showErrorToast(Lang.getString(context, "Add_Seat"));
-
+                      int seats = personController.chosenNumber;
+                      int luggage = luggageController.chosenNumber;
+                      rideInfo.availableSeats = seats;
+                      rideInfo.availableLuggages = luggage;
+                      rideInfo.car = App.user.driver.cars[0];
+                      rideInfo.car = car;
+                      int price = int.parse(priceController.text);
+                      rideInfo.price = price;
+                      Navigator.of(context)
+                          .pushNamed("/AddRidePage4", arguments: rideInfo);
                     } else
                       CustomToast().showErrorToast(
                           Lang.getString(context, "Select_car"));

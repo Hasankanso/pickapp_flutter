@@ -22,8 +22,8 @@ class HowItWorks extends StatelessWidget {
                   Text(
                     "Car owners who are planning for a car journey, offer their ride" +
                         " online, specifying itinerary, ride permissions, and price. Co-travelers interested in this journey," +
-                        " reserve a seat and can contact the driver via a private message system." +
-                        " They then travel together and co-travelers pay.",
+                        " reserve a seat and can contact the driver via the private message system." +
+                        " They then travel together and co-travelers pays the price specified in ride.",
                     style: Styles.valueTextStyle(),
                   ),
                 ],

@@ -32,7 +32,6 @@ class GPSTile extends StatelessWidget {
           desiredAccuracy: LocationAccuracy.high);
     } catch (PlatformException) {
       Geolocator.openAppSettings();
-      print(PlatformException);
       return null;
     }
     print(position.latitude);

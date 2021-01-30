@@ -40,6 +40,7 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
           Spacer(flex: 13),
           Text(
             element.flag,
+            textAlign: TextAlign.left,
             style: TextStyle(fontSize: Styles.largeIconSize()),
           ),
         ]))));

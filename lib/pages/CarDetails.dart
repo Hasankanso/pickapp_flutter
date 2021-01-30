@@ -22,6 +22,7 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/PopUp.dart';
 import 'package:pickapp/utilities/Responsive.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 
 class CarDetails extends StatefulWidget {
   Car car;
@@ -446,8 +447,21 @@ class _CarDetailsState extends State<CarDetails> {
   }
 
   _deleteCarRequest() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Center(
+            child: Spinner(),
+          ),
+        );
+      },
+    );
     for (var item in App.person.upcomingRides) {
       if (item.car.id == widget.car.id) {
+        Navigator.pop(context);
         return CustomToast()
             .showErrorToast(Lang.getString(context, "Delete_car_message"));
       }
@@ -460,6 +474,7 @@ class _CarDetailsState extends State<CarDetails> {
   _deleteCarResponse(List<Car> p1, int code, String message) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
+      Navigator.pop(context);
     } else {
       App.user.driver.cars = p1;
 

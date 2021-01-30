@@ -17,7 +17,7 @@ class NumberPicker extends StatefulWidget {
       controller.chosenNumber = 0;
       return;
     } else {
-      if (controller.chosenNumber == null) {
+      if (controller.chosenNumber == null || controller.chosenNumber == 0) {
         _value = _min;
         controller.chosenNumber = _min;
       } else {
