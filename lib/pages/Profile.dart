@@ -122,6 +122,7 @@ class _ProfileState extends State<Profile> {
                                       isLoading: _isImageLoading,
                                       controller: _imageController,
                                       imageUrl: App.person.profilePictureUrl,
+                                      title: Lang.getString(context, "Me"),
                                     ),
                                   ),
                                 ),

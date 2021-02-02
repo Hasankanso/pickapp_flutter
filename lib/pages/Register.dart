@@ -75,6 +75,7 @@ class _RegisterState extends State<Register> {
                       alignment: Alignment.center,
                       child: MainImagePicker(
                         controller: _imageController,
+                        title: Lang.getString(context, "Me"),
                       ),
                     ),
                   ),

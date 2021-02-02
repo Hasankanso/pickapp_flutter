@@ -48,7 +48,8 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
             min: widget.controller.minAbsolute,
             max: widget.controller.maxAbsolute,
             divisions: widget.step.toInt(),
-            labels: RangeLabels(widget.controller.minSelected.toInt().toString(),
+            labels: RangeLabels(
+                widget.controller.minSelected.toInt().toString(),
                 widget.controller.maxSelected.toInt().toString()),
             onChanged: (values) {
               setState(() {
@@ -107,7 +108,8 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
             min: 0,
             max: 1440,
             divisions: 288,
-            labels: RangeLabels(intToTime(widget.controller.minSelected.toInt()),
+            labels: RangeLabels(
+                intToTime(widget.controller.minSelected.toInt()),
                 intToTime(widget.controller.maxSelected.toInt())),
             onChanged: (values) {
               setState(() {
@@ -125,21 +127,21 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
 }
 
 NumberFormat formatter = new NumberFormat("00");
-String intToTime(int number){
+String intToTime(int number) {
   assert(number >= 0);
   assert(number <= 1440);
   var f = new NumberFormat();
-  int minutes  = number % 60;
-  int hours = (number/60).floor();
+  int minutes = number % 60;
+  int hours = (number / 60).floor();
   return formatter.format(hours) + ":" + formatter.format(minutes);
 }
 
-int toMinutes(int number){
+int toMinutes(int number) {
   return number % 60;
 }
 
-int toHours(int number){
-  return (number/60).floor();
+int toHours(int number) {
+  return (number / 60).floor();
 }
 
 class MainRangeSliderController {

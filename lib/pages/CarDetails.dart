@@ -160,6 +160,7 @@ class _CarDetailsState extends State<CarDetails> {
                     isCarPicker: true,
                     imageUrl: widget.car.carPictureUrl,
                     controller: _imageController,
+                    title: Lang.getString(context, "Car"),
                   ),
                 ),
               ),
@@ -224,7 +225,7 @@ class _CarDetailsState extends State<CarDetails> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 100,
+                height: 105,
                 child: DifferentSizeResponsiveRow(
                   children: [
                     Expanded(
@@ -272,6 +273,8 @@ class _CarDetailsState extends State<CarDetails> {
                                 labelStyle: Styles.labelTextStyle(),
                               ),
                               isExpanded: true,
+                              style: Styles.valueTextStyle(
+                                  color: Styles.valueColor()),
                               value: _typeItems[widget.car.type],
                               validator: (val) {
                                 String valid =
@@ -301,7 +304,7 @@ class _CarDetailsState extends State<CarDetails> {
                 ),
               ),
               VerticalSpacer(
-                height: 10,
+                height: 14,
               ),
               ResponsiveWidget.fullWidth(
                 height: 40,

@@ -65,17 +65,23 @@ class SearchResultTile extends ListTile {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              _ride.from.name,
-                              style: Styles.headerTextStyle(),
+                            Flexible(
+                              child: Text(
+                                _ride.from.name,
+                                style: Styles.headerTextStyle(),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),
                         Row(
                           children: [
-                            Text(
-                              _ride.to.name,
-                              style: Styles.headerTextStyle(),
+                            Flexible(
+                              child: Text(
+                                _ride.to.name,
+                                style: Styles.headerTextStyle(),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),

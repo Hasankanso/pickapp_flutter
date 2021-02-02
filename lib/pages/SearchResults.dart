@@ -2,12 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
@@ -135,11 +133,11 @@ class _SearchResultsState extends State<SearchResults> {
               child: Column(
                 children: [
                   ResponsiveWidget.fullWidth(
-                      height: 55,
+                      height: 60,
                       child: _TopCard(searchInfo: widget.searchInfo)),
                   _buildDivider(),
                   ResponsiveWidget.fullWidth(
-                    height: 35,
+                    height: 44,
                     child: Row(
                       children: [
                         Expanded(
@@ -183,7 +181,10 @@ class _SearchResultsState extends State<SearchResults> {
                                     PopupMenuItem(
                                         value: 0,
                                         child: Row(children: [
-                                          Icon(Icons.auto_awesome),
+                                          Icon(
+                                            Icons.auto_awesome,
+                                            size: Styles.mediumIconSize(),
+                                          ),
                                           Text(
                                               "  " +
                                                   Lang.getString(
@@ -197,6 +198,7 @@ class _SearchResultsState extends State<SearchResults> {
                                               angle: 90 * pi / 180,
                                               child: Icon(
                                                 Icons.sync_alt,
+                                                size: Styles.mediumIconSize(),
                                               )),
                                           Text(
                                               "  " +
@@ -211,6 +213,7 @@ class _SearchResultsState extends State<SearchResults> {
                                               angle: 90 * pi / 180,
                                               child: Icon(
                                                 Icons.sync_alt,
+                                                size: Styles.mediumIconSize(),
                                               )),
                                           Text(
                                               "  " +
@@ -348,21 +351,25 @@ class _TopCard extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              searchInfo.from.name,
-              style: TextStyle(fontSize: ScreenUtil().setSp(15)),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+            Flexible(
+              child: Text(
+                searchInfo.from.name,
+                style: TextStyle(fontSize: ScreenUtil().setSp(15)),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
             Icon(
               Icons.arrow_right_alt,
               size: Styles.mediumIconSize(),
             ),
-            Text(
-              searchInfo.to.name,
-              style: TextStyle(fontSize: ScreenUtil().setSp(15)),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+            Flexible(
+              child: Text(
+                searchInfo.to.name,
+                style: TextStyle(fontSize: ScreenUtil().setSp(15)),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
           ],
         ),

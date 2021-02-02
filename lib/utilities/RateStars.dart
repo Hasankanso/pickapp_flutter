@@ -21,8 +21,8 @@ class RateStars extends StatelessWidget {
             color: Colors.transparent,
             size: Styles.mediumIconSize(),
           ),
-          TextButton(
-            onPressed: onPressed,
+          GestureDetector(
+            onTap: onPressed,
             child: Row(
               mainAxisAlignment: mainAxisAlignment == null
                   ? MainAxisAlignment.center

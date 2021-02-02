@@ -1,23 +1,22 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CarView extends StatelessWidget {
   Car car;
 
-
   CarView({this.car});
 
   @override
   Widget build(BuildContext context) {
-
     return SlidingUpPanel(
       backdropOpacity: 0.3,
       backdropEnabled: true,
@@ -27,31 +26,50 @@ class CarView extends StatelessWidget {
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       maxHeight: ScreenUtil().setHeight(280),
-      minHeight: ScreenUtil().setHeight(80),
+      minHeight: ScreenUtil().setHeight(120),
+      panelBuilder: (ScrollController sc) => _panel(sc, car),
       body: ResponsiveWidget.fullWidth(
-        height: 300,
-        child: GridTile(
-          child: FittedBox(
-            alignment: Alignment.topLeft,
-            fit: BoxFit.contain,
-            child: Image(
-              image : car.networkImage,
-              errorBuilder: (context, url, error) {
-                return Image(
-                  image: AssetImage("lib/images/car.png"),
-                );
+        height: 480,
+        child: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: car.networkImage,
+              onError: (s, ss) {
+                return Image(image: AssetImage("lib/images/car.png"));
               },
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Container(
+              alignment: Alignment.topCenter,
+              color: Colors.grey.withOpacity(0.1),
+              child: FittedBox(
+                alignment: Alignment.topCenter,
+                fit: BoxFit.contain,
+                child: Container(
+                  constraints: BoxConstraints(minHeight: 1, minWidth: 1),
+                  child: Image(
+                    image: car.networkImage,
+                    errorBuilder: (context, url, error) {
+                      return Image(
+                        image: AssetImage("lib/images/car.png"),
+                      );
+                    },
+                  ),
+                ),
+              ),
             ),
           ),
         ),
       ),
-      panelBuilder: (ScrollController sc) => _panel(sc, car),
     );
   }
 }
 
-class _panel extends StatelessWidget{
-
+class _panel extends StatelessWidget {
   ScrollController sc;
   Car car;
   List<String> _typeItems;
@@ -67,103 +85,100 @@ class _panel extends StatelessWidget{
       Lang.getString(context, "Van")
     ];
 
-   return SingleChildScrollView(
-     controller: sc,
-     child: Column(children: [
-       VerticalSpacer(height: 20),
-       ResponsiveWidget.fullWidth(
-         height: 40,
-         child: Text(
-           car.brand + ", " + car.name,
-           maxLines: 1,
-           style: Styles.valueTextStyle(bold: FontWeight.w800),
-           overflow: TextOverflow.clip,
-           textAlign: TextAlign.center,
-         ),
-       ),
-       VerticalSpacer(height : 20),
-       Row(children: [
-         Expanded(
-           child: Column(
-             mainAxisAlignment: MainAxisAlignment.start,
-             crossAxisAlignment: CrossAxisAlignment.start,
-             children: [
-               ResponsiveWidget.fullWidth(
-                 height: 40,
-                 child: _Title(
-                   text: Lang.getString(context, "Year"),
-                 ),
-               ),
-               ResponsiveWidget.fullWidth(
-                 height: 40,
-                 child: _Title(
-                   text: Lang.getString(context, "Type"),
-                 ),
-               ),
-               ResponsiveWidget.fullWidth(
-                 height: 40,
-                 child: _Title(
-                   text: Lang.getString(context, "Seats"),
-                 ),
-               ),
-               ResponsiveWidget.fullWidth(
-                 height: 40,
-                 child: _Title(
-                   text: Lang.getString(context, "Luggage"),
-                 ),
-               ),
-               ResponsiveWidget.fullWidth(
-                 height: 40,
-                 child: _Title(
-                   text: Lang.getString(context, "Color"),
-                 ),
-               ),
-             ],
-           ),
-         ),
-         Expanded(
-           child: Column(
-             children: [
-               ResponsiveWidget.fullWidth(
-                   height: 40,child: _Value(text: car.year.toString())),
-               ResponsiveWidget.fullWidth(
-                 height: 40,
-                 child: _Value(
-                   text: _typeItems[car.type],
-                 ),
-               ),
-               ResponsiveWidget.fullWidth(
-                 height: 40,
-                 child: _Value(
-                   text : car.maxSeats.toString(),
-                 ),
-               ),
-               ResponsiveWidget.fullWidth(
-                 height: 40,
-                 child: _Value(
-                   text:  car.maxLuggage.toString(),
-                 ),
-               ),
-               Align(alignment: Alignment.topLeft,
-                 child: ResponsiveWidget(
-                   width: 30,
-                   height: 30,
-                   child: Container(
-                     decoration: BoxDecoration(
-                       color: Color(car.color),
-                       borderRadius: BorderRadius.all(Radius.circular(10)),
-                     ),
-                   ),
-                 ),
-               ),
-             ],
-           ),
-         ),
-       ]),
-     ]),
-   );
+    return SingleChildScrollView(
+      controller: sc,
+      child: Column(children: [
+        VerticalSpacer(height: 20),
+        ResponsiveWidget.fullWidth(
+          height: 40,
+          child: Text(
+            car.brand + ", " + car.name,
+            maxLines: 1,
+            style: Styles.valueTextStyle(bold: FontWeight.w800),
+            overflow: TextOverflow.clip,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        VerticalSpacer(height: 20),
+        Row(children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Year"),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Type"),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Seats"),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Luggage"),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Title(
+                    text: Lang.getString(context, "Color"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                ResponsiveWidget.fullWidth(
+                    height: 40, child: _Value(text: car.year.toString())),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Value(
+                    text: _typeItems[car.type],
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Value(
+                    text: car.maxSeats.toString(),
+                  ),
+                ),
+                ResponsiveWidget.fullWidth(
+                  height: 40,
+                  child: _Value(
+                    text: car.maxLuggage.toString(),
+                  ),
+                ),
+                Align(
+                  alignment: App.isLTR ? Alignment.topLeft : Alignment.topRight,
+                  child: ResponsiveWidget(
+                    width: 30,
+                    height: 30,
+                    child: FloatingActionButton(
+                      backgroundColor: Color(car.color),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ]),
+      ]),
+    );
   }
-
 }
 
 class _Title extends StatelessWidget {

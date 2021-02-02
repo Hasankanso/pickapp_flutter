@@ -19,13 +19,16 @@ class MainImagePicker extends StatefulWidget {
   bool isCarPicker;
   bool isLoading;
   String imageUrl;
+  String title;
 
-  MainImagePicker(
-      {this.callBack,
-      this.controller,
-      this.imageUrl,
-      this.isLoading = false,
-      this.isCarPicker = false});
+  MainImagePicker({
+    this.callBack,
+    this.controller,
+    this.imageUrl,
+    this.isLoading = false,
+    this.isCarPicker = false,
+    this.title,
+  });
   @override
   _MainImagePickerState createState() => _MainImagePickerState();
 }
@@ -151,7 +154,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
       MaterialPageRoute(
           builder: (context) => ImageViewer(
                 _image,
-                Lang.getString(context, "Profile"),
+                widget.title,
                 imageProvider: _downloadedImage,
                 isCarPicker: widget.isCarPicker,
               ),

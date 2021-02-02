@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: "Login",
+        title: Lang.getString(context, "Login"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -183,7 +183,8 @@ class _LoginState extends State<Login> {
                           },
                           child: Text(
                             Lang.getString(context, "Register"),
-                            style: Styles.headerTextStyle(underline: true),
+                            style: Styles.valueTextStyle(
+                                color: Styles.primaryColor(), underline: true),
                           ),
                         )
                       ],

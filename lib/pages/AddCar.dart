@@ -124,6 +124,7 @@ class _AddCarState extends State<AddCar> {
                   child: MainImagePicker(
                     controller: _imageController,
                     isCarPicker: true,
+                    title: Lang.getString(context, "Car"),
                   ),
                 ),
               ),

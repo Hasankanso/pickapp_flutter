@@ -129,7 +129,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
         child: Column(children: [
           _SliderTextFilter(
             title: Lang.getString(context, "Price"),
-            step: App.stepPriceFilter,
+            step: (App.stepPriceFilter as double).toInt(),
             controller: controller.priceController,
             minSelected: controller.priceController.minSelected.toInt(),
             maxSelected: controller.priceController.maxSelected.toInt(),
@@ -222,7 +222,7 @@ class _BooleanFilterState extends State<_BooleanFilter> {
         Expanded(
           flex: 3,
           child: Align(
-            alignment: Alignment.centerLeft,
+            alignment: App.isLTR ? Alignment.centerLeft : Alignment.centerRight,
             child: Checkbox(
               value: widget.controller.filter,
               materialTapTargetSize: MaterialTapTargetSize.padded,
@@ -296,10 +296,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
         TextPosition(offset: minValueController.text.length));
     maxValueController.selection = TextSelection.fromPosition(
         TextPosition(offset: maxValueController.text.length));
-
     return ResponsiveWidget(
       width: 260,
-      height: 150,
+      height: 240,
       child: Card(
         color: Theme.of(context).cardColor,
         child: Column(
@@ -452,7 +451,7 @@ class _SliderFilterState extends State<_SliderFilter> {
   Widget build(BuildContext context) {
     return ResponsiveWidget(
       width: 260,
-      height: 110,
+      height: 150,
       child: Card(
         color: Theme.of(context).cardColor,
         child: Column(

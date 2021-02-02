@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -19,20 +20,43 @@ class ImageViewer extends StatelessWidget {
       appBar: MainAppBar(
         title: _title,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: _image != null
-                ? Image(image: AssetImage(_image.path))
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: _image != null
+                ? AssetImage(_image.path)
                 : imageProvider != null
-                    ? Image(image: imageProvider)
-                    : Image(
-                        image: AssetImage(!isCarPicker
-                            ? "lib/images/user.png"
-                            : "lib/images/car.png")),
+                    ? imageProvider
+                    : AssetImage(!isCarPicker
+                        ? "lib/images/user.png"
+                        : "lib/images/car.png"),
+            onError: (s, ss) {
+              return Image(image: AssetImage("lib/images/car.png"));
+            },
+            fit: BoxFit.cover,
           ),
-        ],
+        ),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+          child: Container(
+            alignment: Alignment.center,
+            color: Colors.grey.withOpacity(0.1),
+            child: Center(
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: _image != null
+                    ? Image(image: AssetImage(_image.path))
+                    : imageProvider != null
+                        ? Image(image: imageProvider)
+                        : Image(
+                            image: AssetImage(!isCarPicker
+                                ? "lib/images/user.png"
+                                : "lib/images/car.png")),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

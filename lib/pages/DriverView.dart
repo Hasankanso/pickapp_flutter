@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -7,12 +10,9 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/RatesView.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pie_chart/pie_chart.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 class DriverView extends StatefulWidget {
   final User user;
@@ -56,33 +56,50 @@ class _DriverViewState extends State<DriverView> {
       parallaxOffset: .5,
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.black,
-            child: FittedBox(
-              alignment: Alignment.topCenter,
-              fit: BoxFit.contain,
-              child: Image(
-                image: widget.user.person.networkImage,
-                errorBuilder: (context, url, error) {
-                  return Image(
-                    image: AssetImage("lib/images/user.png"),
-                  );
-                },
-              ),
-            ),
-          ),
-          VerticalSpacer(
-            height: 100,
-          )
-        ],
-      ),
       panelBuilder: (ScrollController sc) => _Panel(
           controller: sc,
           user: widget.user,
           chattinessItems: _chattinessItems,
           dataMap: dataMap),
+      body: ResponsiveWidget.fullWidth(
+        height: 480,
+        child: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: widget.user.person.image != null
+              ? BoxDecoration(
+                  image: DecorationImage(
+                    image: widget.user.person.networkImage,
+                    onError: (s, ss) {
+                      return Image(image: AssetImage("lib/images/user.png"));
+                    },
+                    fit: BoxFit.cover,
+                  ),
+                )
+              : null,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Container(
+              alignment: Alignment.topCenter,
+              color: Colors.grey.withOpacity(0.1),
+              child: FittedBox(
+                alignment: Alignment.topCenter,
+                fit: BoxFit.contain,
+                child: Container(
+                  constraints: BoxConstraints(minHeight: 1, minWidth: 1),
+                  child: Image(
+                    image: widget.user.person.networkImage,
+                    errorBuilder: (context, url, error) {
+                      return Image(
+                        image: AssetImage("lib/images/user.png"),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -175,23 +192,27 @@ class _Panel extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ResponsiveSpacer(width: 45,),
+            ResponsiveSpacer(
+              width: 45,
+            ),
             Column(children: [
               Icon(
                 Icons.speed,
               ),
               Text(
                 (user.person.acomplishedRides + user.person.canceledRides)
-                    .toInt()
-                    .toString() +
+                        .toInt()
+                        .toString() +
                     " " +
                     Lang.getString(context, "Rides"),
                 style: Styles.valueTextStyle(size: 12),
               ),
             ]),
-            ResponsiveSpacer(width: 30,),
+            ResponsiveSpacer(
+              width: 30,
+            ),
             LinearPercentIndicator(
-              width: 234.0,
+              width: ScreenUtil().setWidth(234.0),
               lineHeight: 16.0,
               percent: accomplishedCanceledRatio,
               center: Text(
@@ -213,7 +234,7 @@ class _Panel extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, "/RatesView",
                   arguments: user.person.rates),
               child: ResponsiveWidget.fullWidth(
-                height: 100,
+                height: 150,
                 child: RatesView(
                     rates: user.person.rates,
                     stats: user.person.statistics,
@@ -228,12 +249,13 @@ class _Panel extends StatelessWidget {
           height: 40,
           child: Row(
             children: [
-              ResponsiveSpacer(width : 15),
-              Align(alignment:  AlignmentDirectional.topStart,
+              ResponsiveSpacer(width: 15),
+              Align(
+                alignment: AlignmentDirectional.topStart,
                 child: Text(
                   chattinessItems[user.person.chattiness],
                   maxLines: 1,
-                  textAlign : TextAlign.start,
+                  textAlign: TextAlign.start,
                   style: Styles.valueTextStyle(),
                   overflow: TextOverflow.clip,
                 ),

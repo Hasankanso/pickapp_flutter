@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/UserStatistics.dart';
 import 'package:pickapp/utilities/RateStars.dart';
-import 'package:pickapp/utilities/Responsive.dart';
 
 class RatesView extends StatelessWidget {
   final List<Rate> rates;
@@ -25,7 +25,7 @@ class RatesView extends StatelessWidget {
     double twosRatio = stats.twos / ratesCount;
     double onesRatio = stats.ones / ratesCount;
 
-    double width = 225.0;
+    double width = ScreenUtil().setWidth(225.0);
     double lineHeight = 10.0;
     Color backgroundColor = Colors.grey.shade300;
     Color mainColor = Colors.green;
@@ -45,8 +45,10 @@ class RatesView extends StatelessWidget {
               ],
             ),
             Row(
-              children: [ Spacer(flex : 6),
-                Expanded(flex : 15,
+              children: [
+                Spacer(flex: 6),
+                Expanded(
+                  flex: 15,
                   child: Text(
                     ratesCount.toString(),
                     style: Styles.subValueTextStyle(),
