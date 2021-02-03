@@ -33,7 +33,7 @@ class RatesView extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 3,
+          flex: 2,
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Text(
               rateAverage.toString(),

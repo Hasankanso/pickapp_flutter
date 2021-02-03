@@ -189,59 +189,55 @@ class _Panel extends StatelessWidget {
           ),
         ),
         VerticalSpacer(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+        ResponsiveRow( widgetRealtiveSize: 20,
           children: [
-            ResponsiveSpacer(
-              width: 45,
-            ),
-            Column(children: [
-              Icon(
-                Icons.speed,
-              ),
-              Text(
-                (user.person.acomplishedRides + user.person.canceledRides)
-                        .toInt()
-                        .toString() +
-                    " " +
-                    Lang.getString(context, "Rides"),
-                style: Styles.valueTextStyle(size: 12),
-              ),
-            ]),
-            ResponsiveSpacer(
-              width: 30,
-            ),
-            LinearPercentIndicator(
-              width: ScreenUtil().setWidth(234.0),
-              lineHeight: 16.0,
-              percent: accomplishedCanceledRatio,
-              center: Text(
-                (accomplishedCanceledRatio * 100).toInt().toString() + "%",
-                style: Styles.buttonTextStyle(size: 12),
-              ),
-              backgroundColor: Colors.red,
-              progressColor: Colors.green,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(children: [
+                  Icon(
+                    Icons.speed,
+                  ),
+                  Text(
+                    (user.person.acomplishedRides + user.person.canceledRides)
+                            .toInt()
+                            .toString() +
+                        " " +
+                        Lang.getString(context, "Rides"),
+                    style: Styles.valueTextStyle(size: 12),
+                  ),
+                ]),
+                ResponsiveSpacer(
+                  width: 30,
+                ),
+                LinearPercentIndicator(
+                  width: ScreenUtil().setWidth(234.0),
+                  lineHeight: 16.0,
+                  percent: accomplishedCanceledRatio,
+                  center: Text(
+                    (accomplishedCanceledRatio * 100).toInt().toString() + "%",
+                    style: Styles.buttonTextStyle(size: 12),
+                  ),
+                  backgroundColor: Colors.red,
+                  progressColor: Colors.green,
+                ),
+              ],
             ),
           ],
         ),
         VerticalSpacer(
           height: 30,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            GestureDetector(
-              onTap: () => Navigator.pushNamed(context, "/RatesView",
-                  arguments: user.person.rates),
-              child: ResponsiveWidget.fullWidth(
-                height: 150,
-                child: RatesView(
-                    rates: user.person.rates,
-                    stats: user.person.statistics,
-                    rateAverage: user.person.rateAverage),
-              ),
-            ),
-          ],
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(context, "/RatesView",
+              arguments: user.person.rates),
+          child: ResponsiveWidget.fullWidth(
+            height: 150,
+            child: RatesView(
+                rates: user.person.rates,
+                stats: user.person.statistics,
+                rateAverage: user.person.rateAverage),
+          ),
         ),
         VerticalSpacer(height: 15),
         _Title(text: Lang.getString(context, "Chattiness")),
@@ -249,7 +245,7 @@ class _Panel extends StatelessWidget {
           height: 40,
           child: Row(
             children: [
-              ResponsiveSpacer(width: 15),
+              ResponsiveSpacer(width: 50),
               Align(
                 alignment: AlignmentDirectional.topStart,
                 child: Text(

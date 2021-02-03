@@ -124,7 +124,7 @@ class _panel extends StatelessWidget {
           VerticalSpacer(height: 20),
           Row(
             children: [
-              Expanded(
+              Expanded( flex :2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +135,7 @@ class _panel extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(
+              Expanded(flex : 3,
                 child: Column(
                   children: [
                     ResponsiveWidget.fullWidth(
@@ -209,7 +209,7 @@ class _panel extends StatelessWidget {
           VerticalSpacer(height: 30),
           Row(
             children: [
-              Expanded(
+              Expanded( flex: 2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,7 +221,7 @@ class _panel extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(
+              Expanded(flex: 3,
                 child: Column(
                   children: [
                     ResponsiveWidget.fullWidth(
