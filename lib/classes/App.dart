@@ -1,6 +1,8 @@
 import 'dart:io' show Platform;
 
 import 'package:backendless_sdk/backendless_sdk.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Cache.dart';
@@ -42,6 +44,10 @@ class App {
   static ValueNotifier<bool> isNewNotificationNotifier =
       ValueNotifier<bool>(false);
 
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
     'Deutschland': CountryInformations(
@@ -64,10 +70,10 @@ class App {
   }
 
   static bool checkIfDriver(Ride ride) {
-      if (ride.user.driver != null && ride.user.driver == App.user.driver)
-        return true;
-      else
-        return false;
+    if (ride.user.driver != null && ride.user.driver == App.user.driver)
+      return true;
+    else
+      return false;
   }
 
   static void setTheme(bool value) async {

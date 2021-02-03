@@ -40,6 +40,28 @@ class _SearchState extends State<Search>
     Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
   }
 
+  Future<void> _sendAnalyticsEvent() async {
+    await App.analytics.logEvent(
+      name: 'search_event',
+      parameters: <String, dynamic>{
+        'from': 'doueir',
+        'to': 'tripoli',
+        'time': '12345678910',
+      },
+    );
+  }
+
+  Future<void> _testSetUserId() async {
+    await App.analytics.setUserId('person_id_or_user_id');
+  }
+
+  Future<void> _testSetCurrentScreen() async {
+    await App.analytics.setCurrentScreen(
+      screenName: 'Analytics Demo',
+      screenClassOverride: 'AnalyticsDemo',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -123,6 +145,9 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
+                await _sendAnalyticsEvent();
+                await _testSetUserId();
+
                 String _validateFrom =
                     fromController.validate(context, x: toController);
                 String _validateTo =

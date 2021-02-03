@@ -68,59 +68,54 @@ class _HomeState extends State<Home> {
         if (!isLoggedIn) {
           return LoginRegister();
         }
-        return  Scaffold(
-            backgroundColor: Styles.secondaryColor(),
-            body: PageView(
-              controller: pageController,
-              onPageChanged: _pageSwipped,
-              children: _pages,
+        return Scaffold(
+          backgroundColor: Styles.secondaryColor(),
+          body: PageView(
+            controller: pageController,
+            onPageChanged: _pageSwipped,
+            children: _pages,
+          ),
+          bottomNavigationBar: SafeArea(
+              child: AspectRatio(
+            aspectRatio: 13 / 2,
+            child: Container(
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    spreadRadius: -4, offset: Offset(0, -4), color: Colors.grey)
+              ]),
+              child: BottomNavigationBar(
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.list_alt),
+                      label: Lang.getString(context, "My_Rides")),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.drive_eta),
+                    label: Lang.getString(context, "Add_Ride"),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.search),
+                    label: Lang.getString(context, "Search"),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.chat_outlined),
+                    label: Lang.getString(context, "Chats"),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.account_circle),
+                    label: Lang.getString(context, "Profile"),
+                  ),
+                ],
+                currentIndex: _currenIndex,
+                iconSize: ScreenUtil().setSp(23),
+                selectedFontSize: ScreenUtil().setSp(12),
+                selectedItemColor: Styles.primaryColor(),
+                unselectedItemColor: Styles.labelColor(),
+                elevation: 0,
+                onTap: _bottomTapped,
+              ),
             ),
-            bottomNavigationBar: SafeArea(
-                  child: AspectRatio(
-                      aspectRatio: 13 / 2,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    spreadRadius: -4,
-                                    offset: Offset(0, -4),
-                                    color: Colors.grey
-                                )
-                              ]
-                          ),
-                          child: BottomNavigationBar(
-                            items: <BottomNavigationBarItem>[
-                              BottomNavigationBarItem(
-                                  icon: Icon(Icons.list_alt),
-                                  label: Lang.getString(context, "My_Rides")),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.drive_eta),
-                                label: Lang.getString(context, "Add_Ride"),
-                              ),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.search),
-                                label: Lang.getString(context, "Search"),
-                              ),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.chat_outlined),
-                                label: Lang.getString(context, "Chats"),
-                              ),
-                              BottomNavigationBarItem(
-                                icon: Icon(Icons.account_circle),
-                                label: Lang.getString(context, "Profile"),
-                              ),
-                            ],
-                            currentIndex: _currenIndex,
-                            iconSize: ScreenUtil().setSp(23),
-                            selectedFontSize: ScreenUtil().setSp(12),
-                            selectedItemColor: Styles.primaryColor(),
-                            unselectedItemColor: Styles.labelColor(),
-                            elevation: 0,
-                            onTap: _bottomTapped,
-                          ),
-                        ),
-                      )),
-            );
+          )),
+        );
       },
       valueListenable: App.isLoggedInNotifier,
     );

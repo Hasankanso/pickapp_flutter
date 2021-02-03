@@ -106,6 +106,7 @@ class MyAppState extends State<MyApp> {
             return MaterialApp(
               title: App.appName,
               locale: _locale,
+              navigatorObservers: <NavigatorObserver>[App.observer],
               theme: ThemeData(
                 brightness: Brightness.light,
                 primarySwatch: Styles.primaryColor(),
@@ -158,6 +159,19 @@ class MyAppState extends State<MyApp> {
               },
               debugShowCheckedModeBanner: false,
               onGenerateRoute: RouteGenerator.generateRoute,
+              builder: (context, child) => Scaffold(
+                // Global GestureDetector that will dismiss the keyboard
+                body: GestureDetector(
+                  onTap: () {
+                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    if (!currentFocus.hasPrimaryFocus &&
+                        currentFocus.focusedChild != null) {
+                      FocusManager.instance.primaryFocus.unfocus();
+                    }
+                  },
+                  child: child,
+                ),
+              ),
               initialRoute: '/',
             );
           }

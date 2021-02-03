@@ -44,8 +44,9 @@ dependencies:
   uuid: 2.2.2
   http: ^0.12.2
   flushbar: ^1.10.4
-  firebase_core: ^0.5.3
-  firebase_auth: ^0.18.4+1
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.0+1
+  firebase_analytics: ^7.0.1
   sliding_up_panel: ^1.0.2
   permission_handler: ^5.0.1+1
   #flutter_local_notifications: ^3.0.3
