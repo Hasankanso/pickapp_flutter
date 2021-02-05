@@ -74,16 +74,17 @@ class MyRidesTile extends ListTile {
                                     ]);
                               }
                             : () {
-                          Navigator.of(context).pushNamed("/UpcomingRideDetails",
-                              arguments: [
-                                _ride,
-                                "hello",
-                                    (ride) {
-                                    if(_ride.reserved==false){
-                                      print(_ride.maxSeats);
-                                    }
-                                    }
-                              ]);
+                                Navigator.of(context).pushNamed(
+                                    "/UpcomingRideDetails",
+                                    arguments: [
+                                      _ride,
+                                      "hello",
+                                      (ride) {
+                                        if (_ride.reserved == false) {
+                                          print(_ride.maxSeats);
+                                        }
+                                      }
+                                    ]);
                               },
                         title: Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
@@ -116,7 +117,8 @@ class MyRidesTile extends ListTile {
                                           ],
                                         ),
                                         RateStars(
-                                          _ride.user.person.rateAverage,
+                                          _ride.user.person.statistics
+                                              .rateAverage,
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                         ),

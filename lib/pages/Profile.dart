@@ -150,11 +150,10 @@ class _ProfileState extends State<Profile> {
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           RateStars(
-                                            App.user.person.rateAverage,
+                                            App.user.person.statistics
+                                                .rateAverage,
                                             onPressed: () {
                                               //Navigator.pushNamed(context, "/RatesViewProfile");
-                                              Navigator.pushNamed(
-                                                  context, "/AddAlert");
                                             },
                                           ),
                                         ],

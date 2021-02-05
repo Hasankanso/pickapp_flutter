@@ -28,24 +28,16 @@ class Person {
   @HiveField(6)
   bool _gender;
   @HiveField(7)
-  double _rateAverage;
-  @HiveField(8)
-  int _acomplishedRides;
-  @HiveField(9)
-  int _canceledRides;
-  @HiveField(10)
-  int _rateCount;
-  @HiveField(11)
   int _chattiness;
-  @HiveField(12)
+  @HiveField(8)
   List<Ride> _upcomingRides = new List<Ride>();
-  @HiveField(13)
+  @HiveField(9)
   List<Rate> _rates = new List<Rate>();
-  @HiveField(14)
+  @HiveField(10)
   DateTime _updated;
-  @HiveField(15)
+  @HiveField(11)
   CountryInformations _countryInformations;
-  @HiveField(16)
+  @HiveField(12)
   UserStatistics _statistics;
 
   ImageProvider networkImage;
@@ -57,14 +49,10 @@ class Person {
     String id,
     String firstName,
     String lastName,
-    int rateCount,
-    int acomplishedRides,
     CountryInformations countryInformations,
-    int canceledRides,
     int chattiness,
     String phone,
     String bio,
-    double rateAverage,
     bool gender,
     DateTime birthday,
     DateTime updated,
@@ -74,15 +62,11 @@ class Person {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.rateCount = rateCount;
     this.updated = updated;
-    this.acomplishedRides = acomplishedRides;
-    this.canceledRides = canceledRides;
     this.chattiness = chattiness;
     this.phone = phone;
     this.bio = bio;
     this.countryInformations = countryInformations;
-    this.rateAverage = rateAverage;
     this.gender = gender;
     this.birthday = birthday;
     this.profilePictureUrl = profilePictureUrl;
@@ -134,10 +118,6 @@ class Person {
       lastName: json["lastName"],
       chattiness: json["chattiness"],
       bio: json["bio"],
-      rateAverage: json["rateAverage"].toDouble(),
-      acomplishedRides: json['acomplishedRides'],
-      canceledRides: json['canceledRides'],
-      rateCount: json['rateCount'],
       gender: json['gender'],
       profilePictureUrl: json['image'],
       countryInformations: countryInformations,
@@ -174,7 +154,7 @@ class Person {
 
   @override
   String toString() {
-    return 'Person{_id: $_id, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender, _rateAverage: $_rateAverage, _acomplishedRides: $_acomplishedRides, _canceledRides: $_canceledRides, _rateCount: $_rateCount, _phone: $_phone}';
+    return 'Person{_id: $_id, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender, _phone: $_phone}';
   }
 
   String get id => _id;
@@ -246,30 +226,6 @@ class Person {
 
   set gender(bool value) {
     _gender = value;
-  }
-
-  double get rateAverage => _rateAverage;
-
-  set rateAverage(double value) {
-    _rateAverage = value;
-  }
-
-  int get acomplishedRides => _acomplishedRides;
-
-  set acomplishedRides(int value) {
-    _acomplishedRides = value;
-  }
-
-  int get canceledRides => _canceledRides;
-
-  set canceledRides(value) {
-    _canceledRides = value;
-  }
-
-  get rateCount => _rateCount;
-
-  set rateCount(value) {
-    _rateCount = value;
   }
 
   String get phone => _phone;

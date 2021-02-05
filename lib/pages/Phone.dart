@@ -47,7 +47,6 @@ class _PhoneState extends State<Phone> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     if (widget._user != null && !Validation.isNullOrEmpty(_phone.text)) {
       widget._user.phone = "+" + _code.text + _phone.text;
     }
@@ -140,11 +139,7 @@ class _PhoneState extends State<Phone> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(widget._user != null
                             ? widget._user.person.countryInformations.digits
-                            : App
-                                .countriesInformations[_countryCode == "961"
-                                    ? "لبنان"
-                                    : "Deutschland"]
-                                .digits),
+                            : App.getCountryInfo(_countryCode).digits),
                       ],
                       onChanged: (value) => _userHasBeenChecked = false,
                       controller: _phone,
@@ -199,11 +194,7 @@ class _PhoneState extends State<Phone> {
                       }
                       Person p = Person(
                           countryInformations: CountryInformations(
-                              id: App
-                                  .countriesInformations[_countryCode == "961"
-                                      ? "لبنان"
-                                      : "Deutschland"]
-                                  .id));
+                              id: App.getCountryInfo(_countryCode).id));
                       Navigator.of(context).pushNamed('/Phone2ChangePhone',
                           arguments: User(
                               id: App.user.id,

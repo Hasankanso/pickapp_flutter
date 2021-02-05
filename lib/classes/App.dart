@@ -64,6 +64,15 @@ class App {
         drivingAge: 18),
   };
 
+  static CountryInformations getCountryInfo(String code) {
+    _countriesInformations.forEach((k, v) {
+      if ("+" + code == v.code) {
+        return v;
+      }
+    });
+    return null;
+  }
+
   static void changeLanguage(String lang, context) async {
     await Cache.setLocale(lang);
     _state.setLocale(Locale(lang));

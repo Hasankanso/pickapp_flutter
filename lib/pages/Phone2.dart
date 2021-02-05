@@ -67,7 +67,6 @@ class _Phone2State extends State<Phone2> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _timer.cancel();
     _smsCode.dispose();
     super.dispose();
@@ -75,7 +74,6 @@ class _Phone2State extends State<Phone2> {
 
   @override
   Future<void> didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _resendCodeLocale = Lang.getString(context, "Resend_code");
     _resendCodeInLocale = Lang.getString(context, "Resend_code_in");

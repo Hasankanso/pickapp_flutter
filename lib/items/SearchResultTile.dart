@@ -175,7 +175,7 @@ class SearchResultTile extends ListTile {
                                     ],
                                   ),
                                   RateStars(
-                                    _ride.user.person.rateAverage,
+                                    _ride.user.person.statistics.rateAverage,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                   ),
                                 ],

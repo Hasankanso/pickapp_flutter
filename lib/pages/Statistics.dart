@@ -12,8 +12,10 @@ import 'package:pickapp/utilities/Responsive.dart';
 class Statistics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var accomplishedCanceledRatio = App.user.person.acomplishedRides /
-        (App.user.person.acomplishedRides + App.user.person.canceledRides);
+    var accomplishedCanceledRatio =
+        App.user.person.statistics.acomplishedRides /
+            (App.user.person.statistics.acomplishedRides +
+                App.user.person.statistics.canceledRides);
     return MainScaffold(
       appBar: MainAppBar(title: Lang.getString(context, "Statistics")),
       body: Column(
@@ -44,8 +46,9 @@ class Statistics extends StatelessWidget {
                                   Icons.speed,
                                 ),
                                 Text(
-                                  (App.user.person.acomplishedRides +
-                                              App.user.person.canceledRides)
+                                  (App.user.person.statistics.acomplishedRides +
+                                              App.user.person.statistics
+                                                  .canceledRides)
                                           .toInt()
                                           .toString() +
                                       " " +
@@ -62,12 +65,16 @@ class Statistics extends StatelessWidget {
                               child: LinearPercentIndicator(
                                 width: ScreenUtil().setWidth(234.0),
                                 lineHeight: 16.0,
-                                percent: accomplishedCanceledRatio,
+                                percent: !accomplishedCanceledRatio.isNaN
+                                    ? accomplishedCanceledRatio
+                                    : 0,
                                 center: Text(
-                                  (accomplishedCanceledRatio * 100)
-                                          .toInt()
-                                          .toString() +
-                                      "%",
+                                  !accomplishedCanceledRatio.isNaN
+                                      ? (accomplishedCanceledRatio * 100)
+                                              .toInt()
+                                              .toString() +
+                                          "%"
+                                      : "0",
                                   style: Styles.buttonTextStyle(size: 12),
                                 ),
                                 backgroundColor: Colors.red,
@@ -101,7 +108,7 @@ class Statistics extends StatelessWidget {
                       RatesView(
                           rates: App.user.person.rates,
                           stats: App.user.person.statistics,
-                          rateAverage: App.user.person.rateAverage),
+                          rateAverage: App.user.person.statistics.rateAverage),
                     ],
                   ),
                 ),

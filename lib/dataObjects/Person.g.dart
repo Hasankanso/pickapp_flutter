@@ -24,22 +24,18 @@ class PersonAdapter extends TypeAdapter<Person> {
       .._profilePictureUrl = fields[4] as String
       .._birthday = fields[5] as DateTime
       .._gender = fields[6] as bool
-      .._rateAverage = fields[7] as double
-      .._acomplishedRides = fields[8] as int
-      .._canceledRides = fields[9] as int
-      .._rateCount = fields[10] as int
-      .._chattiness = fields[11] as int
-      .._upcomingRides = (fields[12] as List)?.cast<Ride>()
-      .._rates = (fields[13] as List)?.cast<Rate>()
-      .._updated = fields[14] as DateTime
-      .._countryInformations = fields[15] as CountryInformations
-      .._statistics = fields[16] as UserStatistics;
+      .._chattiness = fields[7] as int
+      .._upcomingRides = (fields[8] as List)?.cast<Ride>()
+      .._rates = (fields[9] as List)?.cast<Rate>()
+      .._updated = fields[10] as DateTime
+      .._countryInformations = fields[11] as CountryInformations
+      .._statistics = fields[12] as UserStatistics;
   }
 
   @override
   void write(BinaryWriter writer, Person obj) {
     writer
-      ..writeByte(17)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -55,24 +51,16 @@ class PersonAdapter extends TypeAdapter<Person> {
       ..writeByte(6)
       ..write(obj._gender)
       ..writeByte(7)
-      ..write(obj._rateAverage)
-      ..writeByte(8)
-      ..write(obj._acomplishedRides)
-      ..writeByte(9)
-      ..write(obj._canceledRides)
-      ..writeByte(10)
-      ..write(obj._rateCount)
-      ..writeByte(11)
       ..write(obj._chattiness)
-      ..writeByte(12)
+      ..writeByte(8)
       ..write(obj._upcomingRides)
-      ..writeByte(13)
+      ..writeByte(9)
       ..write(obj._rates)
-      ..writeByte(14)
+      ..writeByte(10)
       ..write(obj._updated)
-      ..writeByte(15)
+      ..writeByte(11)
       ..write(obj._countryInformations)
-      ..writeByte(16)
+      ..writeByte(12)
       ..write(obj._statistics);
   }
 

@@ -17,7 +17,8 @@ class RatesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int ratesCount = stats.fives + stats.fours + stats.threes + stats.twos + stats.ones;
+    int ratesCount =
+        stats.fives + stats.fours + stats.threes + stats.twos + stats.ones;
 
     double fivesRatio = stats.fives / ratesCount;
     double foursRatio = stats.fours / ratesCount;
@@ -68,7 +69,7 @@ class RatesView extends StatelessWidget {
                   LinearPercentIndicator(
                     width: width,
                     lineHeight: lineHeight,
-                    percent: fivesRatio,
+                    percent: !fivesRatio.isNaN ? fivesRatio : 0,
                     backgroundColor: backgroundColor,
                     progressColor: mainColor,
                   ),
@@ -80,7 +81,7 @@ class RatesView extends StatelessWidget {
                   LinearPercentIndicator(
                     width: width,
                     lineHeight: lineHeight,
-                    percent: foursRatio,
+                    percent: !foursRatio.isNaN ? foursRatio : 0,
                     backgroundColor: backgroundColor,
                     progressColor: mainColor,
                   ),
@@ -92,7 +93,7 @@ class RatesView extends StatelessWidget {
                   LinearPercentIndicator(
                     width: width,
                     lineHeight: lineHeight,
-                    percent: threesRatio,
+                    percent: !threesRatio.isNaN ? threesRatio : 0,
                     backgroundColor: backgroundColor,
                     progressColor: mainColor,
                   ),
@@ -104,7 +105,7 @@ class RatesView extends StatelessWidget {
                   LinearPercentIndicator(
                     width: width,
                     lineHeight: lineHeight,
-                    percent: twosRatio,
+                    percent: !twosRatio.isNaN ? twosRatio : 0,
                     backgroundColor: backgroundColor,
                     progressColor: mainColor,
                   ),
@@ -116,7 +117,7 @@ class RatesView extends StatelessWidget {
                   LinearPercentIndicator(
                     width: width,
                     lineHeight: lineHeight,
-                    percent: onesRatio,
+                    percent: !onesRatio.isNaN ? onesRatio : 0,
                     backgroundColor: backgroundColor,
                     progressColor: mainColor,
                   ),

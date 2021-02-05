@@ -10,6 +10,7 @@ import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/dataObjects/UserStatistics.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/RatesView.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -35,9 +36,9 @@ class _DriverViewState extends State<DriverView> {
 
     dataMap = {
       Lang.getString(context, "Accomplished_Rides"):
-          widget.user.person.acomplishedRides.toDouble(),
+          widget.user.person.statistics.acomplishedRides.toDouble(),
       Lang.getString(context, "Canceled_Rides"):
-          widget.user.person.canceledRides.toDouble(),
+          widget.user.person.statistics.canceledRides.toDouble(),
     };
   }
 
@@ -110,15 +111,22 @@ class _Panel extends StatelessWidget {
   double accomplishedCanceledRatio = 0;
 
   _Panel({this.user, this.controller, this.chattinessItems, this.dataMap}) {
-    accomplishedCanceledRatio = user.person.acomplishedRides /
-        (user.person.acomplishedRides + user.person.canceledRides);
+    accomplishedCanceledRatio = user.person.statistics.acomplishedRides /
+        (user.person.statistics.acomplishedRides +
+            user.person.statistics.canceledRides);
   }
 
   @override
   Widget build(BuildContext context) {
     List<Rate> rates = new List<Rate>();
-    Person p1 = new Person(firstName: "Ali", lastName: "Loubani");
-    Person p2 = new Person(firstName: "Adel", lastName: "Kanso");
+    Person p1 = new Person(
+        firstName: "Ali",
+        lastName: "Loubani",
+        statistics: UserStatistics(3, 2, 1, 18, 10, 4.8, 8, 200, 100));
+    Person p2 = new Person(
+        firstName: "Adel",
+        lastName: "Kanso",
+        statistics: UserStatistics(3, 2, 1, 18, 10, 4.8, 8, 200, 100));
     rates.add(new Rate(
         grade: 4,
         comment: "he's friendly guy, would do it again!",
@@ -152,7 +160,6 @@ class _Panel extends StatelessWidget {
         creationDate: DateTime.now()));
 
     user.person.rates = rates;
-    user.person.rateAverage = 4.8;
 
     return SingleChildScrollView(
       controller: controller,
@@ -187,7 +194,8 @@ class _Panel extends StatelessWidget {
           ),
         ),
         VerticalSpacer(height: 20),
-        ResponsiveRow( widgetRealtiveSize: 20,
+        ResponsiveRow(
+          widgetRealtiveSize: 20,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -197,7 +205,8 @@ class _Panel extends StatelessWidget {
                     Icons.speed,
                   ),
                   Text(
-                    (user.person.acomplishedRides + user.person.canceledRides)
+                    (user.person.statistics.acomplishedRides +
+                                user.person.statistics.canceledRides)
                             .toInt()
                             .toString() +
                         " " +
@@ -211,9 +220,14 @@ class _Panel extends StatelessWidget {
                 LinearPercentIndicator(
                   width: ScreenUtil().setWidth(234.0),
                   lineHeight: 16.0,
-                  percent: accomplishedCanceledRatio,
+                  percent: !accomplishedCanceledRatio.isNaN
+                      ? accomplishedCanceledRatio
+                      : 0,
                   center: Text(
-                    (accomplishedCanceledRatio * 100).toInt().toString() + "%",
+                    !accomplishedCanceledRatio.isNaN
+                        ? (accomplishedCanceledRatio * 100).toInt().toString() +
+                            "%"
+                        : "0",
                     style: Styles.buttonTextStyle(size: 12),
                   ),
                   backgroundColor: Colors.red,
@@ -234,7 +248,7 @@ class _Panel extends StatelessWidget {
             child: RatesView(
                 rates: user.person.rates,
                 stats: user.person.statistics,
-                rateAverage: user.person.rateAverage),
+                rateAverage: user.person.statistics.rateAverage),
           ),
         ),
         VerticalSpacer(height: 15),
