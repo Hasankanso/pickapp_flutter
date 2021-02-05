@@ -17,7 +17,7 @@ class RatesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int ratesCount = rates.length;
+    int ratesCount = stats.fives + stats.fours + stats.threes + stats.twos + stats.ones;
 
     double fivesRatio = stats.fives / ratesCount;
     double foursRatio = stats.fours / ratesCount;
@@ -33,7 +33,7 @@ class RatesView extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          flex: 3,
+          flex: 2,
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Text(
               rateAverage.toString(),

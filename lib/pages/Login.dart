@@ -254,6 +254,9 @@ class _LoginState extends State<Login> {
                     hintText: "02451",
                     labelStyle: Styles.labelTextStyle(),
                   ),
+                  onFieldSubmitted: (String text) {
+
+                  },
                 ),
               ),
               Spacer(

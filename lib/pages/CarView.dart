@@ -23,9 +23,10 @@ class CarView extends StatelessWidget {
       backdropTapClosesPanel: true,
       parallaxEnabled: true,
       parallaxOffset: .5,
+      color: Theme.of(context).scaffoldBackgroundColor,
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
-      maxHeight: ScreenUtil().setHeight(280),
+      maxHeight: ScreenUtil().setHeight(320),
       minHeight: ScreenUtil().setHeight(120),
       panelBuilder: (ScrollController sc) => _panel(sc, car),
       body: ResponsiveWidget.fullWidth(
@@ -100,67 +101,43 @@ class _panel extends StatelessWidget {
           ),
         ),
         VerticalSpacer(height: 20),
-        Row(children: [
+        Row(crossAxisAlignment: CrossAxisAlignment.start
+            ,children: [
           Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: _Title(
-                    text: Lang.getString(context, "Year"),
-                  ),
+                _Title(
+                  text: Lang.getString(context, "Year"),
                 ),
-                ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: _Title(
-                    text: Lang.getString(context, "Type"),
-                  ),
+                _Title(
+                  text: Lang.getString(context, "Type"),
                 ),
-                ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: _Title(
-                    text: Lang.getString(context, "Seats"),
-                  ),
+                _Title(
+                  text: Lang.getString(context, "Seats"),
                 ),
-                ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: _Title(
-                    text: Lang.getString(context, "Luggage"),
-                  ),
+                _Title(
+                  text: Lang.getString(context, "Luggage"),
                 ),
-                ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: _Title(
-                    text: Lang.getString(context, "Color"),
-                  ),
+                _Title(
+                  text: Lang.getString(context, "Color"),
                 ),
               ],
             ),
           ),
-          Expanded(
+          Expanded( flex : 2,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ResponsiveWidget.fullWidth(
-                    height: 40, child: _Value(text: car.year.toString())),
-                ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: _Value(
-                    text: _typeItems[car.type],
-                  ),
+                _Value(text: car.year.toString()),
+                _Value(
+                  text: _typeItems[car.type],
                 ),
-                ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: _Value(
-                    text: car.maxSeats.toString(),
-                  ),
+                _Value(
+                  text: car.maxSeats.toString(),
                 ),
-                ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: _Value(
-                    text: car.maxLuggage.toString(),
-                  ),
+                _Value(
+                  text: car.maxLuggage.toString(),
                 ),
                 Align(
                   alignment: App.isLTR ? Alignment.topLeft : Alignment.topRight,
@@ -220,15 +197,19 @@ class _Value extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveWidget.fullWidth(
       height: 40,
-      child: Align(
-          alignment: AlignmentDirectional.topStart,
-          child: Text(
-            text,
-            textAlign: TextAlign.start,
-            style: Styles.valueTextStyle(),
-            maxLines: maxlines,
-            overflow: TextOverflow.ellipsis,
-          )),
+      child: Row(
+        children: [
+          Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Text(
+                text,
+                textAlign: TextAlign.start,
+                style: Styles.valueTextStyle(),
+                maxLines: maxlines,
+                overflow: TextOverflow.ellipsis,
+              )),
+        ],
+      ),
     );
   }
 }

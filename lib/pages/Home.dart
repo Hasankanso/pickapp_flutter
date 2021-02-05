@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -38,7 +39,7 @@ class _HomeState extends State<Home> {
   }
 
   void _bottomTapped(int index) {
-    if ((_currenIndex - index).abs() == 1) {
+    if ((_currenIndex - index).abs() == 1 && !Cache.removeAnimation) {
       pageController.animateToPage(index,
           duration: const Duration(milliseconds: 300), curve: Curves.ease);
     } else {
@@ -84,6 +85,7 @@ class _HomeState extends State<Home> {
                     spreadRadius: -4, offset: Offset(0, -4), color: Colors.grey)
               ]),
               child: BottomNavigationBar(
+                type: Cache.removeAnimation ? BottomNavigationBarType.fixed : BottomNavigationBarType.shifting,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                       icon: Icon(Icons.list_alt),

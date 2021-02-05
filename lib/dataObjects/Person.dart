@@ -71,6 +71,7 @@ class Person {
     DateTime birthday,
     DateTime updated,
     String profilePictureUrl,
+    UserStatistics statistics,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -88,7 +89,7 @@ class Person {
     this.birthday = birthday;
     this.profilePictureUrl = profilePictureUrl;
 
-    _statistics = new UserStatistics(1, 2, 3, 4, 5, rateAverage);
+    _statistics = statistics;
   }
 
   Person.name(this._firstName, this._lastName);
@@ -124,6 +125,8 @@ class Person {
       countryInformations = CountryInformations.fromJson(countryJ);
     }
 
+    UserStatistics statistics = UserStatistics.fromJson(json["statistics"]);
+
     Person p = Person(
       phone: json['phone'],
       id: json["objectId"],
@@ -140,6 +143,7 @@ class Person {
       gender: json['gender'],
       profilePictureUrl: json['image'],
       countryInformations: countryInformations,
+      statistics : statistics,
     );
 
     if (p.profilePictureUrl == null) {
