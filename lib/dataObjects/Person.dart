@@ -45,10 +45,8 @@ class Person {
   DateTime _updated;
   @HiveField(15)
   CountryInformations _countryInformations;
-
+  @HiveField(16)
   UserStatistics _statistics;
-
-  UserStatistics get statistics => _statistics;
 
   ImageProvider networkImage;
 
@@ -143,7 +141,7 @@ class Person {
       gender: json['gender'],
       profilePictureUrl: json['image'],
       countryInformations: countryInformations,
-      statistics : statistics,
+      statistics: statistics,
     );
 
     if (p.profilePictureUrl == null) {
@@ -214,6 +212,8 @@ class Person {
   set chattiness(value) {
     _chattiness = value;
   }
+
+  UserStatistics get statistics => _statistics;
 
   get image => _image;
 
@@ -290,4 +290,3 @@ class Person {
     _countryInformations = value;
   }
 }
-

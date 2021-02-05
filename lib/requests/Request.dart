@@ -50,28 +50,10 @@ abstract class Request<T> {
             jMessage = jbody["message"];
           }
         }
-        /*var jCode = response.body.contains("code")
-            ? decodedResponse is List
-                ? decodedResponse[0]["code"]
-                : null
-            : null;
-        var jMessage =
-            decodedResponse is List ? decodedResponse[0]["message"] : null;
-
-        if (jCode == null) {
-          var jbody =
-              decodedResponse is List ? decodedResponse[0]["body"] : null;
-
-          if (jbody != null) {
-            jCode = jbody["code"];
-            jMessage = jbody["message"];
-          }
-        }*/
         //check if there's error
         if (jCode != null) {
           callback(
               null, jCode is String ? int.tryParse(jCode) : jCode, jMessage);
-          //callback(null, int.tryParse(jCode), jMessage);
           return;
         }
       }

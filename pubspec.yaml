@@ -37,7 +37,6 @@ dependencies:
   intl: ^0.16.1
   image_picker: ^0.6.7+14
   flutter_progress_button: ^0.6.4
-  pie_chart: ^4.0.1
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
   path_provider: ^1.6.24

@@ -32,13 +32,14 @@ class PersonAdapter extends TypeAdapter<Person> {
       .._upcomingRides = (fields[12] as List)?.cast<Ride>()
       .._rates = (fields[13] as List)?.cast<Rate>()
       .._updated = fields[14] as DateTime
-      .._countryInformations = fields[15] as CountryInformations;
+      .._countryInformations = fields[15] as CountryInformations
+      .._statistics = fields[16] as UserStatistics;
   }
 
   @override
   void write(BinaryWriter writer, Person obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -70,7 +71,9 @@ class PersonAdapter extends TypeAdapter<Person> {
       ..writeByte(14)
       ..write(obj._updated)
       ..writeByte(15)
-      ..write(obj._countryInformations);
+      ..write(obj._countryInformations)
+      ..writeByte(16)
+      ..write(obj._statistics);
   }
 
   @override
