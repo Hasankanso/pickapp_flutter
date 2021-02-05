@@ -17,7 +17,7 @@ class RatesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int ratesCount = rates.length;
+    int ratesCount = stats.fives + stats.fours + stats.threes + stats.twos + stats.ones;
 
     double fivesRatio = stats.fives / ratesCount;
     double foursRatio = stats.fours / ratesCount;

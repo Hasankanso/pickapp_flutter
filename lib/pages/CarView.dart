@@ -23,6 +23,7 @@ class CarView extends StatelessWidget {
       backdropTapClosesPanel: true,
       parallaxEnabled: true,
       parallaxOffset: .5,
+      color: Theme.of(context).scaffoldBackgroundColor,
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       maxHeight: ScreenUtil().setHeight(320),

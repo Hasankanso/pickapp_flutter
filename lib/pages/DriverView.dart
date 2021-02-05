@@ -54,6 +54,7 @@ class _DriverViewState extends State<DriverView> {
       minHeight: ScreenUtil().setHeight(120),
       parallaxEnabled: true,
       parallaxOffset: .5,
+      color: Theme.of(context).scaffoldBackgroundColor,
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       panelBuilder: (ScrollController sc) => _Panel(

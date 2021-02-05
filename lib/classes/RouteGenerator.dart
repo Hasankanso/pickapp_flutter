@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/AddAlert.dart';
 import 'package:pickapp/pages/AddCar.dart';
@@ -45,132 +46,245 @@ class RouteGenerator {
       ? PageTransitionType.rightToLeft
       : PageTransitionType.leftToRight;
 
+  static Duration transitionTime = const Duration(milliseconds: 300);
+
+  static Duration duration = Cache.removeAnimation ? const Duration(milliseconds: 0) : transitionTime;
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
     switch (settings.name) {
       case '/':
-        return PageTransition(type: isLTR, child: Home());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: Home());
       case '/Settings':
-        return PageTransition(type: isLTR, child: Settings());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: Settings());
       case '/LoginRegister':
-        return PageTransition(type: isLTR, child: LoginRegister());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: LoginRegister());
       case '/Login':
-        return PageTransition(type: isLTR, child: Login());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: Login());
       case '/Register':
-        return PageTransition(type: isLTR, child: Register());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: Register());
       case '/Notifications':
-        return PageTransition(type: isLTR, child: Notifications());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: Notifications());
       case '/Details':
-        return PageTransition(type: isLTR, child: Details());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: Details());
       case '/ContactUs':
-        return PageTransition(type: isLTR, child: ContactUs());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: ContactUs());
       case '/Security':
-        return PageTransition(type: isLTR, child: Security());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: Security());
       case '/AddRidePage2':
         return PageTransition(
             type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
             child: AddRidePage2(
               rideInfo: args,
             ));
       case '/AddRidePage3':
         return PageTransition(
             type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
             child: AddRidePage3(
               rideInfo: args,
             ));
       case '/AddRidePage4':
         return PageTransition(
             type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
             child: AddRidePage4(
               rideInfo: args,
             ));
       case '/AddRidePage5':
         return PageTransition(
             type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
             child: AddRidePage5(
               rideInfo: args,
             ));
       case '/UpcomingRideDetails':
         return PageTransition(
             type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
             child: UpcomingRideDetails(
               (args as List)[0],
               buttonText: (args as List)[1],
               onPressed: (args as List)[2],
             ));
       case '/HowItWorks':
-        return PageTransition(type: isLTR, child: HowItWorks());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: HowItWorks());
       case '/MyRidesHistory':
-        return PageTransition(type: isLTR, child: MyRidesHistory());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: MyRidesHistory());
       case '/Statistics':
-        return PageTransition(type: isLTR, child: Statistics());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: Statistics());
       case "/CarDetails":
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: CarDetails(
               car: args,
             ));
       case '/PrivacyPolicy':
-        return PageTransition(type: isLTR, child: PrivacyPolicy());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: PrivacyPolicy());
       case '/TermAndConditions':
-        return PageTransition(type: isLTR, child: TermAndConditions());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: TermAndConditions());
       case '/RideResults':
         return PageTransition(
-            type: isLTR, child: SearchResults(searchInfo: args));
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: SearchResults(searchInfo: args));
       case '/Profile':
-        return PageTransition(type: isLTR, child: Profile());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: Profile());
       case '/RideDetails':
         return PageTransition(
             type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
             child: RideDetails(
               (args as List)[0],
               buttonText: (args as List)[1],
               onPressed: (args as List)[2],
             ));
       case '/CarView':
-        return PageTransition(type: isLTR, child: CarView());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: CarView());
 
       //become driver screens
       case '/BecomeDriver':
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: BecomeDriver(
               isRegionPage: args,
             ));
       case '/AddCarDriver':
-        return PageTransition(type: isLTR, child: AddCar(driver: args));
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: AddCar(driver: args));
       case "/AddCar2Driver":
-        return PageTransition(type: isLTR, child: AddCar2(driver: args));
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: AddCar2(driver: args));
       case "/AddCar3Driver":
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: AddCar3(
               driver: args,
             ));
       //add car screens
       case '/AddCar':
-        return PageTransition(type: isLTR, child: AddCar());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: AddCar());
       case "/AddCar2":
-        return PageTransition(type: isLTR, child: AddCar2(car: args));
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: AddCar2(car: args));
       case "/AddCar3":
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: AddCar3(
               car: args,
             ));
       case "/Email":
         return PageTransition(
+          duration: duration,
+          reverseDuration: duration,
           type: isLTR,
           child: Email(),
         );
       case "/Phone":
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: Phone(
               args,
             ));
       case "/Phone2":
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: Phone2(
               user: ((args as List)[0] as User),
@@ -178,12 +292,16 @@ class RouteGenerator {
             ));
       case "/Phone2ChangePhone":
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: Phone2(
               oldUser: args,
             ));
       case '/RegisterDetails':
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: Details(
               user: ((args as List)[0] as User),
@@ -192,6 +310,8 @@ class RouteGenerator {
             ));
       case '/RegisterDriver':
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: RegisterDriver(
               user: ((args as List)[0] as User),
@@ -201,6 +321,8 @@ class RouteGenerator {
       //register driver screens
       case '/BecomeDriverRegister':
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: BecomeDriver(
               user: ((args as List)[0] as User),
@@ -209,6 +331,8 @@ class RouteGenerator {
             ));
       case '/AddCarRegister':
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: AddCar(
               user: ((args as List)[0] as User),
@@ -217,6 +341,8 @@ class RouteGenerator {
             ));
       case "/AddCar2Register":
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: AddCar2(
               user: ((args as List)[0] as User),
@@ -225,6 +351,8 @@ class RouteGenerator {
             ));
       case "/AddCar3Register":
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: AddCar3(
               user: ((args as List)[0] as User),
@@ -233,6 +361,8 @@ class RouteGenerator {
             ));
       case '/ExistingConversation':
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: Conversation(
               chat: args,
@@ -240,17 +370,31 @@ class RouteGenerator {
 
       case '/Conversation':
         return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
             type: isLTR,
             child: Conversation.from(
               person: args,
             ));
 
       case '/RatesView':
-        return PageTransition(type: isLTR, child: RatesListPage(args));
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: RatesListPage(args));
       case '/AddRate':
-        return PageTransition(type: isLTR, child: AddRate());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: AddRate());
       case '/AddAlert':
-        return PageTransition(type: isLTR, child: AddAlert());
+        return PageTransition(
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: AddAlert());
     }
   }
 }

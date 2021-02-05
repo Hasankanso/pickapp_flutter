@@ -29,6 +29,7 @@ class RideView extends StatelessWidget {
       backdropTapClosesPanel: true,
       parallaxEnabled: true,
       parallaxOffset: .5,
+      color: Theme.of(context).scaffoldBackgroundColor,
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       maxHeight: ScreenUtil().setHeight(500),
@@ -132,6 +133,7 @@ class _panel extends StatelessWidget {
                     _Title(text: Lang.getString(context, "From")),
                     _Title(text: Lang.getString(context, "To")),
                     _Title(text: Lang.getString(context, "Date")),
+                    _Title(text: Lang.getString(context, "Price")),
                   ],
                 ),
               ),
@@ -160,6 +162,15 @@ class _panel extends StatelessWidget {
                       height: 40,
                       child: Text(
                         DateFormat(App.dateFormat).format(ride.leavingDate),
+                        maxLines: 1,
+                        style: Styles.valueTextStyle(),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
+                    ResponsiveWidget.fullWidth(
+                      height: 40,
+                      child: Text(
+                        ride.price.toString() + " " + ride.countryInformations.unit,
                         maxLines: 1,
                         style: Styles.valueTextStyle(),
                         overflow: TextOverflow.clip,
@@ -217,7 +228,6 @@ class _panel extends StatelessWidget {
                     _Title(text: Lang.getString(context, "Available_Seats")),
                     _Title(text: Lang.getString(context, "Luggage")),
                     _Title(text: Lang.getString(context, "Stop_Duration")),
-                    _Title(text: Lang.getString(context, "Price")),
                   ],
                 ),
               ),
@@ -246,15 +256,6 @@ class _panel extends StatelessWidget {
                       height: 40,
                       child: Text(
                         ride.stopTime.toString(),
-                        maxLines: 1,
-                        style: Styles.valueTextStyle(),
-                        overflow: TextOverflow.clip,
-                      ),
-                    ),
-                    ResponsiveWidget.fullWidth(
-                      height: 40,
-                      child: Text(
-                        ride.price.toString() + ride.countryInformations.unit,
                         maxLines: 1,
                         style: Styles.valueTextStyle(),
                         overflow: TextOverflow.clip,
