@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -32,7 +31,6 @@ class _SearchState extends State<Search>
   NumberController numberController = NumberController();
   SearchInfo _searchInfo;
   String _fromError, _toError;
-  static const MethodChannel _channel = MethodChannel('aaaa');
 
   response(List<Ride> result, int code, String message) {
     _searchInfo.rides = result;
@@ -40,7 +38,7 @@ class _SearchState extends State<Search>
     Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
   }
 
-  Future<void> _sendAnalyticsEvent() async {
+  void _sendAnalyticsEvent() async {
     await App.analytics.logEvent(
       name: 'search_event',
       parameters: <String, dynamic>{
@@ -51,7 +49,7 @@ class _SearchState extends State<Search>
     );
   }
 
-  Future<void> _testSetUserId() async {
+  void _testSetUserId() async {
     await App.analytics.setUserId('person_id_or_user_id');
   }
 
@@ -145,8 +143,8 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                await _sendAnalyticsEvent();
-                await _testSetUserId();
+                _sendAnalyticsEvent();
+                _testSetUserId();
 
                 String _validateFrom =
                     fromController.validate(context, x: toController);

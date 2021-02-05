@@ -76,17 +76,9 @@ class _DetailsState extends State<Details> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    _chattinessItems = <String>[
-      Lang.getString(context, "I'm_a_quiet_person"),
-      Lang.getString(context, "I_talk_depending_on_my_mood"),
-      Lang.getString(context, "I_love_to_chat!"),
-    ];
-    _genders = <String>[
-      Lang.getString(context, "Male"),
-      Lang.getString(context, "Female"),
-    ];
+    _chattinessItems = App.getChattiness(context);
+    _genders = App.getGender(context);
   }
 
   @override

@@ -175,6 +175,21 @@ class App {
     ];
   }
 
+  static List<String> getGender(context) {
+    return <String>[
+      Lang.getString(context, "Male"),
+      Lang.getString(context, "Female"),
+    ];
+  }
+
+  static List<String> getChattiness(context) {
+    return <String>[
+      Lang.getString(context, "I'm_a_quiet_person"),
+      Lang.getString(context, "I_talk_depending_on_my_mood"),
+      Lang.getString(context, "I_love_to_chat!"),
+    ];
+  }
+
   static Ride getRideFromObjectId(String objectId) {
     for (final ride in person.upcomingRides) {
       if (ride.id == objectId) {

@@ -338,31 +338,45 @@ class _CarDetailsState extends State<CarDetails> {
                     ],
                   )),
               VerticalSpacer(
-                height: 10,
+                height: 20,
               ),
               ResponsiveWidget.fullWidth(
-                height: 60,
+                height: 40,
                 child: DifferentSizeResponsiveRow(
                   children: [
-                    Spacer(
-                      flex: 1,
-                    ),
                     Expanded(
-                      flex: 9,
-                      child: Text(
-                        Lang.getString(context, "Color"),
-                        style: Styles.labelTextStyle(),
+                      flex: 100,
+                      child: DifferentSizeResponsiveRow(
+                        children: [
+                          Spacer(
+                            flex: 8,
+                          ),
+                          Expanded(
+                            flex: 60,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 6,
+                                  child: Text(
+                                    Lang.getString(context, "Color"),
+                                    style: Styles.labelTextStyle(),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: ColorPicker(_colorController),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Spacer(
+                            flex: 8,
+                          )
+                        ],
                       ),
                     ),
                     Spacer(
-                      flex: 3,
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: ColorPicker(_colorController),
-                    ),
-                    Spacer(
-                      flex: 4,
+                      flex: 1,
                     ),
                   ],
                 ),

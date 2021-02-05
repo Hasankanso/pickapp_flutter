@@ -5,7 +5,7 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class DateTimeRangePicker extends StatefulWidget {
   DateTimeRangeController _controller;
-  bool showRange = false;
+  bool showRange;
 
   DateTimeRangePicker(this._controller, {this.showRange});
   @override
@@ -53,13 +53,15 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
                   callBack: _startDatePicked),
             ),
             Visibility(
-              visible: Cache.dateTimeRangePicker,
+              visible:
+                  widget.showRange != true ? Cache.dateTimeRangePicker : true,
               child: Spacer(
                 flex: 3,
               ),
             ),
             Visibility(
-              visible: Cache.dateTimeRangePicker,
+              visible:
+                  widget.showRange != true ? Cache.dateTimeRangePicker : true,
               child: Expanded(
                 flex: 10,
                 child: DateTimePicker(

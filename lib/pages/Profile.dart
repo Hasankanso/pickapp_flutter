@@ -153,6 +153,8 @@ class _ProfileState extends State<Profile> {
                                             App.user.person.rateAverage,
                                             onPressed: () {
                                               //Navigator.pushNamed(context, "/RatesViewProfile");
+                                              Navigator.pushNamed(
+                                                  context, "/AddAlert");
                                             },
                                           ),
                                         ],

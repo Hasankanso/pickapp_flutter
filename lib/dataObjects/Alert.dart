@@ -1,5 +1,4 @@
 import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/User.dart';
 
 class Alert {
   String _id, _comment;
@@ -7,11 +6,9 @@ class Alert {
   DateTime _minDate, _maxDate, _updated;
   int _numberOfPersons, _numberOfLuggage;
   double _price;
-  User _user;
 
   Alert(
       {String id,
-      User user,
       MainLocation from,
       MainLocation to,
       double price,
@@ -22,7 +19,6 @@ class Alert {
       String comment,
       DateTime updated}) {
     this.id = id;
-    this.user = user;
     this.from = from;
     this.to = to;
     this.minDate = minDate;
@@ -36,7 +32,6 @@ class Alert {
   Map<String, dynamic> toJson() => <String, dynamic>{
         "from": from.toJson(),
         "to": to.toJson(),
-        "user": user.id,
         "price": price,
         "minDate": minDate,
         "maxDate": maxDate,
@@ -125,11 +120,5 @@ class Alert {
 
   set price(double value) {
     _price = value;
-  }
-
-  User get user => _user;
-
-  set user(User value) {
-    _user = value;
   }
 }

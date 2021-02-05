@@ -73,7 +73,9 @@ class _NumberPickerState extends State<NumberPicker> {
                   backgroundColor: widget.disabled
                       ? Styles.labelColor()
                       : Styles.primaryColor(),
-                  heroTag: widget._title + "minus",
+                  heroTag: widget._title +
+                      "minus" +
+                      DateTime.now().microsecond.toString(),
                   elevation: 3,
                   onPressed: () {
                     if (!widget.disabled) _minus();
@@ -99,7 +101,9 @@ class _NumberPickerState extends State<NumberPicker> {
                   backgroundColor: widget.disabled
                       ? Styles.labelColor()
                       : Styles.primaryColor(),
-                  heroTag: widget._title + "plus",
+                  heroTag: widget._title +
+                      "plus" +
+                      DateTime.now().microsecond.toString(),
                   onPressed: () {
                     if (!widget.disabled) counterUp();
                   },

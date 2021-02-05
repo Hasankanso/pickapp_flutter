@@ -33,7 +33,6 @@ Future<void> main() async {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
     Inbox.subscribeToChannel();
-
     //get notifications
     App.notifications = await Cache.getNotifications();
   }
@@ -160,7 +159,6 @@ class MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               onGenerateRoute: RouteGenerator.generateRoute,
               builder: (context, child) => Scaffold(
-                // Global GestureDetector that will dismiss the keyboard
                 body: GestureDetector(
                   onTap: () {
                     FocusScopeNode currentFocus = FocusScope.of(context);

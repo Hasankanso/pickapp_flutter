@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -30,11 +31,7 @@ class _DriverViewState extends State<DriverView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _chattinessItems = <String>[
-      Lang.getString(context, "I'm_a_quiet_person"),
-      Lang.getString(context, "I_talk_depending_on_my_mood"),
-      Lang.getString(context, "I_love_to_chat!"),
-    ];
+    _chattinessItems = App.getChattiness(context);
 
     dataMap = {
       Lang.getString(context, "Accomplished_Rides"):
@@ -65,7 +62,7 @@ class _DriverViewState extends State<DriverView> {
         height: 480,
         child: Container(
           constraints: BoxConstraints.expand(),
-          decoration: widget.user.person.image != null
+          decoration: widget.user.person.profilePictureUrl != null
               ? BoxDecoration(
                   image: DecorationImage(
                     image: widget.user.person.networkImage,
