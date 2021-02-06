@@ -59,35 +59,31 @@ class _AddRidePage3State extends State<AddRidePage3>
                   child: Row(
                     children: [
                       Expanded(
-                        child: MainExpansionTile(
-                          height: 70,
-                          leading: Icon(
-                            Icons.local_taxi_outlined,
-                            size: Styles.mediumIconSize(),
-                            color: valueSelected
-                                ? Styles.primaryColor()
-                                : Colors.grey,
-                          ),
-                          title: Text(
-                            selectedCar,
-                            style: valueSelected
-                                ? Styles.valueTextStyle(
-                                    color: Styles.primaryColor())
-                                : Styles.labelTextStyle(),
-                          ),
-                          children: App.driver.cars.map((Car c) {
-                            return CarTileDropDown(
-                                carName: c.brand + " / " + c.name,
-                                car: c,
-                                a: () {
-                                  selectedCar = c.brand + " / " + c.name;
-                                  car = c;
-                                  valueSelected = true;
-                                  setState(() {});
-                                });
-                          }).toList(growable: true),
+                        child: Card(
+                          child: MainExpansionTile(
+                            height: 70,
 
-                          //  getCar(),
+                            title: Text(
+                              selectedCar,
+                              style: valueSelected
+                                  ? Styles.valueTextStyle(
+                                      color: Styles.primaryColor())
+                                  : Styles.labelTextStyle(),
+                            ),
+                            children: App.driver.cars.map((Car c) {
+                              return CarTileDropDown(
+                                  carName: c.brand + " / " + c.name,
+                                  car: c,
+                                  a: () {
+                                    selectedCar = c.brand + " / " + c.name;
+                                    car = c;
+                                    valueSelected = true;
+                                    setState(() {});
+                                  });
+                            }).toList(growable: true),
+
+                            //  getCar(),
+                          ),
                         ),
                       ),
                     ],
@@ -103,6 +99,8 @@ class _AddRidePage3State extends State<AddRidePage3>
                       "Seats",
                       1,
                       car == null ? null : car.maxSeats,
+                      defaultValue:car == null ? null : car.maxSeats,
+
                       disabled: !valueSelected,
                     )),
                 VerticalSpacer(

@@ -5,23 +5,29 @@ import 'package:pickapp/classes/Styles.dart';
 import 'Responsive.dart';
 
 class NumberPicker extends StatefulWidget {
-  int _value, _min, _max, counter;
+  int _value, _min, _max, counter,defaultValue;
   String _title;
   bool disabled;
   NumberController controller;
 
-  NumberPicker(this.controller, this._title, this._min, this._max,
-      {this.disabled = false}) {
+  NumberPicker(this.controller, this._title, this._min, this._max,{this.defaultValue,this.disabled = false}) {
     if (disabled) {
       _value = 0;
       controller.chosenNumber = 0;
       return;
     } else {
       if (controller.chosenNumber == null || controller.chosenNumber == 0) {
-        _value = _min;
+        if(defaultValue!=null){
+          _value = defaultValue;
+        }
+        else _value=  _min;
         controller.chosenNumber = _min;
       } else {
-        _value = controller.chosenNumber;
+
+        if(defaultValue!=null){
+        _value = defaultValue;
+        }
+        else _value=  controller.chosenNumber;
       }
     }
   }
@@ -70,7 +76,7 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
-                  backgroundColor: widget.disabled
+                  backgroundColor: widget.disabled || widget._min==widget._value
                       ? Styles.labelColor()
                       : Styles.primaryColor(),
                   heroTag: widget._title +
@@ -98,7 +104,7 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
-                  backgroundColor: widget.disabled
+                  backgroundColor: widget.disabled || widget._max==widget._value
                       ? Styles.labelColor()
                       : Styles.primaryColor(),
                   heroTag: widget._title +

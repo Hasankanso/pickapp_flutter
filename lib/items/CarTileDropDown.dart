@@ -24,7 +24,7 @@ class _CarTileDropDownState extends State<CarTileDropDown> {
     return  ResponsiveWidget.fullWidth(
       height: 70,
       child: Card(
-        elevation: 0.1,
+        elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
