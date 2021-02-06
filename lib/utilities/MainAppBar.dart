@@ -8,18 +8,21 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
   double elevation;
   PreferredSizeWidget bottom;
   bool hideBackBtn;
+  Widget leading;
   MainAppBar(
       {this.title,
       this.actions,
       this.elevation,
       this.bottom,
-      this.hideBackBtn = false});
+      this.hideBackBtn = false,
+      this.leading});
   @override
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
       automaticallyImplyLeading: !hideBackBtn,
       elevation: elevation,
+      leading: leading,
       title: Text(
         title,
         style: Styles.titleTextStyle(),

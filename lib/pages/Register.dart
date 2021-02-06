@@ -44,7 +44,6 @@ class _RegisterState extends State<Register> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _genders = <String>[
       Lang.getString(context, "Male"),

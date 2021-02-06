@@ -20,6 +20,7 @@ class User {
   Person _person;
   @HiveField(6)
   Driver _driver;
+  String _idToken;
 
   User(
       {Person person,
@@ -62,6 +63,12 @@ class User {
         _userStatus = json["userStatus"],
         _driver = Driver.fromJson(json["driver"]),
         _person = Person.fromJson(json["person"]);
+
+  String get idToken => _idToken;
+
+  set idToken(String value) {
+    _idToken = value;
+  }
 
   String get id => _id;
 

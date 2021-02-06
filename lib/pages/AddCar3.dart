@@ -27,10 +27,8 @@ class AddCar3 extends StatefulWidget {
   Car car;
   bool isForceRegister;
   User user;
-  String idToken;
 
-  AddCar3(
-      {this.driver, this.car, this.isForceRegister, this.user, this.idToken});
+  AddCar3({this.driver, this.car, this.isForceRegister, this.user});
 
   @override
   _AddCar3State createState() => _AddCar3State();
@@ -236,9 +234,9 @@ class _AddCar3State extends State<AddCar3> {
     Request<User> registerRequest;
 
     if (!widget.isForceRegister) {
-      registerRequest = RegisterPerson(widget.user, widget.idToken);
+      registerRequest = RegisterPerson(widget.user);
     } else {
-      registerRequest = ForceRegisterPerson(widget.idToken, widget.user);
+      registerRequest = ForceRegisterPerson(widget.user);
     }
     registerRequest.send(_registerResponse);
   }

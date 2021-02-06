@@ -244,6 +244,47 @@ class Settings extends StatelessWidget {
                     //addRides
                     children: [
                       InkWell(
+                        onTap: () async {
+                          //todo clear messages and chat
+                          await Hive.openBox("regions");
+                          var regionB = Hive.box("regions");
+                          await regionB.clear();
+                          regionB.close();
+                          var userB = Hive.box("user");
+                          userB.clear();
+                          App.user = null;
+                          App.isDriverNotifier.value = false;
+                          App.isLoggedInNotifier.value = false;
+                          Navigator.pop(context);
+                        },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.logout,
+                                  size: Styles.largeIconSize(),
+                                  color:
+                                      Theme.of(context).accentIconTheme.color,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text(Lang.getString(context, "Logout"),
+                                    style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      LineDevider(),
+                      InkWell(
                         onTap: () {
                           Navigator.push(
                               context,
@@ -278,46 +319,6 @@ class Settings extends StatelessWidget {
                               Expanded(
                                 flex: 18,
                                 child: Text("Test Size",
-                                    style: Styles.valueTextStyle()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LineDevider(),
-                      InkWell(
-                        onTap: () async {
-                          await Hive.openBox("regions");
-                          var regionB = Hive.box("regions");
-                          await regionB.clear();
-                          regionB.close();
-                          var userB = Hive.box("user");
-                          userB.clear();
-                          App.user = null;
-                          App.isDriverNotifier.value = false;
-                          App.isLoggedInNotifier.value = false;
-                          Navigator.pop(context);
-                        },
-                        child: ResponsiveWidget.fullWidth(
-                          height: 64,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Icon(
-                                  Icons.cached_outlined,
-                                  size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 18,
-                                child: Text("Clear cache",
                                     style: Styles.valueTextStyle()),
                               ),
                             ],

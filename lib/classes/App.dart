@@ -65,8 +65,9 @@ class App {
   };
 
   static CountryInformations getCountryInfo(String code) {
+    code = "+" + code;
     _countriesInformations.forEach((k, v) {
-      if ("+" + code == v.code) {
+      if (code == v.code) {
         return v;
       }
     });

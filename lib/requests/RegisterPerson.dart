@@ -4,9 +4,8 @@ import 'package:pickapp/requests/Request.dart';
 
 class RegisterPerson extends Request<User> {
   User _newUser;
-  String _verificationToken;
 
-  RegisterPerson(this._newUser, this._verificationToken) {
+  RegisterPerson(this._newUser) {
     httpPath = "/UserBusiness/Register";
   }
 
@@ -22,7 +21,7 @@ class RegisterPerson extends Request<User> {
     if (!Validation.isNullOrEmpty(_newUser.person.image)) {
       userJ["image"] = _newUser.person.image;
     }
-    return <String, dynamic>{'user': userJ, 'idToken': _verificationToken};
+    return <String, dynamic>{'user': userJ, 'idToken': _newUser.idToken};
   }
 
   @override

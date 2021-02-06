@@ -25,13 +25,8 @@ class BecomeDriver extends StatefulWidget {
   bool isRegionPage;
   bool isForceRegister;
   User user;
-  String idToken;
 
-  BecomeDriver(
-      {this.isRegionPage = false,
-      this.isForceRegister,
-      this.user,
-      this.idToken});
+  BecomeDriver({this.isRegionPage = false, this.isForceRegister, this.user});
 
   @override
   _BecomeDriverState createState() => _BecomeDriverState();
@@ -291,7 +286,6 @@ class _BecomeDriverState extends State<BecomeDriver> {
                           arguments: [
                             widget.user,
                             widget.isForceRegister,
-                            widget.idToken
                           ]);
                     } else {
                       driver.regions = _regions;

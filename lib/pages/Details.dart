@@ -26,8 +26,7 @@ import 'package:pickapp/utilities/Spinner.dart';
 class Details extends StatefulWidget {
   bool isForceRegister;
   User user;
-  String idToken;
-  Details({this.isForceRegister, this.user, this.idToken});
+  Details({this.isForceRegister, this.user});
   @override
   _DetailsState createState() => _DetailsState();
 }
@@ -83,324 +82,318 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => widget.user == null,
-      child: MainScaffold(
-        appBar: MainAppBar(
-          hideBackBtn: widget.user != null,
-          title: Lang.getString(context, "Details"),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Visibility(
-                      visible: widget.user == null,
-                      child: Column(
-                        children: [
-                          ResponsiveWidget.fullWidth(
-                            height: 100,
-                            child: DifferentSizeResponsiveRow(
-                              children: [
-                                Expanded(
-                                  flex: 5,
-                                  child: TextFormField(
-                                    controller: _firstName,
-                                    minLines: 1,
-                                    textInputAction: TextInputAction.next,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(15),
-                                    ],
-                                    decoration: InputDecoration(
-                                      labelText:
-                                          Lang.getString(context, "First_Name"),
-                                      hintText:
-                                          Lang.getString(context, "Name_hint"),
-                                      labelStyle: Styles.labelTextStyle(),
-                                      hintStyle: Styles.labelTextStyle(),
-                                    ),
-                                    style: Styles.valueTextStyle(),
-                                    validator: (value) {
-                                      String valid =
-                                          Validation.validate(value, context);
-                                      String alpha =
-                                          Validation.isAlphabeticIgnoreSpaces(
-                                              context, value);
-                                      if (valid != null)
-                                        return valid;
-                                      else if (alpha != null) return alpha;
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 5,
-                                  child: TextFormField(
-                                    controller: _lastName,
-                                    minLines: 1,
-                                    textInputAction: TextInputAction.done,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(15),
-                                    ],
-                                    decoration: InputDecoration(
-                                      labelText:
-                                          Lang.getString(context, "Last_Name"),
-                                      hintText: Lang.getString(
-                                          context, "Last_name_hint"),
-                                      labelStyle: Styles.labelTextStyle(),
-                                      hintStyle: Styles.labelTextStyle(),
-                                    ),
-                                    style: Styles.valueTextStyle(),
-                                    validator: (value) {
-                                      String valid =
-                                          Validation.validate(value, context);
-                                      String alpha =
-                                          Validation.isAlphabeticIgnoreSpaces(
-                                              context, value);
-                                      if (valid != null)
-                                        return valid;
-                                      else if (alpha != null)
-                                        return alpha;
-                                      else
-                                        return null;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          ResponsiveWidget.fullWidth(
-                            height: 115,
-                            child: DifferentSizeResponsiveRow(
-                              children: [
-                                Expanded(
-                                  flex: 12,
-                                  child: DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
-                                      labelText:
-                                          Lang.getString(context, "Gender"),
-                                    ),
-                                    isExpanded: true,
-                                    value: _gender ? _genders[0] : _genders[1],
-                                    validator: (val) {
-                                      String valid =
-                                          Validation.validate(val, context);
-                                      if (valid != null) return valid;
-                                      return null;
-                                    },
-                                    onChanged: (String newValue) {
-                                      setState(() {
-                                        _gender =
-                                            newValue == "Male" ? true : false;
-                                      });
-                                    },
-                                    items: _genders
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    ResponsiveWidget.fullWidth(
-                      height: 115,
-                      child: DifferentSizeResponsiveRow(
-                        children: [
-                          Expanded(
-                            flex: 12,
-                            child: DropdownButtonFormField<String>(
-                              isExpanded: true,
-                              decoration: InputDecoration(
-                                  labelText:
-                                      Lang.getString(context, "Chattiness")),
-                              value: _chattinessItems[_chattiness],
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  _chattiness =
-                                      _chattinessItems.indexOf(newValue);
-                                });
-                              },
-                              items: _chattinessItems
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Visibility(
-                      visible: widget.user == null,
-                      child: ResponsiveWidget.fullWidth(
-                        height: 80,
-                        child: DifferentSizeResponsiveRow(
-                          children: [
-                            Expanded(
-                              flex: 12,
-                              child: BirthDayPicker(
-                                _birthday,
-                                startDate: _birthdayInit,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    ResponsiveWidget.fullWidth(
-                      height: 128,
-                      child: DifferentSizeResponsiveRow(
-                        children: [
-                          Expanded(
-                            flex: 12,
-                            child: TextFormField(
-                              controller: _bioController,
-                              minLines: 4,
-                              textInputAction: TextInputAction.done,
-                              maxLines: 20,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(190),
-                              ],
-                              decoration: InputDecoration(
-                                labelText: Lang.getString(context, "Bio"),
-                                hintText:
-                                    Lang.getString(context, "Write_your_bio"),
-                                labelStyle: Styles.labelTextStyle(),
-                                hintStyle: Styles.labelTextStyle(),
-                              ),
-                              style: Styles.valueTextStyle(),
-                              validator: (value) {
-                                String valid =
-                                    Validation.validate(value, context);
-                                String alpha =
-                                    Validation.isAlphaNumericIgnoreSpaces(
-                                        context, value);
-                                String short =
-                                    Validation.isShort(context, value, 20);
-
-                                if (valid != null)
-                                  return valid;
-                                else if (alpha != null)
-                                  return alpha;
-                                else if (short != null)
-                                  return short;
-                                else
-                                  return null;
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: widget.user == null
-            ? ResponsiveWidget.fullWidth(
-                height: 80,
-                child: Column(
-                  children: [
-                    ResponsiveWidget(
-                      width: 270,
-                      height: 50,
-                      child: MainButton(
-                        isRequest: true,
-                        text_key: "Save",
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            Person _newPerson = Person();
-                            _newPerson.firstName = _firstName.text;
-                            _newPerson.lastName = _lastName.text;
-                            _newPerson.birthday = _birthday.chosenDate;
-                            _newPerson.gender = _gender;
-                            _newPerson.bio = _bioController.text;
-                            _newPerson.chattiness = _chattiness;
-                            _newPerson.countryInformations =
-                                CountryInformations();
-                            Request<Person> request = EditAccount(_newPerson);
-                            await request.send(_response);
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : ResponsiveWidget.fullWidth(
-                height: 110,
-                child: Column(
-                  children: [
-                    ResponsiveWidget(
-                      width: 270,
-                      height: 50,
-                      child: MainButton(
-                        isRequest: false,
-                        text_key: "Next",
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            widget.user.person.bio = _bioController.text;
-                            widget.user.person.chattiness = _chattiness;
-                            _register();
-                          }
-                        },
-                      ),
-                    ),
-                    ResponsiveWidget.fullWidth(
-                      height: 50,
-                      child: DifferentSizeResponsiveRow(
-                        children: <Widget>[
-                          Spacer(
-                            flex: 2,
-                          ),
-                          Expanded(
-                            flex: 11,
-                            child: TextButton(
-                              onPressed: () {
-                                _register();
-                              },
-                              child: Text(
-                                Lang.getString(context, "Skip"),
-                                style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(15),
-                                  fontWeight: FontWeight.w400,
-                                  color: (!Cache.darkTheme &&
-                                          MediaQuery.of(context)
-                                                  .platformBrightness !=
-                                              Brightness.dark)
-                                      ? Styles.valueColor()
-                                      : Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Spacer(
-                            flex: 2,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+    return MainScaffold(
+      appBar: MainAppBar(
+        title: Lang.getString(context, "Details"),
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Visibility(
+                    visible: widget.user == null,
+                    child: Column(
+                      children: [
+                        ResponsiveWidget.fullWidth(
+                          height: 100,
+                          child: DifferentSizeResponsiveRow(
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: TextFormField(
+                                  controller: _firstName,
+                                  minLines: 1,
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(15),
+                                  ],
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        Lang.getString(context, "First_Name"),
+                                    hintText:
+                                        Lang.getString(context, "Name_hint"),
+                                    labelStyle: Styles.labelTextStyle(),
+                                    hintStyle: Styles.labelTextStyle(),
+                                  ),
+                                  style: Styles.valueTextStyle(),
+                                  validator: (value) {
+                                    String valid =
+                                        Validation.validate(value, context);
+                                    String alpha =
+                                        Validation.isAlphabeticIgnoreSpaces(
+                                            context, value);
+                                    if (valid != null)
+                                      return valid;
+                                    else if (alpha != null) return alpha;
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: TextFormField(
+                                  controller: _lastName,
+                                  minLines: 1,
+                                  textInputAction: TextInputAction.done,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(15),
+                                  ],
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        Lang.getString(context, "Last_Name"),
+                                    hintText: Lang.getString(
+                                        context, "Last_name_hint"),
+                                    labelStyle: Styles.labelTextStyle(),
+                                    hintStyle: Styles.labelTextStyle(),
+                                  ),
+                                  style: Styles.valueTextStyle(),
+                                  validator: (value) {
+                                    String valid =
+                                        Validation.validate(value, context);
+                                    String alpha =
+                                        Validation.isAlphabeticIgnoreSpaces(
+                                            context, value);
+                                    if (valid != null)
+                                      return valid;
+                                    else if (alpha != null)
+                                      return alpha;
+                                    else
+                                      return null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        ResponsiveWidget.fullWidth(
+                          height: 115,
+                          child: DifferentSizeResponsiveRow(
+                            children: [
+                              Expanded(
+                                flex: 12,
+                                child: DropdownButtonFormField<String>(
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        Lang.getString(context, "Gender"),
+                                  ),
+                                  isExpanded: true,
+                                  value: _gender ? _genders[0] : _genders[1],
+                                  validator: (val) {
+                                    String valid =
+                                        Validation.validate(val, context);
+                                    if (valid != null) return valid;
+                                    return null;
+                                  },
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      _gender =
+                                          newValue == "Male" ? true : false;
+                                    });
+                                  },
+                                  items: _genders.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ResponsiveWidget.fullWidth(
+                    height: 115,
+                    child: DifferentSizeResponsiveRow(
+                      children: [
+                        Expanded(
+                          flex: 12,
+                          child: DropdownButtonFormField<String>(
+                            isExpanded: true,
+                            decoration: InputDecoration(
+                                labelText:
+                                    Lang.getString(context, "Chattiness")),
+                            value: _chattinessItems[_chattiness],
+                            onChanged: (String newValue) {
+                              setState(() {
+                                _chattiness =
+                                    _chattinessItems.indexOf(newValue);
+                              });
+                            },
+                            items: _chattinessItems
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.user == null,
+                    child: ResponsiveWidget.fullWidth(
+                      height: 80,
+                      child: DifferentSizeResponsiveRow(
+                        children: [
+                          Expanded(
+                            flex: 12,
+                            child: BirthDayPicker(
+                              _birthday,
+                              startDate: _birthdayInit,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  ResponsiveWidget.fullWidth(
+                    height: 128,
+                    child: DifferentSizeResponsiveRow(
+                      children: [
+                        Expanded(
+                          flex: 12,
+                          child: TextFormField(
+                            controller: _bioController,
+                            minLines: 4,
+                            textInputAction: TextInputAction.done,
+                            maxLines: 20,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(190),
+                            ],
+                            decoration: InputDecoration(
+                              labelText: Lang.getString(context, "Bio"),
+                              hintText:
+                                  Lang.getString(context, "Write_your_bio"),
+                              labelStyle: Styles.labelTextStyle(),
+                              hintStyle: Styles.labelTextStyle(),
+                            ),
+                            style: Styles.valueTextStyle(),
+                            validator: (value) {
+                              String valid =
+                                  Validation.validate(value, context);
+                              String alpha =
+                                  Validation.isAlphaNumericIgnoreSpaces(
+                                      context, value);
+                              String short =
+                                  Validation.isShort(context, value, 20);
+
+                              if (valid != null)
+                                return valid;
+                              else if (alpha != null)
+                                return alpha;
+                              else if (short != null)
+                                return short;
+                              else
+                                return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: widget.user == null
+          ? ResponsiveWidget.fullWidth(
+              height: 80,
+              child: Column(
+                children: [
+                  ResponsiveWidget(
+                    width: 270,
+                    height: 50,
+                    child: MainButton(
+                      isRequest: true,
+                      text_key: "Save",
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          Person _newPerson = Person();
+                          _newPerson.firstName = _firstName.text;
+                          _newPerson.lastName = _lastName.text;
+                          _newPerson.birthday = _birthday.chosenDate;
+                          _newPerson.gender = _gender;
+                          _newPerson.bio = _bioController.text;
+                          _newPerson.chattiness = _chattiness;
+                          _newPerson.countryInformations =
+                              CountryInformations();
+                          Request<Person> request = EditAccount(_newPerson);
+                          await request.send(_response);
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : ResponsiveWidget.fullWidth(
+              height: 110,
+              child: Column(
+                children: [
+                  ResponsiveWidget(
+                    width: 270,
+                    height: 50,
+                    child: MainButton(
+                      isRequest: false,
+                      text_key: "Next",
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          widget.user.person.bio = _bioController.text;
+                          widget.user.person.chattiness = _chattiness;
+                          _register();
+                        }
+                      },
+                    ),
+                  ),
+                  ResponsiveWidget.fullWidth(
+                    height: 50,
+                    child: DifferentSizeResponsiveRow(
+                      children: <Widget>[
+                        Spacer(
+                          flex: 2,
+                        ),
+                        Expanded(
+                          flex: 11,
+                          child: TextButton(
+                            onPressed: () {
+                              _register();
+                            },
+                            child: Text(
+                              Lang.getString(context, "Skip"),
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(15),
+                                fontWeight: FontWeight.w400,
+                                color: (!Cache.darkTheme &&
+                                        MediaQuery.of(context)
+                                                .platformBrightness !=
+                                            Brightness.dark)
+                                    ? Styles.valueColor()
+                                    : Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Spacer(
+                          flex: 2,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
     );
   }
 
@@ -440,9 +433,9 @@ class _DetailsState extends State<Details> {
 
       Request<User> registerRequest;
       if (!widget.isForceRegister) {
-        registerRequest = RegisterPerson(widget.user, widget.idToken);
+        registerRequest = RegisterPerson(widget.user);
       } else {
-        registerRequest = ForceRegisterPerson(widget.idToken, widget.user);
+        registerRequest = ForceRegisterPerson(widget.user);
       }
       registerRequest.send(_registerResponse);
     } else {
@@ -450,7 +443,7 @@ class _DetailsState extends State<Details> {
       Navigator.pushNamed(
         context,
         "/RegisterDriver",
-        arguments: [widget.user, widget.isForceRegister, widget.idToken],
+        arguments: [widget.user, widget.isForceRegister],
       );
     }
   }

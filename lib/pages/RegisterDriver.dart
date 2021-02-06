@@ -21,9 +21,8 @@ import 'package:pickapp/utilities/Spinner.dart';
 class RegisterDriver extends StatefulWidget {
   bool isForceRegister;
   User user;
-  String idToken;
 
-  RegisterDriver({this.isForceRegister, this.user, this.idToken});
+  RegisterDriver({this.isForceRegister, this.user});
 
   @override
   _RegisterDriverState createState() => _RegisterDriverState();
@@ -72,12 +71,11 @@ class _RegisterDriverState extends State<RegisterDriver> {
                 text_key: "Next",
                 onPressed: () {
                   widget.user.driver = Driver();
-                  Navigator.of(context).pushNamed("/BecomeDriverRegister",
-                      arguments: [
-                        widget.user,
-                        widget.isForceRegister,
-                        widget.idToken
-                      ]);
+                  Navigator.of(context)
+                      .pushNamed("/BecomeDriverRegister", arguments: [
+                    widget.user,
+                    widget.isForceRegister,
+                  ]);
                 },
               ),
             ),
@@ -107,11 +105,9 @@ class _RegisterDriverState extends State<RegisterDriver> {
                         widget.user.driver = null;
                         Request<User> registerRequest;
                         if (!widget.isForceRegister) {
-                          registerRequest =
-                              RegisterPerson(widget.user, widget.idToken);
+                          registerRequest = RegisterPerson(widget.user);
                         } else {
-                          registerRequest =
-                              ForceRegisterPerson(widget.idToken, widget.user);
+                          registerRequest = ForceRegisterPerson(widget.user);
                         }
                         registerRequest.send(_registerResponse);
                       },

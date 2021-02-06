@@ -30,40 +30,19 @@ class Phone2 extends StatefulWidget {
 }
 
 class _Phone2State extends State<Phone2> {
-  String _verificationId = "";
-  String _idToken;
   final _formKey = GlobalKey<FormState>();
-  bool _isCounterStillOn = true;
   TextEditingController _smsCode = TextEditingController();
-  final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
+
+  bool _isCounterStillOn = true;
   Timer _timer;
   int _timeout = 120;
   String _resendCodeTimer;
   String _resendCodeLocale, _resendCodeInLocale, _secondsLocale;
-  auth.UserCredential _userCredential;
 
-  void _resendTimer() {
-    _timeout = 120;
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_timeout == 0) {
-          setState(() {
-            _resendCodeTimer = _resendCodeLocale;
-            _isCounterStillOn = false;
-            timer.cancel();
-          });
-        } else {
-          setState(() {
-            _timeout--;
-            _resendCodeTimer =
-                _resendCodeInLocale + _timeout.toString() + _secondsLocale;
-          });
-        }
-      },
-    );
-  }
+  auth.UserCredential _userCredential;
+  String _verificationSmsId = "";
+  String _idToken;
+  final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -80,8 +59,9 @@ class _Phone2State extends State<Phone2> {
     _secondsLocale = Lang.getString(context, "Resend_code_seconds");
     _resendCodeTimer =
         _resendCodeInLocale + _timeout.toString() + _secondsLocale;
+
     await _sendCode();
-    _resendTimer();
+    _startTimer();
   }
 
   @override
@@ -180,8 +160,8 @@ class _Phone2State extends State<Phone2> {
                     child: TextButton(
                       onPressed: !_isCounterStillOn
                           ? () async {
-                              _resendTimer();
                               await _sendCode();
+                              _startTimer();
                             }
                           : null,
                       child: Row(
@@ -220,40 +200,19 @@ class _Phone2State extends State<Phone2> {
                 text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    if (widget.user != null) {
+                    if (widget.user != null)
                       widget.user.verificationCode = _smsCode.text;
-                    } else if (widget.oldUser != null) {
+                    else if (widget.oldUser != null)
                       widget.oldUser.verificationCode = _smsCode.text;
-                    }
+
                     if (_idToken == null)
-                      _firebaseVerification();
+                      _verifyPhoneSmsCode();
                     else {
                       if (widget.user != null) {
-                        Navigator.pushNamed(
-                          context,
-                          "/RegisterDetails",
-                          arguments: [
-                            widget.user,
-                            widget.isForceRegister,
-                            _idToken
-                          ],
-                        );
+                        _openDetailsPage();
                       } else if (widget.oldUser != null) {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return WillPopScope(
-                              onWillPop: () async => false,
-                              child: Center(
-                                child: Spinner(),
-                              ),
-                            );
-                          },
-                        );
-                        Request<User> request =
-                            ChangePhone(widget.oldUser, _idToken);
-                        request.send(_changePhoneResponse);
+                        _openSpinner();
+                        _changePhoneRequest();
                       }
                     }
                   }
@@ -266,6 +225,29 @@ class _Phone2State extends State<Phone2> {
     );
   }
 
+  void _startTimer() {
+    _timeout = 120;
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_timeout == 0) {
+          setState(() {
+            _resendCodeTimer = _resendCodeLocale;
+            _isCounterStillOn = false;
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _timeout--;
+            _resendCodeTimer =
+                _resendCodeInLocale + _timeout.toString() + _secondsLocale;
+          });
+        }
+      },
+    );
+  }
+
   _sendCode() async {
     _isCounterStillOn = true;
     auth.PhoneVerificationCompleted verificationCompleted =
@@ -273,26 +255,10 @@ class _Phone2State extends State<Phone2> {
       _userCredential = await _auth.signInWithCredential(phoneAuthCredential);
       _idToken = await _userCredential.user.getIdToken();
       if (widget.user != null) {
-        Navigator.pushNamed(
-          context,
-          "/RegisterDetails",
-          arguments: [widget.user, widget.isForceRegister, _idToken],
-        );
+        _openDetailsPage();
       } else if (widget.oldUser != null) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return WillPopScope(
-              onWillPop: () async => false,
-              child: Center(
-                child: Spinner(),
-              ),
-            );
-          },
-        );
-        Request<User> request = ChangePhone(widget.oldUser, _idToken);
-        request.send(_changePhoneResponse);
+        _openSpinner();
+        _changePhoneRequest();
       }
     };
     auth.PhoneVerificationFailed verificationFailed =
@@ -300,20 +266,18 @@ class _Phone2State extends State<Phone2> {
       if (authException.code == "too-many-requests") {
         CustomToast().showErrorToast(Lang.getString(context, "To_many_sms"));
       }
-      print(
-          'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
       CustomToast().showErrorToast(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
     };
     auth.PhoneCodeSent codeSent =
         (String verificationId, [int forceResendingToken]) async {
       CustomToast().showSuccessToast(Lang.getString(context, "Sms_code_hint"));
-      _verificationId = verificationId;
+      _verificationSmsId = verificationId;
     };
 
     auth.PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
         (String verificationId) {
-      _verificationId = verificationId;
+      _verificationSmsId = verificationId;
     };
 
     try {
@@ -326,26 +290,15 @@ class _Phone2State extends State<Phone2> {
           codeSent: codeSent,
           codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
     } catch (e) {
-      CustomToast().showErrorToast("Failed to Verify Phone Number: ${e}");
+      CustomToast().showErrorToast("Failed to Verify Phone Number: $e");
     }
   }
 
-  Future<void> _firebaseVerification() async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          onWillPop: () async => false,
-          child: Center(
-            child: Spinner(),
-          ),
-        );
-      },
-    );
+  Future<void> _verifyPhoneSmsCode() async {
+    _openSpinner();
     try {
       final auth.AuthCredential credential = auth.PhoneAuthProvider.credential(
-        verificationId: _verificationId,
+        verificationId: _verificationSmsId,
         smsCode: _smsCode.text,
       );
       final auth.User user =
@@ -353,14 +306,9 @@ class _Phone2State extends State<Phone2> {
       _idToken = await user.getIdToken();
       if (widget.user != null) {
         Navigator.pop(context);
-        Navigator.pushNamed(
-          context,
-          "/RegisterDetails",
-          arguments: [widget.user, widget.isForceRegister, _idToken],
-        );
+        _openDetailsPage();
       } else if (widget.oldUser != null) {
-        Request<User> request = ChangePhone(widget.oldUser, _idToken);
-        request.send(_changePhoneResponse);
+        _changePhoneRequest();
       }
     } catch (e) {
       auth.FirebaseAuthException exception = (e as auth.FirebaseAuthException);
@@ -398,5 +346,32 @@ class _Phone2State extends State<Phone2> {
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
+  }
+
+  _openDetailsPage() {
+    widget.user.idToken = _idToken;
+    Navigator.pushNamed(context, "/RegisterDetails",
+        arguments: [widget.user, widget.isForceRegister]);
+  }
+
+  _changePhoneRequest() {
+    widget.oldUser.idToken = _idToken;
+    Request<User> request = ChangePhone(widget.oldUser);
+    request.send(_changePhoneResponse);
+  }
+
+  _openSpinner() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Center(
+            child: Spinner(),
+          ),
+        );
+      },
+    );
   }
 }

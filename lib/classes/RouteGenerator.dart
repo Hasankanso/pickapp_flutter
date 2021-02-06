@@ -32,12 +32,12 @@ import 'package:pickapp/pages/RatesListPage.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RegisterDriver.dart';
 import 'package:pickapp/pages/RideDetails.dart';
-import 'package:pickapp/pages/UpcomingRideDetails.dart';
 import 'package:pickapp/pages/SearchResults.dart';
 import 'package:pickapp/pages/Security.dart';
 import 'package:pickapp/pages/Settings.dart';
 import 'package:pickapp/pages/Statistics.dart';
 import 'package:pickapp/pages/TermAndConditions.dart';
+import 'package:pickapp/pages/UpcomingRideDetails.dart';
 
 import 'App.dart';
 
@@ -48,7 +48,8 @@ class RouteGenerator {
 
   static Duration transitionTime = const Duration(milliseconds: 300);
 
-  static Duration duration = Cache.removeAnimation ? const Duration(milliseconds: 0) : transitionTime;
+  static Duration duration =
+      Cache.removeAnimation ? const Duration(milliseconds: 0) : transitionTime;
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -306,7 +307,6 @@ class RouteGenerator {
             child: Details(
               user: ((args as List)[0] as User),
               isForceRegister: (args as List)[1],
-              idToken: (args as List)[2],
             ));
       case '/RegisterDriver':
         return PageTransition(
@@ -316,7 +316,6 @@ class RouteGenerator {
             child: RegisterDriver(
               user: ((args as List)[0] as User),
               isForceRegister: (args as List)[1],
-              idToken: (args as List)[2],
             ));
       //register driver screens
       case '/BecomeDriverRegister':
@@ -327,7 +326,6 @@ class RouteGenerator {
             child: BecomeDriver(
               user: ((args as List)[0] as User),
               isForceRegister: (args as List)[1],
-              idToken: (args as List)[2],
             ));
       case '/AddCarRegister':
         return PageTransition(
@@ -337,7 +335,6 @@ class RouteGenerator {
             child: AddCar(
               user: ((args as List)[0] as User),
               isForceRegister: (args as List)[1],
-              idToken: (args as List)[2],
             ));
       case "/AddCar2Register":
         return PageTransition(
@@ -347,7 +344,6 @@ class RouteGenerator {
             child: AddCar2(
               user: ((args as List)[0] as User),
               isForceRegister: (args as List)[1],
-              idToken: (args as List)[2],
             ));
       case "/AddCar3Register":
         return PageTransition(
@@ -357,7 +353,6 @@ class RouteGenerator {
             child: AddCar3(
               user: ((args as List)[0] as User),
               isForceRegister: (args as List)[1],
-              idToken: (args as List)[2],
             ));
       case '/ExistingConversation':
         return PageTransition(

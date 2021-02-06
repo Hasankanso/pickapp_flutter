@@ -17,9 +17,8 @@ class AddCar extends StatefulWidget {
   Driver driver;
   bool isForceRegister;
   User user;
-  String idToken;
 
-  AddCar({this.driver, this.isForceRegister, this.user, this.idToken});
+  AddCar({this.driver, this.isForceRegister, this.user});
 
   @override
   _AddCarState createState() => _AddCarState();
@@ -278,7 +277,6 @@ class _AddCarState extends State<AddCar> {
                           arguments: [
                             widget.user,
                             widget.isForceRegister,
-                            widget.idToken
                           ]);
                     } else {
                       car.name = _name.text;
