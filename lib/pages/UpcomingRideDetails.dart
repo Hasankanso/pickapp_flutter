@@ -18,6 +18,16 @@ class UpcomingRideDetails extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: MainAppBar(
+          actions: [
+            IconButton(
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: Styles.largeIconSize(),
+                ),
+                tooltip: Lang.getString(context, "Delete"),
+                onPressed: (){})
+          ],
           title: Lang.getString(context, "Ride_Details"),
           bottom: TabBar(
             tabs: [
