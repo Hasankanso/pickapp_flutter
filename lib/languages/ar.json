@@ -164,6 +164,7 @@
   "Reserve_Seats_Luggage": "حجز مقاعد و مكان للحقائب",
   "Reviews" : "مراجعات",
   "Accomplished_rides": "رحلات المنجزة",
+  "Disable_Animation" : "إيقاف الحركة",
 
   "Ride_Reserved_Success": "تم حجز المقاعد",
   "Ride_Reserved_Failed": "فشلت عملية الحجز",

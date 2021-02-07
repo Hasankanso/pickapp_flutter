@@ -185,12 +185,24 @@ class _Panel extends StatelessWidget {
         VerticalSpacer(height: 10),
         ResponsiveWidget.fullWidth(
           height: 30,
-          child: Text(
-            user.person.firstName + " " + user.person.lastName,
-            maxLines: 1,
-            style: Styles.valueTextStyle(bold: FontWeight.w800),
-            overflow: TextOverflow.clip,
-            textAlign: TextAlign.center,
+          child: Row( mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                user.person.firstName + " " + user.person.lastName,
+                maxLines: 1,
+                style: Styles.valueTextStyle(bold: FontWeight.w800),
+                overflow: TextOverflow.clip,
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                user.person.gender? Styles.maleIcon : Styles.femaleIcon,
+                maxLines: 1,
+                style: Styles.valueTextStyle(color : Styles.primaryColor(), bold: FontWeight.w800),
+                overflow: TextOverflow.clip,
+                textAlign: TextAlign.center,
+              ),
+
+            ],
           ),
         ),
         VerticalSpacer(height: 20),

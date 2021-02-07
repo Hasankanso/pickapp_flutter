@@ -11,6 +11,8 @@ class Styles {
           kToolbarHeight; //never use these variables in the code, only change their values.
   static ThemeMode _currentTheme = ThemeMode.system;
 
+  static String femaleIcon = " \u{2640}";
+  static String maleIcon = " \u{2642}";
   static ThemeMode currentTheme() {
     return _currentTheme;
   }
