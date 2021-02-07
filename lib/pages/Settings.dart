@@ -5,6 +5,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/FakeRequests.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
@@ -28,7 +29,7 @@ class Settings extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             VerticalSpacer(height: 18),
             ResponsiveRow(widgetRealtiveSize: 25, children: [
               Text(
@@ -82,6 +83,19 @@ class Settings extends StatelessWidget {
                                   MediaQuery.of(context).platformBrightness ==
                                       Brightness.dark,
                               onChanged: (bool value) => {App.setTheme(value)})
+                        ]),
+                      ),
+                      LineDevider(),
+                      ResponsiveWidget.fullWidth(
+                        height: 55,
+                        child: Row(children: [
+                          Spacer(flex: 1),
+                          Text(Lang.getString(context, "Disable_Animation"),
+                              style: Styles.valueTextStyle()),
+                          Spacer(flex: 9),
+                          Switcher(
+                              isOn: Cache.disableAnimation,
+                              onChanged: (bool value) {Cache.setDisableAnimation(value); RouteGenerator.disableAnimation(value);})
                         ]),
                       ),
                     ],

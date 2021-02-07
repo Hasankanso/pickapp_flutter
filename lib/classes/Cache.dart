@@ -141,32 +141,26 @@ class Cache {
     _prefs.setBool("THEME_MODE", value);
   }
 
+  static setDisableAnimation(bool value){
+    _prefs.setBool("DISABLE_ANIMATION", value);
+  }
+
   static setConditionAccepted(bool value) {
     _prefs.setBool("TERM_CONDITIONS", value);
   }
 
-  static bool get removeAnimation {
-    return false;
-    return _prefs.getBool("REMOVE_ANIMATION");
-  }
 
   static String get locale => _prefs.getString("LANG_CODE");
 
   static bool get conditionAccepted => _prefs.getBool("TERM_CONDITIONS") != null
-      ? _prefs.getBool("TERM_CONDITIONS")
-          ? true
-          : false
-      : false;
+      ? _prefs.getBool("TERM_CONDITIONS") : false;
 
   static bool get dateTimeRangePicker => _prefs.getBool("isRangePicker") != null
-      ? _prefs.getBool("isRangePicker")
-          ? true
-          : false
-      : false;
+      ? _prefs.getBool("isRangePicker") : false;
+
+  static bool get disableAnimation => _prefs.getBool("DISABLE_ANIMATION") != null
+      ? _prefs.getBool("DISABLE_ANIMATION") : false;
 
   static bool get darkTheme => _prefs.getBool("THEME_MODE") != null
-      ? _prefs.getBool("THEME_MODE")
-          ? true
-          : false
-      : false;
+      ? _prefs.getBool("THEME_MODE") : false;
 }

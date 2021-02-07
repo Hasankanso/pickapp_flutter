@@ -46,10 +46,14 @@ class RouteGenerator {
       ? PageTransitionType.rightToLeft
       : PageTransitionType.leftToRight;
 
-  static Duration transitionTime = const Duration(milliseconds: 300);
+  static Duration _transitionTime = const Duration(milliseconds: 300);
 
-  static Duration duration =
-      Cache.removeAnimation ? const Duration(milliseconds: 0) : transitionTime;
+  //this value is being updated in settings page.
+  static Duration duration = Cache.disableAnimation? Duration(milliseconds: 0) : _transitionTime;
+
+  static void disableAnimation(bool value){
+  duration = value? Duration(milliseconds: 0) : _transitionTime;
+  }
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;

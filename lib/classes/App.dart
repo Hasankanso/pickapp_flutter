@@ -96,6 +96,7 @@ class App {
     }
   }
 
+
   static void init(MyAppState state) {
     _state = state;
   }

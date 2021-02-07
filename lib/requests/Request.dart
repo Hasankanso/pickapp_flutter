@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +23,8 @@ abstract class Request<T> {
     if (!Validation.isNullOrEmpty(valid)) {
       callback(null, 406, valid);
     } else {
+      try{
+
       Map<String, dynamic> data = getJson();
       String jsonData = json.encode(data, toEncodable: _dateToIso8601String);
       print("request-data: " + jsonData);
@@ -30,7 +34,8 @@ abstract class Request<T> {
           'Content-Type': 'application/json; charset=utf-8'
         },
         body: jsonData,
-      );
+      ).timeout(const Duration(seconds: 5));
+
 
       var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
       print("backendless: " + decodedResponse.toString());
@@ -59,6 +64,16 @@ abstract class Request<T> {
       }
       callback(buildObject(decodedResponse), response.statusCode,
           response.reasonPhrase);
+      } on SocketException catch (e) {
+        callback(null, HttpStatus.networkConnectTimeoutError,
+            "no_internet_connection");
+      } on TimeoutException catch (e) {
+        callback(null, HttpStatus.networkConnectTimeoutError,
+            "no_internet_connection");
+      } on Error catch (e) {
+        callback(null, HttpStatus.networkConnectTimeoutError,
+            "no_internet_connection");
+      }
     }
   }
 
