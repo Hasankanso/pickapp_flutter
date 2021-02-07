@@ -1,5 +1,4 @@
 import 'dart:core';
-import 'dart:math';
 
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/Validation.dart';
@@ -61,10 +60,8 @@ class MainLocation {
         latitude: latitude);
   }
 
-  bool equals(MainLocation other) {
-    return sqrt((longitude - other.longitude) * (longitude - other.longitude) +
-            (latitude - other.latitude) * (latitude - other.latitude)) <
-        1;
+  bool equals(MainLocation x) {
+    return (this.latitude == x.latitude && this.longitude == x.longitude);
   }
 
   static String validate(MainLocation location) {

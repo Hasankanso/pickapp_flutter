@@ -52,6 +52,8 @@ class _ProfileState extends State<Profile> {
 
       result.upcomingRides = upcomingRides;
       result.rates = rates;
+      result.statistics = App.user.person.statistics;
+
       App.user.person = result;
       await Cache.setUserCache(App.user);
       CustomToast()

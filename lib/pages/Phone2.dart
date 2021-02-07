@@ -337,6 +337,7 @@ class _Phone2State extends State<Phone2> {
       localUser.driver = App.driver;
       localUser.person.upcomingRides = App.person.upcomingRides;
       localUser.person.rates = App.person.rates;
+      localUser.person.statistics = App.person.statistics;
 
       App.user = localUser;
       await Cache.setUserCache(localUser);

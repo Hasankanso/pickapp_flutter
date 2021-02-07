@@ -144,6 +144,10 @@
   "Rates": "Rates",
   "No_Rides_History!":"No Rides History!",
   "Logout": "Logout",
+  "Ride_Time_validation": "Your ride must be after more than a half-hour",
+  "Min_stop_time": "Min 5 minutes",
+  "Max_stop_time": "Max 30 minutes",
+  "Choose_car": "Choose car",
 
   "Results" : "Results",
   "Filter" : "Filter",
@@ -173,6 +177,8 @@
   "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",
   "Min": "Min",
+  "Minimum_short": "Min",
+  "Maximum_short": "Max",
   "How_Much_Time_You_Need": "How much time you need ?",
   "Do_You_Want_To_Stop_Over": "Do you want to stop over ?",
   "Do_You_Have_Kids_Seat": "Do you have Kids seat ?",
@@ -190,5 +196,9 @@
   "Passengers": "Passengers",
   "Kid's_Seat": "Kid's Seat",
   "Add_Seat": "You should add at least one seat !",
-  "Car": "Car"
+  "Car": "Car",
+
+  "Ride_compare_upcoming": "Your ride must be after 20 min from the last upcoming ride",
+  "LL": "LL",
+  "€": "€"
 }

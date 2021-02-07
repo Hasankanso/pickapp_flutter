@@ -149,7 +149,9 @@ class LocationEditingController {
     String _isEmpty = Validation.validate(this.description, context);
     if (_isEmpty != null) {
       return _isEmpty;
-    } else if (x != null && this.description == x.description) {
+    } else if (x != null &&
+        this.location.lat == x.location.lat &&
+        this.location.lng == x.location.lng) {
       return Lang.getString(context, "Same_location");
     } else {
       return null;
