@@ -32,13 +32,15 @@ class Person {
   @HiveField(8)
   List<Ride> _upcomingRides = new List<Ride>();
   @HiveField(9)
-  List<Rate> _rates = new List<Rate>();
+  List<Rate> _rates;
   @HiveField(10)
   DateTime _updated;
   @HiveField(11)
   CountryInformations _countryInformations;
   @HiveField(12)
   UserStatistics _statistics;
+  @HiveField(13)
+  DateTime creationDate;
 
   ImageProvider networkImage;
 
@@ -58,6 +60,7 @@ class Person {
     DateTime updated,
     String profilePictureUrl,
     UserStatistics statistics,
+    this.creationDate,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -111,6 +114,12 @@ class Person {
         ? null
         : UserStatistics.fromJson(json["statistics"]);
 
+    var createdJ = json["created"];
+    DateTime created;
+    if (createdJ != null) {
+      created = DateTime.fromMillisecondsSinceEpoch(createdJ);
+    }
+
     Person p = Person(
       phone: json['phone'],
       id: json["objectId"],
@@ -124,6 +133,7 @@ class Person {
       profilePictureUrl: json['image'],
       countryInformations: countryInformations,
       statistics: statistics,
+      creationDate: created,
     );
 
     if (p.profilePictureUrl == null) {
