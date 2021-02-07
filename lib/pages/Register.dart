@@ -193,7 +193,10 @@ class _RegisterState extends State<Register> {
                             },
                             onChanged: (String newValue) {
                               setState(() {
-                                _gender = newValue == "Male" ? true : false;
+                                _gender =
+                                    newValue == Lang.getString(context, "Male")
+                                        ? true
+                                        : false;
                               });
                             },
                             items: _genders

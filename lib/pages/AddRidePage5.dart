@@ -1,16 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/requests/AddRide.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/requests/AddRide.dart';
 
 class AddRidePage5 extends StatefulWidget {
   final Ride rideInfo;
@@ -25,10 +27,6 @@ class _AddRidePage5State extends State<AddRidePage5> {
   final Ride ride;
 
   _AddRidePage5State(this.ride);
-
-  response(Ride result, int code, String message) {
-    App.user.person.upcomingRides.add(result);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +52,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                   ),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 4,
                   child: Column(
                     children: [
                       _Value(
@@ -82,9 +80,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                       : Styles.labelColor(),
                 ),
                 Icon(
-                  ride.smokingAllowed
-                      ? Icons.smoking_rooms
-                      : Icons.smoke_free,
+                  ride.smokingAllowed ? Icons.smoking_rooms : Icons.smoke_free,
                   color: ride.smokingAllowed
                       ? Styles.primaryColor()
                       : Styles.labelColor(),
@@ -107,8 +103,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
             Row(
               children: [
                 Expanded(
-                  flex:2,
-
+                  flex: 2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,14 +119,15 @@ class _AddRidePage5State extends State<AddRidePage5> {
                   ),
                 ),
                 Expanded(
-                  flex:3,
-
+                  flex: 4,
                   child: Column(
                     children: [
                       ResponsiveWidget.fullWidth(
                         height: 40,
                         child: Text(
-                          DateFormat(App.dateFormat).format(ride.leavingDate),
+                          DateFormat(App.dateFormat,
+                                  Localizations.localeOf(context).toString())
+                              .format(ride.leavingDate),
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
                           overflow: TextOverflow.clip,
@@ -139,7 +135,10 @@ class _AddRidePage5State extends State<AddRidePage5> {
                       ),
                       ResponsiveWidget.fullWidth(
                         height: 40,
-                        child: Text(ride.car.brand.toString()+" "+ride.car.name.toString(),
+                        child: Text(
+                          ride.car.brand.toString() +
+                              " " +
+                              ride.car.name.toString(),
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
                           overflow: TextOverflow.clip,
@@ -165,27 +164,28 @@ class _AddRidePage5State extends State<AddRidePage5> {
                       ),
                       ResponsiveWidget.fullWidth(
                         height: 40,
-                        child: ride.kidSeat==true?Text("1",
-                          maxLines: 1,
-                          style: Styles.valueTextStyle(),
-                          overflow: TextOverflow.clip,
-                        ):
-                        Text("0",
-                          maxLines: 1,
-                          style: Styles.valueTextStyle(),
-                          overflow: TextOverflow.clip,
-                        )
-                        ,
+                        child: ride.kidSeat == true
+                            ? Text(
+                                "1",
+                                maxLines: 1,
+                                style: Styles.valueTextStyle(),
+                                overflow: TextOverflow.clip,
+                              )
+                            : Text(
+                                "0",
+                                maxLines: 1,
+                                style: Styles.valueTextStyle(),
+                                overflow: TextOverflow.clip,
+                              ),
                       ),
                       ResponsiveWidget.fullWidth(
                         height: 40,
                         child: Text(
-                          ride.stopTime == null
-                              ? "0 " +
-                              Lang.getString(context, "Min")
-                              : ride.stopTime.toString() +
-                                  " " +
-                                  Lang.getString(context, "Min"),
+                          (ride.stopTime == null
+                                  ? "0"
+                                  : ride.stopTime.toString()) +
+                              " " +
+                              Lang.getString(context, "Min"),
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
                           overflow: TextOverflow.clip,
@@ -195,7 +195,9 @@ class _AddRidePage5State extends State<AddRidePage5> {
                         height: 40,
                         child: Text(
                           ride.price.toString() +
-                              " " +ride.countryInformations.unit,
+                              " " +
+                              Lang.getString(
+                                  context, ride.countryInformations.unit),
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
                           overflow: TextOverflow.clip,
@@ -212,10 +214,11 @@ class _AddRidePage5State extends State<AddRidePage5> {
               children: [
                 _Value(
                   text: ride.comment,
-                  maxlines: 3,
+                  maxlines: 9,
                 ),
               ],
             ),
+            VerticalSpacer(height: 24),
           ],
         ),
       ),
@@ -232,12 +235,8 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 text_key: "Done",
                 onPressed: () async {
                   Request<Ride> request = AddRide(ride);
-                  await request.send(response);
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, "/", (Route<dynamic> route) => false);
-
-                  CustomToast().showSuccessToast(
-                      Lang.getString(context, "Successfully_added!"));
+                  await request.send((result, code, message) =>
+                      response(result, code, message, context));
                 },
               ),
             ),
@@ -245,6 +244,19 @@ class _AddRidePage5State extends State<AddRidePage5> {
         ),
       ),
     );
+  }
+}
+
+response(Ride result, int code, String message, context) {
+  if (code != HttpStatus.ok) {
+    CustomToast().showErrorToast(message);
+  } else {
+    App.user.person.upcomingRides.add(result);
+    Navigator.pushNamedAndRemoveUntil(
+        context, "/", (Route<dynamic> route) => false);
+
+    CustomToast()
+        .showSuccessToast(Lang.getString(context, "Successfully_added!"));
   }
 }
 
@@ -285,17 +297,15 @@ class _Value extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveWidget.fullWidth(
-      height: 40,
-      child: Align(
-          alignment: AlignmentDirectional.topStart,
-          child: Text(
-            text,
-            textAlign: TextAlign.start,
-            style: Styles.valueTextStyle(),
-            maxLines: maxlines,
-            overflow: TextOverflow.ellipsis,
-          )),
+    return Align(
+      alignment: AlignmentDirectional.topStart,
+      child: Text(
+        text,
+        textAlign: TextAlign.start,
+        style: Styles.valueTextStyle(),
+        maxLines: maxlines,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }

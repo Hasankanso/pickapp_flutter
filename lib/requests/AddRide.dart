@@ -20,7 +20,6 @@ class AddRide extends Request<Ride> {
 
   @override
   String isValid() {
-   // return Ride.validate(_ride);
     return null;
   }
 }

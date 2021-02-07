@@ -144,9 +144,13 @@ class DateTimePickerState extends State<DateTimePicker> {
 
 class DateTimeController {
   DateTime chosenDate;
-  DateTimeController() {
-    chosenDate = DateTime.now().add(Duration(
-      minutes: 20,
-    ));
+  DateTimeController({this.chosenDate}) {
+    if (chosenDate == null) {
+      this.chosenDate = DateTime.now().add(Duration(
+        minutes: 20,
+      ));
+    } else {
+      this.chosenDate = chosenDate;
+    }
   }
 }

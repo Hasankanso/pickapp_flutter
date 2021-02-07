@@ -31,11 +31,59 @@ class _AddRidePage3State extends State<AddRidePage3>
   NumberController personController = NumberController();
   NumberController luggageController = NumberController();
   final priceController = TextEditingController();
-  String selectedCar = "Choose car";
+  String selectedCar;
   bool valueSelected = false;
   Car car;
 
   _AddRidePage3State(this.rideInfo);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (car == null) selectedCar = Lang.getString(context, "Choose_car");
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    rideInfo.price = int.tryParse(priceController.text);
+
+    if (car != null) {
+      rideInfo.car = car;
+      rideInfo.availableSeats = personController.chosenNumber;
+      rideInfo.availableLuggages = luggageController.chosenNumber;
+    }
+
+    priceController.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (rideInfo.price != null)
+      priceController.text = rideInfo.price.toString();
+    if (rideInfo.car != null) {
+      selectedCar = rideInfo.car.brand + " " + rideInfo.car.name;
+      car = rideInfo.car;
+      valueSelected = true;
+      personController = NumberController(
+        chosenNumber: rideInfo.availableSeats == null
+            ? car == null
+                ? null
+                : car.maxSeats
+            : rideInfo.availableSeats,
+      );
+      luggageController = NumberController(
+        chosenNumber: rideInfo.availableLuggages == null
+            ? car == null
+                ? null
+                : 0
+            : rideInfo.availableLuggages,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +126,12 @@ class _AddRidePage3State extends State<AddRidePage3>
                                     selectedCar = c.brand + " / " + c.name;
                                     car = c;
                                     valueSelected = true;
+                                    personController = NumberController(
+                                      chosenNumber: car.maxSeats,
+                                    );
+                                    luggageController = NumberController(
+                                      chosenNumber: 0,
+                                    );
                                     setState(() {});
                                   });
                             }).toList(growable: true),
@@ -99,8 +153,6 @@ class _AddRidePage3State extends State<AddRidePage3>
                       "Seats",
                       1,
                       car == null ? null : car.maxSeats,
-                      defaultValue:car == null ? null : car.maxSeats,
-
                       disabled: !valueSelected,
                     )),
                 VerticalSpacer(
@@ -139,10 +191,11 @@ class _AddRidePage3State extends State<AddRidePage3>
                           maxLines: 1,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(8),
+                            LengthLimitingTextInputFormatter(6),
                           ],
                           decoration: InputDecoration(
-                            labelText: rideInfo.countryInformations.unit,
+                            labelText: Lang.getString(
+                                context, rideInfo.countryInformations.unit),
                             labelStyle: Styles.labelTextStyle(),
                             hintStyle: Styles.labelTextStyle(),
                           ),
@@ -150,9 +203,23 @@ class _AddRidePage3State extends State<AddRidePage3>
                           validator: (value) {
                             String valid = Validation.validate(value, context);
                             Validation.isNullOrEmpty(value);
+                            int price = int.tryParse(value);
                             if (valid != null)
                               return valid;
-                            else
+                            else if (price <
+                                rideInfo.countryInformations.minPrice) {
+                              Lang.getString(context, "Min_stop_time");
+                              return Lang.getString(context, "Minimum_short") +
+                                  " " +
+                                  rideInfo.countryInformations.minPrice
+                                      .toString();
+                            } else if (price >
+                                rideInfo.countryInformations.maxPrice) {
+                              return Lang.getString(context, "Maximum_short") +
+                                  " " +
+                                  rideInfo.countryInformations.maxPrice
+                                      .toString();
+                            } else
                               return null;
                           },
                         ),
@@ -178,11 +245,9 @@ class _AddRidePage3State extends State<AddRidePage3>
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     if (valueSelected) {
-                      int seats = personController.chosenNumber;
-                      int luggage = luggageController.chosenNumber;
-                      rideInfo.availableSeats = seats;
-                      rideInfo.availableLuggages = luggage;
-                      rideInfo.car = App.user.driver.cars[0];
+                      rideInfo.availableSeats = personController.chosenNumber;
+                      rideInfo.availableLuggages =
+                          luggageController.chosenNumber;
                       rideInfo.car = car;
                       int price = int.parse(priceController.text);
                       rideInfo.price = price;

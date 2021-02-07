@@ -153,8 +153,7 @@ class _SearchState extends State<Search>
                 _fromError = _validateFrom;
                 _toError = _validateTo;
                 setState(() {});
-                if (_validateFrom != null || _validateTo != null) {
-                } else {
+                if (_validateFrom == null && _validateTo == null) {
                   if (dateTimeController.startDateController.chosenDate
                       .isBefore(DateTime.now())) {
                     setState(() {

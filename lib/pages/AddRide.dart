@@ -6,6 +6,7 @@ import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/pages/BecomeDriver.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
@@ -23,7 +24,9 @@ class _AddRideState extends State<AddRide> {
   final _formKey = GlobalKey<FormState>();
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
-  DateTimeController dateTimeController = DateTimeController();
+  DateTimeController dateTimeController = DateTimeController(
+    chosenDate: DateTime.now().add(Duration(minutes: 40)),
+  );
   SwitcherController smokeController = SwitcherController();
   SwitcherController acController = SwitcherController();
   SwitcherController petsController = SwitcherController();
@@ -35,6 +38,7 @@ class _AddRideState extends State<AddRide> {
   IconData musicIcon = Icons.music_off;
 
   String _fromError, _toError;
+  Ride rideInfo = Ride();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,9 @@ class _AddRideState extends State<AddRide> {
                   ResponsiveWidget(
                       width: 270,
                       height: 60,
-                      child: DateTimePicker(dateTimeController)),
+                      child: DateTimePicker(
+                        dateTimeController,
+                      )),
                   VerticalSpacer(height: 15),
                   ResponsiveWidget(
                     width: 270,
@@ -85,7 +91,9 @@ class _AddRideState extends State<AddRide> {
                                   flex: 2,
                                   child: Icon(
                                     smokeIcon,
-                                    color: Styles.primaryColor(),
+                                    color: smokeController.isOn
+                                        ? Styles.primaryColor()
+                                        : Styles.labelColor(),
                                   )),
                               Expanded(
                                 flex: 2,
@@ -112,7 +120,9 @@ class _AddRideState extends State<AddRide> {
                                       flex: 2,
                                       child: Icon(
                                         petsIcon,
-                                        color: Styles.primaryColor(),
+                                        color: petsController.isOn
+                                            ? Styles.primaryColor()
+                                            : Styles.labelColor(),
                                       )),
                                   Expanded(
                                     flex: 2,
@@ -145,7 +155,9 @@ class _AddRideState extends State<AddRide> {
                                 flex: 2,
                                 child: Icon(
                                   musicIcon,
-                                  color: Styles.primaryColor(),
+                                  color: musicController.isOn
+                                      ? Styles.primaryColor()
+                                      : Styles.labelColor(),
                                 )),
                             Expanded(
                               flex: 2,
@@ -172,7 +184,9 @@ class _AddRideState extends State<AddRide> {
                                     flex: 2,
                                     child: Icon(
                                       acIcon,
-                                      color: Styles.primaryColor(),
+                                      color: acController.isOn
+                                          ? Styles.primaryColor()
+                                          : Styles.labelColor(),
                                     )),
                                 Expanded(
                                   flex: 2,
@@ -215,8 +229,21 @@ class _AddRideState extends State<AddRide> {
                         _fromError = _validateFrom;
                         _toError = _validateTo;
                         setState(() {});
-                        if (_validateFrom != null || _validateTo != null) {
-                        } else {
+                        if (_validateFrom == null && _validateTo == null) {
+                          if (dateTimeController.chosenDate.isBefore(
+                              DateTime.now().add(Duration(minutes: 29)))) {
+                            return CustomToast().showErrorToast(Lang.getString(
+                                context, "Ride_Time_validation"));
+                          }
+                          var rideDate = dateTimeController.chosenDate;
+                          rideDate = rideDate.add(Duration(minutes: -20));
+                          for (final item in App.person.upcomingRides) {
+                            if (rideDate.isBefore(item.leavingDate)) {
+                              return CustomToast().showErrorToast(
+                                  Lang.getString(
+                                      context, "Ride_compare_upcoming"));
+                            }
+                          }
                           MainLocation to = MainLocation(
                               name: toController.description,
                               latitude: toController.location.lat,
@@ -232,10 +259,11 @@ class _AddRideState extends State<AddRide> {
                           bool isPets = petsController.isOn;
                           bool isAc = acController.isOn;
                           bool isMusic = musicController.isOn;
-                          Ride rideInfo = new Ride();
                           rideInfo.user = App.user;
+
                           rideInfo.to = to;
                           rideInfo.from = from;
+
                           rideInfo.leavingDate = date;
                           rideInfo.smokingAllowed = isSmoke;
                           rideInfo.petsAllowed = isPets;

@@ -5,7 +5,6 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -29,6 +28,35 @@ class _AddRidePage2State extends State<AddRidePage2> {
   bool kidsSeat = false;
   final timeController = TextEditingController();
   final descController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    rideInfo.kidSeat = kidsSeat;
+    rideInfo.comment = descController.text;
+    if (stopOver == true && timeController.text != "") {
+      int time = int.parse(timeController.text);
+      rideInfo.stopTime = time;
+    } else {
+      rideInfo.stopTime = null;
+    }
+
+    descController.dispose();
+    timeController.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (rideInfo.kidSeat != null) kidsSeat = rideInfo.kidSeat;
+    descController.text = rideInfo.comment;
+    if (rideInfo.stopTime != null) {
+      stopOver = true;
+      timeController.text = rideInfo.stopTime.toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +152,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                         maxLines: 1,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(3),
+                          LengthLimitingTextInputFormatter(2),
                         ],
                         decoration: InputDecoration(
                           labelText: Lang.getString(context, "Min"),
@@ -133,10 +161,15 @@ class _AddRidePage2State extends State<AddRidePage2> {
                         style: Styles.valueTextStyle(),
                         validator: (value) {
                           String valid = Validation.validate(value, context);
-                          Validation.isNullOrEmpty(value);
+
+                          int time = int.tryParse(value);
                           if (valid != null)
                             return valid;
-                          else
+                          else if (time < 5) {
+                            return Lang.getString(context, "Min_stop_time");
+                          } else if (time > 30) {
+                            return Lang.getString(context, "Max_stop_time");
+                          } else
                             return null;
                         },
                       ),
@@ -157,7 +190,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   textInputAction: TextInputAction.done,
                   maxLines: 20,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(190),
+                    LengthLimitingTextInputFormatter(400),
                   ],
                   decoration: InputDecoration(
                     labelText: Lang.getString(context, "Description"),
@@ -169,7 +202,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                     String valid = Validation.validate(value, context);
                     String alpha =
                         Validation.isAlphaNumericIgnoreSpaces(context, value);
-                    String short = Validation.isShort(context, value, 10);
+                    String short = Validation.isShort(context, value, 25);
 
                     if (valid != null)
                       return valid;
@@ -181,9 +214,6 @@ class _AddRidePage2State extends State<AddRidePage2> {
                       return null;
                   },
                 ),
-              ),
-              VerticalSpacer(
-                height: 180,
               ),
             ],
           ),
@@ -200,22 +230,14 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   text_key: "Next",
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      bool isStoping = stopOver;
-                      bool isKidsSeat = kidsSeat;
-                      String desc = descController.text;
-                      rideInfo.kidSeat = isKidsSeat;
-                      rideInfo.comment = desc;
-                      if (isStoping == true && timeController.text != "") {
+                      rideInfo.kidSeat = kidsSeat;
+                      rideInfo.comment = descController.text;
+                      if (stopOver == true && timeController.text != "") {
                         int time = int.parse(timeController.text);
                         rideInfo.stopTime = time;
-                        Navigator.of(context)
-                            .pushNamed("/AddRidePage3", arguments: rideInfo);
-                      } else if (isStoping == false) {
-                        Navigator.of(context)
-                            .pushNamed("/AddRidePage3", arguments: rideInfo);
-                      } else
-                        CustomToast()
-                            .showErrorToast("Enter the stopping time !");
+                      }
+                      Navigator.of(context)
+                          .pushNamed("/AddRidePage3", arguments: rideInfo);
                     }
                   }),
             ),

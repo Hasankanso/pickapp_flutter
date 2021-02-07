@@ -1,12 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/RideRoute.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
-import 'package:pickapp/utilities/PopUp.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class RouteTile extends StatefulWidget {
@@ -18,7 +14,8 @@ class RouteTile extends StatefulWidget {
 
   RouteTile(this.r, this.callBack, this.index1, this.listController);
 
-  static Function(BuildContext, int) itemBuilder(List<RideRoute> c, callBack, ListController listController) {
+  static Function(BuildContext, int) itemBuilder(
+      List<RideRoute> c, callBack, ListController listController) {
     return (context, index) {
       return RouteTile(c[index], callBack, index, listController);
     };
@@ -53,9 +50,10 @@ class _RouteTileState extends State<RouteTile> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           selected: widget.index1 == widget.listController.selected,
-          leading: Icon(Icons.timeline,
-              size: Styles.mediumIconSize(),
-              color: Styles.primaryColor(),
+          leading: Icon(
+            Icons.timeline,
+            size: Styles.mediumIconSize(),
+            color: Styles.primaryColor(),
           ),
           title: Text(
             r.name,
@@ -66,7 +64,6 @@ class _RouteTileState extends State<RouteTile> {
             setState(() {
               widget.listController.selected = widget.index1;
             });
-
           },
         ),
       ),

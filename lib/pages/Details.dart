@@ -190,8 +190,10 @@ class _DetailsState extends State<Details> {
                                   },
                                   onChanged: (String newValue) {
                                     setState(() {
-                                      _gender =
-                                          newValue == "Male" ? true : false;
+                                      _gender = newValue ==
+                                              Lang.getString(context, "Male")
+                                          ? true
+                                          : false;
                                     });
                                   },
                                   items: _genders.map<DropdownMenuItem<String>>(
@@ -403,8 +405,9 @@ class _DetailsState extends State<Details> {
     } else {
       result.rates = App.person.rates;
       result.upcomingRides = App.person.upcomingRides;
-      App.user.person = result;
+      result.statistics = App.user.person.statistics;
 
+      App.user.person = result;
       User u = App.user;
       await Cache.setUserCache(u);
 

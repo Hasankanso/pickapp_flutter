@@ -107,7 +107,9 @@ class Person {
       countryInformations = CountryInformations.fromJson(countryJ);
     }
 
-    UserStatistics statistics = UserStatistics.fromJson(json["statistics"]);
+    UserStatistics statistics = json["statistics"] == null
+        ? null
+        : UserStatistics.fromJson(json["statistics"]);
 
     Person p = Person(
       phone: json['phone'],
@@ -194,6 +196,9 @@ class Person {
   }
 
   UserStatistics get statistics => _statistics;
+  set statistics(value) {
+    _statistics = value;
+  }
 
   get image => _image;
 

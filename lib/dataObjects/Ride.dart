@@ -71,6 +71,8 @@ class Ride {
 
   ImageProvider mapImage;
 
+  bool isFromToChanged;
+
   Ride(
       {String id,
       String comment,
@@ -186,7 +188,7 @@ class Ride {
       maxSeats: json["maxSeats"],
       maxLuggages: json["maxLuggages"],
       availableSeats: json["availableSeats"],
-      stopTime: json["stopTime"] == null? 0 : json["stopTime"],
+      stopTime: json["stopTime"] == null ? 0 : json["stopTime"],
       comment: json["comment"],
       user: user,
       car: Car.fromJson(json["car"]),
@@ -211,75 +213,6 @@ class Ride {
     }
 
     return r;
-  }
-
-  static String validate(Ride ride) {
-    // String validateUser = Validation.validateLogin(App.user);
-    // if (!Validation.isNullOrEmpty(validateUser)) {
-    //   return validateUser;
-    // }
-
-    /*String fromValidation = MainLocation.Validate(ride.From);
-    if (!App.isNullOrEmpty(fromValidation)) {
-      return fromValidation;
-    }
-    String toValidation = MainLocation.Validate(ride.To);
-    if (!App.isNullOrEmpty(toValidation)) {
-      return toValidation;
-    }*/
-
-    //   if (ride.From.Equals(ride.To))
-    //   {
-    //       return "From and To are too close (1 km)";
-    //   }
-    if (ride.from.latitude == ride.to.latitude &&
-        ride.from.longitude == ride.to.longitude) {
-      return "From and To must be different";
-    }
-    if (ride.leavingDate.compareTo(DateTime.now().add(Duration(minutes: 30))) <
-        0) {
-      return "Your ride must be after half our or more from now";
-    }
-    if (ride.availableSeats == null ||
-        ride.availableSeats <= 0 ||
-        ride.availableSeats > ride.car.maxSeats) {
-      return "Invalid number of seats";
-    }
-    if (ride.availableLuggages == null ||
-        ride.availableLuggages < 0 ||
-        ride.availableLuggages > ride.car.maxLuggage) {
-      return "Invalid number of luggage";
-    }
-    if (ride.stopTime != 0 && (ride.stopTime < 5 || ride.stopTime > 30)) {
-      return "Your stop time must be between 5 and 30 minutes";
-    }
-    if (Validation.isNullOrEmpty(ride.comment) ||
-        ride.comment.length < 25 ||
-        ride.comment.length > 400) {
-      return "Please add a comment between 25 and 400 characters";
-    }
-    if (Validation.isNullOrEmpty(ride.mapBase64)) {
-      return "Please choose your ride's road";
-    }
-    if (Validation.isNullOrEmpty(ride.car.id)) {
-      return "Please choose a car";
-    }
-    if (ride.price == null || ride.price <= 0) {
-      return "Please set a price";
-    }
-    if (Validation.isNullOrEmpty(ride.countryInformations.id)) {
-      return "Please choose a country info";
-    }
-    if (Validation.isNullOrEmpty(ride.driver.id)) {
-      return "You're not a driver";
-    }
-    var rideDate = ride.leavingDate.add(Duration(minutes: -20));
-    for (final item in App.person.upcomingRides) {
-      if (rideDate.compareTo(item.leavingDate) <= 0) {
-        return "Your ride must be after 20 min from last upcoming ride";
-      }
-    }
-    return null;
   }
 
   get price => _price;

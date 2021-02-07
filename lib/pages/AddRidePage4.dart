@@ -69,7 +69,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
         App.googleKey);
     if (response.statusCode == 200) {
       var base64String = base64.encode(response.bodyBytes);
-      //print("The base64 is :"+base64String);
       mapUrl = staticMapURL +
           "size=640x640&path=enc%3A" +
           roadPoints +
@@ -91,6 +90,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
   void initState() {
     super.initState();
     getMapAndDirection();
+    listController.selected = 0;
   }
 
   void getMapAndDirection() async {
