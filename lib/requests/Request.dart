@@ -14,7 +14,7 @@ abstract class Request<T> {
 
   T buildObject(json);
 
-  void send(Function(T, int, String) callback) async {
+  Future<void> send(Function(T, int, String) callback) async {
     String valid = isValid();
     print("offlineValidator (deprecated) " +
         Validation.isNullOrEmpty(valid).toString());

@@ -21,6 +21,7 @@ class User {
   @HiveField(6)
   Driver _driver;
   String _idToken;
+  bool isExistChecked = false;
 
   User(
       {Person person,

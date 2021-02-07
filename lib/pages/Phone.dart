@@ -29,7 +29,6 @@ class Phone extends StatefulWidget {
 class _PhoneState extends State<Phone> {
   final _formKey = GlobalKey<FormState>();
   bool _isForceRegister = false;
-  bool _userHasBeenChecked = false;
   TextEditingController _phone = TextEditingController();
   TextEditingController _code = TextEditingController();
   List<String> _countriesCodes = App.countriesInformationsCodes;
@@ -141,7 +140,6 @@ class _PhoneState extends State<Phone> {
                             ? widget._user.person.countryInformations.digits
                             : App.getCountryInfo(_countryCode).digits),
                       ],
-                      onChanged: (value) => _userHasBeenChecked = false,
                       controller: _phone,
                       textInputAction: TextInputAction.done,
                       validator: (value) {
@@ -176,14 +174,15 @@ class _PhoneState extends State<Phone> {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     if (widget._user != null) {
-                      widget._user.phone = "+" + _code.text + _phone.text;
-                      if (!_userHasBeenChecked) {
-                        User checkUser = User(phone: widget._user.phone);
-                        Request<bool> request = CheckUserExist(checkUser);
-                        await request.send(_checkUserExistResponse);
-                      } else {
-                        Navigator.of(context).pushNamed('/Phone2',
+                      String phone = "+" + _code.text + _phone.text;
+                      if (widget._user.phone != phone) {
+                        widget._user.isExistChecked = false;
+                        await _openSecondPage(phone);
+                      } else if (widget._user.idToken != null) {
+                        Navigator.of(context).pushNamed('/RegisterDetails',
                             arguments: [widget._user, _isForceRegister]);
+                      } else {
+                        await _openSecondPage(phone);
                       }
                     } else {
                       if (App.user.phone == "+" + _countryCode + _phone.text) {
@@ -211,11 +210,24 @@ class _PhoneState extends State<Phone> {
     );
   }
 
+  _openSecondPage(phone) async {
+    widget._user.phone = phone;
+    widget._user.idToken = null;
+    if (!widget._user.isExistChecked) {
+      User checkUser = User(phone: widget._user.phone);
+      Request<bool> request = CheckUserExist(checkUser);
+      await request.send(_checkUserExistResponse);
+    } else {
+      Navigator.of(context)
+          .pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
+    }
+  }
+
   void _checkUserExistResponse(bool userExist, int statusCode, String message) {
     if (statusCode != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
     } else {
-      _userHasBeenChecked = true;
+      widget._user.isExistChecked = true;
       if (userExist == true) {
         PopUp.areYouSure(
           Lang.getString(context, "Skip"),
