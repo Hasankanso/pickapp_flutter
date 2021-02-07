@@ -71,8 +71,6 @@ class Ride {
 
   ImageProvider mapImage;
 
-  bool isFromToChanged;
-
   Ride(
       {String id,
       String comment,

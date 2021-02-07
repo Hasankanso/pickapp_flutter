@@ -351,7 +351,7 @@ class _Phone2State extends State<Phone2> {
 
   _openDetailsPage() {
     widget.user.idToken = _idToken;
-    Navigator.pushNamed(context, "/RegisterDetails",
+    Navigator.pushReplacementNamed(context, "/RegisterDetails",
         arguments: [widget.user, widget.isForceRegister]);
   }
 
