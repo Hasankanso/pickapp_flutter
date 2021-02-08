@@ -22,6 +22,7 @@ class CustomToast {
   }
 
   void showErrorToast(String msg) {
+    if (msg == null) return;
     Fluttertoast.showToast(
         backgroundColor: Colors.redAccent,
         msg: msg,
@@ -31,6 +32,7 @@ class CustomToast {
   }
 
   void showSuccessToast(String msg) {
+    if (msg == null) return;
     Fluttertoast.showToast(
         backgroundColor: Colors.greenAccent,
         msg: msg,

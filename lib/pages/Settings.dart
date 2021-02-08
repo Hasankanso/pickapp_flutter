@@ -59,10 +59,13 @@ class Settings extends StatelessWidget {
                       ResponsiveWidget.fullWidth(
                         height: 55,
                         child: Row(children: [
-                          Spacer(flex: 2),
-                          Text(Lang.getString(context, "Date_In_Range"),
-                              style: Styles.valueTextStyle()),
-                          Spacer(flex: 16),
+                          Spacer(flex: 1),
+                          Expanded(
+                            flex: 12,
+                            child: Text(
+                                Lang.getString(context, "Date_In_Range"),
+                                style: Styles.valueTextStyle()),
+                          ),
                           Switcher(
                               isOn: Cache.dateTimeRangePicker,
                               onChanged: (bool value) =>
@@ -74,9 +77,11 @@ class Settings extends StatelessWidget {
                         height: 55,
                         child: Row(children: [
                           Spacer(flex: 1),
-                          Text(Lang.getString(context, "Dark_Mode"),
-                              style: Styles.valueTextStyle()),
-                          Spacer(flex: 9),
+                          Expanded(
+                            flex: 12,
+                            child: Text(Lang.getString(context, "Dark_Mode"),
+                                style: Styles.valueTextStyle()),
+                          ),
                           Switcher(
                               isOn: Cache.darkTheme,
                               isDisabled:
@@ -90,12 +95,18 @@ class Settings extends StatelessWidget {
                         height: 55,
                         child: Row(children: [
                           Spacer(flex: 1),
-                          Text(Lang.getString(context, "Disable_Animation"),
-                              style: Styles.valueTextStyle()),
-                          Spacer(flex: 9),
+                          Expanded(
+                            flex: 12,
+                            child: Text(
+                                Lang.getString(context, "Disable_Animation"),
+                                style: Styles.valueTextStyle()),
+                          ),
                           Switcher(
                               isOn: Cache.disableAnimation,
-                              onChanged: (bool value) {Cache.setDisableAnimation(value); RouteGenerator.disableAnimation(value);})
+                              onChanged: (bool value) {
+                                Cache.setDisableAnimation(value);
+                                RouteGenerator.disableAnimation(value);
+                              })
                         ]),
                       ),
                     ],

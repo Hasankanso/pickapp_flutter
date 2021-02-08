@@ -121,7 +121,6 @@
   "Code_has_expired": "Code has expired",
   "Incorrect_verification_code": "Incorrect verification code",
   "Regions_validation": "Regions cannot be duplicated",
-  "Same_location": "Same location",
   "Another_device_use_account": "Another device logged in to this account.",
   "Email_confirmation_pending": "Please confirm your email address to get it all secure!",
   "Disabled_account": "Your account is blocked! Contact us for more information",
@@ -200,5 +199,7 @@
 
   "Ride_compare_upcoming": "Your ride must be after 20 min from the last upcoming ride",
   "LL": "LL",
-  "€": "€"
+  "€": "€",
+  "Too_close": "Too close"
+
 }

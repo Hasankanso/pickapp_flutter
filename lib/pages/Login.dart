@@ -254,9 +254,7 @@ class _LoginState extends State<Login> {
                     hintText: "02451",
                     labelStyle: Styles.labelTextStyle(),
                   ),
-                  onFieldSubmitted: (String text) {
-
-                  },
+                  onFieldSubmitted: (String text) {},
                 ),
               ),
               Spacer(
@@ -297,7 +295,12 @@ class _LoginState extends State<Login> {
 
   Future<void> response(User u, int code, String message, context) async {
     if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
+      if (code == -1) {
+        CustomToast()
+            .showErrorToast(Lang.getString(context, "Disabled_account"));
+      } else {
+        CustomToast().showErrorToast(message);
+      }
       Navigator.pop(context);
     } else {
       App.user = u;

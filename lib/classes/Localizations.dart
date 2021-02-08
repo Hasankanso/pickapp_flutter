@@ -13,6 +13,7 @@ class Lang {
   Lang(this.locale);
 
   static String getString(context, String key) {
+    if (context == null) return null;
     return Localizations.of<Lang>(context, Lang)._localizedValues[key];
   }
 

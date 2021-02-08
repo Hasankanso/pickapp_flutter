@@ -201,5 +201,6 @@
 
   "Ride_compare_upcoming": "Your ride must be after 20 min from the last upcoming ride",
   "LL": "LL",
-  "€": "€"
+  "€": "€",
+  "Too_close": "Too close"
 }

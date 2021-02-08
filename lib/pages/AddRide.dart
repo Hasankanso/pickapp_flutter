@@ -263,7 +263,6 @@ class _AddRideState extends State<AddRide> {
 
                           rideInfo.to = to;
                           rideInfo.from = from;
-
                           rideInfo.leavingDate = date;
                           rideInfo.smokingAllowed = isSmoke;
                           rideInfo.petsAllowed = isPets;

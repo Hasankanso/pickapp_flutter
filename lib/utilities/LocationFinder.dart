@@ -4,6 +4,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
+import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/utilities/pickapp_google_places.dart';
 import 'package:uuid/uuid.dart';
 
@@ -149,10 +150,9 @@ class LocationEditingController {
     String _isEmpty = Validation.validate(this.description, context);
     if (_isEmpty != null) {
       return _isEmpty;
-    } else if (x != null &&
-        this.location.lat == x.location.lat &&
-        this.location.lng == x.location.lng) {
-      return Lang.getString(context, "Same_location");
+    } else if (MainLocation.equals(
+        this.location.lat, this.location.lng, x.location.lat, x.location.lng)) {
+      return Lang.getString(context, "Too_close");
     } else {
       return null;
     }

@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/Validation.dart';
 
@@ -60,8 +61,8 @@ class MainLocation {
         latitude: latitude);
   }
 
-  bool equals(MainLocation x) {
-    return (this.latitude == x.latitude && this.longitude == x.longitude);
+  static bool equals(lat1, long1, lat2, long2) {
+    return (Geolocator.distanceBetween(lat1, long1, lat2, long2) < 1000);
   }
 
   static String validate(MainLocation location) {
