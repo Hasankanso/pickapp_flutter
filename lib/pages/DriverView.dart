@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -118,49 +119,6 @@ class _Panel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Rate> rates = new List<Rate>();
-    Person p1 = new Person(
-        firstName: "Ali",
-        lastName: "Loubani",
-        statistics: UserStatistics(3, 2, 1, 18, 10, 4.8, 8, 200, 100));
-    Person p2 = new Person(
-        firstName: "Adel",
-        lastName: "Kanso",
-        statistics: UserStatistics(3, 2, 1, 18, 10, 4.8, 8, 200, 100));
-    rates.add(new Rate(
-        grade: 4,
-        comment: "he's friendly guy, would do it again!",
-        reason: 0,
-        rater: p1,
-        creationDate: DateTime.now()));
-    rates.add(new Rate(
-        grade: 2,
-        comment:
-            "he's guy, would do it again asd esdf sf vsd sdf sdgfsdg dfg dfg fd g dsfgbdg hd glkfdsjg dflk gjf glkdfjg fdlkjlk!",
-        reason: 2,
-        rater: p2,
-        creationDate: DateTime.now()));
-    rates.add(new Rate(
-        grade: 1,
-        comment: "he's fr again!",
-        reason: 2,
-        rater: p1,
-        creationDate: DateTime.now()));
-    rates.add(new Rate(
-        grade: 5,
-        comment: "he's friendly guy, would do it again!",
-        reason: 2,
-        rater: p1,
-        creationDate: DateTime.now()));
-    rates.add(new Rate(
-        grade: 3,
-        comment: " again!",
-        reason: 2,
-        rater: p2,
-        creationDate: DateTime.now()));
-
-    user.person.rates = rates;
-
     return SingleChildScrollView(
       controller: controller,
       child: Column(children: [
@@ -185,7 +143,8 @@ class _Panel extends StatelessWidget {
         VerticalSpacer(height: 10),
         ResponsiveWidget.fullWidth(
           height: 30,
-          child: Row( mainAxisAlignment: MainAxisAlignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 user.person.firstName + " " + user.person.lastName,
@@ -195,14 +154,24 @@ class _Panel extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               Text(
-                user.person.gender? Styles.maleIcon : Styles.femaleIcon,
+                user.person.gender ? Styles.maleIcon : Styles.femaleIcon,
                 maxLines: 1,
-                style: Styles.valueTextStyle(color : Styles.primaryColor(), bold: FontWeight.w800),
+                style: Styles.valueTextStyle(
+                    color: Styles.primaryColor(), bold: FontWeight.w800),
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,
               ),
-
             ],
+          ),
+        ),
+        ResponsiveWidget.fullWidth(
+          height: 30,
+          child: Text(
+            DateFormat(App.birthdayFormat).format(user.person.creationDate),
+            maxLines: 1,
+            style:  Styles.labelTextStyle(size : 11, bold: FontWeight.bold),
+            overflow: TextOverflow.clip,
+            textAlign: TextAlign.center,
           ),
         ),
         VerticalSpacer(height: 20),
