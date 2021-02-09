@@ -10,6 +10,7 @@ class MainButton extends StatelessWidget {
   double _radius = 8;
   bool isRequest;
   String text;
+
   MainButton(
       {this.text_key, this.onPressed, this.isRequest = false, this.text});
 
@@ -158,7 +159,8 @@ class _ProgressButtonState extends State<ProgressButton>
                     });
                     onDefault = await widget.onPressed();
 
-                    !widget.isForceStop ? _animController.reverse() : null;
+                    if (!widget.isForceStop) _animController.reverse();
+
                   } else {
                     _toProcessing();
                     onDefault = await widget.onPressed();

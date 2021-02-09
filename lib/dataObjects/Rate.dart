@@ -21,8 +21,6 @@ class Rate {
   Ride _ride;
   @HiveField(6)
   DateTime _creationDate;
-  @HiveField(7)
-  DateTime _updated;
 
   Rate(
       {double grade,
@@ -31,8 +29,7 @@ class Rate {
       Person rater,
       Person target,
       Ride ride,
-      DateTime creationDate,
-      DateTime updated}) {
+      DateTime creationDate}) {
     this.grade = grade;
     this.comment = comment;
     this.reason = reason;
@@ -40,7 +37,6 @@ class Rate {
     this.target = target;
     this.ride = ride;
     this.creationDate = creationDate;
-    this.updated = updated;
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -53,25 +49,19 @@ class Rate {
         "target": this.target.id
       };
   factory Rate.fromJson(Map<String, dynamic> json) {
-    var creationDateJ = json["creationDate"];
+    var creationDateJ = json["created"];
     DateTime creationDate;
     if (creationDateJ != null) {
       creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ);
     }
-    var updatedJ = json["creationDate"];
-    DateTime updated;
-    if (updatedJ != null) {
-      updated = DateTime.fromMillisecondsSinceEpoch(updatedJ);
-    }
+
     return Rate(
         grade: json["grade"],
         comment: json["comment"],
         reason: json["reason"],
         creationDate: creationDate,
         rater: Person.fromJson(json["rater"]),
-        target: Person.fromJson(json["target"]),
-        ride: Ride.fromJson(json["ride"]),
-        updated: updated);
+        target: Person.fromJson(json["target"]),);
   }
 
   double get grade => _grade;
@@ -116,9 +106,4 @@ class Rate {
     _creationDate = value;
   }
 
-  get updated => _updated;
-
-  set updated(value) {
-    _updated = value;
-  }
 }

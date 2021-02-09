@@ -96,7 +96,6 @@ class App {
     }
   }
 
-
   static void init(MyAppState state) {
     _state = state;
   }
@@ -180,9 +179,11 @@ class App {
 
   static List<String> getRateReasons(context) {
     return <String>[
-      Lang.getString(context, "I'm_a_quiet_person"),
-      Lang.getString(context, "I_talk_depending_on_my_mood"),
-      Lang.getString(context, "I_love_to_chat!"),
+      "driver was driving too slow",
+      "driver was driving too fast",
+      "he didn't came on time",
+      "the ride didn't take place",
+      "others"
     ];
   }
 

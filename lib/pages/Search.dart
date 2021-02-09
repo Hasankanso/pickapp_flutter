@@ -33,9 +33,10 @@ class _SearchState extends State<Search>
   String _fromError, _toError;
 
   response(List<Ride> result, int code, String message) {
-    _searchInfo.rides = result;
-
-    Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
+    if(code == 200) {
+      _searchInfo.rides = result;
+      Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
+    }
   }
 
   void _sendAnalyticsEvent() async {
