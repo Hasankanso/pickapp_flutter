@@ -57,7 +57,7 @@ class RateTile extends ListTile {
                   Row(
                     children: [
                       ResponsiveWidget(
-                          height: 24, width: 120, child: RateStars(rate.grade)),
+                          height: 9, width: 120, child: RateStars(rate.grade)),
                     ],
                   ),
                   Row(
@@ -89,6 +89,7 @@ class RateTile extends ListTile {
                       ),
                     ],
                   ),
+                  VerticalSpacer(height: 20,),
                 ],
               ),
             ),

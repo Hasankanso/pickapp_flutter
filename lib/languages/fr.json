@@ -171,6 +171,7 @@
   "Ride_Reserved_Success": "Seats Reserved Successfully",
   "Ride_Reserved_Failed": "Failed to Reserve",
   "Reviews" : "Reviews",
+  "no_reviews_message" : "No reviews at the moment.",
   "Accomplished_rides": "Accomplished_rides",
   "Disable_Animation" : "Disable Animation",
 

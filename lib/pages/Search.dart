@@ -40,7 +40,6 @@ class _SearchState extends State<Search>
       CustomToast().showErrorToast(message);
     } else {
       _searchInfo.rides = result;
-
       Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
     }
   }

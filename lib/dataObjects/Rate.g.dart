@@ -23,8 +23,7 @@ class RateAdapter extends TypeAdapter<Rate> {
       .._rater = fields[3] as Person
       .._target = fields[4] as Person
       .._ride = fields[5] as Ride
-      .._creationDate = fields[6] as DateTime
-      .._updated = fields[7] as DateTime;
+      .._creationDate = fields[6] as DateTime;
   }
 
   @override
@@ -44,9 +43,7 @@ class RateAdapter extends TypeAdapter<Rate> {
       ..writeByte(5)
       ..write(obj._ride)
       ..writeByte(6)
-      ..write(obj._creationDate)
-      ..writeByte(7)
-      ..write(obj._updated);
+      ..write(obj._creationDate);
   }
 
   @override

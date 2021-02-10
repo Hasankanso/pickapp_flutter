@@ -185,7 +185,7 @@ class _panel extends StatelessWidget {
             height: 20,
           ),
           _Title(text: Lang.getString(context, "Description")),
-          ResponsiveRow(children: [Text(ride.comment)]),
+          ResponsiveRow(children: [Text(ride.comment, style : Styles.valueTextStyle(), textAlign: TextAlign.center,)]),
           VerticalSpacer(height: 30),
           _Title(text: Lang.getString(context, "Details")),
           Row(

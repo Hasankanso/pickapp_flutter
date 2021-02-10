@@ -112,9 +112,13 @@ class _Panel extends StatelessWidget {
   double accomplishedCanceledRatio = 0;
 
   _Panel({this.user, this.controller, this.chattinessItems, this.dataMap}) {
-    accomplishedCanceledRatio = user.person.statistics.acomplishedRides /
-        (user.person.statistics.acomplishedRides +
-            user.person.statistics.canceledRides);
+    int ridesCount = user.person.statistics.acomplishedRides +
+        user.person.statistics.canceledRides;
+
+    if (ridesCount > 0) {
+      accomplishedCanceledRatio =
+          user.person.statistics.acomplishedRides / ridesCount;
+    }
   }
 
   @override
@@ -169,7 +173,7 @@ class _Panel extends StatelessWidget {
           child: Text(
             DateFormat(App.birthdayFormat).format(user.person.creationDate),
             maxLines: 1,
-            style:  Styles.labelTextStyle(size : 11, bold: FontWeight.bold),
+            style: Styles.labelTextStyle(size: 11, bold: FontWeight.bold),
             overflow: TextOverflow.clip,
             textAlign: TextAlign.center,
           ),
@@ -201,14 +205,9 @@ class _Panel extends StatelessWidget {
                 LinearPercentIndicator(
                   width: ScreenUtil().setWidth(234.0),
                   lineHeight: 16.0,
-                  percent: !accomplishedCanceledRatio.isNaN
-                      ? accomplishedCanceledRatio
-                      : 0,
+                  percent: accomplishedCanceledRatio,
                   center: Text(
-                    !accomplishedCanceledRatio.isNaN
-                        ? (accomplishedCanceledRatio * 100).toInt().toString() +
-                            "%"
-                        : "0",
+                    (accomplishedCanceledRatio * 100).toInt().toString() + "%",
                     style: Styles.buttonTextStyle(size: 12),
                   ),
                   backgroundColor: Colors.red,
@@ -221,15 +220,13 @@ class _Panel extends StatelessWidget {
         VerticalSpacer(
           height: 30,
         ),
-        GestureDetector(
-          onTap: () => Navigator.pushNamed(context, "/RatesView",
-              arguments: user.person.rates),
-          child: ResponsiveWidget.fullWidth(
-            height: 150,
-            child: RatesView(
-                rates: user.person.rates,
-                stats: user.person.statistics,
-                rateAverage: user.person.statistics.rateAverage),
+        ResponsiveWidget.fullWidth(
+          height: 150,
+          child: RatesView(
+            rates: user.person.rates,
+            stats: user.person.statistics,
+            rateAverage: user.person.statistics.rateAverage,
+            pressable: true,
           ),
         ),
         VerticalSpacer(height: 15),

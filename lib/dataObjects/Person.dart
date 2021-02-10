@@ -61,6 +61,7 @@ class Person {
     String profilePictureUrl,
     UserStatistics statistics,
     this.creationDate,
+    reviews,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -73,7 +74,7 @@ class Person {
     this.gender = gender;
     this.birthday = birthday;
     this.profilePictureUrl = profilePictureUrl;
-
+    _rates = reviews;
     _statistics = statistics;
   }
 
