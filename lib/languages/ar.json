@@ -97,6 +97,7 @@
   "Color": "اللون",
   "Add_a_car": "أضف سيارة",
   "Now_driver":  "أنت الآن سائق",
+  "Now": "الأن",
   "Successfully_added!": "أضيف بنجاح!",
   "Successfully_deleted!": "تم الحذف بنجاح!",
   "Delete": "حذف",
@@ -204,5 +205,7 @@
   "Ride_compare_upcoming": "يجب أن تكون رحلتك بعد 20 دقيقة من آخر رحلة قادمة",
   "LL": "ل.ل.",
   "€": "€",
-  "Too_close": "قريب جدا"
+  "Too_close": "قريب جدا",
+  "Chat_delete_message": "هل أنت متأكد أنك تريد حذف هذه المحادثة؟"
+
 }

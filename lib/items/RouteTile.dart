@@ -8,11 +8,11 @@ import 'package:pickapp/utilities/Responsive.dart';
 class RouteTile extends StatefulWidget {
   final RideRoute r;
   Function(String) callBack;
-  final int index1;
+  final int index;
   Function showHide;
   ListController listController;
 
-  RouteTile(this.r, this.callBack, this.index1, this.listController);
+  RouteTile(this.r, this.callBack, this.index, this.listController);
 
   static Function(BuildContext, int) itemBuilder(
       List<RideRoute> c, callBack, ListController listController) {
@@ -49,7 +49,7 @@ class _RouteTileState extends State<RouteTile> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          selected: widget.index1 == widget.listController.selected,
+          selected: widget.index == widget.listController.selected,
           leading: Icon(
             Icons.timeline,
             size: Styles.mediumIconSize(),
@@ -62,7 +62,7 @@ class _RouteTileState extends State<RouteTile> {
           onTap: () {
             callback(r.points);
             setState(() {
-              widget.listController.selected = widget.index1;
+              widget.listController.selected = widget.index;
             });
           },
         ),

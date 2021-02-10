@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/FakeRequests.dart';
@@ -161,38 +160,6 @@ class Settings extends StatelessWidget {
                       LineDevider(),
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed("/HowItWorks");
-                        },
-                        child: ResponsiveWidget.fullWidth(
-                          height: 64,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Icon(
-                                  Icons.info_outline,
-                                  size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 18,
-                                child: Text(
-                                    Lang.getString(context, "How_It_Works"),
-                                    style: Styles.valueTextStyle()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LineDevider(),
-                      InkWell(
-                        onTap: () {
                           Navigator.of(context).pushNamed("/PrivacyPolicy");
                         },
                         child: ResponsiveWidget.fullWidth(
@@ -271,12 +238,7 @@ class Settings extends StatelessWidget {
                       InkWell(
                         onTap: () async {
                           //todo clear messages and chat
-                          await Hive.openBox("regions");
-                          var regionB = Hive.box("regions");
-                          await regionB.clear();
-                          regionB.close();
-                          var userB = Hive.box("user");
-                          userB.clear();
+                          Cache.clearHiveCache();
                           App.user = null;
                           App.isDriverNotifier.value = false;
                           App.isLoggedInNotifier.value = false;
@@ -387,7 +349,7 @@ class Settings extends StatelessWidget {
                 )
               ],
             ),
-            VerticalSpacer(height: 60),
+            VerticalSpacer(height: 18),
           ],
         ),
       ),

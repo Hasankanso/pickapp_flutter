@@ -397,6 +397,7 @@ class _CarDetailsState extends State<CarDetails> {
                   text_key: "View",
                   isRequest: true,
                   onPressed: () async {
+                    widget.car.networkImage = _imageController.downloadedImage;
                     Navigator.push(
                       context,
                       MaterialPageRoute(

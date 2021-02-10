@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/directions.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -34,7 +33,6 @@ class BecomeDriver extends StatefulWidget {
 
 class _BecomeDriverState extends State<BecomeDriver> {
   Driver driver = Driver();
-  var regionsBox;
   List<MainLocation> _regions = List<MainLocation>();
   List<String> _errorTexts = List<String>();
   List<LocationEditingController> _regionsControllers =
@@ -61,21 +59,13 @@ class _BecomeDriverState extends State<BecomeDriver> {
   }
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    if (regionsBox != null) regionsBox.close();
-    super.dispose();
-  }
-
-  @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     if (widget.isRegionPage) {
-      await Hive.openBox("regions");
-      regionsBox = Hive.box("regions");
-      if (regionsBox.length != 0) {
-        App.user.driver.regions = regionsBox.getAt(0).cast<MainLocation>();
+      var localRegion = await Cache.getRegions();
+      if (localRegion != null && localRegion.length != 0) {
+        App.user.driver.regions = localRegion;
       }
       _regions = App.driver.regions;
       for (var region in _regions) {

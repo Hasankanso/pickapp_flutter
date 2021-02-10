@@ -60,6 +60,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
                       imageUrl: widget.imageUrl,
                       imageBuilder: (context, imageProvider) {
                         _downloadedImage = imageProvider;
+                        widget.controller.downloadedImage = imageProvider;
                         return CircleAvatar(
                           radius: ScreenUtil().setSp(45),
                           backgroundImage: imageProvider,
@@ -272,4 +273,5 @@ class _MainImagePickerState extends State<MainImagePicker> {
 
 class MainImageController {
   File pickedImage;
+  ImageProvider downloadedImage;
 }

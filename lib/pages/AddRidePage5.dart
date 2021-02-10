@@ -38,38 +38,55 @@ class _AddRidePage5State extends State<AddRidePage5> {
         child: Column(
           children: [
             VerticalSpacer(
+              height: 15,
+            ),
+            Row(
+              children: [
+                Spacer(),
+                Expanded(
+                    flex: 5,
+                    child: Container(
+                        child: _Title(text: Lang.getString(context, "From")))),
+                Expanded(
+                  flex: 20,
+                  child: _Value(
+                    text: ride.from.name,
+                    maxlines: 1,
+                  ),
+                ),
+              ],
+            ),
+            VerticalSpacer(
               height: 10,
             ),
             Row(
               children: [
+                Spacer(),
                 Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      _Title(text: Lang.getString(context, "From")),
-                      _Title(text: Lang.getString(context, "To")),
-                    ],
-                  ),
+                  flex: 5,
+                  child: _Title(text: Lang.getString(context, "To")),
                 ),
                 Expanded(
-                  flex: 4,
-                  child: Column(
-                    children: [
-                      _Value(
-                        text: ride.from.name,
-                        maxlines: 1,
-                      ),
-                      _Value(
-                        text: ride.to.name,
-                        maxlines: 1,
-                      ),
-                    ],
+                  flex: 20,
+                  child: _Value(
+                    text: ride.to.name,
+                    maxlines: 1,
                   ),
-                )
+                ),
               ],
             ),
             VerticalSpacer(height: 20),
-            _Title(text: Lang.getString(context, "Details")),
+            Row(
+              children: [
+                Spacer(
+                  flex: 1,
+                ),
+                Expanded(
+                    flex: 20,
+                    child: _Title(text: Lang.getString(context, "Details"))),
+              ],
+            ),
+            VerticalSpacer(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -78,138 +95,204 @@ class _AddRidePage5State extends State<AddRidePage5> {
                   color: ride.petsAllowed
                       ? Styles.primaryColor()
                       : Styles.labelColor(),
+                  size: Styles.largeIconSize(),
                 ),
                 Icon(
                   ride.smokingAllowed ? Icons.smoking_rooms : Icons.smoke_free,
                   color: ride.smokingAllowed
                       ? Styles.primaryColor()
                       : Styles.labelColor(),
+                  size: Styles.largeIconSize(),
                 ),
                 Icon(
                   Icons.ac_unit,
                   color: ride.acAllowed
                       ? Styles.primaryColor()
                       : Styles.labelColor(),
+                  size: Styles.largeIconSize(),
                 ),
                 Icon(
                   ride.musicAllowed ? Icons.music_note : Icons.music_off,
                   color: ride.musicAllowed
                       ? Styles.primaryColor()
                       : Styles.labelColor(),
+                  size: Styles.largeIconSize(),
                 ),
               ],
             ),
             VerticalSpacer(height: 20),
             Row(
               children: [
-                Expanded(
+                Spacer(
                   flex: 2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _Title(text: Lang.getString(context, "Date")),
-                      _Title(text: Lang.getString(context, "Car")),
-                      _Title(text: Lang.getString(context, "Available_Seats")),
-                      _Title(text: Lang.getString(context, "Luggage")),
-                      _Title(text: Lang.getString(context, "Kid's_Seat")),
-                      _Title(text: Lang.getString(context, "Stop_Duration")),
-                      _Title(text: Lang.getString(context, "Price")),
-                    ],
-                  ),
                 ),
                 Expanded(
-                  flex: 4,
-                  child: Column(
-                    children: [
-                      ResponsiveWidget.fullWidth(
-                        height: 40,
-                        child: Text(
-                          DateFormat(App.dateFormat,
-                                  Localizations.localeOf(context).toString())
-                              .format(ride.leavingDate),
+                  flex: 15,
+                  child: _Title(text: Lang.getString(context, "Date")),
+                ),
+                Expanded(
+                  flex: 22,
+                  child: Text(
+                    DateFormat(App.dateFormat,
+                            Localizations.localeOf(context).toString())
+                        .format(ride.leavingDate),
+                    maxLines: 1,
+                    style: Styles.valueTextStyle(),
+                    overflow: TextOverflow.clip,
+                  ),
+                ),
+              ],
+            ),
+            VerticalSpacer(height: 8),
+            Row(
+              children: [
+                Spacer(
+                  flex: 2,
+                ),
+                Expanded(
+                  flex: 15,
+                  child: _Title(text: Lang.getString(context, "Car")),
+                ),
+                Expanded(
+                  flex: 22,
+                  child: Text(
+                    ride.car.brand.toString() + " " + ride.car.name.toString(),
+                    maxLines: 1,
+                    style: Styles.valueTextStyle(),
+                    overflow: TextOverflow.clip,
+                  ),
+                ),
+              ],
+            ),
+            VerticalSpacer(height: 8),
+            Row(
+              children: [
+                Spacer(
+                  flex: 2,
+                ),
+                Expanded(
+                    flex: 15,
+                    child: _Title(
+                        text: Lang.getString(context, "Available_Seats"))),
+                Expanded(
+                  flex: 22,
+                  child: Text(
+                    ride.availableSeats.toString(),
+                    maxLines: 1,
+                    style: Styles.valueTextStyle(),
+                    overflow: TextOverflow.clip,
+                  ),
+                ),
+              ],
+            ),
+            VerticalSpacer(height: 8),
+            Row(
+              children: [
+                Spacer(
+                  flex: 2,
+                ),
+                Expanded(
+                  flex: 15,
+                  child: _Title(text: Lang.getString(context, "Luggage")),
+                ),
+                Expanded(
+                  flex: 22,
+                  child: Text(
+                    ride.availableLuggages.toString(),
+                    maxLines: 1,
+                    style: Styles.valueTextStyle(),
+                    overflow: TextOverflow.clip,
+                  ),
+                ),
+              ],
+            ),
+            VerticalSpacer(height: 8),
+            Row(
+              children: [
+                Spacer(
+                  flex: 2,
+                ),
+                Expanded(
+                  flex: 15,
+                  child: _Title(text: Lang.getString(context, "Kid's_Seat")),
+                ),
+                Expanded(
+                  flex: 22,
+                  child: ride.kidSeat == true
+                      ? Text(
+                          "1",
+                          maxLines: 1,
+                          style: Styles.valueTextStyle(),
+                          overflow: TextOverflow.clip,
+                        )
+                      : Text(
+                          "0",
                           maxLines: 1,
                           style: Styles.valueTextStyle(),
                           overflow: TextOverflow.clip,
                         ),
-                      ),
-                      ResponsiveWidget.fullWidth(
-                        height: 40,
-                        child: Text(
-                          ride.car.brand.toString() +
-                              " " +
-                              ride.car.name.toString(),
-                          maxLines: 1,
-                          style: Styles.valueTextStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                      ResponsiveWidget.fullWidth(
-                        height: 40,
-                        child: Text(
-                          ride.availableSeats.toString(),
-                          maxLines: 1,
-                          style: Styles.valueTextStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                      ResponsiveWidget.fullWidth(
-                        height: 40,
-                        child: Text(
-                          ride.availableLuggages.toString(),
-                          maxLines: 1,
-                          style: Styles.valueTextStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                      ResponsiveWidget.fullWidth(
-                        height: 40,
-                        child: ride.kidSeat == true
-                            ? Text(
-                                "1",
-                                maxLines: 1,
-                                style: Styles.valueTextStyle(),
-                                overflow: TextOverflow.clip,
-                              )
-                            : Text(
-                                "0",
-                                maxLines: 1,
-                                style: Styles.valueTextStyle(),
-                                overflow: TextOverflow.clip,
-                              ),
-                      ),
-                      ResponsiveWidget.fullWidth(
-                        height: 40,
-                        child: Text(
-                          (ride.stopTime == null
-                                  ? "0"
-                                  : ride.stopTime.toString()) +
-                              " " +
-                              Lang.getString(context, "Min"),
-                          maxLines: 1,
-                          style: Styles.valueTextStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                      ResponsiveWidget.fullWidth(
-                        height: 40,
-                        child: Text(
-                          ride.price.toString() +
-                              " " +
-                              Lang.getString(
-                                  context, ride.countryInformations.unit),
-                          maxLines: 1,
-                          style: Styles.valueTextStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
+                ),
+              ],
+            ),
+            VerticalSpacer(height: 8),
+            Row(
+              children: [
+                Spacer(
+                  flex: 2,
+                ),
+                Expanded(
+                  flex: 15,
+                  child: _Title(text: Lang.getString(context, "Stop_Duration")),
+                ),
+                Expanded(
+                  flex: 22,
+                  child: Text(
+                    (ride.stopTime == null ? "0" : ride.stopTime.toString()) +
+                        " " +
+                        Lang.getString(context, "Min"),
+                    maxLines: 1,
+                    style: Styles.valueTextStyle(),
+                    overflow: TextOverflow.clip,
+                  ),
+                ),
+              ],
+            ),
+            VerticalSpacer(height: 8),
+            Row(
+              children: [
+                Spacer(
+                  flex: 2,
+                ),
+                Expanded(
+                  flex: 15,
+                  child: _Title(text: Lang.getString(context, "Price")),
+                ),
+                Expanded(
+                  flex: 22,
+                  child: Text(
+                    ride.price.toString() +
+                        " " +
+                        Lang.getString(context, ride.countryInformations.unit),
+                    maxLines: 1,
+                    style: Styles.valueTextStyle(),
+                    overflow: TextOverflow.clip,
                   ),
                 ),
               ],
             ),
             VerticalSpacer(height: 20),
-            _Title(text: Lang.getString(context, "Description")),
+            Row(
+              children: [
+                Spacer(
+                  flex: 1,
+                ),
+                Expanded(
+                    flex: 20,
+                    child:
+                        _Title(text: Lang.getString(context, "Description"))),
+              ],
+            ),
+            VerticalSpacer(height: 10),
             ResponsiveRow(
               children: [
                 _Value(
@@ -222,9 +305,8 @@ class _AddRidePage5State extends State<AddRidePage5> {
           ],
         ),
       ),
-      bottomNavigationBar: ResponsiveWidget(
-        width: 270,
-        height: 100,
+      bottomNavigationBar: ResponsiveWidget.fullWidth(
+        height: 80,
         child: Column(
           children: [
             ResponsiveWidget(
@@ -267,25 +349,15 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveWidget.fullWidth(
-      height: 40,
-      child: Row(
-        children: [
-          ResponsiveSpacer(
-            width: 15,
-          ),
-          Align(
-              alignment: AlignmentDirectional.topStart,
-              child: Text(
-                text,
-                textAlign: TextAlign.start,
-                style: Styles.labelTextStyle(bold: FontWeight.bold),
-                maxLines: 1,
-                overflow: TextOverflow.clip,
-              )),
-        ],
-      ),
-    );
+    return Align(
+        alignment: AlignmentDirectional.topStart,
+        child: Text(
+          text,
+          textAlign: TextAlign.start,
+          style: Styles.labelTextStyle(bold: FontWeight.bold),
+          maxLines: 1,
+          overflow: TextOverflow.clip,
+        ));
   }
 }
 

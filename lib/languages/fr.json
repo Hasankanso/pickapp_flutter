@@ -98,6 +98,7 @@
   "Color": "couleur",
   "Add_a_car": "Add a car",
   "Now_driver":  "Now you are a driver",
+  "Now": "Now",
   "Successfully_added!": "Successfully added!",
   "Successfully_deleted!": "Successfully deleted!",
   "Delete": "Delete",
@@ -202,5 +203,6 @@
   "Ride_compare_upcoming": "Your ride must be after 20 min from the last upcoming ride",
   "LL": "LL",
   "€": "€",
-  "Too_close": "Too close"
+  "Too_close": "Too close",
+  "Chat_delete_message": "Are you sure you want to delete this chat?"
 }

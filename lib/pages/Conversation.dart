@@ -1,32 +1,43 @@
-import 'dart:convert';
+import 'dart:async';
 
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/items/TextMessageTile.dart';
-import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
 
 class Conversation extends StatefulWidget {
-  ValueNotifier<Chat> chatNotifier = new ValueNotifier(null);
+  Chat chat;
   Conversation({Chat chat}) {
     assert(chat != null);
-    this.chatNotifier.value = chat;
+    this.chat = chat;
   }
-
 
   Conversation.from({Person person}) {
     assert(person != null);
-    Inbox.loadOrCreateNewChat(person, person.id).then((value) => this.chatNotifier.value = value);
+    loadOrCreateNewChat(person, person.id);
+  }
+
+  Future<Chat> loadOrCreateNewChat(Person person, String personId) async {
+    Chat chat = await Cache.getChat(personId);
+
+    if (chat == null) {
+      chat = Chat(
+          id: personId,
+          date: DateTime.now(),
+          messages: new List<Message>(),
+          person: person,
+          isNewMessage: false);
+    }
+    this.chat = chat;
   }
 
   @override
@@ -35,15 +46,17 @@ class Conversation extends StatefulWidget {
 
 class _ConversationState extends State<Conversation> {
   TextEditingController msgInputController = new TextEditingController();
-
-
+  ScrollController _controller = new ScrollController();
+  final focusNode = FocusNode();
   void sendMessage() {
     String text = msgInputController.text;
-    if(text.isEmpty) return;
-    Chat c = widget.chatNotifier.value;
+    msgInputController.text = "";
+    if (text.isEmpty) return;
+    Chat c = widget.chat;
     String targetId = c.person.id;
 
-    Message msg = new Message(senderId: App.person.id, message : text, myMessage: true);
+    Message msg =
+        Message(senderId: App.person.id, message: text, myMessage: true);
 
     print("Sending " + msg.toJson().toString() + " to " + c.person.firstName);
     Backendless.messaging
@@ -96,48 +109,79 @@ class _ConversationState extends State<Conversation> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    // TODO: implement dispose
+    msgInputController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
 
-    return ValueListenableBuilder<Chat>(
-      valueListenable: widget.chatNotifier,
-      builder: (BuildContext context, Chat chat, Widget child) {
-        return chat == null ? Spinner() : MainScaffold(
-          appBar: MainAppBar(
-            title: chat.person.firstName + " " +
-                chat.person.lastName,
-          ),
-          body: ListBuilder(
-            list: chat.messages,
-            itemBuilder: TextMessageTile.itemBuilder(
-                chat.messages, null),
-          ),
-          bottomNavigationBar: ResponsiveWidget.fullWidth(
-            height: 120,
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: TextFormField(
-                    controller: msgInputController,
-                    decoration: InputDecoration(
-                      hintText: 'Message',
-                      filled: true,
-                      prefixIcon: Icon(
-                        Icons.account_box,
-                        size: 28.0,
+  @override
+  Widget build(BuildContext context) {
+    return MainScaffold(
+      appBar: MainAppBar(
+        title: widget.chat.person.firstName + " " + widget.chat.person.lastName,
+      ),
+      body: ValueListenableBuilder(
+          valueListenable: App.newMessageInbox,
+          builder: (BuildContext context, bool isLoggedIn, Widget child) {
+            return ListBuilder(
+              list: widget.chat.messages,
+              controller: _controller,
+              itemBuilder:
+                  TextMessageTile.itemBuilder(widget.chat.messages, null),
+            );
+          }),
+      bottomNavigationBar: Row(
+        children: [
+          Expanded(
+            flex: 5,
+            child: Card(
+              margin: EdgeInsets.only(bottom: 1),
+              elevation: 20,
+              child: TextFormField(
+                focusNode: focusNode,
+                controller: msgInputController,
+                textInputAction: TextInputAction.newline,
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  hintText: 'Type a message...',
+                  prefixIcon: Icon(
+                    Icons.account_box,
+                    size: Styles.largeIconSize(),
+                  ),
+                  suffixIcon: IconButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      icon: Icon(
+                        Icons.send,
+                        size: Styles.largeIconSize(),
                       ),
-                    ),
+                      color: Styles.primaryColor(),
+                      tooltip: null,
+                      onPressed: () {
+                        focusNode.unfocus();
+                        // Disable text field's focus node request
+                        focusNode.canRequestFocus = false;
+
+                        sendMessage();
+
+                        Future.delayed(Duration.zero, () {
+                          focusNode.canRequestFocus = true;
+                        });
+                      }),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Styles.primaryColor(), width: 2),
                   ),
                 ),
-                Expanded(
-                    flex: 1,
-                    child:
-                    RaisedButton(child: Text("Send"), onPressed: sendMessage)),
-              ],
+              ),
             ),
           ),
-        );
-      }
+        ],
+      ),
     );
   }
 }

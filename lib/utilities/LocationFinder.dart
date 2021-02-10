@@ -150,8 +150,9 @@ class LocationEditingController {
     String _isEmpty = Validation.validate(this.description, context);
     if (_isEmpty != null) {
       return _isEmpty;
-    } else if (MainLocation.equals(
-        this.location.lat, this.location.lng, x.location.lat, x.location.lng)) {
+    } else if (x != null &&
+        MainLocation.equals(this.location.lat, this.location.lng,
+            x.location.lat, x.location.lng)) {
       return Lang.getString(context, "Too_close");
     } else {
       return null;

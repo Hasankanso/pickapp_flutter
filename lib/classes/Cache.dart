@@ -13,7 +13,6 @@ import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/dataObjects/UserStatistics.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:pickapp/pages/Inbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
@@ -74,7 +73,25 @@ class Cache {
     }
     regionsBox.close();
 
-    Inbox.subscribeToChannel();
+    //Inbox.subscribeToChannel();
+  }
+
+  static Future<Chat> getChat(String key) async {
+    Box box;
+    if (!Hive.isBoxOpen('chat')) {
+      box = await Hive.openBox('chat');
+    }
+    box = Hive.box('chat');
+    return (box.get(key) as Chat);
+  }
+
+  static Future<void> clearHiveCache() async {
+    await Hive.openBox("regions");
+    var regionB = Hive.box("regions");
+    await regionB.clear();
+    regionB.close();
+    var userB = Hive.box("user");
+    userB.clear();
   }
 
   static Future<void> initializeHive() async {
@@ -92,6 +109,20 @@ class Cache {
     Hive.registerAdapter(MessageAdapter());
     Hive.registerAdapter(MainNotificationAdapter());
     Hive.registerAdapter(UserStatisticsAdapter());
+  }
+
+  static Future<List<MainLocation>> getRegions() async {
+    Box regionsBox;
+
+    await Hive.openBox("regions");
+    regionsBox = Hive.box("regions");
+    if (regionsBox.length != 0) {
+      var list = regionsBox.getAt(0).cast<MainLocation>();
+      regionsBox.close();
+      return list;
+    }
+    regionsBox.close();
+    return null;
   }
 
   static Future<User> getUser() async {

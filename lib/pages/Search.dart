@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
@@ -10,6 +12,7 @@ import 'package:pickapp/dataObjects/SearchInfo.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/SearchForRides.dart';
 import 'package:pickapp/utilities/Buttons.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
@@ -33,9 +36,13 @@ class _SearchState extends State<Search>
   String _fromError, _toError;
 
   response(List<Ride> result, int code, String message) {
-    _searchInfo.rides = result;
+    if (code != HttpStatus.ok) {
+      CustomToast().showErrorToast(message);
+    } else {
+      _searchInfo.rides = result;
 
-    Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
+      Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
+    }
   }
 
   void _sendAnalyticsEvent() async {

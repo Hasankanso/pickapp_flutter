@@ -33,6 +33,7 @@ class _PhoneState extends State<Phone> {
   TextEditingController _code = TextEditingController();
   List<String> _countriesCodes = App.countriesInformationsCodes;
   var _countryCode = "961";
+  CountryInformations _countryInfo;
 
   @override
   void initState() {
@@ -42,6 +43,7 @@ class _PhoneState extends State<Phone> {
       _phone.text = (widget._user.phone)
           .split("+" + widget._user.person.countryInformations.code)[1];
     }
+    _countryInfo = App.getCountryInfo(_countryCode);
   }
 
   @override
@@ -95,6 +97,7 @@ class _PhoneState extends State<Phone> {
                           onChanged: (String newValue) {
                             setState(() {
                               _countryCode = newValue;
+                              _countryInfo = App.getCountryInfo(_countryCode);
                             });
                           },
                           items: _countriesCodes
@@ -138,7 +141,7 @@ class _PhoneState extends State<Phone> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(widget._user != null
                             ? widget._user.person.countryInformations.digits
-                            : App.getCountryInfo(_countryCode).digits),
+                            : _countryInfo.digits),
                       ],
                       controller: _phone,
                       textInputAction: TextInputAction.done,
@@ -192,8 +195,8 @@ class _PhoneState extends State<Phone> {
                             Lang.getString(context, "Same_phone"));
                       }
                       Person p = Person(
-                          countryInformations: CountryInformations(
-                              id: App.getCountryInfo(_countryCode).id));
+                          countryInformations:
+                              CountryInformations(id: _countryInfo.id));
                       Navigator.of(context).pushNamed('/Phone2ChangePhone',
                           arguments: User(
                               id: App.user.id,

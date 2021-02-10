@@ -63,14 +63,14 @@ class App {
         code: "961",
         drivingAge: 18),
   };
+  static CountryInformations c;
 
   static CountryInformations getCountryInfo(String code) {
-    code = "+" + code;
-    _countriesInformations.forEach((k, v) {
+    var list = _countriesInformations.values.toList();
+    for (final v in list)
       if (code == v.code) {
         return v;
       }
-    });
     return null;
   }
 
@@ -95,7 +95,6 @@ class App {
       _state.setTheme(ThemeMode.system);
     }
   }
-
 
   static void init(MyAppState state) {
     _state = state;

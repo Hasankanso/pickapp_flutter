@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
@@ -11,6 +13,9 @@ import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/pages/MyRides.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Search.dart';
+import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/requests/Startup.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -52,6 +57,40 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     //MainNotification.initializeLocaleNotification(context);
+    startup();
+  }
+
+  startup() async {
+    if (App.user != null) {
+      //List<String> channels = ["default"];
+      List<String> deviceObjectIds = List<String>();
+      /*await Backendless.messaging
+          .registerDevice(
+              channels, null, (a) => MainNotification.onMessage(a, context))
+          .then((response) {
+        var ids = response.toJson()["channelRegistrations"];
+        for (final channel in channels) deviceObjectIds.add(ids["$channel"]);
+      });*/
+      Request<String> request = Startup(App.user, deviceObjectIds);
+      request.send((userStatus, code, message) =>
+          response(userStatus, code, message, context));
+    }
+  }
+
+  response(String userStatus, int code, String message, context) async {
+    if (code != HttpStatus.ok) {
+      if (code == -1 || code == -2) {
+        Cache.clearHiveCache();
+        App.user = null;
+        App.isDriverNotifier.value = false;
+        App.isLoggedInNotifier.value = false;
+        CustomToast().showErrorToast(Lang.getString(context, message));
+      } else if (code == -3) {
+        CustomToast().showErrorToast(Lang.getString(context, message));
+      } else {
+        CustomToast().showErrorToast(message);
+      }
+    } else {}
   }
 
   @override

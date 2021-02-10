@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 //import 'package:timezone/data/latest.dart' as tz;
@@ -109,6 +110,7 @@ class MainNotification {
   set scheduleDate(DateTime value) {
     _scheduleDate = value;
   }
+
 /*
   static initializeLocaleNotification(context) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -262,4 +264,11 @@ class MainNotification {
         FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.cancelAll();
   }*/
+  static void onMessage(Map<String, dynamic> args, context) {
+    print("lllllllll");
+    print(args.values);
+    print("ok");
+    Navigator.pushNamed(context, "/Notifications");
+    print(11);
+  }
 }

@@ -202,9 +202,8 @@ class _AddRidePage4State extends State<AddRidePage4> {
       ),
       bottomNavigationBar: Visibility(
         visible: mapReady,
-        child: ResponsiveWidget(
-          width: 270,
-          height: 95,
+        child: ResponsiveWidget.fullWidth(
+          height: 80,
           child: Column(
             children: [
               ResponsiveWidget(

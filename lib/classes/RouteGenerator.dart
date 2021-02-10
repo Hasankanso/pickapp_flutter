@@ -19,7 +19,6 @@ import 'package:pickapp/pages/Conversation.dart';
 import 'package:pickapp/pages/Details.dart';
 import 'package:pickapp/pages/Email.dart';
 import 'package:pickapp/pages/Home.dart';
-import 'package:pickapp/pages/HowItWorks.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/pages/MyRidesHistory.dart';
@@ -49,10 +48,11 @@ class RouteGenerator {
   static Duration _transitionTime = const Duration(milliseconds: 300);
 
   //this value is being updated in settings page.
-  static Duration duration = Cache.disableAnimation? Duration(milliseconds: 0) : _transitionTime;
+  static Duration duration =
+      Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
 
-  static void disableAnimation(bool value){
-  duration = value? Duration(milliseconds: 0) : _transitionTime;
+  static void disableAnimation(bool value) {
+    duration = value ? Duration(milliseconds: 0) : _transitionTime;
   }
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -154,12 +154,6 @@ class RouteGenerator {
               buttonText: (args as List)[1],
               onPressed: (args as List)[2],
             ));
-      case '/HowItWorks':
-        return PageTransition(
-            duration: duration,
-            reverseDuration: duration,
-            type: isLTR,
-            child: HowItWorks());
       case '/MyRidesHistory':
         return PageTransition(
             duration: duration,

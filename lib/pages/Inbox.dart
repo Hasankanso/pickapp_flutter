@@ -2,6 +2,7 @@ import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/Message.dart';
@@ -9,15 +10,16 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/items/ChatListTile.dart';
 import 'package:pickapp/requests/GetPerson.dart';
 import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:pickapp/utilities/PopUp.dart';
 import 'package:pickapp/utilities/Spinner.dart';
 
 class Inbox extends StatefulWidget {
   @override
   _InboxState createState() => _InboxState();
   static Channel channel;
-
   static void subscribeToChannel() {
     print("subscribing to my messaging channel");
     if (channel != null) {
@@ -37,56 +39,26 @@ class Inbox extends StatefulWidget {
     }
   }
 
-  static Future<Chat> loadOrCreateNewChat(
-      Person person, String personId) async {
-    var box;
-
-    if (Hive.isBoxOpen('chat')) {
-      box = Hive.box('chat');
-    } else {
-      box = await Hive.openBox('chat');
-    }
-
-    Chat c = box.get(personId) as Chat;
-    if (c != null) {
-      return c;
-    } else {
-      return new Chat(
-          id: personId,
-          date: DateTime.now(),
-          messages: new List<Message>(),
-          person: person,
-          isNewMessage: false);
-    }
-  }
-
   static Future<void> messageReceived(Map message) async {
-    print("received message");
-
-    Message msg = new Message(
+    Message msg = Message(
         senderId: message['senderId'].toString(),
         message: message['message'].toString(),
-        date: null,
+        date: DateTime.now(),
         myMessage: message['myMessage'].toString() == "true");
 
     print(msg.toString());
 
-    var box;
-
-    if (Hive.isBoxOpen('chat')) {
-      box = Hive.box('chat');
-    } else {
-      box = await Hive.openBox('chat');
-    }
-
-    Chat c = box.get(msg.senderId) as Chat;
+    Chat c = await Cache.getChat(msg.senderId);
+    print(c);
     if (c != null) {
-      return c;
+      c.addMessage(msg);
     } else {
       Request<Person> getUser = GetPerson(new Person(id: msg.senderId));
       await getUser.send(
           (Person p1, int p2, String p3) => personReceived(msg, p1, p2, p3));
     }
+    App.newMessageInbox.value = true;
+    App.newMessageInbox.notifyListeners();
   }
 
   static Chat personReceived(Message msg, Person p1, int p2, String p3) {
@@ -97,7 +69,6 @@ class Inbox extends StatefulWidget {
           messages: new List<Message>(),
           person: p1,
           isNewMessage: false);
-
       newChat.addMessage(msg);
     }
   }
@@ -126,23 +97,47 @@ class _InboxState extends State<Inbox>
   bool get wantKeepAlive => true;
 }
 
-class _Body extends StatelessWidget {
-  Box chatsBox;
+class _Body extends StatefulWidget {
+  List<Chat> chats = List<Chat>();
 
-  _Body(this.chatsBox);
+  _Body(Box chatsBox) {
+    for (final chat in chatsBox.values) chats.add(chat);
+  }
+
+  @override
+  __BodyState createState() => __BodyState();
+}
+
+class __BodyState extends State<_Body> {
+  ListController listController = new ListController();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-          itemCount: chatsBox.length,
-          itemBuilder: (context, index) {
-            Chat c = chatsBox.getAt(index) as Chat;
-            return ChatListTile(
-                c,
-                (chat) => Navigator.of(context)
-                    .pushNamed("/ExistingConversation", arguments: chat));
-          }),
-    );
+    return ValueListenableBuilder(
+        valueListenable: App.newMessageInbox,
+        builder: (BuildContext context, bool isLoggedIn, Widget child) {
+          return ListBuilder(
+              list: widget.chats,
+              itemBuilder: ChatListTile.itemBuilder(
+                  widget.chats,
+                  (chat) => Navigator.of(context).pushNamed(
+                        "/ExistingConversation",
+                        arguments: chat,
+                      ), (index) {
+                PopUp.areYouSure(
+                        Lang.getString(context, "Yes"),
+                        Lang.getString(context, "No"),
+                        Lang.getString(context, "Chat_delete_message"),
+                        Lang.getString(context, "Warning!"),
+                        Colors.red, (bool) {
+                  if (bool == true) {
+                    setState(() {
+                      widget.chats.removeAt(index);
+                    });
+                  }
+                }, interest: false)
+                    .confirmationPopup(context);
+              }));
+        });
   }
 }
