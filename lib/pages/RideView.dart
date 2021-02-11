@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:intl/intl.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -21,7 +20,6 @@ class RideView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SlidingUpPanel(
       defaultPanelState: PanelState.OPEN,
       backdropOpacity: 0.3,
@@ -34,7 +32,8 @@ class RideView extends StatelessWidget {
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       maxHeight: ScreenUtil().setHeight(500),
       minHeight: ScreenUtil().setHeight(120),
-      panelBuilder: (ScrollController sc) => _panel(sc, buttonText, ride, onPressed),
+      panelBuilder: (ScrollController sc) =>
+          _panel(sc, buttonText, ride, onPressed),
       body: Column(
         children: [
           ResponsiveWidget.fullWidth(
@@ -45,7 +44,7 @@ class RideView extends StatelessWidget {
                 child: Image(
                   height: ScreenUtil().setHeight(40),
                   image: ride.mapImage,
-                  errorBuilder: (context, url, error){
+                  errorBuilder: (context, url, error) {
                     return Image(
                       image: AssetImage("lib/images/map.png"),
                     );
@@ -113,7 +112,7 @@ class _panel extends StatelessWidget {
                 child: MainButton(
                   text: buttonText,
                   onPressed: () {
-                    if(onPressed != null){
+                    if (onPressed != null) {
                       onPressed(ride);
                     }
                   },
@@ -125,7 +124,8 @@ class _panel extends StatelessWidget {
           VerticalSpacer(height: 20),
           Row(
             children: [
-              Expanded( flex :2,
+              Expanded(
+                flex: 2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +137,8 @@ class _panel extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(flex : 3,
+              Expanded(
+                flex: 3,
                 child: Column(
                   children: [
                     ResponsiveWidget.fullWidth(
@@ -170,7 +171,10 @@ class _panel extends StatelessWidget {
                     ResponsiveWidget.fullWidth(
                       height: 40,
                       child: Text(
-                        ride.price.toString() + " " + ride.countryInformations.unit,
+                        ride.price.toString() +
+                            " " +
+                            Lang.getString(
+                                context, ride.countryInformations.unit),
                         maxLines: 1,
                         style: Styles.valueTextStyle(),
                         overflow: TextOverflow.clip,
@@ -185,7 +189,13 @@ class _panel extends StatelessWidget {
             height: 20,
           ),
           _Title(text: Lang.getString(context, "Description")),
-          ResponsiveRow(children: [Text(ride.comment, style : Styles.valueTextStyle(), textAlign: TextAlign.center,)]),
+          ResponsiveRow(children: [
+            Text(
+              ride.comment,
+              style: Styles.valueTextStyle(),
+              textAlign: TextAlign.center,
+            )
+          ]),
           VerticalSpacer(height: 30),
           _Title(text: Lang.getString(context, "Details")),
           Row(
@@ -220,7 +230,8 @@ class _panel extends StatelessWidget {
           VerticalSpacer(height: 30),
           Row(
             children: [
-              Expanded( flex: 2,
+              Expanded(
+                flex: 2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,7 +242,8 @@ class _panel extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(flex: 3,
+              Expanded(
+                flex: 3,
                 child: Column(
                   children: [
                     ResponsiveWidget.fullWidth(
@@ -270,5 +282,4 @@ class _panel extends StatelessWidget {
       ),
     );
   }
-
 }

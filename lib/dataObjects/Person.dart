@@ -42,7 +42,7 @@ class Person {
   @HiveField(13)
   DateTime creationDate;
 
-  ImageProvider networkImage;
+  ImageProvider _networkImage;
 
   //user
   String _phone;
@@ -137,11 +137,7 @@ class Person {
       creationDate: created,
     );
 
-    if (p.profilePictureUrl == null) {
-      p.networkImage = new AssetImage("lib/images/user.png");
-    } else {
-      p.networkImage = new NetworkImage(p.profilePictureUrl);
-    }
+    p.setNetworkImage();
 
     var upcomingRidesArray = json["upcomingRides"];
     if (upcomingRidesArray != null) {
@@ -168,6 +164,16 @@ class Person {
   @override
   String toString() {
     return 'Person{_id: $_id, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender, _phone: $_phone}';
+  }
+
+  ImageProvider get networkImage => _networkImage;
+
+  setNetworkImage() {
+    if (profilePictureUrl == null) {
+      this._networkImage = new AssetImage("lib/images/user.png");
+    } else {
+      this._networkImage = new NetworkImage(this.profilePictureUrl);
+    }
   }
 
   String get id => _id;

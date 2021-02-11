@@ -69,7 +69,7 @@ class Ride {
   @HiveField(24)
   String _mapUrl;
 
-  ImageProvider mapImage;
+  ImageProvider _mapImage;
 
   Ride(
       {String id,
@@ -204,11 +204,7 @@ class Ride {
       mapUrl: json["map"],
     );
 
-    if (r.mapUrl == null) {
-      r.mapImage = new AssetImage("lib/images/map.jpg");
-    } else {
-      r.mapImage = new NetworkImage(r.mapUrl);
-    }
+    r.setMapImage();
 
     return r;
   }
@@ -368,6 +364,18 @@ class Ride {
 
   set passengers(List<Passenger> value) {
     _passengers = value;
+  }
+
+  ImageProvider get mapImage {
+    return _mapImage;
+  }
+
+  setMapImage() {
+    if (_mapUrl == null) {
+      this._mapImage = new AssetImage("lib/images/map.jpg");
+    } else {
+      this._mapImage = new NetworkImage(this.mapUrl);
+    }
   }
 
   CountryInformations get countryInformations => person.countryInformations;

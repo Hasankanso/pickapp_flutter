@@ -32,18 +32,17 @@ class Car {
   @HiveField(10)
   int _type;
   File _imageFile;
-  ImageProvider networkImage;
 
-  File get imageFile => _imageFile;
+  ImageProvider _networkImage;
 
-  set imageFile(File value) {
-    _imageFile = value;
+  set networkImage(ImageProvider value) {
+    _networkImage = value;
   }
 
   Car({
     String id,
     String name,
-    String color,
+    int color,
     String brand,
     int type,
     String carPictureUrl,
@@ -78,19 +77,36 @@ class Car {
         'picture': this.pictureBase64,
       };
 
-  Car.fromJson(Map<String, dynamic> json)
-      : _id = json["objectId"],
-        _name = json["name"],
-        _type = json["type"],
-        _year = json['year'],
-        _maxLuggage = json['maxLuggage'],
-        _maxSeats = json['maxSeats'],
-        _brand = json["brand"],
-        _color = json["color"],
-        _carPictureUrl = json["picture"],
-        networkImage = json["picture"] == null
-            ? new AssetImage("lib/images/car.png")
-            : new NetworkImage(json["picture"]);
+  factory Car.fromJson(Map<String, dynamic> json) {
+    Car c = Car(
+        id: json["objectId"],
+        name: json["name"],
+        type: json["type"],
+        year: json['year'],
+        maxLuggage: json['maxLuggage'],
+        maxSeats: json['maxSeats'],
+        brand: json["brand"],
+        color: json["color"],
+        carPictureUrl: json["picture"]);
+    c.setNetworkImage();
+    return c;
+  }
+
+  ImageProvider get networkImage => _networkImage;
+
+  setNetworkImage() {
+    if (_carPictureUrl == null) {
+      this._networkImage = new AssetImage("lib/images/user.png");
+    } else {
+      this._networkImage = new NetworkImage(this.carPictureUrl);
+    }
+  }
+
+  File get imageFile => _imageFile;
+
+  set imageFile(File value) {
+    _imageFile = value;
+  }
 
   String get id => _id;
 

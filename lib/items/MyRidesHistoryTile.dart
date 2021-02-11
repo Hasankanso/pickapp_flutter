@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/RateStars.dart';
@@ -21,8 +22,7 @@ class MyRidesHistoryTile extends ListTile {
   @override
   Widget build(BuildContext context) {
     if (_ride.person.networkImage == null) {
-      _ride.person.networkImage =
-          new NetworkImage(_ride.person.profilePictureUrl ?? "");
+      _ride.person.setNetworkImage();
     }
 
     return Card(
@@ -87,7 +87,8 @@ class MyRidesHistoryTile extends ListTile {
                     child: Text(
                       _ride.price.toInt().toString() +
                           " " +
-                          App.person.countryInformations.unit,
+                          Lang.getString(
+                              context, App.person.countryInformations.unit),
                       style: Styles.valueTextStyle(bold: FontWeight.w500),
                     ),
                   ),

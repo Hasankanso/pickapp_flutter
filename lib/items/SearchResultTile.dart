@@ -1,11 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/utilities/RateStars.dart';
-import 'package:pickapp/utilities/Spinner.dart';
 
 class SearchResultTile extends ListTile {
   final Ride _ride;
@@ -22,8 +21,7 @@ class SearchResultTile extends ListTile {
   @override
   Widget build(BuildContext context) {
     if (_ride.person.networkImage == null) {
-      _ride.person.networkImage =
-          new NetworkImage(_ride.person.profilePictureUrl ?? "");
+      _ride.person.setNetworkImage();
     }
 
     return Card(
@@ -93,7 +91,8 @@ class SearchResultTile extends ListTile {
                     child: Text(
                       _ride.price.toInt().toString() +
                           " " +
-                          App.person.countryInformations.unit,
+                          Lang.getString(
+                              context, App.person.countryInformations.unit),
                       style: Styles.valueTextStyle(bold: FontWeight.w500),
                     ),
                   ),
@@ -116,39 +115,11 @@ class SearchResultTile extends ListTile {
                           children: <Widget>[
                             Expanded(
                               flex: 4,
-                              child: _ride.person.profilePictureUrl != null
-                                  ? CachedNetworkImage(
-                                      imageUrl: _ride.person.profilePictureUrl,
-                                      imageBuilder: (context, imageProvider) =>
-                                          CircleAvatar(
-                                        backgroundColor: Colors.transparent,
-                                        radius: 30,
-                                        backgroundImage: imageProvider,
-                                      ),
-                                      placeholder: (context, url) =>
-                                          CircleAvatar(
-                                        backgroundColor: Colors.transparent,
-                                        radius: 30,
-                                        child: Spinner(),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          CircleAvatar(
-                                        backgroundColor: Colors.transparent,
-                                        radius: 30,
-                                        child: Image(
-                                            image: AssetImage(
-                                                "lib/images/user.png")),
-                                      ),
-                                    )
-                                  : Image(
-                                      image: _ride.person.networkImage,
-                                      errorBuilder: (context, url, error) {
-                                        return Image(
-                                          image:
-                                              AssetImage("lib/images/user.png"),
-                                        );
-                                      },
-                                    ),
+                              child: CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                radius: 30,
+                                backgroundImage: _ride.person.networkImage,
+                              ),
                             ),
                             Spacer(
                               flex: 1,

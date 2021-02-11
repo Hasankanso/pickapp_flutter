@@ -106,9 +106,11 @@ class Statistics extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       RatesView(
-                          rates: App.user.person.rates,
-                          stats: App.user.person.statistics,
-                          rateAverage: App.user.person.statistics.rateAverage),
+                        rates: App.user.person.rates,
+                        stats: App.user.person.statistics,
+                        rateAverage: App.user.person.statistics.rateAverage,
+                        isTitle: true,
+                      ),
                     ],
                   ),
                 ),

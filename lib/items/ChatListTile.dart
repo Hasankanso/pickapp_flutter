@@ -10,7 +10,7 @@ import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/utilities/Spinner.dart';
 
-class ChatListTile extends StatelessWidget {
+class ChatListTile extends ListTile {
   final Chat chat;
   Function(Chat) onPressed;
   List<Chat> c;

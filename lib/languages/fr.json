@@ -200,6 +200,7 @@
   "Kid's_Seat": "Kid's Seat",
   "Add_Seat": "You should add at least one seat !",
   "Car": "Car",
+  "No_enough_data!":"No enough data!",
 
   "Ride_compare_upcoming": "Your ride must be after 20 min from the last upcoming ride",
   "LL": "LL",

@@ -151,13 +151,16 @@ class _ProfileState extends State<Profile> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: <Widget>[
-                                          RateStars(
-                                            App.user.person.statistics
-                                                .rateAverage,
-                                            onPressed: () {
-                                              //Navigator.pushNamed(context, "/RatesViewProfile");
-                                            },
-                                          ),
+                                          !(App.person.statistics.rateCount <=
+                                                  0)
+                                              ? RateStars(
+                                                  App.user.person.statistics
+                                                      .rateAverage,
+                                                  onPressed: () {
+                                                    //Navigator.pushNamed(context, "/RatesViewProfile");
+                                                  },
+                                                )
+                                              : Container(),
                                         ],
                                       ),
                                     ],

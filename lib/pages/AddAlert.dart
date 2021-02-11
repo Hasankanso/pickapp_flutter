@@ -134,7 +134,8 @@ class _AddAlertState extends State<AddAlert> {
                               LengthLimitingTextInputFormatter(8),
                             ],
                             decoration: InputDecoration(
-                              labelText: App.person.countryInformations.unit,
+                              labelText: Lang.getString(
+                                  context, App.person.countryInformations.unit),
                               labelStyle: Styles.labelTextStyle(),
                               hintStyle: Styles.labelTextStyle(),
                             ),
