@@ -8,10 +8,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/dataObjects/UserStatistics.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/RatesView.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -171,7 +168,9 @@ class _Panel extends StatelessWidget {
         ResponsiveWidget.fullWidth(
           height: 30,
           child: Text(
-            DateFormat(App.birthdayFormat).format(user.person.creationDate),
+            DateFormat(App.birthdayFormat,
+                    Localizations.localeOf(context).toString())
+                .format(user.person.creationDate),
             maxLines: 1,
             style: Styles.labelTextStyle(size: 11, bold: FontWeight.bold),
             overflow: TextOverflow.clip,

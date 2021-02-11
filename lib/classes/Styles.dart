@@ -4,7 +4,7 @@ import 'package:pickapp/classes/screenutil.dart';
 
 class Styles {
   static double _fontSize, _titleFontSize, _subValueFontSize;
-  static double _largeSize, _mediumSize, _smallSize;
+  static double _largeSize, _mediumSize, _subMediumSize, _smallSize;
   static double _smallAppBarHeight = kToolbarHeight,
       _mediumAppBarHeight = kToolbarHeight,
       _largetAppBarHeight =
@@ -28,9 +28,14 @@ class Styles {
     _subValueFontSize = subValueFontSize;
   }
 
-  static setIconSizes({double largeSize, double mediumSize, double smallSize}) {
+  static setIconSizes(
+      {double largeSize,
+      double mediumSize,
+      double subMediumSize,
+      double smallSize}) {
     _largeSize = largeSize;
     _mediumSize = mediumSize;
+    _subMediumSize = subMediumSize;
     _smallSize = smallSize;
   }
 
@@ -143,6 +148,10 @@ class Styles {
 
   static double mediumIconSize() {
     return _mediumSize;
+  }
+
+  static double subMediumIconSize() {
+    return _subMediumSize;
   }
 
   static double smallIconSize() {

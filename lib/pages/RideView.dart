@@ -125,7 +125,7 @@ class _panel extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +162,9 @@ class _panel extends StatelessWidget {
                     ResponsiveWidget.fullWidth(
                       height: 40,
                       child: Text(
-                        DateFormat(App.dateFormat).format(ride.leavingDate),
+                        DateFormat(App.dateFormat,
+                                Localizations.localeOf(context).toString())
+                            .format(ride.leavingDate),
                         maxLines: 1,
                         style: Styles.valueTextStyle(),
                         overflow: TextOverflow.clip,

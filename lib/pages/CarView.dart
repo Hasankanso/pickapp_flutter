@@ -101,8 +101,7 @@ class _panel extends StatelessWidget {
           ),
         ),
         VerticalSpacer(height: 20),
-        Row(crossAxisAlignment: CrossAxisAlignment.start
-            ,children: [
+        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +124,8 @@ class _panel extends StatelessWidget {
               ],
             ),
           ),
-          Expanded( flex : 2,
+          Expanded(
+            flex: 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -145,6 +145,7 @@ class _panel extends StatelessWidget {
                     width: 30,
                     height: 30,
                     child: FloatingActionButton(
+                      elevation: 2,
                       backgroundColor: Color(car.color),
                     ),
                   ),

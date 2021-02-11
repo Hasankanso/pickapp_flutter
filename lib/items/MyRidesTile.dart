@@ -218,10 +218,12 @@ class MyRidesTile extends ListTile {
                                                           .toInt()
                                                           .toString() +
                                                       " " +
-                                                      App
-                                                          .person
-                                                          .countryInformations
-                                                          .unit,
+                                                      Lang.getString(
+                                                          context,
+                                                          App
+                                                              .person
+                                                              .countryInformations
+                                                              .unit),
                                                   style: Styles.valueTextStyle(
                                                       bold: FontWeight.w400),
                                                 ),

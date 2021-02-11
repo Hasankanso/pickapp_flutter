@@ -257,11 +257,12 @@ class _SearchResultsState extends State<SearchResults> {
     if (status == 200) {
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
+      Navigator.popUntil(context, (route) => route.isFirst);
     } else {
+      Navigator.pop(context);
       CustomToast()
           .showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
     }
-    Navigator.popUntil(context, (route) => route.isFirst);
   }
 
   void seatsLuggagePopUp(Ride ride, BuildContext context) {
@@ -285,22 +286,19 @@ class _SearchResultsState extends State<SearchResults> {
           key: _codeFormKey,
           child: Column(
             children: [
-              ResponsiveRow(
-                widgetRealtiveSize: 10,
-                children: [
-                  NumberPicker(seatsController,
-                      Lang.getString(context, "Seats"), 1, ride.availableSeats),
-                ],
+              NumberPicker(
+                seatsController,
+                "Seats",
+                1,
+                ride.availableSeats,
+                isSmallIconSize: true,
               ),
-              ResponsiveRow(
-                widgetRealtiveSize: 10,
-                children: [
-                  NumberPicker(
-                      luggageController,
-                      Lang.getString(context, "Luggage"),
-                      0,
-                      ride.availableLuggages),
-                ],
+              NumberPicker(
+                luggageController,
+                "Luggage",
+                0,
+                ride.availableLuggages,
+                isSmallIconSize: true,
               ),
             ],
           ),

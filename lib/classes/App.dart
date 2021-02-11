@@ -114,6 +114,7 @@ class App {
     Styles.setIconSizes(
         largeSize: ScreenUtil().setSp(27),
         mediumSize: ScreenUtil().setSp(21),
+        subMediumSize: ScreenUtil().setSp(18),
         smallSize: ScreenUtil().setSp(14.5));
     App.isLTR = Directionality.of(context) == TextDirection.ltr;
   }
@@ -128,6 +129,7 @@ class App {
     Styles.setIconSizes(
         largeSize: ScreenUtil().setSp(27),
         mediumSize: ScreenUtil().setSp(21),
+        subMediumSize: ScreenUtil().setSp(18),
         smallSize: ScreenUtil().setSp(14.5));
   }
 

@@ -6,12 +6,13 @@ import 'Responsive.dart';
 
 class NumberPicker extends StatefulWidget {
   int _value, _min, _max, counter;
-  String _title;
+  String _titleKey;
   bool disabled;
   NumberController controller;
+  bool isSmallIconSize;
 
-  NumberPicker(this.controller, this._title, this._min, this._max,
-      {this.disabled = false}) {
+  NumberPicker(this.controller, this._titleKey, this._min, this._max,
+      {this.disabled = false, this.isSmallIconSize = false}) {
     if (disabled) {
       _value = 0;
       controller.chosenNumber = 0;
@@ -64,7 +65,7 @@ class _NumberPickerState extends State<NumberPicker> {
             children: [
               Expanded(
                 flex: 6,
-                child: Text(Lang.getString(context, widget._title),
+                child: Text(Lang.getString(context, widget._titleKey),
                     style: Styles.labelTextStyle()),
               ),
               Expanded(
@@ -74,7 +75,7 @@ class _NumberPickerState extends State<NumberPicker> {
                       widget.disabled || widget._min == widget._value
                           ? Styles.labelColor()
                           : Styles.primaryColor(),
-                  heroTag: widget._title +
+                  heroTag: widget._titleKey +
                       "minus" +
                       DateTime.now().microsecond.toString(),
                   elevation: 3,
@@ -84,7 +85,9 @@ class _NumberPickerState extends State<NumberPicker> {
                   child: Icon(
                     Icons.remove,
                     color: Styles.secondaryColor(),
-                    size: Styles.mediumIconSize(),
+                    size: !widget.isSmallIconSize
+                        ? Styles.mediumIconSize()
+                        : Styles.subMediumIconSize(),
                   ),
                 ),
               ),
@@ -103,7 +106,7 @@ class _NumberPickerState extends State<NumberPicker> {
                       widget.disabled || widget._max == widget._value
                           ? Styles.labelColor()
                           : Styles.primaryColor(),
-                  heroTag: widget._title +
+                  heroTag: widget._titleKey +
                       "plus" +
                       DateTime.now().microsecond.toString(),
                   onPressed: () {
@@ -113,7 +116,9 @@ class _NumberPickerState extends State<NumberPicker> {
                   child: Icon(
                     Icons.add,
                     color: Styles.secondaryColor(),
-                    size: Styles.mediumIconSize(),
+                    size: !widget.isSmallIconSize
+                        ? Styles.mediumIconSize()
+                        : Styles.subMediumIconSize(),
                   ),
                 ),
               ),
