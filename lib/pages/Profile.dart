@@ -151,7 +151,7 @@ class _ProfileState extends State<Profile> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: <Widget>[
-                                          !(App.person.statistics.rateCount <=
+                                          !(App.person.statistics.ratesCount <=
                                                   0)
                                               ? RateStars(
                                                   App.user.person.statistics

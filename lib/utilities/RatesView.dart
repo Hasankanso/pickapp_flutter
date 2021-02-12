@@ -29,18 +29,18 @@ class RatesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double fivesRatio, foursRatio, threesRatio, twosRatio, onesRatio;
-    fivesRatio = stats.fives / stats.sum;
-    foursRatio = stats.fours / stats.sum;
-    threesRatio = stats.threes / stats.sum;
-    twosRatio = stats.twos / stats.sum;
-    onesRatio = stats.ones / stats.sum;
+    fivesRatio = stats.fives / stats.ratesCount;
+    foursRatio = stats.fours / stats.ratesCount;
+    threesRatio = stats.threes / stats.ratesCount;
+    twosRatio = stats.twos / stats.ratesCount;
+    onesRatio = stats.ones / stats.ratesCount;
 
     double width = ScreenUtil().setWidth(225.0);
     double lineHeight = 10.0;
     Color backgroundColor = Colors.grey.shade300;
     Color mainColor = Colors.green;
 
-    if (stats.sum <= 0) {
+    if (stats.ratesCount <= 0) {
       return Container(
           child: isTitle
               ? Text(
@@ -91,7 +91,7 @@ class RatesView extends StatelessWidget {
                     Expanded(
                       flex: 15,
                       child: Text(
-                        stats.sum.toString(),
+                        stats.ratesCount.toString(),
                         style: Styles.subValueTextStyle(),
                       ),
                     ),
