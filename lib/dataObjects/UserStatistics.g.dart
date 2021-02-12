@@ -26,13 +26,14 @@ class UserStatisticsAdapter extends TypeAdapter<UserStatistics> {
       fields[6] as int,
       fields[8] as int,
       fields[9] as int,
+      fields[10] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserStatistics obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(1)
       ..write(obj.ones)
       ..writeByte(2)
@@ -50,7 +51,9 @@ class UserStatisticsAdapter extends TypeAdapter<UserStatistics> {
       ..writeByte(8)
       ..write(obj.acomplishedRides)
       ..writeByte(9)
-      ..write(obj.canceledRides);
+      ..write(obj.canceledRides)
+      ..writeByte(10)
+      ..write(obj.sum);
   }
 
   @override

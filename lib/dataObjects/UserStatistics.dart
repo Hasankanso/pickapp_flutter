@@ -22,6 +22,8 @@ class UserStatistics {
   final int acomplishedRides;
   @HiveField(9)
   final int canceledRides;
+  @HiveField(10)
+  final int sum;
 
   UserStatistics(
       this.ones,
@@ -32,7 +34,8 @@ class UserStatistics {
       this.rateAverage,
       this.rateCount,
       this.acomplishedRides,
-      this.canceledRides);
+      this.canceledRides,
+      this.sum);
 
   static UserStatistics fromJson(Map<String, dynamic> json) {
     int ones = json["ones"];
@@ -44,8 +47,10 @@ class UserStatistics {
     double rateAverage = json["rateAverage"].toDouble();
     int acomplishedRides = json["acomplishedRides"];
     int canceledRides = json["canceledRides"];
+    int sum = json["sum"];
+
     return new UserStatistics(ones, twos, threes, fours, fives, rateAverage,
-        rateCount, acomplishedRides, canceledRides);
+        rateCount, acomplishedRides, canceledRides, sum);
   }
 
   @override

@@ -92,7 +92,7 @@ class SearchResultTile extends ListTile {
                       _ride.price.toInt().toString() +
                           " " +
                           Lang.getString(
-                              context, App.person.countryInformations.unit),
+                              context, _ride.person.countryInformations.unit),
                       style: Styles.valueTextStyle(bold: FontWeight.w500),
                     ),
                   ),
