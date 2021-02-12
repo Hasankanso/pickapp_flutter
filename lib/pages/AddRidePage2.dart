@@ -11,8 +11,15 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class AddRidePage2 extends StatefulWidget {
   final Ride rideInfo;
+  final String appBarTitleKey;
+  final bool isEditRide;
 
-  const AddRidePage2({Key key, this.rideInfo}) : super(key: key);
+  const AddRidePage2({
+    Key key,
+    this.rideInfo,
+    this.appBarTitleKey,
+    this.isEditRide = false,
+  }) : super(key: key);
 
   @override
   _AddRidePage2State createState() => _AddRidePage2State(rideInfo);
@@ -39,7 +46,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
       int time = int.parse(timeController.text);
       rideInfo.stopTime = time;
     } else {
-      rideInfo.stopTime = null;
+      rideInfo.stopTime = 0;
     }
 
     descController.dispose();
@@ -52,7 +59,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
     super.initState();
     if (rideInfo.kidSeat != null) kidsSeat = rideInfo.kidSeat;
     descController.text = rideInfo.comment;
-    if (rideInfo.stopTime != null) {
+    if (rideInfo.stopTime != null && rideInfo.stopTime != 0) {
       stopOver = true;
       timeController.text = rideInfo.stopTime.toString();
     }
@@ -62,7 +69,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Add_Ride"),
+        title: Lang.getString(context, widget.appBarTitleKey),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -236,8 +243,13 @@ class _AddRidePage2State extends State<AddRidePage2> {
                         int time = int.parse(timeController.text);
                         rideInfo.stopTime = time;
                       }
-                      Navigator.of(context)
-                          .pushNamed("/AddRidePage3", arguments: rideInfo);
+                      if (!widget.isEditRide) {
+                        Navigator.of(context).pushNamed("/AddRidePage3",
+                            arguments: [rideInfo, widget.appBarTitleKey]);
+                      } else {
+                        Navigator.of(context).pushNamed("/EditRidePage3",
+                            arguments: [rideInfo, widget.appBarTitleKey]);
+                      }
                     }
                   }),
             ),

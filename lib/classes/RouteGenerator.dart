@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/AddAlert.dart';
 import 'package:pickapp/pages/AddCar.dart';
 import 'package:pickapp/pages/AddCar2.dart';
 import 'package:pickapp/pages/AddCar3.dart';
 import 'package:pickapp/pages/AddRate.dart';
+import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
 import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/pages/AddRidePage4.dart';
@@ -27,9 +29,9 @@ import 'package:pickapp/pages/Phone.dart';
 import 'package:pickapp/pages/Phone2.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Profile.dart';
-import 'package:pickapp/pages/ReviewsListPage.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RegisterDriver.dart';
+import 'package:pickapp/pages/ReviewsListPage.dart';
 import 'package:pickapp/pages/RideDetails.dart';
 import 'package:pickapp/pages/SearchResults.dart';
 import 'package:pickapp/pages/Security.dart';
@@ -118,7 +120,8 @@ class RouteGenerator {
             duration: duration,
             reverseDuration: duration,
             child: AddRidePage2(
-              rideInfo: args,
+              rideInfo: ((args as List)[0] as Ride),
+              appBarTitleKey: (args as List)[1],
             ));
       case '/AddRidePage3':
         return PageTransition(
@@ -126,7 +129,8 @@ class RouteGenerator {
             duration: duration,
             reverseDuration: duration,
             child: AddRidePage3(
-              rideInfo: args,
+              rideInfo: (args as List)[0],
+              appBarTitleKey: (args as List)[1],
             ));
       case '/AddRidePage4':
         return PageTransition(
@@ -134,7 +138,8 @@ class RouteGenerator {
             duration: duration,
             reverseDuration: duration,
             child: AddRidePage4(
-              rideInfo: args,
+              rideInfo: (args as List)[0],
+              appBarTitleKey: (args as List)[1],
             ));
       case '/AddRidePage5':
         return PageTransition(
@@ -142,7 +147,8 @@ class RouteGenerator {
             duration: duration,
             reverseDuration: duration,
             child: AddRidePage5(
-              rideInfo: args,
+              rideInfo: (args as List)[0],
+              appBarTitleKey: (args as List)[1],
             ));
       case '/UpcomingRideDetails':
         return PageTransition(
@@ -153,6 +159,55 @@ class RouteGenerator {
               (args as List)[0],
               buttonText: (args as List)[1],
               onPressed: (args as List)[2],
+            ));
+      case '/EditRide':
+        return PageTransition(
+            type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
+            child: AddRide(
+              rideInfo: args,
+              isEditRide: true,
+            ));
+      case '/EditRidePage2':
+        return PageTransition(
+            type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
+            child: AddRidePage2(
+              rideInfo: ((args as List)[0] as Ride),
+              appBarTitleKey: (args as List)[1],
+              isEditRide: true,
+            ));
+      case '/EditRidePage3':
+        return PageTransition(
+            type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
+            child: AddRidePage3(
+              rideInfo: ((args as List)[0] as Ride),
+              appBarTitleKey: (args as List)[1],
+              isEditRide: true,
+            ));
+      case '/EditRidePage4':
+        return PageTransition(
+            type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
+            child: AddRidePage4(
+              rideInfo: ((args as List)[0] as Ride),
+              appBarTitleKey: (args as List)[1],
+              isEditRide: true,
+            ));
+      case '/EditRidePage5':
+        return PageTransition(
+            type: isLTR,
+            duration: duration,
+            reverseDuration: duration,
+            child: AddRidePage5(
+              rideInfo: ((args as List)[0] as Ride),
+              appBarTitleKey: (args as List)[1],
+              isEditRide: true,
             ));
       case '/MyRidesHistory':
         return PageTransition(

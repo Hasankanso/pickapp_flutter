@@ -47,4 +47,9 @@ class UserStatistics {
     return new UserStatistics(ones, twos, threes, fours, fives, rateAverage,
         rateCount, acomplishedRides, canceledRides);
   }
+
+  @override
+  String toString() {
+    return 'UserStatistics{ones: $ones, twos: $twos, threes: $threes, fours: $fours, fives: $fives, rateCount: $rateCount, rateAverage: $rateAverage, acomplishedRides: $acomplishedRides, canceledRides: $canceledRides}';
+  }
 }

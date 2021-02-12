@@ -45,7 +45,9 @@ class Cache {
 
     Person cachePerson = u.person;
     cachePerson.rates = null;
+
     cacheUser.person = cachePerson;
+
     var regions;
     if (u.driver != null && u.driver.cars != null && u.driver.cars.isNotEmpty) {
       regions = u.driver.regions;

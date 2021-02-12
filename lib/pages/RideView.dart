@@ -20,6 +20,9 @@ class RideView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (ride.mapImage == null) {
+      ride.setMapImage();
+    }
     return SlidingUpPanel(
       defaultPanelState: PanelState.OPEN,
       backdropOpacity: 0.3,

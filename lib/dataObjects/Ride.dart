@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
@@ -166,13 +165,12 @@ class Ride {
     }
 
     User user;
-    if (!Validation.isNullOrEmpty(json["driver"].toString())) {
+    if (json["driver"] != null && json["driver"] != "") {
+      print(json["driver"]);
       Map<String, dynamic> driverJ = json["driver"];
       Driver driver = Driver.fromJson(driverJ);
       Person person = Person.fromJson(driverJ["person"]);
       user = User(person: person, driver: driver);
-    } else {
-      user = User();
     }
 
     Ride r = new Ride(

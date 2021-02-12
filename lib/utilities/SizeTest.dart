@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -28,11 +26,10 @@ class _TestScaffoldState extends State<SizeTest> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: MainAppBar(title: "Size Test", actions: [
-        Switcher(isOn: lockController.isOn,
+        Switcher(
+          isOn: lockController.isOn,
           controller: lockController,
         )
       ]),
@@ -42,13 +39,17 @@ class _TestScaffoldState extends State<SizeTest> {
           child: Column(
             children: [
               ResponsiveWidget(
-                  width: widget.width, height: widget.height, child: widget.body),
+                  width: widget.width,
+                  height: widget.height,
+                  child: widget.body),
             ],
           ),
           onPanUpdate: (details) {
             setState(() {
               if (lockController.isOn) {
-                step = details.delta.dx.abs() > details.delta.dy.abs()? details.delta.dx : details.delta.dx;
+                step = details.delta.dx.abs() > details.delta.dy.abs()
+                    ? details.delta.dx
+                    : details.delta.dx;
                 screenWidth -= step;
                 screenHeight -= step;
               } else {

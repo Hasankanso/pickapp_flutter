@@ -19,8 +19,12 @@ import 'package:pickapp/utilities/Spinner.dart';
 
 class AddRidePage4 extends StatefulWidget {
   final Ride rideInfo;
+  final String appBarTitleKey;
+  final bool isEditRide;
 
-  const AddRidePage4({Key key, this.rideInfo}) : super(key: key);
+  const AddRidePage4(
+      {Key key, this.rideInfo, this.appBarTitleKey, this.isEditRide = false})
+      : super(key: key);
 
   @override
   _AddRidePage4State createState() => _AddRidePage4State(rideInfo);
@@ -111,7 +115,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Add_Ride"),
+        title: Lang.getString(context, widget.appBarTitleKey),
       ),
       body: SingleChildScrollView(
         child: mapReady == true
@@ -214,8 +218,13 @@ class _AddRidePage4State extends State<AddRidePage4> {
                   text_key: "Next",
                   onPressed: () {
                     rideInfo.mapBase64 = base64Map;
-                    Navigator.of(context)
-                        .pushNamed("/AddRidePage5", arguments: rideInfo);
+                    if (!widget.isEditRide) {
+                      Navigator.of(context).pushNamed("/AddRidePage5",
+                          arguments: [rideInfo, widget.appBarTitleKey]);
+                    } else {
+                      Navigator.of(context).pushNamed("/EditRidePage5",
+                          arguments: [rideInfo, widget.appBarTitleKey]);
+                    }
                   },
                 ),
               ),

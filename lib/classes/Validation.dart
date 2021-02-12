@@ -56,7 +56,7 @@ class Validation {
   }
 
   static bool isNullOrEmpty(String toCheck) {
-    if (["", null].contains(toCheck)) return true;
+    if ([null, ""].contains(toCheck)) return true;
     return false;
   }
 

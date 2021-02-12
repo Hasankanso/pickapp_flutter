@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/requests/AddRide.dart';
+import 'package:pickapp/requests/EditRide.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -16,8 +18,12 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class AddRidePage5 extends StatefulWidget {
   final Ride rideInfo;
+  final String appBarTitleKey;
+  final bool isEditRide;
 
-  const AddRidePage5({Key key, this.rideInfo}) : super(key: key);
+  const AddRidePage5(
+      {Key key, this.rideInfo, this.appBarTitleKey, this.isEditRide = false})
+      : super(key: key);
 
   @override
   _AddRidePage5State createState() => _AddRidePage5State(rideInfo);
@@ -32,7 +38,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Add_Ride"),
+        title: Lang.getString(context, widget.appBarTitleKey),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -316,9 +322,15 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 isRequest: true,
                 text_key: "Done",
                 onPressed: () async {
-                  Request<Ride> request = AddRide(ride);
-                  await request.send((result, code, message) =>
-                      response(result, code, message, context));
+                  if (!widget.isEditRide) {
+                    Request<Ride> request = AddRide(ride);
+                    await request.send((result, code, message) =>
+                        _addRideResponse(result, code, message, context));
+                  } else {
+                    Request<Ride> request = EditRide(ride);
+                    await request.send((result, code, message) =>
+                        _editRideResponse(result, code, message, context));
+                  }
                 },
               ),
             ),
@@ -329,16 +341,33 @@ class _AddRidePage5State extends State<AddRidePage5> {
   }
 }
 
-response(Ride result, int code, String message, context) {
+_addRideResponse(Ride result, int code, String message, context) {
   if (code != HttpStatus.ok) {
     CustomToast().showErrorToast(message);
   } else {
     App.user.person.upcomingRides.add(result);
+    Cache.setUserCache(App.user);
+
     Navigator.pushNamedAndRemoveUntil(
         context, "/", (Route<dynamic> route) => false);
 
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Successfully_added!"));
+  }
+}
+
+_editRideResponse(Ride result, int code, String message, context) {
+  if (code != HttpStatus.ok) {
+    CustomToast().showErrorToast(message);
+  } else {
+    App.user.person.upcomingRides.remove(result);
+    App.user.person.upcomingRides.add(result);
+    Cache.setUserCache(App.user);
+    Navigator.pushNamedAndRemoveUntil(
+        context, "/", (Route<dynamic> route) => false);
+
+    CustomToast()
+        .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
   }
 }
 

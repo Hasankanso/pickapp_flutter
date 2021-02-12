@@ -17,8 +17,14 @@ import 'package:pickapp/utilities/Responsive.dart';
 
 class AddRidePage3 extends StatefulWidget {
   final Ride rideInfo;
-
-  const AddRidePage3({Key key, this.rideInfo}) : super(key: key);
+  final String appBarTitleKey;
+  final bool isEditRide;
+  const AddRidePage3({
+    Key key,
+    this.rideInfo,
+    this.appBarTitleKey,
+    this.isEditRide = false,
+  }) : super(key: key);
 
   @override
   _AddRidePage3State createState() => _AddRidePage3State(rideInfo);
@@ -89,7 +95,7 @@ class _AddRidePage3State extends State<AddRidePage3>
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Add_Ride"),
+        title: Lang.getString(context, widget.appBarTitleKey),
       ),
       body: GestureDetector(
         onTap: () {
@@ -251,8 +257,13 @@ class _AddRidePage3State extends State<AddRidePage3>
                       rideInfo.car = car;
                       int price = int.parse(priceController.text);
                       rideInfo.price = price;
-                      Navigator.of(context)
-                          .pushNamed("/AddRidePage4", arguments: rideInfo);
+                      if (!widget.isEditRide) {
+                        Navigator.of(context).pushNamed("/AddRidePage4",
+                            arguments: [rideInfo, widget.appBarTitleKey]);
+                      } else {
+                        Navigator.of(context).pushNamed("/EditRidePage4",
+                            arguments: [rideInfo, widget.appBarTitleKey]);
+                      }
                     } else
                       CustomToast().showErrorToast(
                           Lang.getString(context, "Select_car"));

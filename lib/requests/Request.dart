@@ -34,10 +34,11 @@ abstract class Request<T> {
             },
             body: jsonData,
           )
-          .timeout(const Duration(seconds: 5))
+          .timeout(const Duration(seconds: 7))
           .catchError((Object o) {
         callback(null, HttpStatus.networkConnectTimeoutError,
             "no_internet_connection");
+        return;
       });
 
       var decodedResponse = json.decode(utf8.decode(response.bodyBytes));

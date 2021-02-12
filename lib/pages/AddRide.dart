@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_webservice/directions.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -16,21 +17,21 @@ import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Switcher.dart';
 
 class AddRide extends StatefulWidget {
+  Ride rideInfo;
+  bool isEditRide;
+  AddRide({this.rideInfo, this.isEditRide = false});
   @override
   _AddRideState createState() => _AddRideState();
 }
 
 class _AddRideState extends State<AddRide> {
-  final _formKey = GlobalKey<FormState>();
-  LocationEditingController fromController = LocationEditingController();
-  LocationEditingController toController = LocationEditingController();
-  DateTimeController dateTimeController = DateTimeController(
-    chosenDate: DateTime.now().add(Duration(minutes: 40)),
-  );
-  SwitcherController smokeController = SwitcherController();
-  SwitcherController acController = SwitcherController();
-  SwitcherController petsController = SwitcherController();
-  SwitcherController musicController = SwitcherController();
+  LocationEditingController fromController;
+  LocationEditingController toController;
+  DateTimeController dateTimeController;
+  SwitcherController smokeController;
+  SwitcherController acController;
+  SwitcherController petsController;
+  SwitcherController musicController;
 
   IconData smokeIcon = Icons.smoke_free;
   IconData acIcon = Icons.ac_unit;
@@ -39,6 +40,52 @@ class _AddRideState extends State<AddRide> {
 
   String _fromError, _toError;
   Ride rideInfo = Ride();
+  String _appBarTitleKey = "Add_Ride";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (!widget.isEditRide) {
+      fromController = LocationEditingController();
+      toController = LocationEditingController();
+      dateTimeController = DateTimeController(
+        chosenDate: DateTime.now().add(Duration(minutes: 40)),
+      );
+      smokeController = SwitcherController();
+      acController = SwitcherController();
+      petsController = SwitcherController();
+      musicController = SwitcherController();
+    } else {
+      //for edit ride
+      _appBarTitleKey = "Edit_Ride";
+      var from = widget.rideInfo.from;
+      var to = widget.rideInfo.to;
+      fromController = LocationEditingController(
+          description: from.name,
+          placeId: from.placeId,
+          location: Location(from.latitude, from.longitude));
+      toController = LocationEditingController(
+          description: to.name,
+          placeId: to.placeId,
+          location: Location(to.latitude, to.longitude));
+      dateTimeController = DateTimeController(
+        chosenDate: widget.rideInfo.leavingDate,
+      );
+      var music, ac, pets, smoke;
+      smoke = widget.rideInfo.smokingAllowed;
+      ac = widget.rideInfo.acAllowed;
+      music = widget.rideInfo.musicAllowed;
+      pets = widget.rideInfo.petsAllowed;
+      smokeController = SwitcherController(isOn: smoke);
+      acController = SwitcherController(isOn: ac);
+      petsController = SwitcherController(isOn: pets);
+      musicController = SwitcherController(isOn: music);
+      smokeIcon = smoke == true ? Icons.smoking_rooms : Icons.smoke_free;
+      petsIcon = pets == true ? Icons.pets : Icons.pets;
+      musicIcon = music == true ? Icons.music_note : Icons.music_off;
+      acIcon = ac == true ? Icons.ac_unit : Icons.ac_unit;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +96,7 @@ class _AddRideState extends State<AddRide> {
           }
           return MainScaffold(
             appBar: MainAppBar(
-              title: Lang.getString(context, "Add_Ride"),
+              title: Lang.getString(context, _appBarTitleKey),
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -235,15 +282,7 @@ class _AddRideState extends State<AddRide> {
                             return CustomToast().showErrorToast(Lang.getString(
                                 context, "Ride_Time_validation"));
                           }
-                          var rideDate = dateTimeController.chosenDate;
-                          rideDate = rideDate.add(Duration(minutes: -20));
-                          for (final item in App.person.upcomingRides) {
-                            if (rideDate.isBefore(item.leavingDate)) {
-                              return CustomToast().showErrorToast(
-                                  Lang.getString(
-                                      context, "Ride_compare_upcoming"));
-                            }
-                          }
+
                           MainLocation to = MainLocation(
                               name: toController.description,
                               latitude: toController.location.lat,
@@ -259,17 +298,50 @@ class _AddRideState extends State<AddRide> {
                           bool isPets = petsController.isOn;
                           bool isAc = acController.isOn;
                           bool isMusic = musicController.isOn;
-                          rideInfo.user = App.user;
 
-                          rideInfo.to = to;
-                          rideInfo.from = from;
-                          rideInfo.leavingDate = date;
-                          rideInfo.smokingAllowed = isSmoke;
-                          rideInfo.petsAllowed = isPets;
-                          rideInfo.musicAllowed = isMusic;
-                          rideInfo.acAllowed = isAc;
-                          Navigator.of(context)
-                              .pushNamed("/AddRidePage2", arguments: rideInfo);
+                          var rideDate = dateTimeController.chosenDate;
+                          rideDate = rideDate.add(Duration(minutes: -20));
+                          if (!widget.isEditRide) {
+                            for (final item in App.person.upcomingRides) {
+                              if (rideDate.isBefore(item.leavingDate)) {
+                                return CustomToast().showErrorToast(
+                                    Lang.getString(
+                                        context, "Ride_compare_upcoming"));
+                              }
+                            }
+                            rideInfo.user = App.user;
+
+                            rideInfo.to = to;
+                            rideInfo.from = from;
+                            rideInfo.leavingDate = date;
+                            rideInfo.smokingAllowed = isSmoke;
+                            rideInfo.petsAllowed = isPets;
+                            rideInfo.musicAllowed = isMusic;
+                            rideInfo.acAllowed = isAc;
+                            Navigator.of(context).pushNamed("/AddRidePage2",
+                                arguments: [rideInfo, _appBarTitleKey]);
+                          } else {
+                            //edit ride
+                            for (final item in App.person.upcomingRides) {
+                              if (item.id != widget.rideInfo.id &&
+                                  rideDate.isBefore(item.leavingDate)) {
+                                return CustomToast().showErrorToast(
+                                    Lang.getString(
+                                        context, "Ride_compare_upcoming"));
+                              }
+                            }
+                            widget.rideInfo.user = App.user;
+
+                            widget.rideInfo.to = to;
+                            widget.rideInfo.from = from;
+                            widget.rideInfo.leavingDate = date;
+                            widget.rideInfo.smokingAllowed = isSmoke;
+                            widget.rideInfo.petsAllowed = isPets;
+                            widget.rideInfo.musicAllowed = isMusic;
+                            widget.rideInfo.acAllowed = isAc;
+                            Navigator.of(context).pushNamed("/EditRidePage2",
+                                arguments: [widget.rideInfo, _appBarTitleKey]);
+                          }
                         }
                       },
                     ),

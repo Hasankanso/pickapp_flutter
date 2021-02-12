@@ -22,7 +22,9 @@ class _SwitcherState extends State<Switcher> {
     // TODO: implement initState
     super.initState();
     if (widget.controller != null) {
-      widget.controller.isOn = widget.isOn;
+      widget.controller.isOn == null
+          ? widget.controller.isOn = widget.isOn
+          : widget.isOn = widget.controller.isOn;
     }
   }
 
@@ -59,5 +61,6 @@ class _SwitcherState extends State<Switcher> {
 }
 
 class SwitcherController {
-  bool isOn = false;
+  bool isOn;
+  SwitcherController({this.isOn = false});
 }

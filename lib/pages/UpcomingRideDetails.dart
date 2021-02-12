@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -32,8 +31,8 @@ class UpcomingRideDetails extends StatelessWidget {
                   size: Styles.largeIconSize(),
                 ),
                 tooltip: Lang.getString(context, "Delete"),
-                onPressed: () async{
-                  Request<bool> request = CancelRide(ride,"hello");
+                onPressed: () async {
+                  Request<bool> request = CancelRide(ride, "hello");
                   await request.send((result, code, message) =>
                       response(result, code, message, context));
                 })
@@ -52,21 +51,22 @@ class UpcomingRideDetails extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           children: [
             RideView(ride, buttonText: buttonText, onPressed: onPressed),
-            ride.passengers!=null
-                ?PassengersView(ride.passengers)
-                :Center(child: Text("No passengers yet !!"))
+            ride.passengers != null
+                ? PassengersView(ride.passengers)
+                : Center(child: Text("No passengers yet !!"))
           ],
         ),
       ),
     );
   }
+
   response(bool result, int code, String message, context) {
-    if (code !=200) {
+    if (code != 200) {
       CustomToast().showErrorToast(message);
     } else {
       Request<List<Ride>> request = GetMyUpComingRides(App.user);
-      request.send((result, code, message) =>
-          response1(result, code, message, context));
+      request.send(
+          (result, code, message) => response1(result, code, message, context));
       Navigator.pushNamedAndRemoveUntil(
           context, "/", (Route<dynamic> route) => false);
 
@@ -74,12 +74,13 @@ class UpcomingRideDetails extends StatelessWidget {
           .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
     }
   }
+
   response1(List<Ride> result, int code, String message, context) {
     if (code != 200) {
       CustomToast().showErrorToast(message);
     } else {
       App.user.person.upcomingRides.clear();
-      App.user.person.upcomingRides=result;
+      App.user.person.upcomingRides = result;
     }
   }
 }

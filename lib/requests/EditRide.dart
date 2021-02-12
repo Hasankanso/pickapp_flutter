@@ -23,7 +23,6 @@ class EditRide extends Request<Ride> {
 
   @override
   String isValid() {
-    //validate ride
     return null;
   }
 }
