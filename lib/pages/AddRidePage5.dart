@@ -347,7 +347,6 @@ _addRideResponse(Ride result, int code, String message, context) {
   } else {
     App.user.person.upcomingRides.add(result);
     Cache.setUserCache(App.user);
-
     Navigator.pushNamedAndRemoveUntil(
         context, "/", (Route<dynamic> route) => false);
 
@@ -362,7 +361,7 @@ _editRideResponse(Ride result, int code, String message, context) {
   } else {
     App.user.person.upcomingRides.remove(result);
     App.user.person.upcomingRides.add(result);
-    Cache.setUserCache(App.user);
+    //Cache.setUserCache(App.user);
     Navigator.pushNamedAndRemoveUntil(
         context, "/", (Route<dynamic> route) => false);
 

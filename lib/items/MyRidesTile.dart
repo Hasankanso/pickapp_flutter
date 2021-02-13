@@ -4,6 +4,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
@@ -23,11 +24,20 @@ class MyRidesTile extends StatefulWidget {
 }
 
 class _MyRidesTileState extends State<MyRidesTile> {
+  User user;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget._ride.user == null) {
+      user = App.user;
+    } else {
+      user = widget._ride.user;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (widget._ride.user == null) {
-      widget._ride.user = App.user;
-    }
     return Card(
         elevation: 3.0,
         shape: RoundedRectangleBorder(
@@ -72,7 +82,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
                   child: Column(
                     children: [
                       ListTile(
-                        onTap: App.checkIfDriver(widget._ride) == true
+                        onTap: App.checkIfDriver(user) == true
                             ? () {
                                 Navigator.of(context).pushNamed(
                                     "/UpcomingRideDetails",
@@ -116,10 +126,10 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                             Expanded(
                                               flex: 30,
                                               child: Text(
-                                                widget._ride.person.firstName
+                                                user.person.firstName
                                                         .toString() +
                                                     " " +
-                                                    widget._ride.person.lastName
+                                                    user.person.lastName
                                                         .toString(),
                                                 style: Styles.valueTextStyle(),
                                               ),
@@ -127,8 +137,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                           ],
                                         ),
                                         RateStars(
-                                          widget._ride.user.person.statistics
-                                              .rateAverage,
+                                          user.person.statistics.rateAverage,
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                         ),
@@ -196,10 +205,15 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                                 children: [
                                                   Row(
                                                     children: [
-                                                      Text(
-                                                        widget._ride.from.name,
-                                                        style: Styles
-                                                            .headerTextStyle(),
+                                                      Flexible(
+                                                        child: Text(
+                                                          widget
+                                                              ._ride.from.name,
+                                                          style: Styles
+                                                              .headerTextStyle(),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -208,10 +222,14 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                                   ),
                                                   Row(
                                                     children: [
-                                                      Text(
-                                                        widget._ride.to.name,
-                                                        style: Styles
-                                                            .headerTextStyle(),
+                                                      Flexible(
+                                                        child: Text(
+                                                          widget._ride.to.name,
+                                                          style: Styles
+                                                              .headerTextStyle(),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),

@@ -79,8 +79,8 @@ class App {
     _state.setLocale(Locale(lang));
   }
 
-  static bool checkIfDriver(Ride ride) {
-    if (ride.user.driver != null && ride.user.driver == App.user.driver)
+  static bool checkIfDriver(User user) {
+    if (user.driver != null && user.driver == App.user.driver)
       return true;
     else
       return false;

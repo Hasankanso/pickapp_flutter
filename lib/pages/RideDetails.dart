@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/pages/DriverView.dart';
 import 'package:pickapp/pages/RideView.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/ReserveSeat.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'CarView.dart';
 
@@ -26,6 +17,7 @@ class RideDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(ride.user.person);
     return DefaultTabController(
       length: 3,
       child: Scaffold(

@@ -6,6 +6,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -96,11 +97,14 @@ class _panel extends StatelessWidget {
   String buttonText;
   Ride ride;
   void Function(Ride) onPressed;
+  User user;
 
   _panel(this.sc, this.buttonText, this.ride, this.onPressed);
 
   @override
   Widget build(BuildContext context) {
+    ride.user != null ? user = ride.user : user = App.user;
+
     return SingleChildScrollView(
       controller: sc,
       child: Column(
@@ -179,7 +183,7 @@ class _panel extends StatelessWidget {
                         ride.price.toString() +
                             " " +
                             Lang.getString(
-                                context, ride.countryInformations.unit),
+                                context, user.person.countryInformations.unit),
                         maxLines: 1,
                         style: Styles.valueTextStyle(),
                         overflow: TextOverflow.clip,

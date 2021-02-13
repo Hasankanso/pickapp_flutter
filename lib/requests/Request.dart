@@ -34,7 +34,7 @@ abstract class Request<T> {
             },
             body: jsonData,
           )
-          .timeout(const Duration(seconds: 7))
+          .timeout(const Duration(seconds: 11))
           .catchError((Object o) {
         callback(null, HttpStatus.networkConnectTimeoutError,
             "no_internet_connection");

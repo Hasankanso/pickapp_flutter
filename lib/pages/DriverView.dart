@@ -41,6 +41,15 @@ class _DriverViewState extends State<DriverView> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.user.person.networkImage == null) {
+      widget.user.person.setNetworkImage();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SlidingUpPanel(
       backdropOpacity: 0.3,
@@ -120,6 +129,7 @@ class _Panel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(user.person.creationDate);
     return SingleChildScrollView(
       controller: controller,
       child: Column(children: [

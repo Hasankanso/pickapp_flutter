@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -256,7 +257,7 @@ class _SearchResultsState extends State<SearchResults> {
   void response(Ride r, int status, String reason, BuildContext context) {
     if (status == 200) {
       App.person.upcomingRides.add(r);
-      //Cache.setUserCache(App.user);
+      Cache.setUserCache(App.user);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
       Navigator.popUntil(context, (route) => route.isFirst);

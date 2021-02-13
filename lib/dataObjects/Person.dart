@@ -61,6 +61,7 @@ class Person {
     String profilePictureUrl,
     UserStatistics statistics,
     this.creationDate,
+    ImageProvider networkImage,
     reviews,
   }) {
     this.id = id;
@@ -72,6 +73,7 @@ class Person {
     this.bio = bio;
     this.countryInformations = countryInformations;
     this.gender = gender;
+    this.networkImage = networkImage;
     this.birthday = birthday;
     this.profilePictureUrl = profilePictureUrl;
     _rates = reviews;
@@ -163,10 +165,13 @@ class Person {
 
   @override
   String toString() {
-    return 'Person{_id: $_id, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender, _phone: $_phone}';
+    return 'Person{_id: $_id, creationDate: $creationDate, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender, _phone: $_phone}';
   }
 
   ImageProvider get networkImage => _networkImage;
+  set networkImage(ImageProvider value) {
+    _networkImage = value;
+  }
 
   setNetworkImage() {
     if (profilePictureUrl == null) {

@@ -298,12 +298,22 @@ class _AddRideState extends State<AddRide> {
                           bool isPets = petsController.isOn;
                           bool isAc = acController.isOn;
                           bool isMusic = musicController.isOn;
-
                           var rideDate = dateTimeController.chosenDate;
                           rideDate = rideDate.add(Duration(minutes: -20));
                           if (!widget.isEditRide) {
                             for (final item in App.person.upcomingRides) {
-                              if (rideDate.isBefore(item.leavingDate)) {
+                              var diff = rideDate
+                                  .difference(item.leavingDate)
+                                  .inMinutes;
+                              if (rideDate.isAfter(item.leavingDate) &&
+                                  diff <= 0 &&
+                                  diff >= -20) {
+                                return CustomToast().showErrorToast(
+                                    Lang.getString(
+                                        context, "Ride_compare_upcoming"));
+                              }
+                              if (rideDate.isBefore(item.leavingDate) &&
+                                  diff >= -40) {
                                 return CustomToast().showErrorToast(
                                     Lang.getString(
                                         context, "Ride_compare_upcoming"));
@@ -323,11 +333,23 @@ class _AddRideState extends State<AddRide> {
                           } else {
                             //edit ride
                             for (final item in App.person.upcomingRides) {
-                              if (item.id != widget.rideInfo.id &&
-                                  rideDate.isBefore(item.leavingDate)) {
-                                return CustomToast().showErrorToast(
-                                    Lang.getString(
-                                        context, "Ride_compare_upcoming"));
+                              if (item.id != widget.rideInfo.id) {
+                                var diff = rideDate
+                                    .difference(item.leavingDate)
+                                    .inMinutes;
+                                if (rideDate.isAfter(item.leavingDate) &&
+                                    diff <= 0 &&
+                                    diff >= -20) {
+                                  return CustomToast().showErrorToast(
+                                      Lang.getString(
+                                          context, "Ride_compare_upcoming"));
+                                }
+                                if (rideDate.isBefore(item.leavingDate) &&
+                                    diff >= -40) {
+                                  return CustomToast().showErrorToast(
+                                      Lang.getString(
+                                          context, "Ride_compare_upcoming"));
+                                }
                               }
                             }
                             widget.rideInfo.user = App.user;

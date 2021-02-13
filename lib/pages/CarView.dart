@@ -17,6 +17,9 @@ class CarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (car.networkImage == null) {
+      car.setNetworkImage();
+    }
     return SlidingUpPanel(
       backdropOpacity: 0.3,
       backdropEnabled: true,
