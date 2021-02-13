@@ -129,7 +129,6 @@ class _Panel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(user.person.creationDate);
     return SingleChildScrollView(
       controller: controller,
       child: Column(children: [
@@ -187,57 +186,69 @@ class _Panel extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        if(user.person.statistics.acomplishedRides + user.person.statistics.canceledRides > 0 || user.person.statistics.ratesCount > 0) VerticalSpacer(height: 20),
-        if(user.person.statistics.acomplishedRides + user.person.statistics.canceledRides > 0)  ResponsiveRow(
-          widgetRealtiveSize: 20,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(children: [
-                  Icon(
-                    Icons.speed,
+        if (user.person.statistics.acomplishedRides +
+                    user.person.statistics.canceledRides >
+                0 ||
+            user.person.statistics.ratesCount > 0)
+          VerticalSpacer(height: 20),
+        if (user.person.statistics.acomplishedRides +
+                user.person.statistics.canceledRides >
+            0)
+          ResponsiveRow(
+            widgetRealtiveSize: 20,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(children: [
+                    Icon(
+                      Icons.speed,
+                    ),
+                    Text(
+                      (user.person.statistics.acomplishedRides +
+                                  user.person.statistics.canceledRides)
+                              .toInt()
+                              .toString() +
+                          " " +
+                          Lang.getString(context, "Rides"),
+                      style: Styles.valueTextStyle(size: 12),
+                    ),
+                  ]),
+                  ResponsiveSpacer(
+                    width: 30,
                   ),
-                  Text(
-                    (user.person.statistics.acomplishedRides +
-                                user.person.statistics.canceledRides)
-                            .toInt()
-                            .toString() +
-                        " " +
-                        Lang.getString(context, "Rides"),
-                    style: Styles.valueTextStyle(size: 12),
+                  LinearPercentIndicator(
+                    width: ScreenUtil().setWidth(234.0),
+                    lineHeight: 16.0,
+                    percent: accomplishedCanceledRatio,
+                    center: Text(
+                      (accomplishedCanceledRatio * 100).toInt().toString() +
+                          "%",
+                      style: Styles.buttonTextStyle(size: 12),
+                    ),
+                    backgroundColor: Colors.red,
+                    progressColor: Colors.green,
                   ),
-                ]),
-                ResponsiveSpacer(
-                  width: 30,
-                ),
-                LinearPercentIndicator(
-                  width: ScreenUtil().setWidth(234.0),
-                  lineHeight: 16.0,
-                  percent: accomplishedCanceledRatio,
-                  center: Text(
-                    (accomplishedCanceledRatio * 100).toInt().toString() + "%",
-                    style: Styles.buttonTextStyle(size: 12),
-                  ),
-                  backgroundColor: Colors.red,
-                  progressColor: Colors.green,
-                ),
-              ],
-            ),
-          ],
-        ),
-        if(user.person.statistics.acomplishedRides + user.person.statistics.canceledRides > 0) VerticalSpacer(
-          height: 30,
-        ),
-        if(user.person.statistics.ratesCount > 0) ResponsiveWidget.fullWidth(
-          height: 150,
-          child: RatesView(
-            rates: user.person.rates,
-            stats: user.person.statistics,
-            rateAverage: user.person.statistics.rateAverage,
-            pressable: true,
+                ],
+              ),
+            ],
           ),
-        ),
+        if (user.person.statistics.acomplishedRides +
+                user.person.statistics.canceledRides >
+            0)
+          VerticalSpacer(
+            height: 30,
+          ),
+        if (user.person.statistics.ratesCount > 0)
+          ResponsiveWidget.fullWidth(
+            height: 150,
+            child: RatesView(
+              rates: user.person.rates,
+              stats: user.person.statistics,
+              rateAverage: user.person.statistics.rateAverage,
+              pressable: true,
+            ),
+          ),
         VerticalSpacer(height: 15),
         _Title(text: Lang.getString(context, "Chattiness")),
         ResponsiveWidget.fullWidth(

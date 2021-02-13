@@ -17,7 +17,6 @@ class RideDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(ride.user.person);
     return DefaultTabController(
       length: 3,
       child: Scaffold(

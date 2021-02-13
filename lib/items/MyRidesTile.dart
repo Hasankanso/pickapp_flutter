@@ -97,10 +97,11 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                     ]);
                               }
                             : () {
+                                //hon
                                 Navigator.of(context)
                                     .pushNamed("/RideDetails", arguments: [
                                   widget._ride,
-                                  Lang.getString(context, "Reserve"),
+                                  Lang.getString(context, "Edit_Reservation"),
                                   (ride) {
                                     print(88);
                                   }
@@ -248,8 +249,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                                       " " +
                                                       Lang.getString(
                                                           context,
-                                                          widget
-                                                              ._ride
+                                                          user
                                                               .person
                                                               .countryInformations
                                                               .unit),
