@@ -44,7 +44,7 @@ class UserStatisticsAdapter extends TypeAdapter<UserStatistics> {
       ..writeByte(5)
       ..write(obj.fives)
       ..writeByte(6)
-      ..write(obj.rateCount)
+      ..write(obj.ratesCount)
       ..writeByte(7)
       ..write(obj.rateAverage)
       ..writeByte(8)

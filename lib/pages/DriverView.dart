@@ -187,8 +187,8 @@ class _Panel extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        VerticalSpacer(height: 20),
-        ResponsiveRow(
+        if(user.person.statistics.acomplishedRides + user.person.statistics.canceledRides > 0 || user.person.statistics.ratesCount > 0) VerticalSpacer(height: 20),
+        if(user.person.statistics.acomplishedRides + user.person.statistics.canceledRides > 0)  ResponsiveRow(
           widgetRealtiveSize: 20,
           children: [
             Row(
@@ -226,10 +226,10 @@ class _Panel extends StatelessWidget {
             ),
           ],
         ),
-        VerticalSpacer(
+        if(user.person.statistics.acomplishedRides + user.person.statistics.canceledRides > 0) VerticalSpacer(
           height: 30,
         ),
-        ResponsiveWidget.fullWidth(
+        if(user.person.statistics.ratesCount > 0) ResponsiveWidget.fullWidth(
           height: 150,
           child: RatesView(
             rates: user.person.rates,

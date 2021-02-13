@@ -28,145 +28,19 @@ class RatesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int ratesCount =
-        stats.fives + stats.fours + stats.threes + stats.twos + stats.ones;
     double fivesRatio, foursRatio, threesRatio, twosRatio, onesRatio;
-    fivesRatio = stats.fives / ratesCount;
-    foursRatio = stats.fours / ratesCount;
-    threesRatio = stats.threes / ratesCount;
-    twosRatio = stats.twos / ratesCount;
-    onesRatio = stats.ones / ratesCount;
+    fivesRatio = stats.fives / stats.ratesCount;
+    foursRatio = stats.fours / stats.ratesCount;
+    threesRatio = stats.threes / stats.ratesCount;
+    twosRatio = stats.twos / stats.ratesCount;
+    onesRatio = stats.ones / stats.ratesCount;
 
     double width = ScreenUtil().setWidth(225.0);
     double lineHeight = 10.0;
     Color backgroundColor = Colors.grey.shade300;
     Color mainColor = Colors.green;
-    if (ratesCount > 0) {
-      return Column(
-        children: [
-          pressable
-              ? InkWell(
-                  onTap: () => Navigator.pushNamed(context, "/ReviewsPageList",
-                      arguments: Person(reviews: rates)),
-                  child: Row(
-                    children: [
-                      ResponsiveSpacer(
-                        width: 15,
-                      ),
-                      Text(Lang.getString(context, "Reviews")),
-                      ResponsiveSpacer(
-                        width: 230,
-                      ),
-                      Icon(Icons.arrow_forward_ios),
-                    ],
-                  ),
-                )
-              : SizedBox(),
-          ResponsiveSpacer(height: 5),
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        rateAverage.toString(),
-                        style: Styles.valueTextStyle(size: 45),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                              flex: 15,
-                              child: RateStars(rateAverage, size: 11)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Spacer(flex: 6),
-                          Expanded(
-                            flex: 15,
-                            child: Text(
-                              ratesCount.toString(),
-                              style: Styles.subValueTextStyle(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ]),
-              ),
-              Expanded(
-                flex: 6,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text("5"),
-                        LinearPercentIndicator(
-                          width: width,
-                          lineHeight: lineHeight,
-                          percent: fivesRatio,
-                          backgroundColor: backgroundColor,
-                          progressColor: mainColor,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text("4"),
-                        LinearPercentIndicator(
-                          width: width,
-                          lineHeight: lineHeight,
-                          percent: foursRatio,
-                          backgroundColor: backgroundColor,
-                          progressColor: mainColor,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text("3"),
-                        LinearPercentIndicator(
-                          width: width,
-                          lineHeight: lineHeight,
-                          percent: threesRatio,
-                          backgroundColor: backgroundColor,
-                          progressColor: mainColor,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text("2"),
-                        LinearPercentIndicator(
-                          width: width,
-                          lineHeight: lineHeight,
-                          percent: twosRatio,
-                          backgroundColor: backgroundColor,
-                          progressColor: mainColor,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text("1"),
-                        LinearPercentIndicator(
-                          width: width,
-                          lineHeight: lineHeight,
-                          percent: onesRatio,
-                          backgroundColor: backgroundColor,
-                          progressColor: mainColor,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ],
-      );
-    } else {
+
+    if (stats.ratesCount <= 0) {
       return Container(
           child: isTitle
               ? Text(
@@ -175,5 +49,126 @@ class RatesView extends StatelessWidget {
                 )
               : null);
     }
+
+    return Column(
+      children: [
+        if (pressable)
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, "/ReviewsPageList",
+                arguments: Person(reviews: rates)),
+            child: Row(
+              children: [
+                ResponsiveSpacer(
+                  width: 15,
+                ),
+                Text(Lang.getString(context, "Reviews")),
+                ResponsiveSpacer(
+                  width: 230,
+                ),
+                Icon(Icons.arrow_forward_ios),
+              ],
+            ),
+          ),
+        ResponsiveSpacer(height: 5),
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Text(
+                  rateAverage.toString(),
+                  style: Styles.valueTextStyle(size: 45),
+                ),
+                Row(
+                  children: [
+                    Expanded(flex: 15, child: RateStars(rateAverage, size: 11)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Spacer(flex: 6),
+                    Expanded(
+                      flex: 15,
+                      child: Text(
+                        stats.ratesCount.toString(),
+                        style: Styles.subValueTextStyle(),
+                      ),
+                    ),
+                  ],
+                ),
+              ]),
+            ),
+            Expanded(
+              flex: 6,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text("5"),
+                      LinearPercentIndicator(
+                        width: width,
+                        lineHeight: lineHeight,
+                        percent: fivesRatio,
+                        backgroundColor: backgroundColor,
+                        progressColor: mainColor,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("4"),
+                      LinearPercentIndicator(
+                        width: width,
+                        lineHeight: lineHeight,
+                        percent: foursRatio,
+                        backgroundColor: backgroundColor,
+                        progressColor: mainColor,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("3"),
+                      LinearPercentIndicator(
+                        width: width,
+                        lineHeight: lineHeight,
+                        percent: threesRatio,
+                        backgroundColor: backgroundColor,
+                        progressColor: mainColor,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("2"),
+                      LinearPercentIndicator(
+                        width: width,
+                        lineHeight: lineHeight,
+                        percent: twosRatio,
+                        backgroundColor: backgroundColor,
+                        progressColor: mainColor,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("1"),
+                      LinearPercentIndicator(
+                        width: width,
+                        lineHeight: lineHeight,
+                        percent: onesRatio,
+                        backgroundColor: backgroundColor,
+                        progressColor: mainColor,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ],
+    );
   }
 }

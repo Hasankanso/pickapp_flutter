@@ -22,15 +22,6 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
   List<bool Function(Ride)> constraints = new List<bool Function(Ride)>();
   ScrollController _scrollController = new ScrollController();
 
-  void init() {
-    constraints.add(priceConstraint);
-    constraints.add(smokeConstraint);
-    constraints.add(petsConstraint);
-    constraints.add(musicConstraint);
-    constraints.add(acConstraint);
-    constraints.add(timeConstraint);
-  }
-
   void reset() {
     FilterController controller = widget.controller;
 
@@ -116,7 +107,6 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
   @override
   Widget build(BuildContext context) {
     FilterController controller = widget.controller;
-    init();
     return AlertDialog(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       title: Text(
@@ -134,6 +124,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
             minSelected: controller.priceController.minSelected.toInt(),
             maxSelected: controller.priceController.maxSelected.toInt(),
             aboluteMaxValue: controller.priceController.maxAbsolute.toInt(),
+            onChange: () => constraints.add(priceConstraint),
           ),
           _SliderFilter(
             title: Lang.getString(context, "Time"),
@@ -141,6 +132,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
             isTime: true,
             minSelected: controller.timeController.minSelected.toInt(),
             maxSelected: controller.timeController.maxSelected.toInt(),
+            onChange: () => constraints.add(timeConstraint),
           ),
           ExpansionTile(
             title: Text(
@@ -150,21 +142,29 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
             initiallyExpanded: controller.isExpanded,
             children: [
               _BooleanFilter(
-                  onIcon: Icons.smoking_rooms,
-                  offIcon: Icons.smoke_free,
-                  controller: controller.smokeController),
+                onIcon: Icons.smoking_rooms,
+                offIcon: Icons.smoke_free,
+                controller: controller.smokeController,
+                onChange: () => constraints.add(smokeConstraint),
+              ),
               _BooleanFilter(
-                  onIcon: Icons.pets,
-                  offIcon: Icons.pets,
-                  controller: controller.petsController),
+                onIcon: Icons.pets,
+                offIcon: Icons.pets,
+                controller: controller.petsController,
+                onChange: () => constraints.add(petsConstraint),
+              ),
               _BooleanFilter(
-                  onIcon: Icons.ac_unit,
-                  offIcon: Icons.ac_unit,
-                  controller: controller.acController),
+                onIcon: Icons.ac_unit,
+                offIcon: Icons.ac_unit,
+                controller: controller.acController,
+                onChange: () => constraints.add(acConstraint),
+              ),
               _BooleanFilter(
-                  onIcon: Icons.music_note,
-                  offIcon: Icons.music_off,
-                  controller: controller.musicController),
+                onIcon: Icons.music_note,
+                offIcon: Icons.music_off,
+                controller: controller.musicController,
+                onChange: () => constraints.add(musicConstraint),
+              ),
             ],
             onExpansionChanged: (newValue) {
               controller.isExpanded = newValue;
@@ -202,8 +202,9 @@ class _BooleanFilterController {
 }
 
 class _BooleanFilter extends StatefulWidget {
-  IconData onIcon, offIcon;
-  _BooleanFilterController controller;
+  final IconData onIcon, offIcon;
+  final _BooleanFilterController controller;
+  final Function onChange;
 
   @override
   State<StatefulWidget> createState() => _BooleanFilterState();
@@ -211,7 +212,8 @@ class _BooleanFilter extends StatefulWidget {
   _BooleanFilter(
       {this.onIcon = Icons.flash_on,
       this.offIcon = Icons.flash_off,
-      this.controller});
+      this.controller,
+      this.onChange});
 }
 
 class _BooleanFilterState extends State<_BooleanFilter> {
@@ -228,6 +230,9 @@ class _BooleanFilterState extends State<_BooleanFilter> {
               materialTapTargetSize: MaterialTapTargetSize.padded,
               activeColor: Styles.primaryColor(),
               onChanged: (bool newValue) {
+                if (newValue && widget.onChange != null) {
+                  widget.onChange();
+                }
                 setState(() {
                   widget.controller.filter = newValue;
                   widget.controller.allowed = false;
@@ -264,12 +269,13 @@ class _BooleanFilterState extends State<_BooleanFilter> {
 }
 
 class _SliderTextFilter extends StatefulWidget {
-  MainRangeSliderController controller;
+  final MainRangeSliderController controller;
   int minSelected, maxSelected;
-  int aboluteMaxValue;
-  int step;
-  String title;
-  bool isTime;
+  final int aboluteMaxValue;
+  final int step;
+  final String title;
+  final bool isTime;
+  final Function onChange;
 
   _SliderTextFilter(
       {this.title = "title",
@@ -278,7 +284,8 @@ class _SliderTextFilter extends StatefulWidget {
       this.maxSelected = 100,
       this.step = 100,
       this.aboluteMaxValue = 100,
-      this.isTime = false});
+      this.isTime = false,
+      this.onChange});
 
   @override
   _SliderTextFilterState createState() => _SliderTextFilterState();
@@ -395,6 +402,10 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                           ),
                         ),
                         onChanged: (value) {
+                          if (widget.onChange != null) {
+                            widget.onChange();
+                          }
+
                           setState(() {
                             int newValue = int.parse(value);
                             if (newValue > int.parse(minValueController.text) &&
@@ -421,11 +432,12 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
 
 class _SliderFilter extends StatefulWidget {
   MainRangeSliderController controller;
-  int minSelected, maxSelected;
-  int aboluteMaxValue;
-  int step;
-  String title;
-  bool isTime;
+  final int minSelected, maxSelected;
+  final int aboluteMaxValue;
+  final int step;
+  final String title;
+  final bool isTime;
+  final Function onChange;
 
   _SliderFilter(
       {this.title = "title",
@@ -434,7 +446,8 @@ class _SliderFilter extends StatefulWidget {
       this.maxSelected = 100,
       this.step = 100,
       this.aboluteMaxValue = 100,
-      this.isTime = false});
+      this.isTime = false,
+      this.onChange});
 
   @override
   _SliderFilterState createState() => _SliderFilterState();
@@ -476,6 +489,9 @@ class _SliderFilterState extends State<_SliderFilter> {
                       max: widget.aboluteMaxValue.toDouble(),
                       controller: widget.controller,
                       onChanged: (values) {
+                        if (widget.onChange != null) {
+                          widget.onChange();
+                        }
                         setState(() {
                           widget.controller.values = values;
                         });
@@ -486,6 +502,9 @@ class _SliderFilterState extends State<_SliderFilter> {
                       minSelected: widget.controller.minSelected,
                       maxSelected: widget.controller.maxSelected,
                       onChanged: (values) {
+                        if (widget.onChange != null) {
+                          widget.onChange();
+                        }
                         setState(() {
                           widget.controller.values = values;
                         });

@@ -248,7 +248,8 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                                       " " +
                                                       Lang.getString(
                                                           context,
-                                                          App
+                                                          widget
+                                                              ._ride
                                                               .person
                                                               .countryInformations
                                                               .unit),

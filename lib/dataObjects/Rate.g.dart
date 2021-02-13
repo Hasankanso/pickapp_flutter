@@ -29,7 +29,7 @@ class RateAdapter extends TypeAdapter<Rate> {
   @override
   void write(BinaryWriter writer, Rate obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj._grade)
       ..writeByte(1)
