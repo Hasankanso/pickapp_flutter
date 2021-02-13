@@ -161,12 +161,12 @@ class Ride {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
     if (leavingDateJ != null) {
-      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ);
+      leavingDate =
+          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     }
 
     User user;
     if (json["driver"] != null && json["driver"] != "") {
-      print(json["driver"]);
       Map<String, dynamic> driverJ = json["driver"];
       Driver driver = Driver.fromJson(driverJ);
       Person person = Person.fromJson(driverJ["person"]);

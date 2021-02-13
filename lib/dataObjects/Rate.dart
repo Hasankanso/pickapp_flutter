@@ -52,16 +52,18 @@ class Rate {
     var creationDateJ = json["created"];
     DateTime creationDate;
     if (creationDateJ != null) {
-      creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ);
+      creationDate =
+          DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
     }
 
     return Rate(
-        grade: json["grade"],
-        comment: json["comment"],
-        reason: json["reason"],
-        creationDate: creationDate,
-        rater: Person.fromJson(json["rater"]),
-        target: Person.fromJson(json["target"]),);
+      grade: json["grade"],
+      comment: json["comment"],
+      reason: json["reason"],
+      creationDate: creationDate,
+      rater: Person.fromJson(json["rater"]),
+      target: Person.fromJson(json["target"]),
+    );
   }
 
   double get grade => _grade;
@@ -105,5 +107,4 @@ class Rate {
   set creationDate(DateTime value) {
     _creationDate = value;
   }
-
 }

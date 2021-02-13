@@ -302,6 +302,7 @@ class _AddRideState extends State<AddRide> {
                           rideDate = rideDate.add(Duration(minutes: -20));
                           if (!widget.isEditRide) {
                             for (final item in App.person.upcomingRides) {
+                              if (item == null) continue;
                               var diff = rideDate
                                   .difference(item.leavingDate)
                                   .inMinutes;

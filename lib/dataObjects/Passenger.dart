@@ -28,7 +28,8 @@ class Passenger {
     var creationDateJ = json["creationDate"];
     DateTime creationDate;
     if (creationDateJ != null) {
-      creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ);
+      creationDate =
+          DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
     }
 
     return Passenger(
@@ -36,7 +37,6 @@ class Passenger {
         seats: json["seats"],
         luggages: json["luggages"],
         person: Person.fromJson(json["person"]));
-
   }
 
   Person get person => _person;

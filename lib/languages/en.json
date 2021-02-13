@@ -200,6 +200,7 @@
   "Car": "Car",
   "No_enough_data!":"No enough data!",
   "Edit_Reservation": "Edit Reservation",
+  "Cancel_Reservation": "Cancel Reservation",
 
   "Edit_Ride" : "Edit Ride",
   "Ride_compare_upcoming": "Your ride must be after 20 min from the last upcoming ride",

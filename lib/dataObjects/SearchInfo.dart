@@ -40,8 +40,8 @@ class SearchInfo {
   Map<String, dynamic> toJson() => <String, dynamic>{
         'from': this.from.toJson(),
         'to': this.to.toJson(),
-        'minDate': this.minDate,
-        'maxDate': this.maxDate,
+        'minDate': this.minDate.toUtc(),
+        'maxDate': this.maxDate.toUtc(),
         'passengersNumber': this.passengersNumber,
       };
 

@@ -14,6 +14,13 @@ class RideDetails extends StatelessWidget {
   void Function(Ride) onPressed;
 
   RideDetails(this.ride, {this.buttonText, this.onPressed});
+  void handleClick(String value) {
+    switch (value) {
+      case 'Cancel Reservation':
+        print("hii");
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +29,22 @@ class RideDetails extends StatelessWidget {
       child: Scaffold(
         appBar: MainAppBar(
           title: Lang.getString(context, "Ride_Details"),
+          actions: [
+            PopupMenuButton<String>(
+              onSelected: handleClick,
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem<String>(
+                    value: "Cancel Reservation",
+                    child: Text(
+                      Lang.getString(context, "Cancel_Reservation"),
+                      style: Styles.valueTextStyle(),
+                    ),
+                  ),
+                ];
+              },
+            ),
+          ],
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.map, size: Styles.mediumIconSize())),

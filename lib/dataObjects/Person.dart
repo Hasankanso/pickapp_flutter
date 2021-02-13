@@ -99,12 +99,12 @@ class Person {
     var birthdayJ = json["birthday"];
     DateTime birthday;
     if (birthdayJ != null) {
-      birthday = DateTime.fromMillisecondsSinceEpoch(birthdayJ);
+      birthday = DateTime.fromMillisecondsSinceEpoch(birthdayJ, isUtc: true);
     }
     var updatedJ = json["updated"];
     DateTime updated;
     if (updatedJ != null) {
-      updated = DateTime.fromMillisecondsSinceEpoch(updatedJ);
+      updated = DateTime.fromMillisecondsSinceEpoch(updatedJ, isUtc: true);
     }
 
     var countryJ = json['countryInformations'];

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/screenutil.dart';
 
 class ResponsiveRow extends StatelessWidget {
@@ -30,28 +30,25 @@ class ResponsiveRow extends StatelessWidget {
   }
 }
 
-
 class ResponsiveWidget extends StatelessWidget {
   double height = 0, width = 0;
   Widget child;
 
-  ResponsiveWidget({width, height, this.child}){
+  ResponsiveWidget({width, height, this.child}) {
     this.width = ScreenUtil().setWidth(width);
     this.height = ScreenUtil().setHeight(height);
   }
 
-  ResponsiveWidget.fullWidth({height, this.child}){
+  ResponsiveWidget.fullWidth({height, this.child}) {
     this.width = ScreenUtil().screenWidth;
     this.height = ScreenUtil().setHeight(height);
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: this.width, height : this.height, child: child);
+    return SizedBox(width: this.width, height: this.height, child: child);
   }
 }
-
 
 class VerticalSpacer extends StatelessWidget {
   double height = 10;
@@ -63,16 +60,17 @@ class VerticalSpacer extends StatelessWidget {
   }
 }
 
-class ResponsiveSpacer extends StatelessWidget{
+class ResponsiveSpacer extends StatelessWidget {
   final double width, height;
 
-  ResponsiveSpacer({this.width=0, this.height = 0});
+  ResponsiveSpacer({this.width = 0, this.height = 0});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width : ScreenUtil().setWidth(width) ,height: ScreenUtil().setHeight(height));
+    return SizedBox(
+        width: ScreenUtil().setWidth(width),
+        height: ScreenUtil().setHeight(height));
   }
-
 }
 
 class DifferentSizeResponsiveRow extends StatelessWidget {
@@ -100,4 +98,3 @@ class DifferentSizeResponsiveRow extends StatelessWidget {
     return Row(children: spacedChildren);
   }
 }
-

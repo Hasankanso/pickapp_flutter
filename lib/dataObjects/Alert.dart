@@ -43,12 +43,12 @@ class Alert {
     var minDateJ = json["minDate"];
     DateTime minDate;
     if (minDateJ != null) {
-      minDate = DateTime.fromMillisecondsSinceEpoch(minDateJ);
+      minDate = DateTime.fromMillisecondsSinceEpoch(minDateJ, isUtc: true);
     }
     var maxDateJ = json["maxDate"];
     DateTime maxDate;
     if (maxDateJ != null) {
-      maxDate = DateTime.fromMillisecondsSinceEpoch(maxDateJ);
+      maxDate = DateTime.fromMillisecondsSinceEpoch(maxDateJ, isUtc: true);
     }
 
     return Alert(
