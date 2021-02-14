@@ -152,6 +152,8 @@
   "Choose_car": "Choose car",
   "Ride_already_started": "The ride is already started",
   "Cancel_reserve_message": "Are you sure you want to cancel your reservation?",
+  "Successfully_canceled!": "Successfully canceled!",
+  "No_upcoming_rides!": "No upcoming rides!",
 
   "Results" : "Results",
   "Filter" : "Filter",

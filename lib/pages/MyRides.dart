@@ -30,15 +30,19 @@ class _MyRidesState extends State<MyRides> {
       appBar: MainAppBar(
         title: Lang.getString(context, "My_Rides"),
       ),
-      body: Container(
-        child: App.user.person.upcomingRides.length > 0
-            ? ListBuilder(
-                list: ridesList,
-                itemBuilder: MyRidesTile.itemBuilder(ridesList))
-            : Center(
-                child: Text("No Upcoming rides !",
-                    style: Styles.valueTextStyle())),
-      ),
+      body: ValueListenableBuilder(
+          valueListenable: App.updateUpcomingRide,
+          builder: (BuildContext context, bool isd, Widget child) {
+            return Container(
+              child: App.user.person.upcomingRides.length > 0
+                  ? ListBuilder(
+                      list: ridesList,
+                      itemBuilder: MyRidesTile.itemBuilder(ridesList))
+                  : Center(
+                      child: Text(Lang.getString(context, "No_upcoming_rides!"),
+                          style: Styles.valueTextStyle())),
+            );
+          }),
     );
   }
 }

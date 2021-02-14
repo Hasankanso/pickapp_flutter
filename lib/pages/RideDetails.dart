@@ -38,6 +38,7 @@ class RideDetails extends StatelessWidget {
         CustomToast()
             .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
         Navigator.popUntil(context, (route) => route.isFirst);
+        App.updateUpcomingRide.value = true;
       }
     }
   }

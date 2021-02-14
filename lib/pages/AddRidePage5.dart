@@ -347,8 +347,8 @@ _addRideResponse(Ride result, int code, String message, context) {
   } else {
     App.user.person.upcomingRides.add(result);
     Cache.setUserCache(App.user);
-    Navigator.pushNamedAndRemoveUntil(
-        context, "/", (Route<dynamic> route) => false);
+    Navigator.popUntil(context, (route) => route.isFirst);
+    App.updateUpcomingRide.value = true;
 
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Successfully_added!"));
@@ -361,9 +361,9 @@ _editRideResponse(Ride result, int code, String message, context) {
   } else {
     App.user.person.upcomingRides.remove(result);
     App.user.person.upcomingRides.add(result);
-    //Cache.setUserCache(App.user);
-    Navigator.pushNamedAndRemoveUntil(
-        context, "/", (Route<dynamic> route) => false);
+    Cache.setUserCache(App.user);
+    Navigator.popUntil(context, (route) => route.isFirst);
+    App.updateUpcomingRide.value = true;
 
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Successfully_edited!"));

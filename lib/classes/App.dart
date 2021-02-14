@@ -40,6 +40,7 @@ class App {
   static List<MainNotification> notifications = List<MainNotification>();
   static Locale locale;
   static ValueNotifier<bool> newMessageInbox = ValueNotifier(false);
+  static ValueNotifier<bool> updateUpcomingRide = ValueNotifier(false);
   static bool isLTR;
   static ValueNotifier<bool> isNewNotificationNotifier =
       ValueNotifier<bool>(false);
