@@ -149,6 +149,8 @@
   "Min_stop_time": "5 دقائق على الأقل",
   "Max_stop_time": "30 دقيقة كحد أقصى",
   "Choose_car": "اختر سيارة",
+  "Ride_already_started": "بدأت الرحلة بالفعل",
+  "Cancel_reserve_message": "هل انت متاكد انك تريد الغاء حجزك؟",
 
   "Results" : "النتائج",
   "Filter" : "فلتر",

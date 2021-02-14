@@ -82,8 +82,19 @@ class _MyRidesTileState extends State<MyRidesTile> {
                   child: Column(
                     children: [
                       ListTile(
-                        onTap: App.checkIfDriver(user) == true
+                        onTap: widget._ride.reserved == true
                             ? () {
+                                //hon
+                                Navigator.of(context)
+                                    .pushNamed("/RideDetails", arguments: [
+                                  widget._ride,
+                                  Lang.getString(context, "Edit_Reservation"),
+                                  (ride) {
+                                    print(88);
+                                  }
+                                ]);
+                              }
+                            : () {
                                 Navigator.of(context).pushNamed(
                                     "/UpcomingRideDetails",
                                     arguments: [
@@ -95,17 +106,6 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                             arguments: ride);
                                       }
                                     ]);
-                              }
-                            : () {
-                                //hon
-                                Navigator.of(context)
-                                    .pushNamed("/RideDetails", arguments: [
-                                  widget._ride,
-                                  Lang.getString(context, "Edit_Reservation"),
-                                  (ride) {
-                                    print(88);
-                                  }
-                                ]);
                               },
                         title: Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 0, 7),

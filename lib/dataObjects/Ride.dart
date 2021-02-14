@@ -166,11 +166,15 @@ class Ride {
     }
 
     User user;
+    bool reserved;
     if (json["driver"] != null && json["driver"] != "") {
       Map<String, dynamic> driverJ = json["driver"];
       Driver driver = Driver.fromJson(driverJ);
       Person person = Person.fromJson(driverJ["person"]);
       user = User(person: person, driver: driver);
+      reserved = true;
+    } else {
+      reserved = false;
     }
 
     Ride r = new Ride(
@@ -188,6 +192,7 @@ class Ride {
       comment: json["comment"],
       user: user,
       car: Car.fromJson(json["car"]),
+      reserved: reserved,
       passengers: json["passengers"] != null
           ? List<Passenger>.from(
               json["passengers"].map((x) => Passenger.fromJson(x)))

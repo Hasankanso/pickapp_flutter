@@ -150,6 +150,8 @@
   "Min_stop_time": "Min 5 minutes",
   "Max_stop_time": "Max 30 minutes",
   "Choose_car": "Choose car",
+  "Ride_already_started": "The ride is already started",
+  "Cancel_reserve_message": "Are you sure you want to cancel your reservation?",
 
   "Results" : "Results",
   "Filter" : "Filter",

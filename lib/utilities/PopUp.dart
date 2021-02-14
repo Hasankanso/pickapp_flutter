@@ -7,16 +7,21 @@ class PopUp {
   Function(bool) response;
   Function close;
   bool hideClose;
+  Widget content;
   Color titleColor,
       positiveColor,
       negativeColor,
       mainColor,
       positiveTextColor,
       negativeTextColor;
+  final _formKey = GlobalKey<FormState>();
 
   PopUp.areYouSure(this.positiveText, this.negativeText, this.desc, this.title,
       this.mainColor, this.response,
-      {bool interest = true, this.hideClose = false, this.close}) {
+      {bool interest = true,
+      this.hideClose = false,
+      this.close,
+      this.content}) {
     if (interest) {
       titleColor = mainColor;
       positiveColor = mainColor;
@@ -51,6 +56,8 @@ class PopUp {
         title: "$title",
         desc: "$desc",
         closeFunction: close,
+        content:
+            Form(key: _formKey, child: content != null ? content : Container()),
         buttons: [
           DialogButton(
             border: Border.all(width: 2.0, color: mainColor),
@@ -61,8 +68,10 @@ class PopUp {
             ),
             color: positiveColor,
             onPressed: () {
-              Navigator.pop(dialogContext);
-              response(true);
+              if (_formKey.currentState.validate()) {
+                Navigator.pop(dialogContext);
+                response(true);
+              }
             },
           ),
           DialogButton(
