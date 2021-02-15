@@ -157,7 +157,7 @@ class _LoginState extends State<Login> {
                   if (_phoneFormKey.currentState.validate()) {
                     Request<String> request =
                         VerifyAccount("+" + _countryCode + _phone.text);
-                    await request.send(respondAccountVerification);
+                    await request.send(_respondAccountVerification);
                   }
                 },
               ),
@@ -202,9 +202,13 @@ class _LoginState extends State<Login> {
     );
   }
 
-  respondAccountVerification(String p1, int code, String error) {
+  _respondAccountVerification(String p1, int code, String error) {
     if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(error);
+      if (code < 0) {
+        CustomToast().showErrorToast(Lang.getString(context, error));
+      } else {
+        CustomToast().showErrorToast(error);
+      }
     } else {
       _user = User(phone: "+" + _countryCode + _phone.text);
       codePopUp(context, p1);

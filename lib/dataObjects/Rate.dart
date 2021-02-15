@@ -42,7 +42,6 @@ class Rate {
   Map<String, dynamic> toJson() => <String, dynamic>{
         "comment": this.comment,
         "grade": this.grade,
-        "date": this.creationDate,
         "reason": this.reason,
         "user": App.user.id,
         "ride": this.ride.id,

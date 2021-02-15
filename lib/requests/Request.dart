@@ -40,34 +40,35 @@ abstract class Request<T> {
             "no_internet_connection");
         return;
       });
+      if (response != null) {
+        var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
+        print("backendless: " + decodedResponse.toString());
 
-      var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
-      print("backendless: " + decodedResponse.toString());
-
-      if (decodedResponse.length != 0 &&
-          decodedResponse[0] == null &&
-          decodedResponse["code"] != "null") {
-        print("response handled as it has an error in Request class");
-        //extracting code and message
-        var jCode =
-            response.body.contains("code") ? decodedResponse["code"] : null;
-        var jMessage = decodedResponse["message"];
-        if (jCode == null) {
-          var jbody = decodedResponse["body"];
-          if (jbody != null) {
-            jCode = jbody["code"];
-            jMessage = jbody["message"];
+        if (decodedResponse.length != 0 &&
+            decodedResponse[0] == null &&
+            decodedResponse["code"] != "null") {
+          print("response handled as it has an error in Request class");
+          //extracting code and message
+          var jCode =
+              response.body.contains("code") ? decodedResponse["code"] : null;
+          var jMessage = decodedResponse["message"];
+          if (jCode == null) {
+            var jbody = decodedResponse["body"];
+            if (jbody != null) {
+              jCode = jbody["code"];
+              jMessage = jbody["message"];
+            }
+          }
+          //check if there's error
+          if (jCode != null) {
+            callback(
+                null, jCode is String ? int.tryParse(jCode) : jCode, jMessage);
+            return;
           }
         }
-        //check if there's error
-        if (jCode != null) {
-          callback(
-              null, jCode is String ? int.tryParse(jCode) : jCode, jMessage);
-          return;
-        }
+        callback(buildObject(decodedResponse), response.statusCode,
+            response.reasonPhrase);
       }
-      callback(buildObject(decodedResponse), response.statusCode,
-          response.reasonPhrase);
     }
   }
 

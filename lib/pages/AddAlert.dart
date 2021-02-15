@@ -49,11 +49,12 @@ class _AddAlertState extends State<AddAlert> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(context, "Add_Ride"),
+        title: Lang.getString(context, "Broadcast_Alert"),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            VerticalSpacer(height: 10),
             ResponsiveWidget.fullWidth(
                 height: 170,
                 child: FromToPicker(
@@ -62,7 +63,7 @@ class _AddAlertState extends State<AddAlert> {
                   fromError: _fromError,
                   toError: _toError,
                 )),
-            VerticalSpacer(height: 30),
+            VerticalSpacer(height: 33),
             ResponsiveWidget.fullWidth(
                 height: 140,
                 child: DateTimeRangePicker(
@@ -70,7 +71,7 @@ class _AddAlertState extends State<AddAlert> {
                   showRange: true,
                 )),
             VerticalSpacer(
-              height: 20,
+              height: 25,
             ),
             ResponsiveWidget.fullWidth(
                 height: 40,
@@ -86,7 +87,7 @@ class _AddAlertState extends State<AddAlert> {
                   ],
                 )),
             VerticalSpacer(
-              height: 15,
+              height: 20,
             ),
             ResponsiveWidget.fullWidth(
                 height: 40,
@@ -144,9 +145,25 @@ class _AddAlertState extends State<AddAlert> {
                               String valid =
                                   Validation.validate(value, context);
                               Validation.isNullOrEmpty(value);
+                              int price = int.tryParse(value);
                               if (valid != null)
                                 return valid;
-                              else
+                              else if (price <
+                                  App.person.countryInformations.minPrice) {
+                                Lang.getString(context, "Min_stop_time");
+                                return Lang.getString(
+                                        context, "Minimum_short") +
+                                    " " +
+                                    App.person.countryInformations.minPrice
+                                        .toString();
+                              } else if (price >
+                                  App.person.countryInformations.maxPrice) {
+                                return Lang.getString(
+                                        context, "Maximum_short") +
+                                    " " +
+                                    App.person.countryInformations.maxPrice
+                                        .toString();
+                              } else
                                 return null;
                             },
                           ),
@@ -223,8 +240,9 @@ class _AddAlertState extends State<AddAlert> {
               width: 270,
               height: 50,
               child: MainButton(
-                text_key: "Next",
-                onPressed: () {
+                text_key: "Broadcast",
+                isRequest: true,
+                onPressed: () async {
                   String _validateFrom =
                       fromController.validate(context, x: toController);
                   String _validateTo =
@@ -234,6 +252,8 @@ class _AddAlertState extends State<AddAlert> {
                   setState(() {});
                   if (_validateFrom != null || _validateTo != null) {
                   } else {
+                    //todo validation for date time
+                    //if(dateTimeController.startDateController.chosenDate.difference(dateTimeController.endDateController.chosenDate).inDays>10)
                     if (_formKey.currentState.validate()) {
                       MainLocation to = MainLocation(
                           name: toController.description,
@@ -257,8 +277,8 @@ class _AddAlertState extends State<AddAlert> {
                         maxDate:
                             dateTimeController.endDateController.chosenDate,
                       );
-                      Request request = BroadCastAlert(_alert);
-                      request.send(_response);
+                      Request<String> request = BroadCastAlert(_alert);
+                      await request.send(_response);
                     }
                   }
                 },
@@ -270,11 +290,12 @@ class _AddAlertState extends State<AddAlert> {
     );
   }
 
-  _response(p1, int code, String p3) {
+  _response(String p1, int code, String p3) {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
     } else {
-      print(p1);
+      CustomToast().showErrorToast(Lang.getString(context, p1));
+      Navigator.pop(context);
     }
   }
 }

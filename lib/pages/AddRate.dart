@@ -158,7 +158,7 @@ class _AddRateState extends State<AddRate> {
               width: 270,
               height: 50,
               child: MainButton(
-                isRequest: false,
+                isRequest: true,
                 text_key: "Rate",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {

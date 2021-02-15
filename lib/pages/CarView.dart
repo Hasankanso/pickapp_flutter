@@ -150,6 +150,7 @@ class _panel extends StatelessWidget {
                     child: FloatingActionButton(
                       elevation: 2,
                       backgroundColor: Color(car.color),
+                      onPressed: null,
                     ),
                   ),
                 ),

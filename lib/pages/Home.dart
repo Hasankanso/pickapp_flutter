@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
@@ -8,7 +7,6 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
@@ -63,16 +61,18 @@ class _HomeState extends State<Home> {
   }
 
   startup() async {
+    print(1);
     if (App.user != null) {
-      List<String> channels = ["default"];
+      print(2);
+      //List<String> channels = ["default"];
       List<String> deviceObjectIds = List<String>();
-      await Backendless.messaging
+      /*await Backendless.messaging
           .registerDevice(
               channels, null, (a) => MainNotification.onMessage(a, context))
           .then((response) {
         var ids = response.toJson()["channelRegistrations"];
         for (final channel in channels) deviceObjectIds.add(ids["$channel"]);
-      });
+      });*/
       Request<String> request = Startup(App.user, deviceObjectIds);
       request.send((userStatus, code, message) =>
           response(userStatus, code, message, context));

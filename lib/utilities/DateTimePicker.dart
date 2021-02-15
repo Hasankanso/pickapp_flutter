@@ -81,15 +81,20 @@ class DateTimePickerState extends State<DateTimePicker> {
   }
 
   _setDate(date) {
-    setState(() {
-      selectTime(context, date);
-    });
+    selectTime(context, date);
   }
 
   _setTime(date, time) {
     setState(() {
-      widget._controller.chosenDate =
+      var chosenD =
           DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      if (chosenD.compareTo(DateTime.now()) >= 0) {
+        widget._controller.chosenDate =
+            DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      } else {
+        widget._controller.chosenDate = DateTime.now();
+      }
+
       if (widget.callBack != null) widget.callBack();
     });
   }
