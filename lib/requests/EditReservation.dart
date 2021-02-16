@@ -1,5 +1,4 @@
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/requests/Request.dart';
 
@@ -28,7 +27,7 @@ class EditReservation extends Request<Ride> {
 
   @override
   String isValid() {
-    String validateUser = Validation.validateLogin(App.user);
+    /*String validateUser = Validation.validateLogin(App.user);
     if (!Validation.isNullOrEmpty(validateUser)) {
       return validateUser;
     }
@@ -61,7 +60,7 @@ class EditReservation extends Request<Ride> {
           _ride.availableLuggages +
           _ride.passengers[0].luggages.toString() +
           " available luggage";
-    }
+    }*/
     return null;
   }
 }

@@ -104,7 +104,6 @@ class _panel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ride.user != null ? user = ride.user : user = App.user;
-
     return SingleChildScrollView(
       controller: sc,
       child: Column(

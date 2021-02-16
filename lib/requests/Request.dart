@@ -40,6 +40,7 @@ abstract class Request<T> {
             "no_internet_connection");
         return;
       });
+
       if (response != null) {
         var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
         print("backendless: " + decodedResponse.toString());
@@ -81,8 +82,10 @@ abstract class Request<T> {
 
   static Future<void> initBackendless() async {
     String APPLICATION_ID = "5FB0EA72-A363-4451-FFA5-A56F031D6600";
-    String API_KEY = "C8502745-CB10-4F56-9FD5-3EFCE59F1926";
-    await Backendless.initApp(APPLICATION_ID, API_KEY, API_KEY);
+    String ANDROID_API_KEY = "F19BE3D6-62D4-4AD0-B403-E94276C971C0";
+    String IOS_API_KEY = "D2DDEB57-BEBC-48EB-9E07-39A5DB9D8CEF";
+
+    await Backendless.initApp(APPLICATION_ID, ANDROID_API_KEY, IOS_API_KEY);
     host = "https://api.backendless.com/" +
         await Backendless.getApplicationId() +
         "/" +

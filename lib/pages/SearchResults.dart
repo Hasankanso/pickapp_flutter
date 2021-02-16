@@ -241,7 +241,7 @@ class _SearchResultsState extends State<SearchResults> {
 
   void OnPressed(Ride r) {
     Function callbackFunction;
-    String buttonName = "Back";
+    String buttonName = Lang.getString(context, "Back");
     if ((App.user.driver != null && r.driver.id == App.user.driver.id) ||
         App.getRideFromObjectId(r.id) != null) {
       callbackFunction = (Ride r) => Navigator.of(context).pop();
@@ -256,6 +256,9 @@ class _SearchResultsState extends State<SearchResults> {
 
   void response(Ride r, int status, String reason, BuildContext context) {
     if (status == 200) {
+      print(r.availableSeats);
+      print(r.availableLuggages);
+
       App.person.upcomingRides.add(r);
       Cache.setUserCache(App.user);
       CustomToast()
@@ -284,8 +287,8 @@ class _SearchResultsState extends State<SearchResults> {
     Alert(
         context: context,
         style: alertStyle,
-        title: Lang.getString(context, "Reserve_Seats_Luggage"),
-        desc: Lang.getString(context, "Reserve"),
+        title: Lang.getString(context, "Reserve"),
+        desc: Lang.getString(context, "Reserve_Seats_Luggage"),
         content: Form(
           key: _codeFormKey,
           child: Column(
@@ -333,7 +336,7 @@ class _SearchResultsState extends State<SearchResults> {
                     seatsController.chosenNumber,
                     luggageController.chosenNumber);
                 req.send((r, status, reason) =>
-                    response(ride, status, reason, context));
+                    response(r, status, reason, context));
               }
             },
           ),

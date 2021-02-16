@@ -32,7 +32,11 @@ class DateTimePickerState extends State<DateTimePicker> {
     } else {
       _minDate = widget.startDate;
     }
-    _initialDate = widget._controller.chosenDate;
+    if (_initialDate == null || _initialDate.isAfter(_minDate)) {
+      _initialDate = widget._controller.chosenDate;
+    } else {
+      _initialDate = _minDate;
+    }
     //max is one year
     _maxDate = DateTime.now().add(Duration(days: 365));
 

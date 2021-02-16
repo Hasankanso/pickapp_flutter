@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/requests/EditReservation.dart';
+import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
+import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
+import 'package:pickapp/utilities/Spinner.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MyRidesTile extends StatefulWidget {
   final Ride _ride;
@@ -33,6 +40,85 @@ class _MyRidesTileState extends State<MyRidesTile> {
       user = App.user;
     } else {
       user = widget._ride.user;
+    }
+  }
+
+  void seatsLuggagePopUp(Ride ride, BuildContext context) {
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.grow,
+      overlayColor: Colors.black45,
+      isCloseButton: true,
+      isOverlayTapDismiss: true,
+      titleStyle: Styles.labelTextStyle(),
+      descStyle: Styles.valueTextStyle(),
+      animationDuration: Duration(milliseconds: 400),
+    );
+    NumberController seatsController = new NumberController();
+    NumberController luggageController = new NumberController();
+    Alert(
+        context: context,
+        style: alertStyle,
+        title: Lang.getString(context, "Edit_Reservation"),
+        desc: Lang.getString(context, "Reserve_Seats_Luggage"),
+        content: Column(
+          children: [
+            NumberPicker(
+              seatsController,
+              "Seats",
+              1,
+              ride.availableSeats + ride.passengers[0].seats,
+              isSmallIconSize: true,
+            ),
+            NumberPicker(
+              luggageController,
+              "Luggage",
+              0,
+              ride.availableLuggages + ride.passengers[0].luggages,
+              isSmallIconSize: true,
+            ),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            child: Text(Lang.getString(context, "Confirm"),
+                style: Styles.buttonTextStyle(),
+                overflow: TextOverflow.visible),
+            color: Styles.primaryColor(),
+            onPressed: () {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return WillPopScope(
+                    onWillPop: () async => false,
+                    child: Center(
+                      child: Spinner(),
+                    ),
+                  );
+                },
+              );
+              Request<Ride> req = EditReservation(ride,
+                  seatsController.chosenNumber, luggageController.chosenNumber);
+              req.send(_response);
+            },
+          ),
+        ]).show();
+  }
+
+  void _response(Ride r, int status, String reason) {
+    if (status != 200) {
+      Navigator.pop(context);
+      //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation
+      CustomToast()
+          .showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
+    } else {
+      App.person.upcomingRides.remove(r);
+      App.person.upcomingRides.add(r);
+      Cache.setUserCache(App.user);
+      App.updateUpcomingRide.value = true;
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
 
@@ -90,7 +176,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                   widget._ride,
                                   Lang.getString(context, "Edit_Reservation"),
                                   (ride) {
-                                    print(88);
+                                    seatsLuggagePopUp(widget._ride, context);
                                   }
                                 ]);
                               }

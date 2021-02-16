@@ -267,7 +267,8 @@ class MainNotification {
   static void onMessage(Map<String, dynamic> args, context) {
     print("lllllllll");
     print(args.values);
-    print("ok");
+    print("oks");
+    print(ModalRoute.of(context).settings.name);
     Navigator.pushNamed(context, "/Notifications");
     print(11);
   }
