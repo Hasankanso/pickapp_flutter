@@ -256,11 +256,9 @@ class _SearchResultsState extends State<SearchResults> {
 
   void response(Ride r, int status, String reason, BuildContext context) {
     if (status == 200) {
-      print(r.availableSeats);
-      print(r.availableLuggages);
-
       App.person.upcomingRides.add(r);
       Cache.setUserCache(App.user);
+      App.updateUpcomingRide.value = true;
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
       Navigator.popUntil(context, (route) => route.isFirst);
