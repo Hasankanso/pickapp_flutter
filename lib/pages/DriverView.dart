@@ -55,7 +55,7 @@ class _DriverViewState extends State<DriverView> {
       backdropOpacity: 0.3,
       backdropEnabled: true,
       backdropTapClosesPanel: true,
-      maxHeight: ScreenUtil().setHeight(520),
+      maxHeight: ScreenUtil().setHeight(500),
       minHeight: ScreenUtil().setHeight(120),
       parallaxEnabled: true,
       parallaxOffset: .5,
@@ -83,7 +83,7 @@ class _DriverViewState extends State<DriverView> {
                 )
               : null,
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: Container(
               alignment: Alignment.topCenter,
               color: Colors.grey.withOpacity(0.1),
@@ -186,14 +186,10 @@ class _Panel extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        if (user.person.statistics.acomplishedRides +
-                    user.person.statistics.canceledRides >
-                0 ||
+        if (accomplishedCanceledRatio > 0 ||
             user.person.statistics.ratesCount > 0)
           VerticalSpacer(height: 20),
-        if (user.person.statistics.acomplishedRides +
-                user.person.statistics.canceledRides >
-            0)
+        if (accomplishedCanceledRatio > 0)
           ResponsiveRow(
             widgetRealtiveSize: 20,
             children: [
@@ -233,9 +229,7 @@ class _Panel extends StatelessWidget {
               ),
             ],
           ),
-        if (user.person.statistics.acomplishedRides +
-                user.person.statistics.canceledRides >
-            0)
+        if (accomplishedCanceledRatio > 0)
           VerticalSpacer(
             height: 30,
           ),

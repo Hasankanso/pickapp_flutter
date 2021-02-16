@@ -23,7 +23,6 @@ class SearchResultTile extends ListTile {
     if (_ride.person.networkImage == null) {
       _ride.person.setNetworkImage();
     }
-
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(

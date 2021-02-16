@@ -42,6 +42,8 @@ abstract class Request<T> {
       });
 
       if (response != null) {
+        print(response.body.toString());
+
         var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
         print("backendless: " + decodedResponse.toString());
 

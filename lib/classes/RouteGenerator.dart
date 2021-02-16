@@ -289,6 +289,7 @@ class RouteGenerator {
               (args as List)[0],
               buttonText: (args as List)[1],
               onPressed: (args as List)[2],
+              isEditDisabled: (args as List)[3],
             ));
       case '/CarView':
         return PageTransition(

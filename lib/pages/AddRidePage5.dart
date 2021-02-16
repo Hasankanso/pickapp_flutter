@@ -220,24 +220,16 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
                 Expanded(
                   flex: 15,
-                  child: _Title(text: Lang.getString(context, "Kid's_Seat")),
+                  child: _Title(text: Lang.getString(context, "Kid_Seat")),
                 ),
                 Expanded(
-                  flex: 22,
-                  child: ride.kidSeat == true
-                      ? Text(
-                          "1",
-                          maxLines: 1,
-                          style: Styles.valueTextStyle(),
-                          overflow: TextOverflow.clip,
-                        )
-                      : Text(
-                          "0",
-                          maxLines: 1,
-                          style: Styles.valueTextStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                ),
+                    flex: 22,
+                    child: Text(
+                      ride.kidSeat == true ? "1" : "0",
+                      maxLines: 1,
+                      style: Styles.valueTextStyle(),
+                      overflow: TextOverflow.clip,
+                    )),
               ],
             ),
             VerticalSpacer(height: 8),

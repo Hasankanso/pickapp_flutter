@@ -246,6 +246,7 @@ class _panel extends StatelessWidget {
                   children: [
                     _Title(text: Lang.getString(context, "Available_Seats")),
                     _Title(text: Lang.getString(context, "Luggage")),
+                    _Title(text: Lang.getString(context, "Kids_Seat")),
                     _Title(text: Lang.getString(context, "Stop_Duration")),
                   ],
                 ),
@@ -267,6 +268,15 @@ class _panel extends StatelessWidget {
                       height: 40,
                       child: Text(
                         ride.availableLuggages.toString(),
+                        maxLines: 1,
+                        style: Styles.valueTextStyle(),
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
+                    ResponsiveWidget.fullWidth(
+                      height: 40,
+                      child: Text(
+                        ride.kidSeat == true ? "1" : "0",
                         maxLines: 1,
                         style: Styles.valueTextStyle(),
                         overflow: TextOverflow.clip,

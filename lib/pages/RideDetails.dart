@@ -23,9 +23,11 @@ class RideDetails extends StatelessWidget {
   final Ride ride;
   String buttonText;
   void Function(Ride) onPressed;
+  bool isEditDisabled;
   TextEditingController _reason = TextEditingController();
 
-  RideDetails(this.ride, {this.buttonText, this.onPressed});
+  RideDetails(this.ride,
+      {this.buttonText, this.onPressed, this.isEditDisabled = true});
 
   _cancelReservation(bool deleted, int code, String message, context) {
     if (code != HttpStatus.ok) {
@@ -128,7 +130,7 @@ class RideDetails extends StatelessWidget {
         appBar: MainAppBar(
           title: Lang.getString(context, "Ride_Details"),
           actions: [
-            if (ride.reserved)
+            if (!isEditDisabled && ride.reserved)
               PopupMenuButton<String>(
                 onSelected: (value) => handleClick(value, context),
                 itemBuilder: (BuildContext context) {

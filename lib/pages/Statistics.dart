@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:pickapp/classes/App.dart';
@@ -32,58 +33,81 @@ class Statistics extends StatelessWidget {
             children: [
               Card(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                  padding: const EdgeInsets.only(top: 13, bottom: 13),
                   child: Column(
                     children: <Widget>[
-                      ResponsiveWidget.fullWidth(
-                        height: 55,
-                        child: Row(
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Expanded(
-                              flex: 6,
-                              child: Column(children: [
-                                Icon(
-                                  Icons.speed,
-                                ),
-                                Text(
-                                  (App.user.person.statistics.acomplishedRides +
-                                              App.user.person.statistics
-                                                  .canceledRides)
-                                          .toInt()
-                                          .toString() +
-                                      " " +
-                                      Lang.getString(context, "Rides"),
-                                  style: Styles.valueTextStyle(size: 12),
-                                ),
-                              ]),
+                            Flexible(
+                              child: Visibility(
+                                  visible: accomplishedCanceledRatio > 0,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 6,
+                                        child: Column(children: [
+                                          Icon(
+                                            Icons.speed,
+                                          ),
+                                          Text(
+                                            (App.user.person.statistics
+                                                            .acomplishedRides +
+                                                        App
+                                                            .user
+                                                            .person
+                                                            .statistics
+                                                            .canceledRides)
+                                                    .toInt()
+                                                    .toString() +
+                                                " " +
+                                                Lang.getString(
+                                                    context, "Rides"),
+                                            style:
+                                                Styles.valueTextStyle(size: 12),
+                                          ),
+                                        ]),
+                                      ),
+                                      Spacer(
+                                        flex: 1,
+                                      ),
+                                      Expanded(
+                                        flex: 20,
+                                        child: LinearPercentIndicator(
+                                          width: ScreenUtil().setWidth(234.0),
+                                          lineHeight: 16.0,
+                                          percent:
+                                              !accomplishedCanceledRatio.isNaN
+                                                  ? accomplishedCanceledRatio
+                                                  : 0,
+                                          center: Text(
+                                            !accomplishedCanceledRatio.isNaN
+                                                ? (accomplishedCanceledRatio *
+                                                            100)
+                                                        .toInt()
+                                                        .toString() +
+                                                    "%"
+                                                : "0",
+                                            style: Styles.buttonTextStyle(
+                                                size: 12),
+                                          ),
+                                          backgroundColor: Colors.red,
+                                          progressColor: Colors.green,
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                             ),
-                            Spacer(
-                              flex: 1,
-                            ),
-                            Expanded(
-                              flex: 20,
-                              child: LinearPercentIndicator(
-                                width: ScreenUtil().setWidth(234.0),
-                                lineHeight: 16.0,
-                                percent: !accomplishedCanceledRatio.isNaN
-                                    ? accomplishedCanceledRatio
-                                    : 0,
-                                center: Text(
-                                  !accomplishedCanceledRatio.isNaN
-                                      ? (accomplishedCanceledRatio * 100)
-                                              .toInt()
-                                              .toString() +
-                                          "%"
-                                      : "0",
-                                  style: Styles.buttonTextStyle(size: 12),
+                            if (accomplishedCanceledRatio <= 0)
+                              Container(
+                                constraints: BoxConstraints(
+                                    minHeight: ScreenUtil().setHeight(20)),
+                                child: Text(
+                                  Lang.getString(context, "No_enough_data!"),
+                                  style: Styles.valueTextStyle(),
                                 ),
-                                backgroundColor: Colors.red,
-                                progressColor: Colors.green,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                              )
+                          ]),
                     ],
                   ),
                 ),

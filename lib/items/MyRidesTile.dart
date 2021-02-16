@@ -170,14 +170,14 @@ class _MyRidesTileState extends State<MyRidesTile> {
                       ListTile(
                         onTap: widget._ride.reserved == true
                             ? () {
-                                //hon
                                 Navigator.of(context)
                                     .pushNamed("/RideDetails", arguments: [
                                   widget._ride,
                                   Lang.getString(context, "Edit_Reservation"),
                                   (ride) {
                                     seatsLuggagePopUp(widget._ride, context);
-                                  }
+                                  },
+                                  false
                                 ]);
                               }
                             : () {

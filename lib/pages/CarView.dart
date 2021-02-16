@@ -46,7 +46,7 @@ class CarView extends StatelessWidget {
             ),
           ),
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
             child: Container(
               alignment: Alignment.topCenter,
               color: Colors.grey.withOpacity(0.1),

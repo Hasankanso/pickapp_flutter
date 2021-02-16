@@ -251,7 +251,7 @@ class _SearchResultsState extends State<SearchResults> {
     }
 
     Navigator.of(context).pushNamed("/RideDetails",
-        arguments: [r, buttonName, callbackFunction]);
+        arguments: [r, buttonName, callbackFunction, true]);
   }
 
   void response(Ride r, int status, String reason, BuildContext context) {
