@@ -83,8 +83,7 @@ class _SearchState extends State<Search>
                 ),
                 tooltip: Lang.getString(context, "Notifications"),
                 onPressed: () {
-                  //Navigator.of(context).pushNamed("/Notifications");
-                  Navigator.of(context).pushNamed("/AddRate");
+                  Navigator.of(context).pushNamed("/Notifications");
                 },
               ),
               ValueListenableBuilder(

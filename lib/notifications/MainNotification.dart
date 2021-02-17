@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:hive/hive.dart';
+import 'package:pickapp/classes/App.dart';
 
 //import 'package:timezone/data/latest.dart' as tz;
 //import 'package:timezone/timezone.dart' as tz;
@@ -26,6 +28,14 @@ class MainNotification {
   String _subtitle;
   @HiveField(7)
   String _imagePath;
+  @HiveField(8)
+  String _imageUrl;
+
+  String get imageUrl => _imageUrl;
+
+  set imageUrl(String value) {
+    _imageUrl = value;
+  }
 
   MainNotification(
       {String title,
@@ -35,7 +45,8 @@ class MainNotification {
       String action,
       DateTime scheduleDate,
       String imagePath,
-      String subtitle}) {
+      String subtitle,
+      String imageUrl}) {
     this.id = id;
     this.objectId = objectId;
     this.description = description;
@@ -44,6 +55,7 @@ class MainNotification {
     this.scheduleDate = scheduleDate;
     this.imagePath = imagePath;
     this.subtitle = subtitle;
+    this.imageUrl = imageUrl;
   }
 
   MainNotification.fromJson(Map<String, dynamic> json)
@@ -52,7 +64,8 @@ class MainNotification {
         _title = json["title"],
         _subtitle = json["subtitle"],
         _description = json["description"],
-        _imagePath = json["imagePath"];
+        _imagePath = json["imagePath"],
+        _imageUrl = json["imageUrl"];
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'objectId': this.objectId,
@@ -60,7 +73,8 @@ class MainNotification {
         'title': this.title,
         'description': this.description,
         'subtitle': this.subtitle,
-        'imagePath': this.imagePath
+        'imagePath': this.imagePath,
+        'imageUrl': this.imageUrl
       };
 
   String get imagePath => _imagePath;
@@ -111,7 +125,12 @@ class MainNotification {
     _scheduleDate = value;
   }
 
-/*
+  @override
+  String toString() {
+    return 'MainNotification{_id: $_id, _objectId: $_objectId, _action: $_action, _title: $_title, _description: $_description, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
+  }
+
+  /*
   static initializeLocaleNotification(context) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -265,11 +284,13 @@ class MainNotification {
     await flutterLocalNotificationsPlugin.cancelAll();
   }*/
   static void onMessage(Map<String, dynamic> args, context) {
-    print("lllllllll");
-    print(args.values);
-    print("oks");
-    print(ModalRoute.of(context).settings.name);
-    Navigator.pushNamed(context, "/Notifications");
-    print(11);
+    App.isNewNotificationNotifier.value = true;
+    var details = json.decode(args["android_immediate_push"]);
+    MainNotification notification = MainNotification(
+        action: args["action"],
+        title: args["android-content-title"],
+        description: args["message"],
+        subtitle: args["android-summary-subtext"],
+        imageUrl: details["attachmentUrl"]);
   }
 }
