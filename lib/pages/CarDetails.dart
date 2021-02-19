@@ -19,7 +19,6 @@ import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainImagePicker.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/PopUp.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Spinner.dart';
@@ -34,15 +33,9 @@ class CarDetails extends StatefulWidget {
 
 class _CarDetailsState extends State<CarDetails> {
   final _formKey = GlobalKey<FormState>();
-  int _type;
-  int _maxSeats, _maxLuggage;
   ColorController _colorController = ColorController();
-  NumberController _seatsController = NumberController();
-  NumberController _luggageController = NumberController();
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _brandController = TextEditingController();
   TextEditingController _yearController = TextEditingController();
-  List<String> _typeItems;
   MainImageController _imageController = MainImageController();
   int i = 0;
 
@@ -51,42 +44,9 @@ class _CarDetailsState extends State<CarDetails> {
     // TODO: implement initState
     super.initState();
 
-    _type = widget.car.type;
     _nameController.text = widget.car.name;
-    _brandController.text = widget.car.brand;
     _yearController.text = widget.car.year.toString();
-    _seatsController.chosenNumber = widget.car.maxSeats;
-    _luggageController.chosenNumber = widget.car.maxLuggage;
     _colorController = ColorController(pickedColor: widget.car.color);
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    _typeItems = <String>[
-      Lang.getString(context, "Sedan"),
-      Lang.getString(context, "SUV"),
-      Lang.getString(context, "Hatchback"),
-      Lang.getString(context, "Van")
-    ];
-    _setMaxSeatsLuggage();
-  }
-
-  _setMaxSeatsLuggage() {
-    if (_type == 0) {
-      _maxSeats = 4;
-      _maxLuggage = 3;
-    } else if (_type == 1) {
-      _maxSeats = 6;
-      _maxLuggage = 4;
-    } else if (_type == 2) {
-      _maxSeats = 4;
-      _maxLuggage = 3;
-    } else if (_type == 3) {
-      _maxSeats = 13;
-      _maxLuggage = 7;
-    }
   }
 
   @override
@@ -171,33 +131,6 @@ class _CarDetailsState extends State<CarDetails> {
                     Expanded(
                       flex: 5,
                       child: TextFormField(
-                        controller: _brandController,
-                        minLines: 1,
-                        textInputAction: TextInputAction.next,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(20),
-                        ],
-                        decoration: InputDecoration(
-                          labelText: Lang.getString(context, "Brand"),
-                          hintText: Lang.getString(context, "Car_brand_hint"),
-                          labelStyle: Styles.labelTextStyle(),
-                          hintStyle: Styles.labelTextStyle(),
-                        ),
-                        style: Styles.valueTextStyle(),
-                        validator: (value) {
-                          String valid = Validation.validate(value, context);
-
-                          if (valid != null)
-                            return valid;
-                          else if (value.length < 2)
-                            return Validation.invalid(context);
-                          return null;
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: TextFormField(
                         controller: _nameController,
                         minLines: 1,
                         textInputAction: TextInputAction.next,
@@ -258,87 +191,11 @@ class _CarDetailsState extends State<CarDetails> {
                         },
                       ),
                     ),
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        children: [
-                          Spacer(
-                            flex: 1,
-                          ),
-                          Expanded(
-                            flex: 9,
-                            child: DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
-                                labelText: Lang.getString(context, "Type"),
-                                labelStyle: Styles.labelTextStyle(),
-                              ),
-                              isExpanded: true,
-                              style: Styles.valueTextStyle(
-                                  color: Styles.valueColor()),
-                              value: _typeItems[widget.car.type],
-                              validator: (val) {
-                                String valid =
-                                    Validation.validate(val, context);
-                                if (valid != null) return valid;
-                                return null;
-                              },
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  _type = _typeItems.indexOf(newValue);
-                                  _setMaxSeatsLuggage();
-                                });
-                              },
-                              items: _typeItems.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
               VerticalSpacer(
                 height: 14,
-              ),
-              ResponsiveWidget.fullWidth(
-                height: 40,
-                child: DifferentSizeResponsiveRow(
-                  children: [
-                    Expanded(
-                        flex: 100,
-                        child: NumberPicker(
-                            _seatsController, "Seats", 1, _maxSeats)),
-                    Spacer(
-                      flex: 1,
-                    ),
-                  ],
-                ),
-              ),
-              VerticalSpacer(
-                height: 10,
-              ),
-              ResponsiveWidget.fullWidth(
-                  height: 40,
-                  child: DifferentSizeResponsiveRow(
-                    children: [
-                      Expanded(
-                        flex: 100,
-                        child: NumberPicker(
-                            _luggageController, "Luggage", 1, _maxLuggage),
-                      ),
-                      Spacer(
-                        flex: 1,
-                      ),
-                    ],
-                  )),
-              VerticalSpacer(
-                height: 20,
               ),
               ResponsiveWidget.fullWidth(
                 height: 40,
@@ -427,14 +284,18 @@ class _CarDetailsState extends State<CarDetails> {
                               Lang.getString(context, "Delete_car_message"));
                         }
                       }
+
+                      if (widget.car.updated != null &&
+                          widget.car.updated.difference(DateTime.now()).inDays >
+                              -30) {
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Car_edit_time"));
+                      }
+
                       Car car = widget.car;
                       car.name = _nameController.text;
-                      car.brand = _brandController.text;
                       car.year = int.parse(_yearController.text);
                       car.color = _colorController.pickedColor.value;
-                      car.type = _type;
-                      car.maxSeats = _seatsController.chosenNumber;
-                      car.maxLuggage = _luggageController.chosenNumber;
                       if (_imageController.pickedImage != null) {
                         await car.setPictureFile(_imageController.pickedImage);
                       }
@@ -496,11 +357,12 @@ class _CarDetailsState extends State<CarDetails> {
     } else {
       App.user.driver.cars = p1;
 
-      await Cache.setUserCache(App.user);
       if (App.user.driver.cars == null || App.user.driver.cars.length == 0) {
         App.isDriverNotifier.value = false;
         App.user.driver = null;
       }
+
+      await Cache.setUserCache(App.user);
 
       App.isDriverNotifier.notifyListeners();
 

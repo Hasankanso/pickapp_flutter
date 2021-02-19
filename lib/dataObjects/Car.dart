@@ -78,6 +78,11 @@ class Car {
       };
 
   factory Car.fromJson(Map<String, dynamic> json) {
+    var updatedJ = json["updated"];
+    DateTime updated;
+    if (updatedJ != null) {
+      updated = DateTime.fromMillisecondsSinceEpoch(updatedJ, isUtc: true);
+    }
     Car c = Car(
         id: json["objectId"],
         name: json["name"],
@@ -87,7 +92,8 @@ class Car {
         maxSeats: json['maxSeats'],
         brand: json["brand"],
         color: json["color"],
-        carPictureUrl: json["picture"]);
+        carPictureUrl: json["picture"],
+        updated: updated);
     c.setNetworkImage();
     return c;
   }

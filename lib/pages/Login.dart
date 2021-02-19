@@ -299,12 +299,7 @@ class _LoginState extends State<Login> {
 
   Future<void> response(User u, int code, String message, context) async {
     if (code != HttpStatus.ok) {
-      if (code == -1) {
-        CustomToast()
-            .showErrorToast(Lang.getString(context, "Disabled_account"));
-      } else {
-        CustomToast().showErrorToast(message);
-      }
+      CustomToast().showErrorToast(message);
       Navigator.pop(context);
     } else {
       App.user = u;

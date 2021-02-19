@@ -71,7 +71,8 @@ class _AddRidePage3State extends State<AddRidePage3>
     if (rideInfo.price != null)
       priceController.text = rideInfo.price.toString();
     if (rideInfo.car != null) {
-      selectedCar = rideInfo.car.brand + " " + rideInfo.car.name;
+      selectedCar =
+          Lang.getString(context, rideInfo.car.brand) + " " + rideInfo.car.name;
       car = rideInfo.car;
       valueSelected = true;
       personController = NumberController(
@@ -126,10 +127,15 @@ class _AddRidePage3State extends State<AddRidePage3>
                             ),
                             children: App.driver.cars.map((Car c) {
                               return CarTileDropDown(
-                                  carName: c.brand + " / " + c.name,
+                                  carName: Lang.getString(context, c.brand) +
+                                      ", " +
+                                      c.name,
                                   car: c,
                                   a: () {
-                                    selectedCar = c.brand + " / " + c.name;
+                                    selectedCar =
+                                        Lang.getString(context, c.brand) +
+                                            ", " +
+                                            c.name;
                                     car = c;
                                     valueSelected = true;
                                     personController = NumberController(

@@ -6,7 +6,6 @@ import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/AddAlert.dart';
 import 'package:pickapp/pages/AddCar.dart';
 import 'package:pickapp/pages/AddCar2.dart';
-import 'package:pickapp/pages/AddCar3.dart';
 import 'package:pickapp/pages/AddRate.dart';
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
@@ -323,15 +322,6 @@ class RouteGenerator {
             reverseDuration: duration,
             type: isLTR,
             child: AddCar2(driver: args));
-      case "/AddCar3Driver":
-        return PageTransition(
-            settings: settings,
-            duration: duration,
-            reverseDuration: duration,
-            type: isLTR,
-            child: AddCar3(
-              driver: args,
-            ));
       //add car screens
       case '/AddCar':
         return PageTransition(
@@ -347,15 +337,7 @@ class RouteGenerator {
             reverseDuration: duration,
             type: isLTR,
             child: AddCar2(car: args));
-      case "/AddCar3":
-        return PageTransition(
-            settings: settings,
-            duration: duration,
-            reverseDuration: duration,
-            type: isLTR,
-            child: AddCar3(
-              car: args,
-            ));
+
       case "/Email":
         return PageTransition(
           settings: settings,
@@ -440,16 +422,6 @@ class RouteGenerator {
             reverseDuration: duration,
             type: isLTR,
             child: AddCar2(
-              user: ((args as List)[0] as User),
-              isForceRegister: (args as List)[1],
-            ));
-      case "/AddCar3Register":
-        return PageTransition(
-            settings: settings,
-            duration: duration,
-            reverseDuration: duration,
-            type: isLTR,
-            child: AddCar3(
               user: ((args as List)[0] as User),
               isForceRegister: (args as List)[1],
             ));

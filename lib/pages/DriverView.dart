@@ -157,7 +157,11 @@ class _Panel extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                user.person.firstName + " " + user.person.lastName,
+                user.person.firstName +
+                    " " +
+                    user.person.lastName +
+                    ", " +
+                    App.calculateAge(user.person.birthday).toString(),
                 maxLines: 1,
                 style: Styles.valueTextStyle(bold: FontWeight.w800),
                 overflow: TextOverflow.clip,

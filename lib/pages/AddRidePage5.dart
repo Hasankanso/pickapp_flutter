@@ -162,7 +162,9 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 Expanded(
                   flex: 22,
                   child: Text(
-                    ride.car.brand.toString() + " " + ride.car.name.toString(),
+                    Lang.getString(context, ride.car.brand) +
+                        " " +
+                        ride.car.name.toString(),
                     maxLines: 1,
                     style: Styles.valueTextStyle(),
                     overflow: TextOverflow.clip,

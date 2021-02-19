@@ -123,7 +123,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        widget.controller.pickedImage = File(pickedFile.path);
+        widget.controller.pickedImage = _image;
         if (widget.callBack != null) widget.callBack();
       }
     });
@@ -142,7 +142,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        widget.controller.pickedImage = File(pickedFile.path);
+        widget.controller.pickedImage = _image;
         if (widget.callBack != null) widget.callBack();
       }
     });

@@ -96,7 +96,7 @@ class _panel extends StatelessWidget {
         ResponsiveWidget.fullWidth(
           height: 40,
           child: Text(
-            car.brand + ", " + car.name,
+            Lang.getString(context, car.brand) + ", " + car.name,
             maxLines: 1,
             style: Styles.valueTextStyle(bold: FontWeight.w800),
             overflow: TextOverflow.clip,

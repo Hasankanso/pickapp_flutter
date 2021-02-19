@@ -56,7 +56,7 @@ class CarListTile extends ListTile {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              car.brand,
+              Lang.getString(context, car.brand),
               style: Styles.headerTextStyle(),
             ),
           ],
