@@ -47,7 +47,7 @@ class _AddCarState extends State<AddCar> {
       if (!Validation.isNullOrEmpty(_name.text))
         widget.driver.cars[0].name = _name.text;
       if (!Validation.isNullOrEmpty(_brand.text))
-        widget.driver.cars[0].brand = _brand.text;
+        widget.driver.cars[0].brand = _brandKey;
       if (!Validation.isNullOrEmpty(_year.text))
         widget.driver.cars[0].year = int.parse(_year.text);
       if (_imageController.pickedImage != null)
@@ -62,7 +62,7 @@ class _AddCarState extends State<AddCar> {
       if (!Validation.isNullOrEmpty(_name.text))
         widget.user.driver.cars[0].name = _name.text;
       if (!Validation.isNullOrEmpty(_brand.text))
-        widget.user.driver.cars[0].brand = _brand.text;
+        widget.user.driver.cars[0].brand = _brandKey;
       if (!Validation.isNullOrEmpty(_year.text))
         widget.user.driver.cars[0].year = int.parse(_year.text);
       if (_imageController.pickedImage != null) {
@@ -83,12 +83,15 @@ class _AddCarState extends State<AddCar> {
     for (final item in _carBrandsKeys) {
       _carBrands[item] = Lang.getString(context, item);
     }
+
     if (widget.driver != null) {
       if (widget.driver.cars != null) {
         if (!Validation.isNullOrEmpty(widget.driver.cars[0].name))
           _name.text = widget.driver.cars[0].name;
-        if (!Validation.isNullOrEmpty(widget.driver.cars[0].brand))
+        if (!Validation.isNullOrEmpty(widget.driver.cars[0].brand)) {
+          _brandKey = widget.driver.cars[0].brand;
           _brand.text = _carBrands[widget.driver.cars[0].brand];
+        }
         if (widget.driver.cars[0].year != null)
           _year.text = widget.driver.cars[0].year.toString();
         if (widget.driver.cars[0].imageFile != null)
@@ -102,8 +105,10 @@ class _AddCarState extends State<AddCar> {
       if (widget.user.driver.cars != null) {
         if (!Validation.isNullOrEmpty(widget.user.driver.cars[0].name))
           _name.text = widget.user.driver.cars[0].name;
-        if (!Validation.isNullOrEmpty(widget.user.driver.cars[0].brand))
+        if (!Validation.isNullOrEmpty(widget.user.driver.cars[0].brand)) {
+          _brandKey = widget.user.driver.cars[0].brand;
           _brand.text = _carBrands[widget.user.driver.cars[0].brand];
+        }
         if (widget.user.driver.cars[0].year != null)
           _year.text = widget.user.driver.cars[0].year.toString();
         if (widget.user.driver.cars[0].imageFile != null)
