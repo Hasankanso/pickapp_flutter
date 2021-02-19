@@ -32,44 +32,44 @@ class _AddCarState extends State<AddCar> {
   TextEditingController _brand = TextEditingController();
   TextEditingController _year = TextEditingController();
   MainImageController _imageController = MainImageController();
-  Car car = Car();
   ColorController _colorController = ColorController();
   Map<String, String> _carBrands = Map<String, String>();
   String _brandKey;
+  Car car = Car();
 
   @override
   void dispose() async {
     // TODO: implement dispose
     if (widget.driver != null) {
       if (widget.driver.cars == null || widget.driver.cars.length == 0) {
-        widget.driver.cars = [car];
+        widget.driver.cars = [this.car];
       }
-      if (!Validation.isNullOrEmpty(_name.text))
-        widget.driver.cars[0].name = _name.text;
-      if (!Validation.isNullOrEmpty(_brand.text))
-        widget.driver.cars[0].brand = _brandKey;
+      var carJ = widget.driver.cars[0];
+
+      if (!Validation.isNullOrEmpty(_name.text)) carJ.name = _name.text;
+      if (!Validation.isNullOrEmpty(_brand.text)) carJ.brand = _brandKey;
       if (!Validation.isNullOrEmpty(_year.text))
-        widget.driver.cars[0].year = int.parse(_year.text);
+        carJ.year = int.parse(_year.text);
       if (_imageController.pickedImage != null)
-        widget.driver.cars[0].imageFile = _imageController.pickedImage;
+        carJ.imageFile = _imageController.pickedImage;
       if (_colorController.pickedColor != null)
-        widget.driver.cars[0].color = _colorController.pickedColor.value;
+        carJ.color = _colorController.pickedColor.value;
     } else if (widget.user != null) {
       if (widget.user.driver.cars == null ||
           widget.user.driver.cars.length == 0) {
-        widget.user.driver.cars = [car];
+        widget.user.driver.cars = [this.car];
       }
-      if (!Validation.isNullOrEmpty(_name.text))
-        widget.user.driver.cars[0].name = _name.text;
-      if (!Validation.isNullOrEmpty(_brand.text))
-        widget.user.driver.cars[0].brand = _brandKey;
+      var carD = widget.user.driver.cars[0];
+
+      if (!Validation.isNullOrEmpty(_name.text)) carD.name = _name.text;
+      if (!Validation.isNullOrEmpty(_brand.text)) carD.brand = _brandKey;
       if (!Validation.isNullOrEmpty(_year.text))
-        widget.user.driver.cars[0].year = int.parse(_year.text);
+        carD.year = int.parse(_year.text);
       if (_imageController.pickedImage != null) {
-        widget.user.driver.cars[0].imageFile = _imageController.pickedImage;
+        carD.imageFile = _imageController.pickedImage;
       }
       if (_colorController.pickedColor != null)
-        widget.user.driver.cars[0].color = _colorController.pickedColor.value;
+        carD.color = _colorController.pickedColor.value;
     }
     _name.dispose();
     _year.dispose();
@@ -86,36 +86,35 @@ class _AddCarState extends State<AddCar> {
 
     if (widget.driver != null) {
       if (widget.driver.cars != null) {
-        if (!Validation.isNullOrEmpty(widget.driver.cars[0].name))
-          _name.text = widget.driver.cars[0].name;
-        if (!Validation.isNullOrEmpty(widget.driver.cars[0].brand)) {
-          _brandKey = widget.driver.cars[0].brand;
-          _brand.text = _carBrands[widget.driver.cars[0].brand];
+        var carJ = widget.driver.cars[0];
+
+        if (!Validation.isNullOrEmpty(carJ.name)) _name.text = carJ.name;
+        if (!Validation.isNullOrEmpty(carJ.brand)) {
+          _brandKey = carJ.brand;
+          _brand.text = _carBrands[carJ.brand];
         }
-        if (widget.driver.cars[0].year != null)
-          _year.text = widget.driver.cars[0].year.toString();
-        if (widget.driver.cars[0].imageFile != null)
-          _imageController.pickedImage = widget.driver.cars[0].imageFile;
-        if (widget.driver.cars[0].color != null)
-          _colorController.pickedColor = Color(widget.driver.cars[0].color);
+        if (carJ.year != null) _year.text = carJ.year.toString();
+        if (carJ.imageFile != null)
+          _imageController.pickedImage = carJ.imageFile;
+        if (carJ.color != null)
+          _colorController.pickedColor = Color(carJ.color);
       } else {
         widget.driver.cars = [Car()];
       }
     } else if (widget.user != null) {
       if (widget.user.driver.cars != null) {
-        if (!Validation.isNullOrEmpty(widget.user.driver.cars[0].name))
-          _name.text = widget.user.driver.cars[0].name;
-        if (!Validation.isNullOrEmpty(widget.user.driver.cars[0].brand)) {
-          _brandKey = widget.user.driver.cars[0].brand;
-          _brand.text = _carBrands[widget.user.driver.cars[0].brand];
+        var carD = widget.user.driver.cars[0];
+
+        if (!Validation.isNullOrEmpty(carD.name)) _name.text = carD.name;
+        if (!Validation.isNullOrEmpty(carD.brand)) {
+          _brandKey = carD.brand;
+          _brand.text = _carBrands[carD.brand];
         }
-        if (widget.user.driver.cars[0].year != null)
-          _year.text = widget.user.driver.cars[0].year.toString();
-        if (widget.user.driver.cars[0].imageFile != null)
-          _imageController.pickedImage = widget.user.driver.cars[0].imageFile;
-        if (widget.user.driver.cars[0].color != null)
-          _colorController.pickedColor =
-              Color(widget.user.driver.cars[0].color);
+        if (carD.year != null) _year.text = carD.year.toString();
+        if (carD.imageFile != null)
+          _imageController.pickedImage = carD.imageFile;
+        if (carD.color != null)
+          _colorController.pickedColor = Color(carD.color);
       } else {
         widget.user.driver.cars = [Car()];
       }
@@ -301,17 +300,17 @@ class _AddCarState extends State<AddCar> {
                     if (widget.driver != null) {
                       if (widget.driver.cars != null &&
                           widget.driver.cars.length == 1) {
-                        widget.driver.cars[0].name = _name.text;
-                        widget.driver.cars[0].brand = _brandKey;
-                        widget.driver.cars[0].year = int.parse(_year.text);
-                        widget.driver.cars[0].color =
-                            _colorController.pickedColor.value;
+                        var carJ = widget.driver.cars[0];
+                        carJ.name = _name.text;
+                        carJ.brand = _brandKey;
+                        carJ.year = int.parse(_year.text);
+                        carJ.color = _colorController.pickedColor.value;
                       } else {
-                        car.name = _name.text;
-                        car.brand = _brandKey;
-                        car.year = int.parse(_year.text);
-                        car.color = _colorController.pickedColor.value;
-                        widget.driver.cars = [car];
+                        this.car.name = _name.text;
+                        this.car.brand = _brandKey;
+                        this.car.year = int.parse(_year.text);
+                        this.car.color = _colorController.pickedColor.value;
+                        widget.driver.cars = [this.car];
                       }
                       await widget.driver.cars[0]
                           .setPictureFile(_imageController.pickedImage);
@@ -321,18 +320,18 @@ class _AddCarState extends State<AddCar> {
                       //register
                       if (widget.user.driver.cars != null &&
                           widget.user.driver.cars.length == 1) {
-                        widget.user.driver.cars[0].name = _name.text;
-                        widget.user.driver.cars[0].brand = _brandKey;
-                        widget.user.driver.cars[0].year = int.parse(_year.text);
-                        widget.user.driver.cars[0].color =
-                            _colorController.pickedColor.value;
+                        var carD = widget.user.driver.cars[0];
+                        carD.name = _name.text;
+                        carD.brand = _brandKey;
+                        carD.year = int.parse(_year.text);
+                        carD.color = _colorController.pickedColor.value;
                       } else {
-                        car.name = _name.text;
-                        car.brand = _brandKey;
-                        car.year = int.parse(_year.text);
-                        car.color = _colorController.pickedColor.value;
+                        this.car.name = _name.text;
+                        this.car.brand = _brandKey;
+                        this.car.year = int.parse(_year.text);
+                        this.car.color = _colorController.pickedColor.value;
 
-                        widget.user.driver.cars = [car];
+                        widget.user.driver.cars = [this.car];
                       }
                       await widget.user.driver.cars[0]
                           .setPictureFile(_imageController.pickedImage);
@@ -344,12 +343,15 @@ class _AddCarState extends State<AddCar> {
                           ]);
                     } else {
                       //add car
-                      car.name = _name.text;
-                      car.brand = _brandKey;
-                      car.year = int.parse(_year.text);
-                      car.color = _colorController.pickedColor.value;
-                      await car.setPictureFile(_imageController.pickedImage);
-                      Navigator.pushNamed(context, "/AddCar2", arguments: car);
+                      this.car.name = _name.text;
+                      this.car.brand = _brandKey;
+                      this.car.year = int.parse(_year.text);
+                      this.car.color = _colorController.pickedColor.value;
+                      await this
+                          .car
+                          .setPictureFile(_imageController.pickedImage);
+                      Navigator.pushNamed(context, "/AddCar2",
+                          arguments: this.car);
                     }
                   }
                 },
