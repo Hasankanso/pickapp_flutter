@@ -231,6 +231,8 @@ class Ride {
   }
 
   Passenger reservationOf (Person person) {
+    if(passengers == null) return null;
+
     for (Passenger p in passengers) {
       if (p.person == person) {
         return p;

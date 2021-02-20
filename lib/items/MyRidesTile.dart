@@ -7,6 +7,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/pages/RideDetails.dart';
 import 'package:pickapp/requests/EditReservation.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -33,6 +34,7 @@ class MyRidesTile extends StatefulWidget {
 
 class _MyRidesTileState extends State<MyRidesTile> {
   User user;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,77 +46,30 @@ class _MyRidesTileState extends State<MyRidesTile> {
     }
   }
 
-  void seatsLuggagePopUp(Ride ride, BuildContext context) {
-
+  void seatsLuggagePopUp(BuildContext context, Ride ride) {
     Passenger reservation = ride.reservationOf(App.person);
 
-
-    if (reservation == null) {
-      CustomToast().showErrorToast(
-        Lang.getString(context, "Something_Wrong") + " 3450",
-      );
+    if(reservation == null){
+      CustomToast().showErrorToast(Lang.getString(context, "Something_Wrong") + " -1000");
       return;
     }
 
-    var alertStyle = AlertStyle(
-      animationType: AnimationType.grow,
-      overlayColor: Colors.black45,
-      isCloseButton: true,
-      isOverlayTapDismiss: true,
-      titleStyle: Styles.labelTextStyle(),
-      descStyle: Styles.valueTextStyle(),
-      animationDuration: Duration(milliseconds: 400),
-    );
-    NumberController seatsController = new NumberController();
-    NumberController luggageController = new NumberController();
-    Alert(
+    RideDetails.seatsLuggagePopUp(context, ride, (seats, luggage) {
+      showDialog(
         context: context,
-        style: alertStyle,
-        title: Lang.getString(context, "Edit_Reservation"),
-        desc: Lang.getString(context, "Reserve_Seats_Luggage"),
-        content: Column(
-          children: [
-            NumberPicker(
-              seatsController,
-              "Seats",
-              1 + reservation.seats,
-              ride.availableSeats + reservation.seats,
-              isSmallIconSize: true,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: Center(
+              child: Spinner(),
             ),
-            NumberPicker(
-              luggageController,
-              "Luggage",
-              0,
-              ride.availableLuggages + reservation.luggages,
-              isSmallIconSize: true,
-            ),
-          ],
-        ),
-        buttons: [
-          DialogButton(
-            child: Text(Lang.getString(context, "Confirm"),
-                style: Styles.buttonTextStyle(),
-                overflow: TextOverflow.visible),
-            color: Styles.primaryColor(),
-            onPressed: () {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return WillPopScope(
-                    onWillPop: () async => false,
-                    child: Center(
-                      child: Spinner(),
-                    ),
-                  );
-                },
-              );
-              Request<Ride> req = EditReservation(ride,
-                  seatsController.chosenNumber, luggageController.chosenNumber);
-              req.send(_response);
-            },
-          ),
-        ]).show();
+          );
+        },
+      );
+      Request<Ride> req = EditReservation(ride, seats, luggage);
+      req.send(_response);
+    }, reservation: reservation);
   }
 
   void _response(Ride r, int status, String reason) {
@@ -187,7 +142,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                   widget._ride,
                                   Lang.getString(context, "Edit_Reservation"),
                                   (ride) {
-                                    seatsLuggagePopUp(widget._ride, context);
+                                    seatsLuggagePopUp(context, widget._ride);
                                   },
                                   false
                                 ]);

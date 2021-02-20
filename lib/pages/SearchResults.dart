@@ -12,6 +12,7 @@ import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
 import 'package:pickapp/items/SearchResultTile.dart';
+import 'package:pickapp/pages/RideDetails.dart';
 import 'package:pickapp/pages/SearchResultFilter.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/ReserveSeat.dart';
@@ -39,8 +40,6 @@ class _SearchResultsState extends State<SearchResults> {
   bool priceAscending = true;
   bool dateAscending = true;
   FilterController filterController = new FilterController();
-
-  final _codeFormKey = GlobalKey<FormState>();
 
   TextEditingController seatsController;
   TextEditingController luggageController;
@@ -247,10 +246,10 @@ class _SearchResultsState extends State<SearchResults> {
         App.getRideFromObjectId(r.id) != null) {
       callbackFunction = (Ride r) => Navigator.of(context).pop();
     } else if (App.getRideFromObjectId(r.id) != null) {
-      callbackFunction = (Ride r) => seatsLuggagePopUp(r, context);
+      callbackFunction = (Ride r) => seatsLuggagePopUp(context, r);
       buttonName = Lang.getString(context, "Edit Reservation");
     } else {
-      callbackFunction = (Ride r) => seatsLuggagePopUp(r, context);
+      callbackFunction = (Ride r) => seatsLuggagePopUp(context, r);
       buttonName = Lang.getString(context, "Reserve");
     }
 
@@ -258,86 +257,26 @@ class _SearchResultsState extends State<SearchResults> {
         arguments: [r, buttonName, callbackFunction, true]);
   }
 
-  void seatsLuggagePopUp(Ride ride, BuildContext context) {
-
-
-    Passenger reservation = ride.reservationOf(App.person);
-    if (reservation == null) {
-      CustomToast().showErrorToast(
-        Lang.getString(context, "Something_Wrong") + " 3450",
-      );
-      return;
-    }
-
-    var alertStyle = AlertStyle(
-      animationType: AnimationType.grow,
-      overlayColor: Colors.black45,
-      isCloseButton: true,
-      isOverlayTapDismiss: true,
-      titleStyle: Styles.labelTextStyle(),
-      descStyle: Styles.valueTextStyle(),
-      animationDuration: Duration(milliseconds: 400),
-    );
-    NumberController seatsController = new NumberController();
-    NumberController luggageController = new NumberController();
-    Alert(
-        context: context,
-        style: alertStyle,
-        title: Lang.getString(context, "Reserve"),
-        desc: Lang.getString(context, "Reserve_Seats_Luggage"),
-        content: Form(
-          key: _codeFormKey,
-          child: Column(
-            children: [
-              NumberPicker(
-                seatsController,
-                "Seats",
-                1 + reservation.seats,
-                ride.availableSeats + reservation.seats,
-                isSmallIconSize: true,
+  void seatsLuggagePopUp(BuildContext context, Ride ride) {
+    RideDetails.seatsLuggagePopUp(context, ride, (seats, luggage) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return WillPopScope(
+              onWillPop: () async => false,
+              child: Center(
+                child: Spinner(),
               ),
-              NumberPicker(
-                luggageController,
-                "Luggage",
-                0,
-                ride.availableLuggages + reservation.luggages,
-                isSmallIconSize: true,
-              ),
-            ],
-          ),
-        ),
-        buttons: [
-          DialogButton(
-            child: Text(Lang.getString(context, "Confirm"),
-                style: Styles.buttonTextStyle(),
-                overflow: TextOverflow.visible),
-            color: Styles.primaryColor(),
-            onPressed: () {
-              if (_codeFormKey.currentState.validate()) {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return WillPopScope(
-                      onWillPop: () async => false,
-                      child: Center(
-                        child: Spinner(),
-                      ),
-                    );
-                  },
-                );
-                Request<Ride> req = ReserveSeat(
-                    ride,
-                    App.user,
-                    seatsController.chosenNumber,
-                    luggageController.chosenNumber);
-                req.send((r, status, reason) =>
-                    response(r, status, reason, context));
-              }
-            },
-          ),
-        ]).show();
+            );
+          },
+        );
+        Request<Ride> req = ReserveSeat(ride, App.user,
+            seats, luggage);
+        req.send((r, status, reason) => response(r, status, reason, context));
+    });
   }
+
   void response(Ride r, int status, String reason, BuildContext context) {
     if (status == 200) {
       App.person.upcomingRides.add(r);
@@ -353,8 +292,6 @@ class _SearchResultsState extends State<SearchResults> {
           .showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
     }
   }
-
-
 }
 
 class _TopCard extends StatelessWidget {
