@@ -8,7 +8,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/pages/RideView.dart';
-import 'package:pickapp/pages/UserView.dart';
+import 'package:pickapp/pages/PersonView.dart';
 import 'package:pickapp/requests/CancelReservedSeats.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -157,7 +157,7 @@ class RideDetails extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           children: [
             RideView(ride, buttonText: buttonText, onPressed: onPressed),
-            UserView(person: ride.user.person),
+            PersonView(person: ride.user.person),
             CarView(car: ride.car),
           ],
         ),

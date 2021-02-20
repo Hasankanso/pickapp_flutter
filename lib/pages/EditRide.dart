@@ -28,7 +28,6 @@ class EditRide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    descController.text = ride.comment;
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(
@@ -66,6 +65,39 @@ class EditRide extends StatelessWidget {
               VerticalSpacer(
                 height: 30,
               ),
+              DifferentSizeResponsiveRow(children: [
+                Spacer(
+                  flex: 1,
+                ),
+                Expanded(
+                  flex: 22,
+                  child: Text(
+                    Lang.getString(context, "Description"),
+                    style: Styles.labelTextStyle(),
+                  ),
+                ),
+                Spacer(
+                  flex: 1,
+                ),
+              ]),
+              VerticalSpacer(
+                height: 10,
+              ),
+              DifferentSizeResponsiveRow(children: [
+                Spacer(
+                  flex: 1,
+                ),
+                Expanded(
+                  flex: 22,
+                  child: Text(
+                    ride.comment,
+                    style: Styles.valueTextStyle(),
+                  ),
+                ),
+                Spacer(
+                  flex: 1,
+                ),
+              ]),
               ResponsiveWidget.fullWidth(
                 height: 128,
                 child: DifferentSizeResponsiveRow(children: [
@@ -73,17 +105,19 @@ class EditRide extends StatelessWidget {
                     flex: 1,
                   ),
                   Expanded(
-                    flex: 22,
+                    flex: 19,
                     child: TextFormField(
                       controller: descController,
-                      minLines: 4,
+                      minLines: 5,
                       textInputAction: TextInputAction.done,
                       maxLines: 20,
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(400),
+                        LengthLimitingTextInputFormatter(
+                            400 - ride.comment.length),
                       ],
                       decoration: InputDecoration(
-                        labelText: Lang.getString(context, "Description"),
+                        labelText:
+                            Lang.getString(context, "Additional_description"),
                         labelStyle: Styles.labelTextStyle(),
                         hintStyle: Styles.labelTextStyle(),
                       ),
@@ -92,14 +126,11 @@ class EditRide extends StatelessWidget {
                         String valid = Validation.validate(value, context);
                         String alpha = Validation.isAlphaNumericIgnoreSpaces(
                             context, value);
-                        String short = Validation.isShort(context, value, 25);
 
                         if (valid != null)
                           return valid;
                         else if (alpha != null)
                           return alpha;
-                        else if (short != null)
-                          return short;
                         else
                           return null;
                       },
@@ -135,7 +166,7 @@ class EditRide extends StatelessWidget {
                     }
                     ride.availableSeats = personController.chosenNumber;
                     ride.availableLuggages = luggageController.chosenNumber;
-                    ride.comment = descController.text;
+                    ride.comment = ride.comment + "\n" + descController.text;
                     Request<Ride> request = EditRideRequest(ride);
                     await request.send((result, code, message) =>
                         _editRideResponse(result, code, message, context));

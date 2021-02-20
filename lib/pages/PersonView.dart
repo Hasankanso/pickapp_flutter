@@ -14,16 +14,16 @@ import 'package:pickapp/utilities/RatesView.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class UserView extends StatefulWidget {
+class PersonView extends StatefulWidget {
   final Person person;
 
-  UserView({this.person});
+  PersonView({this.person});
 
   @override
-  _UserViewState createState() => _UserViewState();
+  _PersonViewState createState() => _PersonViewState();
 }
 
-class _UserViewState extends State<UserView> {
+class _PersonViewState extends State<PersonView> {
   List<String> _chattinessItems;
   Map<String, double> dataMap;
 
