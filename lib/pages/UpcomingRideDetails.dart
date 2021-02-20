@@ -71,7 +71,11 @@ class UpcomingRideDetails extends StatelessWidget {
             RideView(ride, buttonText: buttonText, onPressed: onPressed),
             ride.passengers != null
                 ? PassengersView(ride.passengers)
-                : Center(child: Text("No passengers yet !!"))
+                : Center(
+                    child: Text(
+                    Lang.getString(context, "No_passengers_yet!"),
+                    style: Styles.valueTextStyle(),
+                  ))
           ],
         ),
       ),

@@ -12,13 +12,11 @@ import 'package:pickapp/utilities/Responsive.dart';
 class AddRidePage2 extends StatefulWidget {
   final Ride rideInfo;
   final String appBarTitleKey;
-  final bool isEditRide;
 
   const AddRidePage2({
     Key key,
     this.rideInfo,
     this.appBarTitleKey,
-    this.isEditRide = false,
   }) : super(key: key);
 
   @override
@@ -155,7 +153,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                         keyboardType: TextInputType.number,
                         controller: timeController,
                         minLines: 1,
-                        textInputAction: TextInputAction.done,
+                        textInputAction: TextInputAction.next,
                         maxLines: 1,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -243,13 +241,8 @@ class _AddRidePage2State extends State<AddRidePage2> {
                         int time = int.parse(timeController.text);
                         rideInfo.stopTime = time;
                       }
-                      if (!widget.isEditRide) {
-                        Navigator.of(context).pushNamed("/AddRidePage3",
-                            arguments: [rideInfo, widget.appBarTitleKey]);
-                      } else {
-                        Navigator.of(context).pushNamed("/EditRidePage3",
-                            arguments: [rideInfo, widget.appBarTitleKey]);
-                      }
+                      Navigator.of(context).pushNamed("/AddRidePage3",
+                          arguments: [rideInfo, widget.appBarTitleKey]);
                     }
                   }),
             ),

@@ -158,6 +158,7 @@
   "Broadcast_Alert": "بث تنبيه",
   "Broadcast": "بث",
   "Back": "رجوع",
+  "No_passengers_yet!": "لا يوجد ركاب حتى الان!",
 
   "Results" : "النتائج",
   "Filter" : "فلتر",
@@ -208,6 +209,7 @@
   "Select_car": "اختر سيارة!",
   "Loading_Map": "جاري تحميل الخريطة ...",
   "Passengers": "الركاب",
+  "Passenger": "راكب",
   "Kid's_Seat": "مقعد اطفال",
   "Add_Seat": "يجب إضافة مقعد واحد على الأقل",
   "Car": "السيارة",

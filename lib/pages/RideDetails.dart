@@ -3,14 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/pages/DriverView.dart';
 import 'package:pickapp/pages/RideView.dart';
+import 'package:pickapp/pages/UserView.dart';
 import 'package:pickapp/requests/CancelReservedSeats.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/ReserveSeat.dart';
@@ -39,12 +38,10 @@ class RideDetails extends StatelessWidget {
       Navigator.pop(context);
     } else {
       if (deleted) {
-        App.person.upcomingRides.remove(ride);
-        Cache.setUserCache(App.user);
+        App.deleteRideFromMyRides(ride);
         CustomToast()
             .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
         Navigator.popUntil(context, (route) => route.isFirst);
-        App.updateUpcomingRide.value = true;
       }
     }
   }
@@ -164,7 +161,7 @@ class RideDetails extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           children: [
             RideView(ride, buttonText: buttonText, onPressed: onPressed),
-            DriverView(user: ride.user),
+            UserView(person: ride.user.person),
             CarView(car: ride.car),
           ],
         ),

@@ -183,9 +183,9 @@ class Person {
 
   setNetworkImage() {
     if (profilePictureUrl == null) {
-      this._networkImage = new AssetImage("lib/images/user.png");
+      this._networkImage = AssetImage("lib/images/user.png");
     } else {
-      this._networkImage = new NetworkImage(this.profilePictureUrl);
+      this._networkImage = NetworkImage(this.profilePictureUrl);
     }
   }
 

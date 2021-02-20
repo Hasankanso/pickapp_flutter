@@ -1,10 +1,10 @@
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/requests/Request.dart';
 
-class EditRide extends Request<Ride> {
+class EditRideRequest extends Request<Ride> {
   Ride _ride;
 
-  EditRide(this._ride) {
+  EditRideRequest(this._ride) {
     httpPath = "/RideBusiness/EditRide";
   }
   //todo edit ride should send user id
