@@ -30,14 +30,14 @@ class Settings extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             VerticalSpacer(height: 18),
-            ResponsiveRow(widgetRealtiveSize: 25, children: [
+            ResponsiveRow(flex: 25, children: [
               Text(
                 Lang.getString(context, "Generals"),
                 style: Styles.headerTextStyle(),
               ),
             ]),
             ResponsiveRow(
-              widgetRealtiveSize: 30,
+              flex: 30,
               children: [
                 Card(
                   child: Column(
@@ -114,14 +114,14 @@ class Settings extends StatelessWidget {
               ],
             ),
             VerticalSpacer(height: 18),
-            ResponsiveRow(widgetRealtiveSize: 25, children: [
+            ResponsiveRow(flex: 25, children: [
               Text(
                 Lang.getString(context, "About"),
                 style: Styles.headerTextStyle(),
               ),
             ]),
             ResponsiveRow(
-              widgetRealtiveSize: 30,
+              flex: 30,
               children: [
                 Card(
                   child: Column(
@@ -229,7 +229,7 @@ class Settings extends StatelessWidget {
             ),
             VerticalSpacer(height: 18),
             ResponsiveRow(
-              widgetRealtiveSize: 30,
+              flex: 30,
               children: [
                 Card(
                   child: Column(

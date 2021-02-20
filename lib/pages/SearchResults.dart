@@ -8,6 +8,7 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
+import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
 import 'package:pickapp/items/SearchResultTile.dart';
@@ -245,6 +246,9 @@ class _SearchResultsState extends State<SearchResults> {
     if ((App.user.driver != null && r.driver.id == App.user.driver.id) ||
         App.getRideFromObjectId(r.id) != null) {
       callbackFunction = (Ride r) => Navigator.of(context).pop();
+    } else if (App.getRideFromObjectId(r.id) != null) {
+      callbackFunction = (Ride r) => seatsLuggagePopUp(r, context);
+      buttonName = Lang.getString(context, "Edit Reservation");
     } else {
       callbackFunction = (Ride r) => seatsLuggagePopUp(r, context);
       buttonName = Lang.getString(context, "Reserve");
@@ -254,23 +258,17 @@ class _SearchResultsState extends State<SearchResults> {
         arguments: [r, buttonName, callbackFunction, true]);
   }
 
-  void response(Ride r, int status, String reason, BuildContext context) {
-    if (status == 200) {
-      App.person.upcomingRides.add(r);
-      Cache.setUserCache(App.user);
-      App.updateUpcomingRide.value = true;
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
-      Navigator.popUntil(context, (route) => route.isFirst);
-    } else {
-      Navigator.pop(context);
-      //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation
-      CustomToast()
-          .showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
-    }
-  }
-
   void seatsLuggagePopUp(Ride ride, BuildContext context) {
+
+
+    Passenger reservation = ride.reservationOf(App.person);
+    if (reservation == null) {
+      CustomToast().showErrorToast(
+        Lang.getString(context, "Something_Wrong") + " 3450",
+      );
+      return;
+    }
+
     var alertStyle = AlertStyle(
       animationType: AnimationType.grow,
       overlayColor: Colors.black45,
@@ -294,15 +292,15 @@ class _SearchResultsState extends State<SearchResults> {
               NumberPicker(
                 seatsController,
                 "Seats",
-                1,
-                ride.availableSeats,
+                1 + reservation.seats,
+                ride.availableSeats + reservation.seats,
                 isSmallIconSize: true,
               ),
               NumberPicker(
                 luggageController,
                 "Luggage",
                 0,
-                ride.availableLuggages,
+                ride.availableLuggages + reservation.luggages,
                 isSmallIconSize: true,
               ),
             ],
@@ -340,6 +338,23 @@ class _SearchResultsState extends State<SearchResults> {
           ),
         ]).show();
   }
+  void response(Ride r, int status, String reason, BuildContext context) {
+    if (status == 200) {
+      App.person.upcomingRides.add(r);
+      Cache.setUserCache(App.user);
+      App.updateUpcomingRide.value = true;
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
+      Navigator.popUntil(context, (route) => route.isFirst);
+    } else {
+      Navigator.pop(context);
+      //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation
+      CustomToast()
+          .showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
+    }
+  }
+
+
 }
 
 class _TopCard extends StatelessWidget {

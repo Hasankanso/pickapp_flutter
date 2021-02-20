@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
@@ -10,6 +11,7 @@ import 'package:pickapp/requests/GetMyUpcomingRides.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/PopUp.dart';
 
 class UpcomingRideDetails extends StatelessWidget {
   final Ride ride;
@@ -17,6 +19,13 @@ class UpcomingRideDetails extends StatelessWidget {
   void Function(Ride) onPressed;
   UpcomingRideDetails(this.ride, {this.buttonText, this.onPressed});
 
+  deleteRideRequest(context){
+    Request<bool> request = CancelRide(ride, "hello");
+    request.send((result, code, message) {
+      return response(result, code, message, context);
+    }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -31,10 +40,19 @@ class UpcomingRideDetails extends StatelessWidget {
                   size: Styles.largeIconSize(),
                 ),
                 tooltip: Lang.getString(context, "Delete"),
-                onPressed: () async {
-                  Request<bool> request = CancelRide(ride, "hello");
-                  await request.send((result, code, message) =>
-                      response(result, code, message, context));
+                onPressed: ()  {
+                  PopUp.areYouSure(
+                      Lang.getString(context, "Yes"),
+                      Lang.getString(context, "No"),
+                      Lang.getString(
+                          context, "Ride_delete_message"),
+                      Lang.getString(context, "Warning!"),
+                      Colors.red,
+                          (bool) => bool
+                          ? deleteRideRequest(context)
+                          : null,
+                      interest: false)
+                      .confirmationPopup(context);
                 })
           ],
           title: Lang.getString(context, "Ride_Details"),
@@ -68,23 +86,12 @@ class UpcomingRideDetails extends StatelessWidget {
     if (code != 200) {
       CustomToast().showErrorToast(message);
     } else {
-      Request<List<Ride>> request = GetMyUpComingRides(App.user);
-      request.send(
-          (result, code, message) => response1(result, code, message, context));
+      App.deleteRideFromMyRides(ride);
       Navigator.pushNamedAndRemoveUntil(
           context, "/", (Route<dynamic> route) => false);
-
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
     }
   }
 
-  response1(List<Ride> result, int code, String message, context) {
-    if (code != 200) {
-      CustomToast().showErrorToast(message);
-    } else {
-      App.user.person.upcomingRides.clear();
-      App.user.person.upcomingRides = result;
-    }
-  }
 }

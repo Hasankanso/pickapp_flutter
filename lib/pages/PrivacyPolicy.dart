@@ -17,7 +17,7 @@ class PrivacyPolicy extends StatelessWidget {
             children: [
               VerticalSpacer(height: 20),
               ResponsiveRow(
-                widgetRealtiveSize: 18,
+                flex: 18,
                 children: [
                   Text("Your privacy is important to us. It is " +
                       App.appName +

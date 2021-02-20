@@ -195,7 +195,7 @@ class _Panel extends StatelessWidget {
           VerticalSpacer(height: 20),
         if (accomplishedCanceledRatio > 0)
           ResponsiveRow(
-            widgetRealtiveSize: 20,
+            flex: 20,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,

@@ -184,6 +184,7 @@
   "Disable_Animation" : "Disable Animation",
   "Ride_Reserved_Success": "Seats Reserved Successfully",
   "Ride_Reserved_Failed": "Failed to Reserve",
+  "Something_Wrong": "Something Wrong, error code:",
 
   "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",
@@ -270,5 +271,6 @@
   "Tesla":"Tesla",
   "Toyota":"Toyota",
   "Volkswagen":"Volkswagen",
-  "Volvo":"Volvo"
+  "Volvo":"Volvo",
+  "Ride_delete_message": "Are you sure you want to delete this ride?"
 }

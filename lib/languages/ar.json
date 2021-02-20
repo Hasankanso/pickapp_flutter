@@ -184,6 +184,7 @@
 
   "Ride_Reserved_Success": "تم حجز المقاعد",
   "Ride_Reserved_Failed": "فشلت عملية الحجز",
+  "Something_Wrong": "حصل خطأ، رقم الخطأ:",
 
   "Luggage":"الحقائب",
   "Price":"السعر",
@@ -273,5 +274,6 @@
   "Tesla":"تسلا" ,
   "Toyota":"تويوتا" ,
   "Volkswagen":"فولكس فاجن" ,
-  "Volvo":"فولفو"
+  "Volvo":"فولفو",
+  "Ride_delete_message": "هل أنت متأكد أنك تريد حذف هذه الرحلة ؟"
 }

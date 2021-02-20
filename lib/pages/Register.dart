@@ -232,8 +232,8 @@ class _RegisterState extends State<Register> {
                             validator: (value) {
                               String valid =
                                   Validation.validate(value, context);
-                              String email = Validation.isEmail(context, value);
                               if (valid != null) return valid;
+                              String email = Validation.isEmail(context, value);
                               if (email != null) return email;
                               return null;
                             },

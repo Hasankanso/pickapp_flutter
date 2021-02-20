@@ -213,4 +213,9 @@ class App {
     }
     return null;
   }
+  static deleteRideFromMyRides(Ride ride){
+    App.user.person.upcomingRides.remove(ride);
+    updateUpcomingRide.value=true;
+    Cache.setUserCache(App.user);
+  }
 }

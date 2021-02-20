@@ -22,7 +22,7 @@ class _TermAndConditions extends State<TermAndConditions> {
           child: Column(children: [
         VerticalSpacer(height: 20),
         ResponsiveRow(
-            widgetRealtiveSize: 18,
+            flex: 18,
             children: [Text("We will sell your data for less than one cent")]),
       ])),
       bottomNavigationBar: ResponsiveWidget.fullWidth(height: 80,

@@ -4,6 +4,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/EditReservation.dart';
@@ -44,6 +45,17 @@ class _MyRidesTileState extends State<MyRidesTile> {
   }
 
   void seatsLuggagePopUp(Ride ride, BuildContext context) {
+
+    Passenger reservation = ride.reservationOf(App.person);
+
+
+    if (reservation == null) {
+      CustomToast().showErrorToast(
+        Lang.getString(context, "Something_Wrong") + " 3450",
+      );
+      return;
+    }
+
     var alertStyle = AlertStyle(
       animationType: AnimationType.grow,
       overlayColor: Colors.black45,
@@ -65,15 +77,15 @@ class _MyRidesTileState extends State<MyRidesTile> {
             NumberPicker(
               seatsController,
               "Seats",
-              1,
-              ride.availableSeats + ride.passengers[0].seats,
+              1 + reservation.seats,
+              ride.availableSeats + reservation.seats,
               isSmallIconSize: true,
             ),
             NumberPicker(
               luggageController,
               "Luggage",
               0,
-              ride.availableLuggages + ride.passengers[0].luggages,
+              ride.availableLuggages + reservation.luggages,
               isSmallIconSize: true,
             ),
           ],
