@@ -183,6 +183,7 @@
   "Disable_Animation" : "Disable Animation",
   "Ride_Reserved_Success": "Seats Reserved Successfully",
   "Ride_Reserved_Failed": "Failed to Reserve",
+  "Something_Wrong": "Something Wrong, error code:",
 
   "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",

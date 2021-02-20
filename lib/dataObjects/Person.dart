@@ -47,6 +47,14 @@ class Person {
   //user
   String _phone;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Person && _id == other._id;
+
+  @override
+  int get hashCode => _id.hashCode;
+
   Person({
     String id,
     String firstName,

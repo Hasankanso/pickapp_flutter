@@ -183,6 +183,7 @@
 
   "Ride_Reserved_Success": "تم حجز المقاعد",
   "Ride_Reserved_Failed": "فشلت عملية الحجز",
+  "Something_Wrong": "حصل خطأ، رقم الخطأ:",
 
   "Luggage":"الحقائب",
   "Price":"السعر",

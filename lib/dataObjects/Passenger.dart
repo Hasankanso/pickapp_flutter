@@ -39,6 +39,11 @@ class Passenger {
         person: Person.fromJson(json["person"]));
   }
 
+  @override
+  String toString(){
+    return "person: " + person.firstName + ", seats: " + _seats.toString() + ", luggage: " + _luggages.toString();
+  }
+
   Person get person => _person;
 
   set person(Person value) {
