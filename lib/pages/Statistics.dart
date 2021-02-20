@@ -22,14 +22,14 @@ class Statistics extends StatelessWidget {
       body: Column(
         children: [
           VerticalSpacer(height: 18),
-          ResponsiveRow(widgetRealtiveSize: 25, children: [
+          ResponsiveRow(flex: 25, children: [
             Text(
               Lang.getString(context, "Rides"),
               style: Styles.headerTextStyle(),
             ),
           ]),
           ResponsiveRow(
-            widgetRealtiveSize: 30,
+            flex: 30,
             children: [
               Card(
                 child: Padding(
@@ -115,14 +115,14 @@ class Statistics extends StatelessWidget {
             ],
           ),
           VerticalSpacer(height: 18),
-          ResponsiveRow(widgetRealtiveSize: 25, children: [
+          ResponsiveRow(flex: 25, children: [
             Text(
               Lang.getString(context, "Rates"),
               style: Styles.headerTextStyle(),
             ),
           ]),
           ResponsiveRow(
-            widgetRealtiveSize: 30,
+            flex: 30,
             children: [
               Card(
                 child: Padding(

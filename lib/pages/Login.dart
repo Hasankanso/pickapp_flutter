@@ -290,14 +290,14 @@ class _LoginState extends State<Login> {
                 );
                 Request<User> request = LoginRequest(_user);
                 request.send(
-                    (u, code, message) => response(u, code, message, context));
+                    (u, code, message) => codeValidationResponse(u, code, message, context));
               }
             },
           ),
         ]).show();
   }
 
-  Future<void> response(User u, int code, String message, context) async {
+  Future<void> codeValidationResponse(User u, int code, String message, context) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
