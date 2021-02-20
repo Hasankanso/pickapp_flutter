@@ -8,7 +8,6 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/requests/AddRide.dart';
-import 'package:pickapp/requests/EditRide.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
@@ -19,10 +18,8 @@ import 'package:pickapp/utilities/Responsive.dart';
 class AddRidePage5 extends StatefulWidget {
   final Ride rideInfo;
   final String appBarTitleKey;
-  final bool isEditRide;
 
-  const AddRidePage5(
-      {Key key, this.rideInfo, this.appBarTitleKey, this.isEditRide = false})
+  const AddRidePage5({Key key, this.rideInfo, this.appBarTitleKey})
       : super(key: key);
 
   @override
@@ -222,7 +219,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
                 Expanded(
                   flex: 15,
-                  child: _Title(text: Lang.getString(context, "Kid_Seat")),
+                  child: _Title(text: Lang.getString(context, "Kids_Seat")),
                 ),
                 Expanded(
                     flex: 22,
@@ -316,15 +313,9 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 isRequest: true,
                 text_key: "Done",
                 onPressed: () async {
-                  if (!widget.isEditRide) {
-                    Request<Ride> request = AddRide(ride);
-                    await request.send((result, code, message) =>
-                        _addRideResponse(result, code, message, context));
-                  } else {
-                    Request<Ride> request = EditRide(ride);
-                    await request.send((result, code, message) =>
-                        _editRideResponse(result, code, message, context));
-                  }
+                  Request<Ride> request = AddRide(ride);
+                  await request.send((result, code, message) =>
+                      _addRideResponse(result, code, message, context));
                 },
               ),
             ),
@@ -346,21 +337,6 @@ _addRideResponse(Ride result, int code, String message, context) {
 
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Successfully_added!"));
-  }
-}
-
-_editRideResponse(Ride result, int code, String message, context) {
-  if (code != HttpStatus.ok) {
-    CustomToast().showErrorToast(message);
-  } else {
-    App.user.person.upcomingRides.remove(result);
-    App.user.person.upcomingRides.add(result);
-    Cache.setUserCache(App.user);
-    Navigator.popUntil(context, (route) => route.isFirst);
-    App.updateUpcomingRide.value = true;
-
-    CustomToast()
-        .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
   }
 }
 

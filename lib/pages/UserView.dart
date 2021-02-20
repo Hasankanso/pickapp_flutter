@@ -8,22 +8,22 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/RatesView.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class DriverView extends StatefulWidget {
-  final User user;
+class UserView extends StatefulWidget {
+  final Person person;
 
-  DriverView({this.user});
+  UserView({this.person});
 
   @override
-  _DriverViewState createState() => _DriverViewState();
+  _UserViewState createState() => _UserViewState();
 }
 
-class _DriverViewState extends State<DriverView> {
+class _UserViewState extends State<UserView> {
   List<String> _chattinessItems;
   Map<String, double> dataMap;
 
@@ -34,9 +34,9 @@ class _DriverViewState extends State<DriverView> {
 
     dataMap = {
       Lang.getString(context, "Accomplished_Rides"):
-          widget.user.person.statistics.acomplishedRides.toDouble(),
+          widget.person.statistics.acomplishedRides.toDouble(),
       Lang.getString(context, "Canceled_Rides"):
-          widget.user.person.statistics.canceledRides.toDouble(),
+          widget.person.statistics.canceledRides.toDouble(),
     };
   }
 
@@ -44,8 +44,8 @@ class _DriverViewState extends State<DriverView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.user.person.networkImage == null) {
-      widget.user.person.setNetworkImage();
+    if (widget.person.networkImage == null) {
+      widget.person.setNetworkImage();
     }
   }
 
@@ -64,17 +64,17 @@ class _DriverViewState extends State<DriverView> {
           topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       panelBuilder: (ScrollController sc) => _Panel(
           controller: sc,
-          user: widget.user,
+          person: widget.person,
           chattinessItems: _chattinessItems,
           dataMap: dataMap),
       body: ResponsiveWidget.fullWidth(
         height: 480,
         child: Container(
           constraints: BoxConstraints.expand(),
-          decoration: widget.user.person.profilePictureUrl != null
+          decoration: widget.person.profilePictureUrl != null
               ? BoxDecoration(
                   image: DecorationImage(
-                    image: widget.user.person.networkImage,
+                    image: widget.person.networkImage,
                     onError: (s, ss) {
                       return Image(image: AssetImage("lib/images/user.png"));
                     },
@@ -93,7 +93,7 @@ class _DriverViewState extends State<DriverView> {
                 child: Container(
                   constraints: BoxConstraints(minHeight: 1, minWidth: 1),
                   child: Image(
-                    image: widget.user.person.networkImage,
+                    image: widget.person.networkImage,
                     errorBuilder: (context, url, error) {
                       return Image(
                         image: AssetImage("lib/images/user.png"),
@@ -111,19 +111,19 @@ class _DriverViewState extends State<DriverView> {
 }
 
 class _Panel extends StatelessWidget {
-  User user;
+  Person person;
   ScrollController controller;
   List<String> chattinessItems;
   Map<String, double> dataMap;
   double accomplishedCanceledRatio = 0;
 
-  _Panel({this.user, this.controller, this.chattinessItems, this.dataMap}) {
-    int ridesCount = user.person.statistics.acomplishedRides +
-        user.person.statistics.canceledRides;
+  _Panel({this.person, this.controller, this.chattinessItems, this.dataMap}) {
+    int ridesCount =
+        person.statistics.acomplishedRides + person.statistics.canceledRides;
 
     if (ridesCount > 0) {
       accomplishedCanceledRatio =
-          user.person.statistics.acomplishedRides / ridesCount;
+          person.statistics.acomplishedRides / ridesCount;
     }
   }
 
@@ -142,8 +142,9 @@ class _Panel extends StatelessWidget {
               child: MainButton(
                 text_key: "Contact",
                 onPressed: () {
+                  print(1);
                   Navigator.of(context)
-                      .pushNamed("/Conversation", arguments: user.person);
+                      .pushNamed("/Conversation", arguments: person);
                 },
                 isRequest: true,
               ),
@@ -157,18 +158,18 @@ class _Panel extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                user.person.firstName +
+                person.firstName +
                     " " +
-                    user.person.lastName +
+                    person.lastName +
                     ", " +
-                    App.calculateAge(user.person.birthday).toString(),
+                    App.calculateAge(person.birthday).toString(),
                 maxLines: 1,
                 style: Styles.valueTextStyle(bold: FontWeight.w800),
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,
               ),
               Text(
-                user.person.gender ? Styles.maleIcon : Styles.femaleIcon,
+                person.gender ? Styles.maleIcon : Styles.femaleIcon,
                 maxLines: 1,
                 style: Styles.valueTextStyle(
                     color: Styles.primaryColor(), bold: FontWeight.w800),
@@ -183,15 +184,14 @@ class _Panel extends StatelessWidget {
           child: Text(
             DateFormat(App.birthdayFormat,
                     Localizations.localeOf(context).toString())
-                .format(user.person.creationDate),
+                .format(person.creationDate),
             maxLines: 1,
             style: Styles.labelTextStyle(size: 11, bold: FontWeight.bold),
             overflow: TextOverflow.clip,
             textAlign: TextAlign.center,
           ),
         ),
-        if (accomplishedCanceledRatio > 0 ||
-            user.person.statistics.ratesCount > 0)
+        if (accomplishedCanceledRatio > 0 || person.statistics.ratesCount > 0)
           VerticalSpacer(height: 20),
         if (accomplishedCanceledRatio > 0)
           ResponsiveRow(
@@ -205,8 +205,8 @@ class _Panel extends StatelessWidget {
                       Icons.speed,
                     ),
                     Text(
-                      (user.person.statistics.acomplishedRides +
-                                  user.person.statistics.canceledRides)
+                      (person.statistics.acomplishedRides +
+                                  person.statistics.canceledRides)
                               .toInt()
                               .toString() +
                           " " +
@@ -237,13 +237,13 @@ class _Panel extends StatelessWidget {
           VerticalSpacer(
             height: 30,
           ),
-        if (user.person.statistics.ratesCount > 0)
+        if (person.statistics.ratesCount > 0)
           ResponsiveWidget.fullWidth(
             height: 150,
             child: RatesView(
-              rates: user.person.rates,
-              stats: user.person.statistics,
-              rateAverage: user.person.statistics.rateAverage,
+              rates: person.rates,
+              stats: person.statistics,
+              rateAverage: person.statistics.rateAverage,
               pressable: true,
             ),
           ),
@@ -257,7 +257,7 @@ class _Panel extends StatelessWidget {
               Align(
                 alignment: AlignmentDirectional.topStart,
                 child: Text(
-                  chattinessItems[user.person.chattiness],
+                  chattinessItems[person.chattiness],
                   maxLines: 1,
                   textAlign: TextAlign.start,
                   style: Styles.valueTextStyle(),
@@ -271,15 +271,12 @@ class _Panel extends StatelessWidget {
         _Title(text: Lang.getString(context, "Bio")),
         ResponsiveRow(
           children: [
-            ResponsiveWidget.fullWidth(
-              height: 65,
-              child: Text(
-                user.person.bio,
-                textAlign: TextAlign.center,
-                maxLines: 7,
-                style: Styles.valueTextStyle(),
-                overflow: TextOverflow.ellipsis,
-              ),
+            Text(
+              person.bio,
+              textAlign: TextAlign.center,
+              maxLines: 7,
+              style: Styles.valueTextStyle(),
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

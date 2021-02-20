@@ -159,6 +159,7 @@
   "Broadcast_Alert": "Broadcast Alert",
   "Broadcast": "Broadcast",
   "Back": "Back",
+  "No_passengers_yet!": "No passengers yet!",
 
   "Results" : "Results",
   "Filter" : "Filter",
@@ -206,6 +207,7 @@
   "Select_car": "Select car!",
   "Loading_Map": "Loading Map...",
   "Passengers": "Passengers",
+  "Passenger": "Passenger",
   "Kid's_Seat": "Kid's Seat",
   "Add_Seat": "You should add at least one seat !",
   "Car": "Car",
