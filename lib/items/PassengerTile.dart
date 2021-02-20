@@ -4,7 +4,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Passenger.dart';
-import 'package:pickapp/pages/UserView.dart';
+import 'package:pickapp/pages/PersonView.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/RateStars.dart';
@@ -45,7 +45,7 @@ class PassengerTile extends ListTile {
                         appBar: MainAppBar(
                           title: Lang.getString(context, "Passenger"),
                         ),
-                        body: UserView(
+                        body: PersonView(
                           person: passenger.person,
                         ),
                       )));

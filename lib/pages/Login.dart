@@ -114,11 +114,8 @@ class _LoginState extends State<Login> {
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(App
-                              .countriesInformations[_countryCode == "961"
-                                  ? "لبنان"
-                                  : "Deutschland"]
-                              .digits),
+                          LengthLimitingTextInputFormatter(
+                              App.getCountryInfo(_countryCode).digits),
                         ],
                         controller: _phone,
                         textInputAction: TextInputAction.done,
@@ -289,15 +286,16 @@ class _LoginState extends State<Login> {
                   },
                 );
                 Request<User> request = LoginRequest(_user);
-                request.send(
-                    (u, code, message) => codeValidationResponse(u, code, message, context));
+                request.send((u, code, message) =>
+                    codeValidationResponse(u, code, message, context));
               }
             },
           ),
         ]).show();
   }
 
-  Future<void> codeValidationResponse(User u, int code, String message, context) async {
+  Future<void> codeValidationResponse(
+      User u, int code, String message, context) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
