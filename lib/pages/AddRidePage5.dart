@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
@@ -330,10 +329,10 @@ _addRideResponse(Ride result, int code, String message, context) {
   if (code != HttpStatus.ok) {
     CustomToast().showErrorToast(message);
   } else {
-    App.user.person.upcomingRides.add(result);
-    Cache.setUserCache(App.user);
-    Navigator.popUntil(context, (route) => route.isFirst);
-    App.updateUpcomingRide.value = true;
+    App.addRideToMyRides(result);
+
+    Navigator.pushNamedAndRemoveUntil(
+        context, "/", (Route<dynamic> route) => false);
 
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Successfully_added!"));

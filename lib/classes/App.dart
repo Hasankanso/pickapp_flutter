@@ -205,6 +205,7 @@ class App {
     ];
   }
 
+  //Ride
   static Ride getRideFromObjectId(String objectId) {
     for (final ride in person.upcomingRides) {
       if (ride.id == objectId) {
@@ -213,9 +214,16 @@ class App {
     }
     return null;
   }
-  static deleteRideFromMyRides(Ride ride){
+
+  static deleteRideFromMyRides(Ride ride) {
     App.user.person.upcomingRides.remove(ride);
-    updateUpcomingRide.value=true;
+    updateUpcomingRide.value = true;
     Cache.setUserCache(App.user);
+  }
+
+  static addRideToMyRides(Ride ride) {
+    App.user.person.upcomingRides.add(ride);
+    Cache.setUserCache(App.user);
+    App.updateUpcomingRide.value = true;
   }
 }

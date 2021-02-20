@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
@@ -35,12 +34,10 @@ class RideDetails extends StatelessWidget {
       Navigator.pop(context);
     } else {
       if (deleted) {
-        App.person.upcomingRides.remove(ride);
-        Cache.setUserCache(App.user);
+        App.deleteRideFromMyRides(ride);
         CustomToast()
             .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
         Navigator.popUntil(context, (route) => route.isFirst);
-        App.updateUpcomingRide.value = true;
       }
     }
   }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -259,8 +258,6 @@ class _SearchResultsState extends State<SearchResults> {
   }
 
   void seatsLuggagePopUp(Ride ride, BuildContext context) {
-
-
     Passenger reservation = ride.reservationOf(App.person);
     if (reservation == null) {
       CustomToast().showErrorToast(
@@ -338,14 +335,14 @@ class _SearchResultsState extends State<SearchResults> {
           ),
         ]).show();
   }
+
   void response(Ride r, int status, String reason, BuildContext context) {
     if (status == 200) {
-      App.person.upcomingRides.add(r);
-      Cache.setUserCache(App.user);
-      App.updateUpcomingRide.value = true;
+      App.addRideToMyRides(r);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
-      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pushNamedAndRemoveUntil(
+          context, "/", (Route<dynamic> route) => false);
     } else {
       Navigator.pop(context);
       //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation
@@ -353,8 +350,6 @@ class _SearchResultsState extends State<SearchResults> {
           .showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
     }
   }
-
-
 }
 
 class _TopCard extends StatelessWidget {
