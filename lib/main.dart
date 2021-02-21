@@ -7,6 +7,7 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/push_nofitications.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -34,7 +35,8 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Styles.primaryColor(), // navigation bar color
   ));
-
+  PushNotificationsManager pN=new PushNotificationsManager();
+  await pN.init();
   runApp(MyApp());
 }
 
