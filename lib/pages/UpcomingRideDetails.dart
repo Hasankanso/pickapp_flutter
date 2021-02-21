@@ -1,17 +1,18 @@
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/pages/PassengersView.dart';
-import 'package:pickapp/pages/RideView.dart';
 import 'package:pickapp/requests/CancelRide.dart';
-import 'package:pickapp/requests/GetMyUpcomingRides.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/PopUp.dart';
+
+import 'PassengersView.dart';
+import 'RideView.dart';
 
 class UpcomingRideDetails extends StatelessWidget {
   final Ride ride;
@@ -79,7 +80,7 @@ class UpcomingRideDetails extends StatelessWidget {
   }
 
   response(bool result, int code, String message, context) {
-    if (code != 200) {
+    if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
     } else {
       App.deleteRideFromMyRides(ride);
