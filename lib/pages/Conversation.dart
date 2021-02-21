@@ -105,6 +105,8 @@ class _ConversationState extends State<Conversation> {
           }
           break;
       }
+      App.newMessageInbox.value = true;
+      App.newMessageInbox.notifyListeners();
     });
   }
 

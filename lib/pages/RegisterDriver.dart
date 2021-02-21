@@ -40,7 +40,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
         children: [
           VerticalSpacer(height: 70),
           ResponsiveRow(
-            widgetRealtiveSize: 20,
+            flex: 20,
             children: [
               Text(
                 Lang.getString(context, "Register_driver_message1"),
@@ -49,7 +49,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
             ],
           ),
           ResponsiveRow(
-            widgetRealtiveSize: 20,
+            flex: 20,
             children: [
               Text(
                 Lang.getString(context, "Register_driver_message2"),

@@ -18,8 +18,7 @@ import 'package:pickapp/utilities/Switcher.dart';
 
 class AddRide extends StatefulWidget {
   Ride rideInfo;
-  bool isEditRide;
-  AddRide({this.rideInfo, this.isEditRide = false});
+  AddRide({this.rideInfo});
   @override
   _AddRideState createState() => _AddRideState();
 }
@@ -45,7 +44,6 @@ class _AddRideState extends State<AddRide> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (!widget.isEditRide) {
       fromController = LocationEditingController();
       toController = LocationEditingController();
       dateTimeController = DateTimeController(
@@ -55,36 +53,6 @@ class _AddRideState extends State<AddRide> {
       acController = SwitcherController();
       petsController = SwitcherController();
       musicController = SwitcherController();
-    } else {
-      //for edit ride
-      _appBarTitleKey = "Edit_Ride";
-      var from = widget.rideInfo.from;
-      var to = widget.rideInfo.to;
-      fromController = LocationEditingController(
-          description: from.name,
-          placeId: from.placeId,
-          location: Location(from.latitude, from.longitude));
-      toController = LocationEditingController(
-          description: to.name,
-          placeId: to.placeId,
-          location: Location(to.latitude, to.longitude));
-      dateTimeController = DateTimeController(
-        chosenDate: widget.rideInfo.leavingDate,
-      );
-      var music, ac, pets, smoke;
-      smoke = widget.rideInfo.smokingAllowed;
-      ac = widget.rideInfo.acAllowed;
-      music = widget.rideInfo.musicAllowed;
-      pets = widget.rideInfo.petsAllowed;
-      smokeController = SwitcherController(isOn: smoke);
-      acController = SwitcherController(isOn: ac);
-      petsController = SwitcherController(isOn: pets);
-      musicController = SwitcherController(isOn: music);
-      smokeIcon = smoke == true ? Icons.smoking_rooms : Icons.smoke_free;
-      petsIcon = pets == true ? Icons.pets : Icons.pets;
-      musicIcon = music == true ? Icons.music_note : Icons.music_off;
-      acIcon = ac == true ? Icons.ac_unit : Icons.ac_unit;
-    }
   }
 
   @override
@@ -300,7 +268,6 @@ class _AddRideState extends State<AddRide> {
                           bool isMusic = musicController.isOn;
                           var rideDate = dateTimeController.chosenDate;
                           rideDate = rideDate.add(Duration(minutes: -20));
-                          if (!widget.isEditRide) {
                             for (final item in App.person.upcomingRides) {
                               if (item == null) continue;
                               var diff = rideDate
@@ -331,40 +298,6 @@ class _AddRideState extends State<AddRide> {
                             rideInfo.acAllowed = isAc;
                             Navigator.of(context).pushNamed("/AddRidePage2",
                                 arguments: [rideInfo, _appBarTitleKey]);
-                          } else {
-                            //edit ride
-                            for (final item in App.person.upcomingRides) {
-                              if (item.id != widget.rideInfo.id) {
-                                var diff = rideDate
-                                    .difference(item.leavingDate)
-                                    .inMinutes;
-                                if (rideDate.isAfter(item.leavingDate) &&
-                                    diff <= 0 &&
-                                    diff >= -20) {
-                                  return CustomToast().showErrorToast(
-                                      Lang.getString(
-                                          context, "Ride_compare_upcoming"));
-                                }
-                                if (rideDate.isBefore(item.leavingDate) &&
-                                    diff >= -40) {
-                                  return CustomToast().showErrorToast(
-                                      Lang.getString(
-                                          context, "Ride_compare_upcoming"));
-                                }
-                              }
-                            }
-                            widget.rideInfo.user = App.user;
-
-                            widget.rideInfo.to = to;
-                            widget.rideInfo.from = from;
-                            widget.rideInfo.leavingDate = date;
-                            widget.rideInfo.smokingAllowed = isSmoke;
-                            widget.rideInfo.petsAllowed = isPets;
-                            widget.rideInfo.musicAllowed = isMusic;
-                            widget.rideInfo.acAllowed = isAc;
-                            Navigator.of(context).pushNamed("/EditRidePage2",
-                                arguments: [widget.rideInfo, _appBarTitleKey]);
-                          }
                         }
                       },
                     ),

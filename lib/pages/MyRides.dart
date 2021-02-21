@@ -22,6 +22,7 @@ class _MyRidesState extends State<MyRides> {
     if (App.user != null) {
       ridesList = App.user.person.upcomingRides;
     }
+    ridesList.sort((a, b) => b.leavingDate.compareTo(a.leavingDate));
   }
 
   @override

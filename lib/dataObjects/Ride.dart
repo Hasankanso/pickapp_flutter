@@ -230,6 +230,16 @@ class Ride {
     _mapBase64 = value;
   }
 
+  Passenger reservationOf(Person person) {
+    if (passengers == null) return null;
+    for (Passenger p in passengers) {
+      if (p.person == person) {
+        return p;
+      }
+    }
+    return null;
+  }
+
   get comment => _comment;
 
   set comment(value) {

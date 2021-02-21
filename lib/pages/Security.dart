@@ -19,7 +19,7 @@ class Security extends StatelessWidget {
         children: [
           VerticalSpacer(height: 18),
           ResponsiveRow(
-            widgetRealtiveSize: 30,
+            flex: 30,
             children: [
               Card(
                 child: Column(

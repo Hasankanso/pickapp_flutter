@@ -47,6 +47,14 @@ class Person {
   //user
   String _phone;
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Person && _id == other._id;
+
+  @override
+  int get hashCode => _id.hashCode;
+
   Person({
     String id,
     String firstName,
@@ -175,9 +183,9 @@ class Person {
 
   setNetworkImage() {
     if (profilePictureUrl == null) {
-      this._networkImage = new AssetImage("lib/images/user.png");
+      this._networkImage = AssetImage("lib/images/user.png");
     } else {
-      this._networkImage = new NetworkImage(this.profilePictureUrl);
+      this._networkImage = NetworkImage(this.profilePictureUrl);
     }
   }
 

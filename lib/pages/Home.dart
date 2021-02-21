@@ -93,7 +93,7 @@ class _HomeState extends State<Home> {
       } else {
         CustomToast().showErrorToast(message);
       }
-    } else {}
+    }
   }
 
   @override

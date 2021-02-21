@@ -157,6 +157,7 @@
   "Broadcast_Alert": "Broadcast Alert",
   "Broadcast": "Broadcast",
   "Back": "Back",
+  "No_passengers_yet!": "No passengers yet!",
 
   "Results" : "Results",
   "Filter" : "Filter",
@@ -183,6 +184,7 @@
   "Disable_Animation" : "Disable Animation",
   "Ride_Reserved_Success": "Seats Reserved Successfully",
   "Ride_Reserved_Failed": "Failed to Reserve",
+  "Something_Wrong": "Something Wrong, error code:",
 
   "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",
@@ -204,6 +206,7 @@
   "Select_car": "Select car!",
   "Loading_Map": "Loading Map...",
   "Passengers": "Passengers",
+  "Passenger": "Passenger",
   "Kids_Seat": "Kids Seat",
   "Add_Seat": "You should add at least one seat !",
   "Car": "Car",
@@ -218,6 +221,7 @@
   "Too_close": "Too close",
   "Chat_delete_message": "Are you sure you want to delete this chat?",
   "Car_edit_time": "Car can be edited one time a month",
+  "Additional_description": "Additional description",
 
   "Acura":"Acura",
   "Alfa_Romeo":"Alfa Romeo",

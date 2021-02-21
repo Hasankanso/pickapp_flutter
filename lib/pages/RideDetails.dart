@@ -3,19 +3,22 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
+import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/pages/DriverView.dart';
 import 'package:pickapp/pages/RideView.dart';
+import 'package:pickapp/pages/PersonView.dart';
 import 'package:pickapp/requests/CancelReservedSeats.dart';
 import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/requests/ReserveSeat.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/PopUp.dart';
 import 'package:pickapp/utilities/Spinner.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'CarView.dart';
 
@@ -35,12 +38,10 @@ class RideDetails extends StatelessWidget {
       Navigator.pop(context);
     } else {
       if (deleted) {
-        App.person.upcomingRides.remove(ride);
-        Cache.setUserCache(App.user);
+        App.deleteRideFromMyRides(ride);
         CustomToast()
             .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
         Navigator.popUntil(context, (route) => route.isFirst);
-        App.updateUpcomingRide.value = true;
       }
     }
   }
@@ -160,11 +161,74 @@ class RideDetails extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           children: [
             RideView(ride, buttonText: buttonText, onPressed: onPressed),
-            DriverView(user: ride.user),
+            PersonView(person: ride.user.person),
             CarView(car: ride.car),
           ],
         ),
       ),
     );
+  }
+
+  static void seatsLuggagePopUp(BuildContext context, Ride ride,Function(int, int)  onPressed, {Passenger reservation}) {
+
+
+    if (reservation == null) {
+      reservation = new Passenger(seats: 0, luggages:0);
+    }
+
+
+
+    final _formKey = GlobalKey<FormState>();
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.grow,
+      overlayColor: Colors.black45,
+      isCloseButton: true,
+      isOverlayTapDismiss: true,
+      titleStyle: Styles.labelTextStyle(),
+      descStyle: Styles.valueTextStyle(),
+      animationDuration: Duration(milliseconds: 400),
+    );
+    NumberController seatsController = new NumberController();
+    NumberController luggageController = new NumberController();
+    Alert(
+        context: context,
+        style: alertStyle,
+        title: Lang.getString(context, "Reserve"),
+        desc: Lang.getString(context, "Reserve_Seats_Luggage"),
+        content: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              NumberPicker(
+                seatsController,
+                "Seats",
+                1 + reservation.seats,
+                ride.availableSeats + reservation.seats,
+                isSmallIconSize: true,
+              ),
+              NumberPicker(
+                luggageController,
+                "Luggage",
+                0,
+                ride.availableLuggages + reservation.luggages,
+                isSmallIconSize: true,
+              ),
+            ],
+          ),
+        ),
+        buttons: [
+          DialogButton(
+            child: Text(Lang.getString(context, "Confirm"),
+                style: Styles.buttonTextStyle(),
+                overflow: TextOverflow.visible),
+            color: Styles.primaryColor(),
+            onPressed: () {
+              if(_formKey.currentState.validate()) {
+                onPressed(seatsController.chosenNumber,
+                    luggageController.chosenNumber);
+              }
+            },
+          ),
+        ]).show();
   }
 }

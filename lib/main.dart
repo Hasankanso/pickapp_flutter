@@ -15,7 +15,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Request.initBackendless();
   await Firebase.initializeApp();
 
   App.isLoggedInNotifier = ValueNotifier<bool>(false);
@@ -78,6 +77,7 @@ class MyAppState extends State<MyApp> {
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+    await Request.initBackendless();
   }
 
   @override

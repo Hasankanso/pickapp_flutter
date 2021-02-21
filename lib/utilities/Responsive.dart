@@ -5,12 +5,12 @@ import 'package:pickapp/classes/screenutil.dart';
 
 class ResponsiveRow extends StatelessWidget {
   List<Widget> children;
-  int widgetRealtiveSize;
+  int flex;
 
   ResponsiveRow(
-      {List<Widget> children = const <Widget>[], widgetRealtiveSize = 6}) {
+      {List<Widget> children = const <Widget>[], flex = 6}) {
     this.children = children;
-    this.widgetRealtiveSize = widgetRealtiveSize;
+    this.flex = flex;
   }
 
   @override
@@ -21,7 +21,7 @@ class ResponsiveRow extends StatelessWidget {
     for (Widget w in children) {
       spacedChildren[i] = Spacer();
       i++;
-      spacedChildren[i] = Expanded(flex: widgetRealtiveSize, child: w);
+      spacedChildren[i] = Expanded(flex: flex, child: w);
       i++;
       spacedChildren[i] = Spacer();
       i++;

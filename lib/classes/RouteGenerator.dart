@@ -7,7 +7,6 @@ import 'package:pickapp/pages/AddAlert.dart';
 import 'package:pickapp/pages/AddCar.dart';
 import 'package:pickapp/pages/AddCar2.dart';
 import 'package:pickapp/pages/AddRate.dart';
-import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
 import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/pages/AddRidePage4.dart';
@@ -18,6 +17,7 @@ import 'package:pickapp/pages/CarView.dart';
 import 'package:pickapp/pages/ContactUs.dart';
 import 'package:pickapp/pages/Conversation.dart';
 import 'package:pickapp/pages/Details.dart';
+import 'package:pickapp/pages/EditRide.dart';
 import 'package:pickapp/pages/Email.dart';
 import 'package:pickapp/pages/Home.dart';
 import 'package:pickapp/pages/Login.dart';
@@ -179,54 +179,7 @@ class RouteGenerator {
             type: isLTR,
             duration: duration,
             reverseDuration: duration,
-            child: AddRide(
-              rideInfo: args,
-              isEditRide: true,
-            ));
-      case '/EditRidePage2':
-        return PageTransition(
-            settings: settings,
-            type: isLTR,
-            duration: duration,
-            reverseDuration: duration,
-            child: AddRidePage2(
-              rideInfo: ((args as List)[0] as Ride),
-              appBarTitleKey: (args as List)[1],
-              isEditRide: true,
-            ));
-      case '/EditRidePage3':
-        return PageTransition(
-            settings: settings,
-            type: isLTR,
-            duration: duration,
-            reverseDuration: duration,
-            child: AddRidePage3(
-              rideInfo: ((args as List)[0] as Ride),
-              appBarTitleKey: (args as List)[1],
-              isEditRide: true,
-            ));
-      case '/EditRidePage4':
-        return PageTransition(
-            settings: settings,
-            type: isLTR,
-            duration: duration,
-            reverseDuration: duration,
-            child: AddRidePage4(
-              rideInfo: ((args as List)[0] as Ride),
-              appBarTitleKey: (args as List)[1],
-              isEditRide: true,
-            ));
-      case '/EditRidePage5':
-        return PageTransition(
-            settings: settings,
-            type: isLTR,
-            duration: duration,
-            reverseDuration: duration,
-            child: AddRidePage5(
-              rideInfo: ((args as List)[0] as Ride),
-              appBarTitleKey: (args as List)[1],
-              isEditRide: true,
-            ));
+            child: EditRide(args as Ride));
       case '/MyRidesHistory':
         return PageTransition(
             settings: settings,

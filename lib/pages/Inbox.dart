@@ -101,7 +101,9 @@ class _Body extends StatefulWidget {
   List<Chat> chats = List<Chat>();
 
   _Body(Box chatsBox) {
-    for (final chat in chatsBox.values) chats.add(chat);
+    if (chatsBox != null) {
+      for (final chat in chatsBox.values) chats.add(chat);
+    }
   }
 
   @override
