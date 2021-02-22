@@ -35,7 +35,7 @@ dependencies:
   flutter_staggered_animations: ^0.1.2
   cached_network_image: ^2.4.1
   intl: ^0.16.1
-  image_picker: ^0.6.7+14
+  image_picker: ^0.6.7+22
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
   path_provider: ^1.6.24
@@ -54,6 +54,7 @@ dependencies:
   percent_indicator: ^2.1.9
   flutter_slidable: ^0.5.7
   firebase_messaging: ^5.1.2
+
   flutter_localizations:
     sdk: flutter
   flutter:

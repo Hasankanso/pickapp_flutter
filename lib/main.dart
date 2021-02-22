@@ -7,11 +7,12 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/push_nofitications.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'notifications/PushNotificationsManager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,8 +36,10 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Styles.primaryColor(), // navigation bar color
   ));
-  PushNotificationsManager pN=new PushNotificationsManager();
+
+  PushNotificationsManager pN = new PushNotificationsManager();
   await pN.init();
+
   runApp(MyApp());
 }
 
@@ -95,6 +98,7 @@ class MyAppState extends State<MyApp> {
           } else {
             _init();
             return MaterialApp(
+              navigatorKey: App.navKey,
               title: App.appName,
               locale: _locale,
               navigatorObservers: <NavigatorObserver>[App.observer],

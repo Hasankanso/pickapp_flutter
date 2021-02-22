@@ -7,7 +7,6 @@ class EditRideRequest extends Request<Ride> {
   EditRideRequest(this._ride) {
     httpPath = "/RideBusiness/EditRide";
   }
-  //todo edit ride should send user id
 
   @override
   buildObject(json) {

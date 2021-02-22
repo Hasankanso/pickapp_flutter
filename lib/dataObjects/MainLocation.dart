@@ -2,7 +2,6 @@ import 'dart:core';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
-import 'package:pickapp/classes/Validation.dart';
 
 part 'MainLocation.g.dart';
 
@@ -66,12 +65,6 @@ class MainLocation {
   }
 
   static String validate(MainLocation location) {
-    if (Validation.isNullOrEmpty(location.placeId)) {
-      return "Location placeId should not be empty";
-    }
-    if (Validation.isNullOrEmpty(location.name)) {
-      return "Location name should not be empty";
-    }
     return null;
   }
 

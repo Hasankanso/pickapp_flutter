@@ -85,7 +85,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
                       backgroundColor: Colors.transparent,
                       radius: ScreenUtil().setSp(45),
                       backgroundImage: _image != null
-                          ? AssetImage(_image.path)
+                          ? Image.asset(_image.path).image
                           : AssetImage(!widget.isCarPicker
                               ? "lib/images/user.png"
                               : "lib/images/car.png"),

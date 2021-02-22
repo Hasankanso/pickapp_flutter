@@ -19,6 +19,7 @@ import 'package:pickapp/notifications/MainNotification.dart';
 import 'Localizations.dart';
 
 class App {
+  static final navKey = new GlobalKey<NavigatorState>();
   static MyAppState _state;
   static final String appName = "PickApp";
   static TextStyle textStyling = new TextStyle(fontSize: 30);

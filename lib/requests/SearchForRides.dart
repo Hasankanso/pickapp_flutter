@@ -1,6 +1,4 @@
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
 import "package:pickapp/dataObjects/Ride.dart";
 import "package:pickapp/dataObjects/SearchInfo.dart";
 import 'package:pickapp/requests/Request.dart';
@@ -29,14 +27,6 @@ class SearchForRides extends Request<List<Ride>> {
 
   @override
   String isValid() {
-    String fromValidation = MainLocation.validate(_searchInfo.from);
-    if (!Validation.isNullOrEmpty(fromValidation)) {
-      return fromValidation;
-    }
-    String toValidation = MainLocation.validate(_searchInfo.to);
-    if (!Validation.isNullOrEmpty(toValidation)) {
-      return toValidation;
-    }
     if (_searchInfo.minDate.compareTo(DateTime.now()) < 0) {
       return "Min date must be greater than now date";
     }
