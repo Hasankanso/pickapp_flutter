@@ -96,12 +96,12 @@ class _MainImagePickerState extends State<MainImagePicker> {
                   child: Spinner(),
                 ),
           Positioned(
-            bottom: 5,
-            left: !App.isLTR ? 10 : null,
-            right: App.isLTR ? 10 : null,
+            bottom: 4,
+            left: !App.isLTR ? 7 : null,
+            right: App.isLTR ? 7 : null,
             child: Icon(
               Icons.camera_alt_rounded,
-              color: Styles.labelColor(),
+              color: Styles.primaryColor(),
               size: Styles.mediumIconSize(),
             ),
           ),

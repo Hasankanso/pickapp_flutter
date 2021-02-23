@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
@@ -60,11 +61,20 @@ class Settings extends StatelessWidget {
                         child: Row(children: [
                           Spacer(flex: 1),
                           Expanded(
-                            flex: 12,
+                            flex: 10,
                             child: Text(
                                 Lang.getString(context, "Date_In_Range"),
                                 style: Styles.valueTextStyle()),
                           ),
+                          IconButton(
+                              icon: Icon(
+                                Icons.info,
+                                color: Styles.primaryColor(),
+                                size: Styles.mediumIconSize(),
+                              ),
+                              onPressed: () {
+                                _showDateRangeHint(context);
+                              }),
                           Switcher(
                               isOn: Cache.dateTimeRangePicker,
                               onChanged: (bool value) =>
@@ -354,5 +364,33 @@ class Settings extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showDateRangeHint(context) {
+    Flushbar(
+      message: Lang.getString(context, "Date_in_range_hint"),
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      reverseAnimationCurve: Curves.decelerate,
+      forwardAnimationCurve: Curves.decelerate,
+      duration: Duration(seconds: 7),
+      icon: Icon(
+        Icons.info_outline,
+        color: Styles.primaryColor(),
+        size: Styles.mediumIconSize(),
+      ),
+      mainButton: IconButton(
+        focusColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(
+          Icons.clear,
+          color: Styles.secondaryColor(),
+          size: Styles.mediumIconSize(),
+        ),
+      ),
+    )..show(context);
   }
 }

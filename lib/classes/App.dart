@@ -20,6 +20,7 @@ import 'Localizations.dart';
 
 class App {
   static final navKey = new GlobalKey<NavigatorState>();
+  static bool isAppBuild = false;
   static MyAppState _state;
   static final String appName = "PickApp";
   static TextStyle textStyling = new TextStyle(fontSize: 30);

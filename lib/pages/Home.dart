@@ -57,6 +57,9 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     //MainNotification.initializeLocaleNotification(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      App.isAppBuild = true;
+    });
     startup();
   }
 
