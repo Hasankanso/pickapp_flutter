@@ -6,7 +6,6 @@ class MainRangeSlider extends StatefulWidget {
   double minSelected, maxSelected;
   double min, max, step;
   MainRangeSliderController controller;
-  Function(RangeValues) onChanged;
 
   MainRangeSlider({
     this.min = 0,
@@ -15,7 +14,6 @@ class MainRangeSlider extends StatefulWidget {
     this.maxSelected = 80,
     this.step = 10,
     this.controller,
-    this.onChanged,
   });
 
   @override
@@ -53,10 +51,8 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
                 widget.controller.maxSelected.toInt().toString()),
             onChanged: (values) {
               setState(() {
+                widget.controller.changedAtLeastOnce = true;
                 widget.controller.values = values;
-                if (widget.onChanged != null) {
-                  widget.onChanged(values);
-                }
               });
             },
           ),
@@ -69,13 +65,11 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
 class TimeRangeSlider extends StatefulWidget {
   double minSelected, maxSelected;
   MainRangeSliderController controller;
-  Function(RangeValues) onChanged;
 
   TimeRangeSlider({
     this.minSelected = 20,
     this.maxSelected = 80,
     this.controller,
-    this.onChanged,
   });
 
   @override
@@ -113,10 +107,8 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
                 intToTime(widget.controller.maxSelected.toInt())),
             onChanged: (values) {
               setState(() {
+                widget.controller.changedAtLeastOnce = true;
                 widget.controller.values = values;
-                if (widget.onChanged != null) {
-                  widget.onChanged(values);
-                }
               });
             },
           ),
@@ -148,8 +140,14 @@ class MainRangeSliderController {
   RangeValues values;
   double minAbsolute;
   double maxAbsolute;
+  bool changedAtLeastOnce;
 
   double get minSelected => values.start;
 
   double get maxSelected => values.end;
+
+  MainRangeSliderController(){
+    changedAtLeastOnce = false;
+  }
+
 }

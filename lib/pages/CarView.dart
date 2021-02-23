@@ -21,6 +21,7 @@ class CarView extends StatelessWidget {
       car.setNetworkImage();
     }
     return SlidingUpPanel(
+      defaultPanelState: PanelState.OPEN,
       backdropOpacity: 0.3,
       backdropEnabled: true,
       backdropTapClosesPanel: true,

@@ -52,6 +52,7 @@ class _PersonViewState extends State<PersonView> {
   @override
   Widget build(BuildContext context) {
     return SlidingUpPanel(
+      defaultPanelState: PanelState.OPEN,
       backdropOpacity: 0.3,
       backdropEnabled: true,
       backdropTapClosesPanel: true,
