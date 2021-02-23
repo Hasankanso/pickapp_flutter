@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -58,10 +59,9 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
   bool priceConstraint(Ride r) {
     FilterController controller = widget.controller;
 
-
     return !controller.priceController.changedAtLeastOnce ||
         r.price <= controller.priceController.maxSelected &&
-        r.price >= controller.priceController.minSelected;
+            r.price >= controller.priceController.minSelected;
   }
 
   bool timeConstraint(Ride r) {
@@ -82,8 +82,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
         toMinutes(controller.timeController.minSelected.toInt()));
 
     return !controller.timeController.changedAtLeastOnce ||
-        r.leavingDate.isBefore(maxDate) &&
-        r.leavingDate.isAfter(minDate);
+        r.leavingDate.isBefore(maxDate) && r.leavingDate.isAfter(minDate);
   }
 
   // return true means the ride should stay in the list.
@@ -160,6 +159,31 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
             ),
             initiallyExpanded: controller.isExpanded,
             children: [
+              ResponsiveWidget.fullWidth(
+                height: 30,
+                child: Row(
+                  children: [
+                    Spacer(
+                      flex: 1,
+                    ),
+                    Expanded(
+                      flex: 40,
+                      child: IconButton(
+                          alignment: Alignment.centerLeft,
+                          icon: Icon(
+                            Icons.info,
+                            color: Styles.primaryColor(),
+                            size: Styles.mediumIconSize(),
+                          ),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onPressed: () {
+                            _showPermissionFilterHint(context);
+                          }),
+                    ),
+                  ],
+                ),
+              ),
               _BooleanFilter(
                 onIcon: Icons.smoking_rooms,
                 offIcon: Icons.smoke_free,
@@ -205,10 +229,38 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
             onPressed: () {
               filter();
               widget.onFiltered(widget.rides);
-              Navigator.pop(context);
+              Navigator.popUntil(context, ModalRoute.withName("/RideResults"));
             }),
       ],
     );
+  }
+
+  void _showPermissionFilterHint(context) {
+    Flushbar(
+      message: Lang.getString(context, "Permission_filter_hint_text"),
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      reverseAnimationCurve: Curves.decelerate,
+      forwardAnimationCurve: Curves.decelerate,
+      duration: Duration(seconds: 7),
+      icon: Icon(
+        Icons.info_outline,
+        color: Styles.primaryColor(),
+        size: Styles.mediumIconSize(),
+      ),
+      mainButton: IconButton(
+        focusColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(
+          Icons.clear,
+          color: Styles.secondaryColor(),
+          size: Styles.mediumIconSize(),
+        ),
+      ),
+    )..show(context);
   }
 }
 
