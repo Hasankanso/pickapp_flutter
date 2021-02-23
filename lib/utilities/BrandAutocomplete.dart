@@ -5,10 +5,10 @@ import 'package:pickapp/classes/Styles.dart';
 class BrandAutocomplete extends SearchDelegate<List<String>> {
   BrandAutocomplete({context, this.carBrands})
       : super(
-          searchFieldLabel: Lang.getString(context, "Brand"),
           keyboardType: TextInputType.text,
           searchFieldStyle: Styles.titleTextStyle(),
         );
+
   Map<String, String> _filtered;
   bool valid;
   Map<String, String> carBrands;

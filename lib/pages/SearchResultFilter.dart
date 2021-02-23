@@ -125,7 +125,6 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
 
   @override
   Widget build(BuildContext context) {
-    print(constraints.length);
 
     FilterController controller = widget.controller;
     return AlertDialog(
