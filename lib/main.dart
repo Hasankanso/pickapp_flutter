@@ -12,12 +12,15 @@ import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'classes/Ads.dart';
 import 'notifications/PushNotificationsManager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+
+  Ads.initialize();
 
   App.isLoggedInNotifier = ValueNotifier<bool>(false);
   App.isDriverNotifier = ValueNotifier<bool>(App.driver != null);
