@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 
 class PushNotificationsManager {
   PushNotificationsManager._();
@@ -20,10 +19,10 @@ class PushNotificationsManager {
       // For iOS request permission first.
       _firebaseMessaging.requestNotificationPermissions();
       _firebaseMessaging.configure(
-        onMessage: onMessage,
-        onBackgroundMessage: myBackgroundMessageHandler,
+        onBackgroundMessage: _backgroundMessageHandler,
         onLaunch: onLaunch,
         onResume: onResume,
+        onMessage: onMessage,
       );
 
       // For testing purposes print the Firebase Messaging token
@@ -35,12 +34,7 @@ class PushNotificationsManager {
   }
 }
 
-Future<dynamic> onResume(Map<String, dynamic> message) async {
-  App.isNewNotificationNotifier.value = true;
-  App.navKey.currentState.pushNamed("/Notifications");
-  print("appInBackground: $message");
-}
-
+//this will be invoked when app is terminated and user click the notification
 Future<dynamic> onLaunch(Map<String, dynamic> message) async {
   Timer.periodic(Duration(seconds: 1), (timer) {
     if (App.isAppBuild) {
@@ -52,22 +46,33 @@ Future<dynamic> onLaunch(Map<String, dynamic> message) async {
   print("appTerminated: $message");
 }
 
-Future<dynamic> onMessage(Map<String, dynamic> message) async {
+//this will be invoked when app in background and user click the notification
+Future<dynamic> onResume(Map<String, dynamic> message) async {
   App.isNewNotificationNotifier.value = true;
-  print("appInForeground: $message");
+  App.navKey.currentState.pushNamed("/Notifications");
+  print("appInBackground: $message");
 }
 
-Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
-  print("woslettttttttttttttttttttttttttttttttttttttttttttttttt");
+//this will be invoked when app in foreground
+Future<dynamic> onMessage(Map<String, dynamic> message) async {
   if (message.containsKey('data')) {
-    // Handle data message
     final dynamic data = message['data'];
+    bool isCache = data["isCache"] == "true";
+    if (isCache) {
+      App.isNewNotificationNotifier.value = true;
+      print("appInForeground: $message");
+    }
   }
+}
 
-  if (message.containsKey('notification')) {
-    // Handle notification message
-    final dynamic notification = message['notification'];
+//this will be invoked whenever a notification received and app is terminated or in background
+Future<dynamic> _backgroundMessageHandler(Map<String, dynamic> message) async {
+  if (message.containsKey('data')) {
+    final dynamic data = message['data'];
+    bool isCache = data["isCache"] == "true";
+    if (isCache) {
+      App.isNewNotificationNotifier.value = true;
+      print("appInBackground: $message");
+    }
   }
-  Cache.setDateTimeRangePicker(true);
-  // Or do other work.
 }
