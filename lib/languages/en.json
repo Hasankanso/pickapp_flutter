@@ -219,6 +219,9 @@
   "LL": "LL",
   "€": "€",
   "Too_close": "Too close",
+  "too_large": "too large",
+  "too_small": "too small",
+
   "Chat_delete_message": "Are you sure you want to delete this chat?",
   "Car_edit_time": "Car can be edited one time a month",
   "Additional_description": "Additional description",

@@ -6,6 +6,7 @@ class MainRangeSlider extends StatefulWidget {
   double minSelected, maxSelected;
   double min, max, step;
   MainRangeSliderController controller;
+  Function(RangeValues) onChanged;
 
   MainRangeSlider({
     this.min = 0,
@@ -14,6 +15,7 @@ class MainRangeSlider extends StatefulWidget {
     this.maxSelected = 80,
     this.step = 10,
     this.controller,
+    this.onChanged,
   });
 
   @override
@@ -53,6 +55,9 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
               setState(() {
                 widget.controller.changedAtLeastOnce = true;
                 widget.controller.values = values;
+                if(widget.onChanged!=null){
+                  widget.onChanged(values);
+                }
               });
             },
           ),
@@ -84,7 +89,7 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
       widget.maxSelected.toDouble(),
     );
     widget.controller.minAbsolute = 0;
-    widget.controller.maxAbsolute = 1440;
+    widget.controller.maxAbsolute = 1439;
 
     super.initState();
   }
@@ -95,12 +100,13 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
       children: [
         SliderTheme(
           data: SliderThemeData(
+            showValueIndicator: ShowValueIndicator.always,
             rangeValueIndicatorShape: PaddleRangeSliderValueIndicatorShape(),
           ),
           child: RangeSlider(
             values: widget.controller.values,
             min: 0,
-            max: 1440,
+            max: 1439,
             divisions: 288,
             labels: RangeLabels(
                 intToTime(widget.controller.minSelected.toInt()),
@@ -121,7 +127,7 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
 NumberFormat formatter = new NumberFormat("00");
 String intToTime(int number) {
   assert(number >= 0);
-  assert(number <= 1440);
+  assert(number <= 1439);
   var f = new NumberFormat();
   int minutes = number % 60;
   int hours = (number / 60).floor();
