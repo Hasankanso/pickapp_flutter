@@ -3,6 +3,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainRangeSlider.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Switcher.dart';
@@ -34,24 +35,9 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
   }
 
   void reset() {
-    FilterController controller = widget.controller;
 
     setState(() {
-      controller.priceController.values = RangeValues(0, App.maxPriceFilter);
-      controller.priceController.changedAtLeastOnce = false;
-
-      controller.timeController.values = RangeValues(0, 1440);
-      controller.timeController.changedAtLeastOnce = false;
-
-      controller.smokeController.filter = false;
-      controller.smokeController.allowed = false;
-      controller.petsController.filter = false;
-      controller.petsController.allowed = false;
-      controller.acController.filter = false;
-      controller.acController.allowed = false;
-      controller.musicController.filter = false;
-      controller.musicController.allowed = false;
-      controller.isExpanded = false;
+      widget.controller.init();
     });
   }
 
@@ -302,11 +288,23 @@ class _SliderTextFilter extends StatefulWidget {
 class _SliderTextFilterState extends State<_SliderTextFilter> {
   TextEditingController minValueController = new TextEditingController();
   TextEditingController maxValueController = new TextEditingController();
+  bool _minError = false;
+  bool _maxError = false;
+
+  void updateState(){
+    minValueController.text = widget.controller.minSelected.toInt().toString();
+    maxValueController.text = widget.controller.maxSelected.toInt().toString();
+  }
+
+  void initState(){
+    super.initState();
+    updateState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    minValueController.text = widget.controller.minSelected.toInt().toString();
-    maxValueController.text = widget.controller.maxSelected.toInt().toString();
+    updateState();
+
     minValueController.selection = TextSelection.fromPosition(
         TextPosition(offset: minValueController.text.length));
     maxValueController.selection = TextSelection.fromPosition(
@@ -337,6 +335,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                       min: 0,
                       max: widget.aboluteMaxValue.toDouble(),
                       controller: widget.controller,
+                onChanged : (values){
+                  updateState();
+                  }
                     )
                   : TimeRangeSlider(
                       controller: widget.controller,
@@ -362,7 +363,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                           border: OutlineInputBorder(
                             borderSide: BorderSide(),
                             borderRadius: BorderRadius.circular(3.0),
+
                           ),
+                          errorText: _minError? Lang.getString(context, "too_large") : null,
                         ),
                         onChanged: (value) {
                           setState(() {
@@ -374,6 +377,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                                   newValue.toDouble(),
                                   widget.controller.maxSelected);
                               widget.minSelected = newValue;
+                              _minError = false;
+                            } else {
+                              _minError = true;
                             }
                           });
                         },
@@ -400,6 +406,7 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                             borderSide: BorderSide(),
                             borderRadius: BorderRadius.circular(3.0),
                           ),
+                          errorText: _maxError? Lang.getString(context, "too_small") : null,
                         ),
                         onChanged: (value) {
                           widget.controller.changedAtLeastOnce = true;
@@ -411,6 +418,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                                   widget.controller.minSelected,
                                   newValue.toDouble());
                               widget.maxSelected = newValue;
+                              _maxError = false;
+                            } else {
+                              _maxError = true;
                             }
                           });
                         },
@@ -507,6 +517,25 @@ class FilterController {
   var musicController;
   bool isExpanded;
 
+  void init(){
+    priceController.values = RangeValues(0, App.maxPriceFilter);
+    priceController.changedAtLeastOnce = false;
+    priceController.maxAbsolute = App.maxPriceFilter;
+
+    timeController.values = RangeValues(0, 1439);
+    timeController.changedAtLeastOnce = false;
+
+    smokeController.filter = false;
+    smokeController.allowed = false;
+    petsController.filter = false;
+    petsController.allowed = false;
+    acController.filter = false;
+    acController.allowed = false;
+    musicController.filter = false;
+    musicController.allowed = false;
+    isExpanded = false;
+  }
+
   FilterController() {
     priceController = new MainRangeSliderController();
     timeController = new MainRangeSliderController();
@@ -515,5 +544,6 @@ class FilterController {
     acController = new _BooleanFilterController();
     musicController = new _BooleanFilterController();
     isExpanded = false;
+    init();
   }
 }

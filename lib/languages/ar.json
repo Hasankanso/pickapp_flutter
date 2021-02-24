@@ -222,6 +222,8 @@
   "LL": "ل.ل.",
   "€": "€",
   "Too_close": "قريب جدا",
+  "too_large": "كبير جدا",
+  "too_small": "صغير جدا",
   "Chat_delete_message": "هل أنت متأكد أنك تريد حذف هذه المحادثة؟",
   "Car_edit_time": "يمكن تعديل السيارة مرة واحدة في الشهر",
   "Additional_description": "وصف إضافي",

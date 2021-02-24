@@ -99,10 +99,6 @@ class _SearchResultsState extends State<SearchResults> {
 
   @override
   void initState() {
-    filterController.priceController.values =
-        new RangeValues(0, App.maxPriceFilter);
-    filterController.priceController.maxAbsolute = App.maxPriceFilter;
-    filterController.timeController.values = new RangeValues(0, 1440);
 
     seatsController = TextEditingController(
         text: widget.searchInfo.passengersNumber.toString());
