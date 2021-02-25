@@ -70,11 +70,11 @@ class Cache {
       } else {
         regionsBox.add(regions);
       }
-    } else {
+    } else if (u.driver.cars == null || u.driver.cars.isEmpty) {
       await regionsBox.clear();
     }
     regionsBox.close();
-
+    //todo
     //Inbox.subscribeToChannel();
   }
 
@@ -147,6 +147,17 @@ class Cache {
     }
     notificationsBox.close();
     return notifications;
+  }
+
+  static Future<void> openChats(List<MainNotification> notifications) async {
+    await Hive.openBox('localNotifications');
+    final box = Hive.box("localNotifications");
+    if (box.containsKey(0)) {
+      await box.put(0, notifications);
+    } else {
+      box.add(notifications);
+    }
+    box.close();
   }
 
   static Future<void> setNotifications(

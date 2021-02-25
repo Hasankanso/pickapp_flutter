@@ -57,8 +57,7 @@ class Inbox extends StatefulWidget {
       await getUser.send(
           (Person p1, int p2, String p3) => personReceived(msg, p1, p2, p3));
     }
-    App.newMessageInbox.value = true;
-    App.newMessageInbox.notifyListeners();
+    App.refreshInbox.value = true;
   }
 
   static Chat personReceived(Message msg, Person p1, int p2, String p3) {
@@ -116,7 +115,7 @@ class __BodyState extends State<_Body> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: App.newMessageInbox,
+        valueListenable: App.refreshInbox,
         builder: (BuildContext context, bool isLoggedIn, Widget child) {
           return ListBuilder(
               list: widget.chats,

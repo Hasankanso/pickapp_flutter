@@ -251,7 +251,7 @@ class _CarDetailsState extends State<CarDetails> {
     } else {
       App.user.driver.cars = p1;
       await Cache.setUserCache(App.user);
-      App.isDriverNotifier.notifyListeners();
+      App.refreshProfile.value = true;
 
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));

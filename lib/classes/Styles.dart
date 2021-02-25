@@ -129,6 +129,10 @@ class Styles {
     return Colors.lightBlue;
   }
 
+  static Color highlitedPrimary() {
+    return Colors.blue[300];
+  }
+
   static Color secondaryColor() {
     return Colors.white;
   }

@@ -105,8 +105,7 @@ class _ConversationState extends State<Conversation> {
           }
           break;
       }
-      App.newMessageInbox.value = true;
-      App.newMessageInbox.notifyListeners();
+      App.refreshInbox.value = true;
     });
   }
 
@@ -120,12 +119,13 @@ class _ConversationState extends State<Conversation> {
 
   @override
   Widget build(BuildContext context) {
+    App.refreshInbox.value = false;
     return MainScaffold(
       appBar: MainAppBar(
         title: widget.chat.person.firstName + " " + widget.chat.person.lastName,
       ),
       body: ValueListenableBuilder(
-          valueListenable: App.newMessageInbox,
+          valueListenable: App.refreshInbox,
           builder: (BuildContext context, bool isLoggedIn, Widget child) {
             return ListBuilder(
               list: widget.chat.messages,

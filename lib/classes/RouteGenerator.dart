@@ -238,7 +238,7 @@ class RouteGenerator {
             duration: duration,
             reverseDuration: duration,
             child: RideDetails(
-              (args as List)[0],
+              ((args as List)[0] as Ride),
               buttonText: (args as List)[1],
               onPressed: (args as List)[2],
               isEditDisabled: (args as List)[3],

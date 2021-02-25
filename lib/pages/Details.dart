@@ -411,8 +411,7 @@ class _DetailsState extends State<Details> {
       User u = App.user;
       await Cache.setUserCache(u);
 
-      App.isLoggedInNotifier.value = true;
-      App.isLoggedInNotifier.notifyListeners();
+      App.refreshProfile.value = true;
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }
@@ -462,7 +461,7 @@ class _DetailsState extends State<Details> {
       App.user.driver = null;
 
       App.isLoggedInNotifier.value = true;
-      App.isLoggedInNotifier.notifyListeners();
+
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       CustomToast().showSuccessToast(

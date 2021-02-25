@@ -41,12 +41,18 @@ class Passenger {
 
   @override
   String toString() {
-    return "person: " +
-        person.firstName +
-        ", seats: " +
-        _seats.toString() +
-        ", luggage: " +
-        _luggages.toString();
+    if (person != null)
+      return "person: " +
+          person.firstName +
+          ", seats: " +
+          _seats.toString() +
+          ", luggage: " +
+          _luggages.toString();
+    else
+      return " seats: " +
+          _seats.toString() +
+          ", luggage: " +
+          _luggages.toString();
   }
 
   Person get person => _person;

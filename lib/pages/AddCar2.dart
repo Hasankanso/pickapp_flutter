@@ -260,7 +260,7 @@ class _AddCar2State extends State<AddCar2> {
       App.isDriverNotifier.value = true;
 
       App.isLoggedInNotifier.value = true;
-      App.isLoggedInNotifier.notifyListeners();
+
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       CustomToast().showSuccessToast(
@@ -291,7 +291,7 @@ class _AddCar2State extends State<AddCar2> {
     } else {
       App.user.driver.cars = p1;
       await Cache.setUserCache(App.user);
-      App.isDriverNotifier.notifyListeners();
+      App.refreshProfile.value = true;
 
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_added!"));

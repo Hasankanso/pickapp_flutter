@@ -31,8 +31,10 @@ class App {
   static String countryCode =
       "lb"; //todo person.countryInformations.countryComponent;
   static User _user;
-  static ValueNotifier<bool> isLoggedInNotifier;
-  static ValueNotifier<bool> isDriverNotifier;
+  static ValueNotifier<bool> isLoggedInNotifier = ValueNotifier<bool>(false);
+  static ValueNotifier<bool> refreshProfile = ValueNotifier<bool>(false);
+  static ValueNotifier<bool> isDriverNotifier =
+      ValueNotifier<bool>(App.driver != null);
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
   static dynamic maxPriceFilter;
@@ -41,7 +43,7 @@ class App {
   static Channel inboxChannel;
   static List<MainNotification> notifications = List<MainNotification>();
   static Locale locale;
-  static ValueNotifier<bool> newMessageInbox = ValueNotifier(false);
+  static ValueNotifier<bool> refreshInbox = ValueNotifier(false);
   static ValueNotifier<bool> updateUpcomingRide = ValueNotifier(false);
   static bool isLTR;
   static ValueNotifier<bool> isNewNotificationNotifier =

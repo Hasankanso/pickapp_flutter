@@ -67,6 +67,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    App.refreshProfile.value = false;
     return ValueListenableBuilder(
       builder: (BuildContext context, bool isLoggedIn, Widget child) {
         return MainScaffold(
@@ -373,7 +374,7 @@ class _ProfileState extends State<Profile> {
           ),
         );
       },
-      valueListenable: App.isLoggedInNotifier,
+      valueListenable: App.refreshProfile,
     );
   }
 }

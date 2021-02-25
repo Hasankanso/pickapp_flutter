@@ -22,9 +22,6 @@ Future<void> main() async {
 
   Ads.initialize();
 
-  App.isLoggedInNotifier = ValueNotifier<bool>(false);
-  App.isDriverNotifier = ValueNotifier<bool>(App.driver != null);
-
   await Cache.initializeHive();
 
   App.user = await Cache.getUser();
@@ -124,6 +121,7 @@ class MyAppState extends State<MyApp> {
                 primarySwatch: Styles.primaryColor(),
                 toggleableActiveColor: Styles.primaryColor(),
                 textSelectionHandleColor: Styles.primaryColor(),
+                textSelectionColor: Styles.highlitedPrimary(),
                 accentIconTheme: IconThemeData(color: Styles.secondaryColor()),
                 floatingActionButtonTheme: FloatingActionButtonThemeData(
                   backgroundColor: Styles.primaryColor(),

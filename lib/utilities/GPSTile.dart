@@ -3,23 +3,49 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/utilities/Responsive.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 
-class GPSTile extends StatelessWidget {
-  Location location;
+class GPSTile extends StatefulWidget {
   final ValueChanged<Location> onTap;
 
   GPSTile({@required this.onTap});
+
+  @override
+  _GPSTileState createState() => _GPSTileState();
+}
+
+class _GPSTileState extends State<GPSTile> {
+  Location location;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(Icons.gps_fixed),
       title: Text(Lang.getString(context, "My_Current_Location")),
+      trailing: isLoading
+          ? ResponsiveWidget(
+              height: 20,
+              width: 20,
+              child: Spinner(
+                strokeWidth: 3.0,
+              ))
+          : null,
       onTap: () {
-        if (onTap != null) {
-          getLocation().then((value) => {
-                if (value != null) {onTap(value)}
-              });
+        if (widget.onTap != null && !isLoading) {
+          setState(() {
+            isLoading = true;
+          });
+          getLocation().then((value) {
+            setState(() {
+              isLoading = false;
+            });
+            if (value != null) {
+              widget.onTap(value);
+            }
+          });
         }
       },
     );

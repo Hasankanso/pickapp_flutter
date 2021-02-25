@@ -70,7 +70,7 @@ class CarListTile extends ListTile {
 
       await Cache.setUserCache(App.user);
 
-      App.isDriverNotifier.notifyListeners();
+      App.refreshProfile.value = true;
 
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
@@ -87,6 +87,7 @@ class CarListTile extends ListTile {
           borderRadius: BorderRadius.all(Radius.circular(3)),
         ),
         onTap: () {
+          MainExpansionTileState.of(context).collapse();
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -159,7 +160,6 @@ class CarListTile extends ListTile {
                       ),
                     )),
           );
-          MainExpansionTileState.of(context).collapse();
         },
         leading: CachedNetworkImage(
           imageUrl: car.carPictureUrl,

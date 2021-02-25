@@ -148,7 +148,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
       App.user.driver = null;
 
       App.isLoggedInNotifier.value = true;
-      App.isLoggedInNotifier.notifyListeners();
+
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
       CustomToast().showSuccessToast(
