@@ -9,32 +9,41 @@ class PopUp {
   bool hideClose;
   Widget content;
   Color titleColor,
-      positiveColor,
-      negativeColor,
+      positiveBackgroundColor,
+      negativeBackgroundColor,
       mainColor,
       positiveTextColor,
       negativeTextColor;
+  BoxBorder positiveBorder, negativeBorder;
+
   final _formKey = GlobalKey<FormState>();
 
   PopUp.areYouSure(this.positiveText, this.negativeText, this.desc, this.title,
       this.mainColor, this.response,
-      {bool interest = true,
+      {bool highlightYes = true,
       this.hideClose = false,
       this.close,
       this.content}) {
-    if (interest) {
-      titleColor = mainColor;
-      positiveColor = mainColor;
-      negativeColor = Colors.transparent;
-      negativeTextColor = mainColor;
+    if (highlightYes) {
       positiveTextColor = Colors.white;
+      negativeTextColor = mainColor;
+
+      positiveBackgroundColor = mainColor;
+      negativeBackgroundColor = Colors.transparent;
+
+      positiveBorder = null;
+      negativeBorder = Border.all(width: 2.0, color: mainColor);
     } else {
-      titleColor = mainColor;
       positiveTextColor = mainColor;
-      positiveColor = Colors.transparent;
-      negativeColor = mainColor;
       negativeTextColor = Colors.white;
+      positiveBackgroundColor = Colors.transparent;
+      negativeBackgroundColor = mainColor;
+
+      positiveBorder = Border.all(width: 2.0, color: mainColor);
+      negativeBorder = null;
     }
+
+    this.titleColor = mainColor;
     this.desc = desc;
   }
 
@@ -60,13 +69,13 @@ class PopUp {
             Form(key: _formKey, child: content != null ? content : Container()),
         buttons: [
           DialogButton(
-            border: Border.all(width: 2.0, color: mainColor),
+            border: positiveBorder,
             child: Text(
               "$positiveText",
               style: TextStyle(
                   color: positiveTextColor, fontSize: Styles.fontSize()),
             ),
-            color: positiveColor,
+            color: positiveBackgroundColor,
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 Navigator.pop(dialogContext);
@@ -75,12 +84,13 @@ class PopUp {
             },
           ),
           DialogButton(
+            border : negativeBorder,
             child: Text(
               "$negativeText",
               style: TextStyle(
                   color: negativeTextColor, fontSize: Styles.fontSize()),
             ),
-            color: negativeColor,
+            color: negativeBackgroundColor,
             onPressed: () {
               Navigator.pop(dialogContext);
               response(false);

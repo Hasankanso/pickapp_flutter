@@ -115,7 +115,7 @@ class RideDetails extends StatelessWidget {
                 request.send((v, p, s) => _cancelReservation(v, p, s, context));
               }
             },
-            interest: false,
+            highlightYes: true,
             content: _content,
           ).confirmationPopup(context);
         }

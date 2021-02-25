@@ -52,7 +52,7 @@ class UpcomingRideDetails extends StatelessWidget {
                           (bool) => bool
                           ? deleteRideRequest(context)
                           : null,
-                      interest: false)
+                      highlightYes: true)
                       .confirmationPopup(context);
                 })
           ],

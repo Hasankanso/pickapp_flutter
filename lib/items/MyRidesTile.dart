@@ -67,11 +67,11 @@ class _MyRidesTileState extends State<MyRidesTile> {
         },
       );
       Request<Ride> req = EditReservation(ride, seats, luggage);
-      req.send(_response);
+      req.send(_editReservationResponse);
     }, reservation: reservation);
   }
 
-  void _response(Ride r, int status, String reason) {
+  void _editReservationResponse(Ride r, int status, String reason) {
     if (status != 200) {
       Navigator.pop(context);
       //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation

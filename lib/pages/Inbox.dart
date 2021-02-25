@@ -136,7 +136,7 @@ class __BodyState extends State<_Body> {
                       widget.chats.removeAt(index);
                     });
                   }
-                }, interest: false)
+                }, highlightYes: true)
                     .confirmationPopup(context);
               }));
         });

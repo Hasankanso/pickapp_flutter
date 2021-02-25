@@ -47,7 +47,7 @@ class _TermAndConditions extends State<TermAndConditions> {
                                   (value) => setState(() {
                                         Cache.setConditionAccepted(!value);
                                       }),
-                                  interest: false)
+                              highlightYes: true)
                               .confirmationPopup(context);
                         } else {
                           setState(() {
