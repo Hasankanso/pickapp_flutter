@@ -151,7 +151,6 @@ class _SearchState extends State<Search>
               onPressed: () async {
                 _sendAnalyticsEvent();
                 _testSetUserId();
-
                 String _validateFrom =
                     fromController.validate(context, x: toController);
                 String _validateTo =

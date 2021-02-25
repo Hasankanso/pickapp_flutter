@@ -148,7 +148,7 @@ class CarListTile extends ListTile {
                                       (bool) => bool
                                           ? _deleteCarRequest(context)
                                           : null,
-                                      interest: false)
+                                  highlightYes: true)
                                   .confirmationPopup(context);
                             },
                           ),

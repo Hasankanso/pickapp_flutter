@@ -71,4 +71,32 @@ class Ads {
   static void destroyNativeAd() {
     _nativeAd?.dispose();
   }
+
+  static bool isRewardedAd = false;
+  static void loadRewardedVideo(callback) async {
+    RewardedVideoAd.instance.listener =
+        (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
+      print("RewardedVideoAd event $event");
+      if (event == RewardedVideoAdEvent.rewarded) {
+        callback();
+        print(2);
+      } else if (event == RewardedVideoAdEvent.loaded) {
+        isRewardedAd = true;
+        showRewardedAd();
+      } else {
+        isRewardedAd = false;
+        print("setting it to false");
+      }
+    };
+    await RewardedVideoAd.instance
+        .load(adUnitId: _rewardedId, targetingInfo: targetingInfo);
+    showRewardedAd();
+  }
+
+  static Future<void> showRewardedAd() async {
+    print(isRewardedAd);
+    if (isRewardedAd) {
+      await RewardedVideoAd.instance.show();
+    }
+  }
 }

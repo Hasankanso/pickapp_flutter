@@ -242,7 +242,7 @@ class _PhoneState extends State<Phone> {
           Lang.getString(context, "Account_already_exist"),
           Styles.primaryColor(),
           (bool) => bool ? _skip() : _login(),
-          interest: false,
+          highlightYes: false,
           hideClose: true,
         ).confirmationPopup(context);
       } else {
