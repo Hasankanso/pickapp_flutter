@@ -69,12 +69,33 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
 
 class TimeRangeSlider extends StatefulWidget {
   double minSelected, maxSelected;
-  MainRangeSliderController controller;
+  final MainRangeSliderController controller;
+  final Function(RangeLabels) onChanged;
+
+  static final NumberFormat _formatter = new NumberFormat("00");
+
+  static String intToTime(int number) {
+    assert(number >= 0);
+    assert(number <= 1439);
+    var f = new NumberFormat();
+    int minutes = number % 60;
+    int hours = (number / 60).floor();
+    return _formatter.format(hours) + ":" + _formatter.format(minutes);
+  }
+
+  static int toMinutes(int number) {
+    return number % 60;
+  }
+
+  static int toHours(int number) {
+    return (number / 60).floor();
+  }
 
   TimeRangeSlider({
     this.minSelected = 20,
     this.maxSelected = 80,
     this.controller,
+    this.onChanged,
   });
 
   @override
@@ -82,6 +103,9 @@ class TimeRangeSlider extends StatefulWidget {
 }
 
 class _TimeRangeSliderState extends State<TimeRangeSlider> {
+
+  RangeLabels labels;
+
   @override
   void initState() {
     widget.controller.values = RangeValues(
@@ -90,6 +114,10 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
     );
     widget.controller.minAbsolute = 0;
     widget.controller.maxAbsolute = 1439;
+
+    labels = RangeLabels(
+        TimeRangeSlider.intToTime(widget.controller.minSelected.toInt()),
+        TimeRangeSlider.intToTime(widget.controller.maxSelected.toInt()));
 
     super.initState();
   }
@@ -108,13 +136,19 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
             min: 0,
             max: 1439,
             divisions: 288,
-            labels: RangeLabels(
-                intToTime(widget.controller.minSelected.toInt()),
-                intToTime(widget.controller.maxSelected.toInt())),
+            labels: labels,
             onChanged: (values) {
               setState(() {
                 widget.controller.changedAtLeastOnce = true;
                 widget.controller.values = values;
+                labels = RangeLabels(
+                    TimeRangeSlider.intToTime(widget.controller.minSelected.toInt()),
+                    TimeRangeSlider.intToTime(widget.controller.maxSelected.toInt()));
+
+                if(widget.onChanged!=null){
+                  widget.onChanged(labels);
+                }
+
               });
             },
           ),
@@ -122,24 +156,6 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
       ],
     );
   }
-}
-
-NumberFormat formatter = new NumberFormat("00");
-String intToTime(int number) {
-  assert(number >= 0);
-  assert(number <= 1439);
-  var f = new NumberFormat();
-  int minutes = number % 60;
-  int hours = (number / 60).floor();
-  return formatter.format(hours) + ":" + formatter.format(minutes);
-}
-
-int toMinutes(int number) {
-  return number % 60;
-}
-
-int toHours(int number) {
-  return (number / 60).floor();
 }
 
 class MainRangeSliderController {
