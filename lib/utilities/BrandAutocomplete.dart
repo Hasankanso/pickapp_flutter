@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 
 class BrandAutocomplete extends SearchDelegate<List<String>> {
   BrandAutocomplete({context, this.carBrands})
       : super(
           keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.none,
           searchFieldStyle: Styles.titleTextStyle(),
         );
 
@@ -15,7 +15,6 @@ class BrandAutocomplete extends SearchDelegate<List<String>> {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
-    // TODO: implement appBarTheme
     super.appBarTheme(context);
     return ThemeData(
       primaryColor: Styles.primaryColor(),

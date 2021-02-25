@@ -4,7 +4,6 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainRangeSlider.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 import 'package:pickapp/utilities/Switcher.dart';
@@ -23,6 +22,7 @@ class SearchResultsFilter extends StatefulWidget {
 class _SearchResultsFilterState extends State<SearchResultsFilter> {
   ScrollController _scrollController = new ScrollController();
   List<bool Function(Ride)> constraints = List<bool Function(Ride)>();
+  FlushbarStatus _flushbarStatus = FlushbarStatus.DISMISSED;
 
   @override
   void initState() {
@@ -36,7 +36,6 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
   }
 
   void reset() {
-
     setState(() {
       widget.controller.init();
     });
@@ -110,7 +109,6 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
 
   @override
   Widget build(BuildContext context) {
-
     FilterController controller = widget.controller;
     return AlertDialog(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -221,31 +219,36 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
   }
 
   void _showPermissionFilterHint(context) {
-    Flushbar(
-      message: Lang.getString(context, "Permission_filter_hint_text"),
-      flushbarPosition: FlushbarPosition.TOP,
-      flushbarStyle: FlushbarStyle.GROUNDED,
-      reverseAnimationCurve: Curves.decelerate,
-      forwardAnimationCurve: Curves.decelerate,
-      duration: Duration(seconds: 7),
-      icon: Icon(
-        Icons.info_outline,
-        color: Styles.primaryColor(),
-        size: Styles.mediumIconSize(),
-      ),
-      mainButton: IconButton(
-        focusColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onPressed: () {
-          Navigator.pop(context);
-        },
+    if (_flushbarStatus == FlushbarStatus.DISMISSED) {
+      Flushbar(
+        message: Lang.getString(context, "Permission_filter_hint_text"),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.GROUNDED,
+        reverseAnimationCurve: Curves.decelerate,
+        forwardAnimationCurve: Curves.decelerate,
+        duration: Duration(seconds: 7),
         icon: Icon(
-          Icons.clear,
-          color: Styles.secondaryColor(),
+          Icons.info_outline,
+          color: Styles.primaryColor(),
           size: Styles.mediumIconSize(),
         ),
-      ),
-    )..show(context);
+        onStatusChanged: (a) {
+          _flushbarStatus = a;
+        },
+        mainButton: IconButton(
+          focusColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.clear,
+            color: Styles.secondaryColor(),
+            size: Styles.mediumIconSize(),
+          ),
+        ),
+      )..show(context);
+    }
   }
 }
 
@@ -343,12 +346,12 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
   bool _minError = false;
   bool _maxError = false;
 
-  void updateState(){
+  void updateState() {
     minValueController.text = widget.controller.minSelected.toInt().toString();
     maxValueController.text = widget.controller.maxSelected.toInt().toString();
   }
 
-  void initState(){
+  void initState() {
     super.initState();
     updateState();
   }
@@ -387,10 +390,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                       min: 0,
                       max: widget.aboluteMaxValue.toDouble(),
                       controller: widget.controller,
-                onChanged : (values){
-                  updateState();
-                  }
-                    )
+                      onChanged: (values) {
+                        updateState();
+                      })
                   : TimeRangeSlider(
                       controller: widget.controller,
                       minSelected: widget.controller.minSelected,
@@ -415,9 +417,10 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                           border: OutlineInputBorder(
                             borderSide: BorderSide(),
                             borderRadius: BorderRadius.circular(3.0),
-
                           ),
-                          errorText: _minError? Lang.getString(context, "too_large") : null,
+                          errorText: _minError
+                              ? Lang.getString(context, "too_large")
+                              : null,
                         ),
                         onChanged: (value) {
                           setState(() {
@@ -458,7 +461,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                             borderSide: BorderSide(),
                             borderRadius: BorderRadius.circular(3.0),
                           ),
-                          errorText: _maxError? Lang.getString(context, "too_small") : null,
+                          errorText: _maxError
+                              ? Lang.getString(context, "too_small")
+                              : null,
                         ),
                         onChanged: (value) {
                           widget.controller.changedAtLeastOnce = true;
@@ -569,7 +574,7 @@ class FilterController {
   var musicController;
   bool isExpanded;
 
-  void init(){
+  void init() {
     priceController.values = RangeValues(0, App.maxPriceFilter);
     priceController.changedAtLeastOnce = false;
     priceController.maxAbsolute = App.maxPriceFilter;

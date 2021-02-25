@@ -18,6 +18,7 @@ import 'package:pickapp/utilities/SizeTest.dart';
 import 'package:pickapp/utilities/Switcher.dart';
 
 class Settings extends StatelessWidget {
+  FlushbarStatus _flushbarStatus = FlushbarStatus.DISMISSED;
   @override
   Widget build(BuildContext context) {
     LocationEditingController fromController = new LocationEditingController(),
@@ -367,30 +368,35 @@ class Settings extends StatelessWidget {
   }
 
   void _showDateRangeHint(context) {
-    Flushbar(
-      message: Lang.getString(context, "Date_in_range_hint"),
-      flushbarPosition: FlushbarPosition.TOP,
-      flushbarStyle: FlushbarStyle.GROUNDED,
-      reverseAnimationCurve: Curves.decelerate,
-      forwardAnimationCurve: Curves.decelerate,
-      duration: Duration(seconds: 7),
-      icon: Icon(
-        Icons.info_outline,
-        color: Styles.primaryColor(),
-        size: Styles.mediumIconSize(),
-      ),
-      mainButton: IconButton(
-        focusColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onPressed: () {
-          Navigator.pop(context);
-        },
+    if (_flushbarStatus == FlushbarStatus.DISMISSED) {
+      Flushbar(
+        message: Lang.getString(context, "Date_in_range_hint"),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.GROUNDED,
+        reverseAnimationCurve: Curves.decelerate,
+        forwardAnimationCurve: Curves.decelerate,
+        duration: Duration(seconds: 7),
         icon: Icon(
-          Icons.clear,
-          color: Styles.secondaryColor(),
+          Icons.info_outline,
+          color: Styles.primaryColor(),
           size: Styles.mediumIconSize(),
         ),
-      ),
-    )..show(context);
+        onStatusChanged: (a) {
+          _flushbarStatus = a;
+        },
+        mainButton: IconButton(
+          focusColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.clear,
+            color: Styles.secondaryColor(),
+            size: Styles.mediumIconSize(),
+          ),
+        ),
+      )..show(context);
+    }
   }
 }
