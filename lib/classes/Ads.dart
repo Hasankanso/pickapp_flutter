@@ -1,4 +1,6 @@
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:flutter/widgets.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 
 import 'App.dart';
 
@@ -72,20 +74,18 @@ class Ads {
     _nativeAd?.dispose();
   }
 
-  static bool isRewardedAd = false;
-  static void loadRewardedVideo(callback) async {
+  static bool rewardedAdLoaded = false;
+  static void loadRewardedVideo(BuildContext context, callback) async {
     RewardedVideoAd.instance.listener =
         (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
       print("RewardedVideoAd event $event");
       if (event == RewardedVideoAdEvent.rewarded) {
         callback();
-        print(2);
       } else if (event == RewardedVideoAdEvent.loaded) {
-        isRewardedAd = true;
-        showRewardedAd();
-      } else {
-        isRewardedAd = false;
-        print("setting it to false");
+        rewardedAdLoaded = true;
+      } else if (event == RewardedVideoAdEvent.failedToLoad){
+        rewardedAdLoaded = false;
+        CustomToast().showErrorToast("something_wrong_check_internet");
       }
     };
     await RewardedVideoAd.instance
@@ -94,9 +94,9 @@ class Ads {
   }
 
   static Future<void> showRewardedAd() async {
-    print(isRewardedAd);
-    if (isRewardedAd) {
+    if (rewardedAdLoaded) {
       await RewardedVideoAd.instance.show();
     }
   }
+
 }
