@@ -2,6 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_admob/flutter_native_admob.dart';
+import 'package:flutter_native_admob/native_admob_controller.dart';
+import 'package:flutter_native_admob/native_admob_options.dart';
+import 'package:pickapp/classes/Ads.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -21,6 +25,7 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
+
 class Search extends StatefulWidget {
   @override
   _SearchState createState() => _SearchState();
@@ -32,6 +37,12 @@ class _SearchState extends State<Search>
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
   NumberController numberController = NumberController();
+  final _controller = NativeAdmobController();
+
+
+// Optional: Set the option to disable the personalized Ads. AdMob default option: personalized
+ // _controller.setNonPersonalizedAds(true);
+
   SearchInfo _searchInfo;
   String _fromError, _toError;
 
@@ -136,6 +147,18 @@ class _SearchState extends State<Search>
             ResponsiveWidget.fullWidth(
                 height: 35,
                 child: NumberPicker(numberController, "Persons", 1, 8)),
+            VerticalSpacer(height:30),
+            ResponsiveWidget(width: 200, height : 100,
+              child: NativeAdmob(
+                adUnitID: Ads.nativeId,
+                loading: Center(child: CircularProgressIndicator()),
+                error: Text("Failed to load the ad"),
+                controller: _controller,
+                type: NativeAdmobType.full,
+                options: NativeAdmobOptions(
+                  ratingColor: Colors.red,
+                ),),
+            ),
           ],
         ),
       ),
