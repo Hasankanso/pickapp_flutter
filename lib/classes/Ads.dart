@@ -1,15 +1,12 @@
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_native_admob/native_admob_options.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
-import 'package:flutter_native_admob/native_admob_controller.dart';
 
 import 'App.dart';
 
 class Ads {
   static BannerAd _bannerAd;
-  
+
   static String _bannerId, nativeId, _rewardedId, _appId;
 
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
@@ -26,7 +23,6 @@ class Ads {
       _bannerId = 'ca-app-pub-4192057498524161/4614477405';
       nativeId = 'ca-app-pub-4192057498524161/5010850615';
       _rewardedId = 'ca-app-pub-4192057498524161/8496521283';
-
     } else if (App.isIphone()) {
       _appId = 'ca-app-pub-4192057498524161~5864642607';
 
@@ -70,13 +66,13 @@ class Ads {
         callback();
       } else if (event == RewardedVideoAdEvent.loaded) {
         rewardedAdLoaded = true;
-      } else if (event == RewardedVideoAdEvent.failedToLoad){
+      } else if (event == RewardedVideoAdEvent.failedToLoad) {
         rewardedAdLoaded = false;
         CustomToast().showErrorToast("something_wrong_check_internet");
       }
     };
-    await RewardedVideoAd.instance
-        .load(adUnitId: _rewardedId, targetingInfo: targetingInfo);
+    await RewardedVideoAd.instance.load(
+        adUnitId: RewardedVideoAd.testAdUnitId, targetingInfo: targetingInfo);
     showRewardedAd();
   }
 
@@ -85,10 +81,4 @@ class Ads {
       await RewardedVideoAd.instance.show();
     }
   }
-
-  static void nativeAd(){
-
-
-  }
-
 }
