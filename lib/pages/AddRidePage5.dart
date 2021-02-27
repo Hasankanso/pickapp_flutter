@@ -77,7 +77,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
               ],
             ),
-            VerticalSpacer(height: 20),
+            VerticalSpacer(height: 40),
             Row(
               children: [
                 Spacer(
@@ -122,7 +122,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
               ],
             ),
-            VerticalSpacer(height: 20),
+            VerticalSpacer(height: 30),
             Row(
               children: [
                 Spacer(
@@ -145,7 +145,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
               ],
             ),
-            VerticalSpacer(height: 8),
+            VerticalSpacer(height: 10),
             Row(
               children: [
                 Spacer(
@@ -168,7 +168,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
               ],
             ),
-            VerticalSpacer(height: 8),
+            VerticalSpacer(height: 10),
             Row(
               children: [
                 Spacer(
@@ -189,7 +189,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
               ],
             ),
-            VerticalSpacer(height: 8),
+            VerticalSpacer(height: 10),
             Row(
               children: [
                 Spacer(
@@ -210,7 +210,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
               ],
             ),
-            VerticalSpacer(height: 8),
+            VerticalSpacer(height: 10),
             Row(
               children: [
                 Spacer(
@@ -230,7 +230,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                     )),
               ],
             ),
-            VerticalSpacer(height: 8),
+            VerticalSpacer(height: 10),
             Row(
               children: [
                 Spacer(
@@ -253,7 +253,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
               ],
             ),
-            VerticalSpacer(height: 8),
+            VerticalSpacer(height: 10),
             Row(
               children: [
                 Spacer(
@@ -276,7 +276,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 ),
               ],
             ),
-            VerticalSpacer(height: 20),
+            VerticalSpacer(height: 40),
             Row(
               children: [
                 Spacer(

@@ -10,6 +10,7 @@ import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/PopUp.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 
 import 'PassengersView.dart';
 import 'RideView.dart';
@@ -21,6 +22,18 @@ class UpcomingRideDetails extends StatelessWidget {
   UpcomingRideDetails(this.ride, {this.buttonText, this.onPressed});
 
   deleteRideRequest(context){
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Center(
+            child: Spinner(),
+          ),
+        );
+      },
+    );
     Request<bool> request = CancelRide(ride, "hello");
     request.send((result, code, message) {
       return response(result, code, message, context);
