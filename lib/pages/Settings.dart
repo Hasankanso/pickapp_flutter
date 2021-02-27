@@ -68,6 +68,8 @@ class Settings extends StatelessWidget {
                                 style: Styles.valueTextStyle()),
                           ),
                           IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                               icon: Icon(
                                 Icons.info,
                                 color: Styles.primaryColor(),

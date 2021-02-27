@@ -24,6 +24,7 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
+import 'package:pickapp/utilities/Spinner.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -151,12 +152,18 @@ class _SearchState extends State<Search>
               height: 100,
               child: NativeAdmob(
                 adUnitID: Ads.nativeId,
-                loading: Center(child: CircularProgressIndicator()),
+                loading: Center(child: Spinner()),
                 error: Text("Failed to load the ad"),
                 controller: _controller,
                 type: NativeAdmobType.full,
                 options: NativeAdmobOptions(
-                  ratingColor: Colors.red,
+                  ratingColor: Colors.blue,
+                  advertiserTextStyle: NativeTextStyle(
+                      fontSize: 10, color: Styles.primaryColor()),
+                  adLabelTextStyle: NativeTextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      backgroundColor: Styles.primaryColor()),
                 ),
               ),
             ),
