@@ -185,6 +185,7 @@
   "Ride_Reserved_Success": "Seats Reserved Successfully",
   "Ride_Reserved_Failed": "Failed to Reserve",
   "Something_Wrong": "Something Wrong, error code:",
+  "Failed_load_ad": "Failed to load the ad!",
 
   "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",

@@ -32,7 +32,6 @@ class Ads {
     }
 
     //#TODO remove el TEST nambar
-    nativeId = "ca-app-pub-3940256099942544/2247696110";
 
     await FirebaseAdMob.instance.initialize(appId: _appId);
   }

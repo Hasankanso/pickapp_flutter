@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
-import 'package:flutter_native_admob/native_admob_options.dart';
 import 'package:pickapp/classes/Ads.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
@@ -22,9 +20,9 @@ import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:pickapp/utilities/NativeAd.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -150,21 +148,9 @@ class _SearchState extends State<Search>
             ResponsiveWidget(
               width: 200,
               height: 100,
-              child: NativeAdmob(
-                adUnitID: Ads.nativeId,
-                loading: Center(child: Spinner()),
-                error: Text("Failed to load the ad"),
+              child: MainNativeAd(
                 controller: _controller,
-                type: NativeAdmobType.full,
-                options: NativeAdmobOptions(
-                  ratingColor: Colors.blue,
-                  advertiserTextStyle: NativeTextStyle(
-                      fontSize: 10, color: Styles.primaryColor()),
-                  adLabelTextStyle: NativeTextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      backgroundColor: Styles.primaryColor()),
-                ),
+                type: NativeAdmobType.banner,
               ),
             ),
           ],
