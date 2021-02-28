@@ -16,16 +16,15 @@ const _viewType = "native_admob";
 enum NativeAdmobType { banner, full }
 
 class MainNativeAd extends StatefulWidget {
-  final NativeAdmobType type;
   final int numberAds;
-
+  final bool isBanner;
   final NativeAdmobController controller;
 
   MainNativeAd({
     Key key,
     this.controller,
     this.numberAds = 1,
-    this.type = NativeAdmobType.full,
+    this.isBanner = false,
   }) : super(key: key);
 
   @override
@@ -63,7 +62,8 @@ class _MainNativeAdState extends State<MainNativeAd> {
         storeTextStyle: NativeTextStyle(
             color: Styles.labelColor(), fontSize: Styles.fontSize()),
       );
-  NativeAdmobType get _type => widget.type ?? NativeAdmobType.full;
+  NativeAdmobType get _type =>
+      !widget.isBanner ? NativeAdmobType.full : NativeAdmobType.banner;
 
   Widget get _loading => Center(child: Spinner());
 

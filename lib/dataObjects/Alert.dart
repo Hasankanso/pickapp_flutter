@@ -3,8 +3,8 @@ import 'package:pickapp/dataObjects/MainLocation.dart';
 class Alert {
   String _id, _comment;
   MainLocation _from, _to;
-  DateTime _minDate, _maxDate, _updated;
-  int _numberOfPersons, _numberOfLuggage;
+  DateTime _leavingDate, _updated;
+  int _maxSeats, _maxLuggage;
   double _price;
 
   Alert(
@@ -12,20 +12,18 @@ class Alert {
       MainLocation from,
       MainLocation to,
       double price,
-      DateTime minDate,
-      DateTime maxDate,
-      int numberOfPersons,
-      int numberOfLuggages,
+      DateTime leavingDate,
+      int maxSeats,
+      int maxLuggage,
       String comment,
       DateTime updated}) {
     this.id = id;
     this.from = from;
     this.to = to;
-    this.minDate = minDate;
     this.updated = updated;
-    this.maxDate = maxDate;
-    this.numberOfPersons = numberOfPersons;
-    this.numberOfLuggage = numberOfLuggages;
+    this.leavingDate = leavingDate;
+    this.maxSeats = maxSeats;
+    this.maxLuggage = maxLuggage;
     this.price = price;
     this.comment = comment;
   }
@@ -33,35 +31,30 @@ class Alert {
         "from": from.toJson(),
         "to": to.toJson(),
         "price": price,
-        "minDate": minDate,
-        "maxDate": maxDate,
-        "numberOfPersons": numberOfPersons,
-        "numberOfLuggage": numberOfLuggage,
+        "leavingDate": leavingDate,
+        "maxSeats": maxSeats,
+        "maxLuggage": maxLuggage,
         "comment": comment,
       };
   factory Alert.fromJson(Map<String, dynamic> json) {
-    var minDateJ = json["minDate"];
-    DateTime minDate;
-    if (minDateJ != null) {
-      minDate = DateTime.fromMillisecondsSinceEpoch(minDateJ, isUtc: true);
-    }
-    var maxDateJ = json["maxDate"];
-    DateTime maxDate;
-    if (maxDateJ != null) {
-      maxDate = DateTime.fromMillisecondsSinceEpoch(maxDateJ, isUtc: true);
+    var leavingDateJ = json["leavingDate"];
+    DateTime leavingDate;
+    if (leavingDateJ != null) {
+      leavingDate =
+          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     }
 
     return Alert(
         id: json["objectId"],
         from: MainLocation.fromJson(json["from"]),
         to: MainLocation.fromJson(json["to"]),
-        minDate: minDate,
-        maxDate: maxDate,
+        leavingDate: leavingDate,
         comment: json["comment"],
         price: json["price"],
-        numberOfPersons: json["numberOfPersons"],
-        numberOfLuggages: json["numberOfLuggage"]);
+        maxSeats: json["maxSeats"],
+        maxLuggage: json["maxLuggage"]);
   }
+
   String get id => _id;
 
   set id(String value) {
@@ -86,16 +79,10 @@ class Alert {
     _to = value;
   }
 
-  DateTime get minDate => _minDate;
+  DateTime get leavingDate => _leavingDate;
 
-  set minDate(DateTime value) {
-    _minDate = value;
-  }
-
-  DateTime get maxDate => _maxDate;
-
-  set maxDate(value) {
-    _maxDate = value;
+  set leavingDate(value) {
+    _leavingDate = value;
   }
 
   get updated => _updated;
@@ -104,16 +91,16 @@ class Alert {
     _updated = value;
   }
 
-  int get numberOfPersons => _numberOfPersons;
+  int get maxSeats => _maxSeats;
 
-  set numberOfPersons(int value) {
-    _numberOfPersons = value;
+  set maxSeats(int value) {
+    _maxSeats = value;
   }
 
-  get numberOfLuggage => _numberOfLuggage;
+  get maxLuggage => _maxLuggage;
 
-  set numberOfLuggage(value) {
-    _numberOfLuggage = value;
+  set maxLuggage(value) {
+    _maxLuggage = value;
   }
 
   double get price => _price;

@@ -12,7 +12,7 @@ import 'package:pickapp/requests/BroadCastAlert.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/DateTimeRangePicker.dart';
+import 'package:pickapp/utilities/DateTimePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -29,7 +29,7 @@ class _AddAlertState extends State<AddAlert> {
   final _formKey = GlobalKey<FormState>();
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
-  DateTimeRangeController dateTimeController = DateTimeRangeController();
+  DateTimeController dateTimeController = DateTimeController();
   NumberController personsController = NumberController();
   NumberController luggageController = NumberController();
   final commentController = TextEditingController();
@@ -66,9 +66,8 @@ class _AddAlertState extends State<AddAlert> {
             VerticalSpacer(height: 33),
             ResponsiveWidget.fullWidth(
                 height: 140,
-                child: DateTimeRangePicker(
+                child: DateTimePicker(
                   dateTimeController,
-                  showRange: true,
                 )),
             VerticalSpacer(
               height: 25,
@@ -270,12 +269,9 @@ class _AddAlertState extends State<AddAlert> {
                         from: from,
                         price: double.parse(priceController.text),
                         comment: commentController.text,
-                        numberOfLuggages: luggageController.chosenNumber,
-                        numberOfPersons: personsController.chosenNumber,
-                        minDate:
-                            dateTimeController.startDateController.chosenDate,
-                        maxDate:
-                            dateTimeController.endDateController.chosenDate,
+                        maxLuggage: luggageController.chosenNumber,
+                        maxSeats: personsController.chosenNumber,
+                        leavingDate: dateTimeController.chosenDate,
                       );
                       Request<String> request = BroadCastAlert(_alert);
                       await request.send(_response);

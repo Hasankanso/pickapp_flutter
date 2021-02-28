@@ -19,8 +19,8 @@ import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/MainNativeAd.dart';
+import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
@@ -91,7 +91,8 @@ class _SearchState extends State<Search>
                 ),
                 tooltip: Lang.getString(context, "Notifications"),
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/Notifications");
+                  //Navigator.of(context).pushNamed("/Notifications");
+                  Navigator.of(context).pushNamed("/AddRate");
                 },
               ),
               ValueListenableBuilder(
@@ -150,7 +151,6 @@ class _SearchState extends State<Search>
               height: 100,
               child: MainNativeAd(
                 controller: _controller,
-                type: NativeAdmobType.banner,
               ),
             ),
           ],
