@@ -16,9 +16,7 @@ class PersonAdapter extends TypeAdapter<Person> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Person(
-      creationDate: fields[13] as DateTime,
-    )
+    return Person()
       .._id = fields[0] as String
       .._firstName = fields[1] as String
       .._lastName = fields[2] as String
@@ -31,13 +29,15 @@ class PersonAdapter extends TypeAdapter<Person> {
       .._rates = (fields[9] as List)?.cast<Rate>()
       .._updated = fields[10] as DateTime
       .._countryInformations = fields[11] as CountryInformations
-      .._statistics = fields[12] as UserStatistics;
+      .._statistics = fields[12] as UserStatistics
+      .._creationDate = fields[13] as DateTime
+      .._token = fields[14] as String;
   }
 
   @override
   void write(BinaryWriter writer, Person obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -65,7 +65,9 @@ class PersonAdapter extends TypeAdapter<Person> {
       ..writeByte(12)
       ..write(obj._statistics)
       ..writeByte(13)
-      ..write(obj.creationDate);
+      ..write(obj._creationDate)
+      ..writeByte(14)
+      ..write(obj._token);
   }
 
   @override

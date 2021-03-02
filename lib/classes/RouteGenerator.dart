@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/AddAlert.dart';
@@ -411,7 +412,10 @@ class RouteGenerator {
             duration: duration,
             reverseDuration: duration,
             type: isLTR,
-            child: AddRate());
+            child: AddRate(
+              ((args as List)[0] as Ride),
+              ((args as List)[1] as Person),
+            ));
       case '/AddAlert':
         return PageTransition(
             settings: settings,

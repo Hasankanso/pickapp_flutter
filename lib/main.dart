@@ -31,14 +31,19 @@ Future<void> main() async {
     Inbox.subscribeToChannel();
     //get notifications
     App.notifications = await Cache.getNotifications();
+
+    PushNotificationsManager pN = new PushNotificationsManager();
+    String token = await pN.init();
+    if (App.person.token != token) {
+      App.person.token = token;
+      Cache.setUserCache(App.user);
+      App.person.isUpdateToken = true;
+    }
   }
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Styles.primaryColor(), // navigation bar color
   ));
-
-  PushNotificationsManager pN = new PushNotificationsManager();
-  await pN.init();
 
   runApp(MyApp());
 }

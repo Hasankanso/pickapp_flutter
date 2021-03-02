@@ -65,17 +65,12 @@ class _HomeState extends State<Home> {
 
   startup() async {
     if (App.user != null) {
-      List<String> deviceObjectIds = List<String>();
-      List<String> channels = ["default"];
-
-      /*await Backendless.messaging
-          .registerDevice(
-              channels, null, (a) => MainNotification.onMessage(a, context))
-          .then((response) {
-        var ids = response.toJson()["channelRegistrations"];
-        for (final channel in channels) deviceObjectIds.add(ids["$channel"]);
-      });*/
-      Request<String> request = Startup(App.user, deviceObjectIds);
+      String token;
+      if (App.person.isUpdateToken) {
+        token = App.person.token;
+        App.person.isUpdateToken = false;
+      }
+      Request<String> request = Startup(App.user, token);
       request.send((userStatus, code, message) =>
           response(userStatus, code, message, context));
     }

@@ -40,7 +40,11 @@ class Person {
   @HiveField(12)
   UserStatistics _statistics;
   @HiveField(13)
-  DateTime creationDate;
+  DateTime _creationDate;
+  @HiveField(14)
+  String _token;
+
+  bool isUpdateToken = false;
 
   ImageProvider _networkImage;
 
@@ -49,8 +53,7 @@ class Person {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is Person && _id == other._id;
+      identical(this, other) || other is Person && _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;
@@ -68,9 +71,10 @@ class Person {
     DateTime updated,
     String profilePictureUrl,
     UserStatistics statistics,
-    this.creationDate,
+    DateTime creationDate,
     ImageProvider networkImage,
-    reviews,
+    String token,
+    List<Rate> reviews,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -81,11 +85,13 @@ class Person {
     this.bio = bio;
     this.countryInformations = countryInformations;
     this.gender = gender;
+    this.creationDate = creationDate;
     this.networkImage = networkImage;
     this.birthday = birthday;
+    this.token = token;
     this.profilePictureUrl = profilePictureUrl;
-    _rates = reviews;
-    _statistics = statistics;
+    this.rates = reviews;
+    this.statistics = statistics;
   }
 
   Person.name(this._firstName, this._lastName);
@@ -279,5 +285,17 @@ class Person {
 
   set countryInformations(CountryInformations value) {
     _countryInformations = value;
+  }
+
+  String get token => _token;
+
+  set token(String value) {
+    _token = value;
+  }
+
+  DateTime get creationDate => _creationDate;
+
+  set creationDate(DateTime value) {
+    _creationDate = value;
   }
 }
