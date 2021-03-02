@@ -41,7 +41,6 @@ class App {
   static dynamic minPriceFilter;
   static dynamic stepPriceFilter;
   static Channel inboxChannel;
-  static List<MainNotification> notifications = List<MainNotification>();
   static Locale locale;
   static ValueNotifier<bool> refreshInbox = ValueNotifier(false);
   static ValueNotifier<bool> updateUpcomingRide = ValueNotifier(false);

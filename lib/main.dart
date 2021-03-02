@@ -30,7 +30,6 @@ Future<void> main() async {
     if (App.driver != null) App.isDriverNotifier.value = true;
     Inbox.subscribeToChannel();
     //get notifications
-    App.notifications = await Cache.getNotifications();
   }
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

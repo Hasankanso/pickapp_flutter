@@ -30,8 +30,12 @@ class MainNotification {
   String _imagePath;
   @HiveField(8)
   String _imageUrl;
+  @HiveField(9)
+  bool isHandled;
 
   String get imageUrl => _imageUrl;
+
+  static List<MainNotification> notifications = List<MainNotification>();
 
   set imageUrl(String value) {
     _imageUrl = value;
@@ -56,6 +60,7 @@ class MainNotification {
     this.imagePath = imagePath;
     this.subtitle = subtitle;
     this.imageUrl = imageUrl;
+    this.isHandled = false;
   }
 
   MainNotification.fromJson(Map<String, dynamic> json)
@@ -76,6 +81,14 @@ class MainNotification {
         'imagePath': this.imagePath,
         'imageUrl': this.imageUrl
       };
+
+  static MainNotification fromMap(Map<String, dynamic> args) {
+    return MainNotification(
+        action: args["action"],
+        title: args["title"],
+        description: args["description"],
+        subtitle: args["subtitle"]);
+  }
 
   String get imagePath => _imagePath;
 
@@ -130,7 +143,7 @@ class MainNotification {
     return 'MainNotification{_id: $_id, _objectId: $_objectId, _action: $_action, _title: $_title, _description: $_description, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
   }
 
-  /*
+/*
   static initializeLocaleNotification(context) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -283,14 +296,5 @@ class MainNotification {
         FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.cancelAll();
   }*/
-  static void onMessage(Map<String, dynamic> args, context) {
-    App.isNewNotificationNotifier.value = true;
-    var details = json.decode(args["android_immediate_push"]);
-    MainNotification notification = MainNotification(
-        action: args["action"],
-        title: args["android-content-title"],
-        description: args["message"],
-        subtitle: args["android-summary-subtext"],
-        imageUrl: details["attachmentUrl"]);
-  }
+
 }
