@@ -154,8 +154,7 @@ class _SearchState extends State<Search>
               width: 200,
               height: 100,
               child: MainNativeAd(
-                controller: _controller,
-              ),
+                controller: _controller),
             ),
           ],
         ),

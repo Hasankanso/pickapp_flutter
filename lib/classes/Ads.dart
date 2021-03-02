@@ -50,6 +50,7 @@ class Ads {
     }
 
     await _bannerAd.load();
+    print(_bannerAd.toString());
     await _bannerAd.show(anchorType: AnchorType.bottom);
   }
 
@@ -58,6 +59,7 @@ class Ads {
   }
 
   static bool rewardedAdLoaded = false;
+
   static void loadRewardedVideo(BuildContext context, callback) async {
     RewardedVideoAd.instance.listener =
         (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {

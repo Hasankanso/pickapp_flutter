@@ -132,29 +132,46 @@ class Cache {
   }
 
   static Future<List<MainNotification>> getNotifications() async {
-    List<MainNotification> notifications;
-    await Hive.openBox('localNotifications');
-    final notificationsBox = Hive.box("localNotifications");
-    if (notificationsBox.length != 0) {
-      notifications = notificationsBox.getAt(0).cast<MainNotification>();
+    Box<List<MainNotification>> notificationBox =
+        await Hive.openBox("notifications");
+    List<MainNotification> returnNotifications = new List<MainNotification>();
+
+    if (notificationBox.isOpen) {
+      List<MainNotification> allNotifications =
+          notificationBox.get("notifications");
+      if (allNotifications != null) returnNotifications = allNotifications;
+      notificationBox.close();
     }
-    notificationsBox.close();
-    return notifications;
+    return returnNotifications;
   }
 
-  static Future<void> openChats(List<MainNotification> notifications) async {
-    await Hive.openBox('localNotifications');
-    final box = Hive.box("localNotifications");
-    if (box.containsKey(0)) {
-      await box.put(0, notifications);
-    } else {
-      box.add(notifications);
+  static Future<bool> addNotification(MainNotification notification) async {
+    Box<List<MainNotification>> notificationBox =
+        await Hive.openBox("notifications");
+    List<MainNotification> returnNotifications = new List<MainNotification>();
+
+    if (notificationBox.isOpen) {
+      List<MainNotification> allNotifications =
+          notificationBox.get("notifications");
+      if (allNotifications != null) returnNotifications = allNotifications;
+
+      setNotifications(returnNotifications);
+      return true;
     }
-    box.close();
+    return false;
   }
 
   static Future<void> setNotifications(
       List<MainNotification> notifications) async {
+    Box<List<MainNotification>> notificationBox =
+        await Hive.openBox("notifications");
+    if (notificationBox.isOpen) {
+      await notificationBox.put("notifications", notifications);
+    }
+    notificationBox.close();
+  }
+
+  static Future<void> openChats(List<MainNotification> notifications) async {
     await Hive.openBox('localNotifications');
     final box = Hive.box("localNotifications");
     if (box.containsKey(0)) {
