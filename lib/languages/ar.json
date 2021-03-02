@@ -184,6 +184,7 @@
   "Ride_Reserved_Success": "تم حجز المقاعد",
   "Ride_Reserved_Failed": "فشلت عملية الحجز",
   "Something_Wrong": "حصل خطأ، رقم الخطأ:",
+  "Failed_load_ad": "فشل في تحميل الإعلان!",
 
   "Luggage":"الحقائب",
   "Price":"السعر",

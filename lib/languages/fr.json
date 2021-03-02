@@ -214,6 +214,7 @@
   "Edit_Reservation": "Edit Reservation",
   "Cancel_Reservation": "Cancel Reservation",
   "Something_Wrong": "Something Wrong, error code:",
+  "Failed_load_ad": "Failed to load the ad!",
 
   "Edit_Ride" : "Edit Ride",
   "Ride_compare_upcoming": "Your ride must be after 20 min from the last upcoming ride",

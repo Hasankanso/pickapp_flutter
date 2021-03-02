@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
-import 'package:flutter_native_admob/native_admob_options.dart';
 import 'package:pickapp/classes/Ads.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
@@ -21,6 +19,7 @@ import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/MainNativeAd.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -92,7 +91,8 @@ class _SearchState extends State<Search>
                 ),
                 tooltip: Lang.getString(context, "Notifications"),
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/Notifications");
+                  //Navigator.of(context).pushNamed("/Notifications");
+                  Navigator.of(context).pushNamed("/AddRate");
                 },
               ),
               ValueListenableBuilder(
@@ -149,16 +149,8 @@ class _SearchState extends State<Search>
             ResponsiveWidget(
               width: 200,
               height: 100,
-              child: NativeAdmob(
-                adUnitID: Ads.nativeId,
-                loading: Center(child: CircularProgressIndicator()),
-                error: Text("Failed to load the ad"),
-                controller: _controller,
-                type: NativeAdmobType.full,
-                options: NativeAdmobOptions(
-                  ratingColor: Colors.red,
-                ),
-              ),
+              child: MainNativeAd(
+                controller: _controller),
             ),
           ],
         ),
@@ -173,6 +165,7 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
+                Ads.displayBannerAd();
                 _sendAnalyticsEvent();
                 _testSetUserId();
                 String _validateFrom =

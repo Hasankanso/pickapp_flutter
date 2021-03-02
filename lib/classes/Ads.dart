@@ -73,8 +73,8 @@ class Ads {
         CustomToast().showErrorToast("something_wrong_check_internet");
       }
     };
-    await RewardedVideoAd.instance
-        .load(adUnitId: _rewardedId, targetingInfo: targetingInfo);
+    await RewardedVideoAd.instance.load(
+        adUnitId: RewardedVideoAd.testAdUnitId, targetingInfo: targetingInfo);
     showRewardedAd();
   }
 
