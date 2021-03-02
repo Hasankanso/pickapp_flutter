@@ -183,7 +183,7 @@ class _AddRateState extends State<AddRate> {
                         reason: _reason,
                         target: widget._target,
                         ride: widget._ride);
-                    Request<Rate> request = AddRateRequest(_rate);
+                    Request<bool> request = AddRateRequest(_rate);
                     await request.send(_response);
                   }
                 },
@@ -195,12 +195,13 @@ class _AddRateState extends State<AddRate> {
     );
   }
 
-  _response(Rate result, int code, String p3) async {
+  _response(bool result, int code, String p3) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
     } else {
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_added!"));
+      if (result)
+        CustomToast()
+            .showSuccessToast(Lang.getString(context, "Successfully_added!"));
     }
   }
 }

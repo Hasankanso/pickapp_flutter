@@ -55,21 +55,13 @@ class Cache {
       cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
     }
 
-    if (userBox.containsKey(0)) {
-      await userBox.put(0, cacheUser);
-    } else {
-      userBox.add(cacheUser);
-    }
+    await userBox.put(0, cacheUser);
 
     await Hive.openBox('regions');
     final regionsBox = Hive.box("regions");
 
     if (regions != null && u.driver.cars != null && u.driver.cars.isNotEmpty) {
-      if (regionsBox.containsKey(0)) {
-        await regionsBox.put(0, regions);
-      } else {
-        regionsBox.add(regions);
-      }
+      await regionsBox.put(0, regions);
     } else if (u.driver.cars == null || u.driver.cars.isEmpty) {
       await regionsBox.clear();
     }
@@ -120,6 +112,7 @@ class Cache {
     regionsBox = Hive.box("regions");
     if (regionsBox.length != 0) {
       var list = regionsBox.getAt(0).cast<MainLocation>();
+      print(list);
       regionsBox.close();
       return list;
     }
