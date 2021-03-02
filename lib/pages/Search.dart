@@ -25,7 +25,6 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
-
 class Search extends StatefulWidget {
   @override
   _SearchState createState() => _SearchState();
@@ -39,9 +38,8 @@ class _SearchState extends State<Search>
   NumberController numberController = NumberController();
   final _controller = NativeAdmobController();
 
-
 // Optional: Set the option to disable the personalized Ads. AdMob default option: personalized
- // _controller.setNonPersonalizedAds(true);
+  // _controller.setNonPersonalizedAds(true);
 
   SearchInfo _searchInfo;
   String _fromError, _toError;
@@ -147,8 +145,10 @@ class _SearchState extends State<Search>
             ResponsiveWidget.fullWidth(
                 height: 35,
                 child: NumberPicker(numberController, "Persons", 1, 8)),
-            VerticalSpacer(height:30),
-            ResponsiveWidget(width: 200, height : 100,
+            VerticalSpacer(height: 30),
+            ResponsiveWidget(
+              width: 200,
+              height: 100,
               child: NativeAdmob(
                 adUnitID: Ads.nativeId,
                 loading: Center(child: CircularProgressIndicator()),
@@ -157,7 +157,8 @@ class _SearchState extends State<Search>
                 type: NativeAdmobType.full,
                 options: NativeAdmobOptions(
                   ratingColor: Colors.red,
-                ),),
+                ),
+              ),
             ),
           ],
         ),

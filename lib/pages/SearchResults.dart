@@ -269,11 +269,11 @@ class _SearchResultsState extends State<SearchResults> {
         );
         Request<Ride> req = ReserveSeat(ride, App.user,
             seats, luggage);
-        req.send((r, status, reason) => response(r, status, reason, context));
+        req.send((r, status, reason) => reserveSeatsResponse(r, status, reason, context));
     });
   }
 
-  void response(Ride r, int status, String reason, BuildContext context) {
+  void reserveSeatsResponse(Ride r, int status, String reason, BuildContext context) {
     if (status == 200) {
       App.addRideToMyRides(r);
       CustomToast()
