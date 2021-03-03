@@ -8,11 +8,10 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/pages/RideView.dart';
 import 'package:pickapp/pages/PersonView.dart';
+import 'package:pickapp/pages/RideView.dart';
 import 'package:pickapp/requests/CancelReservedSeats.dart';
 import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/ReserveSeat.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
@@ -52,8 +51,8 @@ class RideDetails extends StatelessWidget {
         _reason.text = "";
         Widget _content;
         if (ride.leavingDate.compareTo(DateTime.now()) < 0) {
-          return CustomToast().showSuccessToast(
-              Lang.getString(context, "Ride_already_started"));
+          return CustomToast()
+              .showErrorToast(Lang.getString(context, "Ride_already_started"));
         } else {
           if (ride.leavingDate
                   .compareTo(DateTime.now().add(Duration(hours: -48))) <=
@@ -169,14 +168,12 @@ class RideDetails extends StatelessWidget {
     );
   }
 
-  static void seatsLuggagePopUp(BuildContext context, Ride ride,Function(int, int)  onPressed, {Passenger reservation}) {
-
-
+  static void seatsLuggagePopUp(
+      BuildContext context, Ride ride, Function(int, int) onPressed,
+      {Passenger reservation}) {
     if (reservation == null) {
-      reservation = new Passenger(seats: 0, luggages:0);
+      reservation = new Passenger(seats: 0, luggages: 0);
     }
-
-
 
     final _formKey = GlobalKey<FormState>();
     var alertStyle = AlertStyle(
@@ -223,7 +220,7 @@ class RideDetails extends StatelessWidget {
                 overflow: TextOverflow.visible),
             color: Styles.primaryColor(),
             onPressed: () {
-              if(_formKey.currentState.validate()) {
+              if (_formKey.currentState.validate()) {
                 onPressed(seatsController.chosenNumber,
                     luggageController.chosenNumber);
               }

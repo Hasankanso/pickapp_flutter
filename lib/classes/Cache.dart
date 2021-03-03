@@ -112,7 +112,6 @@ class Cache {
     regionsBox = Hive.box("regions");
     if (regionsBox.length != 0) {
       var list = regionsBox.getAt(0).cast<MainLocation>();
-      print(list);
       regionsBox.close();
       return list;
     }
