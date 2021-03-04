@@ -9,6 +9,7 @@ import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/items/CarTypeItem.dart';
+import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/requests/AddCar.dart';
 import 'package:pickapp/requests/BecomeDriverRequest.dart';
 import 'package:pickapp/requests/ForceRegisterPerson.dart';
@@ -28,6 +29,7 @@ class AddCar2 extends StatefulWidget {
   User user;
 
   AddCar2({this.driver, this.car, this.isForceRegister, this.user});
+
   @override
   _AddCar2State createState() => _AddCar2State();
 }
@@ -227,12 +229,15 @@ class _AddCar2State extends State<AddCar2> {
   _registerRequest() {
     Request<User> registerRequest;
 
-    if (!widget.isForceRegister) {
-      registerRequest = RegisterPerson(widget.user);
-    } else {
-      registerRequest = ForceRegisterPerson(widget.user);
-    }
-    registerRequest.send(_registerResponse);
+    //get device token before registering
+    PushNotificationsManager.requestToken().then((value) => {
+          widget.user.person.deviceToken = value,
+          if (!widget.isForceRegister)
+            {registerRequest = RegisterPerson(widget.user)}
+          else
+            {registerRequest = ForceRegisterPerson(widget.user)},
+          registerRequest.send(_registerResponse)
+        });
   }
 
   _addCarRequest() {

@@ -41,6 +41,8 @@ class Person {
   UserStatistics _statistics;
   @HiveField(13)
   DateTime creationDate;
+  @HiveField(14)
+  String deviceToken;
 
   ImageProvider _networkImage;
 
@@ -71,6 +73,7 @@ class Person {
     this.creationDate,
     ImageProvider networkImage,
     reviews,
+    this.deviceToken
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -99,6 +102,7 @@ class Person {
         'countryInformations': this.countryInformations.toJson(),
         'birthday': this.birthday,
         'gender': this.gender,
+        'token' : this.deviceToken
       };
 
   factory Person.fromJson(Map<String, dynamic> json) {
@@ -130,6 +134,7 @@ class Person {
     if (createdJ != null) {
       created = DateTime.fromMillisecondsSinceEpoch(createdJ);
     }
+    var deviceToken = json["token"];
 
     Person p = Person(
       phone: json['phone'],
@@ -145,6 +150,7 @@ class Person {
       countryInformations: countryInformations,
       statistics: statistics,
       creationDate: created,
+      deviceToken: deviceToken,
     );
 
     p.setNetworkImage();

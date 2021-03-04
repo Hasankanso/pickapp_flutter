@@ -18,6 +18,7 @@ class PersonAdapter extends TypeAdapter<Person> {
     };
     return Person(
       creationDate: fields[13] as DateTime,
+      deviceToken: fields[14] as String,
     )
       .._id = fields[0] as String
       .._firstName = fields[1] as String
@@ -37,7 +38,7 @@ class PersonAdapter extends TypeAdapter<Person> {
   @override
   void write(BinaryWriter writer, Person obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -65,7 +66,9 @@ class PersonAdapter extends TypeAdapter<Person> {
       ..writeByte(12)
       ..write(obj._statistics)
       ..writeByte(13)
-      ..write(obj.creationDate);
+      ..write(obj.creationDate)
+      ..writeByte(14)
+      ..write(obj.deviceToken);
   }
 
   @override

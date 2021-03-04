@@ -28,16 +28,12 @@ Future<void> main() async {
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
-    Inbox.subscribeToChannel();
     //get notifications
   }
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Styles.primaryColor(), // navigation bar color
   ));
-
-  PushNotificationsManager pN = new PushNotificationsManager();
-  await pN.init();
 
   runApp(MyApp());
 }
@@ -82,6 +78,8 @@ class MyAppState extends State<MyApp> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     await Request.initBackendless();
+    await PushNotificationsManager().init();
+
   }
 
   @override

@@ -8,6 +8,7 @@ import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/requests/GetMyUpcomingRides.dart';
 import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/requests/UpdateDeviceToken.dart';
 
 class PushNotificationsManager {
   PushNotificationsManager._();
@@ -31,11 +32,29 @@ class PushNotificationsManager {
         onMessage: onMessage,
       );
 
-      // For testing purposes print the Firebase Messaging token
-      String token = await _firebaseMessaging.getToken();
+      String token = await requestToken();
       print("FirebaseMessaging token: $token");
-
+      if(App.isLoggedInNotifier.value){
+        //if token is different, update it in backendless
+        if(App.user.person.deviceToken != token){
+          UpdateDeviceToken request = UpdateDeviceToken(token, App.user.person);
+          request.send(updateTokenResponse);
+        }
+      }
       _initialized = true;
+    }
+  }
+
+  //this function is used in AddCar2, Details, RegisterDriver and login Pages.
+  static Future<String> requestToken() async {
+    // For testing purposes print the Firebase Messaging token
+    return _instance._firebaseMessaging.getToken();
+  }
+
+  updateTokenResponse(String token, int code, String p3) {
+    if(code == 200){
+      App.user.person.deviceToken = token;
+      Cache.setUserCache(App.user);
     }
   }
 }

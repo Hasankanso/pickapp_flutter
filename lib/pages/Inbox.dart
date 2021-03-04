@@ -20,24 +20,6 @@ class Inbox extends StatefulWidget {
   @override
   _InboxState createState() => _InboxState();
   static Channel channel;
-  static void subscribeToChannel() {
-    print("subscribing to my messaging channel");
-    if (channel != null) {
-      channel.isJoined().then((joined) {
-        if (!joined) {
-          Backendless.messaging.subscribe(App.person.id).then((ch) {
-            channel = ch;
-            channel.addMessageListener(messageReceived);
-          });
-        }
-      });
-    } else {
-      Backendless.messaging.subscribe(App.person.id).then((ch) {
-        channel = ch;
-        channel.addMessageListener(messageReceived);
-      });
-    }
-  }
 
   static Future<void> messageReceived(Map message) async {
     Message msg = Message(

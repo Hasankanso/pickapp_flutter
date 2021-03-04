@@ -146,12 +146,6 @@ class _SearchState extends State<Search>
                 height: 35,
                 child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
-            ResponsiveWidget(
-              width: 200,
-              height: 100,
-              child: MainNativeAd(
-                controller: _controller),
-            ),
           ],
         ),
       ),
@@ -165,7 +159,6 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                Ads.displayBannerAd();
                 _sendAnalyticsEvent();
                 _testSetUserId();
                 String _validateFrom =
