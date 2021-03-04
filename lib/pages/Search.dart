@@ -9,6 +9,7 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -92,7 +93,10 @@ class _SearchState extends State<Search>
                 tooltip: Lang.getString(context, "Notifications"),
                 onPressed: () {
                   //Navigator.of(context).pushNamed("/Notifications");
-                  Navigator.of(context).pushNamed("/AddRate");
+                  Navigator.of(context).pushNamed("/AddRate", arguments: [
+                    Ride(id: "4F3958A5-FAFE-47D0-B17C-F984E7D902EC"),
+                    Person(id: "0776BCB3-BD95-4CE8-8CD0-827CBB8C4188")
+                  ]);
                 },
               ),
               ValueListenableBuilder(

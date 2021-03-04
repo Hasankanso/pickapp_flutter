@@ -185,14 +185,13 @@ class App {
 
   static List<String> getRateReasons(context) {
     return <String>[
-      "Driver was driving too slow",
-      "Driver was driving too fast",
-      "The ride didn't take place",
-      "Late by more than 5 minutes",
-      "He/she didn't follow the profile chattiness.",
-      "He/she didn't follow the ride details.",
-      "He/she did negotiate the price",
-      "others"
+      "Didn't follow the ride details.",
+      "Didn't show up",
+      "Driving too fast",
+      "Driving too slow",
+      "Not friendly",
+      "Was late",
+      "Others"
     ];
   }
 

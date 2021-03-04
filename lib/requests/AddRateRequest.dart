@@ -1,7 +1,7 @@
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/requests/Request.dart';
 
-class AddRateRequest extends Request<Rate> {
+class AddRateRequest extends Request<bool> {
   Rate _rate;
 
   AddRateRequest(this._rate) {
@@ -9,8 +9,8 @@ class AddRateRequest extends Request<Rate> {
   }
 
   @override
-  Rate buildObject(json) {
-    return Rate.fromJson(json);
+  bool buildObject(json) {
+    return json["sent"] == "true";
   }
 
   @override

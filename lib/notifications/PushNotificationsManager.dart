@@ -21,7 +21,8 @@ class PushNotificationsManager {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   bool _initialized = false;
 
-  Future<void> init({context}) async {
+  Future<String> init({context}) async {
+    String token;
     if (!_initialized) {
       // For iOS request permission first.
       _firebaseMessaging.requestNotificationPermissions();
@@ -31,18 +32,9 @@ class PushNotificationsManager {
         onResume: onResume,
         onMessage: onMessage,
       );
-
-      String token = await requestToken();
-      print("FirebaseMessaging token: $token");
-      if(App.isLoggedInNotifier.value){
-        //if token is different, update it in backendless
-        if(App.user.person.deviceToken != token){
-          UpdateDeviceToken request = UpdateDeviceToken(token, App.user.person);
-          request.send(updateTokenResponse);
-        }
-      }
       _initialized = true;
     }
+    return token;
   }
 
   //this function is used in AddCar2, Details, RegisterDriver and login Pages.

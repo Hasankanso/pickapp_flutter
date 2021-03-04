@@ -56,7 +56,7 @@ class Rate {
     }
 
     return Rate(
-      grade: json["grade"],
+      grade: json["grade"].toDouble(),
       comment: json["comment"],
       reason: json["reason"],
       creationDate: creationDate,

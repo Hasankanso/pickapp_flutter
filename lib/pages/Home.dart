@@ -7,6 +7,7 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
+import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
@@ -65,19 +66,15 @@ class _HomeState extends State<Home> {
 
   startup() async {
     if (App.user != null) {
-      List<String> deviceObjectIds = List<String>();
-      List<String> channels = ["default"];
+      startup() async {
+        Request<String> request;
+        PushNotificationsManager.requestToken().then((token) => {
+          request = Startup(App.user, token),
+          request.send((userStatus, code, message) =>
+              response(userStatus, code, message, context)),
+        });
 
-      /*await Backendless.messaging
-          .registerDevice(
-              channels, null, (a) => MainNotification.onMessage(a, context))
-          .then((response) {
-        var ids = response.toJson()["channelRegistrations"];
-        for (final channel in channels) deviceObjectIds.add(ids["$channel"]);
-      });*/
-      Request<String> request = Startup(App.user, deviceObjectIds);
-      request.send((userStatus, code, message) =>
-          response(userStatus, code, message, context));
+      }
     }
   }
 

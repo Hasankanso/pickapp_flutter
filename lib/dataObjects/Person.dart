@@ -51,8 +51,7 @@ class Person {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is Person && _id == other._id;
+      identical(this, other) || other is Person && _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;
@@ -70,9 +69,9 @@ class Person {
     DateTime updated,
     String profilePictureUrl,
     UserStatistics statistics,
-    this.creationDate,
+    DateTime creationDate,
     ImageProvider networkImage,
-    reviews,
+  List<Rate> reviews,
     this.deviceToken
   }) {
     this.id = id;
@@ -84,11 +83,12 @@ class Person {
     this.bio = bio;
     this.countryInformations = countryInformations;
     this.gender = gender;
+    this.creationDate = creationDate;
     this.networkImage = networkImage;
     this.birthday = birthday;
     this.profilePictureUrl = profilePictureUrl;
-    _rates = reviews;
-    _statistics = statistics;
+    this.rates = reviews;
+    this.statistics = statistics;
   }
 
   Person.name(this._firstName, this._lastName);
@@ -286,4 +286,5 @@ class Person {
   set countryInformations(CountryInformations value) {
     _countryInformations = value;
   }
+
 }

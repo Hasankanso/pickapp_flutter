@@ -28,7 +28,6 @@ Future<void> main() async {
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
-    //get notifications
   }
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

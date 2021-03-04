@@ -3,8 +3,8 @@ import 'package:pickapp/requests/Request.dart';
 
 class Startup extends Request<String> {
   User _user;
-  List<String> _deviceIds;
-  Startup(this._user, this._deviceIds) {
+  String _token;
+  Startup(this._user, this._token) {
     httpPath = "/UserBusiness/Startup";
   }
 
@@ -18,7 +18,7 @@ class Startup extends Request<String> {
     return <String, dynamic>{
       'id': _user.id,
       'verificationCode': _user.verificationCode,
-      'deviceIds': _deviceIds
+      'token': _token
     };
   }
 

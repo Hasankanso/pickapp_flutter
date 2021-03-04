@@ -1,9 +1,12 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/requests/CancelRide.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -19,9 +22,70 @@ class UpcomingRideDetails extends StatelessWidget {
   final Ride ride;
   String buttonText;
   void Function(Ride) onPressed;
+
   UpcomingRideDetails(this.ride, {this.buttonText, this.onPressed});
 
-  deleteRideRequest(context){
+  TextEditingController _reason = TextEditingController();
+
+  _openDeletePopUp(context) {
+    Widget _content;
+    if (ride.leavingDate.compareTo(DateTime.now()) < 0) {
+      return CustomToast()
+          .showErrorToast(Lang.getString(context, "Ride_already_started"));
+    } else {
+      if (ride.leavingDate
+              .compareTo(DateTime.now().add(Duration(hours: -48))) <=
+          0) {
+        _content = Column(
+          children: [
+            TextFormField(
+              controller: _reason,
+              minLines: 3,
+              maxLines: 4,
+              textInputAction: TextInputAction.next,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(400),
+              ],
+              decoration: InputDecoration(
+                labelText: Lang.getString(context, "Reason"),
+                labelStyle: Styles.labelTextStyle(),
+              ),
+              style: Styles.valueTextStyle(),
+              validator: (value) {
+                String valid = Validation.validate(value, context);
+                String alpha =
+                    Validation.isAlphabeticIgnoreSpaces(context, value);
+                String short = Validation.isShort(context, value, 15);
+
+                if (valid != null)
+                  return valid;
+                else if (short != null)
+                  return short;
+                else if (alpha != null) return alpha;
+                return null;
+              },
+            ),
+          ],
+        );
+      }
+      PopUp.areYouSure(
+        Lang.getString(context, "Yes"),
+        Lang.getString(context, "No"),
+        Lang.getString(context, "Ride_delete_message"),
+        Lang.getString(context, "Warning!"),
+        Colors.red,
+        (yesNo) {
+          if (yesNo) {
+            deleteRideRequest(context);
+          }
+        },
+        highlightYes: true,
+        content: _content,
+      ).confirmationPopup(context);
+    }
+  }
+
+  deleteRideRequest(context) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -37,9 +101,9 @@ class UpcomingRideDetails extends StatelessWidget {
     Request<bool> request = CancelRide(ride, "hello");
     request.send((result, code, message) {
       return response(result, code, message, context);
-    }
-    );
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -54,19 +118,8 @@ class UpcomingRideDetails extends StatelessWidget {
                   size: Styles.largeIconSize(),
                 ),
                 tooltip: Lang.getString(context, "Delete"),
-                onPressed: ()  {
-                  PopUp.areYouSure(
-                      Lang.getString(context, "Yes"),
-                      Lang.getString(context, "No"),
-                      Lang.getString(
-                          context, "Ride_delete_message"),
-                      Lang.getString(context, "Warning!"),
-                      Colors.red,
-                          (bool) => bool
-                          ? deleteRideRequest(context)
-                          : null,
-                      highlightYes: true)
-                      .confirmationPopup(context);
+                onPressed: () {
+                  _openDeletePopUp(context);
                 })
           ],
           title: Lang.getString(context, "Ride_Details"),
@@ -107,5 +160,4 @@ class UpcomingRideDetails extends StatelessWidget {
           .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
     }
   }
-
 }

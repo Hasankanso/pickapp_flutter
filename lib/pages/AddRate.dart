@@ -8,7 +8,9 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/classes/screenutil.dart';
+import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/requests/AddRateRequest.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
@@ -18,7 +20,10 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddRate extends StatefulWidget {
-  AddRate();
+  final Ride _ride;
+  final Person _target;
+
+  AddRate(this._ride, this._target);
 
   @override
   _AddRateState createState() => _AddRateState();
@@ -26,14 +31,14 @@ class AddRate extends StatefulWidget {
 
 class _AddRateState extends State<AddRate> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _comment = TextEditingController();
+  final TextEditingController _comment = TextEditingController();
   double _grade = 5;
   int _reason = 0;
   List<String> _reasonsItems;
+  bool _isReasonVisible = false;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _reasonsItems = App.getRateReasons(context);
   }
@@ -71,37 +76,47 @@ class _AddRateState extends State<AddRate> {
                 glowRadius: 0.01,
                 onRatingUpdate: (rating) {
                   _grade = rating;
+                  setState(() {
+                    if (rating < 3.5) {
+                      _isReasonVisible = true;
+                    } else {
+                      _isReasonVisible = false;
+                    }
+                  });
                 },
               ),
               VerticalSpacer(
                 height: 30,
               ),
-              ResponsiveWidget.fullWidth(
-                height: 115,
-                child: DifferentSizeResponsiveRow(
-                  children: [
-                    Expanded(
-                      flex: 12,
-                      child: DropdownButtonFormField<String>(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                            labelText: Lang.getString(context, "Reason")),
-                        value: _reasonsItems[_reason],
-                        onChanged: (String newValue) {
-                          setState(() {
-                            _reason = _reasonsItems.indexOf(newValue);
-                          });
-                        },
-                        items: _reasonsItems
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+              Visibility(
+                visible: _isReasonVisible,
+                child: ResponsiveWidget.fullWidth(
+                  height: 115,
+                  child: DifferentSizeResponsiveRow(
+                    children: [
+                      Expanded(
+                        flex: 12,
+                        child: DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                              labelText: Lang.getString(context, "Reason")),
+                          value: _reasonsItems[_reason],
+                          onChanged: (String newValue) {
+                            setState(() {
+                              _reason = _reasonsItems.indexOf(newValue);
+                            });
+                          },
+                          items: _reasonsItems
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               ResponsiveWidget.fullWidth(
@@ -162,11 +177,13 @@ class _AddRateState extends State<AddRate> {
                 text_key: "Rate",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    Request<Rate> request = AddRateRequest(Rate(
-                      comment: _comment.text,
-                      grade: _grade,
-                      reason: _reason,
-                    ));
+                    Rate _rate = Rate(
+                        comment: _comment.text,
+                        grade: _grade,
+                        reason: _reason,
+                        target: widget._target,
+                        ride: widget._ride);
+                    Request<bool> request = AddRateRequest(_rate);
                     await request.send(_response);
                   }
                 },
@@ -178,12 +195,13 @@ class _AddRateState extends State<AddRate> {
     );
   }
 
-  _response(Rate result, int code, String p3) async {
+  _response(bool result, int code, String p3) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
     } else {
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_added!"));
+      if (result)
+        CustomToast()
+            .showSuccessToast(Lang.getString(context, "Successfully_added!"));
     }
   }
 }
