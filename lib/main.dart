@@ -7,7 +7,6 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,8 +29,9 @@ Future<void> main() async {
     if (App.driver != null) App.isDriverNotifier.value = true;
   }
 
+  //navbar color, not the bottomnavbar, it's the bar where you can press back in android.
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Styles.primaryColor(), // navigation bar color
+    systemNavigationBarColor: Styles.primaryColor(),
   ));
 
   runApp(MyApp());
@@ -78,7 +78,6 @@ class MyAppState extends State<MyApp> {
     super.didChangeDependencies();
     await Request.initBackendless();
     await PushNotificationsManager().init();
-
   }
 
   @override

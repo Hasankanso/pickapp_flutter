@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/requests/GetMyUpcomingRides.dart';
 import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/UpdateDeviceToken.dart';
 
 class PushNotificationsManager {
   PushNotificationsManager._();
