@@ -104,7 +104,7 @@ class App {
   }
 
   //called in Home class
-  static void setAppSizes(BuildContext context) {
+  static void setContext(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     ScreenUtil.init(context,
         designSize: Size(360, 640),
@@ -119,6 +119,7 @@ class App {
         mediumSize: ScreenUtil().setSp(21),
         subMediumSize: ScreenUtil().setSp(18),
         smallSize: ScreenUtil().setSp(14.5));
+    App.isLTR = Directionality.of(context) == TextDirection.ltr;
   }
 
   static void changeScreenReferenceSize(double width, double height) {

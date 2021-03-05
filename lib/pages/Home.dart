@@ -57,7 +57,6 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    App.setAppSizes(context);
     //MainNotification.initializeLocaleNotification(context);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       App.isAppBuild = true;
@@ -96,7 +95,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    App.isLTR = Directionality.of(context) == TextDirection.ltr;
+    App.setContext(context);
     return ValueListenableBuilder(
       builder: (BuildContext context, bool isLoggedIn, Widget child) {
         if (!isLoggedIn) {
