@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
@@ -31,11 +30,22 @@ class PushNotificationsManager {
         onResume: onResume,
         onMessage: onMessage,
       );
-
-      token = await _firebaseMessaging.getToken();
       _initialized = true;
     }
     return token;
+  }
+
+  //this function is used in AddCar2, Details, RegisterDriver and login Pages.
+  static Future<String> requestToken() async {
+    // For testing purposes print the Firebase Messaging token
+    return _instance._firebaseMessaging.getToken();
+  }
+
+  updateTokenResponse(String token, int code, String p3) {
+    if(code == 200){
+      App.user.person.deviceToken = token;
+      Cache.setUserCache(App.user);
+    }
   }
 }
 

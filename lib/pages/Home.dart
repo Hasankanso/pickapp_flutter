@@ -7,6 +7,7 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
+import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
@@ -65,14 +66,15 @@ class _HomeState extends State<Home> {
 
   startup() async {
     if (App.user != null) {
-      String token;
-      if (App.person.isUpdateToken) {
-        token = App.person.token;
-        App.person.isUpdateToken = false;
+      startup() async {
+        Request<String> request;
+        PushNotificationsManager.requestToken().then((token) => {
+          request = Startup(App.user, token),
+          request.send((userStatus, code, message) =>
+              response(userStatus, code, message, context)),
+        });
+
       }
-      Request<String> request = Startup(App.user, token);
-      request.send((userStatus, code, message) =>
-          response(userStatus, code, message, context));
     }
   }
 

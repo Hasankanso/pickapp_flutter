@@ -40,11 +40,9 @@ class Person {
   @HiveField(12)
   UserStatistics _statistics;
   @HiveField(13)
-  DateTime _creationDate;
+  DateTime creationDate;
   @HiveField(14)
-  String _token;
-
-  bool isUpdateToken = false;
+  String deviceToken;
 
   ImageProvider _networkImage;
 
@@ -73,8 +71,8 @@ class Person {
     UserStatistics statistics,
     DateTime creationDate,
     ImageProvider networkImage,
-    String token,
-    List<Rate> reviews,
+  List<Rate> reviews,
+    this.deviceToken
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -88,7 +86,6 @@ class Person {
     this.creationDate = creationDate;
     this.networkImage = networkImage;
     this.birthday = birthday;
-    this.token = token;
     this.profilePictureUrl = profilePictureUrl;
     this.rates = reviews;
     this.statistics = statistics;
@@ -105,6 +102,7 @@ class Person {
         'countryInformations': this.countryInformations.toJson(),
         'birthday': this.birthday,
         'gender': this.gender,
+        'token' : this.deviceToken
       };
 
   factory Person.fromJson(Map<String, dynamic> json) {
@@ -136,6 +134,7 @@ class Person {
     if (createdJ != null) {
       created = DateTime.fromMillisecondsSinceEpoch(createdJ);
     }
+    var deviceToken = json["token"];
 
     Person p = Person(
       phone: json['phone'],
@@ -151,6 +150,7 @@ class Person {
       countryInformations: countryInformations,
       statistics: statistics,
       creationDate: created,
+      deviceToken: deviceToken,
     );
 
     p.setNetworkImage();
@@ -287,15 +287,4 @@ class Person {
     _countryInformations = value;
   }
 
-  String get token => _token;
-
-  set token(String value) {
-    _token = value;
-  }
-
-  DateTime get creationDate => _creationDate;
-
-  set creationDate(DateTime value) {
-    _creationDate = value;
-  }
 }

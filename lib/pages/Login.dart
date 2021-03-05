@@ -8,6 +8,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/requests/LoginRequest.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/VerifyAccount.dart';
@@ -285,9 +286,14 @@ class _LoginState extends State<Login> {
                     );
                   },
                 );
+
                 Request<User> request = LoginRequest(_user);
-                request.send((u, code, message) =>
-                    codeValidationResponse(u, code, message, context));
+                PushNotificationsManager.requestToken().then((token) => {
+                    _user.person.deviceToken = token,
+                    request.send((u, code, message) =>
+                    codeValidationResponse(u, code, message, context)),
+                });
+
               }
             },
           ),

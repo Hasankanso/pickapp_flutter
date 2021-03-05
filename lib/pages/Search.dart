@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
-import 'package:pickapp/classes/Ads.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -168,7 +167,6 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                Ads.displayBannerAd();
                 _sendAnalyticsEvent();
                 _testSetUserId();
                 String _validateFrom =

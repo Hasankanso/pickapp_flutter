@@ -8,6 +8,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/requests/ForceRegisterPerson.dart';
 import 'package:pickapp/requests/RegisterPerson.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -104,12 +105,23 @@ class _RegisterDriverState extends State<RegisterDriver> {
                         );
                         widget.user.driver = null;
                         Request<User> registerRequest;
-                        if (!widget.isForceRegister) {
-                          registerRequest = RegisterPerson(widget.user);
-                        } else {
-                          registerRequest = ForceRegisterPerson(widget.user);
-                        }
-                        registerRequest.send(_registerResponse);
+
+                        //get device token before registering
+                        PushNotificationsManager.requestToken()
+                            .then((value) => {
+                                  widget.user.person.deviceToken = value,
+                                  if (!widget.isForceRegister)
+                                    {
+                                      registerRequest =
+                                          RegisterPerson(widget.user)
+                                    }
+                                  else
+                                    {
+                                      registerRequest =
+                                          ForceRegisterPerson(widget.user)
+                                    },
+                                  registerRequest.send(_registerResponse)
+                                });
                       },
                       child: Text(
                         Lang.getString(context, "Register"),
