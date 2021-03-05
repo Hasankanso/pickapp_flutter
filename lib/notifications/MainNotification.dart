@@ -90,6 +90,16 @@ class MainNotification {
         subtitle: args["subtitle"]);
   }
 
+  void handle() {
+    switch (_action) {
+      case "SEATS_RESERVED":
+        //notifier true;
+       //change on cache...
+    break;
+
+    }
+
+  }
   String get imagePath => _imagePath;
 
   set imagePath(String value) {
@@ -142,6 +152,8 @@ class MainNotification {
   String toString() {
     return 'MainNotification{_id: $_id, _objectId: $_objectId, _action: $_action, _title: $_title, _description: $_description, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
   }
+
+
 
 /*
   static initializeLocaleNotification(context) async {

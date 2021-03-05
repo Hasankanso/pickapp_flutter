@@ -9,6 +9,9 @@ import 'package:pickapp/requests/GetMyUpcomingRides.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class PushNotificationsManager {
+
+  static final int MAX_NOTIFICATIONS = 20;
+
   PushNotificationsManager._();
 
   factory PushNotificationsManager() => _instance;
@@ -41,12 +44,18 @@ class PushNotificationsManager {
     return _instance._firebaseMessaging.getToken();
   }
 
-  updateTokenResponse(String token, int code, String p3) {
-    if(code == 200){
-      App.user.person.deviceToken = token;
-      Cache.setUserCache(App.user);
+
+  Future<void> handleNotifications() async {
+    List<MainNotification> allNotifications = await Cache.getNotifications();
+
+    for (MainNotification n in allNotifications) {
+      if (!n.isHandled) {
+        n.handle();
+      }
     }
   }
+
+
 }
 
 //this will be invoked when app is terminated and user click the notification
@@ -76,51 +85,20 @@ Future<dynamic> onMessage(Map<String, dynamic> message) async {
   bool isCache = data["isCache"] == "true";
 
   if (isCache) {
+    newNotification.isHandled = true;
+    newNotification.handle();
     Cache.addNotification(newNotification);
-  }
-  handleNotifications();
-}
-
-Future<void> handleNotifications() async {
-  List<MainNotification> allNotifications = await Cache.getNotifications();
-  List<String> actionsToHandle = new List<String>(allNotifications.length);
-
-  for (MainNotification n in allNotifications) {
-    if (!(n.isHandled || actionsToHandle.contains(n.action))) {
-      actionsToHandle.add(n.action);
-    }
-  }
-  print("handling");
-  for (String action in actionsToHandle) {
-    if (action == "SEATS_RESERVED") {
-      Request<List<Ride>> ride = GetMyUpComingRides(App.user);
-      ride.send(upComingsRideResponse);
-      print("notification handled");
-    } else {
-      print(
-          "following notification action is not handled: $action. Check PushNotificationsManager.dart");
-    }
   }
 }
 
 //this will be invoked whenever a notification received and app is terminated or in background
 Future<dynamic> _backgroundMessageHandler(Map<String, dynamic> message) async {
   Map<String, dynamic> data = message['data'];
-
   MainNotification newNotification = MainNotification.fromMap(data);
   bool isCache = data["isCache"] == "true";
 
   if (isCache) {
+    newNotification.isHandled = false;
     Cache.addNotification(newNotification);
-  }
-
-  print("appInBackground: $message");
-}
-
-void upComingsRideResponse(List<Ride> rides, int code, String status) {
-  if (code == 200) {
-    App.person.upcomingRides = rides;
-    Cache.setUserCache(App.user);
-    App.updateUpcomingRide.value = true;
   }
 }

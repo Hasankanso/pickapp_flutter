@@ -13,6 +13,7 @@ import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/dataObjects/UserStatistics.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
+import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
@@ -41,21 +42,18 @@ class Cache {
 
   static setUserCache(User u) async {
     final userBox = Hive.box("user");
-    User cacheUser = u;
 
     Person cachePerson = u.person;
     cachePerson.rates = null;
-
-    cacheUser.person = cachePerson;
 
     var regions;
     if (u.driver != null && u.driver.cars != null && u.driver.cars.isNotEmpty) {
       regions = u.driver.regions;
       var d = u.driver;
-      cacheUser.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
+      u.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
     }
 
-    await userBox.put(0, cacheUser);
+    await userBox.put(0, u);
 
     await Hive.openBox('regions');
     final regionsBox = Hive.box("regions");
@@ -66,8 +64,6 @@ class Cache {
       await regionsBox.clear();
     }
     regionsBox.close();
-    //todo
-    //Inbox.subscribeToChannel();
   }
 
   static Future<Chat> getChat(String key) async {
@@ -119,6 +115,7 @@ class Cache {
     return null;
   }
 
+
   static Future<User> getUser() async {
     User user;
     await Hive.openBox('user');
@@ -153,6 +150,10 @@ class Cache {
       List<MainNotification> allNotifications =
           notificationBox.get("notifications");
       if (allNotifications != null) returnNotifications = allNotifications;
+
+      while(returnNotifications.length > PushNotificationsManager.MAX_NOTIFICATIONS) {
+          returnNotifications.removeLast();
+      }
 
       setNotifications(returnNotifications);
       return true;
