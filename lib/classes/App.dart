@@ -104,7 +104,7 @@ class App {
   }
 
   //called in Home class
-  static void setContext(BuildContext context) {
+  static void setAppSizes(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     ScreenUtil.init(context,
         designSize: Size(360, 640),
