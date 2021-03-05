@@ -45,7 +45,7 @@ class PushNotificationsManager {
   }
 
 
-  Future<void> handleNotifications() async {
+  static Future<void> handleNotifications() async {
     List<MainNotification> allNotifications = await Cache.getNotifications();
 
     for (MainNotification n in allNotifications) {

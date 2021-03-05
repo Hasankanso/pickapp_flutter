@@ -29,6 +29,7 @@ Future<void> main() async {
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
+    await PushNotificationsManager.handleNotifications();
   }
 
   //navbar color, not the bottomnavbar, it's the bar where you can press back in android.
@@ -62,17 +63,12 @@ class MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    super.initState();
     App.init(this);
     cacheFuture = Cache.init();
-    super.initState();
     WidgetsBinding.instance
         .addObserver(LifecycleEventHandler(resumeCallBack: () async {
-      List<MainNotification> notifications = await Cache.getNotifications();
-      for (MainNotification notification in notifications) {
-        if (!notification.isHandled) {
-          notification.handle();
-        }
-      }
+      await PushNotificationsManager.handleNotifications();
     }));
   }
 
