@@ -153,8 +153,7 @@ class _SearchState extends State<Search>
             ResponsiveWidget(
               width: 200,
               height: 100,
-              child: MainNativeAd(
-                controller: _controller),
+              child: MainNativeAd(controller: _controller),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -73,6 +74,10 @@ class MyAppState extends State<MyApp> {
     App.init(this);
     cacheFuture = Cache.init();
     super.initState();
+    WidgetsBinding.instance.addObserver(LifecycleEventHandler(
+        resumeCallBack: () async => setState(() {
+              //this is called whenever app is coming from background
+            })));
   }
 
   void _init() {
@@ -175,5 +180,24 @@ class MyAppState extends State<MyApp> {
             );
           }
         });
+  }
+}
+
+class LifecycleEventHandler extends WidgetsBindingObserver {
+  final AsyncCallback resumeCallBack;
+
+  LifecycleEventHandler({
+    this.resumeCallBack,
+  });
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        if (resumeCallBack != null) {
+          await resumeCallBack();
+        }
+        break;
+    }
   }
 }

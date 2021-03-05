@@ -9,6 +9,7 @@ import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/dataObjects/UserStatistics.dart';
@@ -84,6 +85,14 @@ class Cache {
     var regionB = Hive.box("regions");
     await regionB.clear();
     regionB.close();
+    await Hive.openBox('chat');
+    var chatB = Hive.box('chat');
+    await chatB.clear();
+    chatB.close();
+    await Hive.openBox('notifications');
+    var notfB = Hive.box('notifications');
+    await notfB.clear();
+    notfB.close();
     var userB = Hive.box("user");
     userB.clear();
   }
@@ -117,6 +126,27 @@ class Cache {
     }
     regionsBox.close();
     return null;
+  }
+
+  static Future<List<Rate>> getRates() async {
+    Box ratesBox;
+
+    await Hive.openBox("rates");
+    ratesBox = Hive.box("rates");
+    if (ratesBox.length != 0) {
+      var list = ratesBox.getAt(0).cast<Rate>();
+      ratesBox.close();
+      return list;
+    }
+    ratesBox.close();
+    return null;
+  }
+
+  static Future<void> setRates(List<Rate> rates) async {
+    await Hive.openBox('rates');
+    var ratesBox = Hive.box("rates");
+
+    await ratesBox.put(0, rates);
   }
 
   static Future<User> getUser() async {

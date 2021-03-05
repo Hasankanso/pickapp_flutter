@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:hive/hive.dart';
-import 'package:pickapp/classes/App.dart';
 
 //import 'package:timezone/data/latest.dart' as tz;
 //import 'package:timezone/timezone.dart' as tz;

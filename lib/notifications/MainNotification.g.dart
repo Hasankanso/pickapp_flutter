@@ -25,13 +25,14 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       .._scheduleDate = fields[5] as DateTime
       .._subtitle = fields[6] as String
       .._imagePath = fields[7] as String
-      .._imageUrl = fields[8] as String;
+      .._imageUrl = fields[8] as String
+      ..isHandled = fields[9] as bool;
   }
 
   @override
   void write(BinaryWriter writer, MainNotification obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -49,7 +50,9 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       ..writeByte(7)
       ..write(obj._imagePath)
       ..writeByte(8)
-      ..write(obj._imageUrl);
+      ..write(obj._imageUrl)
+      ..writeByte(9)
+      ..write(obj.isHandled);
   }
 
   @override
