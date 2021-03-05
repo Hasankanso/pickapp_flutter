@@ -14,7 +14,6 @@ import 'package:pickapp/dataObjects/Person.dart' as p;
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
 
 import 'Localizations.dart';
 
@@ -105,7 +104,7 @@ class App {
   }
 
   //called in Home class
-  static void setContext(BuildContext context) {
+  static void setAppSizes(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     ScreenUtil.init(context,
         designSize: Size(360, 640),
@@ -120,7 +119,6 @@ class App {
         mediumSize: ScreenUtil().setSp(21),
         subMediumSize: ScreenUtil().setSp(18),
         smallSize: ScreenUtil().setSp(14.5));
-    App.isLTR = Directionality.of(context) == TextDirection.ltr;
   }
 
   static void changeScreenReferenceSize(double width, double height) {
