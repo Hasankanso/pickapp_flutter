@@ -57,6 +57,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    App.setContext(context);
     //MainNotification.initializeLocaleNotification(context);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       App.isAppBuild = true;
@@ -69,11 +70,10 @@ class _HomeState extends State<Home> {
       startup() async {
         Request<String> request;
         PushNotificationsManager.requestToken().then((token) => {
-          request = Startup(App.user, token),
-          request.send((userStatus, code, message) =>
-              response(userStatus, code, message, context)),
-        });
-
+              request = Startup(App.user, token),
+              request.send((userStatus, code, message) =>
+                  response(userStatus, code, message, context)),
+            });
       }
     }
   }
@@ -96,7 +96,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    App.setContext(context);
+    App.isLTR = Directionality.of(context) == TextDirection.ltr;
     return ValueListenableBuilder(
       builder: (BuildContext context, bool isLoggedIn, Widget child) {
         if (!isLoggedIn) {
