@@ -55,7 +55,6 @@ class PushNotificationsManager {
     }
   }
 
-
 }
 
 //this will be invoked when app is terminated and user click the notification
@@ -85,7 +84,6 @@ Future<dynamic> onMessage(Map<String, dynamic> message) async {
   bool isCache = data["isCache"] == "true";
 
   if (isCache) {
-    newNotification.isHandled = true;
     newNotification.handle();
     Cache.addNotification(newNotification);
   }
@@ -98,7 +96,6 @@ Future<dynamic> _backgroundMessageHandler(Map<String, dynamic> message) async {
   bool isCache = data["isCache"] == "true";
 
   if (isCache) {
-    newNotification.isHandled = false;
     Cache.addNotification(newNotification);
   }
 }

@@ -28,8 +28,9 @@ class MainNotification {
   @HiveField(8)
   String _imageUrl;
   @HiveField(9)
-  bool isHandled;
+  bool _isHandled;
 
+  bool get isHandled => _isHandled;
   String get imageUrl => _imageUrl;
 
   static List<MainNotification> notifications = List<MainNotification>();
@@ -57,7 +58,7 @@ class MainNotification {
     this.imagePath = imagePath;
     this.subtitle = subtitle;
     this.imageUrl = imageUrl;
-    this.isHandled = false;
+    this._isHandled = false;
   }
 
   MainNotification.fromJson(Map<String, dynamic> json)
@@ -95,8 +96,9 @@ class MainNotification {
     break;
 
     }
-
+    _isHandled = true;
   }
+
   String get imagePath => _imagePath;
 
   set imagePath(String value) {
@@ -149,8 +151,6 @@ class MainNotification {
   String toString() {
     return 'MainNotification{_id: $_id, _objectId: $_objectId, _action: $_action, _title: $_title, _description: $_description, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
   }
-
-
 
 /*
   static initializeLocaleNotification(context) async {

@@ -8,6 +8,7 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,10 +65,15 @@ class MyAppState extends State<MyApp> {
     App.init(this);
     cacheFuture = Cache.init();
     super.initState();
-    WidgetsBinding.instance.addObserver(LifecycleEventHandler(
-        resumeCallBack: () async => setState(() {
-              //this is called whenever app is coming from background
-            })));
+    WidgetsBinding.instance
+        .addObserver(LifecycleEventHandler(resumeCallBack: () async {
+      List<MainNotification> notifications = await Cache.getNotifications();
+      for (MainNotification notification in notifications) {
+        if (!notification.isHandled) {
+          notification.handle();
+        }
+      }
+    }));
   }
 
   void _init() {
