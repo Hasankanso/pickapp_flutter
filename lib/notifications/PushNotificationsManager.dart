@@ -64,6 +64,12 @@ Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
       timer.cancel();
       App.isNewNotificationNotifier.value = true;
       App.navKey.currentState.pushNamed("/Notifications");
+      switch (message['data']['actions']) {
+        case "SEATS_RESERVED":
+          //do something
+          break;
+
+      }
     }
   });
   print("appTerminated: $message");
