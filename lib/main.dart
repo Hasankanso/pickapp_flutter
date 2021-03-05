@@ -8,7 +8,6 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/pages/SplashScreen.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +28,7 @@ Future<void> main() async {
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
+    await PushNotificationsManager().init();
     await PushNotificationsManager.handleNotifications();
   }
 
@@ -64,6 +64,7 @@ class MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    Request.initBackendless();
     App.init(this);
     cacheFuture = Cache.init();
     WidgetsBinding.instance
@@ -83,8 +84,6 @@ class MyAppState extends State<MyApp> {
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    await Request.initBackendless();
-    await PushNotificationsManager().init();
   }
 
   @override
