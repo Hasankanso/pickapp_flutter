@@ -66,7 +66,8 @@ Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
       App.navKey.currentState.pushNamed("/Notifications");
       switch (message['data']['actions']) {
         case "SEATS_RESERVED":
-          //do something
+          Ride ride=App.getRideFromObjectId(message['data']['id']);
+          App.navKey.currentState.pushNamed("/RideView",arguments: ride);
           break;
 
       }
