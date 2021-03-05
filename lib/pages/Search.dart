@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
-import 'package:pickapp/classes/Ads.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -150,6 +149,11 @@ class _SearchState extends State<Search>
                 height: 35,
                 child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
+            ResponsiveWidget(
+              width: 200,
+              height: 100,
+              child: MainNativeAd(controller: _controller),
+            ),
           ],
         ),
       ),

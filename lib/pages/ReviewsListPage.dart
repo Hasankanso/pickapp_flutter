@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Person.dart';
@@ -36,6 +37,13 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
       setState(() {
         widget.person.rates = rates;
       });
+    }
+  }
+
+  _getRate() async {
+    var rates = await Cache.getRates();
+    if (rates != null && rates.length != 0) {
+      App.user.person.rates = rates;
     }
   }
 

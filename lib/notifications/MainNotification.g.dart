@@ -27,7 +27,6 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       .._imagePath = fields[7] as String
       .._imageUrl = fields[8] as String
       ..isHandled = fields[9] as bool;
-
   }
 
   @override
