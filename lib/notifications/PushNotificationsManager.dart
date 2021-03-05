@@ -64,7 +64,7 @@ Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
       timer.cancel();
       App.isNewNotificationNotifier.value = true;
       App.navKey.currentState.pushNamed("/Notifications");
-      switch (message['data']['actions']) {
+      switch (message['data']['action']) {
         case "SEATS_RESERVED":
           Ride ride=App.getRideFromObjectId(message['data']['id']);
           App.navKey.currentState.pushNamed("/RideView",arguments: ride);
