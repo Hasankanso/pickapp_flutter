@@ -29,8 +29,8 @@ class PushNotificationsManager {
       _firebaseMessaging.requestNotificationPermissions();
       _firebaseMessaging.configure(
         onBackgroundMessage: _backgroundMessageHandler,
-        onLaunch: onLaunch,
-        onResume: onResume,
+        onLaunch: onAppOpen,
+        onResume: onAppOpen,
         onMessage: onMessage,
       );
       _initialized = true;
@@ -58,7 +58,7 @@ class PushNotificationsManager {
 }
 
 //this will be invoked when app is terminated and user click the notification
-Future<dynamic> onLaunch(Map<String, dynamic> message) async {
+Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
   Timer.periodic(Duration(seconds: 1), (timer) {
     if (App.isAppBuild) {
       timer.cancel();
@@ -69,12 +69,7 @@ Future<dynamic> onLaunch(Map<String, dynamic> message) async {
   print("appTerminated: $message");
 }
 
-//this will be invoked when app in background and user click the notification
-Future<dynamic> onResume(Map<String, dynamic> message) async {
-  App.isNewNotificationNotifier.value = true;
-  App.navKey.currentState.pushNamed("/Notifications");
-  print("appInBackground: $message");
-}
+
 
 //this will be invoked when app in foreground
 Future<dynamic> onMessage(Map<String, dynamic> message) async {
