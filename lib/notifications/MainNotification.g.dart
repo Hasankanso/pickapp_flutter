@@ -21,7 +21,7 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       .._objectId = fields[1] as String
       .._action = fields[2] as String
       .._title = fields[3] as String
-      .._description = fields[4] as String
+      .._body = fields[4] as String
       .._scheduleDate = fields[5] as DateTime
       .._subtitle = fields[6] as String
       .._imagePath = fields[7] as String
@@ -42,7 +42,7 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       ..writeByte(3)
       ..write(obj._title)
       ..writeByte(4)
-      ..write(obj._description)
+      ..write(obj._body)
       ..writeByte(5)
       ..write(obj._scheduleDate)
       ..writeByte(6)

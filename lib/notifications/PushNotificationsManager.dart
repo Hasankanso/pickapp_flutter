@@ -46,9 +46,11 @@ class PushNotificationsManager {
 
     for (MainNotification n in allNotifications) {
       if (!n.isHandled) {
+        App.isNewNotificationNotifier.value = true;
         n.handle();
       }
     }
+    App.notifications = allNotifications;
   }
 }
 

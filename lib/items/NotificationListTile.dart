@@ -33,7 +33,7 @@ class NotificationListTile extends ListTile {
           ],
         ),
         subtitle: Text(
-          notification.description,
+          notification.body,
           style: Styles.valueTextStyle(),
         ),
       ),

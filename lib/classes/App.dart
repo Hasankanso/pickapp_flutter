@@ -14,6 +14,7 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
+import 'package:pickapp/notifications/MainNotification.dart';
 
 import 'Localizations.dart';
 
@@ -44,6 +45,7 @@ class App {
   static ValueNotifier<bool> refreshInbox = ValueNotifier(false);
   static ValueNotifier<bool> updateUpcomingRide = ValueNotifier(false);
   static bool isLTR;
+  static List<MainNotification> notifications = List<MainNotification>();
   static ValueNotifier<bool> isNewNotificationNotifier =
       ValueNotifier<bool>(false);
 

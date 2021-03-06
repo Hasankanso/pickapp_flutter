@@ -18,7 +18,7 @@ class MainNotification {
   @HiveField(3)
   String _title;
   @HiveField(4)
-  String _description;
+  String _body;
   @HiveField(5)
   DateTime _scheduleDate;
   @HiveField(6)
@@ -41,7 +41,7 @@ class MainNotification {
 
   MainNotification(
       {String title,
-      String description,
+      String body,
       int id,
       String objectId,
       String action,
@@ -51,7 +51,7 @@ class MainNotification {
       String imageUrl}) {
     this.id = id;
     this.objectId = objectId;
-    this.description = description;
+    this.body = body;
     this.title = title;
     this.action = action;
     this.scheduleDate = scheduleDate;
@@ -66,7 +66,7 @@ class MainNotification {
         _action = json["action"],
         _title = json["title"],
         _subtitle = json["subtitle"],
-        _description = json["description"],
+        _body = json["body"],
         _imagePath = json["imagePath"],
         _imageUrl = json["imageUrl"];
 
@@ -74,7 +74,7 @@ class MainNotification {
         'objectId': this.objectId,
         'action': this.action,
         'title': this.title,
-        'description': this.description,
+        'body': this.body,
         'subtitle': this.subtitle,
         'imagePath': this.imagePath,
         'imageUrl': this.imageUrl
@@ -84,7 +84,7 @@ class MainNotification {
     return MainNotification(
         action: args["action"],
         title: args["title"],
-        description: args["description"],
+        body: args["body"],
         subtitle: args["subtitle"]);
   }
 
@@ -92,12 +92,11 @@ class MainNotification {
     switch (_action) {
       case "SEATS_RESERVED":
         //notifier true;
-       //change on cache...
-    break;
-      case "RATE":
-      print("woslet");
+        //change on cache...
         break;
-
+      case "RATE":
+        print("woslet");
+        break;
     }
     _isHandled = true;
   }
@@ -120,10 +119,10 @@ class MainNotification {
     _title = value;
   }
 
-  get description => _description;
+  get body => _body;
 
-  set description(value) {
-    _description = value;
+  set body(value) {
+    _body = value;
   }
 
   get action => _action;
@@ -152,7 +151,7 @@ class MainNotification {
 
   @override
   String toString() {
-    return 'MainNotification{_id: $_id, _objectId: $_objectId, _action: $_action, _title: $_title, _description: $_description, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
+    return 'MainNotification{_id: $_id, _objectId: $_objectId, _action: $_action, _title: $_title, _body: $_body, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
   }
 
 /*
@@ -251,7 +250,7 @@ class MainNotification {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         notification.id,
         notification.title,
-        notification.description,
+        notification.body,
         tz.TZDateTime(
             tz.local,
             notification.scheduleDate.year,

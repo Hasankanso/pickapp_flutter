@@ -80,6 +80,14 @@ class _SearchState extends State<Search>
       appBar: MainAppBar(
         title: Lang.getString(context, "Search_for_Ride"),
         actions: [
+          IconButton(
+              icon: Icon(Icons.star_rate),
+              onPressed: () {
+                Navigator.of(context).pushNamed("/AddRate", arguments: [
+                  Ride(id: "4F3958A5-FAFE-47D0-B17C-F984E7D902EC"),
+                  Person(id: "0776BCB3-BD95-4CE8-8CD0-827CBB8C4188")
+                ]);
+              }),
           Stack(
             alignment: AlignmentDirectional.center,
             children: [
@@ -91,11 +99,7 @@ class _SearchState extends State<Search>
                 ),
                 tooltip: Lang.getString(context, "Notifications"),
                 onPressed: () {
-                  //Navigator.of(context).pushNamed("/Notifications");
-                  Navigator.of(context).pushNamed("/AddRate", arguments: [
-                    Ride(id: "4F3958A5-FAFE-47D0-B17C-F984E7D902EC"),
-                    Person(id: "0776BCB3-BD95-4CE8-8CD0-827CBB8C4188")
-                  ]);
+                  Navigator.of(context).pushNamed("/Notifications");
                 },
               ),
               ValueListenableBuilder(

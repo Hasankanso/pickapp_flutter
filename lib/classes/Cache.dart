@@ -163,8 +163,10 @@ class Cache {
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
     if (notificationBox.isOpen) {
-      List<MainNotification> allNotifications =
-          notificationBox.get("notifications").cast<MainNotification>();
+      var notfication = notificationBox.get("notifications");
+      if (notfication != null)
+        notfication = notfication.cast<MainNotification>();
+      List<MainNotification> allNotifications = notfication;
       if (allNotifications != null) returnNotifications = allNotifications;
       notificationBox.close();
     }
@@ -176,8 +178,10 @@ class Cache {
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
     if (notificationBox.isOpen) {
-      List<MainNotification> allNotifications =
-          notificationBox.get("notifications").cast<MainNotification>();
+      var notfication = notificationBox.get("notifications");
+      if (notfication != null)
+        notfication = notfication.cast<MainNotification>();
+      List<MainNotification> allNotifications = notfication;
       if (allNotifications != null) returnNotifications = allNotifications;
 
       returnNotifications.add(notification);
