@@ -93,6 +93,7 @@ Future<dynamic> _backgroundMessageHandler(
 
   Map<String, dynamic> data =
       new Map<String, dynamic>.from(notification["data"]);
+
   MainNotification newNotification = MainNotification.fromMap(data);
   bool isCache = data["isCache"] == "true";
   if (isCache) {

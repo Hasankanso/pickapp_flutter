@@ -95,19 +95,21 @@ class Cache {
 
   static Future<void> initializeHive() async {
     final path = await PathProvider.getApplicationDocumentsDirectory();
-    Hive.init(path.path);
-    Hive.registerAdapter(UserAdapter());
-    Hive.registerAdapter(PersonAdapter());
-    Hive.registerAdapter(DriverAdapter());
-    Hive.registerAdapter(CountryInformationsAdapter());
-    Hive.registerAdapter(CarAdapter());
-    Hive.registerAdapter(MainLocationAdapter());
-    Hive.registerAdapter(RideAdapter());
-    Hive.registerAdapter(PassengerAdapter());
-    Hive.registerAdapter(ChatAdapter());
-    Hive.registerAdapter(MessageAdapter());
-    Hive.registerAdapter(MainNotificationAdapter());
-    Hive.registerAdapter(UserStatisticsAdapter());
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.init(path.path);
+      Hive.registerAdapter(UserAdapter());
+      Hive.registerAdapter(PersonAdapter());
+      Hive.registerAdapter(DriverAdapter());
+      Hive.registerAdapter(CountryInformationsAdapter());
+      Hive.registerAdapter(CarAdapter());
+      Hive.registerAdapter(MainLocationAdapter());
+      Hive.registerAdapter(RideAdapter());
+      Hive.registerAdapter(PassengerAdapter());
+      Hive.registerAdapter(ChatAdapter());
+      Hive.registerAdapter(MessageAdapter());
+      Hive.registerAdapter(MainNotificationAdapter());
+      Hive.registerAdapter(UserStatisticsAdapter());
+    }
   }
 
   static Future<List<MainLocation>> getRegions() async {
@@ -157,13 +159,12 @@ class Cache {
   }
 
   static Future<List<MainNotification>> getNotifications() async {
-    Box<List<MainNotification>> notificationBox =
-        await Hive.openBox("notifications");
+    var notificationBox = await Hive.openBox("notifications");
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
     if (notificationBox.isOpen) {
       List<MainNotification> allNotifications =
-          notificationBox.get("notifications");
+          notificationBox.get("notifications").cast<MainNotification>();
       if (allNotifications != null) returnNotifications = allNotifications;
       notificationBox.close();
     }
@@ -171,34 +172,25 @@ class Cache {
   }
 
   static Future<bool> addNotification(MainNotification notification) async {
-    Box<List<MainNotification>> notificationBox =
-        await Hive.openBox("notifications");
+    var notificationBox = await Hive.openBox("notifications");
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
     if (notificationBox.isOpen) {
       List<MainNotification> allNotifications =
-          notificationBox.get("notifications");
+          notificationBox.get("notifications").cast<MainNotification>();
       if (allNotifications != null) returnNotifications = allNotifications;
 
+      returnNotifications.add(notification);
       while (returnNotifications.length >
           PushNotificationsManager.MAX_NOTIFICATIONS) {
-        returnNotifications.removeLast();
+        returnNotifications.removeAt(0);
       }
 
-      setNotifications(returnNotifications);
+      await notificationBox.put("notifications", returnNotifications);
+      notificationBox.close();
       return true;
     }
     return false;
-  }
-
-  static Future<void> setNotifications(
-      List<MainNotification> notifications) async {
-    Box<List<MainNotification>> notificationBox =
-        await Hive.openBox("notifications");
-    if (notificationBox.isOpen) {
-      await notificationBox.put("notifications", notifications);
-    }
-    notificationBox.close();
   }
 
   static Future<void> openChats(List<MainNotification> notifications) async {
