@@ -94,6 +94,9 @@ class MainNotification {
         //notifier true;
        //change on cache...
     break;
+      case "RATE":
+      print("woslet");
+        break;
 
     }
     _isHandled = true;

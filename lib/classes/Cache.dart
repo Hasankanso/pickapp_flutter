@@ -180,8 +180,9 @@ class Cache {
           notificationBox.get("notifications");
       if (allNotifications != null) returnNotifications = allNotifications;
 
-      while(returnNotifications.length > PushNotificationsManager.MAX_NOTIFICATIONS) {
-          returnNotifications.removeLast();
+      while (returnNotifications.length >
+          PushNotificationsManager.MAX_NOTIFICATIONS) {
+        returnNotifications.removeLast();
       }
 
       setNotifications(returnNotifications);

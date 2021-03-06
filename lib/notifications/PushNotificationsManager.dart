@@ -5,11 +5,8 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:pickapp/requests/GetMyUpcomingRides.dart';
-import 'package:pickapp/requests/Request.dart';
 
 class PushNotificationsManager {
-
   static final int MAX_NOTIFICATIONS = 20;
 
   PushNotificationsManager._();
@@ -44,7 +41,6 @@ class PushNotificationsManager {
     return _instance._firebaseMessaging.getToken();
   }
 
-
   static Future<void> handleNotifications() async {
     List<MainNotification> allNotifications = await Cache.getNotifications();
 
@@ -54,7 +50,6 @@ class PushNotificationsManager {
       }
     }
   }
-
 }
 
 //this will be invoked when app is terminated and user click the notification
@@ -64,20 +59,22 @@ Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
       timer.cancel();
       switch (message['data']['action']) {
         case "SEATS_RESERVED":
-          Ride ride=App.getRideFromObjectId(message['data']['id']);
-          App.navKey.currentState.pushNamed("/RideView",arguments: ride);
+          Ride ride = App.getRideFromObjectId(message['data']['id']);
+          App.navKey.currentState.pushNamed("/RideView", arguments: ride);
           break;
-
+        case "RATE":
+          print(2);
+          break;
       }
     }
   });
   print("appTerminated: $message");
 }
 
-
-
 //this will be invoked when app in foreground
 Future<dynamic> onMessage(Map<String, dynamic> message) async {
+  print("app is open and notification received");
+
   Map<String, dynamic> data = message['data'];
 
   MainNotification newNotification = MainNotification.fromMap(data);
@@ -90,12 +87,16 @@ Future<dynamic> onMessage(Map<String, dynamic> message) async {
 }
 
 //this will be invoked whenever a notification received and app is terminated or in background
-Future<dynamic> _backgroundMessageHandler(Map<String, dynamic> message) async {
-  Map<String, dynamic> data = message['data'];
+Future<dynamic> _backgroundMessageHandler(
+    Map<String, dynamic> notification) async {
+  print("app is terminated or in background and notification received");
+
+  Map<String, dynamic> data =
+      new Map<String, dynamic>.from(notification["data"]);
   MainNotification newNotification = MainNotification.fromMap(data);
   bool isCache = data["isCache"] == "true";
-
   if (isCache) {
+    await Cache.initializeHive();
     Cache.addNotification(newNotification);
   }
 }

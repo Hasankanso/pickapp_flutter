@@ -12,6 +12,7 @@ import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
 import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin;
 import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
+import io.flutter.plugins.pathprovider.PathProviderPlugin;
 
 public class Application extends FlutterApplication implements PluginRegistrantCallback {
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -25,6 +26,7 @@ public class Application extends FlutterApplication implements PluginRegistrantC
     @Override
     public void registerWith(PluginRegistry registry) {
         FirebaseMessagingPlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin"));
+        PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider.PathProviderPlugin"));
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createChannel(){

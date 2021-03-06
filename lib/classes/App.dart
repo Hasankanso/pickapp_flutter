@@ -10,7 +10,7 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/Person.dart' as p;
+import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
@@ -180,7 +180,7 @@ class App {
 
   static Driver get driver => user == null ? null : user.driver;
 
-  static p.Person get person => user == null ? null : user.person;
+  static Person get person => user == null ? null : user.person;
 
   static List<String> getRateReasons(context) {
     return <String>[
