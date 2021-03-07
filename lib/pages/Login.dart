@@ -289,11 +289,10 @@ class _LoginState extends State<Login> {
 
                 Request<User> request = LoginRequest(_user);
                 PushNotificationsManager.requestToken().then((token) => {
-                    _user.person.deviceToken = token,
-                    request.send((u, code, message) =>
-                    codeValidationResponse(u, code, message, context)),
-                });
-
+                      _user.person.deviceToken = token,
+                      request.send((u, code, message) =>
+                          codeValidationResponse(u, code, message, context)),
+                    });
               }
             },
           ),

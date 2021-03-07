@@ -66,14 +66,12 @@ class _HomeState extends State<Home> {
 
   startup() async {
     if (App.user != null) {
-      startup() async {
-        Request<String> request;
-        PushNotificationsManager.requestToken().then((token) => {
-              request = Startup(App.user, token),
-              request.send((userStatus, code, message) =>
-                  response(userStatus, code, message, context)),
-            });
-      }
+      Request<String> request;
+      PushNotificationsManager.requestToken().then((token) => {
+            request = Startup(App.user, token),
+            request.send((userStatus, code, message) =>
+                response(userStatus, code, message, context)),
+          });
     }
   }
 

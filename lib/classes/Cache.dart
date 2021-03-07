@@ -173,6 +173,18 @@ class Cache {
     return returnNotifications;
   }
 
+  static Future<bool> updateNotifications(
+      List<MainNotification> allnotifications) async {
+    var notificationBox = await Hive.openBox("notifications");
+
+    if (notificationBox.isOpen) {
+      notificationBox.put("notifications", allnotifications);
+      notificationBox.close();
+      return true;
+    }
+    return false;
+  }
+
   static Future<bool> addNotification(MainNotification notification) async {
     var notificationBox = await Hive.openBox("notifications");
     List<MainNotification> returnNotifications = new List<MainNotification>();

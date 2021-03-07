@@ -48,7 +48,8 @@ class MainNotification {
       DateTime scheduleDate,
       String imagePath,
       String subtitle,
-      String imageUrl}) {
+      String imageUrl,
+      bool isHandled}) {
     this.id = id;
     this.objectId = objectId;
     this.body = body;
@@ -58,7 +59,7 @@ class MainNotification {
     this.imagePath = imagePath;
     this.subtitle = subtitle;
     this.imageUrl = imageUrl;
-    this._isHandled = false;
+    this._isHandled = isHandled;
   }
 
   MainNotification.fromJson(Map<String, dynamic> json)
@@ -85,7 +86,8 @@ class MainNotification {
         action: args["action"],
         title: args["title"],
         body: args["body"],
-        subtitle: args["subtitle"]);
+        subtitle: args["subtitle"],
+        isHandled: false);
   }
 
   void handle() {
@@ -95,7 +97,6 @@ class MainNotification {
         //change on cache...
         break;
       case "RATE":
-        print("woslet");
         break;
     }
     _isHandled = true;

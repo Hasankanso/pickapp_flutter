@@ -44,13 +44,18 @@ class PushNotificationsManager {
   static Future<void> handleNotifications() async {
     List<MainNotification> allNotifications = await Cache.getNotifications();
 
+    bool isOneNotificationHandled = false;
     for (MainNotification n in allNotifications) {
       if (!n.isHandled) {
+        isOneNotificationHandled = true;
         App.isNewNotificationNotifier.value = true;
         n.handle();
       }
     }
     App.notifications = allNotifications;
+    if (isOneNotificationHandled) {
+      await Cache.updateNotifications(allNotifications);
+    }
   }
 }
 
@@ -74,12 +79,13 @@ Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
 }
 
 //this will be invoked when app in foreground
-Future<dynamic> onMessage(Map<String, dynamic> message) async {
+Future<dynamic> onMessage(Map<String, dynamic> notification) async {
   print("app is open and notification received");
 
-  Map<String, dynamic> data = message['data'];
-
+  Map<String, dynamic> data =
+      new Map<String, dynamic>.from(notification["data"]);
   MainNotification newNotification = MainNotification.fromMap(data);
+
   bool isCache = data["isCache"] == "true";
 
   if (isCache) {

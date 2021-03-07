@@ -10,13 +10,14 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 
 class Notifications extends StatelessWidget {
-  List<MainNotification> notifications = App.notifications;
+  List<MainNotification> notifications;
 
   @override
   Widget build(BuildContext context) {
-    assert(notifications != null);
     WidgetsBinding.instance.addPostFrameCallback(
         (_) => App.isNewNotificationNotifier.value = false);
+    notifications = List.from(App.notifications.reversed);
+    assert(notifications != null);
 
     return MainScaffold(
       appBar: MainAppBar(
