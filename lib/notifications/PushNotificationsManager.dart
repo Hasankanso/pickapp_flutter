@@ -25,10 +25,11 @@ class PushNotificationsManager {
       // For iOS request permission first.
       _firebaseMessaging.requestNotificationPermissions();
       _firebaseMessaging.configure(
+        onMessage: _foregroundMessageHandler,
         onBackgroundMessage: _backgroundMessageHandler,
         onLaunch: onAppOpen,
         onResume: onAppOpen,
-        onMessage: onMessage,
+
       );
       _initialized = true;
     }
@@ -41,9 +42,10 @@ class PushNotificationsManager {
     return _instance._firebaseMessaging.getToken();
   }
 
-  static Future<void> handleNotifications() async {
+   Future<void> handleNotifications() async {
     List<MainNotification> allNotifications = await Cache.getNotifications();
-
+    App.notifications = allNotifications;
+    print(allNotifications.length);
     bool isOneNotificationHandled = false;
     for (MainNotification n in allNotifications) {
       if (!n.isHandled) {
@@ -52,7 +54,7 @@ class PushNotificationsManager {
         n.handle();
       }
     }
-    App.notifications = allNotifications;
+
     if (isOneNotificationHandled) {
       await Cache.updateNotifications(allNotifications);
     }
@@ -79,19 +81,16 @@ Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
 }
 
 //this will be invoked when app in foreground
-Future<dynamic> onMessage(Map<String, dynamic> notification) async {
-  print("app is open and notification received");
+Future<dynamic> _foregroundMessageHandler(Map<String, dynamic> notification) async {
+  print(notification);
 
   Map<String, dynamic> data =
       new Map<String, dynamic>.from(notification["data"]);
-  MainNotification newNotification = MainNotification.fromMap(data);
 
-  bool isCache = data["isCache"] == "true";
 
-  if (isCache) {
+    MainNotification newNotification = MainNotification.fromMap(data);
     newNotification.handle();
     Cache.addNotification(newNotification);
-  }
 }
 
 //this will be invoked whenever a notification received and app is terminated or in background
@@ -102,10 +101,8 @@ Future<dynamic> _backgroundMessageHandler(
   Map<String, dynamic> data =
       new Map<String, dynamic>.from(notification["data"]);
 
-  MainNotification newNotification = MainNotification.fromMap(data);
-  bool isCache = data["isCache"] == "true";
-  if (isCache) {
+    MainNotification newNotification = MainNotification.fromMap(data);
+
     await Cache.initializeHive();
     Cache.addNotification(newNotification);
-  }
 }
