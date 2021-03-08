@@ -250,7 +250,7 @@ class _CarDetailsState extends State<CarDetails> {
       Navigator.pop(context);
     } else {
       App.user.driver.cars = p1;
-      await Cache.setUserCache(App.user);
+      await Cache.setUser(App.user);
       App.refreshProfile.value = true;
 
       CustomToast()

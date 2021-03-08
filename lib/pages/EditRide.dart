@@ -186,7 +186,7 @@ class EditRide extends StatelessWidget {
     } else {
       App.user.person.upcomingRides.remove(result);
       App.user.person.upcomingRides.add(result);
-      Cache.setUserCache(App.user);
+      Cache.setUser(App.user);
       Navigator.popUntil(context, (route) => route.isFirst);
       App.updateUpcomingRide.value = true;
 

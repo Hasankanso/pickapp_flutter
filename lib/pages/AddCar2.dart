@@ -261,7 +261,7 @@ class _AddCar2State extends State<AddCar2> {
       Navigator.pop(context);
     } else {
       App.user = u;
-      await Cache.setUserCache(u);
+      await Cache.setUser(u);
       App.isDriverNotifier.value = true;
 
       App.isLoggedInNotifier.value = true;
@@ -281,7 +281,7 @@ class _AddCar2State extends State<AddCar2> {
     } else {
       App.user.driver = p1;
 
-      await Cache.setUserCache(App.user);
+      await Cache.setUser(App.user);
 
       App.isDriverNotifier.value = true;
       CustomToast().showSuccessToast(Lang.getString(context, "Now_driver"));
@@ -295,7 +295,7 @@ class _AddCar2State extends State<AddCar2> {
       Navigator.pop(context);
     } else {
       App.user.driver.cars = p1;
-      await Cache.setUserCache(App.user);
+      await Cache.setUser(App.user);
       App.refreshProfile.value = true;
 
       CustomToast()

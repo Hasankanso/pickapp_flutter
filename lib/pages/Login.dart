@@ -287,9 +287,9 @@ class _LoginState extends State<Login> {
                   },
                 );
 
-                Request<User> request = LoginRequest(_user);
+                Request<User> request;
                 PushNotificationsManager.requestToken().then((token) => {
-                      _user.person.deviceToken = token,
+                      request = LoginRequest(_user, token),
                       request.send((u, code, message) =>
                           codeValidationResponse(u, code, message, context)),
                     });
@@ -306,7 +306,7 @@ class _LoginState extends State<Login> {
       Navigator.pop(context);
     } else {
       App.user = u;
-      await Cache.setUserCache(u);
+      await Cache.setUser(u);
       if (App.user.driver != null) App.isDriverNotifier.value = true;
       App.isLoggedInNotifier.value = true;
 

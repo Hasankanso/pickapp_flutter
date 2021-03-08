@@ -224,12 +224,12 @@ class App {
   static deleteRideFromMyRides(Ride ride) {
     App.user.person.upcomingRides.remove(ride);
     updateUpcomingRide.value = true;
-    Cache.setUserCache(App.user);
+    Cache.setUser(App.user);
   }
 
   static addRideToMyRides(Ride ride) {
     App.user.person.upcomingRides.add(ride);
-    Cache.setUserCache(App.user);
+    Cache.setUser(App.user);
     App.updateUpcomingRide.value = true;
   }
 }

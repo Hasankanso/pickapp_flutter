@@ -41,30 +41,11 @@ class Cache {
 
   static bool get failed => _failed;
 
-  static setUserCache(User u) async {
+  static setUser(User u) async {
     final userBox = Hive.box("user");
-
-    Person cachePerson = u.person;
-    cachePerson.rates = null;
-
-    var regions;
-    if (u.driver != null && u.driver.cars != null && u.driver.cars.isNotEmpty) {
-      regions = u.driver.regions;
-      var d = u.driver;
-      u.driver = Driver(id: d.id, cars: d.cars, updated: d.updated);
-    }
+    u.person.rates = null;
 
     await userBox.put(0, u);
-
-    await Hive.openBox('regions');
-    final regionsBox = Hive.box("regions");
-
-    if (regions != null && u.driver.cars != null && u.driver.cars.isNotEmpty) {
-      await regionsBox.put(0, regions);
-    } else if (u.driver.cars == null || u.driver.cars.isEmpty) {
-      await regionsBox.clear();
-    }
-    regionsBox.close();
   }
 
   static Future<Chat> getChat(String key) async {
@@ -77,10 +58,6 @@ class Cache {
   }
 
   static Future<void> clearHiveCache() async {
-    await Hive.openBox("regions");
-    var regionB = Hive.box("regions");
-    await regionB.clear();
-    regionB.close();
     await Hive.openBox('chat');
     var chatB = Hive.box('chat');
     await chatB.clear();
@@ -110,20 +87,6 @@ class Cache {
       Hive.registerAdapter(MainNotificationAdapter());
       Hive.registerAdapter(UserStatisticsAdapter());
     }
-  }
-
-  static Future<List<MainLocation>> getRegions() async {
-    Box regionsBox;
-
-    await Hive.openBox("regions");
-    regionsBox = Hive.box("regions");
-    if (regionsBox.length != 0) {
-      var list = regionsBox.getAt(0).cast<MainLocation>();
-      regionsBox.close();
-      return list;
-    }
-    regionsBox.close();
-    return null;
   }
 
   static Future<List<Rate>> getRates() async {

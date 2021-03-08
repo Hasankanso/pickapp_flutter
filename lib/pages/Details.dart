@@ -410,7 +410,7 @@ class _DetailsState extends State<Details> {
 
       App.user.person = result;
       User u = App.user;
-      await Cache.setUserCache(u);
+      await Cache.setUser(u);
 
       App.refreshProfile.value = true;
       CustomToast()
@@ -438,14 +438,13 @@ class _DetailsState extends State<Details> {
 
       //get device token before registering
       PushNotificationsManager.requestToken().then((value) => {
-        widget.user.person.deviceToken = value,
-        if (!widget.isForceRegister)
-          {registerRequest = RegisterPerson(widget.user)}
-        else
-          {registerRequest = ForceRegisterPerson(widget.user)},
-        registerRequest.send(_registerResponse)
-      });
-
+            widget.user.person.deviceToken = value,
+            if (!widget.isForceRegister)
+              {registerRequest = RegisterPerson(widget.user)}
+            else
+              {registerRequest = ForceRegisterPerson(widget.user)},
+            registerRequest.send(_registerResponse)
+          });
     } else {
       //open become
       Navigator.pushNamed(
@@ -462,7 +461,7 @@ class _DetailsState extends State<Details> {
       Navigator.pop(context);
     } else {
       App.user = u;
-      await Cache.setUserCache(u);
+      await Cache.setUser(u);
       App.isDriverNotifier.value = false;
       App.user.driver = null;
 

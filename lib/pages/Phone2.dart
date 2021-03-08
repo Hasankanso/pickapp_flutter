@@ -340,7 +340,7 @@ class _Phone2State extends State<Phone2> {
       localUser.person.statistics = App.person.statistics;
 
       App.user = localUser;
-      await Cache.setUserCache(localUser);
+      await Cache.setUser(localUser);
 
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));

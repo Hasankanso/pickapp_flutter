@@ -68,7 +68,7 @@ class CarListTile extends ListTile {
         App.user.driver = null;
       }
 
-      await Cache.setUserCache(App.user);
+      await Cache.setUser(App.user);
 
       App.refreshProfile.value = true;
 
@@ -149,7 +149,7 @@ class CarListTile extends ListTile {
                                       (bool) => bool
                                           ? _deleteCarRequest(context)
                                           : null,
-                                  highlightYes: true)
+                                      highlightYes: true)
                                   .confirmationPopup(context);
                             },
                           ),

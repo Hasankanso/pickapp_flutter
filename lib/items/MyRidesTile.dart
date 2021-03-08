@@ -80,7 +80,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
     } else {
       App.person.upcomingRides.remove(r);
       App.person.upcomingRides.add(r);
-      Cache.setUserCache(App.user);
+      Cache.setUser(App.user);
       App.updateUpcomingRide.value = true;
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));

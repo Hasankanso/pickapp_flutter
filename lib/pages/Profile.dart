@@ -55,7 +55,7 @@ class _ProfileState extends State<Profile> {
       result.statistics = App.user.person.statistics;
 
       App.user.person = result;
-      await Cache.setUserCache(App.user);
+      await Cache.setUser(App.user);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       setState(() {

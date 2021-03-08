@@ -155,7 +155,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
       Navigator.pop(context);
     } else {
       App.user = u;
-      await Cache.setUserCache(u);
+      await Cache.setUser(u);
       App.isDriverNotifier.value = false;
       App.user.driver = null;
 

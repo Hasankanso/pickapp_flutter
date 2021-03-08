@@ -63,10 +63,6 @@ class _BecomeDriverState extends State<BecomeDriver> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     if (widget.isRegionPage) {
-      var localRegion = await Cache.getRegions();
-      if (localRegion != null && localRegion.length != 0) {
-        App.user.driver.regions = localRegion;
-      }
       _regions = App.driver.regions;
       for (var region in _regions) {
         _regionsControllers.add(LocationEditingController(
@@ -298,7 +294,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
     } else {
       App.driver.regions = p1.regions;
 
-      await Cache.setUserCache(App.user);
+      await Cache.setUser(App.user);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }

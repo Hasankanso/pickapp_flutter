@@ -3,7 +3,8 @@ import 'package:pickapp/requests/Request.dart';
 
 class LoginRequest extends Request<User> {
   User _user;
-  LoginRequest(this._user) {
+  String _token;
+  LoginRequest(this._user, this._token) {
     httpPath = "/UserBusiness/Login";
   }
 
@@ -16,7 +17,8 @@ class LoginRequest extends Request<User> {
   Map<String, dynamic> getJson() {
     return <String, dynamic>{
       'phone': _user.phone,
-      'verificationCode': _user.verificationCode
+      'verificationCode': _user.verificationCode,
+      'token': _token,
     };
   }
 
