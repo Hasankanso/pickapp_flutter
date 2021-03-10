@@ -55,7 +55,7 @@ class PushNotificationsManager {
         print("not handled omg!");
         isOneNotificationHandled = true;
         App.isNewNotificationNotifier.value = true;
-        n.handle();
+        await n.handle();
       }
     }
 
@@ -87,39 +87,35 @@ Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
 //this will be invoked when app in foreground
 Future<dynamic> _foregroundMessageHandler(
     Map<String, dynamic> notification) async {
-  print(notification);
+  print("app is open and notification received");
 
-  Map<String, dynamic> data =
-      new Map<String, dynamic>.from(notification["data"]);
-
-  MainNotification newNotification = MainNotification.fromMap(data);
-  _castNotificationObject(newNotification);
-
-  bool isCache = data["isCache"] == "true";
-
-  if (isCache) {
-    App.isNewNotificationNotifier.value = true;
-    newNotification.handle();
-    App.notifications.add(newNotification);
-    await Cache.addNotification(newNotification);
-  }
+  await _setNotificationCache(notification, true);
 }
 
 //this will be invoked whenever a notification received and app is terminated or in background
 Future<dynamic> _backgroundMessageHandler(
     Map<String, dynamic> notification) async {
   print("app is terminated or in background and notification received");
+
+  await _setNotificationCache(notification, false);
+}
+
+_setNotificationCache(
+    Map<String, dynamic> notification, bool isForeground) async {
   print(notification);
+
   Map<String, dynamic> data =
       new Map<String, dynamic>.from(notification["data"]);
   if (data["isCache"] == "true") {
     MainNotification newNotification = MainNotification.fromMap(data);
     _castNotificationObject(newNotification);
-    bool isCache = data["isCache"] == "true";
-    if (isCache) {
-      await Cache.initializeHive();
-      await Cache.addNotification(newNotification);
+    await Cache.initializeHive();
+    if (isForeground) {
+      App.isNewNotificationNotifier.value = true;
+      await newNotification.handle();
+      App.notifications.add(newNotification);
     }
+    await Cache.addNotification(newNotification);
   }
 }
 

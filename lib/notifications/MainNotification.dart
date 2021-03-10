@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 
 //import 'package:timezone/data/latest.dart' as tz;
@@ -45,7 +46,6 @@ class MainNotification {
       String imagePath,
       String subtitle,
       String imageUrl,
-      bool isHandled,
       Object object}) {
     this.id = id;
     this.objectId = objectId;
@@ -56,7 +56,7 @@ class MainNotification {
     this.imagePath = imagePath;
     this.subtitle = subtitle;
     this.imageUrl = imageUrl;
-    this.isHandled = isHandled;
+    this._isHandled = false;
     this.object = object;
   }
 
@@ -85,18 +85,17 @@ class MainNotification {
         title: args["title"],
         body: args["body"],
         subtitle: args["subtitle"],
-        isHandled: false,
         object: args["object"]);
   }
 
-  void handle() {
+  Future<void> handle() async {
     switch (_action) {
       case "SEATS_RESERVED":
         //notifier true;
         //change on cache...
         break;
       case "RATE":
-        _handleRate();
+        await _handleRate();
         break;
     }
     _isHandled = true;
@@ -105,7 +104,7 @@ class MainNotification {
   _handleRate() async {
     Rate rate = this.object as Rate;
     print(rate.toString());
-    //await Cache.addRate(rate);
+    await Cache.addRate(rate);
   }
 
   set imageUrl(String value) {
@@ -113,10 +112,6 @@ class MainNotification {
   }
 
   bool get isHandled => _isHandled;
-
-  set isHandled(bool value) {
-    _isHandled = value;
-  }
 
   String get imageUrl => _imageUrl;
 

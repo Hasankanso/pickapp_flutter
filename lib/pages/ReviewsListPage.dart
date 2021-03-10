@@ -24,6 +24,7 @@ class ReviewsListPage extends StatefulWidget {
 
 class _ReviewsListPageState extends State<ReviewsListPage> {
   List<Rate> rates;
+  List<String> reasons;
 
   @override
   void initState() {
@@ -58,8 +59,14 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    reasons = App.getRateReasons(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<String> reasons = App.getRateReasons(context);
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Reviews"),

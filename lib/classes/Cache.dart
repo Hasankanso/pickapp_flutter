@@ -95,17 +95,22 @@ class Cache {
   }
 
   static Future<List<Rate>> getRates() async {
+    var rateBox;
+    if (!Hive.isBoxOpen("rates")) {
+      rateBox = await Hive.openBox("rates");
+    } else {
+      rateBox = Hive.box("rates");
+    }
     List<Rate> returnRates = new List<Rate>();
 
-    Box ratesBox;
-    await Hive.openBox("rates");
-    ratesBox = Hive.box("rates");
-    if (ratesBox.length != 0) {
-      returnRates = ratesBox.getAt(0).cast<List<Rate>>();
-      ratesBox.close();
-      return returnRates;
+    if (rateBox.isOpen) {
+      var rates = rateBox.get("rates");
+      if (rates != null) {
+        rates = rates.cast<Rate>();
+        returnRates = rates;
+      }
+      await rateBox.close();
     }
-    ratesBox.close();
     return returnRates;
   }
 
@@ -115,15 +120,13 @@ class Cache {
 
     if (rateBox.isOpen) {
       var rates = rateBox.get("rates");
-      if (rates != null) {
-        rates = rates as List<Rate>;
-        returnRates = rates;
-      }
-
+      if (rates != null) rates = rates.cast<Rate>();
+      List<Rate> allRates = rates;
+      if (allRates != null) returnRates = allRates;
       returnRates.add(rate);
 
       await rateBox.put("rates", returnRates);
-      rateBox.close();
+      await rateBox.close();
       return true;
     }
     return false;
@@ -150,11 +153,11 @@ class Cache {
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
     if (notificationBox.isOpen) {
-      var notfication = notificationBox.get("notifications");
-      if (notfication != null)
-        notfication = notfication.cast<MainNotification>();
-      List<MainNotification> allNotifications = notfication;
-      if (allNotifications != null) returnNotifications = allNotifications;
+      var notfications = notificationBox.get("notifications");
+      if (notfications != null) {
+        notfications = notfications.cast<MainNotification>();
+        returnNotifications = notfications;
+      }
       await notificationBox.close();
     }
     return returnNotifications;
@@ -181,11 +184,11 @@ class Cache {
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
     if (notificationBox.isOpen) {
-      var notfication = notificationBox.get("notifications");
-      if (notfication != null)
-        notfication = notfication.cast<MainNotification>();
-      List<MainNotification> allNotifications = notfication;
-      if (allNotifications != null) returnNotifications = allNotifications;
+      var notfications = notificationBox.get("notifications");
+      if (notfications != null) {
+        notfications = notfications.cast<MainNotification>();
+        returnNotifications = notfications;
+      }
       returnNotifications.add(notification);
       while (returnNotifications.length >
           PushNotificationsManager.MAX_NOTIFICATIONS) {
