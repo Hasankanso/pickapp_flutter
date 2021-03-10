@@ -65,6 +65,11 @@ class Rate {
     );
   }
 
+  @override
+  String toString() {
+    return 'Rate{_grade: $_grade, _comment: $_comment, _reason: $_reason, _rater: $_rater, _target: $_target, _ride: $_ride, _creationDate: $_creationDate}';
+  }
+
   double get grade => _grade;
 
   set grade(double value) {

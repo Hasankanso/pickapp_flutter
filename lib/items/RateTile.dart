@@ -89,7 +89,9 @@ class RateTile extends ListTile {
                       ),
                     ],
                   ),
-                  VerticalSpacer(height: 20,),
+                  VerticalSpacer(
+                    height: 20,
+                  ),
                 ],
               ),
             ),

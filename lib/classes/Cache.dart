@@ -62,6 +62,10 @@ class Cache {
     var chatB = Hive.box('chat');
     await chatB.clear();
     chatB.close();
+    await Hive.openBox('rates');
+    var rateB = Hive.box('rates');
+    await rateB.clear();
+    rateB.close();
     await Hive.openBox('notifications');
     var notfB = Hive.box('notifications');
     await notfB.clear();
@@ -81,6 +85,7 @@ class Cache {
       Hive.registerAdapter(CarAdapter());
       Hive.registerAdapter(MainLocationAdapter());
       Hive.registerAdapter(RideAdapter());
+      Hive.registerAdapter(RateAdapter());
       Hive.registerAdapter(PassengerAdapter());
       Hive.registerAdapter(ChatAdapter());
       Hive.registerAdapter(MessageAdapter());
@@ -90,24 +95,38 @@ class Cache {
   }
 
   static Future<List<Rate>> getRates() async {
-    Box ratesBox;
+    List<Rate> returnRates = new List<Rate>();
 
+    Box ratesBox;
     await Hive.openBox("rates");
     ratesBox = Hive.box("rates");
     if (ratesBox.length != 0) {
-      var list = ratesBox.getAt(0).cast<Rate>();
+      returnRates = ratesBox.getAt(0).cast<List<Rate>>();
       ratesBox.close();
-      return list;
+      return returnRates;
     }
     ratesBox.close();
-    return null;
+    return returnRates;
   }
 
-  static Future<void> setRates(List<Rate> rates) async {
-    await Hive.openBox('rates');
-    var ratesBox = Hive.box("rates");
+  static Future<bool> addRate(Rate rate) async {
+    var rateBox = await Hive.openBox("rates");
+    List<Rate> returnRates = new List<Rate>();
 
-    await ratesBox.put(0, rates);
+    if (rateBox.isOpen) {
+      var rates = rateBox.get("rates");
+      if (rates != null) {
+        rates = rates as List<Rate>;
+        returnRates = rates;
+      }
+
+      returnRates.add(rate);
+
+      await rateBox.put("rates", returnRates);
+      rateBox.close();
+      return true;
+    }
+    return false;
   }
 
   static Future<User> getUser() async {
@@ -122,7 +141,12 @@ class Cache {
   }
 
   static Future<List<MainNotification>> getNotifications() async {
-    var notificationBox = await Hive.openBox("notifications");
+    var notificationBox;
+    if (!Hive.isBoxOpen("notifications")) {
+      notificationBox = await Hive.openBox("notifications");
+    } else {
+      notificationBox = Hive.box("notifications");
+    }
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
     if (notificationBox.isOpen) {
@@ -131,18 +155,22 @@ class Cache {
         notfication = notfication.cast<MainNotification>();
       List<MainNotification> allNotifications = notfication;
       if (allNotifications != null) returnNotifications = allNotifications;
-      notificationBox.close();
+      await notificationBox.close();
     }
     return returnNotifications;
   }
 
   static Future<bool> updateNotifications(
       List<MainNotification> allnotifications) async {
-    var notificationBox = await Hive.openBox("notifications");
-
+    var notificationBox;
+    if (!Hive.isBoxOpen("notifications")) {
+      notificationBox = await Hive.openBox("notifications");
+    } else {
+      notificationBox = Hive.box("notifications");
+    }
     if (notificationBox.isOpen) {
       notificationBox.put("notifications", allnotifications);
-      notificationBox.close();
+      await notificationBox.close();
       return true;
     }
     return false;
@@ -158,7 +186,6 @@ class Cache {
         notfication = notfication.cast<MainNotification>();
       List<MainNotification> allNotifications = notfication;
       if (allNotifications != null) returnNotifications = allNotifications;
-
       returnNotifications.add(notification);
       while (returnNotifications.length >
           PushNotificationsManager.MAX_NOTIFICATIONS) {
@@ -166,7 +193,7 @@ class Cache {
       }
 
       await notificationBox.put("notifications", returnNotifications);
-      notificationBox.close();
+      await notificationBox.close();
       return true;
     }
     return false;

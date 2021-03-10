@@ -26,6 +26,8 @@ class CountryInformations {
   int _drivingAge;
   @HiveField(10)
   double _priceStep;
+  @HiveField(11)
+  double _rateStart;
 
   CountryInformations(
       {String id,
@@ -38,10 +40,12 @@ class CountryInformations {
       double maxPrice,
       int drivingAge,
       double priceStep,
-      String countryComponent}) {
+      String countryComponent,
+      double rateStart}) {
     this.id = id;
     this.updated = updated;
     this.unit = unit;
+    this.rateStart = rateStart;
     this.name = name;
     this.digits = digits;
     this.code = code;
@@ -69,6 +73,9 @@ class CountryInformations {
         priceStep: json["priceStep"] is int
             ? (json["priceStep"] as int).toDouble()
             : json["priceStep"],
+        rateStart: json["rateStart"] is int
+            ? (json["rateStart"] as int).toDouble()
+            : json["rateStart"],
         drivingAge: json["drivingAge"],
         countryComponent: json["countryComponent"],
         digits: json["digits"]);
@@ -148,5 +155,11 @@ class CountryInformations {
 
   set drivingAge(int value) {
     _drivingAge = value;
+  }
+
+  double get rateStart => _rateStart;
+
+  set rateStart(double value) {
+    _rateStart = value;
   }
 }

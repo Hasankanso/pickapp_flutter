@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:pickapp/dataObjects/Rate.dart';
 
 //import 'package:timezone/data/latest.dart' as tz;
 //import 'package:timezone/timezone.dart' as tz;
@@ -29,15 +30,10 @@ class MainNotification {
   String _imageUrl;
   @HiveField(9)
   bool _isHandled;
-
-  bool get isHandled => _isHandled;
-  String get imageUrl => _imageUrl;
+  @HiveField(10)
+  Object object;
 
   static List<MainNotification> notifications = List<MainNotification>();
-
-  set imageUrl(String value) {
-    _imageUrl = value;
-  }
 
   MainNotification(
       {String title,
@@ -49,7 +45,8 @@ class MainNotification {
       String imagePath,
       String subtitle,
       String imageUrl,
-      bool isHandled}) {
+      bool isHandled,
+      Object object}) {
     this.id = id;
     this.objectId = objectId;
     this.body = body;
@@ -59,7 +56,8 @@ class MainNotification {
     this.imagePath = imagePath;
     this.subtitle = subtitle;
     this.imageUrl = imageUrl;
-    this._isHandled = isHandled;
+    this.isHandled = isHandled;
+    this.object = object;
   }
 
   MainNotification.fromJson(Map<String, dynamic> json)
@@ -87,7 +85,8 @@ class MainNotification {
         title: args["title"],
         body: args["body"],
         subtitle: args["subtitle"],
-        isHandled: false);
+        isHandled: false,
+        object: args["object"]);
   }
 
   void handle() {
@@ -97,10 +96,29 @@ class MainNotification {
         //change on cache...
         break;
       case "RATE":
+        _handleRate();
         break;
     }
     _isHandled = true;
   }
+
+  _handleRate() async {
+    Rate rate = this.object as Rate;
+    print(rate.toString());
+    //await Cache.addRate(rate);
+  }
+
+  set imageUrl(String value) {
+    _imageUrl = value;
+  }
+
+  bool get isHandled => _isHandled;
+
+  set isHandled(bool value) {
+    _isHandled = value;
+  }
+
+  String get imageUrl => _imageUrl;
 
   String get imagePath => _imagePath;
 

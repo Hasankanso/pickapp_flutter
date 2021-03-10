@@ -16,7 +16,9 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return MainNotification()
+    return MainNotification(
+      object: fields[10] as Object,
+    )
       .._id = fields[0] as int
       .._objectId = fields[1] as String
       .._action = fields[2] as String
@@ -32,7 +34,7 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
   @override
   void write(BinaryWriter writer, MainNotification obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -52,7 +54,9 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       ..writeByte(8)
       ..write(obj._imageUrl)
       ..writeByte(9)
-      ..write(obj.isHandled);
+      ..write(obj._isHandled)
+      ..writeByte(10)
+      ..write(obj.object);
   }
 
   @override

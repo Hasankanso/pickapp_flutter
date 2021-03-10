@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 
@@ -43,7 +45,6 @@ class PushNotificationsManager {
 
   static Future<void> handleNotifications() async {
     List<MainNotification> allNotifications = await Cache.getNotifications();
-
     bool isOneNotificationHandled = false;
     for (MainNotification n in allNotifications) {
       if (!n.isHandled) {
@@ -84,13 +85,17 @@ Future<dynamic> onMessage(Map<String, dynamic> notification) async {
 
   Map<String, dynamic> data =
       new Map<String, dynamic>.from(notification["data"]);
+
   MainNotification newNotification = MainNotification.fromMap(data);
+  _castNotificationObject(newNotification);
 
   bool isCache = data["isCache"] == "true";
 
   if (isCache) {
+    App.isNewNotificationNotifier.value = true;
     newNotification.handle();
-    Cache.addNotification(newNotification);
+    App.notifications.add(newNotification);
+    await Cache.addNotification(newNotification);
   }
 }
 
@@ -103,9 +108,22 @@ Future<dynamic> _backgroundMessageHandler(
       new Map<String, dynamic>.from(notification["data"]);
 
   MainNotification newNotification = MainNotification.fromMap(data);
+  _castNotificationObject(newNotification);
   bool isCache = data["isCache"] == "true";
   if (isCache) {
     await Cache.initializeHive();
-    Cache.addNotification(newNotification);
+    await Cache.addNotification(newNotification);
+  }
+}
+
+_castNotificationObject(MainNotification newNotification) {
+  var object = json.decode(newNotification.object);
+  switch (newNotification.action) {
+    case "SEATS_RESERVED":
+      break;
+    case "RATE":
+      Rate rate = Rate.fromJson(object);
+      newNotification.object = rate;
+      break;
   }
 }

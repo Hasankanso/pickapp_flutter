@@ -23,12 +23,20 @@ class ReviewsListPage extends StatefulWidget {
 }
 
 class _ReviewsListPageState extends State<ReviewsListPage> {
+  List<Rate> rates;
+
   @override
   void initState() {
     super.initState();
-    if (widget.person.rates == null) {
-      Request<List<Rate>> getRated = GetUserReviews(widget.person);
-      getRated.send(response);
+    if (widget.person != null) {
+      if (widget.person.rates == null) {
+        Request<List<Rate>> getRated = GetUserReviews(widget.person);
+        getRated.send(response);
+      } else {
+        this.rates = widget.person.rates;
+      }
+    } else {
+      _getRates();
     }
   }
 
@@ -36,15 +44,17 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
     if (status == 200) {
       setState(() {
         widget.person.rates = rates;
+        this.rates = rates;
       });
     }
   }
 
-  _getRate() async {
+  _getRates() async {
     var rates = await Cache.getRates();
-    if (rates != null && rates.length != 0) {
+    setState(() {
       App.user.person.rates = rates;
-    }
+      this.rates = rates;
+    });
   }
 
   @override
@@ -54,12 +64,11 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
       appBar: MainAppBar(
         title: Lang.getString(context, "Reviews"),
       ),
-      body: widget.person.rates != null
-          ? widget.person.rates.isNotEmpty
+      body: rates != null
+          ? rates.isNotEmpty
               ? ListBuilder(
-                  list: widget.person.rates,
-                  itemBuilder:
-                      RateTile.itemBuilder(widget.person.rates, reasons))
+                  list: rates,
+                  itemBuilder: RateTile.itemBuilder(rates, reasons))
               : Center(
                   child: Text(
                   Lang.getString(context, "no_reviews_message"),
