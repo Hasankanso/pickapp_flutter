@@ -67,9 +67,9 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    App.refreshProfile.value = false;
     return ValueListenableBuilder(
       builder: (BuildContext context, bool isLoggedIn, Widget child) {
+        App.refreshProfile.value = false;
         return MainScaffold(
           appBar: MainAppBar(
             title: Lang.getString(context, "Profile"),

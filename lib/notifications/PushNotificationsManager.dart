@@ -6,6 +6,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/dataObjects/UserStatistics.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 
 class PushNotificationsManager {
@@ -103,7 +104,6 @@ Future<dynamic> _backgroundMessageHandler(
 _setNotificationCache(
     Map<String, dynamic> notification, bool isForeground) async {
   print(notification);
-
   Map<String, dynamic> data =
       new Map<String, dynamic>.from(notification["data"]);
   if (data["isCache"] == "true") {
@@ -125,8 +125,9 @@ _castNotificationObject(MainNotification newNotification) {
     case "SEATS_RESERVED":
       break;
     case "RATE":
-      Rate rate = Rate.fromJson(object);
-      newNotification.object = rate;
+      Rate rate = Rate.fromJson((object as List)[0]);
+      UserStatistics stat = UserStatistics.fromJson((object as List)[1]);
+      newNotification.object = [rate, stat];
       break;
   }
 }

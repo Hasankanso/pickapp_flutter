@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/pages/Statistics.dart';
+import 'package:pickapp/dataObjects/UserStatistics.dart';
 
 //import 'package:timezone/data/latest.dart' as tz;
 //import 'package:timezone/timezone.dart' as tz;
@@ -105,7 +105,7 @@ class MainNotification {
 
   _handleRate() async {
     Rate rate = ((this.object as List)[0] as Rate);
-    Statistics statistics = ((this.object as List)[1] as Statistics);
+    UserStatistics statistics = ((this.object as List)[1] as UserStatistics);
     await Cache.addRate(rate);
     App.user.person.statistics = statistics;
     await Cache.setUser(App.user);

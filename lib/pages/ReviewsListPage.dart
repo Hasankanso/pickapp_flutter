@@ -25,7 +25,7 @@ class ReviewsListPage extends StatefulWidget {
 class _ReviewsListPageState extends State<ReviewsListPage> {
   List<Rate> rates;
   List<String> reasons;
-
+  int _daysToShow = -2;
   @override
   void initState() {
     super.initState();
@@ -45,7 +45,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
     if (status == 200) {
       setState(() {
         widget.person.rates = rates;
-        this.rates = rates;
+        _filterRates(rates);
       });
     }
   }
@@ -54,8 +54,18 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
     var rates = await Cache.getRates();
     setState(() {
       App.user.person.rates = rates;
-      this.rates = rates;
+      _filterRates(rates);
     });
+  }
+
+  _filterRates(List<Rate> rates) {
+    this.rates = List<Rate>();
+    for (int i = rates.length - 1; i >= 0; i--) {
+      if (rates[i]
+          .creationDate
+          .isBefore(DateTime.now().add(Duration(days: _daysToShow))))
+        this.rates.add(rates[i]);
+    }
   }
 
   @override
