@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -77,12 +78,14 @@ class RatesView extends StatelessWidget {
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Text(
-                  rateAverage.toString(),
+                  App.roundRate(rateAverage).toString(),
                   style: Styles.valueTextStyle(size: 45),
                 ),
                 Row(
                   children: [
-                    Expanded(flex: 15, child: RateStars(rateAverage, size: 11)),
+                    Expanded(
+                        flex: 15,
+                        child: RateStars(App.roundRate(rateAverage), size: 11)),
                   ],
                 ),
                 Row(

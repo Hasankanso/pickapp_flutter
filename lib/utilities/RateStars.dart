@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Styles.dart';
 
 class RateStars extends StatelessWidget {
@@ -11,6 +12,7 @@ class RateStars extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _rating = App.roundRate(_rating);
     size = size == null ? Styles.mediumIconSize() : size;
 
     if (onPressed != null) {
