@@ -70,6 +70,10 @@ class Cache {
     var notfB = Hive.box('notifications');
     await notfB.clear();
     notfB.close();
+    await Hive.openBox('scheduledNotifications');
+    var sNotfB = Hive.box('scheduledNotifications');
+    await sNotfB.clear();
+    sNotfB.close();
     var userB = Hive.box("user");
     userB.clear();
   }
@@ -132,6 +136,21 @@ class Cache {
     return false;
   }
 
+  static Future<bool> setRates(List<Rate> allRates) async {
+    var rateBox;
+    if (!Hive.isBoxOpen("rates")) {
+      rateBox = await Hive.openBox("rates");
+    } else {
+      rateBox = Hive.box("rates");
+    }
+    if (rateBox.isOpen) {
+      rateBox.put("rates", allRates);
+      await rateBox.close();
+      return true;
+    }
+    return false;
+  }
+
   static Future<User> getUser() async {
     User user;
     await Hive.openBox('user');
@@ -141,6 +160,64 @@ class Cache {
       user = box.getAt(0) as User;
     }
     return user;
+  }
+
+  static Future<List<MainNotification>> getScheduledNotifications() async {
+    var notificationBox;
+    if (!Hive.isBoxOpen("scheduledNotifications")) {
+      notificationBox = await Hive.openBox("scheduledNotifications");
+    } else {
+      notificationBox = Hive.box("scheduledNotifications");
+    }
+    List<MainNotification> returnNotifications = new List<MainNotification>();
+
+    if (notificationBox.isOpen) {
+      var scheduledNotifications =
+          notificationBox.get("scheduledNotifications");
+      if (scheduledNotifications != null) {
+        scheduledNotifications =
+            scheduledNotifications.cast<MainNotification>();
+        returnNotifications = scheduledNotifications;
+      }
+      await notificationBox.close();
+    }
+    return returnNotifications;
+  }
+
+  static Future<bool> updateScheduledNotifications(
+      List<MainNotification> allnotifications) async {
+    var notificationBox;
+    if (!Hive.isBoxOpen("scheduledNotifications")) {
+      notificationBox = await Hive.openBox("scheduledNotifications");
+    } else {
+      notificationBox = Hive.box("scheduledNotifications");
+    }
+    if (notificationBox.isOpen) {
+      notificationBox.put("scheduledNotifications", allnotifications);
+      await notificationBox.close();
+      return true;
+    }
+    return false;
+  }
+
+  static Future<bool> addScheduledNotification(
+      MainNotification notification) async {
+    var notificationBox = await Hive.openBox("scheduledNotifications");
+    List<MainNotification> returnNotifications = new List<MainNotification>();
+
+    if (notificationBox.isOpen) {
+      var notfications = notificationBox.get("scheduledNotifications");
+      if (notfications != null) {
+        notfications = notfications.cast<MainNotification>();
+        returnNotifications = notfications;
+      }
+      returnNotifications.add(notification);
+
+      await notificationBox.put("scheduledNotifications", returnNotifications);
+      await notificationBox.close();
+      return true;
+    }
+    return false;
   }
 
   static Future<List<MainNotification>> getNotifications() async {

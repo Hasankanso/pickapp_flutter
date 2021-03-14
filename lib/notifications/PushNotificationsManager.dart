@@ -90,7 +90,7 @@ Future<dynamic> _foregroundMessageHandler(
     Map<String, dynamic> notification) async {
   print("app is open and notification received");
 
-  await _setNotificationCache(notification, true);
+  await _handleNotification(notification, false);
 }
 
 //this will be invoked whenever a notification received and app is terminated or in background
@@ -98,10 +98,10 @@ Future<dynamic> _backgroundMessageHandler(
     Map<String, dynamic> notification) async {
   print("app is terminated or in background and notification received");
 
-  await _setNotificationCache(notification, false);
+  await _handleNotification(notification, false);
 }
 
-_setNotificationCache(
+_handleNotification(
     Map<String, dynamic> notification, bool isForeground) async {
   print(notification);
   Map<String, dynamic> data =
@@ -110,13 +110,21 @@ _setNotificationCache(
     MainNotification newNotification = MainNotification.fromMap(data);
     _castNotificationObject(newNotification);
     await Cache.initializeHive();
+    _setNotificationCache(newNotification, isForeground);
+  }
+}
+
+_setNotificationCache(
+    MainNotification newNotification, bool isForeground) async {
+  if (newNotification.scheduleDate == null) {
     if (isForeground) {
       App.isNewNotificationNotifier.value = true;
       await newNotification.handle();
       App.notifications.add(newNotification);
+      App.updateNotifications.value = true;
     }
     await Cache.addNotification(newNotification);
-  }
+  } else {}
 }
 
 _castNotificationObject(MainNotification newNotification) {
@@ -128,6 +136,7 @@ _castNotificationObject(MainNotification newNotification) {
       Rate rate = Rate.fromJson((object as List)[0]);
       UserStatistics stat = UserStatistics.fromJson((object as List)[1]);
       newNotification.object = [rate, stat];
+      newNotification.scheduleDate = DateTime.now().add(Duration(days: 2));
       break;
   }
 }

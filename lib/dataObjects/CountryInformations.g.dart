@@ -28,7 +28,7 @@ class CountryInformationsAdapter extends TypeAdapter<CountryInformations> {
       .._maxPrice = fields[8] as double
       .._drivingAge = fields[9] as int
       .._priceStep = fields[10] as double
-      .._rateStart = fields[11] as double;
+      ..rateStartHours = fields[11] as int;
   }
 
   @override
@@ -58,7 +58,7 @@ class CountryInformationsAdapter extends TypeAdapter<CountryInformations> {
       ..writeByte(10)
       ..write(obj._priceStep)
       ..writeByte(11)
-      ..write(obj._rateStart);
+      ..write(obj.rateStartHours);
   }
 
   @override

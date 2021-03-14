@@ -1,13 +1,22 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:hive/hive.dart';
+import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/UserStatistics.dart';
-
-//import 'package:timezone/data/latest.dart' as tz;
-//import 'package:timezone/timezone.dart' as tz;
-//import 'package:pickapp/classes/App.dart';
-// import 'package:pickapp/classes/Cache.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 part 'MainNotification.g.dart';
 
@@ -68,6 +77,7 @@ class MainNotification {
         _title = json["title"],
         _subtitle = json["subtitle"],
         _body = json["body"],
+        _scheduleDate = json["scheduleDate"],
         _imagePath = json["imagePath"],
         _imageUrl = json["imageUrl"];
 
@@ -76,6 +86,7 @@ class MainNotification {
         'action': this.action,
         'title': this.title,
         'body': this.body,
+        'scheduleDate': this.scheduleDate,
         'subtitle': this.subtitle,
         'imagePath': this.imagePath,
         'imageUrl': this.imageUrl
@@ -86,6 +97,7 @@ class MainNotification {
         action: args["action"],
         title: args["title"],
         body: args["body"],
+        scheduleDate: args["scheduleDate"],
         subtitle: args["subtitle"],
         object: args["object"]);
   }
@@ -173,7 +185,6 @@ class MainNotification {
     return 'MainNotification{_id: $_id, _objectId: $_objectId, _action: $_action, _title: $_title, _body: $_body, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
   }
 
-/*
   static initializeLocaleNotification(context) async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -228,6 +239,7 @@ class MainNotification {
     if (payload != null) {
       MainNotification notification =
           MainNotification.fromJson(json.decode(payload));
+      print("woslet");
       switch (notification.action) {
         case 'upcomingRide':
           Ride ride = App.getRideFromObjectId(notification.objectId);
@@ -307,12 +319,12 @@ class MainNotification {
         payload: json.encode(notification.toJson()),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
-    if(App.notifications!=null){
+    if (App.notifications != null) {
       App.notifications.add(notification);
     } else {
-      App.notifications=[notification];
+      App.notifications = [notification];
     }
-    await Cache.setNotifications(App.notifications);
+    //await Cache.setNotifications(App.notifications);
   }
 
   static deleteLocalNotification(int id) async {
@@ -325,6 +337,5 @@ class MainNotification {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.cancelAll();
-  }*/
-
+  }
 }

@@ -44,6 +44,7 @@ class App {
   static Locale locale;
   static ValueNotifier<bool> refreshInbox = ValueNotifier(false);
   static ValueNotifier<bool> updateUpcomingRide = ValueNotifier(false);
+  static ValueNotifier<bool> updateNotifications = ValueNotifier(false);
   static bool isLTR;
   static List<MainNotification> notifications = List<MainNotification>();
   static ValueNotifier<bool> isNewNotificationNotifier =
@@ -186,13 +187,13 @@ class App {
 
   static List<String> getRateReasons(context) {
     return <String>[
-      "Didn't follow the ride details.",
-      "Didn't show up",
-      "Driving too fast",
-      "Driving too slow",
-      "Not friendly",
-      "Was late",
-      "Others"
+      Lang.getString(context, "rate_reason_1"),
+      Lang.getString(context, "rate_reason_2"),
+      Lang.getString(context, "rate_reason_3"),
+      Lang.getString(context, "rate_reason_4"),
+      Lang.getString(context, "rate_reason_5"),
+      Lang.getString(context, "rate_reason_6"),
+      Lang.getString(context, "rate_reason_7")
     ];
   }
 

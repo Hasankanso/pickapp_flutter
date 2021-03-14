@@ -142,7 +142,7 @@ class _LoginState extends State<Login> {
         ),
       ),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
-        height: 110,
+        height: 130,
         child: Column(
           children: [
             ResponsiveWidget(
@@ -161,7 +161,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             ResponsiveWidget.fullWidth(
-              height: 50,
+              height: 60,
               child: DifferentSizeResponsiveRow(
                 children: <Widget>[
                   Spacer(
@@ -172,7 +172,7 @@ class _LoginState extends State<Login> {
                     child: Row(
                       children: [
                         Text(
-                          Lang.getString(context, "New_to_PickApp?") + "\t",
+                          Lang.getString(context, "New_to_PickApp?") + " ",
                           style: Styles.labelTextStyle(),
                         ),
                         InkWell(
@@ -306,6 +306,7 @@ class _LoginState extends State<Login> {
       Navigator.pop(context);
     } else {
       App.user = u;
+      await Cache.setRates(u.person.rates);
       await Cache.setUser(u);
       if (App.user.driver != null) App.isDriverNotifier.value = true;
       App.isLoggedInNotifier.value = true;

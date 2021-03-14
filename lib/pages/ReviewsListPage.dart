@@ -25,7 +25,9 @@ class ReviewsListPage extends StatefulWidget {
 class _ReviewsListPageState extends State<ReviewsListPage> {
   List<Rate> rates;
   List<String> reasons;
+  //if you want to change this variable, change the _daysToShow variable in add rate page and Rate_days_validation text.
   int _daysToShow = -2;
+
   @override
   void initState() {
     super.initState();
@@ -77,6 +79,8 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (rates != null)
+      rates.sort((a, b) => b.creationDate.compareTo(a.creationDate));
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Reviews"),

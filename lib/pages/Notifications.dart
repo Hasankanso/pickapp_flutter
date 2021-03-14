@@ -14,24 +14,29 @@ class Notifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => App.isNewNotificationNotifier.value = false);
-    notifications = List.from(App.notifications.reversed);
-    assert(notifications != null);
-
-    return MainScaffold(
-      appBar: MainAppBar(
-        title: Lang.getString(context, "Notifications"),
-      ),
-      body: Container(
-        child: notifications.length > 0
-            ? ListBuilder(
-                list: notifications,
-                itemBuilder: NotificationListTile.itemBuilder(notifications))
-            : Center(
-                child: Text(Lang.getString(context, "No_notifications!"),
-                    style: Styles.valueTextStyle())),
-      ),
-    );
+    return ValueListenableBuilder(
+        valueListenable: App.updateNotifications,
+        builder: (BuildContext context, bool isd, Widget child) {
+          App.updateNotifications.value = false;
+          WidgetsBinding.instance.addPostFrameCallback(
+              (_) => App.isNewNotificationNotifier.value = false);
+          notifications = List.from(App.notifications.reversed);
+          assert(notifications != null);
+          return MainScaffold(
+            appBar: MainAppBar(
+              title: Lang.getString(context, "Notifications"),
+            ),
+            body: Container(
+              child: notifications.length > 0
+                  ? ListBuilder(
+                      list: notifications,
+                      itemBuilder:
+                          NotificationListTile.itemBuilder(notifications))
+                  : Center(
+                      child: Text(Lang.getString(context, "No_notifications!"),
+                          style: Styles.valueTextStyle())),
+            ),
+          );
+        });
   }
 }

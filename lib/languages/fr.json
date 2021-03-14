@@ -26,6 +26,7 @@
   "Subject" : "Subject",
   "Message": "Message",
   "Full_Name" : "Full Name",
+  "Successfully_rated!": "Successfully rated!",
 
   "Generals": "Generals",
   "About" : "About",
@@ -281,6 +282,13 @@
   "Volvo":"Volvo",
   "Ride_delete_message": "Are you sure you want to delete this ride?",
   "Date_in_range_hint": "This feature let you search for rides by a range of date, and all results will match it.",
-  "Permission_filter_hint_text":"To filter rides by their permissions, check the box of the permission, and choose whether you want it allowed or not."
-
+  "Permission_filter_hint_text":"To filter rides by their permissions, check the box of the permission, and choose whether you want it allowed or not.",
+  "rate_reason_1":"Didn't follow the ride details",
+  "rate_reason_2":"Didn't show up",
+  "rate_reason_3":"Driving too fast",
+  "rate_reason_4":"Driving too slow",
+  "rate_reason_5":"Not friendly",
+  "rate_reason_6":"Was late",
+  "rate_reason_7":"Others",
+  "Rate_days_validation":"You can't rate this person after 2 days from the ride"
 }

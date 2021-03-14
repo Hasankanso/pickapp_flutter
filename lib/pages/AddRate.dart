@@ -36,6 +36,8 @@ class _AddRateState extends State<AddRate> {
   int _reason = 0;
   List<String> _reasonsItems;
   bool _isReasonVisible = false;
+  //if you want to change this variable, change the Rate_days_validation text, and also in reviewslistpage _daysToShow variable
+  int _daysToShow = -2;
 
   @override
   void didChangeDependencies() {
@@ -177,6 +179,12 @@ class _AddRateState extends State<AddRate> {
                 text_key: "Rate",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
+                    if (widget._ride.leavingDate.isBefore(
+                        DateTime.now().add(Duration(days: _daysToShow)))) {
+                      return CustomToast()
+                          .showErrorToast("Rate_days_validation");
+                    }
+
                     Rate _rate = Rate(
                         comment: _comment.text,
                         grade: _grade,
@@ -201,7 +209,7 @@ class _AddRateState extends State<AddRate> {
     } else {
       if (result)
         CustomToast()
-            .showSuccessToast(Lang.getString(context, "Successfully_added!"));
+            .showSuccessToast(Lang.getString(context, "Successfully_rated!"));
     }
   }
 }
