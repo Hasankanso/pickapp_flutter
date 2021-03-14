@@ -57,7 +57,9 @@ class PushNotificationsManager {
         print("not handled omg!");
         isOneNotificationHandled = true;
         App.isNewNotificationNotifier.value = true;
-        await n.handle();
+        NotificationHandler handler = _createNotificationHandler(n);
+        handler.updateApp();
+        n.isHandled = true;
       }
     }
 
@@ -100,7 +102,6 @@ Future<dynamic> _foregroundMessageHandler(
   App.isNewNotificationNotifier.value = true;
   await handler.notification.handle();
   handler.updateApp();
-
   App.updateNotifications.value = true;
 }
 
@@ -120,7 +121,7 @@ Future<NotificationHandler> cacheNotification(Map<String, dynamic> data) async {
   MainNotification newNotification = MainNotification.fromMap(data);
   NotificationHandler handler = _createNotificationHandler(newNotification);
   await Cache.addNotification(newNotification);
-  handler.cache();
+  await handler.cache();
   return handler;
 }
 

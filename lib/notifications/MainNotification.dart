@@ -41,7 +41,7 @@ class MainNotification {
   @HiveField(8)
   String _imageUrl;
   @HiveField(9)
-  bool _isHandled;
+  bool isHandled;
   @HiveField(10)
   Object object;
 
@@ -67,7 +67,7 @@ class MainNotification {
     this.imagePath = imagePath;
     this.subtitle = subtitle;
     this.imageUrl = imageUrl;
-    this._isHandled = false;
+    this.isHandled = false;
     this.object = object;
   }
 
@@ -112,7 +112,7 @@ class MainNotification {
         await _handleRate();
         break;
     }
-    _isHandled = true;
+    isHandled = true;
   }
 
   _handleRate() async {
@@ -128,7 +128,6 @@ class MainNotification {
     _imageUrl = value;
   }
 
-  bool get isHandled => _isHandled;
 
   String get imageUrl => _imageUrl;
 

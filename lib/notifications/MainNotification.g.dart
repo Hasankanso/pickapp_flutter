@@ -28,7 +28,7 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       .._subtitle = fields[6] as String
       .._imagePath = fields[7] as String
       .._imageUrl = fields[8] as String
-      .._isHandled = fields[9] as bool;
+      ..isHandled = fields[9] as bool;
   }
 
   @override
@@ -54,7 +54,7 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       ..writeByte(8)
       ..write(obj._imageUrl)
       ..writeByte(9)
-      ..write(obj._isHandled)
+      ..write(obj.isHandled)
       ..writeByte(10)
       ..write(obj.object);
   }
