@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 
 part 'UserStatistics.g.dart';
@@ -51,7 +50,7 @@ class UserStatistics {
         ratesCount, acomplishedRides, canceledRides);
   }
 
-  UserStatistics getNewStatistics(Rate rate) {
+  UserStatistics createNewStatistics(Rate rate) {
     int grade = rate.grade.floor();
     int ones = this.ones;
     int twos = this.twos;
@@ -77,9 +76,9 @@ class UserStatistics {
         fives += 1;
         break;
     }
-      ratesCount +=1;
-      rateAverage = (rateAverage * ratesCount + rate.grade)/2;
-    return UserStatistics(ones , twos, threes, fours, fives, rateAverage,
+    ratesCount += 1;
+    rateAverage = (rateAverage * ratesCount + rate.grade) / 2;
+    return UserStatistics(ones, twos, threes, fours, fives, rateAverage,
         ratesCount, acomplishedRides, canceledRides);
   }
 

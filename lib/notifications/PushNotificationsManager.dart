@@ -102,12 +102,7 @@ Future<dynamic> _foregroundMessageHandler(
 
   App.isNewNotificationNotifier.value = true;
 
-  print(3);
-  await handler.notification.handle();
-
-  print(4);
   handler.updateApp();
-  print(5);
   App.updateNotifications.value = true;
 }
 
