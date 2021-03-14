@@ -1,4 +1,6 @@
 import 'package:hive/hive.dart';
+import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/dataObjects/Rate.dart';
 
 part 'UserStatistics.g.dart';
 
@@ -46,6 +48,38 @@ class UserStatistics {
     int canceledRides = json["canceledRides"];
 
     return new UserStatistics(ones, twos, threes, fours, fives, rateAverage,
+        ratesCount, acomplishedRides, canceledRides);
+  }
+
+  UserStatistics getNewStatistics(Rate rate) {
+    int grade = rate.grade.floor();
+    int ones = this.ones;
+    int twos = this.twos;
+    int threes = this.threes;
+    int fours = this.fours;
+    int fives = this.fives;
+    int ratesCount = this.ratesCount;
+    double rateAverage = this.rateAverage;
+    switch (grade) {
+      case 1:
+        ones += 1;
+        break;
+      case 2:
+        twos += 1;
+        break;
+      case 3:
+        threes += 1;
+        break;
+      case 4:
+        fours += 1;
+        break;
+      case 5:
+        fives += 1;
+        break;
+    }
+      ratesCount +=1;
+      rateAverage = (rateAverage * ratesCount + rate.grade)/2;
+    return UserStatistics(ones , twos, threes, fours, fives, rateAverage,
         ratesCount, acomplishedRides, canceledRides);
   }
 
