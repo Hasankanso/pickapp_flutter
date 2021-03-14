@@ -8,6 +8,7 @@ import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 import 'package:pickapp/notifications/RateNotificationHandler.dart';
+import 'package:pickapp/notifications/ReserveSeatsNotificationHandler.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;
@@ -89,52 +90,49 @@ Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
 //this will be invoked when app in foreground
 Future<dynamic> _foregroundMessageHandler(
     Map<String, dynamic> notification) async {
-  print("app is open and notification received");
+  Map<String, dynamic> data =
+      new Map<String, dynamic>.from(notification["data"]);
+  if (data["isCache"] != "true") return;
 
-  await _handleNotification(notification, true);
+  NotificationHandler handler = await cacheNotification(data);
+
+  App.notifications.add(handler.notification);
+  App.isNewNotificationNotifier.value = true;
+  await handler.notification.handle();
+  handler.updateApp();
+
+  App.updateNotifications.value = true;
 }
 
 //this will be invoked whenever a notification received and app is terminated or in background
 Future<dynamic> _backgroundMessageHandler(
     Map<String, dynamic> notification) async {
   print("app is terminated or in background and notification received");
-
-  await _handleNotification(notification, false);
-}
-
-_handleNotification(
-    Map<String, dynamic> notification, bool isForeground) async {
-  print(notification);
   Map<String, dynamic> data =
       new Map<String, dynamic>.from(notification["data"]);
-  if (data["isCache"] == "true") {
-    MainNotification newNotification = MainNotification.fromMap(data);
-    _castNotificationObject(newNotification);
-    await Cache.initializeHive();
-    _setNotificationCache(newNotification, isForeground);
-  }
+
+  if (data["isCache"] != "true") return;
+
+  await cacheNotification(data);
 }
 
-_setNotificationCache(
-    MainNotification newNotification, bool isForeground) async {
-  if (newNotification.scheduleDate == null) {
-    if (isForeground) {
-      App.isNewNotificationNotifier.value = true;
-      await newNotification.handle();
-      App.notifications.add(newNotification);
-      App.updateNotifications.value = true;
-    }
-    await Cache.addNotification(newNotification);
-  } else {}
+Future<NotificationHandler> cacheNotification(Map<String, dynamic> data) async {
+  MainNotification newNotification = MainNotification.fromMap(data);
+  NotificationHandler handler = _createNotificationHandler(newNotification);
+  await Cache.addNotification(newNotification);
+  handler.cache();
+  return handler;
 }
 
-_castNotificationObject(MainNotification newNotification) {
+NotificationHandler _createNotificationHandler(
+    MainNotification newNotification) {
   newNotification.object = json.decode(newNotification.object);
   switch (newNotification.action) {
     case "SEATS_RESERVED":
+      return ReserveSeatsNotificationHandler(newNotification);
       break;
     case "RATE":
-      notificationHandler = RateNotificationHandler(newNotification);
+      return RateNotificationHandler(newNotification);
       break;
   }
 }
