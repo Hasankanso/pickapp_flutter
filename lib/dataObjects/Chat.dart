@@ -40,6 +40,14 @@ class Chat{
     return 'Chat{id: $id, date: $date, messages: $messages, person: $person, isNewMessage: $isNewMessage}';
   }
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Chat && runtimeType == other.runtimeType && _id == other._id;
+
+  @override
+  int get hashCode => _id.hashCode;
+
   String get id => _id;
 
   set id(String value) {
