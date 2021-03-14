@@ -58,23 +58,7 @@ class Cache {
   }
   static Future<List<Chat>> getAllChats()async {
 
-    var rateBox;
-    if (!Hive.isBoxOpen("rates")) {
-      rateBox = await Hive.openBox("rates");
-    } else {
-      rateBox = Hive.box("rates");
-    }
-    List<Rate> returnRates = new List<Rate>();
 
-    if (rateBox.isOpen) {
-      var rates = rateBox.get("rates");
-      if (rates != null) {
-        rates = rates.cast<Rate>();
-        returnRates = rates;
-      }
-      await rateBox.close();
-    }
-    return returnRates;
 
   }
 
