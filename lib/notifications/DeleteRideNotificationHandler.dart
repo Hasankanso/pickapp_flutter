@@ -1,19 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/dataObjects/UserStatistics.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 
-class DeleteRideNotificationHandler extends NotificationHandler{
-
+class DeleteRideNotificationHandler extends NotificationHandler {
   Ride ride;
 
-  DeleteRideNotificationHandler(MainNotification notification) : super(notification) {
-
+  DeleteRideNotificationHandler(MainNotification notification)
+      : super(notification) {
     Ride ride = Ride.fromJson(notification.object);
     notification.object = ride;
     this.ride = ride;

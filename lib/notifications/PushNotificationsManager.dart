@@ -119,7 +119,9 @@ Future<dynamic> _backgroundMessageHandler(
 }
 
 Future<NotificationHandler> cacheNotification(Map<String, dynamic> data) async {
+  await Cache.initializeHive();
   MainNotification newNotification = MainNotification.fromMap(data);
+  newNotification.object = json.decode(newNotification.object);
   NotificationHandler handler = _createNotificationHandler(newNotification);
   await Cache.addNotification(newNotification);
   await handler.cache();
@@ -128,7 +130,6 @@ Future<NotificationHandler> cacheNotification(Map<String, dynamic> data) async {
 
 NotificationHandler _createNotificationHandler(
     MainNotification newNotification) {
-  newNotification.object = json.decode(newNotification.object);
   switch (newNotification.action) {
     case "SEATS_RESERVED":
       return ReserveSeatsNotificationHandler(newNotification);

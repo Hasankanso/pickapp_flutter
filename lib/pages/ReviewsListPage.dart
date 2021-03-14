@@ -63,10 +63,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
   _filterRates(List<Rate> rates) {
     this.rates = List<Rate>();
     for (int i = rates.length - 1; i >= 0; i--) {
-      if (rates[i]
-          .creationDate
-          .isBefore(DateTime.now().add(Duration(days: _daysToShow))))
-        this.rates.add(rates[i]);
+      this.rates.add(rates[i]);
     }
   }
 
