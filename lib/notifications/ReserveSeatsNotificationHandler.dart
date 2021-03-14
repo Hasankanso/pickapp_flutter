@@ -4,11 +4,15 @@ import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 
 class ReserveSeatsNotificationHandler extends NotificationHandler {
+  Ride ride;
 
+  ReserveSeatsNotificationHandler(MainNotification notification)
+      : super(notification) {
 
-  ReserveSeatsNotificationHandler(MainNotification notification) : super(notification);
-
-
+    Ride ride = Ride.fromJson(notification.object);
+    notification.object = ride;
+    this.ride = ride;
+  }
 
   @override
   void cache() {
@@ -24,6 +28,4 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
   void updateApp() {
     // TODO: implement updateApp
   }
-
-
 }
