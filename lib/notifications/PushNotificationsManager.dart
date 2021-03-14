@@ -6,6 +6,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
+import 'package:pickapp/notifications/NotificationsHandler.dart';
 import 'package:pickapp/notifications/RateNotificationHandler.dart';
 
 class PushNotificationsManager {
@@ -65,6 +66,7 @@ class PushNotificationsManager {
   }
 }
 
+NotificationHandler notificationHandler;
 //this will be invoked when app is terminated and user click the notification
 Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
   Timer.periodic(Duration(seconds: 1), (timer) {
@@ -132,7 +134,7 @@ _castNotificationObject(MainNotification newNotification) {
     case "SEATS_RESERVED":
       break;
     case "RATE":
-      RateNotificationHandler(newNotification);
+      notificationHandler = RateNotificationHandler(newNotification);
       break;
   }
 }
