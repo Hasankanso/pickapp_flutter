@@ -56,6 +56,11 @@ class Cache {
     box = Hive.box('chat');
     return (box.get(key) as Chat);
   }
+  static Future<List<Chat>> getAllChats()async {
+
+
+
+  }
 
   static Future<void> clearHiveCache() async {
     await Hive.openBox('chat');
