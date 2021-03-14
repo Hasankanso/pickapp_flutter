@@ -1,9 +1,14 @@
 import 'package:flutter/widgets.dart';
+import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
+import 'package:pickapp/pages/MyRides.dart';
 
 class ReserveSeatsNotificationHandler extends NotificationHandler {
+
   Ride ride;
 
   ReserveSeatsNotificationHandler(MainNotification notification)
@@ -15,8 +20,12 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void cache() {
-    // TODO: implement cache
+  void cache() async {
+    User user = await Cache.getUser();
+    user.person.upcomingRides.remove(ride);
+    user.person.upcomingRides.add(ride);
+
+    Cache.setUser(user);
   }
 
   @override
@@ -26,6 +35,6 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
 
   @override
   void updateApp() {
-    // TODO: implement updateApp
+    App.updateUpcomingRide.value = true;
   }
 }
