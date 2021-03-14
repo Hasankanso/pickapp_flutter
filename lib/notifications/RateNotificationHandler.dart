@@ -3,9 +3,19 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 
 class RateNotificationHandler extends NotificationHandler<Rate> {
+
+  Rate rate;
+
+  RateNotificationHandler(MainNotification notification) : super(notification) {
+
+    //cast
+    //save rate in notification.object and in this.rate
+  }
+
 
 
   @override
