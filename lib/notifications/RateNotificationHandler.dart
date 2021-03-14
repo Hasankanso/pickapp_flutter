@@ -7,7 +7,7 @@ import 'package:pickapp/dataObjects/UserStatistics.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 
-class RateNotificationHandler extends NotificationHandler<Rate> {
+class RateNotificationHandler extends NotificationHandler{
 
   Rate rate;
 
@@ -15,17 +15,15 @@ class RateNotificationHandler extends NotificationHandler<Rate> {
 
     //cast
     //save rate in notification.object and in this.rate
-
     Rate rate = Rate.fromJson((notification.object as List)[0]);
-    UserStatistics stat =
-    UserStatistics.fromJson((notification.object as List)[1]);
-    notification.object = [rate, stat];
+    notification.object = rate;
+    this.rate = rate;
     notification.scheduleDate = DateTime.now().add(Duration(days: 2));
 
   }
 
   @override
-  void cache(Rate rate) async {
+  void cache() async {
     await Cache.addRate(rate);
     User user = await Cache.getUser();
 
@@ -35,12 +33,12 @@ class RateNotificationHandler extends NotificationHandler<Rate> {
   }
 
   @override
-  void display(NavigatorState state, Rate rate) {
+  void display(NavigatorState state) {
     // TODO: implement display
   }
 
   @override
-  void updateApp(Rate rate) {
+  void updateApp() {
     App.refreshProfile.value = true;
   }
 }

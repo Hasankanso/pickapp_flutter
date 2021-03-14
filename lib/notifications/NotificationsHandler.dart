@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 
 
-abstract class NotificationHandler<T> {
+abstract class NotificationHandler {
 
   final MainNotification notification;
 
   NotificationHandler(this.notification);
 
-  void cache(T object);
-  void updateApp(T object);
-  void display(NavigatorState state, T object);
+  void cache();
+  void updateApp();
+  void display(NavigatorState state);
 
 }
