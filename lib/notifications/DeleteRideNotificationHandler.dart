@@ -17,7 +17,7 @@ class DeleteRideNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void cache() async {
+  Future<void> cache() async {
     User user = await Cache.getUser();
     user.person.upcomingRides.remove(ride);
     await Cache.setUser(user);

@@ -5,27 +5,23 @@ import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
-import 'package:pickapp/pages/MyRides.dart';
 
 class ReserveSeatsNotificationHandler extends NotificationHandler {
-
   Ride ride;
 
   ReserveSeatsNotificationHandler(MainNotification notification)
       : super(notification) {
-
     Ride ride = Ride.fromJson(notification.object);
     notification.object = ride;
     this.ride = ride;
   }
 
   @override
-  void cache() async {
+  Future<void> cache() async {
     User user = await Cache.getUser();
     user.person.upcomingRides.remove(ride);
     user.person.upcomingRides.add(ride);
-
-    Cache.setUser(user);
+    await Cache.setUser(user);
   }
 
   @override
