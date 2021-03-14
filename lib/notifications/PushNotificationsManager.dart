@@ -4,10 +4,9 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/UserStatistics.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
+import 'package:pickapp/notifications/RateNotificationHandler.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;
@@ -90,7 +89,7 @@ Future<dynamic> _foregroundMessageHandler(
     Map<String, dynamic> notification) async {
   print("app is open and notification received");
 
-  await _handleNotification(notification, false);
+  await _handleNotification(notification, true);
 }
 
 //this will be invoked whenever a notification received and app is terminated or in background
@@ -128,15 +127,12 @@ _setNotificationCache(
 }
 
 _castNotificationObject(MainNotification newNotification) {
-  var object = json.decode(newNotification.object);
+  newNotification.object = json.decode(newNotification.object);
   switch (newNotification.action) {
     case "SEATS_RESERVED":
       break;
     case "RATE":
-      Rate rate = Rate.fromJson((object as List)[0]);
-      UserStatistics stat = UserStatistics.fromJson((object as List)[1]);
-      newNotification.object = [rate, stat];
-      newNotification.scheduleDate = DateTime.now().add(Duration(days: 2));
+      RateNotificationHandler(newNotification);
       break;
   }
 }
