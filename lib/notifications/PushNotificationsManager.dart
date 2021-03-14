@@ -92,16 +92,22 @@ Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
 //this will be invoked when app in foreground
 Future<dynamic> _foregroundMessageHandler(
     Map<String, dynamic> notification) async {
+  print("app in foreground and notification received");
+
   Map<String, dynamic> data =
       new Map<String, dynamic>.from(notification["data"]);
   if (data["isCache"] != "true") return;
-
   NotificationHandler handler = await cacheNotification(data);
-
   App.notifications.add(handler.notification);
+
   App.isNewNotificationNotifier.value = true;
+
+  print(3);
   await handler.notification.handle();
+
+  print(4);
   handler.updateApp();
+  print(5);
   App.updateNotifications.value = true;
 }
 

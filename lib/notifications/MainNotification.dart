@@ -97,7 +97,6 @@ class MainNotification {
         action: args["action"],
         title: args["title"],
         body: args["body"],
-        scheduleDate: args["scheduleDate"],
         subtitle: args["subtitle"],
         object: args["object"]);
   }
@@ -127,7 +126,6 @@ class MainNotification {
   set imageUrl(String value) {
     _imageUrl = value;
   }
-
 
   String get imageUrl => _imageUrl;
 
