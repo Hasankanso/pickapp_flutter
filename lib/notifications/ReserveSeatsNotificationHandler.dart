@@ -11,9 +11,10 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
 
   ReserveSeatsNotificationHandler(MainNotification notification)
       : super(notification) {
-    Ride ride = Ride.fromJson(notification.object);
-    notification.object = ride;
-    this.ride = ride;
+    if (!(notification.object is Ride)) {
+      notification.object = Ride.fromJson(notification.object);
+    }
+    this.ride = notification.object;
   }
 
   @override

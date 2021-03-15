@@ -10,12 +10,11 @@ class RateNotificationHandler extends NotificationHandler {
   Rate rate;
 
   RateNotificationHandler(MainNotification notification) : super(notification) {
-    //cast
-    //save rate in notification.object and in this.rate
-    Rate rate = Rate.fromJson(notification.object);
-    notification.object = rate;
-    this.rate = rate;
-    notification.scheduleDate = DateTime.now().add(Duration(days: 2));
+    if (!(notification.object is Rate)) {
+      notification.object = Rate.fromJson(notification.object);
+      notification.scheduleDate = DateTime.now().add(Duration(days: 2));
+    }
+    this.rate = notification.object;
   }
 
   @override

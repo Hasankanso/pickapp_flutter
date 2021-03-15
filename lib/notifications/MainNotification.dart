@@ -101,19 +101,6 @@ class MainNotification {
         object: args["object"]);
   }
 
-  Future<void> handle() async {
-    switch (_action) {
-      case "SEATS_RESERVED":
-        //notifier true;
-        //change on cache...
-        break;
-      case "RATE":
-        await _handleRate();
-        break;
-    }
-    isHandled = true;
-  }
-
   _handleRate() async {
     Rate rate = ((this.object as List)[0] as Rate);
     UserStatistics statistics = ((this.object as List)[1] as UserStatistics);

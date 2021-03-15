@@ -268,6 +268,8 @@ class Cache {
         notfications = notfications.cast<MainNotification>();
         returnNotifications = notfications;
       }
+      print("caching handled");
+      print(notification.isHandled);
       returnNotifications.add(notification);
       while (returnNotifications.length >
           PushNotificationsManager.MAX_NOTIFICATIONS) {

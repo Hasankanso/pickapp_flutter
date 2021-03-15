@@ -53,6 +53,8 @@ class PushNotificationsManager {
 
     bool isOneNotificationHandled = false;
     for (MainNotification n in allNotifications) {
+      print("get from cache");
+      print(n.isHandled);
       if (!n.isHandled) {
         print("not handled omg!");
         isOneNotificationHandled = true;
@@ -96,7 +98,8 @@ Future<dynamic> _foregroundMessageHandler(
   Map<String, dynamic> data =
       new Map<String, dynamic>.from(notification["data"]);
   if (data["isCache"] != "true") return;
-  NotificationHandler handler = await cacheNotification(data);
+
+  NotificationHandler handler = await cacheNotification(data, isHandled: true);
   App.notifications.add(handler.notification);
   App.isNewNotificationNotifier.value = true;
   handler.updateApp();
@@ -115,10 +118,12 @@ Future<dynamic> _backgroundMessageHandler(
   await cacheNotification(data);
 }
 
-Future<NotificationHandler> cacheNotification(Map<String, dynamic> data) async {
+Future<NotificationHandler> cacheNotification(Map<String, dynamic> data,
+    {bool isHandled = false}) async {
   await Cache.initializeHive();
   MainNotification newNotification = MainNotification.fromMap(data);
   newNotification.object = json.decode(newNotification.object);
+  newNotification.isHandled = isHandled;
   NotificationHandler handler = _createNotificationHandler(newNotification);
   await Cache.addNotification(newNotification);
   await handler.cache();
