@@ -18,7 +18,6 @@ import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/Search.dart';
 
-
 class InitializerWidget extends StatefulWidget {
   final Widget child;
   InitializerWidget({this.child});
@@ -28,13 +27,13 @@ class InitializerWidget extends StatefulWidget {
 }
 
 class _InitializerWidgetState extends State<InitializerWidget> {
-
   @override
   void didChangeDependencies() {
     ScreenUtil.init(context);
     App.setContext(context);
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
     return widget.child;
@@ -49,7 +48,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       navigatorKey: App.navKey,
       title: App.appName,
@@ -63,7 +61,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Styles.primaryColor(),
         ),
         primaryTextTheme:
-        TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+            TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       themeMode: Styles.currentTheme(),
@@ -80,7 +78,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Styles.primaryColor(),
         ),
         primaryTextTheme:
-        TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+            TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       supportedLocales: Lang.langs.map((element) => Locale(element.code)),
@@ -96,7 +94,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 void main() async {
   await Cache.init();
   await Cache.initializeHive();
@@ -106,7 +103,7 @@ void main() async {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
     await PushNotificationsManager().init();
-    await PushNotificationsManager().handleNotifications();
+    await PushNotificationsManager().initNotifications();
   }
 
   testWidgets('Check Pages overflow', (WidgetTester tester) async {
@@ -114,10 +111,10 @@ void main() async {
     // resets the screen to its orinal size after the test end
     addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
 
-    await tester.pumpWidget(MyApp(child : Search()));
+    await tester.pumpWidget(MyApp(child: Search()));
     await tester.pump();
 
-    await tester.pumpWidget(MyApp(child : Login()));
+    await tester.pumpWidget(MyApp(child: Login()));
     await tester.pump();
     //expect(find.byElementType(ProgressButton), findsOneWidget);
   });

@@ -7,7 +7,7 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
+import 'package:pickapp/notifications/LocalNotificationManager.dart';
 import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Inbox.dart';
@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    MainNotification.initializeLocaleNotification(context);
+    LocalNotificationManager.initializeLocaleNotification(context);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       App.isAppBuild = true;
     });

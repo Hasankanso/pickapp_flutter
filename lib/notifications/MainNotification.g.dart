@@ -17,7 +17,7 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MainNotification(
-      object: fields[10] as Object,
+      object: fields[9] as Object,
     )
       .._id = fields[0] as int
       .._objectId = fields[1] as String
@@ -27,14 +27,13 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       .._scheduleDate = fields[5] as DateTime
       .._subtitle = fields[6] as String
       .._imagePath = fields[7] as String
-      .._imageUrl = fields[8] as String
-      ..isHandled = fields[9] as bool;
+      .._imageUrl = fields[8] as String;
   }
 
   @override
   void write(BinaryWriter writer, MainNotification obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -54,8 +53,6 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       ..writeByte(8)
       ..write(obj._imageUrl)
       ..writeByte(9)
-      ..write(obj.isHandled)
-      ..writeByte(10)
       ..write(obj.object);
   }
 

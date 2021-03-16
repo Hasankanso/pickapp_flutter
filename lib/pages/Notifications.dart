@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/items/NotificationListTile.dart';
@@ -20,6 +21,7 @@ class Notifications extends StatelessWidget {
           App.updateNotifications.value = false;
           WidgetsBinding.instance.addPostFrameCallback(
               (_) => App.isNewNotificationNotifier.value = false);
+          Cache.setIsNewNotification(false);
           notifications = List.from(App.notifications.reversed);
           assert(notifications != null);
           return MainScaffold(

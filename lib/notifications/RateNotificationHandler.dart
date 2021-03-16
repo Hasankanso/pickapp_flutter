@@ -3,6 +3,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/notifications/LocalNotificationManager.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 
@@ -13,6 +14,8 @@ class RateNotificationHandler extends NotificationHandler {
     if (!(notification.object is Rate)) {
       notification.object = Rate.fromJson(notification.object);
       notification.scheduleDate = DateTime.now().add(Duration(days: 2));
+      notification.id = 0;
+      LocalNotificationManager.pushLocalNotification(notification);
     }
     this.rate = notification.object;
   }

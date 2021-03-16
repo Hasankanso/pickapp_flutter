@@ -31,8 +31,8 @@ class PushNotificationsManager {
       _firebaseMessaging.configure(
         onMessage: _foregroundMessageHandler,
         onBackgroundMessage: _backgroundMessageHandler,
-        onLaunch: onAppOpen,
-        onResume: onAppOpen,
+        onLaunch: _onAppOpen,
+        onResume: _onAppOpen,
       );
       _initialized = true;
     }
@@ -45,27 +45,39 @@ class PushNotificationsManager {
     return _instance._firebaseMessaging.getToken();
   }
 
-  Future<void> handleNotifications() async {
+  Future<void> initNotifications() async {
     List<MainNotification> allNotifications = await Cache.getNotifications();
-
     App.notifications = allNotifications;
     print(allNotifications.length);
 
-    bool isOneNotificationHandled = false;
-    for (MainNotification n in allNotifications) {
-      print("get from cache");
-      print(n.isHandled);
-      if (!n.isHandled) {
-        print("not handled omg!");
-        isOneNotificationHandled = true;
-        App.isNewNotificationNotifier.value = true;
-        NotificationHandler handler = _createNotificationHandler(n);
-        handler.updateApp();
-        n.isHandled = true;
+    List<MainNotification> allScheduledNotifications =
+        await Cache.getScheduledNotifications();
+    List<MainNotification> updatedScheduledNotifications =
+        List<MainNotification>();
+    updatedScheduledNotifications.addAll(allScheduledNotifications);
+
+    bool isOneScheduledNotificationHandled = false;
+    for (MainNotification n in allScheduledNotifications) {
+      if (n.scheduleDate.isBefore(DateTime.now())) {
+        isOneScheduledNotificationHandled = true;
+        updatedScheduledNotifications.remove(n);
+        allNotifications.add(n);
       }
     }
 
-    if (isOneNotificationHandled) {
+    if (isOneScheduledNotificationHandled) {
+      await Cache.updateScheduledNotifications(updatedScheduledNotifications);
+    }
+    if (Cache.isNewNotification) {
+      App.isNewNotificationNotifier.value = true;
+    }
+
+    App.updateUpcomingRide.value = true;
+    App.refreshProfile.value = true;
+    App.updateUpcomingRide.value = true;
+    App.updateNotifications.value = true;
+
+    if (isOneScheduledNotificationHandled) {
       await Cache.updateNotifications(allNotifications);
     }
   }
@@ -73,7 +85,7 @@ class PushNotificationsManager {
 
 NotificationHandler notificationHandler;
 //this will be invoked when app is terminated and user click the notification
-Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
+Future<dynamic> _onAppOpen(Map<String, dynamic> message) async {
   Timer.periodic(Duration(seconds: 1), (timer) {
     if (App.isAppBuild) {
       timer.cancel();
@@ -99,11 +111,16 @@ Future<dynamic> _foregroundMessageHandler(
       new Map<String, dynamic>.from(notification["data"]);
   if (data["isCache"] != "true") return;
 
-  NotificationHandler handler = await cacheNotification(data, isHandled: true);
-  App.notifications.add(handler.notification);
-  App.isNewNotificationNotifier.value = true;
-  handler.updateApp();
-  App.updateNotifications.value = true;
+  bool isSchedule = data["isSchedule"] == "true";
+  NotificationHandler handler =
+      await _cacheNotification(data, isHandled: !isSchedule);
+  if (!isSchedule) {
+    App.notifications.add(handler.notification);
+    App.updateUpcomingRide.value = true;
+    App.refreshProfile.value = true;
+    App.updateUpcomingRide.value = true;
+    App.updateNotifications.value = true;
+  }
 }
 
 //this will be invoked whenever a notification received and app is terminated or in background
@@ -115,17 +132,22 @@ Future<dynamic> _backgroundMessageHandler(
 
   if (data["isCache"] != "true") return;
 
-  await cacheNotification(data);
+  await _cacheNotification(data);
 }
 
-Future<NotificationHandler> cacheNotification(Map<String, dynamic> data,
+Future<NotificationHandler> _cacheNotification(Map<String, dynamic> data,
     {bool isHandled = false}) async {
   await Cache.initializeHive();
+  //Cache.setIsNewNotification(true);
+  App.isNewNotificationNotifier.value = true;
   MainNotification newNotification = MainNotification.fromMap(data);
   newNotification.object = json.decode(newNotification.object);
-  newNotification.isHandled = isHandled;
   NotificationHandler handler = _createNotificationHandler(newNotification);
-  await Cache.addNotification(newNotification);
+  if (data["isSchedule"] != "true") {
+    await Cache.addNotification(newNotification);
+  } else {
+    await Cache.addScheduledNotification(newNotification);
+  }
   await handler.cache();
   return handler;
 }
@@ -140,4 +162,5 @@ NotificationHandler _createNotificationHandler(
       return RateNotificationHandler(newNotification);
       break;
   }
+  return null;
 }

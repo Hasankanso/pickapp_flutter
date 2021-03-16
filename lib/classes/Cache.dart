@@ -268,8 +268,6 @@ class Cache {
         notfications = notfications.cast<MainNotification>();
         returnNotifications = notfications;
       }
-      print("caching handled");
-      print(notification.isHandled);
       returnNotifications.add(notification);
       while (returnNotifications.length >
           PushNotificationsManager.MAX_NOTIFICATIONS) {
@@ -335,5 +333,16 @@ class Cache {
 
   static bool get darkTheme => _prefs.getBool("THEME_MODE") != null
       ? _prefs.getBool("THEME_MODE")
+      : false;
+
+  static setIsNewNotification(bool value) {
+    _prefs.setBool("IS_NEW_NOTIFICATION", value);
+  }
+
+  static bool get isNewNotification => _prefs.getBool(
+            "IS_NEW_NOTIFICATION",
+          ) !=
+          null
+      ? _prefs.getBool("IS_NEW_NOTIFICATION")
       : false;
 }
