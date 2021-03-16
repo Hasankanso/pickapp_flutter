@@ -72,15 +72,18 @@ class PushNotificationsManager {
       App.isNewNotificationNotifier.value = true;
     }
 
-    App.updateUpcomingRide.value = true;
-    App.refreshProfile.value = true;
-    App.updateUpcomingRide.value = true;
-    App.updateNotifications.value = true;
+    _updateApp();
 
     if (isOneScheduledNotificationHandled) {
       await Cache.updateNotifications(allNotifications);
     }
   }
+}
+
+_updateApp() {
+  App.updateUpcomingRide.value = true;
+  App.refreshProfile.value = true;
+  App.updateNotifications.value = true;
 }
 
 NotificationHandler notificationHandler;
@@ -116,10 +119,7 @@ Future<dynamic> _foregroundMessageHandler(
       await _cacheNotification(data, isHandled: !isSchedule);
   if (!isSchedule) {
     App.notifications.add(handler.notification);
-    App.updateUpcomingRide.value = true;
-    App.refreshProfile.value = true;
-    App.updateUpcomingRide.value = true;
-    App.updateNotifications.value = true;
+    _updateApp();
   }
 }
 
@@ -138,6 +138,7 @@ Future<dynamic> _backgroundMessageHandler(
 Future<NotificationHandler> _cacheNotification(Map<String, dynamic> data,
     {bool isHandled = false}) async {
   await Cache.initializeHive();
+  //todo
   //Cache.setIsNewNotification(true);
   App.isNewNotificationNotifier.value = true;
   MainNotification newNotification = MainNotification.fromMap(data);

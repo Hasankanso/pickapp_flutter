@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/Message.dart';
@@ -25,10 +24,5 @@ class MessageNotificationHandler extends NotificationHandler {
   @override
   void display(NavigatorState state) {
     // TODO: implement display
-  }
-
-  @override
-  void updateApp() {
-    App.updateUpcomingRide.value = true;
   }
 }

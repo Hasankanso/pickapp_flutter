@@ -7,6 +7,5 @@ abstract class NotificationHandler {
   NotificationHandler(this.notification);
 
   Future<void> cache();
-  void updateApp();
   void display(NavigatorState state);
 }

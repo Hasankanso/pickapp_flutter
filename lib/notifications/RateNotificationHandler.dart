@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
@@ -31,10 +30,5 @@ class RateNotificationHandler extends NotificationHandler {
   @override
   void display(NavigatorState state) {
     // TODO: implement display
-  }
-
-  @override
-  Future<void> updateApp() async {
-    App.refreshProfile.value = true;
   }
 }
