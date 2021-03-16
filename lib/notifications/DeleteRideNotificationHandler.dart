@@ -24,7 +24,7 @@ class DeleteRideNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display(NavigatorState state) {
+  void display() {
     // TODO: implement display
   }
 

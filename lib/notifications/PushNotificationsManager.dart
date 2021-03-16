@@ -74,13 +74,15 @@ class PushNotificationsManager {
 NotificationHandler notificationHandler;
 //this will be invoked when app is terminated and user click the notification
 Future<dynamic> onAppOpen(Map<String, dynamic> message) async {
+  print("you clicked on a notification");
   Timer.periodic(Duration(seconds: 1), (timer) {
     if (App.isAppBuild) {
       timer.cancel();
       switch (message['data']['action']) {
         case "SEATS_RESERVED":
           Ride ride = App.getRideFromObjectId(message['data']['id']);
-          App.navKey.currentState.pushNamed("/RideView", arguments: ride);
+          NotificationHandler handler = ReserveSeatsNotificationHandler.from(ride);
+          handler.display();
           break;
         case "RATE":
           print(2);

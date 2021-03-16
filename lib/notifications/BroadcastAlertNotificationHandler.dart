@@ -18,7 +18,7 @@ class BroadcastAlertNotificationHandler extends NotificationHandler {
   Future<void> cache() async {}
 
   @override
-  void display(NavigatorState state) {
+  void display() {
     // TODO: implement display
   }
 
