@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
@@ -16,16 +16,20 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
     this.ride = notification.object;
   }
 
+  ReserveSeatsNotificationHandler.from(this.ride) : super.empty();
+
   @override
   Future<void> cache() async {
     User user = await Cache.getUser();
-    user.person.upcomingRides.remove(ride);
-    user.person.upcomingRides.add(ride);
+    user.person.upcomingRides.remove(ride); //remove ride with same id
+    user.person.upcomingRides
+        .add(ride); //add new ride with slightly different information.
     await Cache.setUser(user);
   }
 
   @override
-  void display(NavigatorState state) {
-    // TODO: implement display
+  void display() {
+    assert(this.ride != null);
+    App.navKey.currentState.pushNamed("/RideView", arguments: ride);
   }
 }

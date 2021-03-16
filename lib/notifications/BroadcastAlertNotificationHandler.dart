@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:pickapp/dataObjects/Alert.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
@@ -18,7 +17,7 @@ class BroadcastAlertNotificationHandler extends NotificationHandler {
   Future<void> cache() async {}
 
   @override
-  void display(NavigatorState state) {
+  void display() {
     // TODO: implement display
   }
 }
