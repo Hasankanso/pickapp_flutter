@@ -95,9 +95,11 @@ Future<dynamic> _onAppOpen(Map<String, dynamic> message) async {
       timer.cancel();
       switch (message['data']['action']) {
         case "SEATS_RESERVED":
-          Ride ride = App.getRideFromObjectId(message['data']['id']);
-          NotificationHandler handler =
-              ReserveSeatsNotificationHandler.from(ride);
+          print(message['data']);
+          print(message['data']['rideId']);
+          Ride ride = App.getRideFromObjectId(message['data']['rideId']);
+          print(ride);
+          NotificationHandler handler = ReserveSeatsNotificationHandler.from(ride);
           handler.display();
           break;
         case "RATE":
