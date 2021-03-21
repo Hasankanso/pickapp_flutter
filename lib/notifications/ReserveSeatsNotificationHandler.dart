@@ -30,6 +30,6 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
   @override
   void display() {
     assert(this.ride != null);
-    App.navKey.currentState.pushNamed("/RideView", arguments: ride);
+    App.navKey.currentState.pushNamed("/RideDetails", arguments: ride);
   }
 }
