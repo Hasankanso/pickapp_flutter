@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/User.dart';
@@ -12,7 +12,8 @@ class RateNotificationHandler extends NotificationHandler {
   RateNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Rate)) {
       notification.object = Rate.fromJson(notification.object);
-      notification.scheduleDate = DateTime.now().add(Duration(days: 2));
+      notification.scheduleDate =
+          DateTime.now().add(Duration(minutes: App.daysToShowRate));
       notification.id = 0;
       LocalNotificationManager.pushLocalNotification(notification);
     }

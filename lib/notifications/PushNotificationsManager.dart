@@ -59,6 +59,7 @@ class PushNotificationsManager {
     bool isOneScheduledNotificationHandled = false;
     for (MainNotification n in allScheduledNotifications) {
       if (n.scheduleDate.isBefore(DateTime.now())) {
+        await Cache.setIsNewNotification(true);
         isOneScheduledNotificationHandled = true;
         updatedScheduledNotifications.remove(n);
         allNotifications.add(n);
@@ -68,7 +69,8 @@ class PushNotificationsManager {
     if (isOneScheduledNotificationHandled) {
       await Cache.updateScheduledNotifications(updatedScheduledNotifications);
     }
-    if (Cache.isNewNotification) {
+    if (isOneScheduledNotificationHandled ||
+        await Cache.getIsNewNotification()) {
       App.isNewNotificationNotifier.value = true;
     }
 
@@ -119,7 +121,7 @@ Future<dynamic> _foregroundMessageHandler(
 
   bool isSchedule = data["isSchedule"] == "true";
   NotificationHandler handler =
-      await _cacheNotification(data, isHandled: !isSchedule);
+      await _cacheNotification(data, isSchedule: isSchedule);
   if (!isSchedule) {
     App.notifications.add(handler.notification);
     _updateApp();
@@ -135,19 +137,20 @@ Future<dynamic> _backgroundMessageHandler(
 
   if (data["isCache"] != "true") return;
 
-  await _cacheNotification(data);
+  bool isSchedule = data["isSchedule"] == "true";
+  await _cacheNotification(data, isSchedule: isSchedule);
 }
 
 Future<NotificationHandler> _cacheNotification(Map<String, dynamic> data,
-    {bool isHandled = false}) async {
+    {bool isSchedule = false}) async {
   await Cache.initializeHive();
-  //todo
-  //Cache.setIsNewNotification(true);
-  App.isNewNotificationNotifier.value = true;
+  await Cache.init();
   MainNotification newNotification = MainNotification.fromMap(data);
   newNotification.object = json.decode(newNotification.object);
   NotificationHandler handler = _createNotificationHandler(newNotification);
-  if (data["isSchedule"] != "true") {
+  if (!isSchedule) {
+    await Cache.setIsNewNotification(true);
+    App.isNewNotificationNotifier.value = true;
     await Cache.addNotification(newNotification);
   } else {
     await Cache.addScheduledNotification(newNotification);

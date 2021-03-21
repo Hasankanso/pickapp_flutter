@@ -46,6 +46,7 @@ class Cache {
     u.person.rates = null;
 
     await userBox.put(0, u);
+    await setCountriesList([u.person.countryInformations.countryComponent]);
   }
 
   static Future<Chat> getChat(String key) async {
@@ -335,14 +336,38 @@ class Cache {
       ? _prefs.getBool("THEME_MODE")
       : false;
 
-  static setIsNewNotification(bool value) {
-    _prefs.setBool("IS_NEW_NOTIFICATION", value);
+  static Future<bool> setIsNewNotification(bool value) async {
+    await Hive.openBox("appSettings");
+    var box = Hive.box("appSettings");
+    await box.put("IS_NEW_NOTIFICATION", value);
+    await box.close();
+    return true;
   }
 
-  static bool get isNewNotification => _prefs.getBool(
-            "IS_NEW_NOTIFICATION",
-          ) !=
-          null
-      ? _prefs.getBool("IS_NEW_NOTIFICATION")
-      : false;
+  static Future<bool> getIsNewNotification() async {
+    await Hive.openBox("appSettings");
+    var box = Hive.box("appSettings");
+    bool isNewNotification = box.get("IS_NEW_NOTIFICATION");
+    await box.close();
+    if (isNewNotification == null) return false;
+    return isNewNotification;
+  }
+
+  static Future<bool> setCountriesList(List<String> value) async {
+    await Hive.openBox("appSettings");
+    var box = Hive.box("appSettings");
+    print(Hive.isBoxOpen("appSettings"));
+    await box.put("countriesList", value);
+    await box.close();
+    return true;
+  }
+
+  static Future<List<String>> getCountriesList() async {
+    await Hive.openBox("appSettings");
+    var box = Hive.box("appSettings");
+    print(box.get("countriesList"));
+    List<String> countriesList = box.get("countriesList") as List<String>;
+    await box.close();
+    return countriesList;
+  }
 }

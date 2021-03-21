@@ -5,6 +5,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -28,8 +29,7 @@ class App {
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
   static String hourFormat = 'hh:mm a';
   static String birthdayFormat = 'dd/MM/yyyy';
-  static String countryCode =
-      "lb"; //todo person.countryInformations.countryComponent;
+  static String countryCode = person.countryInformations.countryComponent;
   static User _user;
   static ValueNotifier<bool> isLoggedInNotifier = ValueNotifier<bool>(false);
   static ValueNotifier<bool> refreshProfile = ValueNotifier<bool>(false);
@@ -42,6 +42,9 @@ class App {
   static dynamic stepPriceFilter;
   static Channel inboxChannel;
   static Locale locale;
+  static List<Component> countriesComponents = List<Component>();
+  //if you want to change this variable, Rate_days_validation text.
+  static int daysToShowRate = 2;
   static ValueNotifier<bool> refreshInbox = ValueNotifier(false);
   static ValueNotifier<bool> updateUpcomingRide = ValueNotifier(false);
   static ValueNotifier<bool> updateNotifications = ValueNotifier(false);
@@ -248,5 +251,12 @@ class App {
       rateA = rateA.round().toDouble();
     }
     return rateA;
+  }
+
+  static void setCountriesComponent(List<String> countriesList) {
+    if (countriesList != null)
+      for (final item in countriesList) {
+        countriesComponents.add(Component(Component.country, item));
+      }
   }
 }

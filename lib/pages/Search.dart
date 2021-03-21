@@ -84,8 +84,10 @@ class _SearchState extends State<Search>
               icon: Icon(Icons.star_rate),
               onPressed: () {
                 Navigator.of(context).pushNamed("/AddRate", arguments: [
-                  Ride(id: "4F3958A5-FAFE-47D0-B17C-F984E7D902EC"),
-                  Person(id: "0776BCB3-BD95-4CE8-8CD0-827CBB8C4188")
+                  Ride(
+                      id: "4F3958A5-FAFE-47D0-B17C-F984E7D902EC",
+                      leavingDate: DateTime.now().add(Duration(days: 1))),
+                  Person(id: "5CD8AE9A-1F51-485C-87E4-43F249C2F836")
                 ]);
               }),
           Stack(

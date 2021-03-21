@@ -262,6 +262,8 @@ class _AddCar2State extends State<AddCar2> {
     } else {
       App.user = u;
       await Cache.setUser(u);
+      App.setCountriesComponent(
+          [App.person.countryInformations.countryComponent]);
       App.isDriverNotifier.value = true;
 
       App.isLoggedInNotifier.value = true;

@@ -7,10 +7,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -70,11 +68,9 @@ class LocalNotificationManager {
     if (payload != null) {
       MainNotification notification =
           MainNotification.fromJson(json.decode(payload));
-      print("woslet");
       switch (notification.action) {
-        case 'upcomingRide':
-          Ride ride = App.getRideFromObjectId(notification.objectId);
-          Navigator.pushNamed(context, "/RideDetails2", arguments: ride);
+        case 'RATE':
+          Navigator.pushNamed(context, "/ReviewsPageList");
           break;
         default:
           //for default notification

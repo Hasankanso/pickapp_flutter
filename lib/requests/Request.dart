@@ -50,7 +50,6 @@ abstract class Request<T> {
         if (decodedResponse.length != 0 &&
             decodedResponse[0] == null &&
             decodedResponse["code"] != "null") {
-          print("response handled as it has an error in Request class");
           //extracting code and message
           var jCode =
               response.body.contains("code") ? decodedResponse["code"] : null;
@@ -93,7 +92,6 @@ abstract class Request<T> {
         "/" +
         await Backendless.getApiKey() +
         "/services";
-    print(host);
   }
 
   onError() {}

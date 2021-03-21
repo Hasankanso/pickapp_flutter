@@ -156,6 +156,8 @@ class _RegisterDriverState extends State<RegisterDriver> {
     } else {
       App.user = u;
       await Cache.setUser(u);
+      App.setCountriesComponent(
+          [App.person.countryInformations.countryComponent]);
       App.isDriverNotifier.value = false;
       App.user.driver = null;
 

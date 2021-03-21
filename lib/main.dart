@@ -29,6 +29,7 @@ Future<void> main() async {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
     await PushNotificationsManager().init();
+    App.setCountriesComponent(await Cache.getCountriesList());
   }
 
   //navbar color, not the bottomnavbar, it's the bar where you can press back in android.
@@ -68,6 +69,7 @@ class MyAppState extends State<MyApp> {
     cacheFuture = Cache.init();
     WidgetsBinding.instance
         .addObserver(LifecycleEventHandler(resumeCallBack: () async {
+      await Cache.init();
       await PushNotificationsManager().initNotifications();
     }));
     PushNotificationsManager().initNotifications();

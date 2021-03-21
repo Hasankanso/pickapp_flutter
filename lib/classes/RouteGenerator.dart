@@ -17,6 +17,7 @@ import 'package:pickapp/pages/CarDetails.dart';
 import 'package:pickapp/pages/CarView.dart';
 import 'package:pickapp/pages/ContactUs.dart';
 import 'package:pickapp/pages/Conversation.dart';
+import 'package:pickapp/pages/CountriesList.dart';
 import 'package:pickapp/pages/Details.dart';
 import 'package:pickapp/pages/EditRide.dart';
 import 'package:pickapp/pages/Email.dart';
@@ -423,6 +424,13 @@ class RouteGenerator {
             reverseDuration: duration,
             type: isLTR,
             child: AddAlert());
+      case '/CountriesList':
+        return PageTransition(
+            settings: settings,
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: CountriesList());
     }
   }
 }

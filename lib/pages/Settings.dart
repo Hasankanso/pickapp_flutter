@@ -241,6 +241,54 @@ class Settings extends StatelessWidget {
               ],
             ),
             VerticalSpacer(height: 18),
+            ResponsiveRow(flex: 25, children: [
+              Text(
+                Lang.getString(context, "About"),
+                style: Styles.headerTextStyle(),
+              ),
+            ]),
+            ResponsiveRow(
+              flex: 30,
+              children: [
+                Card(
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed("/CountriesList");
+                        },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.language,
+                                  size: Styles.largeIconSize(),
+                                  color:
+                                      Theme.of(context).accentIconTheme.color,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text("Countries Restriction",
+                                    style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            VerticalSpacer(height: 18),
             ResponsiveRow(
               flex: 30,
               children: [
