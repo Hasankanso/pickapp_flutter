@@ -365,7 +365,6 @@ class Cache {
   static Future<List<String>> getCountriesList() async {
     await Hive.openBox("appSettings");
     var box = Hive.box("appSettings");
-    print(box.get("countriesList"));
     List<String> countriesList = box.get("countriesList") as List<String>;
     await box.close();
     return countriesList;

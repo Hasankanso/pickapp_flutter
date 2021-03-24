@@ -8,7 +8,6 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -19,7 +18,6 @@ import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainNativeAd.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -80,16 +78,6 @@ class _SearchState extends State<Search>
       appBar: MainAppBar(
         title: Lang.getString(context, "Search_for_Ride"),
         actions: [
-          IconButton(
-              icon: Icon(Icons.star_rate),
-              onPressed: () {
-                Navigator.of(context).pushNamed("/AddRate", arguments: [
-                  Ride(
-                      id: "4F3958A5-FAFE-47D0-B17C-F984E7D902EC",
-                      leavingDate: DateTime.now().add(Duration(days: 1))),
-                  Person(id: "5CD8AE9A-1F51-485C-87E4-43F249C2F836")
-                ]);
-              }),
           Stack(
             alignment: AlignmentDirectional.center,
             children: [
@@ -155,11 +143,11 @@ class _SearchState extends State<Search>
                 height: 35,
                 child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
-            ResponsiveWidget(
+            /*ResponsiveWidget(
               width: 200,
               height: 100,
               child: MainNativeAd(controller: _controller),
-            ),
+            ),*/
           ],
         ),
       ),

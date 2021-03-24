@@ -48,7 +48,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
     }
   }
 
-  removeRegion(int index) {
+  _removeRegion(int index) {
     if (_regions.length > 1) {
       setState(() {
         _regions.removeAt(index);
@@ -172,8 +172,8 @@ class _BecomeDriverState extends State<BecomeDriver> {
                                 icon: Icon(Icons.add_location_alt),
                                 iconSize: Styles.largeIconSize(),
                                 color: Styles.primaryColor(),
-                                tooltip: Lang.getString(context,
-                                    "Add_a_region"), //Lang.getString(context, "Settings"),
+                                tooltip:
+                                    Lang.getString(context, "Add_a_region"),
                                 onPressed:
                                     !(_regions.length >= 3) ? _addRegion : null,
                               ),
@@ -193,7 +193,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
                 return RegionListTile(
                   _regions.length != 1,
                   index,
-                  removeRegion,
+                  _removeRegion,
                   _regionsControllers[index],
                   _errorTexts[index],
                 );
