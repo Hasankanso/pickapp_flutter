@@ -102,7 +102,7 @@ void main() async {
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
-    await PushNotificationsManager().init();
+    //await PushNotificationsManager().init(context);
     await PushNotificationsManager().initNotifications();
   }
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pickapp/classes/App.dart';
@@ -11,7 +12,6 @@ import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/requests/EditAccount.dart';
 import 'package:pickapp/requests/ForceRegisterPerson.dart';
 import 'package:pickapp/requests/RegisterPerson.dart';
@@ -437,7 +437,7 @@ class _DetailsState extends State<Details> {
       Request<User> registerRequest;
 
       //get device token before registering
-      PushNotificationsManager.requestToken().then((value) => {
+      FirebaseMessaging.instance.getToken().then((value) => {
             widget.user.person.deviceToken = value,
             if (!widget.isForceRegister)
               {registerRequest = RegisterPerson(widget.user)}

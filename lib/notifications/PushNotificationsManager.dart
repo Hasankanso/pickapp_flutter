@@ -20,29 +20,70 @@ class PushNotificationsManager {
   static final PushNotificationsManager _instance =
       PushNotificationsManager._();
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   bool _initialized = false;
 
-  Future<String> init({context}) async {
+  Future<String> init(context) async {
     String token;
     if (!_initialized) {
-      // For iOS request permission first.
-      _firebaseMessaging.requestNotificationPermissions();
-      _firebaseMessaging.configure(
-        onMessage: _foregroundMessageHandler,
-        onBackgroundMessage: _backgroundMessageHandler,
-        onLaunch: _onAppOpen,
-        onResume: _onAppOpen,
-      );
+      onTokenChange();
+      FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
+
+      FirebaseMessaging.onMessage.listen(_foregroundMessageHandler);
+
+      FirebaseMessaging.onMessageOpenedApp.listen(_onAppOpen);
+
       _initialized = true;
     }
     return token;
   }
 
-  //this function is used in AddCar2, Details, RegisterDriver and login Pages.
-  static Future<String> requestToken() async {
-    // For testing purposes print the Firebase Messaging token
-    return _instance._firebaseMessaging.getToken();
+  void onTokenChange() async {
+    await for (String token in FirebaseMessaging.instance.onTokenRefresh) {
+      print("new token");
+      print(token);
+    }
+  }
+
+  //this will be invoked when app in foreground
+  Future<dynamic> _foregroundMessageHandler(RemoteMessage message) async {
+    print("app in foreground and notification received");
+    //        RemoteNotification notification = message.notification;
+    //         AndroidNotification android = message.notification?.android;
+    Map<String, dynamic> data = new Map<String, dynamic>.from(message.data);
+    if (data["isCache"] != "true") return;
+    bool isSchedule = data["isSchedule"] == "true";
+    NotificationHandler handler =
+        await _cacheNotification(data, isSchedule: isSchedule);
+
+    if (!isSchedule) {
+      App.notifications.add(handler.notification);
+      _updateApp();
+    }
+  }
+
+  //this will be invoked when app is terminated and user click the notification
+  Future<dynamic> _onAppOpen(RemoteMessage message) async {
+    print("you clicked on a notification");
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (App.isAppBuild) {
+        timer.cancel();
+        switch (message.data['action']) {
+          case "SEATS_RESERVED":
+            print(message.data);
+            print(message.data['rideId']);
+            Ride ride = App.getRideFromObjectId(message.data['rideId']);
+            print(ride);
+            NotificationHandler handler =
+                ReserveSeatsNotificationHandler.from(ride);
+            handler.display();
+            break;
+          case "RATE":
+            print(2);
+            break;
+        }
+      }
+    });
+    print("appTerminated: $message");
   }
 
   Future<void> initNotifications() async {
@@ -80,62 +121,18 @@ class PushNotificationsManager {
       await Cache.updateNotifications(allNotifications);
     }
   }
-}
 
-_updateApp() {
-  App.updateUpcomingRide.value = true;
-  App.refreshProfile.value = true;
-  App.updateNotifications.value = true;
-}
-
-NotificationHandler notificationHandler;
-//this will be invoked when app is terminated and user click the notification
-Future<dynamic> _onAppOpen(Map<String, dynamic> message) async {
-  print("you clicked on a notification");
-  Timer.periodic(Duration(seconds: 1), (timer) {
-    if (App.isAppBuild) {
-      timer.cancel();
-      switch (message['data']['action']) {
-        case "SEATS_RESERVED":
-          print(message['data']);
-          print(message['data']['rideId']);
-          Ride ride = App.getRideFromObjectId(message['data']['rideId']);
-          print(ride);
-          NotificationHandler handler = ReserveSeatsNotificationHandler.from(ride);
-          handler.display();
-          break;
-        case "RATE":
-          print(2);
-          break;
-      }
-    }
-  });
-  print("appTerminated: $message");
-}
-
-//this will be invoked when app in foreground
-Future<dynamic> _foregroundMessageHandler(
-    Map<String, dynamic> notification) async {
-  print("app in foreground and notification received");
-  Map<String, dynamic> data =
-      new Map<String, dynamic>.from(notification["data"]);
-  if (data["isCache"] != "true") return;
-
-  bool isSchedule = data["isSchedule"] == "true";
-  NotificationHandler handler =
-      await _cacheNotification(data, isSchedule: isSchedule);
-  if (!isSchedule) {
-    App.notifications.add(handler.notification);
-    _updateApp();
+  _updateApp() {
+    App.updateUpcomingRide.value = true;
+    App.refreshProfile.value = true;
+    App.updateNotifications.value = true;
   }
 }
 
 //this will be invoked whenever a notification received and app is terminated or in background
-Future<dynamic> _backgroundMessageHandler(
-    Map<String, dynamic> notification) async {
+Future<dynamic> backgroundMessageHandler(RemoteMessage message) async {
   print("app is terminated or in background and notification received");
-  Map<String, dynamic> data =
-      new Map<String, dynamic>.from(notification["data"]);
+  Map<String, dynamic> data = new Map<String, dynamic>.from(message.data);
 
   if (data["isCache"] != "true") return;
 

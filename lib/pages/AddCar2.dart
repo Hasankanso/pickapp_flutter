@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
@@ -9,7 +10,6 @@ import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/items/CarTypeItem.dart';
-import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/requests/AddCar.dart';
 import 'package:pickapp/requests/BecomeDriverRequest.dart';
 import 'package:pickapp/requests/ForceRegisterPerson.dart';
@@ -230,7 +230,7 @@ class _AddCar2State extends State<AddCar2> {
     Request<User> registerRequest;
 
     //get device token before registering
-    PushNotificationsManager.requestToken().then((value) => {
+    FirebaseMessaging.instance.getToken().then((value) => {
           widget.user.person.deviceToken = value,
           if (!widget.isForceRegister)
             {registerRequest = RegisterPerson(widget.user)}

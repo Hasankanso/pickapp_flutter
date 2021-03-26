@@ -10,8 +10,8 @@ import androidx.annotation.RequiresApi;
 import io.flutter.app.FlutterApplication;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
-import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin;
-import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
+//import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin;
+//import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
 import com.whelksoft.flutter_native_timezone.FlutterNativeTimezonePlugin;
 import com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin;
@@ -22,12 +22,12 @@ public class Application extends FlutterApplication implements PluginRegistrantC
     public void onCreate() {
         super.onCreate();
         this.createChannel();
-        FlutterFirebaseMessagingService.setPluginRegistrant(this);
+        //FlutterFirebaseMessagingService.setPluginRegistrant(this);
     }
 
     @Override
     public void registerWith(PluginRegistry registry) {
-        FirebaseMessagingPlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin"));
+        //FirebaseMessagingPlugin.registerWith(registry.registrarFor("io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin"));
         PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider.PathProviderPlugin"));
         FlutterNativeTimezonePlugin.registerWith(registry.registrarFor("com.whelksoft.flutter_native_timezone.FlutterNativeTimezonePlugin"));
         FlutterLocalNotificationsPlugin.registerWith(registry.registrarFor("com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin"));

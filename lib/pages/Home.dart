@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
@@ -8,7 +9,6 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/notifications/LocalNotificationManager.dart';
-import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/pages/AddRide.dart';
 import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
   startup() async {
     if (App.user != null) {
       Request<String> request;
-      PushNotificationsManager.requestToken().then((token) => {
+      FirebaseMessaging.instance.getToken().then((token) => {
             request = Startup(App.user, token),
             request.send((userStatus, code, message) =>
                 response(userStatus, code, message, context)),

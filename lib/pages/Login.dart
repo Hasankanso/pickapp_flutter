@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pickapp/classes/App.dart';
@@ -8,7 +9,6 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:pickapp/requests/LoginRequest.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/VerifyAccount.dart';
@@ -288,7 +288,7 @@ class _LoginState extends State<Login> {
                 );
 
                 Request<User> request;
-                PushNotificationsManager.requestToken().then((token) => {
+                FirebaseMessaging.instance.getToken().then((token) => {
                       request = LoginRequest(_user, token),
                       request.send((u, code, message) =>
                           codeValidationResponse(u, code, message, context)),

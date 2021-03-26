@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +20,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
 
   Ads.initialize();
 
@@ -28,8 +30,6 @@ Future<void> main() async {
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
-    await PushNotificationsManager().init();
-    App.setCountriesComponent(await Cache.getCountriesList());
   }
 
   //navbar color, not the bottomnavbar, it's the bar where you can press back in android.
@@ -69,10 +69,11 @@ class MyAppState extends State<MyApp> {
     cacheFuture = Cache.init();
     WidgetsBinding.instance
         .addObserver(LifecycleEventHandler(resumeCallBack: () async {
-      await Cache.init();
       await PushNotificationsManager().initNotifications();
     }));
-    PushNotificationsManager().initNotifications();
+    PushNotificationsManager().init(context).then((String nice) {
+      PushNotificationsManager().initNotifications();
+    });
   }
 
   void _init() {
