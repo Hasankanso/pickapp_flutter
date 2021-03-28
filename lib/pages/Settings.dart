@@ -255,7 +255,7 @@ class Settings extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed("/CountriesList");
+                          Navigator.of(context).pushNamed("/CountriesRestriction");
                         },
                         child: ResponsiveWidget.fullWidth(
                           height: 64,

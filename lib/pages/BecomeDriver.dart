@@ -233,35 +233,20 @@ class _BecomeDriverState extends State<BecomeDriver> {
                           _regionsControllers[i].location.lat;
                     }
 
-                    if (_regions.length == 2) {
-                      if (_regions[0].latitude == _regions[1].latitude &&
-                          _regions[0].longitude == _regions[1].longitude) {
-                        _errorTexts[0] =
-                            Lang.getString(context, "Regions_validation");
-                        _errorTexts[1] =
-                            Lang.getString(context, "Regions_validation");
-                        return;
+                    for (int i = 0; i < _regions.length; i++) {
+                      for (int j = i + 1; j < _regions.length; j++) {
+                        if (_regions[i].latitude == _regions[j].latitude &&
+                            _regions[i].longitude == _regions[j].longitude) {
+                          _errorTexts[i] =
+                              Lang.getString(context, "Regions_validation");
+                          _errorTexts[j] =
+                              Lang.getString(context, "Regions_validation");
+                          isValid = false;
+                        }
                       }
                     }
-                    if (_regions.length == 3) {
-                      if (_regions[0].latitude == _regions[2].latitude &&
-                          _regions[0].longitude == _regions[2].longitude) {
-                        _errorTexts[0] =
-                            Lang.getString(context, "Regions_validation");
-                        _errorTexts[2] =
-                            Lang.getString(context, "Regions_validation");
-                        return;
-                      }
-                      if (_regions[1].latitude == _regions[2].latitude &&
-                          _regions[1].longitude == _regions[2].longitude) {
-                        _errorTexts[1] =
-                            Lang.getString(context, "Regions_validation");
-                        _errorTexts[2] =
-                            Lang.getString(context, "Regions_validation");
-                        return;
-                      }
-                    }
-
+                    if (isValid == false) return;
+                    //validation done
                     if (widget.isRegionPage) {
                       driver.regions = _regions;
                       Request request = EditRegions(driver);

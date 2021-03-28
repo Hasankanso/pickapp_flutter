@@ -1,20 +1,24 @@
-import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/items/CountryListTile.dart';
+import 'package:pickapp/packages/countryPicker/Country.dart';
+import 'package:pickapp/packages/countryPicker/CountryPicker.dart';
+import 'package:pickapp/packages/countryPicker/all_countries_list.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
-class CountriesList extends StatefulWidget {
+class CountriesRestriction extends StatefulWidget {
   @override
-  _CountriesListState createState() => _CountriesListState();
+  _CountriesRestrictionState createState() => _CountriesRestrictionState();
 }
 
-class _CountriesListState extends State<CountriesList> {
-  List<CountryCode> _countries = List<CountryCode>();
+class _CountriesRestrictionState extends State<CountriesRestriction> {
+  List<CountryPickerController> _countriesControllers =
+      List<CountryPickerController>();
   List<String> _errorTexts = List<String>();
 
   @override
@@ -24,10 +28,13 @@ class _CountriesListState extends State<CountriesList> {
   }
 
   _getCountries() async {
-    List<String> coutriesl = await Cache.getCountriesList();
+    var a = countryCodes.map((country) => Country.from(json: country)).toList();
+    List<String> countries = await Cache.getCountriesList();
     setState(() {
-      for (final c in coutriesl) {
-        _countries.add(CountryCode(code: c));
+      for (final c in countries) {
+        Country country =
+            a.where((country) => country.countryCode == c.toUpperCase()).first;
+        _countriesControllers.add(CountryPickerController(country: country));
         _errorTexts.add(null);
       }
     });
@@ -37,7 +44,7 @@ class _CountriesListState extends State<CountriesList> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: "Countries List",
+        title: "Countries Restriction",
       ),
       body: Column(
         children: [
@@ -69,8 +76,8 @@ class _CountriesListState extends State<CountriesList> {
                                 iconSize: Styles.largeIconSize(),
                                 color: Styles.primaryColor(),
                                 tooltip: "Add Country",
-                                onPressed: !(_countries != null &&
-                                        _countries.length >= 5)
+                                onPressed: !(_countriesControllers != null &&
+                                        _countriesControllers.length >= 5)
                                     ? _addCountry
                                     : null,
                               ),
@@ -84,7 +91,7 @@ class _CountriesListState extends State<CountriesList> {
               ],
             ),
           ),
-          if (_countries != null)
+          if (_countriesControllers != null)
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) {
@@ -92,11 +99,11 @@ class _CountriesListState extends State<CountriesList> {
                     index != 0,
                     index,
                     _removeCountry,
-                    _countries[index],
+                    _countriesControllers[index],
                     _errorTexts[index],
                   );
                 },
-                itemCount: _countries.length,
+                itemCount: _countriesControllers.length,
               ),
             ),
         ],
@@ -113,9 +120,8 @@ class _CountriesListState extends State<CountriesList> {
                 text_key: "Save",
                 onPressed: () async {
                   bool isValid = true;
-                  for (int i = 0; i < _countries.length; i++) {
-                    print(_countries[i].code);
-                    var validate = "lllllll";
+                  for (int i = 0; i < _countriesControllers.length; i++) {
+                    var validate = _countriesControllers[i].validate(context);
                     _errorTexts[i] = validate;
                     if (validate != null) {
                       isValid = false;
@@ -123,8 +129,28 @@ class _CountriesListState extends State<CountriesList> {
                   }
                   setState(() {});
                   if (isValid) {
-                    //work
-                    print("tamem");
+                    for (int i = 0; i < _countriesControllers.length; i++) {
+                      for (int j = i + 1;
+                          j < _countriesControllers.length;
+                          j++) {
+                        if (_countriesControllers[i].country.countryCode ==
+                            _countriesControllers[j].country.countryCode) {
+                          _errorTexts[i] = "Countries cannot be duplicated";
+                          _errorTexts[j] = "Countries cannot be duplicated";
+                          isValid = false;
+                        }
+                      }
+                    }
+                    if (isValid == false) return;
+                    //validation done
+                    List<String> _updatedCountries = List<String>();
+                    for (int i = 0; i < _countriesControllers.length; i++) {
+                      _updatedCountries
+                          .add(_countriesControllers[i].country.countryCode);
+                    }
+                    await Cache.setCountriesList(_updatedCountries);
+                    App.countriesComponents = null;
+                    App.setCountriesComponent(_updatedCountries);
                   }
                 },
               ),
@@ -136,18 +162,18 @@ class _CountriesListState extends State<CountriesList> {
   }
 
   _addCountry() {
-    if (_countries.length <= 4) {
+    if (_countriesControllers.length <= 4) {
       setState(() {
-        _countries.add(CountryCode());
+        _countriesControllers.add(CountryPickerController());
         _errorTexts.add(null);
       });
     }
   }
 
   _removeCountry(index) {
-    if (_countries.length > 1) {
+    if (_countriesControllers.length > 1) {
       setState(() {
-        _countries.removeAt(index);
+        _countriesControllers.removeAt(index);
         _errorTexts.removeAt(index);
       });
     }

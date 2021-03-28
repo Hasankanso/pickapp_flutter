@@ -30,6 +30,7 @@ Future<void> main() async {
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;
+    App.setCountriesComponent(await Cache.getCountriesList());
   }
 
   //navbar color, not the bottomnavbar, it's the bar where you can press back in android.

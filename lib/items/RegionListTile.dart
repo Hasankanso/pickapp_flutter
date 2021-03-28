@@ -45,7 +45,11 @@ class RegionListTile extends StatelessWidget {
                 ? Expanded(
                     flex: 2,
                     child: IconButton(
-                      icon: Icon(Icons.minimize),
+                      icon: Icon(
+                        Icons.minimize,
+                        color: Styles.primaryColor(),
+                        size: Styles.largeIconSize(),
+                      ),
                       iconSize: Styles.largeIconSize(),
                       color: Styles.primaryColor(),
                       tooltip: Lang.getString(context, "Remove_region"),

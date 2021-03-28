@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/GPSTile.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -81,7 +82,22 @@ class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
 
   @override
   Widget build(BuildContext context) {
-    final appBar = AppBar(title: AppBarPlacesAutoCompleteTextField());
+    final appBar = AppBar(
+      title: AppBarPlacesAutoCompleteTextField(),
+      actions: [
+        IconButton(
+          icon: Icon(
+            Icons.language,
+            color: Styles.secondaryColor(),
+            size: Styles.largeIconSize(),
+          ),
+          tooltip: "Countries restriction",
+          onPressed: () {
+            Navigator.of(context).pushNamed("/CountriesRestriction");
+          },
+        ),
+      ],
+    );
     final body = PlacesAutocompleteResult(
       onTap: Navigator.of(context).pop,
       logo: widget.logo,

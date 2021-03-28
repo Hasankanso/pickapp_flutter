@@ -254,6 +254,9 @@ class App {
   }
 
   static void setCountriesComponent(List<String> countriesList) {
+    if (countriesComponents == null) {
+      countriesComponents = List<Component>();
+    }
     if (countriesList != null)
       for (final item in countriesList) {
         countriesComponents.add(Component(Component.country, item));
