@@ -356,7 +356,6 @@ class Cache {
   static Future<bool> setCountriesList(List<String> value) async {
     await Hive.openBox("appSettings");
     var box = Hive.box("appSettings");
-    print(Hive.isBoxOpen("appSettings"));
     await box.put("countriesList", value);
     await box.close();
     return true;

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/GPSTile.dart';
 import 'package:rxdart/rxdart.dart';
@@ -91,7 +92,7 @@ class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
             color: Styles.secondaryColor(),
             size: Styles.largeIconSize(),
           ),
-          tooltip: "Countries restriction",
+          tooltip: Lang.getString(context, "Countries_Restriction"),
           onPressed: () {
             Navigator.of(context).pushNamed("/CountriesRestriction");
           },

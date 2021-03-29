@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/packages/countryPicker/Country.dart';
@@ -47,7 +48,7 @@ class _CountryPickerState extends State<CountryPicker> {
                     child: Text(
                       widget.controller.country != null
                           ? en[widget.controller.country.countryCode]
-                          : "Select country",
+                          : Lang.getString(context, "Choose_country"),
                       style: Styles.valueTextStyle(),
                       overflow: TextOverflow.clip,
                     ),
@@ -114,7 +115,7 @@ class CountryPickerController {
 
   validate(context, {CountryPickerController x}) {
     if (this.country == null) {
-      return "Select country"; //Lang.getString(context, "Cannot_be_empty");
+      return Lang.getString(context, "Choose_country");
     } else {
       return null;
     }

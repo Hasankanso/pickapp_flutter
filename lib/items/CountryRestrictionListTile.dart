@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/packages/countryPicker/CountryPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
-class CountryListTile extends StatelessWidget {
+class CountryRestrictionListTile extends StatelessWidget {
   bool isDefault;
   int _index;
   Function(int) _removeCountry;
   CountryPickerController _controller;
   String _errorText;
 
-  CountryListTile(this.isDefault, this._index, this._removeCountry,
+  CountryRestrictionListTile(this.isDefault, this._index, this._removeCountry,
       this._controller, this._errorText);
 
   @override
@@ -33,9 +34,11 @@ class CountryListTile extends StatelessWidget {
                   if (_errorText != null)
                     Row(
                       children: [
-                        Spacer(),
+                        Spacer(
+                          flex: 2,
+                        ),
                         Expanded(
-                          flex: 10,
+                          flex: 18,
                           child: Text(
                             _errorText,
                             style: Styles.valueTextStyle(
@@ -59,7 +62,7 @@ class CountryListTile extends StatelessWidget {
                       ),
                       iconSize: Styles.largeIconSize(),
                       color: Styles.primaryColor(),
-                      tooltip: "Remove country",
+                      tooltip: Lang.getString(context, "Remove_country"),
                       onPressed: () {
                         _removeCountry(_index);
                       },

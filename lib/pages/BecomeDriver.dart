@@ -238,9 +238,9 @@ class _BecomeDriverState extends State<BecomeDriver> {
                         if (_regions[i].latitude == _regions[j].latitude &&
                             _regions[i].longitude == _regions[j].longitude) {
                           _errorTexts[i] =
-                              Lang.getString(context, "Regions_validation");
+                              Lang.getString(context, "Region_validation");
                           _errorTexts[j] =
-                              Lang.getString(context, "Regions_validation");
+                              Lang.getString(context, "Region_validation");
                           isValid = false;
                         }
                       }

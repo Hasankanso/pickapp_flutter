@@ -5,35 +5,16 @@ import 'package:pickapp/packages/countryPicker/country_code_to_name.dart';
 
 class CountryListView extends StatefulWidget {
   static String countryCodeToEmoji(String countryCode) {
-    if(countryCode==null)
-      return "";
-    // 0x41 is Letter A
-    // 0x1F1E6 is Regional Indicator Symbol Letter A
-    // Example :
-    // firstLetter U => 20 + 0x1F1E6
-    // secondLetter S => 18 + 0x1F1E6
-    // See: https://en.wikipedia.org/wiki/Regional_Indicator_Symbol
+    if (countryCode == null) return "";
     final int firstLetter = countryCode.codeUnitAt(0) - 0x41 + 0x1F1E6;
     final int secondLetter = countryCode.codeUnitAt(1) - 0x41 + 0x1F1E6;
     return String.fromCharCode(firstLetter) + String.fromCharCode(secondLetter);
   }
 
-  /// Called when a country is select.
-  ///
-  /// The country picker passes the new value to the callback.
   final ValueChanged<Country> onSelect;
-
-  /// An optional [showPhoneCode] argument can be used to show phone code.
   final bool showPhoneCode;
-
-  /// An optional [exclude] argument can be used to exclude(remove) one ore more
-  /// country from the countries list. It takes a list of country code(iso2).
-  /// Note: Can't provide both [exclude] and [countryFilter]
   final List<String> exclude;
 
-  /// An optional [countryFilter] argument can be used to filter the
-  /// list of countries. It takes a list of country code(iso2).
-  /// Note: Can't provide both [countryFilter] and [exclude]
   final List<String> countryFilter;
 
   const CountryListView({
