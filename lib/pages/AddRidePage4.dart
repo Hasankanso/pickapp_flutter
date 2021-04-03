@@ -41,14 +41,14 @@ class _AddRidePage4State extends State<AddRidePage4> {
 
   void getDirection(String origin, String destination) async {
     var url = 'https://maps.googleapis.com/maps/api/directions/json?';
-    var response = await http.get(url +
+    var response = await http.get(Uri.parse(url +
         "origin=" +
         origin +
         "&destination=" +
         destination +
         "&mode=driving&alternatives=true" +
         "&key=" +
-        App.googleKey);
+        App.googleKey));
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       List<dynamic> roads = jsonResponse["routes"];
@@ -63,12 +63,12 @@ class _AddRidePage4State extends State<AddRidePage4> {
 
   void getMap(String roadPoints) async {
     var staticMapURL = "https://maps.googleapis.com/maps/api/staticmap?";
-    var response = await http.get(staticMapURL +
+    var response = await http.get(Uri.parse(staticMapURL +
         "size=640x640" +
         "&path=enc%3A" +
         roadPoints +
         "&key=" +
-        App.googleKey);
+        App.googleKey));
     if (response.statusCode == 200) {
       var base64String = base64.encode(response.bodyBytes);
       mapUrl = staticMapURL +

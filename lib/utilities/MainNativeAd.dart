@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
 import 'package:flutter_native_admob/native_admob_options.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pickapp/classes/Ads.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -14,6 +15,43 @@ import 'Spinner.dart';
 const _viewType = "native_admob";
 
 enum NativeAdmobType { banner, full }
+
+
+class NativeAd extends StatefulWidget {
+  @override
+  _NativeAdState createState() => _NativeAdState();
+}
+
+class _NativeAdState extends State<NativeAd> {
+  @override
+  Widget build(BuildContext context) {
+
+    return FutureBuilder(future : Ads.native.load(), builder: (BuildContext context,
+        AsyncSnapshot<dynamic> snapshot) {
+    if (snapshot.connectionState == ConnectionState.done) {
+      // If we got an error
+      if (snapshot.hasError) {
+        return Center(
+          child: Text(
+            '${snapshot.error} occured',
+            style: TextStyle(fontSize: 18),
+          ),
+        );
+
+        // if we got our data
+      } else if (snapshot.hasData) {
+        return AdWidget(ad: Ads.banner);
+      }
+    }
+
+    // Displaying LoadingSpinner to indicate waiting state
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+
+    });
+  }
+}
 
 class MainNativeAd extends StatefulWidget {
   final int numberAds;

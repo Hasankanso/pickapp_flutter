@@ -1,6 +1,6 @@
 import 'dart:io' show Platform;
 
-import 'package:backendless_sdk/backendless_sdk.dart';
+//import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,7 +40,6 @@ class App {
   static dynamic maxPriceFilter;
   static dynamic minPriceFilter;
   static dynamic stepPriceFilter;
-  static Channel inboxChannel;
   static Locale locale;
   static List<Component> countriesComponents = List<Component>();
   //if you want to change this variable, Rate_days_validation text.

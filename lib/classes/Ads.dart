@@ -1,20 +1,38 @@
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 
 import 'App.dart';
 
 class Ads {
   static BannerAd _bannerAd;
-
+ // check https://pub.dev/packages/google_mobile_ads
   static String _bannerId, nativeId, _rewardedId, _appId;
 
+  static final AdListener listener = AdListener(
+    // Called when an ad is successfully received.
+    onAdLoaded: (Ad ad) => print('Ad loaded.'),
+    // Called when an ad request failed.
+    onAdFailedToLoad: (Ad ad, LoadAdError error) {
+      ad.dispose();
+      print('Ad failed to load: $error');
+    },
+    // Called when an ad opens an overlay that covers the screen.
+    onAdOpened: (Ad ad) => print('Ad opened.'),
+    // Called when an ad removes an overlay that covers the screen.
+    onAdClosed: (Ad ad) => print('Ad closed.'),
+    // Called when an ad is in the process of leaving the application.
+    onApplicationExit: (Ad ad) => print('Left application.'),
+  );
+
+  /*
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
     keywords: <String>['foo', 'bar'],
     contentUrl: 'http://foo.com/bar.html',
     childDirected: true,
     nonPersonalizedAds: true,
   );
+*/
 
   static Future<void> initialize() async {
     if (App.isAndroid()) {
@@ -34,18 +52,18 @@ class Ads {
     //#TODO remove el TEST nambar
     nativeId = "ca-app-pub-3940256099942544/2247696110";
 
-    await FirebaseAdMob.instance.initialize(appId: _appId);
+    MobileAds.instance.initialize();
+    //await FirebaseAdMob.instance.initialize(appId: _appId);
   }
 
+  /*
   static void displayBannerAd() async {
     if (_bannerAd == null) {
       _bannerAd = BannerAd(
-        adUnitId: BannerAd.testAdUnitId,
-        size: AdSize.fullBanner,
-        targetingInfo: targetingInfo,
-        listener: (MobileAdEvent event) {
-          print("BannerAd event $event");
-        },
+        adUnitId:  BannerAd.testAdUnitId,
+        size: AdSize.banner,
+        request: AdRequest(),
+        listener: listener,
       );
     }
 
@@ -53,13 +71,14 @@ class Ads {
     print(_bannerAd.toString());
     await _bannerAd.show(anchorType: AnchorType.bottom);
   }
+*/
 
   static void destroyBannerAd() async {
     _bannerAd?.dispose();
   }
 
   static bool rewardedAdLoaded = false;
-
+/*
   static void loadRewardedVideo(BuildContext context, callback) async {
     RewardedVideoAd.instance.listener =
         (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
@@ -83,4 +102,42 @@ class Ads {
       await RewardedVideoAd.instance.show();
     }
   }
+
+*/
+
+  static final banner = BannerAd(
+  adUnitId:  BannerAd.testAdUnitId,
+  size: AdSize.banner,
+  request: AdRequest(),
+  listener: listener,
+  );
+
+  static final NativeAd native = NativeAd(
+    adUnitId: NativeAd.testAdUnitId,
+    factoryId: 'adFactoryID',
+    request: AdRequest(),
+    listener: listener,
+  );
+
+/*
+  @Override
+  public UnifiedNativeAdView createNativeAd(
+      UnifiedNativeAd nativeAd, Map<String, Object> customOptions) {
+    final UnifiedNativeAdView adView =
+    (UnifiedNativeAdView) layoutInflater.inflate(R.layout.my_native_ad, null);
+    final TextView headlineView = adView.findViewById(R.id.ad_headline);
+    final TextView bodyView = adView.findViewById(R.id.ad_body);
+
+    headlineView.setText(nativeAd.getHeadline());
+    bodyView.setText(nativeAd.getBody());
+
+    adView.setBackgroundColor(Color.YELLOW);
+
+    adView.setNativeAd(nativeAd);
+    adView.setBodyView(bodyView);
+    adView.setHeadlineView(headlineView);
+    return adView;
+  }
+}
+*/
 }

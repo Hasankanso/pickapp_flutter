@@ -28,7 +28,7 @@ abstract class Request<T> {
       print("request-data: " + jsonData);
       http.Response response = await http
           .post(
-            host + httpPath,
+            Uri.parse(host + httpPath),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=utf-8'
             },
@@ -38,7 +38,7 @@ abstract class Request<T> {
           .catchError((Object o) {
         callback(null, HttpStatus.networkConnectTimeoutError,
             "no_internet_connection");
-        return;
+        return null;
       });
 
       if (response != null) {

@@ -1,13 +1,8 @@
-import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:hive/hive.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-
 part 'Message.g.dart';
 
 
 @HiveType(typeId: 11)
-@reflector
 class Message {
 
   @HiveField(0)

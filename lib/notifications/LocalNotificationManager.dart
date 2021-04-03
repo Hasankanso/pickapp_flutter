@@ -90,7 +90,7 @@ class LocalNotificationManager {
       //todo put image file name
       final directory = await getApplicationDocumentsDirectory();
       final String imagePath = '${directory.path}/test';
-      final Response response = await get("url");
+      final Response response = await get(Uri(host : "url"));
       final file = File(imagePath);
       await file.writeAsBytes(response.bodyBytes);
 

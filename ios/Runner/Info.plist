@@ -66,6 +66,13 @@
 	<false/>
 	<key>GADApplicationIdentifier</key>
     <string>ca-app-pub-4192057498524161~5864642607</string>
+    <key>SKAdNetworkItems</key>
+      <array>
+        <dict>
+          <key>SKAdNetworkIdentifier</key>
+          <string>cstr6suwn9.skadnetwork</string>
+        </dict>
+      </array>
     <key>io.flutter.embedded_views_preview</key>
     <true/>
 </dict>

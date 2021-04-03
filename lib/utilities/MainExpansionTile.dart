@@ -197,8 +197,7 @@ class MainExpansionTileState extends State<MainExpansionTile>
   }
 
   static MainExpansionTileState of(BuildContext context) {
-    return context
-        .ancestorStateOfType(const TypeMatcher<MainExpansionTileState>());
+    return context.findAncestorStateOfType<MainExpansionTileState>();
   }
 
   void collapse() {

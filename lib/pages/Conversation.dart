@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/App.dart';
@@ -59,63 +57,9 @@ class _ConversationState extends State<Conversation> {
         Message(senderId: App.person.id, message: text, myMessage: true);
 
     print("Sending " + msg.toJson().toString() + " to " + c.person.firstName);
-    Backendless.messaging
-        .publish(msg.toJson(), channelName: targetId)
-        .then((value) {
-      switch (value.status) {
-        case PublishStatusEnum.PUBLISHED:
-          {
-            setState(() {
-              c.addMessage(msg);
-            });
-            print("message sent");
-          }
-          break;
-
-        case PublishStatusEnum.FAILED:
-          {
-            print("Failed");
-          }
-          break;
-
-        case PublishStatusEnum.CANCELLED:
-          {
-            print("message canceled before getting sent.");
-          }
-          break;
-
-        case PublishStatusEnum.UNKNOWN:
-          {
-            print("it's unkown if the message has been sent or not");
-          }
-          break;
-
-        case PublishStatusEnum.SCHEDULED:
-          {
-            setState(() {
-              c.addMessage(msg);
-            });
-            print("message scheduled");
-          }
-          break;
-
-        default:
-          {
-            print("Something else");
-          }
-          break;
-      }
       App.refreshInbox.value = true;
-    });
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    msgInputController.dispose();
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

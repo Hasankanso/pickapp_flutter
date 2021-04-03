@@ -19,6 +19,7 @@ import 'package:pickapp/utilities/DateTimeRangePicker.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:pickapp/utilities/MainNativeAd.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/NumberPicker.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -154,11 +155,11 @@ class _SearchState extends State<Search>
                 height: 35,
                 child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
-            /*ResponsiveWidget(
+            ResponsiveWidget(
               width: 200,
               height: 100,
-              child: MainNativeAd(controller: _controller),
-            ),*/
+              child: NativeAd(),
+            ),
           ],
         ),
       ),

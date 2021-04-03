@@ -1,4 +1,3 @@
-import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
@@ -19,7 +18,6 @@ import 'package:pickapp/utilities/Spinner.dart';
 class Inbox extends StatefulWidget {
   @override
   _InboxState createState() => _InboxState();
-  static Channel channel;
 
   static Future<void> messageReceived(Map message) async {
     Message msg = Message(
