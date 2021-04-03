@@ -25,12 +25,11 @@ dependencies:
   flutter_datetime_picker: ^1.4.0
   shared_preferences: ^2.0.5
   flutter_google_places: ^0.2.6
-  google_maps_webservice: ^0.0.16
+  google_maps_webservice: ^0.0.20-nullsafety.3
   geolocator: ^7.0.1
   rflutter_alert: ^1.0.3
   fluttertoast: ^7.1.1
   flutter_screenutil: ^3.1.0
-  #backendless_sdk: ^6.1.0
   mailer2: ^1.2.5
   flutter_staggered_animations: ^0.1.2
   cached_network_image: ^2.4.1

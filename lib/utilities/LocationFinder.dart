@@ -67,7 +67,7 @@ class _LocationFinderState extends State<LocationFinder> {
       setState(() {
         String curr_loc = Lang.getString(context, "My_Current_Location");
         _textEditingController.text = curr_loc;
-        widget._controller.location = new Location(locPred.lat, locPred.lng);
+        widget._controller.location = new Location(lat : locPred.lat, lng : locPred.lng);
         widget._controller.placeId = null;
         widget._controller.description = curr_loc;
         widget._initialDescription = curr_loc;
@@ -88,7 +88,7 @@ class _LocationFinderState extends State<LocationFinder> {
     String address = locPred.description;
 
     setState(() {
-      widget._controller.location = new Location(latitude, longitude);
+      widget._controller.location = new Location(lat : latitude, lng : longitude);
       widget._controller.placeId = locPred.placeId;
       widget._controller.description = locPred.description;
       _textEditingController.text = widget._controller.description;

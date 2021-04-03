@@ -61,7 +61,7 @@ class _GPSTileState extends State<GPSTile> {
       return null;
     }
     print(position.latitude);
-    return new Location(position.latitude, position.longitude);
+    return new Location(lat : position.latitude, lng : position.longitude);
   }
 }
 

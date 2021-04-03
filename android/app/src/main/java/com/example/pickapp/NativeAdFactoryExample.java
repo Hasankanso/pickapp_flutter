@@ -1,7 +1,3 @@
-
-
-
-
 package io.flutter.plugins.googlemobileadsexample;
 
 import android.graphics.Color;
@@ -13,17 +9,7 @@ import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin.NativeAdFactory;
 import java.util.Map;
 
 
-
-class NativeAdFactory implements NativeAdFactory {
-    @Override
-    public UnifiedNativeAdView createNativeAd(
-            UnifiedNativeAd nativeAd, Map<String, Object> customOptions) {
-        // Create UnifiedNativeAdView
-    }
-}
-
-
-class NativeAdFactoryExample implements NativeAdFactory {
+public class NativeAdFactoryExample implements NativeAdFactory {
     private final LayoutInflater layoutInflater;
 
     NativeAdFactoryExample(LayoutInflater layoutInflater) {

@@ -68,7 +68,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
         _regionsControllers.add(LocationEditingController(
           placeId: region.placeId,
           description: region.name,
-          location: Location(region.latitude, region.longitude),
+          location: Location(lat : region.latitude, lng: region.longitude),
         ));
         _errorTexts.add(null);
       }
