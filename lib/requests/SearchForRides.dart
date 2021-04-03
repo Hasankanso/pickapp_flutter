@@ -27,22 +27,6 @@ class SearchForRides extends Request<List<Ride>> {
 
   @override
   String isValid() {
-    if (_searchInfo.minDate.compareTo(DateTime.now()) < 0) {
-      return "Min date must be greater than now date";
-    }
-    if (_searchInfo.minDate.compareTo(_searchInfo.maxDate) > 0) {
-      return "Min date must be greater than max date";
-    }
-    if (_searchInfo.maxDate.compareTo(_searchInfo.minDate) < 0) {
-      return "Max date must be smaller than max date";
-    }
-    if (_searchInfo.passengersNumber < 1 || _searchInfo.passengersNumber > 4) {
-      return "Please choose 1 to 8 persons.";
-    }
-    if (_searchInfo.from.latitude == _searchInfo.to.latitude &&
-        _searchInfo.from.longitude == _searchInfo.to.longitude) {
-      return "From and To must be different";
-    }
     return null;
   }
 }
