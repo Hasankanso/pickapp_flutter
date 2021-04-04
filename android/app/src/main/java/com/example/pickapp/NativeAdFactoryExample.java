@@ -1,4 +1,4 @@
-package io.flutter.plugins.googlemobileadsexample;
+package com.example.pickapp;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;

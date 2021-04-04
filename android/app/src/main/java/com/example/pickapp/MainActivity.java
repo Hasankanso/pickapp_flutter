@@ -2,23 +2,17 @@ package com.example.pickapp;
 
 import io.flutter.embedding.android.FlutterActivity;
 
-import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin;
-
-
-
-
+import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin.NativeAdFactory;
 
 public class MainActivity extends FlutterActivity {
 
-
     @Override
     public void configureFlutterEngine(FlutterEngine flutterEngine) {
-        flutterEngine.getPlugins().add(new GoogleMobileAdsPlugin());
         super.configureFlutterEngine(flutterEngine);
-
-        GoogleMobileAdsPlugin.registerNativeAdFactory(flutterEngine, "adFactoryID", NativeAdFactoryExample());
+        final NativeAdFactory factory = new NativeAdFactoryExample(getLayoutInflater());
+        GoogleMobileAdsPlugin.registerNativeAdFactory(flutterEngine, "adFactoryID", factory);
     }
 
     @Override
@@ -27,7 +21,3 @@ public class MainActivity extends FlutterActivity {
     }
 
 }
-
-
-
-
