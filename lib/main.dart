@@ -21,7 +21,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
 
-  Ads.initialize();
+  await Ads.initialize();
 
   await Cache.initializeHive();
 

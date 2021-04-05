@@ -1,12 +1,12 @@
-import 'package:flutter/widgets.dart';
+import 'dart:async';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
 
 import 'App.dart';
 
 class Ads {
   static BannerAd _bannerAd;
- // check https://pub.dev/packages/google_mobile_ads
+  // check https://pub.dev/packages/google_mobile_ads
   static String _bannerId, nativeId, _rewardedId, _appId;
 
   static final AdListener listener = AdListener(
@@ -48,9 +48,6 @@ class Ads {
       nativeId = 'ca-app-pub-4192057498524161/4117421405';
       _rewardedId = 'ca-app-pub-4192057498524161/8299234258';
     }
-
-    //#TODO remove el TEST nambar
-    nativeId = "ca-app-pub-3940256099942544/2247696110";
 
     MobileAds.instance.initialize();
     //await FirebaseAdMob.instance.initialize(appId: _appId);
@@ -106,38 +103,30 @@ class Ads {
 */
 
   static final banner = BannerAd(
-  adUnitId:  BannerAd.testAdUnitId,
-  size: AdSize.banner,
-  request: AdRequest(),
-  listener: listener,
-  );
-
-  static final NativeAd native = NativeAd(
-    adUnitId: NativeAd.testAdUnitId,
-    factoryId: 'adFactoryID',
+    adUnitId: BannerAd.testAdUnitId,
+    size: AdSize.banner,
     request: AdRequest(),
     listener: listener,
   );
+  static final Completer<NativeAd> nativeAdCompleter = Completer<NativeAd>();
 
-/*
-  @Override
-  public UnifiedNativeAdView createNativeAd(
-      UnifiedNativeAd nativeAd, Map<String, Object> customOptions) {
-    final UnifiedNativeAdView adView =
-    (UnifiedNativeAdView) layoutInflater.inflate(R.layout.my_native_ad, null);
-    final TextView headlineView = adView.findViewById(R.id.ad_headline);
-    final TextView bodyView = adView.findViewById(R.id.ad_body);
-
-    headlineView.setText(nativeAd.getHeadline());
-    bodyView.setText(nativeAd.getBody());
-
-    adView.setBackgroundColor(Color.YELLOW);
-
-    adView.setNativeAd(nativeAd);
-    adView.setBodyView(bodyView);
-    adView.setHeadlineView(headlineView);
-    return adView;
-  }
-}
-*/
+  /*static final NativeAd native = NativeAd(
+    adUnitId: Ads.nativeId,
+    request: AdRequest(),
+    factoryId: 'adFactoryID',
+    listener: AdListener(
+      onAdLoaded: (Ad ad) {
+        print('$NativeAd loaded.');
+        nativeAdCompleter.complete(ad as NativeAd);
+      },
+      onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        ad.dispose();
+        print('$NativeAd failedToLoad: $error');
+        nativeAdCompleter.completeError(error);
+      },
+      onAdOpened: (Ad ad) => print('$NativeAd onAdOpened.'),
+      onAdClosed: (Ad ad) => print('$NativeAd onAdClosed.'),
+      onApplicationExit: (Ad ad) => print('$NativeAd onApplicationExit.'),
+    ),
+  );*/
 }

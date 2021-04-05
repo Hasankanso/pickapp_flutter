@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_admob/native_admob_controller.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -35,10 +34,6 @@ class _SearchState extends State<Search>
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
   NumberController numberController = NumberController();
-  final _controller = NativeAdmobController();
-
-// Optional: Set the option to disable the personalized Ads. AdMob default option: personalized
-  // _controller.setNonPersonalizedAds(true);
 
   SearchInfo _searchInfo;
   String _fromError, _toError;
@@ -158,7 +153,7 @@ class _SearchState extends State<Search>
             ResponsiveWidget(
               width: 200,
               height: 100,
-              child: NativeAd(),
+              child: MainNativeAd(),
             ),
           ],
         ),
