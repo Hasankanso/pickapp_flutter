@@ -2,52 +2,38 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:pickapp/classes/Ads.dart';
+import 'package:pickapp/ads/Ads.dart';
 
-class MainNativeAd extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => MainNativeAdState();
-}
-
-class MainNativeAdState extends State<MainNativeAd> {
+class MainNativeAd extends StatelessWidget {
   NativeAd _nativeAd;
-  final Completer<NativeAd> nativeAdCompleter = Completer<NativeAd>();
+  final Completer<NativeAd> _nativeAdCompleter = Completer<NativeAd>();
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     _nativeAd = NativeAd(
       adUnitId: Ads.nativeId,
-      request: AdRequest(),
+      request: Ads.adRequest,
       factoryId: 'adFactoryID',
       listener: AdListener(
         onAdLoaded: (Ad ad) {
           print('$NativeAd loaded.');
-          nativeAdCompleter.complete(ad as NativeAd);
+          _nativeAdCompleter.complete(ad as NativeAd);
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           ad.dispose();
           print('$NativeAd failedToLoad: $error');
-          nativeAdCompleter.completeError(error);
+          _nativeAdCompleter.completeError(error);
         },
         onAdOpened: (Ad ad) => print('$NativeAd onAdOpened.'),
         onAdClosed: (Ad ad) => print('$NativeAd onAdClosed.'),
         onApplicationExit: (Ad ad) => print('$NativeAd onApplicationExit.'),
       ),
     );
+
     Future<void>.delayed(Duration(seconds: 1), () => _nativeAd.load());
-  }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _nativeAd.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return FutureBuilder<NativeAd>(
-      future: nativeAdCompleter.future,
+      future: _nativeAdCompleter.future,
       builder: (BuildContext context, AsyncSnapshot<NativeAd> snapshot) {
         Widget child;
 

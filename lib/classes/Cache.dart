@@ -129,7 +129,7 @@ class Cache {
       var rates = rateBox.get("rates");
       if (rates != null) rates = rates.cast<Rate>();
       List<Rate> allRates = rates;
-      if (allRates != null) returnRates = allRates;
+      if (allRates != null) returnRates.addAll(allRates);
       returnRates.add(rate);
 
       await rateBox.put("rates", returnRates);
@@ -212,7 +212,7 @@ class Cache {
       var notfications = notificationBox.get("scheduledNotifications");
       if (notfications != null) {
         notfications = notfications.cast<MainNotification>();
-        returnNotifications = notfications;
+        returnNotifications.addAll(notfications);
       }
       returnNotifications.add(notification);
 
@@ -236,7 +236,7 @@ class Cache {
       var notfications = notificationBox.get("notifications");
       if (notfications != null) {
         notfications = notfications.cast<MainNotification>();
-        returnNotifications = notfications;
+        returnNotifications.addAll(notfications);
       }
       await notificationBox.close();
     }
@@ -261,13 +261,13 @@ class Cache {
 
   static Future<bool> addNotification(MainNotification notification) async {
     var notificationBox = await Hive.openBox("notifications");
-    List<MainNotification> returnNotifications = new List<MainNotification>();
+    List<MainNotification> returnNotifications = List<MainNotification>();
 
     if (notificationBox.isOpen) {
       var notfications = notificationBox.get("notifications");
       if (notfications != null) {
         notfications = notfications.cast<MainNotification>();
-        returnNotifications = notfications;
+        returnNotifications.addAll(notfications);
       }
       returnNotifications.add(notification);
       while (returnNotifications.length >
