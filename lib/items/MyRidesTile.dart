@@ -35,7 +35,6 @@ class _MyRidesTileState extends State<MyRidesTile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget._ride.user == null) {
       user = App.user;

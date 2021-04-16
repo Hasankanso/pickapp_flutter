@@ -47,10 +47,10 @@ class _ProfileState extends State<Profile> {
       CustomToast().showErrorToast(p3);
       _isImageLoading = false;
     } else {
-      List<Ride> upcomingRides = App.person.upcomingRides;
+      List<Ride> upcomingRides = List<Ride>.from(App.person.upcomingRides);
       List<Rate> rates = App.person.rates;
 
-      result.upcomingRides = upcomingRides;
+      result.upcomingRides.addAll(upcomingRides);
       result.rates = rates;
       result.statistics = App.user.person.statistics;
 

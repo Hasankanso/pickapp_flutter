@@ -64,21 +64,21 @@ class Cache {
     await Hive.openBox('chat');
     var chatB = Hive.box('chat');
     await chatB.clear();
-    chatB.close();
+    await chatB.close();
     await Hive.openBox('rates');
     var rateB = Hive.box('rates');
     await rateB.clear();
-    rateB.close();
+    await rateB.close();
     await Hive.openBox('notifications');
     var notfB = Hive.box('notifications');
     await notfB.clear();
-    notfB.close();
+    await notfB.close();
     await Hive.openBox('scheduledNotifications');
     var sNotfB = Hive.box('scheduledNotifications');
     await sNotfB.clear();
-    sNotfB.close();
+    await sNotfB.close();
     var userB = Hive.box("user");
-    userB.clear();
+    await userB.clear();
   }
 
   static Future<void> initializeHive() async {

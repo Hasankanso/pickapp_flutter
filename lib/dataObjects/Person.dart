@@ -30,7 +30,7 @@ class Person {
   @HiveField(7)
   int _chattiness;
   @HiveField(8)
-  List<Ride> _upcomingRides = new List<Ride>();
+  List<Ride> _upcomingRides = <Ride>[];
   @HiveField(9)
   List<Rate> _rates;
   @HiveField(10)
@@ -56,24 +56,23 @@ class Person {
   @override
   int get hashCode => _id.hashCode;
 
-  Person({
-    String id,
-    String firstName,
-    String lastName,
-    CountryInformations countryInformations,
-    int chattiness,
-    String phone,
-    String bio,
-    bool gender,
-    DateTime birthday,
-    DateTime updated,
-    String profilePictureUrl,
-    UserStatistics statistics,
-    DateTime creationDate,
-    ImageProvider networkImage,
-  List<Rate> reviews,
-    this.deviceToken
-  }) {
+  Person(
+      {String id,
+      String firstName,
+      String lastName,
+      CountryInformations countryInformations,
+      int chattiness,
+      String phone,
+      String bio,
+      bool gender,
+      DateTime birthday,
+      DateTime updated,
+      String profilePictureUrl,
+      UserStatistics statistics,
+      DateTime creationDate,
+      ImageProvider networkImage,
+      List<Rate> reviews,
+      this.deviceToken}) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -102,7 +101,7 @@ class Person {
         'countryInformations': this.countryInformations.toJson(),
         'birthday': this.birthday,
         'gender': this.gender,
-        'token' : this.deviceToken
+        'token': this.deviceToken
       };
 
   factory Person.fromJson(Map<String, dynamic> json) {
@@ -157,14 +156,14 @@ class Person {
 
     var upcomingRidesArray = json["upcomingRides"];
     if (upcomingRidesArray != null) {
-      p._upcomingRides = List<Ride>.from(upcomingRidesArray.map((x) {
+      p._upcomingRides.addAll(List<Ride>.from(upcomingRidesArray.map((x) {
         if (x != null) {
           if (x.containsKey("ride") && x["ride"] != null)
             return Ride.fromJson(x["ride"]);
           else
             return Ride.fromJson(x);
         }
-      }));
+      })));
     }
     var ratesArray = json["rates"];
     if (ratesArray != null) {
@@ -286,5 +285,4 @@ class Person {
   set countryInformations(CountryInformations value) {
     _countryInformations = value;
   }
-
 }

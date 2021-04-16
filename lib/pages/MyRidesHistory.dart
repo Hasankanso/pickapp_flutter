@@ -11,7 +11,7 @@ class MyRidesHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ridesList = App.user.person.upcomingRides;
+    ridesList.addAll(App.user.person.upcomingRides);
     return MainScaffold(
         appBar: MainAppBar(
           title: Lang.getString(context, "My_Rides_History"),

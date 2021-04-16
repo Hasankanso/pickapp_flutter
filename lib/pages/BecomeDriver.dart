@@ -33,10 +33,10 @@ class BecomeDriver extends StatefulWidget {
 
 class _BecomeDriverState extends State<BecomeDriver> {
   Driver driver = Driver();
-  List<MainLocation> _regions = List<MainLocation>();
-  List<String> _errorTexts = List<String>();
+  List<MainLocation> _regions = <MainLocation>[];
+  List<String> _errorTexts = <String>[];
   List<LocationEditingController> _regionsControllers =
-      List<LocationEditingController>();
+      <LocationEditingController>[];
 
   _addRegion() {
     if (_regions.length <= 2) {
@@ -63,12 +63,12 @@ class _BecomeDriverState extends State<BecomeDriver> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     if (widget.isRegionPage) {
-      _regions = App.driver.regions;
+      _regions.addAll(App.driver.regions);
       for (var region in _regions) {
         _regionsControllers.add(LocationEditingController(
           placeId: region.placeId,
           description: region.name,
-          location: Location(lat : region.latitude, lng: region.longitude),
+          location: Location(lat: region.latitude, lng: region.longitude),
         ));
         _errorTexts.add(null);
       }

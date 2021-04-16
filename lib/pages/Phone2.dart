@@ -335,7 +335,7 @@ class _Phone2State extends State<Phone2> {
     } else {
       User localUser = u;
       localUser.driver = App.driver;
-      localUser.person.upcomingRides = App.person.upcomingRides;
+      localUser.person.upcomingRides.addAll( App.person.upcomingRides);
       localUser.person.rates = App.person.rates;
       localUser.person.statistics = App.person.statistics;
 

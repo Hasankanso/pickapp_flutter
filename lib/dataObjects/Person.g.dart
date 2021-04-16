@@ -28,7 +28,7 @@ class PersonAdapter extends TypeAdapter<Person> {
       .._birthday = fields[5] as DateTime
       .._gender = fields[6] as bool
       .._chattiness = fields[7] as int
-      .._upcomingRides = (fields[8] as List)?.cast<Ride>()
+      .._upcomingRides.addAll((fields[8] as List)?.cast<Ride>())
       .._rates = (fields[9] as List)?.cast<Rate>()
       .._updated = fields[10] as DateTime
       .._countryInformations = fields[11] as CountryInformations

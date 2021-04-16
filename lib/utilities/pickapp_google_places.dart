@@ -457,7 +457,9 @@ abstract class PlacesAutocompleteState extends State<PlacesAutocompleteWidget> {
           strictbounds: widget.strictbounds,
           region: widget.region,
         );
-      } catch (e) {}
+      } catch (e) {
+        print(e);
+      }
       if (res == null) {
         onResponse(null);
         return;
@@ -557,7 +559,6 @@ class PlacesAutocomplete {
           httpClient: httpClient,
           startText: startText,
         );
-
     if (mode == Mode.overlay) {
       return showDialog(context: context, builder: builder);
     }

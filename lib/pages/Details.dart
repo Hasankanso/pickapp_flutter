@@ -404,8 +404,8 @@ class _DetailsState extends State<Details> {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
     } else {
-      result.rates = App.person.rates;
-      result.upcomingRides = App.person.upcomingRides;
+      result.rates.addAll(App.person.rates);
+      result.upcomingRides.addAll(App.person.upcomingRides);
       result.statistics = App.user.person.statistics;
 
       App.user.person = result;

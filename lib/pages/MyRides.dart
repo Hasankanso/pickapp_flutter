@@ -17,10 +17,9 @@ class _MyRidesState extends State<MyRides> {
   List<Ride> ridesList = List<Ride>();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (App.user != null) {
-      ridesList = App.user.person.upcomingRides;
+      ridesList.addAll(App.user.person.upcomingRides);
     }
   }
 

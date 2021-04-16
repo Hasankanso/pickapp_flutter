@@ -50,7 +50,6 @@ class PushNotificationsManager {
     //        RemoteNotification notification = message.notification;
     //         AndroidNotification android = message.notification?.android;
     Map<String, dynamic> data = new Map<String, dynamic>.from(message.data);
-    if (data["isCache"] != "true") return;
     bool isSchedule = data["isSchedule"] == "true";
     NotificationHandler handler =
         await _cacheNotification(data, isSchedule: isSchedule);
@@ -61,7 +60,7 @@ class PushNotificationsManager {
     }
   }
 
-  //this will be invoked when app is terminated and user click the notification
+  //todo this will be invoked when app is terminated and user click the notification
   Future<dynamic> _onAppOpen(RemoteMessage message) async {
     print("you clicked on a notification");
     Timer.periodic(Duration(seconds: 1), (timer) {
@@ -78,7 +77,6 @@ class PushNotificationsManager {
             handler.display();
             break;
           case "RATE":
-            print(2);
             break;
         }
       }
@@ -88,6 +86,7 @@ class PushNotificationsManager {
 
   Future<void> initNotifications() async {
     List<MainNotification> allNotifications = await Cache.getNotifications();
+
     App.notifications = allNotifications;
     print(allNotifications.length);
 
@@ -134,8 +133,6 @@ Future<dynamic> backgroundMessageHandler(RemoteMessage message) async {
   print("app is terminated or in background and notification received");
   Map<String, dynamic> data = new Map<String, dynamic>.from(message.data);
 
-  if (data["isCache"] != "true") return;
-
   bool isSchedule = data["isSchedule"] == "true";
   await _cacheNotification(data, isSchedule: isSchedule);
 }
@@ -145,6 +142,7 @@ Future<NotificationHandler> _cacheNotification(Map<String, dynamic> data,
   await Cache.initializeHive();
   await Cache.init();
   MainNotification newNotification = MainNotification.fromMap(data);
+  print(newNotification.object);
   newNotification.object = json.decode(newNotification.object);
   NotificationHandler handler = _createNotificationHandler(newNotification);
   if (!isSchedule) {
