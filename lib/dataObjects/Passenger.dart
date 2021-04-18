@@ -15,9 +15,10 @@ class Passenger {
   int _seats;
   @HiveField(4)
   DateTime _updated;
+  @HiveField(5)
+  String rideId;
 
-  Passenger(
-      {Person person, int luggages, int seats, String id, DateTime updated}) {
+  Passenger({Person person, int luggages, int seats, String id, DateTime updated, this.rideId}) {
     this.id = id;
     this.updated = updated;
     this.person = person;
@@ -28,14 +29,14 @@ class Passenger {
     var creationDateJ = json["creationDate"];
     DateTime creationDate;
     if (creationDateJ != null) {
-      creationDate =
-          DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
+      creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
     }
 
     return Passenger(
         id: json["objectId"],
         seats: json["seats"],
         luggages: json["luggages"],
+        rideId: json["rideId"],
         person: Person.fromJson(json["person"]));
   }
 
@@ -49,10 +50,7 @@ class Passenger {
           ", luggage: " +
           _luggages.toString();
     else
-      return " seats: " +
-          _seats.toString() +
-          ", luggage: " +
-          _luggages.toString();
+      return " seats: " + _seats.toString() + ", luggage: " + _luggages.toString();
   }
 
   Person get person => _person;
