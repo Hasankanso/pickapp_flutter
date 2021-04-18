@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/notifications/BroadcastAlertNotificationHandler.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 import 'package:pickapp/notifications/RateNotificationHandler.dart';
@@ -17,8 +17,7 @@ class PushNotificationsManager {
 
   factory PushNotificationsManager() => _instance;
 
-  static final PushNotificationsManager _instance =
-      PushNotificationsManager._();
+  static final PushNotificationsManager _instance = PushNotificationsManager._();
 
   bool _initialized = false;
 
@@ -51,8 +50,7 @@ class PushNotificationsManager {
     //         AndroidNotification android = message.notification?.android;
     Map<String, dynamic> data = new Map<String, dynamic>.from(message.data);
     bool isSchedule = data["isSchedule"] == "true";
-    NotificationHandler handler =
-        await _cacheNotification(data, isSchedule: isSchedule);
+    NotificationHandler handler = await _cacheNotification(data, isSchedule: isSchedule);
 
     if (!isSchedule) {
       App.notifications.add(handler.notification);
@@ -66,18 +64,16 @@ class PushNotificationsManager {
     Timer.periodic(Duration(seconds: 1), (timer) {
       if (App.isAppBuild) {
         timer.cancel();
+        NotificationHandler handler;
         switch (message.data['action']) {
           case "SEATS_RESERVED":
-            print(message.data);
-            print(message.data['rideId']);
-            Ride ride = App.getRideFromObjectId(message.data['rideId']);
-            print(ride);
-            NotificationHandler handler =
-                ReserveSeatsNotificationHandler.from(ride);
-            handler.display();
+            handler = ReserveSeatsNotificationHandler.from(message.data);
             break;
           case "RATE":
             break;
+        }
+        if (handler != null) {
+          handler.display();
         }
       }
     });
@@ -90,10 +86,8 @@ class PushNotificationsManager {
     App.notifications = allNotifications;
     print(allNotifications.length);
 
-    List<MainNotification> allScheduledNotifications =
-        await Cache.getScheduledNotifications();
-    List<MainNotification> updatedScheduledNotifications =
-        List<MainNotification>();
+    List<MainNotification> allScheduledNotifications = await Cache.getScheduledNotifications();
+    List<MainNotification> updatedScheduledNotifications = List<MainNotification>();
     updatedScheduledNotifications.addAll(allScheduledNotifications);
 
     bool isOneScheduledNotificationHandled = false;
@@ -109,8 +103,7 @@ class PushNotificationsManager {
     if (isOneScheduledNotificationHandled) {
       await Cache.updateScheduledNotifications(updatedScheduledNotifications);
     }
-    if (isOneScheduledNotificationHandled ||
-        await Cache.getIsNewNotification()) {
+    if (isOneScheduledNotificationHandled || await Cache.getIsNewNotification()) {
       App.isNewNotificationNotifier.value = true;
     }
 
@@ -145,19 +138,26 @@ Future<NotificationHandler> _cacheNotification(Map<String, dynamic> data,
   print(newNotification.object);
   newNotification.object = json.decode(newNotification.object);
   NotificationHandler handler = _createNotificationHandler(newNotification);
-  if (!isSchedule) {
+
+  if (handler == null) {
+    print("this notification has not handler yet");
+    return null;
+  }
+
+  if (isSchedule) {
+    //this section is related to local notification.
+    await Cache.addScheduledNotification(newNotification);
+  } else {
     await Cache.setIsNewNotification(true);
     App.isNewNotificationNotifier.value = true;
     await Cache.addNotification(newNotification);
-  } else {
-    await Cache.addScheduledNotification(newNotification);
   }
+
   await handler.cache();
   return handler;
 }
 
-NotificationHandler _createNotificationHandler(
-    MainNotification newNotification) {
+NotificationHandler _createNotificationHandler(MainNotification newNotification) {
   switch (newNotification.action) {
     case "SEATS_RESERVED":
       return ReserveSeatsNotificationHandler(newNotification);
@@ -165,6 +165,8 @@ NotificationHandler _createNotificationHandler(
     case "RATE":
       return RateNotificationHandler(newNotification);
       break;
+    case "ALERT_RECEIVED":
+      return BroadcastAlertNotificationHandler(newNotification);
   }
   return null;
 }

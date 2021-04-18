@@ -16,7 +16,9 @@ class PassengerAdapter extends TypeAdapter<Passenger> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Passenger()
+    return Passenger(
+      rideId: fields[5] as String,
+    )
       .._person = fields[0] as Person
       .._id = fields[1] as String
       .._luggages = fields[2] as int
@@ -27,7 +29,7 @@ class PassengerAdapter extends TypeAdapter<Passenger> {
   @override
   void write(BinaryWriter writer, Passenger obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj._person)
       ..writeByte(1)
@@ -37,7 +39,9 @@ class PassengerAdapter extends TypeAdapter<Passenger> {
       ..writeByte(3)
       ..write(obj._seats)
       ..writeByte(4)
-      ..write(obj._updated);
+      ..write(obj._updated)
+      ..writeByte(5)
+      ..write(obj.rideId);
   }
 
   @override
