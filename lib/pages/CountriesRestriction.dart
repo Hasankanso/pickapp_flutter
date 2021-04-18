@@ -63,14 +63,14 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
                         DifferentSizeResponsiveRow(
                           children: [
                             Expanded(
-                              flex: 10,
+                              flex: 20,
                               child: Text(
-                                "Search for ride in countries:",
+                                Lang.getString(context, "Country_rest_desc"),
                                 style: Styles.valueTextStyle(),
                               ),
                             ),
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: IconButton(
                                 icon: Icon(Icons.add),
                                 iconSize: Styles.largeIconSize(),
