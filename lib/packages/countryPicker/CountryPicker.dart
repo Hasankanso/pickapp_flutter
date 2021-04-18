@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/packages/countryPicker/Country.dart';
 import 'package:pickapp/packages/countryPicker/countries_list_view.dart';
 import 'package:pickapp/packages/countryPicker/country_code_to_name.dart';
@@ -58,54 +57,7 @@ class _CountryPickerState extends State<CountryPicker> {
             ),
           ],
         ),
-        onPressed: () {
-          showDialog(
-              context: context,
-              barrierColor: Colors.black12,
-              barrierDismissible: false,
-              builder: (_) => Center(
-                    child: Container(
-                      width: ScreenUtil().setWidth(330),
-                      height: ScreenUtil().setHeight(600),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Column(
-                        children: [
-                          Spacer(
-                            flex: 1,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Spacer(),
-                                IconButton(
-                                  padding: const EdgeInsets.all(0),
-                                  iconSize: 20,
-                                  icon: Icon(Icons.close),
-                                  onPressed: () => Navigator.pop(context),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            flex: 23,
-                            child: CountryListView(
-                              showPhoneCode: false,
-                              onSelect: (c) {
-                                setState(() {
-                                  widget.controller.country = c;
-                                });
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ));
-        });
+        onPressed: () {});
   }
 }
 

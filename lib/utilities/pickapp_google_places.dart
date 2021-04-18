@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/GPSTile.dart';
@@ -22,7 +23,6 @@ class PlacesAutocompleteWidget extends StatefulWidget {
   final String language;
   final String sessionToken;
   final List<String> types;
-  final List<Component> components;
   final bool strictbounds;
   final String region;
   final Mode mode;
@@ -54,7 +54,6 @@ class PlacesAutocompleteWidget extends StatefulWidget {
       this.language,
       this.sessionToken,
       this.types,
-      this.components,
       this.strictbounds,
       this.region,
       this.logo,
@@ -453,7 +452,7 @@ abstract class PlacesAutocompleteState extends State<PlacesAutocompleteWidget> {
           language: widget.language,
           sessionToken: widget.sessionToken,
           types: widget.types,
-          components: widget.components,
+          components: App.countriesComponents,
           strictbounds: widget.strictbounds,
           region: widget.region,
         );
@@ -531,7 +530,6 @@ class PlacesAutocomplete {
       String language,
       String sessionToken,
       List<String> types,
-      List<Component> components,
       bool strictbounds,
       String region,
       Widget logo,
@@ -545,7 +543,6 @@ class PlacesAutocomplete {
           overlayBorderRadius: overlayBorderRadius,
           language: language,
           sessionToken: sessionToken,
-          components: components,
           types: types,
           location: location,
           radius: radius,

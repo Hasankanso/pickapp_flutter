@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/directions.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -19,6 +20,8 @@ import 'package:pickapp/utilities/LocationFinder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
+import 'package:pickapp/utilities/pickapp_google_places.dart';
+import 'package:uuid/uuid.dart';
 
 class BecomeDriver extends StatefulWidget {
   bool isRegionPage;
@@ -38,12 +41,55 @@ class _BecomeDriverState extends State<BecomeDriver> {
   List<LocationEditingController> _regionsControllers =
       <LocationEditingController>[];
 
-  _addRegion() {
+  _addRegion() async {
     if (_regions.length <= 2) {
+      String sessionToken = Uuid().v4();
+      dynamic locPred = await PlacesAutocomplete.show(
+        context: context,
+        hint: Lang.getString(context, "Search"),
+        apiKey: App.googleKey,
+        mode: Mode.fullscreen,
+        types: [""],
+        language: Lang.getString(context, "lang"),
+        strictbounds: false,
+        sessionToken: sessionToken,
+      );
+      if (locPred == null) {
+        FocusScope.of(context).requestFocus(new FocusNode());
+        return;
+      }
+      //if user chose current location
+      if (locPred.runtimeType == Location) {
+        setState(() {
+          String curr_loc = Lang.getString(context, "My_Current_Location");
+          _regions.add(MainLocation());
+          _regionsControllers.add(LocationEditingController(
+              location: Location(lat: locPred.lat, lng: locPred.lng),
+              placeId: null,
+              description: curr_loc));
+          _errorTexts.add(null);
+          FocusScope.of(context).unfocus();
+        });
+        return;
+      }
+
+      //request longitude and latitude from google_place_details api
+      GoogleMapsPlaces _places =
+          new GoogleMapsPlaces(apiKey: App.googleKey); //Same _API_KEY as above
+      PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
+          locPred.placeId,
+          sessionToken: sessionToken,
+          fields: ["geometry"]);
+      double latitude = detail.result.geometry.location.lat;
+      double longitude = detail.result.geometry.location.lng;
       setState(() {
         _regions.add(MainLocation());
-        _regionsControllers.add(LocationEditingController());
+        _regionsControllers.add(LocationEditingController(
+            location: Location(lat: latitude, lng: longitude),
+            placeId: locPred.placeId,
+            description: locPred.description));
         _errorTexts.add(null);
+        FocusScope.of(context).unfocus();
       });
     }
   }
@@ -59,9 +105,12 @@ class _BecomeDriverState extends State<BecomeDriver> {
   }
 
   @override
-  Future<void> didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    _getRegions();
+  }
+
+  Future<void> _getRegions() async {
     if (widget.isRegionPage) {
       _regions.addAll(App.driver.regions);
       for (var region in _regions) {

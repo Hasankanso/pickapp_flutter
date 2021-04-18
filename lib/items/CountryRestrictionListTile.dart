@@ -9,10 +9,9 @@ class CountryRestrictionListTile extends StatelessWidget {
   int _index;
   Function(int) _removeCountry;
   CountryPickerController _controller;
-  String _errorText;
 
-  CountryRestrictionListTile(this.isDefault, this._index, this._removeCountry,
-      this._controller, this._errorText);
+  CountryRestrictionListTile(
+      this.isDefault, this._index, this._removeCountry, this._controller);
 
   @override
   Widget build(BuildContext context) {
@@ -31,22 +30,6 @@ class CountryRestrictionListTile extends StatelessWidget {
                   CountryPicker(
                     controller: _controller,
                   ),
-                  if (_errorText != null)
-                    Row(
-                      children: [
-                        Spacer(
-                          flex: 2,
-                        ),
-                        Expanded(
-                          flex: 18,
-                          child: Text(
-                            _errorText,
-                            style: Styles.valueTextStyle(
-                                color: Colors.red, size: 14),
-                          ),
-                        ),
-                      ],
-                    ),
                 ],
               ),
             ),

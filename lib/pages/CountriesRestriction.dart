@@ -3,12 +3,12 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/items/CountryRestrictionListTile.dart';
 import 'package:pickapp/packages/countryPicker/Country.dart';
 import 'package:pickapp/packages/countryPicker/CountryPicker.dart';
 import 'package:pickapp/packages/countryPicker/all_countries_list.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
+import 'package:pickapp/packages/countryPicker/countries_list_view.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/Responsive.dart';
@@ -20,8 +20,7 @@ class CountriesRestriction extends StatefulWidget {
 
 class _CountriesRestrictionState extends State<CountriesRestriction> {
   List<CountryPickerController> _countriesControllers =
-      List<CountryPickerController>();
-  List<String> _errorTexts = List<String>();
+      <CountryPickerController>[];
   int _countriesMaxNb = 5;
   @override
   Future<void> didChangeDependencies() async {
@@ -37,7 +36,6 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
         Country country =
             a.where((country) => country.countryCode == c.toUpperCase()).first;
         _countriesControllers.add(CountryPickerController(country: country));
-        _errorTexts.add(null);
       }
     });
   }
@@ -103,7 +101,6 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
                     index,
                     _removeCountry,
                     _countriesControllers[index],
-                    _errorTexts[index],
                   );
                 },
                 itemCount: _countriesControllers.length,
@@ -111,69 +108,101 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
             ),
         ],
       ),
-      bottomNavigationBar: ResponsiveWidget.fullWidth(
-        height: 80,
-        child: Column(
-          children: [
-            ResponsiveWidget(
-              width: 270,
-              height: 50,
-              child: MainButton(
-                isRequest: true,
-                text_key: "Save",
-                onPressed: () async {
-                  bool isValid = true;
-                  for (int i = 0; i < _countriesControllers.length; i++) {
-                    var validate = _countriesControllers[i].validate(context);
-                    _errorTexts[i] = validate;
-                    if (validate != null) {
-                      isValid = false;
-                    }
-                  }
-                  setState(() {});
-                  for (int i = 0; i < _countriesControllers.length; i++) {
-                    for (int j = i + 1; j < _countriesControllers.length; j++) {
-                      if (_countriesControllers[j].country != null &&
-                          _countriesControllers[i].country != null &&
-                          _countriesControllers[i].country.countryCode ==
-                              _countriesControllers[j].country.countryCode) {
-                        _errorTexts[i] = Lang.getString(
-                            context, "Country_restriction_validation");
-                        _errorTexts[j] = Lang.getString(
-                            context, "Country_restriction_validation");
-                        isValid = false;
-                      }
-                    }
-                  }
-                  if (isValid == false) return;
-                  //validation done
-                  if (isValid) {
-                    List<String> _updatedCountries = List<String>();
-                    for (int i = 0; i < _countriesControllers.length; i++) {
-                      _updatedCountries
-                          .add(_countriesControllers[i].country.countryCode);
-                    }
-                    await Cache.setCountriesList(_updatedCountries);
-                    App.countriesComponents = null;
-                    App.setCountriesComponent(_updatedCountries);
-                    CustomToast().showSuccessToast(
-                        Lang.getString(context, "Successfully_edited!"));
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
   _addCountry() {
     if (_countriesControllers.length <= _countriesMaxNb - 1) {
-      setState(() {
-        _countriesControllers.add(CountryPickerController());
-        _errorTexts.add(null);
-      });
+      showDialog(
+          context: context,
+          barrierColor: Colors.black12,
+          barrierDismissible: false,
+          builder: (_) => Center(
+                child: Container(
+                  width: ScreenUtil().setWidth(330),
+                  height: ScreenUtil().setHeight(600),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Column(
+                    children: [
+                      Spacer(
+                        flex: 1,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Spacer(),
+                            IconButton(
+                              padding: const EdgeInsets.all(0),
+                              iconSize: 20,
+                              icon: Icon(Icons.close),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 23,
+                        child: CountryListView(
+                          showPhoneCode: false,
+                          onSelect: (c) async {
+                            _countriesControllers
+                                .add(CountryPickerController(country: c));
+
+                            for (int i = 0;
+                                i < _countriesControllers.length;
+                                i++) {
+                              var validate =
+                                  _countriesControllers[i].validate(context);
+                              if (validate != null) {
+                                _countriesControllers.removeLast();
+                                return;
+                              }
+                            }
+                            for (int i = 0;
+                                i < _countriesControllers.length;
+                                i++) {
+                              for (int j = i + 1;
+                                  j < _countriesControllers.length;
+                                  j++) {
+                                if (_countriesControllers[j].country != null &&
+                                    _countriesControllers[i].country != null &&
+                                    _countriesControllers[i]
+                                            .country
+                                            .countryCode ==
+                                        _countriesControllers[j]
+                                            .country
+                                            .countryCode) {
+                                  _countriesControllers.removeLast();
+                                  return;
+                                }
+                              }
+                            }
+                            //validation done
+                            List<String> _updatedCountries = <String>[];
+                            for (int i = 0;
+                                i < _countriesControllers.length;
+                                i++) {
+                              _updatedCountries.add(
+                                  _countriesControllers[i].country.countryCode);
+                            }
+
+                            await Cache.setCountriesList(_updatedCountries);
+                            App.countriesComponents = null;
+                            App.setCountriesComponent(_updatedCountries);
+                            App.updateUpcomingRide.value = true;
+
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ));
     }
   }
 
@@ -181,7 +210,6 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
     if (_countriesControllers.length > 1) {
       setState(() {
         _countriesControllers.removeAt(index);
-        _errorTexts.removeAt(index);
       });
     }
   }

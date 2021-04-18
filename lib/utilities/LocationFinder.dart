@@ -50,15 +50,15 @@ class _LocationFinderState extends State<LocationFinder> {
   void OpenAutoComplete(BuildContext context) async {
     String sessionToken = Uuid().v4();
     dynamic locPred = await PlacesAutocomplete.show(
-        context: context,
-        hint: Lang.getString(context, "Search"),
-        apiKey: widget._API_KEY,
-        mode: Mode.fullscreen,
-        types: [""],
-        language: widget._language,
-        strictbounds: false,
-        sessionToken: sessionToken,
-        components: App.countriesComponents);
+      context: context,
+      hint: Lang.getString(context, "Search"),
+      apiKey: widget._API_KEY,
+      mode: Mode.fullscreen,
+      types: [""],
+      language: widget._language,
+      strictbounds: false,
+      sessionToken: sessionToken,
+    );
     if (locPred == null) {
       FocusScope.of(context).requestFocus(new FocusNode());
       return;
