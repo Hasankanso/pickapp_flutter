@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Passenger.dart';
+import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/pages/PersonView.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -11,13 +11,13 @@ import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class PassengerTile extends ListTile {
-  final Passenger passenger;
+  final Reservation passenger;
 
   PassengerTile(this.passenger);
 
   List<String> _chattinessItems;
 
-  static Function(BuildContext, int) itemBuilder(List<Passenger> p) {
+  static Function(BuildContext, int) itemBuilder(List<Reservation> p) {
     return (context, index) {
       return PassengerTile(p[index]);
     };
@@ -71,8 +71,7 @@ class PassengerTile extends ListTile {
                           " " +
                           passenger.person.lastName +
                           ", " +
-                          App.calculateAge(passenger.person.birthday)
-                              .toString(),
+                          App.calculateAge(passenger.person.birthday).toString(),
                       style: Styles.headerTextStyle(),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -114,8 +113,7 @@ class PassengerTile extends ListTile {
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        DateFormat(App.birthdayFormat,
-                                Localizations.localeOf(context).toString())
+                        DateFormat(App.birthdayFormat, Localizations.localeOf(context).toString())
                             .format(passenger.person.creationDate),
                         style: Styles.labelTextStyle(),
                       ),

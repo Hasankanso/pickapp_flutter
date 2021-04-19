@@ -4,7 +4,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Passenger.dart';
+import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/pages/RideDetails.dart';
@@ -17,6 +17,48 @@ import 'package:pickapp/utilities/Spinner.dart';
 
 class MyRidesTile extends StatefulWidget {
   final Ride _ride;
+
+  static void seatsLuggagePopUp(BuildContext context, Ride ride) {
+    Reservation reservation = ride.reservationOf(App.person);
+
+    if (reservation == null) {
+      CustomToast().showErrorToast(Lang.getString(context, "Something_Wrong") + " -1000");
+      return;
+    }
+
+    RideDetails.seatsLuggagePopUp(context, ride, (seats, luggage) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: Center(
+              child: Spinner(),
+            ),
+          );
+        },
+      );
+      Request<Ride> req = EditReservation(ride, seats, luggage);
+      req.send((Ride r, int status, String reason) =>
+          _editReservationResponse(context, r, status, reason));
+    }, reservation: reservation);
+  }
+
+  static void _editReservationResponse(BuildContext context, Ride r, int status, String reason) {
+    if (status != 200) {
+      Navigator.pop(context);
+      //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation
+      CustomToast().showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
+    } else {
+      App.person.upcomingRides.remove(r);
+      App.person.upcomingRides.add(r);
+      Cache.setUser(App.user);
+      App.updateUpcomingRide.value = true;
+      CustomToast().showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
+      Navigator.popUntil(context, (route) => route.isFirst);
+    }
+  }
 
   MyRidesTile(this._ride, {onPressed});
 
@@ -43,50 +85,6 @@ class _MyRidesTileState extends State<MyRidesTile> {
     }
   }
 
-  void seatsLuggagePopUp(BuildContext context, Ride ride) {
-    Passenger reservation = ride.reservationOf(App.person);
-
-    if (reservation == null) {
-      CustomToast().showErrorToast(
-          Lang.getString(context, "Something_Wrong") + " -1000");
-      return;
-    }
-
-    RideDetails.seatsLuggagePopUp(context, ride, (seats, luggage) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return WillPopScope(
-            onWillPop: () async => false,
-            child: Center(
-              child: Spinner(),
-            ),
-          );
-        },
-      );
-      Request<Ride> req = EditReservation(ride, seats, luggage);
-      req.send(_editReservationResponse);
-    }, reservation: reservation);
-  }
-
-  void _editReservationResponse(Ride r, int status, String reason) {
-    if (status != 200) {
-      Navigator.pop(context);
-      //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation
-      CustomToast()
-          .showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
-    } else {
-      App.person.upcomingRides.remove(r);
-      App.person.upcomingRides.add(r);
-      Cache.setUser(App.user);
-      App.updateUpcomingRide.value = true;
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
-      Navigator.popUntil(context, (route) => route.isFirst);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -105,19 +103,17 @@ class _MyRidesTileState extends State<MyRidesTile> {
                   widget._ride,
                   Lang.getString(context, "Edit_Reservation"),
                   (ride) {
-                    seatsLuggagePopUp(context, widget._ride);
+                    MyRidesTile.seatsLuggagePopUp(context, widget._ride);
                   },
                   false
                 ]);
               }
             : () {
-                Navigator.of(context)
-                    .pushNamed("/UpcomingRideDetails", arguments: [
+                Navigator.of(context).pushNamed("/UpcomingRideDetails", arguments: [
                   widget._ride,
                   Lang.getString(context, "Edit_Ride"),
                   (ride) {
-                    return Navigator.pushNamed(context, "/EditRide",
-                        arguments: ride);
+                    return Navigator.pushNamed(context, "/EditRide", arguments: ride);
                   }
                 ]);
               },
@@ -129,8 +125,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    DateFormat(
-                            'EEE', Localizations.localeOf(context).toString())
+                    DateFormat('EEE', Localizations.localeOf(context).toString())
                         .format(widget._ride.leavingDate),
                     style: Styles.labelTextStyle(),
                   ),
@@ -138,16 +133,14 @@ class _MyRidesTileState extends State<MyRidesTile> {
                     height: 20,
                   ),
                   Text(
-                      DateFormat(
-                              'dd', Localizations.localeOf(context).toString())
+                      DateFormat('dd', Localizations.localeOf(context).toString())
                           .format(widget._ride.leavingDate),
                       style: Styles.labelTextStyle()),
                   VerticalSpacer(
                     height: 20,
                   ),
                   Text(
-                      DateFormat(
-                              'MMM', Localizations.localeOf(context).toString())
+                      DateFormat('MMM', Localizations.localeOf(context).toString())
                           .format(widget._ride.leavingDate),
                       style: Styles.labelTextStyle()),
                 ],
@@ -193,8 +186,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: Text(
-                            DateFormat('h:mm a',
-                                    Localizations.localeOf(context).toString())
+                            DateFormat('h:mm a', Localizations.localeOf(context).toString())
                                 .format(widget._ride.leavingDate),
                             style: Styles.labelTextStyle(),
                           ),
@@ -220,8 +212,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                       Expanded(
                                         flex: 1,
                                         child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Icon(Icons.panorama_fish_eye,
                                                   color: Styles.primaryColor(),
@@ -243,10 +234,8 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                                 Flexible(
                                                   child: Text(
                                                     widget._ride.from.name,
-                                                    style: Styles
-                                                        .headerTextStyle(),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    style: Styles.headerTextStyle(),
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ],
@@ -259,10 +248,8 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                                 Flexible(
                                                   child: Text(
                                                     widget._ride.to.name,
-                                                    style: Styles
-                                                        .headerTextStyle(),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    style: Styles.headerTextStyle(),
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ],
@@ -275,18 +262,11 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                         child: Align(
                                           alignment: Alignment.bottomRight,
                                           child: Text(
-                                            widget._ride.price
-                                                    .toInt()
-                                                    .toString() +
+                                            widget._ride.price.toInt().toString() +
                                                 " " +
                                                 Lang.getString(
-                                                    context,
-                                                    user
-                                                        .person
-                                                        .countryInformations
-                                                        .unit),
-                                            style: Styles.valueTextStyle(
-                                                bold: FontWeight.w400),
+                                                    context, user.person.countryInformations.unit),
+                                            style: Styles.valueTextStyle(bold: FontWeight.w400),
                                           ),
                                         ),
                                       ),

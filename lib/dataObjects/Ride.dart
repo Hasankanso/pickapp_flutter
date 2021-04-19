@@ -8,7 +8,7 @@ import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/Passenger.dart';
+import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/User.dart';
 
@@ -59,7 +59,7 @@ class Ride {
   @HiveField(20)
   User _user;
   @HiveField(21)
-  List<Passenger> _passengers;
+  List<Reservation> _passengers;
   @HiveField(22)
   Car _car;
   @HiveField(23)
@@ -91,7 +91,7 @@ class Ride {
       int availableLuggages,
       int reservedLuggages,
       int stopTime,
-      List<Passenger> passengers,
+      List<Reservation> passengers,
       int price,
       User user,
       Car car,
@@ -161,8 +161,7 @@ class Ride {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
     if (leavingDateJ != null) {
-      leavingDate =
-          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     }
 
     User user;
@@ -194,8 +193,7 @@ class Ride {
       car: Car.fromJson(json["car"]),
       reserved: reserved,
       passengers: json["passengers"] != null
-          ? List<Passenger>.from(
-              json["passengers"].map((x) => Passenger.fromJson(x)))
+          ? List<Reservation>.from(json["passengers"].map((x) => Reservation.fromJson(x)))
           : null,
       leavingDate: leavingDate,
       reservedLuggages: json["reservedLuggages"],
@@ -230,9 +228,9 @@ class Ride {
     _mapBase64 = value;
   }
 
-  Passenger reservationOf(Person person) {
+  Reservation reservationOf(Person person) {
     if (passengers == null) return null;
-    for (Passenger p in passengers) {
+    for (Reservation p in passengers) {
       if (p.person == person) {
         return p;
       }
@@ -373,9 +371,9 @@ class Ride {
     _updated = value;
   }
 
-  List<Passenger> get passengers => _passengers;
+  List<Reservation> get passengers => _passengers;
 
-  set passengers(List<Passenger> value) {
+  set passengers(List<Reservation> value) {
     _passengers = value;
   }
 

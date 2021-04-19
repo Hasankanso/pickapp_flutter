@@ -38,7 +38,7 @@ class RideAdapter extends TypeAdapter<Ride> {
       .._stopTime = fields[18] as int
       .._price = fields[19] as int
       .._user = fields[20] as User
-      .._passengers = (fields[21] as List)?.cast<Passenger>()
+      .._passengers = (fields[21] as List)?.cast<Reservation>()
       .._car = fields[22] as Car
       .._updated = fields[23] as DateTime
       .._mapUrl = fields[24] as String;

@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Passenger.dart';
+part of 'Reservation.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PassengerAdapter extends TypeAdapter<Passenger> {
+class ReservationAdapter extends TypeAdapter<Reservation> {
   @override
   final int typeId = 4;
 
   @override
-  Passenger read(BinaryReader reader) {
+  Reservation read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Passenger(
+    return Reservation(
       rideId: fields[5] as String,
     )
       .._person = fields[0] as Person
@@ -27,7 +27,7 @@ class PassengerAdapter extends TypeAdapter<Passenger> {
   }
 
   @override
-  void write(BinaryWriter writer, Passenger obj) {
+  void write(BinaryWriter writer, Reservation obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
@@ -50,7 +50,5 @@ class PassengerAdapter extends TypeAdapter<Passenger> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PassengerAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is ReservationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

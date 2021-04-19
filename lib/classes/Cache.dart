@@ -7,9 +7,9 @@ import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/Message.dart';
-import 'package:pickapp/dataObjects/Passenger.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
+import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/dataObjects/UserStatistics.dart';
@@ -93,7 +93,7 @@ class Cache {
       Hive.registerAdapter(MainLocationAdapter());
       Hive.registerAdapter(RideAdapter());
       Hive.registerAdapter(RateAdapter());
-      Hive.registerAdapter(PassengerAdapter());
+      Hive.registerAdapter(ReservationAdapter());
       Hive.registerAdapter(ChatAdapter());
       Hive.registerAdapter(MessageAdapter());
       Hive.registerAdapter(MainNotificationAdapter());
@@ -175,11 +175,9 @@ class Cache {
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
     if (notificationBox.isOpen) {
-      var scheduledNotifications =
-          notificationBox.get("scheduledNotifications");
+      var scheduledNotifications = notificationBox.get("scheduledNotifications");
       if (scheduledNotifications != null) {
-        scheduledNotifications =
-            scheduledNotifications.cast<MainNotification>();
+        scheduledNotifications = scheduledNotifications.cast<MainNotification>();
         returnNotifications = scheduledNotifications;
       }
       await notificationBox.close();
@@ -187,8 +185,7 @@ class Cache {
     return returnNotifications;
   }
 
-  static Future<bool> updateScheduledNotifications(
-      List<MainNotification> allnotifications) async {
+  static Future<bool> updateScheduledNotifications(List<MainNotification> allnotifications) async {
     var notificationBox;
     if (!Hive.isBoxOpen("scheduledNotifications")) {
       notificationBox = await Hive.openBox("scheduledNotifications");
@@ -203,8 +200,7 @@ class Cache {
     return false;
   }
 
-  static Future<bool> addScheduledNotification(
-      MainNotification notification) async {
+  static Future<bool> addScheduledNotification(MainNotification notification) async {
     var notificationBox = await Hive.openBox("scheduledNotifications");
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
@@ -243,8 +239,7 @@ class Cache {
     return returnNotifications;
   }
 
-  static Future<bool> updateNotifications(
-      List<MainNotification> allnotifications) async {
+  static Future<bool> updateNotifications(List<MainNotification> allnotifications) async {
     var notificationBox;
     if (!Hive.isBoxOpen("notifications")) {
       notificationBox = await Hive.openBox("notifications");
@@ -270,8 +265,7 @@ class Cache {
         returnNotifications.addAll(notfications);
       }
       returnNotifications.add(notification);
-      while (returnNotifications.length >
-          PushNotificationsManager.MAX_NOTIFICATIONS) {
+      while (returnNotifications.length > PushNotificationsManager.MAX_NOTIFICATIONS) {
         returnNotifications.removeAt(0);
       }
 
@@ -323,18 +317,14 @@ class Cache {
       ? _prefs.getBool("TERM_CONDITIONS")
       : false;
 
-  static bool get dateTimeRangePicker => _prefs.getBool("isRangePicker") != null
-      ? _prefs.getBool("isRangePicker")
-      : false;
+  static bool get dateTimeRangePicker =>
+      _prefs.getBool("isRangePicker") != null ? _prefs.getBool("isRangePicker") : false;
 
   static bool get disableAnimation =>
-      _prefs.getBool("DISABLE_ANIMATION") != null
-          ? _prefs.getBool("DISABLE_ANIMATION")
-          : false;
+      _prefs.getBool("DISABLE_ANIMATION") != null ? _prefs.getBool("DISABLE_ANIMATION") : false;
 
-  static bool get darkTheme => _prefs.getBool("THEME_MODE") != null
-      ? _prefs.getBool("THEME_MODE")
-      : false;
+  static bool get darkTheme =>
+      _prefs.getBool("THEME_MODE") != null ? _prefs.getBool("THEME_MODE") : false;
 
   static Future<bool> setIsNewNotification(bool value) async {
     await Hive.openBox("appSettings");

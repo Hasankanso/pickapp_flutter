@@ -1,18 +1,21 @@
+import 'dart:convert';
+
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/dataObjects/Passenger.dart';
+import 'package:pickapp/classes/Localizations.dart';
+import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 
 class ReserveSeatsNotificationHandler extends NotificationHandler {
-  Passenger reservation;
+  Reservation reservation;
   Map<String, dynamic> rawData;
 
   ReserveSeatsNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Ride)) {
-      notification.object = Passenger.fromJson(notification.object);
+      notification.object = Reservation.fromJson(notification.object);
     }
     this.reservation = notification.object;
   }
@@ -22,23 +25,40 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
   @override
   Future<void> cache() async {
     User user = await Cache.getUser();
-    List<Ride> upcomingRides = user.person.upcomingRides;
-    Ride reservedRide = new Ride(id: reservation.rideId);
 
-    reservedRide = upcomingRides.removeAt(upcomingRides.indexOf(reservedRide)); //remove ride with
+    //find the ride in upcomingRides
+    int rideIndex = user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
+    Ride reservedRide = user.person.upcomingRides[rideIndex];
+
+    //add the new reservation to it
+    reservedRide.passengers = new List<Reservation>.from(reservedRide.passengers);
     reservedRide.passengers.add(reservation);
-    // same id
-    user.person.upcomingRides.add(reservedRide); //add new ride with slightly different information.
+
+    //update seats and luggage accordingly
+    reservedRide.availableSeats -= reservation.seats;
+    reservedRide.availableLuggages -= reservation.luggages;
+
+    //save changes.
     await Cache.setUser(user);
   }
 
   @override
   void display() {
-    print(rawData);
-    print(rawData['rideId']);
-    Ride ride = App.getRideFromObjectId(rawData['rideId']);
-    print(ride);
+    var objectData = rawData['object'];
+    Map<String, dynamic> jsonData = jsonDecode(objectData);
+
+    String rideId = jsonData['rideId'];
+    print("ride id" + rideId);
+
+    Ride ride = App.getRideFromObjectId(rideId);
     assert(ride != null);
-    App.navKey.currentState.pushNamed("/RideDetails", arguments: ride);
+
+    App.navKey.currentState.pushNamed("/UpcomingRideDetails", arguments: [
+      ride,
+      Lang.getString(App.navKey.currentState.context, "Edit_Ride"),
+      (ride) {
+        return App.navKey.currentState.pushNamed("/EditRide", arguments: ride);
+      }
+    ]);
   }
 }

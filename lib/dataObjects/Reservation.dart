@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 
-part 'Passenger.g.dart';
+part 'Rerservation.g.dart';
 
 @HiveType(typeId: 4)
-class Passenger {
+class Reservation {
   @HiveField(0)
   Person _person;
   @HiveField(1)
@@ -18,21 +18,21 @@ class Passenger {
   @HiveField(5)
   String rideId;
 
-  Passenger({Person person, int luggages, int seats, String id, DateTime updated, this.rideId}) {
+  Reservation({Person person, int luggages, int seats, String id, DateTime updated, this.rideId}) {
     this.id = id;
     this.updated = updated;
     this.person = person;
     this.seats = seats;
     this.luggages = luggages;
   }
-  factory Passenger.fromJson(Map<String, dynamic> json) {
+  factory Reservation.fromJson(Map<String, dynamic> json) {
     var creationDateJ = json["creationDate"];
     DateTime creationDate;
     if (creationDateJ != null) {
       creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
     }
 
-    return Passenger(
+    return Reservation(
         id: json["objectId"],
         seats: json["seats"],
         luggages: json["luggages"],
