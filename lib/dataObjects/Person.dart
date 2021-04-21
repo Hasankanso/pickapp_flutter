@@ -50,8 +50,7 @@ class Person {
   String _phone;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is Person && _id == other._id;
+  bool operator ==(Object other) => identical(this, other) || other is Person && _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;
@@ -124,9 +123,8 @@ class Person {
       countryInformations = CountryInformations.fromJson(countryJ);
     }
 
-    UserStatistics statistics = json["statistics"] == null
-        ? null
-        : UserStatistics.fromJson(json["statistics"]);
+    UserStatistics statistics =
+        json["statistics"] == null ? null : UserStatistics.fromJson(json["statistics"]);
 
     var createdJ = json["created"];
     DateTime created;
@@ -172,6 +170,8 @@ class Person {
           return Rate.fromJson(x);
         }
       }));
+    } else {
+      p.rates = [];
     }
     return p;
   }

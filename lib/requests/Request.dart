@@ -15,63 +15,69 @@ abstract class Request<T> {
 
   T buildObject(json);
 
-  Future<void> send(Function(T, int, String) callback) async {
+  Future<T> send(Function(T, int, String) callback) async {
     String valid = isValid();
     print(host + httpPath);
-    print("offlineValidator (deprecated) " +
-        Validation.isNullOrEmpty(valid).toString());
+    print("offlineValidator (deprecated) " + Validation.isNullOrEmpty(valid).toString());
     if (!Validation.isNullOrEmpty(valid)) {
       callback(null, 406, valid);
-    } else {
-      Map<String, dynamic> data = getJson();
-      String jsonData = json.encode(data, toEncodable: _dateToIso8601String);
-      print("request-data: " + jsonData);
-      http.Response response = await http
-          .post(
-            Uri.parse(host + httpPath),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=utf-8'
-            },
-            body: jsonData,
-          )
-          .timeout(const Duration(seconds: 20))
-          .catchError((Object o) {
-        callback(null, HttpStatus.networkConnectTimeoutError,
-            "no_internet_connection");
-        return null;
-      });
+      return null;
+    }
 
-      if (response != null) {
-        print(response.body.toString());
+    Map<String, dynamic> data = getJson();
+    String jsonData = json.encode(data, toEncodable: _dateToIso8601String);
+    print("request-data: " + jsonData);
+    http.Response response = await http
+        .post(
+          Uri.parse(host + httpPath),
+          headers: <String, String>{'Content-Type': 'application/json; charset=utf-8'},
+          body: jsonData,
+        )
+        .timeout(const Duration(seconds: 20))
+        .catchError((Object o) {
+      callback(null, HttpStatus.networkConnectTimeoutError, "no_internet_connection");
+      return null;
+    });
 
-        var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
-        print("backendless: " + decodedResponse.toString());
+    if (response != null) {
+      print(response.body.toString());
 
-        if (decodedResponse.length != 0 &&
-            decodedResponse[0] == null &&
-            decodedResponse["code"] != "null") {
-          //extracting code and message
-          var jCode =
-              response.body.contains("code") ? decodedResponse["code"] : null;
-          var jMessage = decodedResponse["message"];
-          if (jCode == null) {
-            var jbody = decodedResponse["body"];
-            if (jbody != null) {
-              jCode = jbody["code"];
-              jMessage = jbody["message"];
-            }
-          }
-          //check if there's error
-          if (jCode != null) {
-            callback(
-                null, jCode is String ? int.tryParse(jCode) : jCode, jMessage);
-            return;
+      var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
+      print("backendless: " + decodedResponse.toString());
+
+      if (decodedResponse.length != 0 &&
+          decodedResponse[0] == null &&
+          decodedResponse["code"] != "null") {
+        //extracting code and message
+        var jCode = response.body.contains("code") ? decodedResponse["code"] : null;
+        var jMessage = decodedResponse["message"];
+        if (jCode == null) {
+          var jbody = decodedResponse["body"];
+          if (jbody != null) {
+            jCode = jbody["code"];
+            jMessage = jbody["message"];
           }
         }
-        callback(buildObject(decodedResponse), response.statusCode,
-            response.reasonPhrase);
+        //check if there's error
+        if (jCode != null) {
+          callback(null, jCode is String ? int.tryParse(jCode) : jCode, jMessage);
+          return null;
+        }
       }
+      T object;
+      try {
+        object = buildObject(decodedResponse);
+      } catch (e) {
+        callback(null, HttpStatus.partialContent, "Something_Wrong");
+        return null;
+      }
+
+      callback(object, response.statusCode, response.reasonPhrase);
+      return object;
     }
+
+    callback(null, HttpStatus.expectationFailed, "Something_Wrong");
+    return null;
   }
 
   dynamic _dateToIso8601String(dynamic object) {
@@ -87,11 +93,7 @@ abstract class Request<T> {
     String IOS_API_KEY = "D2DDEB57-BEBC-48EB-9E07-39A5DB9D8CEF";
     String REST_API_KEY = "A47932AF-43E1-4CDC-9B54-12F8A88FB22E";
 
-    host = "https://api.backendless.com/" +
-        APPLICATION_ID +
-        "/" +
-        REST_API_KEY +
-        "/services";
+    host = "https://api.backendless.com/" + APPLICATION_ID + "/" + REST_API_KEY + "/services";
   }
 
   onError() {}

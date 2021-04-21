@@ -16,12 +16,12 @@ class ChatAdapter extends TypeAdapter<Chat> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Chat()
-      .._id = fields[0] as String
-      .._lastMessagedate = fields[1] as DateTime
-      .._messages = (fields[2] as List)?.cast<Message>()
-      .._person = fields[3] as Person
-      .._isNewMessage = fields[4] as bool;
+    return Chat(
+      id: fields[0] as String,
+      messages: (fields[2] as List)?.cast<Message>(),
+      person: fields[3] as Person,
+      isNewMessage: fields[4] as bool,
+    )..lastMessage = fields[1] as Message;
   }
 
   @override
@@ -29,15 +29,15 @@ class ChatAdapter extends TypeAdapter<Chat> {
     writer
       ..writeByte(5)
       ..writeByte(0)
-      ..write(obj._id)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj._lastMessagedate)
+      ..write(obj.lastMessage)
       ..writeByte(2)
-      ..write(obj._messages)
+      ..write(obj.messages)
       ..writeByte(3)
-      ..write(obj._person)
+      ..write(obj.person)
       ..writeByte(4)
-      ..write(obj._isNewMessage);
+      ..write(obj.isNewMessage);
   }
 
   @override

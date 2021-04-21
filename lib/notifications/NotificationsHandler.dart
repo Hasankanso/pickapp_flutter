@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 
 abstract class NotificationHandler {
@@ -8,5 +9,5 @@ abstract class NotificationHandler {
   NotificationHandler.empty();
 
   Future<void> cache();
-  void display();
+  void display(BuildContext context);
 }

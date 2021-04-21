@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
 import 'package:pickapp/dataObjects/Message.dart';
-import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/items/ChatListTile.dart';
-import 'package:pickapp/requests/GetPerson.dart';
-import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
@@ -18,43 +14,9 @@ import 'package:pickapp/utilities/Spinner.dart';
 class Inbox extends StatefulWidget {
   @override
   _InboxState createState() => _InboxState();
-
-  static Future<void> messageReceived(Map message) async {
-    Message msg = Message(
-        senderId: message['senderId'].toString(),
-        message: message['message'].toString(),
-        date: DateTime.now(),
-        myMessage: message['myMessage'].toString() == "true");
-
-    print(msg.toString());
-
-    Chat c = await Cache.getChat(msg.senderId);
-    print(c);
-    if (c != null) {
-      c.addMessage(msg);
-    } else {
-      Request<Person> getUser = GetPerson(new Person(id: msg.senderId));
-      await getUser.send(
-          (Person p1, int p2, String p3) => personReceived(msg, p1, p2, p3));
-    }
-    App.refreshInbox.value = true;
-  }
-
-  static Chat personReceived(Message msg, Person p1, int p2, String p3) {
-    if (p2 == 200) {
-      Chat newChat = new Chat(
-          id: p1.id,
-          date: DateTime.now(),
-          messages: new List<Message>(),
-          person: p1,
-          isNewMessage: false);
-      newChat.addMessage(msg);
-    }
-  }
 }
 
-class _InboxState extends State<Inbox>
-    with AutomaticKeepAliveClientMixin<Inbox> {
+class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox> {
   Future<Box> box = Hive.openBox('chat');
 
   @override
@@ -77,11 +39,14 @@ class _InboxState extends State<Inbox>
 }
 
 class _Body extends StatefulWidget {
-  List<Chat> chats = List<Chat>();
+  List<Chat> chats = [];
 
   _Body(Box chatsBox) {
     if (chatsBox != null) {
-      for (final chat in chatsBox.values) chats.add(chat);
+      for (final Chat chat in chatsBox.values) {
+        chat.messages = List<Message>.from(chat.messages);
+        chats.add(chat);
+      }
     }
   }
 
@@ -95,14 +60,14 @@ class __BodyState extends State<_Body> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: App.refreshInbox,
+        valueListenable: App.updateInbox,
         builder: (BuildContext context, bool isLoggedIn, Widget child) {
           return ListBuilder(
               list: widget.chats,
               itemBuilder: ChatListTile.itemBuilder(
                   widget.chats,
                   (chat) => Navigator.of(context).pushNamed(
-                        "/ExistingConversation",
+                        "/Conversation",
                         arguments: chat,
                       ), (index) {
                 PopUp.areYouSure(

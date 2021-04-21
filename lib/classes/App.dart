@@ -32,7 +32,7 @@ class App {
   static String countryCode = person.countryInformations.countryComponent;
   static User _user;
   static ValueNotifier<bool> isLoggedInNotifier = ValueNotifier<bool>(false);
-  static ValueNotifier<bool> refreshProfile = ValueNotifier<bool>(false);
+  static ValueNotifier<bool> updateProfile = ValueNotifier<bool>(false);
   static ValueNotifier<bool> isDriverNotifier = ValueNotifier<bool>(App.driver != null);
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
@@ -43,7 +43,8 @@ class App {
   static List<Component> countriesComponents = List<Component>();
   //if you want to change this variable, Rate_days_validation text.
   static int daysToShowRate = 2;
-  static ValueNotifier<bool> refreshInbox = ValueNotifier(false);
+  static ValueNotifier<bool> updateInbox = ValueNotifier(false);
+  static ValueNotifier<bool> updateConversation = ValueNotifier(false);
   static ValueNotifier<bool> updateUpcomingRide = ValueNotifier(false);
   static ValueNotifier<bool> updateNotifications = ValueNotifier(false);
   static bool isLTR;

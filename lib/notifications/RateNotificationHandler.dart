@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
@@ -28,7 +29,7 @@ class RateNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display() {
+  void display(BuildContext context) {
     // TODO: implement display
   }
 }

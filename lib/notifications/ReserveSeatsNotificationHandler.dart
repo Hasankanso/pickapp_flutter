@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -11,7 +10,6 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 
 class ReserveSeatsNotificationHandler extends NotificationHandler {
   Reservation reservation;
-  Map<String, dynamic> rawData;
 
   ReserveSeatsNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Ride)) {
@@ -20,14 +18,15 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
     this.reservation = notification.object;
   }
 
-  ReserveSeatsNotificationHandler.from(this.rawData) : super.empty();
-
   @override
   Future<void> cache() async {
     User user = await Cache.getUser();
 
     //find the ride in upcomingRides
     int rideIndex = user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
+
+    if (rideIndex < 0) return; //ride not found maybe the user removed it, this should be handled
+
     Ride reservedRide = user.person.upcomingRides[rideIndex];
 
     //add the new reservation to it
@@ -43,21 +42,18 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display() {
-    var objectData = rawData['object'];
-    Map<String, dynamic> jsonData = jsonDecode(objectData);
+  void display(BuildContext context) {
+    Ride ride = App.getRideFromObjectId(reservation.rideId);
+    if (ride == null) {
+      //in case user removed the ride. but later clicked the notification
+      return;
+    }
 
-    String rideId = jsonData['rideId'];
-    print("ride id" + rideId);
-
-    Ride ride = App.getRideFromObjectId(rideId);
-    assert(ride != null);
-
-    App.navKey.currentState.pushNamed("/UpcomingRideDetails", arguments: [
+    Navigator.of(context).pushNamed("/UpcomingRideDetails", arguments: [
       ride,
-      Lang.getString(App.navKey.currentState.context, "Edit_Ride"),
+      Lang.getString(context, "Edit_Ride"),
       (ride) {
-        return App.navKey.currentState.pushNamed("/EditRide", arguments: ride);
+        return Navigator.of(context).pushNamed("/EditRide", arguments: ride);
       }
     ]);
   }

@@ -58,8 +58,6 @@ class Cache {
     return (box.get(key) as Chat);
   }
 
-  static Future<List<Chat>> getAllChats() async {}
-
   static Future<void> clearHiveCache() async {
     await Hive.openBox('chat');
     var chatB = Hive.box('chat');
@@ -79,6 +77,13 @@ class Cache {
     await sNotfB.close();
     var userB = Hive.box("user");
     await userB.clear();
+  }
+
+  static Future<void> wipeChat() async {
+    await Hive.openBox('chat');
+    var chatB = Hive.box('chat');
+    await chatB.clear();
+    await chatB.close();
   }
 
   static Future<void> initializeHive() async {
@@ -256,7 +261,7 @@ class Cache {
 
   static Future<bool> addNotification(MainNotification notification) async {
     var notificationBox = await Hive.openBox("notifications");
-    List<MainNotification> returnNotifications = List<MainNotification>();
+    List<MainNotification> returnNotifications = [];
 
     if (notificationBox.isOpen) {
       var notfications = notificationBox.get("notifications");

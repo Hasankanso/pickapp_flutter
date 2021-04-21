@@ -24,6 +24,8 @@ class MainNotification {
   String _imageUrl;
   @HiveField(9)
   Object object;
+  @HiveField(10)
+  DateTime sentTime;
 
   static List<MainNotification> notifications = List<MainNotification>();
 
@@ -37,7 +39,8 @@ class MainNotification {
       String imagePath,
       String subtitle,
       String imageUrl,
-      Object object}) {
+      Object object,
+      DateTime sentTime}) {
     this.id = id;
     this.objectId = objectId;
     this.body = body;
@@ -48,6 +51,7 @@ class MainNotification {
     this.subtitle = subtitle;
     this.imageUrl = imageUrl;
     this.object = object;
+    this.sentTime = sentTime;
   }
 
   MainNotification.fromJson(Map<String, dynamic> json)
@@ -58,7 +62,9 @@ class MainNotification {
         _body = json["body"],
         _scheduleDate = json["scheduleDate"],
         _imagePath = json["imagePath"],
-        _imageUrl = json["imageUrl"];
+        _imageUrl = json["imageUrl"],
+        object = json["object"],
+        sentTime = json["sentTime"];
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'objectId': this.objectId,
@@ -69,15 +75,6 @@ class MainNotification {
         'imagePath': this.imagePath,
         'imageUrl': this.imageUrl
       };
-
-  static MainNotification fromMap(Map<String, dynamic> args) {
-    return MainNotification(
-        action: args["action"],
-        title: args["title"],
-        body: args["body"],
-        subtitle: args["subtitle"],
-        object: args["object"]);
-  }
 
   set imageUrl(String value) {
     _imageUrl = value;

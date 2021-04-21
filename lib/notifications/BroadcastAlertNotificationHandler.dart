@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:pickapp/dataObjects/Alert.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
@@ -18,7 +19,7 @@ class BroadcastAlertNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display() {
+  void display(BuildContext context) {
     // TODO: implement display
   }
 }

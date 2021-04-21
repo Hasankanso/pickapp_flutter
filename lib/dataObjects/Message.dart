@@ -1,10 +1,9 @@
 import 'package:hive/hive.dart';
-part 'Message.g.dart';
 
+part 'Message.g.dart';
 
 @HiveType(typeId: 11)
 class Message {
-
   @HiveField(0)
   DateTime date;
 
@@ -17,24 +16,24 @@ class Message {
   @HiveField(3)
   String senderId;
 
-  Message({this.senderId, this.message, this.date, this.myMessage}){
-    if(date ==null) {
+  Message({this.senderId, this.message, this.date, this.myMessage}) {
+    if (date == null) {
       this.date = DateTime.now();
     }
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-    "senderId": "$senderId",
-    "message": "$message",
-    "myMessage": "$myMessage",
-    "date": "$date"
-  };
+        "senderId": "$senderId",
+        "message": "$message",
+        "myMessage": "$myMessage",
+        "date": "$date"
+      };
 
   Message.fromJson(Map<String, dynamic> json)
       : senderId = json["senderId"],
         message = json["message"],
         myMessage = json["myMessage"],
-        date = json['date'];
+        date = DateTime.parse(json['date']);
 
   @override
   String toString() {

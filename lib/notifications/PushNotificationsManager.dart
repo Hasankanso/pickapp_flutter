@@ -6,12 +6,14 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/notifications/BroadcastAlertNotificationHandler.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
+import 'package:pickapp/notifications/MessageNotificationHandler.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 import 'package:pickapp/notifications/RateNotificationHandler.dart';
 import 'package:pickapp/notifications/ReserveSeatsNotificationHandler.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;
+  static bool tokenListenerRunning = false; // to make sure there's only one listener to token
 
   PushNotificationsManager._();
 
@@ -25,7 +27,7 @@ class PushNotificationsManager {
     String token;
     if (!_initialized) {
       onTokenChange();
-      FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
+      FirebaseMessaging.onBackgroundMessage(cacheNotification);
 
       FirebaseMessaging.onMessage.listen(_foregroundMessageHandler);
 
@@ -37,10 +39,17 @@ class PushNotificationsManager {
   }
 
   void onTokenChange() async {
+    if (tokenListenerRunning) {
+      return;
+    } // to make sure there's only one listener to token
+    // (no memory leak)
+
+    tokenListenerRunning = true;
     await for (String token in FirebaseMessaging.instance.onTokenRefresh) {
       print("new token");
       print(token);
     }
+    tokenListenerRunning = false;
   }
 
   //this will be invoked when app in foreground
@@ -48,32 +57,25 @@ class PushNotificationsManager {
     print("app in foreground and notification received");
     //        RemoteNotification notification = message.notification;
     //         AndroidNotification android = message.notification?.android;
-    Map<String, dynamic> data = new Map<String, dynamic>.from(message.data);
-    bool isSchedule = data["isSchedule"] == "true";
-    NotificationHandler handler = await _cacheNotification(data, isSchedule: isSchedule);
+    NotificationHandler handler = await cacheNotification(message); // do we want to initialize
+    // hive and notificationManager in forground?
 
+    bool isSchedule = message.data["isSchedule"] == "true";
     if (!isSchedule) {
       App.notifications.add(handler.notification);
       _updateApp();
     }
   }
 
-  //todo this will be invoked when app is terminated and user click the notification
+  //this will be invoked when app is in background or terminated and user click the notification
   Future<dynamic> _onAppOpen(RemoteMessage message) async {
     print("you clicked on a notification");
     Timer.periodic(Duration(seconds: 1), (timer) {
       if (App.isAppBuild) {
         timer.cancel();
-        NotificationHandler handler;
-        switch (message.data['action']) {
-          case "SEATS_RESERVED":
-            handler = ReserveSeatsNotificationHandler.from(message.data);
-            break;
-          case "RATE":
-            break;
-        }
+        NotificationHandler handler = _createNotificationHandler(message);
         if (handler != null) {
-          handler.display();
+          handler.display(App.navKey.currentState.context);
         }
       }
     });
@@ -116,48 +118,42 @@ class PushNotificationsManager {
 
   _updateApp() {
     App.updateUpcomingRide.value = true;
-    App.refreshProfile.value = true;
+    App.updateProfile.value = true;
     App.updateNotifications.value = true;
+    App.updateConversation.value = true;
   }
 }
 
-//this will be invoked whenever a notification received and app is terminated or in background
-Future<dynamic> backgroundMessageHandler(RemoteMessage message) async {
-  print("app is terminated or in background and notification received");
-  Map<String, dynamic> data = new Map<String, dynamic>.from(message.data);
-
-  bool isSchedule = data["isSchedule"] == "true";
-  await _cacheNotification(data, isSchedule: isSchedule);
-}
-
-Future<NotificationHandler> _cacheNotification(Map<String, dynamic> data,
-    {bool isSchedule = false}) async {
+//this is called when app is in background or terminated.
+Future<NotificationHandler> cacheNotification(RemoteMessage message) async {
   await Cache.initializeHive();
   await Cache.init();
-  MainNotification newNotification = MainNotification.fromMap(data);
-  print(newNotification.object);
-  newNotification.object = json.decode(newNotification.object);
-  NotificationHandler handler = _createNotificationHandler(newNotification);
+
+  bool isSchedule = message.data["isSchedule"] == "true";
+  NotificationHandler handler = _createNotificationHandler(message);
 
   if (handler == null) {
-    print("this notification has not handler yet");
     return null;
   }
 
   if (isSchedule) {
     //this section is related to local notification.
-    await Cache.addScheduledNotification(newNotification);
+    await Cache.addScheduledNotification(handler.notification);
   } else {
     await Cache.setIsNewNotification(true);
     App.isNewNotificationNotifier.value = true;
-    await Cache.addNotification(newNotification);
+    await Cache.addNotification(handler.notification);
   }
 
   await handler.cache();
   return handler;
 }
 
-NotificationHandler _createNotificationHandler(MainNotification newNotification) {
+NotificationHandler _createNotificationHandler(RemoteMessage message) {
+  MainNotification newNotification = MainNotification.fromJson(message.data);
+  newNotification.sentTime = message.sentTime;
+  newNotification.object = json.decode(newNotification.object);
+
   switch (newNotification.action) {
     case "SEATS_RESERVED":
       return ReserveSeatsNotificationHandler(newNotification);
@@ -167,6 +163,9 @@ NotificationHandler _createNotificationHandler(MainNotification newNotification)
       break;
     case "ALERT_RECEIVED":
       return BroadcastAlertNotificationHandler(newNotification);
+    case MessageNotificationHandler.action:
+      return MessageNotificationHandler(newNotification);
   }
+  print("this notification: " + newNotification.action + " has no handler yet.");
   return null;
 }

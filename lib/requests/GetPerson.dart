@@ -1,13 +1,10 @@
-
-
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class GetPerson extends Request<Person> {
+  String personId;
 
-  Person person;
-
-  GetPerson(this.person){
+  GetPerson(this.personId) {
     httpPath = "/PersonBusiness/GetPerson";
   }
 
@@ -18,19 +15,15 @@ class GetPerson extends Request<Person> {
 
   @override
   Map<String, dynamic> getJson() {
-    Map<String, dynamic>  json = <String, dynamic>{
-      'id': this.person.id,
+    Map<String, dynamic> json = <String, dynamic>{
+      'id': personId,
     };
 
     return json;
   }
 
-
   @override
   String isValid() {
     return "";
   }
-
-
-
 }

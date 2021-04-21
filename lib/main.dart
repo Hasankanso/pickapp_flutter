@@ -19,7 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
+  FirebaseMessaging.onBackgroundMessage(cacheNotification);
 
   await Ads.initialize();
 
@@ -67,8 +67,7 @@ class MyAppState extends State<MyApp> {
     Request.initBackendless();
     App.init(this);
     cacheFuture = Cache.init();
-    WidgetsBinding.instance
-        .addObserver(LifecycleEventHandler(resumeCallBack: () async {
+    WidgetsBinding.instance.addObserver(LifecycleEventHandler(resumeCallBack: () async {
       await PushNotificationsManager().initNotifications();
     }));
     PushNotificationsManager().init(context).then((String nice) {
@@ -108,8 +107,7 @@ class MyAppState extends State<MyApp> {
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
                 ),
-                primaryTextTheme: TextTheme(
-                    headline6: TextStyle(color: Styles.secondaryColor())),
+                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
               ),
               themeMode: Styles.currentTheme(),
@@ -125,12 +123,10 @@ class MyAppState extends State<MyApp> {
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
                 ),
-                primaryTextTheme: TextTheme(
-                    headline6: TextStyle(color: Styles.secondaryColor())),
+                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
               ),
-              supportedLocales:
-                  Lang.langs.map((element) => Locale(element.code)),
+              supportedLocales: Lang.langs.map((element) => Locale(element.code)),
               localizationsDelegates: [
                 Lang.delegate,
                 GlobalMaterialLocalizations.delegate,
@@ -157,8 +153,7 @@ class MyAppState extends State<MyApp> {
                 body: GestureDetector(
                   onTap: () {
                     FocusScopeNode currentFocus = FocusScope.of(context);
-                    if (!currentFocus.hasPrimaryFocus &&
-                        currentFocus.focusedChild != null) {
+                    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
                       FocusManager.instance.primaryFocus.unfocus();
                     }
                   },

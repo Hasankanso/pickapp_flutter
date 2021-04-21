@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
@@ -21,7 +22,7 @@ class DeleteRideNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display() {
+  void display(BuildContext context) {
     // TODO: implement display
   }
 }
