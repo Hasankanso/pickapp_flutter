@@ -11,10 +11,11 @@ Engine • revision b09f014e96
 Tools • Dart 2.12.3
 ```
 
+## Reserve Seats manually
 to reserve a seat manually enter in backendless API services or postman the following json string, the user id is the user who reserves, ride id is the ride you want to reserve a seat in.<br>
 ```{ "user" : {"id" : "BF44469F-86AD-41D1-905A-AED9C80CF907" }, "ride" : {"id" : "A0857336-6ED7-4292-AB05-B85F042E1C4C" }, "seats":  1, "luggages": 0 }```
 
-
+## Rebuild Hive
 if you've changed anything on hive and you want to rebuild:<br>
 ```flutter packages pub run build_runner build```<br>
 if it didnt work then:<br>
