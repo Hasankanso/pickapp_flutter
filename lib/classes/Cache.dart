@@ -49,20 +49,36 @@ class Cache {
     await setCountriesList([u.person.countryInformations.countryComponent]);
   }
 
-  static Future<Chat> getChat(String key) async {
-    Box box;
-    if (!Hive.isBoxOpen('chat')) {
-      box = await Hive.openBox('chat');
+  //will get chat correspondent to key, if not found and toStoreChat is provided, toStoreChat
+  // will be cached instead, and returned
+  static Future<Chat> getChat(String key, {Chat toStoreChat}) async {
+    Box<Chat> box = await Hive.openBox('chat');
+
+    Chat chat = box.get(key);
+
+    if (chat == null && toStoreChat != null) {
+      box.put(key, toStoreChat);
+      return toStoreChat;
     }
+
+    return box.get(key);
+  }
+
+  static Future<List<Chat>> getChats() async {
+    Box<Chat> box = await Hive.openBox('chat');
     box = Hive.box('chat');
-    return (box.get(key) as Chat);
+
+    var values = box.values;
+    assert(values != null);
+
+    List<Chat> chats = values.toList();
+
+    if (chats == null) return [];
+
+    return chats;
   }
 
   static Future<void> clearHiveCache() async {
-    await Hive.openBox('chat');
-    var chatB = Hive.box('chat');
-    await chatB.clear();
-    await chatB.close();
     await Hive.openBox('rates');
     var rateB = Hive.box('rates');
     await rateB.clear();
@@ -79,9 +95,30 @@ class Cache {
     await userB.clear();
   }
 
-  static Future<void> wipeChat() async {
-    await Hive.openBox('chat');
-    var chatB = Hive.box('chat');
+  static Future<void> clearHiveChats() async {
+    Box<Chat> chatB = await Hive.openBox('chat');
+
+    Iterable<Chat> iterable = chatB.values;
+    for (Chat chat in iterable) {
+      for (int i = chat.lastChunkIndex; i >= 0; i++) {
+        var messageBox = await Hive.openBox<Message>('${chat.id}.messages.$i');
+        await messageBox.clear();
+        await messageBox.close();
+      }
+    }
+    await chatB.clear();
+    await chatB.close();
+  }
+
+  static Future<void> clearHiveChat(String key) async {
+    Box<Chat> chatB = await Hive.openBox('chat');
+
+    Chat chat = chatB.get(key);
+    for (int i = chat.lastChunkIndex; i >= 0; i++) {
+      var messageBox = await Hive.openBox<Message>('${chat.id}.messages.$i');
+      await messageBox.clear();
+      await messageBox.close();
+    }
     await chatB.clear();
     await chatB.close();
   }
@@ -113,7 +150,7 @@ class Cache {
     } else {
       rateBox = Hive.box("rates");
     }
-    List<Rate> returnRates = new List<Rate>();
+    List<Rate> returnRates = [];
 
     if (rateBox.isOpen) {
       var rates = rateBox.get("rates");
@@ -128,7 +165,7 @@ class Cache {
 
   static Future<bool> addRate(Rate rate) async {
     var rateBox = await Hive.openBox("rates");
-    List<Rate> returnRates = new List<Rate>();
+    List<Rate> returnRates = [];
 
     if (rateBox.isOpen) {
       var rates = rateBox.get("rates");
@@ -362,5 +399,10 @@ class Cache {
     List<String> countriesList = box.get("countriesList") as List<String>;
     await box.close();
     return countriesList;
+  }
+
+  static void setChat(Chat chat) async {
+    Box<Chat> chatBox = await Hive.openBox('chat');
+    chatBox.put(chat.id, chat);
   }
 }

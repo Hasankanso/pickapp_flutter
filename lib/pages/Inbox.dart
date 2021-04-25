@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Chat.dart';
-import 'package:pickapp/dataObjects/Message.dart';
+import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/items/ChatListTile.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -14,16 +15,30 @@ import 'package:pickapp/utilities/Spinner.dart';
 class Inbox extends StatefulWidget {
   @override
   _InboxState createState() => _InboxState();
+
+  static Future<void> openChat(Chat chat, context) async {
+    await chat.initMessages();
+    Navigator.of(context).pushNamed(
+      "/Conversation",
+      arguments: chat,
+    );
+  }
+
+  static Future<Chat> getChat(Person person) async {
+    Chat chat = await Cache.getChat(person.id,
+        toStoreChat: new Chat(id: person.id, person: person, isNewMessage: false));
+    return chat;
+  }
 }
 
 class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox> {
-  Future<Box> box = Hive.openBox('chat');
+  Future<List<Chat>> chats = Cache.getChats();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Box>(
-        future: box,
-        builder: (BuildContext context, AsyncSnapshot<Box> snapshot) {
+    return FutureBuilder<List<Chat>>(
+        future: chats,
+        builder: (BuildContext context, AsyncSnapshot<List<Chat>> snapshot) {
           return MainScaffold(
             appBar: MainAppBar(
               title: Lang.getString(context, "Chats"),
@@ -39,16 +54,9 @@ class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox>
 }
 
 class _Body extends StatefulWidget {
-  List<Chat> chats = [];
+  final List<Chat> chats;
 
-  _Body(Box chatsBox) {
-    if (chatsBox != null) {
-      for (final Chat chat in chatsBox.values) {
-        chat.messages = List<Message>.from(chat.messages);
-        chats.add(chat);
-      }
-    }
-  }
+  _Body(this.chats);
 
   @override
   __BodyState createState() => __BodyState();
@@ -62,14 +70,11 @@ class __BodyState extends State<_Body> {
     return ValueListenableBuilder(
         valueListenable: App.updateInbox,
         builder: (BuildContext context, bool isLoggedIn, Widget child) {
+          App.updateInbox.value = false;
           return ListBuilder(
               list: widget.chats,
               itemBuilder: ChatListTile.itemBuilder(
-                  widget.chats,
-                  (chat) => Navigator.of(context).pushNamed(
-                        "/Conversation",
-                        arguments: chat,
-                      ), (index) {
+                  widget.chats, (chat) => Inbox.openChat(chat, context), (index, chat) {
                 PopUp.areYouSure(
                         Lang.getString(context, "Yes"),
                         Lang.getString(context, "No"),
@@ -77,6 +82,7 @@ class __BodyState extends State<_Body> {
                         Lang.getString(context, "Warning!"),
                         Colors.red, (bool) {
                   if (bool == true) {
+                    Cache.clearHiveChat(chat);
                     setState(() {
                       widget.chats.removeAt(index);
                     });

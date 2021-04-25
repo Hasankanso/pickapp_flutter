@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,11 +17,11 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 
 class Conversation extends StatefulWidget {
-  Chat chat;
+  Chat _chat;
 
-  Conversation({Chat chat}) {
-    assert(chat != null);
-    this.chat = chat;
+  Conversation(this._chat) {
+    assert(_chat != null);
+    this._chat = _chat;
   }
 
   @override
@@ -33,11 +33,25 @@ class _ConversationState extends State<Conversation> {
   ScrollController _controller = new ScrollController();
   final focusNode = FocusNode();
 
+  @override
+  void initState() {
+    _controller.addListener(() async {
+      if (_controller.position.atEdge) {
+        if (_controller.position.pixels != 0) {
+          widget._chat.loadMessages(); //get one more chunk
+          print("loading more messages if still");
+          setState(() {});
+        }
+      }
+    });
+    super.initState();
+  }
+
   String constructFCMPayload(String msg) {
     String name = App.person.firstName + " " + App.person.lastName;
 
     return jsonEncode({
-      'registration_ids': [widget.chat.person.deviceToken],
+      'registration_ids': [widget._chat.person.deviceToken],
       'data': {
         'action': MessageNotificationHandler.action,
         'object': {
@@ -49,8 +63,8 @@ class _ConversationState extends State<Conversation> {
         }
       },
       'notification': {
-        'title': 'Message',
-        'body': '$name sent you a message',
+        'title': name,
+        'body': msg,
       },
     });
   }
@@ -58,7 +72,7 @@ class _ConversationState extends State<Conversation> {
   Future<void> sendPushMessage() async {
     String msg = msgInputController.text;
     try {
-      await post(
+      Response result = await post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -67,11 +81,17 @@ class _ConversationState extends State<Conversation> {
         },
         body: constructFCMPayload(msg),
       );
-      print('FCM request for device sent!');
-      msgInputController.text = "";
-      widget.chat.cacheMessage(
-          Message(senderId: App.person.id, message: msg, myMessage: true, date: DateTime.now()));
-      setState(() {});
+
+      if (result.statusCode == HttpStatus.ok) {
+        print('FCM request for device sent!');
+        print('response' + result.body);
+        msgInputController.text = "";
+        widget._chat.addAndCacheMessage(
+            Message(senderId: App.person.id, message: msg, myMessage: true, date: DateTime.now()));
+        setState(() {});
+      } else {
+        print("error:" + result.statusCode.toString());
+      }
     } catch (e) {
       CustomToast().showErrorToast(Lang.getString(context, "Something_Wrong"));
       print(e);
@@ -80,16 +100,15 @@ class _ConversationState extends State<Conversation> {
 
   @override
   Widget build(BuildContext context) {
-    App.updateInbox.value = false;
     return MainScaffold(
       appBar: MainAppBar(
-        title: widget.chat.person.firstName + " " + widget.chat.person.lastName,
+        title: widget._chat.person.firstName + " " + widget._chat.person.lastName,
       ),
       body: ValueListenableBuilder(
           valueListenable: App.updateConversation,
           builder: (BuildContext context, bool isLoggedIn, Widget child) {
             App.updateConversation.value = false;
-            var messages = List<Message>.from(widget.chat.messages.reversed);
+            var messages = List<Message>.from(widget._chat.messages.reversed);
             return ListBuilder(
               reverse: true,
               list: messages,
@@ -113,10 +132,6 @@ class _ConversationState extends State<Conversation> {
                 maxLines: 4,
                 decoration: InputDecoration(
                   hintText: 'Type a message...',
-                  prefixIcon: Icon(
-                    Icons.account_box,
-                    size: Styles.largeIconSize(),
-                  ),
                   suffixIcon: IconButton(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,

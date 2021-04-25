@@ -385,7 +385,7 @@ class RouteGenerator {
             reverseDuration: duration,
             type: isLTR,
             child: Conversation(
-              chat: args,
+              args,
             ));
 
       case '/ReviewsPageList':

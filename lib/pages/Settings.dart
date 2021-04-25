@@ -63,8 +63,7 @@ class Settings extends StatelessWidget {
                           Spacer(flex: 1),
                           Expanded(
                             flex: 10,
-                            child: Text(
-                                Lang.getString(context, "Date_In_Range"),
+                            child: Text(Lang.getString(context, "Date_In_Range"),
                                 style: Styles.valueTextStyle()),
                           ),
                           IconButton(
@@ -80,8 +79,7 @@ class Settings extends StatelessWidget {
                               }),
                           Switcher(
                               isOn: Cache.dateTimeRangePicker,
-                              onChanged: (bool value) =>
-                                  {Cache.setDateTimeRangePicker(value)})
+                              onChanged: (bool value) => {Cache.setDateTimeRangePicker(value)})
                         ]),
                       ),
                       LineDevider(),
@@ -97,8 +95,7 @@ class Settings extends StatelessWidget {
                           Switcher(
                               isOn: Cache.darkTheme,
                               isDisabled:
-                                  MediaQuery.of(context).platformBrightness ==
-                                      Brightness.dark,
+                                  MediaQuery.of(context).platformBrightness == Brightness.dark,
                               onChanged: (bool value) => {App.setTheme(value)})
                         ]),
                       ),
@@ -109,8 +106,7 @@ class Settings extends StatelessWidget {
                           Spacer(flex: 1),
                           Expanded(
                             flex: 12,
-                            child: Text(
-                                Lang.getString(context, "Disable_Animation"),
+                            child: Text(Lang.getString(context, "Disable_Animation"),
                                 style: Styles.valueTextStyle()),
                           ),
                           Switcher(
@@ -141,8 +137,7 @@ class Settings extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.of(context)
-                              .pushNamed("/CountriesRestriction");
+                          Navigator.of(context).pushNamed("/CountriesRestriction");
                         },
                         child: ResponsiveWidget.fullWidth(
                           height: 64,
@@ -154,8 +149,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.language,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -163,9 +157,7 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text(
-                                    Lang.getString(
-                                        context, "Countries_Restriction"),
+                                child: Text(Lang.getString(context, "Countries_Restriction"),
                                     style: Styles.valueTextStyle()),
                               ),
                             ],
@@ -204,8 +196,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.email,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -213,8 +204,7 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text(
-                                    Lang.getString(context, "Contact_Us"),
+                                child: Text(Lang.getString(context, "Contact_Us"),
                                     style: Styles.valueTextStyle()),
                               ),
                             ],
@@ -236,8 +226,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.policy,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -245,8 +234,7 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text(
-                                    Lang.getString(context, "Privacy_Policy"),
+                                child: Text(Lang.getString(context, "Privacy_Policy"),
                                     style: Styles.valueTextStyle()),
                               ),
                             ],
@@ -268,8 +256,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.rule,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -277,9 +264,7 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text(
-                                    Lang.getString(
-                                        context, "Terms_&_Conditions"),
+                                child: Text(Lang.getString(context, "Terms_&_Conditions"),
                                     style: Styles.valueTextStyle()),
                               ),
                             ],
@@ -318,8 +303,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.logout,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -360,8 +344,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.car_repair,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -369,8 +352,7 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text("Test Size",
-                                    style: Styles.valueTextStyle()),
+                                child: Text("Test Size", style: Styles.valueTextStyle()),
                               ),
                             ],
                           ),
@@ -392,8 +374,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.create_new_folder,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -401,8 +382,37 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text("Generate Rides",
-                                    style: Styles.valueTextStyle()),
+                                child: Text("Generate Rides", style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      LineDevider(),
+                      InkWell(
+                        onTap: () async {
+                          await Cache.clearHiveChats();
+                          App.updateInbox.value = true;
+                        },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.clear,
+                                  size: Styles.largeIconSize(),
+                                  color: Theme.of(context).accentIconTheme.color,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text("Wipe Chat", style: Styles.valueTextStyle()),
                               ),
                             ],
                           ),

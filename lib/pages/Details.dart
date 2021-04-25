@@ -27,7 +27,9 @@ import 'package:pickapp/utilities/Spinner.dart';
 class Details extends StatefulWidget {
   bool isForceRegister;
   User user;
+
   Details({this.isForceRegister, this.user});
+
   @override
   _DetailsState createState() => _DetailsState();
 }
@@ -382,8 +384,12 @@ class _DetailsState extends State<Details> {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
     } else {
-      result.upcomingRides.addAll(App.person.upcomingRides);
-      result.rates.addAll(App.person.rates);
+      if (App.person.upcomingRides != null) {
+        result.upcomingRides.addAll(App.person.upcomingRides);
+      }
+      if (App.person.rates != null) {
+        result.rates.addAll(App.person.rates);
+      }
       result.statistics = App.user.person.statistics;
 
       App.user.person = result;

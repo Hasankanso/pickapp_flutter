@@ -18,10 +18,11 @@ class ChatAdapter extends TypeAdapter<Chat> {
     };
     return Chat(
       id: fields[0] as String,
-      messages: (fields[2] as List)?.cast<Message>(),
-      person: fields[3] as Person,
-      isNewMessage: fields[4] as bool,
-    )..lastMessage = fields[1] as Message;
+      person: fields[2] as Person,
+      isNewMessage: fields[3] as bool,
+    )
+      ..lastMessage = fields[1] as Message
+      ..lastChunkIndex = fields[4] as int;
   }
 
   @override
@@ -33,11 +34,11 @@ class ChatAdapter extends TypeAdapter<Chat> {
       ..writeByte(1)
       ..write(obj.lastMessage)
       ..writeByte(2)
-      ..write(obj.messages)
-      ..writeByte(3)
       ..write(obj.person)
+      ..writeByte(3)
+      ..write(obj.isNewMessage)
       ..writeByte(4)
-      ..write(obj.isNewMessage);
+      ..write(obj.lastChunkIndex);
   }
 
   @override

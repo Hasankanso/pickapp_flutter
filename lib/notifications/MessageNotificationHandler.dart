@@ -6,6 +6,7 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 import 'package:pickapp/requests/GetPerson.dart';
+import 'package:pickapp/requests/Request.dart';
 
 class MessageNotificationHandler extends NotificationHandler {
   Message message;
@@ -22,19 +23,23 @@ class MessageNotificationHandler extends NotificationHandler {
   Future<void> cache() async {
     Chat chat = await Cache.getChat(message.senderId);
 
-    if (chat == null) {
+    if (chat == null || chat.person == null) {
+      Request.initBackendless();
       Person person = await GetPerson(message.senderId).send((hi, bye, lay) => {});
+      if (person == null) return;
       chat = new Chat(id: person.id, date: message.date, person: person, isNewMessage: true);
-    } else {
-      chat.messages = List<Message>.from(chat.messages);
     }
 
-    chat.cacheMessage(message); //add message and cache Chat
+    chat.addAndCacheMessage(message); //add message and cache Chat
   }
 
   @override
   void display(BuildContext context) {
-    Cache.getChat(message.senderId)
-        .then((chat) => Navigator.of(context).pushNamed("/Conversation", arguments: chat));
+    Cache.getChat(message.senderId).then((chat) {
+      chat.initMessages().then((value) {
+        assert(chat != null);
+        Navigator.of(context).pushNamed("/Conversation", arguments: chat);
+      });
+    });
   }
 }
