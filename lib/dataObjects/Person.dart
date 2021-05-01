@@ -30,7 +30,7 @@ class Person {
   @HiveField(7)
   int _chattiness;
   @HiveField(8)
-  List<Ride> _upcomingRides = <Ride>[];
+  List<Ride> _upcomingRides;
   @HiveField(9)
   List<Rate> _rates;
   @HiveField(10)
@@ -50,7 +50,8 @@ class Person {
   String _phone;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Person && _id == other._id;
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Person && _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;
@@ -123,8 +124,9 @@ class Person {
       countryInformations = CountryInformations.fromJson(countryJ);
     }
 
-    UserStatistics statistics =
-        json["statistics"] == null ? null : UserStatistics.fromJson(json["statistics"]);
+    UserStatistics statistics = json["statistics"] == null
+        ? null
+        : UserStatistics.fromJson(json["statistics"]);
 
     var createdJ = json["created"];
     DateTime created;
@@ -154,14 +156,14 @@ class Person {
 
     var upcomingRidesArray = json["upcomingRides"];
     if (upcomingRidesArray != null) {
-      p._upcomingRides.addAll(List<Ride>.from(upcomingRidesArray.map((x) {
+      p._upcomingRides = new List<Ride>.from(upcomingRidesArray.map((x) {
         if (x != null) {
           if (x.containsKey("ride") && x["ride"] != null)
             return Ride.fromJson(x["ride"]);
           else
             return Ride.fromJson(x);
         }
-      })));
+      }));
     }
     var ratesArray = json["rates"];
     if (ratesArray != null) {
@@ -277,7 +279,7 @@ class Person {
   List<Ride> get upcomingRides => _upcomingRides;
 
   set upcomingRides(List<Ride> value) {
-    _upcomingRides = value;
+    _upcomingRides = new List<Ride>.from(value);
   }
 
   CountryInformations get countryInformations => _countryInformations;

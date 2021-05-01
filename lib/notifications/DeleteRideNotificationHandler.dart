@@ -6,18 +6,20 @@ import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 
 class DeleteRideNotificationHandler extends NotificationHandler {
-  Ride ride;
+  String rideId, reason;
 
-  DeleteRideNotificationHandler(MainNotification notification) : super(notification) {
-    Ride ride = Ride.fromJson(notification.object);
-    notification.object = ride;
-    this.ride = ride;
+  DeleteRideNotificationHandler(MainNotification notification)
+      : super(notification) {
+    print(notification.object.runtimeType);
+    print(notification.object);
+    this.rideId = (notification.object as List)[0] as String;
+    this.reason = (notification.object as List)[1] as String;
   }
 
   @override
   Future<void> cache() async {
     User user = await Cache.getUser();
-    user.person.upcomingRides.remove(ride);
+    user.person.upcomingRides.remove(Ride(id: rideId));
     await Cache.setUser(user);
   }
 

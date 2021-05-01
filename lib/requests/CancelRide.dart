@@ -12,13 +12,17 @@ class CancelRide extends Request<bool> {
 
   @override
   bool buildObject(json) {
-    bool x=json["deleted"];
-    return x=="true";
+    bool x = json["deleted"];
+    return x == "true";
   }
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, dynamic>{'user': App.user.id, 'id': _ride.id};
+    return <String, dynamic>{
+      'user': App.user.id,
+      'id': _ride.id,
+      'reason': _reason
+    };
   }
 
   @override

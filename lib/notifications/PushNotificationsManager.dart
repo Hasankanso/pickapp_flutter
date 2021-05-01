@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/notifications/BroadcastAlertNotificationHandler.dart';
+import 'package:pickapp/notifications/DeleteRideNotificationHandler.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/MessageNotificationHandler.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
@@ -13,13 +14,15 @@ import 'package:pickapp/notifications/ReserveSeatsNotificationHandler.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;
-  static bool tokenListenerRunning = false; // to make sure there's only one listener to token
+  static bool tokenListenerRunning =
+      false; // to make sure there's only one listener to token
 
   PushNotificationsManager._();
 
   factory PushNotificationsManager() => _instance;
 
-  static final PushNotificationsManager _instance = PushNotificationsManager._();
+  static final PushNotificationsManager _instance =
+      PushNotificationsManager._();
 
   bool _initialized = false;
 
@@ -57,7 +60,8 @@ class PushNotificationsManager {
     print("app in foreground and notification received");
     //        RemoteNotification notification = message.notification;
     //         AndroidNotification android = message.notification?.android;
-    NotificationHandler handler = await cacheNotification(message); // do we want to initialize
+    NotificationHandler handler =
+        await cacheNotification(message); // do we want to initialize
     // hive and notificationManager in forground?
 
     bool isSchedule = message.data["isSchedule"] == "true";
@@ -88,8 +92,10 @@ class PushNotificationsManager {
     App.notifications = allNotifications;
     print(allNotifications.length);
 
-    List<MainNotification> allScheduledNotifications = await Cache.getScheduledNotifications();
-    List<MainNotification> updatedScheduledNotifications = List<MainNotification>();
+    List<MainNotification> allScheduledNotifications =
+        await Cache.getScheduledNotifications();
+    List<MainNotification> updatedScheduledNotifications =
+        List<MainNotification>();
     updatedScheduledNotifications.addAll(allScheduledNotifications);
 
     bool isOneScheduledNotificationHandled = false;
@@ -105,7 +111,8 @@ class PushNotificationsManager {
     if (isOneScheduledNotificationHandled) {
       await Cache.updateScheduledNotifications(updatedScheduledNotifications);
     }
-    if (isOneScheduledNotificationHandled || await Cache.getIsNewNotification()) {
+    if (isOneScheduledNotificationHandled ||
+        await Cache.getIsNewNotification()) {
       App.isNewNotificationNotifier.value = true;
     }
 
@@ -161,11 +168,15 @@ NotificationHandler _createNotificationHandler(RemoteMessage message) {
     case "RATE":
       return RateNotificationHandler(newNotification);
       break;
+    case "RIDE_DELETED":
+      return DeleteRideNotificationHandler(newNotification);
+      break;
     case "ALERT_RECEIVED":
       return BroadcastAlertNotificationHandler(newNotification);
     case MessageNotificationHandler.action:
       return MessageNotificationHandler(newNotification);
   }
-  print("this notification: " + newNotification.action + " has no handler yet.");
+  print(
+      "this notification: " + newNotification.action + " has no handler yet.");
   return null;
 }

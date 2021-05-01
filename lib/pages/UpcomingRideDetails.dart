@@ -98,7 +98,7 @@ class UpcomingRideDetails extends StatelessWidget {
         );
       },
     );
-    Request<bool> request = CancelRide(ride, "hello");
+    Request<bool> request = CancelRide(ride, _reason.text);
     request.send((result, code, message) {
       return response(result, code, message, context);
     });
