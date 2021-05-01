@@ -21,11 +21,10 @@ class _TermAndConditions extends State<TermAndConditions> {
       body: SingleChildScrollView(
           child: Column(children: [
         VerticalSpacer(height: 20),
-        ResponsiveRow(
-            flex: 18,
-            children: [Text("We will sell your data for less than one cent")]),
+        ResponsiveRow(flex: 18, children: [Text("we respect you")]),
       ])),
-      bottomNavigationBar: ResponsiveWidget.fullWidth(height: 80,
+      bottomNavigationBar: ResponsiveWidget.fullWidth(
+        height: 80,
         child: Column(
           children: [
             DifferentSizeResponsiveRow(
@@ -47,7 +46,7 @@ class _TermAndConditions extends State<TermAndConditions> {
                                   (value) => setState(() {
                                         Cache.setConditionAccepted(!value);
                                       }),
-                              highlightYes: true)
+                                  highlightYes: true)
                               .confirmationPopup(context);
                         } else {
                           setState(() {
@@ -57,7 +56,8 @@ class _TermAndConditions extends State<TermAndConditions> {
                       }),
                 ),
               ],
-            ), VerticalSpacer(height: 20)
+            ),
+            VerticalSpacer(height: 20)
           ],
         ),
       ),

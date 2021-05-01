@@ -90,7 +90,6 @@ class Chat {
       _messages.add(message);
       newMessage.value = message.message;
     }
-
     Box<Message> messagesBox = await Hive.openBox<Message>('$id.messages.$lastChunkIndex');
 
     //if chunk is full, open new one.
@@ -103,6 +102,7 @@ class Chat {
     //need to update chatbox because of newMessage field and lastChunkIndex field.
     Box<Chat> chatBox = await Hive.openBox('chat');
     lastMessage = message;
+    person.deviceToken = message.token;
     chatBox.put(person.id, this);
 
     messagesBox.add(message);

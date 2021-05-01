@@ -53,7 +53,9 @@ class _ConversationState extends State<Conversation> {
     return jsonEncode({
       'registration_ids': [widget._chat.person.deviceToken],
       'data': {
+        'token': widget._chat.person.deviceToken,
         'action': MessageNotificationHandler.action,
+        'dontCache': true,
         'object': {
           'senderId': App.person.id,
           'message': msg,

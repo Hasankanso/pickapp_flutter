@@ -16,6 +16,8 @@ class Message {
   @HiveField(3)
   String senderId;
 
+  String token;
+
   Message({this.senderId, this.message, this.date, this.myMessage}) {
     if (date == null) {
       this.date = DateTime.now();
@@ -30,7 +32,8 @@ class Message {
       };
 
   Message.fromJson(Map<String, dynamic> json)
-      : senderId = json["senderId"],
+      : token = json["token"],
+        senderId = json["senderId"],
         message = json["message"],
         myMessage = json["myMessage"],
         date = DateTime.parse(json['date']);
