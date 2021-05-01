@@ -9,5 +9,6 @@ abstract class NotificationHandler {
   NotificationHandler.empty();
 
   Future<void> cache();
+  Future<void> updateApp();
   void display(BuildContext context);
 }

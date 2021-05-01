@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
@@ -10,8 +11,6 @@ class DeleteRideNotificationHandler extends NotificationHandler {
 
   DeleteRideNotificationHandler(MainNotification notification)
       : super(notification) {
-    print(notification.object.runtimeType);
-    print(notification.object);
     this.rideId = (notification.object as List)[0] as String;
     this.reason = (notification.object as List)[1] as String;
   }
@@ -19,8 +18,15 @@ class DeleteRideNotificationHandler extends NotificationHandler {
   @override
   Future<void> cache() async {
     User user = await Cache.getUser();
+    Ride r=App.getRideFromObjectId(rideId);
+    r.pa
     user.person.upcomingRides.remove(Ride(id: rideId));
     await Cache.setUser(user);
+  }
+
+  @override
+  Future<void> updateApp() async {
+    App.updateUpcomingRide.value = true;
   }
 
   @override

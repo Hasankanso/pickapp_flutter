@@ -18,7 +18,8 @@ abstract class Request<T> {
   Future<T> send(Function(T, int, String) callback) async {
     String valid = isValid();
     print(host + httpPath);
-    print("offlineValidator (deprecated) " + Validation.isNullOrEmpty(valid).toString());
+    print("offlineValidator (deprecated) " +
+        Validation.isNullOrEmpty(valid).toString());
     if (!Validation.isNullOrEmpty(valid)) {
       callback(null, 406, valid);
       return null;
@@ -30,12 +31,15 @@ abstract class Request<T> {
     http.Response response = await http
         .post(
           Uri.parse(host + httpPath),
-          headers: <String, String>{'Content-Type': 'application/json; charset=utf-8'},
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=utf-8'
+          },
           body: jsonData,
         )
         .timeout(const Duration(seconds: 20))
         .catchError((Object o) {
-      callback(null, HttpStatus.networkConnectTimeoutError, "no_internet_connection");
+      callback(null, HttpStatus.networkConnectTimeoutError,
+          "no_internet_connection");
       return null;
     });
 
@@ -49,7 +53,8 @@ abstract class Request<T> {
           decodedResponse[0] == null &&
           decodedResponse["code"] != "null") {
         //extracting code and message
-        var jCode = response.body.contains("code") ? decodedResponse["code"] : null;
+        var jCode =
+            response.body.contains("code") ? decodedResponse["code"] : null;
         var jMessage = decodedResponse["message"];
         if (jCode == null) {
           var jbody = decodedResponse["body"];
@@ -60,7 +65,8 @@ abstract class Request<T> {
         }
         //check if there's error
         if (jCode != null) {
-          callback(null, jCode is String ? int.tryParse(jCode) : jCode, jMessage);
+          callback(
+              null, jCode is String ? int.tryParse(jCode) : jCode, jMessage);
           return null;
         }
       }
@@ -68,6 +74,7 @@ abstract class Request<T> {
       try {
         object = buildObject(decodedResponse);
       } catch (e) {
+        print(e);
         callback(null, HttpStatus.partialContent, "Something_Wrong");
         return null;
       }
@@ -93,7 +100,11 @@ abstract class Request<T> {
     String IOS_API_KEY = "D2DDEB57-BEBC-48EB-9E07-39A5DB9D8CEF";
     String REST_API_KEY = "A47932AF-43E1-4CDC-9B54-12F8A88FB22E";
 
-    host = "https://api.backendless.com/" + APPLICATION_ID + "/" + REST_API_KEY + "/services";
+    host = "https://api.backendless.com/" +
+        APPLICATION_ID +
+        "/" +
+        REST_API_KEY +
+        "/services";
   }
 
   onError() {}

@@ -6,7 +6,8 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 class BroadcastAlertNotificationHandler extends NotificationHandler {
   Alert alert;
 
-  BroadcastAlertNotificationHandler(MainNotification notification) : super(notification) {
+  BroadcastAlertNotificationHandler(MainNotification notification)
+      : super(notification) {
     if (!(notification.object is Alert)) {
       notification.object = Alert.fromJson(notification.object);
     }
@@ -18,6 +19,8 @@ class BroadcastAlertNotificationHandler extends NotificationHandler {
     print("im the cache method :)");
   }
 
+  @override
+  Future<void> updateApp() async {}
   @override
   void display(BuildContext context) {
     // TODO: implement display

@@ -11,7 +11,8 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 class ReserveSeatsNotificationHandler extends NotificationHandler {
   Reservation reservation;
 
-  ReserveSeatsNotificationHandler(MainNotification notification) : super(notification) {
+  ReserveSeatsNotificationHandler(MainNotification notification)
+      : super(notification) {
     if (!(notification.object is Ride)) {
       notification.object = Reservation.fromJson(notification.object);
     }
@@ -23,14 +24,17 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
     User user = await Cache.getUser();
 
     //find the ride in upcomingRides
-    int rideIndex = user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
+    int rideIndex =
+        user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
 
-    if (rideIndex < 0) return; //ride not found maybe the user removed it, this should be handled
+    if (rideIndex < 0)
+      return; //ride not found maybe the user removed it, this should be handled
 
     Ride reservedRide = user.person.upcomingRides[rideIndex];
 
     //add the new reservation to it
-    reservedRide.passengers = new List<Reservation>.from(reservedRide.passengers);
+    reservedRide.passengers =
+        new List<Reservation>.from(reservedRide.passengers);
     reservedRide.passengers.add(reservation);
 
     //update seats and luggage accordingly
@@ -39,6 +43,11 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
 
     //save changes.
     await Cache.setUser(user);
+  }
+
+  @override
+  Future<void> updateApp() async {
+    App.updateUpcomingRide.value = true;
   }
 
   @override

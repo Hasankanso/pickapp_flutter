@@ -67,7 +67,8 @@ class PushNotificationsManager {
     bool isSchedule = message.data["isSchedule"] == "true";
     if (!isSchedule) {
       App.notifications.add(handler.notification);
-      _updateApp();
+      handler.updateApp();
+      App.updateNotifications.value = true;
     }
   }
 
@@ -86,16 +87,19 @@ class PushNotificationsManager {
     print("appTerminated: $message");
   }
 
+  Future<void> onResume() async {
+    App.user = await Cache.getUser();
+    await initNotifications();
+  }
+
   Future<void> initNotifications() async {
     List<MainNotification> allNotifications = await Cache.getNotifications();
 
     App.notifications = allNotifications;
-    print(allNotifications.length);
 
     List<MainNotification> allScheduledNotifications =
         await Cache.getScheduledNotifications();
-    List<MainNotification> updatedScheduledNotifications =
-        List<MainNotification>();
+    List<MainNotification> updatedScheduledNotifications = <MainNotification>[];
     updatedScheduledNotifications.addAll(allScheduledNotifications);
 
     bool isOneScheduledNotificationHandled = false;
@@ -116,18 +120,14 @@ class PushNotificationsManager {
       App.isNewNotificationNotifier.value = true;
     }
 
-    _updateApp();
-
-    if (isOneScheduledNotificationHandled) {
-      await Cache.updateNotifications(allNotifications);
-    }
-  }
-
-  _updateApp() {
     App.updateUpcomingRide.value = true;
     App.updateProfile.value = true;
     App.updateNotifications.value = true;
     App.updateConversation.value = true;
+
+    if (isOneScheduledNotificationHandled) {
+      await Cache.updateNotifications(allNotifications);
+    }
   }
 }
 

@@ -301,6 +301,7 @@ class _LoginState extends State<Login> {
 
   Future<void> codeValidationResponse(
       User u, int code, String message, context) async {
+    print(u);
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
