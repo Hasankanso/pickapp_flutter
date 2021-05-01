@@ -27,7 +27,9 @@ class MainNotification {
   @HiveField(10)
   DateTime sentTime;
 
-  static List<MainNotification> notifications = List<MainNotification>();
+  bool dontCache;
+
+  static List<MainNotification> notifications = [];
 
   MainNotification(
       {String title,
@@ -56,6 +58,7 @@ class MainNotification {
 
   MainNotification.fromJson(Map<String, dynamic> json)
       : _objectId = json["objectId"],
+        dontCache = json["dontCache"] == "true",
         _action = json["action"],
         _title = json["title"],
         _subtitle = json["subtitle"],

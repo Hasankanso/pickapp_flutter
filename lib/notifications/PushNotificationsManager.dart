@@ -99,7 +99,7 @@ class PushNotificationsManager {
 
     List<MainNotification> allScheduledNotifications =
         await Cache.getScheduledNotifications();
-    List<MainNotification> updatedScheduledNotifications = <MainNotification>[];
+    List<MainNotification> updatedScheduledNotifications = [];
     updatedScheduledNotifications.addAll(allScheduledNotifications);
 
     bool isOneScheduledNotificationHandled = false;
@@ -140,6 +140,7 @@ Future<NotificationHandler> cacheNotification(RemoteMessage message) async {
   NotificationHandler handler = _createNotificationHandler(message);
 
   if (handler == null) {
+    // no handler for this notification
     return null;
   }
 
@@ -149,7 +150,10 @@ Future<NotificationHandler> cacheNotification(RemoteMessage message) async {
   } else {
     await Cache.setIsNewNotification(true);
     App.isNewNotificationNotifier.value = true;
-    await Cache.addNotification(handler.notification);
+
+    if (!handler.notification.dontCache) {
+      await Cache.addNotification(handler.notification);
+    }
   }
 
   await handler.cache();
