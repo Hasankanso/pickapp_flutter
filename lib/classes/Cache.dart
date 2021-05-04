@@ -93,21 +93,27 @@ class Cache {
     await sNotfB.close();
     var userB = Hive.box("user");
     await userB.clear();
+    clearHiveChats();
+  }
+
+  static clearNotifications() async {
+    await Hive.openBox('notifications');
+    var notfB = Hive.box('notifications');
+    notfB.deleteFromDisk();
   }
 
   static Future<void> clearHiveChats() async {
-    Box<Chat> chatB = await Hive.openBox('chat');
+    var chatB = await Hive.openBox('chat');
 
     Iterable<Chat> iterable = chatB.values;
     for (Chat chat in iterable) {
       for (int i = chat.lastChunkIndex; i >= 0; i++) {
         var messageBox = await Hive.openBox<Message>('${chat.id}.messages.$i');
-        await messageBox.clear();
-        await messageBox.close();
+        await messageBox.deleteFromDisk();
       }
     }
-    await chatB.clear();
-    await chatB.close();
+
+    await chatB.deleteFromDisk();
   }
 
   static Future<void> clearHiveChat(String key) async {
@@ -116,8 +122,7 @@ class Cache {
     Chat chat = chatB.get(key);
     for (int i = chat.lastChunkIndex; i >= 0; i++) {
       var messageBox = await Hive.openBox<Message>('${chat.id}.messages.$i');
-      await messageBox.clear();
-      await messageBox.close();
+      await messageBox.deleteFromDisk();
     }
     await chatB.clear();
     await chatB.close();
@@ -268,13 +273,13 @@ class Cache {
     } else {
       notificationBox = Hive.box("notifications");
     }
-    List<MainNotification> returnNotifications = new List<MainNotification>();
+    List<MainNotification> returnNotifications = [];
 
     if (notificationBox.isOpen) {
-      var notfications = notificationBox.get("notifications");
-      if (notfications != null) {
-        notfications = notfications.cast<MainNotification>();
-        returnNotifications.addAll(notfications);
+      var notifications = notificationBox.get("notifications");
+      if (notifications != null) {
+        notifications = notifications.cast<MainNotification>();
+        returnNotifications.addAll(notifications);
       }
       await notificationBox.close();
     }

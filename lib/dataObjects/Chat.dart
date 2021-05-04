@@ -102,7 +102,11 @@ class Chat {
     //need to update chatbox because of newMessage field and lastChunkIndex field.
     Box<Chat> chatBox = await Hive.openBox('chat');
     lastMessage = message;
-    person.deviceToken = message.token;
+
+    if (!message.myMessage) {
+      person.deviceToken = message.token;
+    }
+
     chatBox.put(person.id, this);
 
     messagesBox.add(message);

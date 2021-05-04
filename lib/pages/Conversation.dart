@@ -53,11 +53,11 @@ class _ConversationState extends State<Conversation> {
     return jsonEncode({
       'registration_ids': [widget._chat.person.deviceToken],
       'data': {
-        'token': widget._chat.person.deviceToken,
         'action': MessageNotificationHandler.action,
         'dontCache': true,
         'object': {
           'senderId': App.person.id,
+          'token': App.person.deviceToken,
           'message': msg,
           'name': name,
           'myMessage': false,
@@ -71,7 +71,7 @@ class _ConversationState extends State<Conversation> {
     });
   }
 
-  Future<void> sendPushMessage() async {
+  Future<void> sendPushMessage(BuildContext context) async {
     String msg = msgInputController.text;
     try {
       Response result = await post(
@@ -84,9 +84,8 @@ class _ConversationState extends State<Conversation> {
         body: constructFCMPayload(msg),
       );
 
-      if (result.statusCode == HttpStatus.ok) {
+      if (result.statusCode == HttpStatus.ok && json.decode(result.body)["success"] > 0) {
         print('FCM request for device sent!');
-        print('response' + result.body);
         msgInputController.text = "";
         widget._chat.addAndCacheMessage(
             Message(senderId: App.person.id, message: msg, myMessage: true, date: DateTime.now()));
@@ -147,7 +146,7 @@ class _ConversationState extends State<Conversation> {
                         focusNode.unfocus();
                         // Disable text field's focus node request
                         focusNode.canRequestFocus = false;
-                        sendPushMessage();
+                        sendPushMessage(context);
 
                         Future.delayed(Duration.zero, () {
                           focusNode.canRequestFocus = true;

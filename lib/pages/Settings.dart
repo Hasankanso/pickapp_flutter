@@ -418,6 +418,36 @@ class Settings extends StatelessWidget {
                           ),
                         ),
                       ),
+                      LineDevider(),
+                      InkWell(
+                        onTap: () async {
+                          await Cache.clearNotifications();
+                          App.notifications = [];
+                        },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.clear,
+                                  size: Styles.largeIconSize(),
+                                  color: Theme.of(context).accentIconTheme.color,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text("Wipe Notification", style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 )

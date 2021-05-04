@@ -143,6 +143,7 @@ class _Panel extends StatelessWidget {
                 text_key: "Contact",
                 onPressed: () async {
                   Chat chat = await Inbox.getChat(person);
+                  chat.person.deviceToken = person.deviceToken;
                   await Inbox.openChat(chat, context);
                 },
                 isRequest: true,

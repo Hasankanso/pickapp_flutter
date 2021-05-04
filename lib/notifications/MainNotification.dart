@@ -58,7 +58,11 @@ class MainNotification {
 
   MainNotification.fromJson(Map<String, dynamic> json)
       : _objectId = json["objectId"],
-        dontCache = json["dontCache"] == "true",
+        dontCache = json["dontCache"] == null
+            ? false
+            : json["dontCache"] == "true"
+                ? true
+                : false,
         _action = json["action"],
         _title = json["title"],
         _subtitle = json["subtitle"],

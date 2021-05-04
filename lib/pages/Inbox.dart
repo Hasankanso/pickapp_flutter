@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -32,19 +31,23 @@ class Inbox extends StatefulWidget {
 }
 
 class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox> {
-  Future<List<Chat>> chats = Cache.getChats();
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Chat>>(
-        future: chats,
-        builder: (BuildContext context, AsyncSnapshot<List<Chat>> snapshot) {
-          return MainScaffold(
-            appBar: MainAppBar(
-              title: Lang.getString(context, "Chats"),
-            ),
-            body: Hive.isBoxOpen('chat') ? _Body(snapshot.data) : Spinner(),
-          );
+    return ValueListenableBuilder(
+        valueListenable: App.updateInbox,
+        builder: (BuildContext context, bool isLoggedIn, Widget child) {
+          Future<List<Chat>> chats = Cache.getChats();
+          App.updateInbox.value = false;
+          return FutureBuilder<List<Chat>>(
+              future: chats,
+              builder: (BuildContext context, AsyncSnapshot<List<Chat>> snapshot) {
+                return MainScaffold(
+                  appBar: MainAppBar(
+                    title: Lang.getString(context, "Chats"),
+                  ),
+                  body: snapshot.data != null ? _Body(snapshot.data) : Spinner(),
+                );
+              });
         });
   }
 
@@ -67,29 +70,24 @@ class __BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-        valueListenable: App.updateInbox,
-        builder: (BuildContext context, bool isLoggedIn, Widget child) {
-          App.updateInbox.value = false;
-          return ListBuilder(
-              list: widget.chats,
-              itemBuilder: ChatListTile.itemBuilder(
-                  widget.chats, (chat) => Inbox.openChat(chat, context), (index, chat) {
-                PopUp.areYouSure(
-                        Lang.getString(context, "Yes"),
-                        Lang.getString(context, "No"),
-                        Lang.getString(context, "Chat_delete_message"),
-                        Lang.getString(context, "Warning!"),
-                        Colors.red, (bool) {
-                  if (bool == true) {
-                    Cache.clearHiveChat(chat);
-                    setState(() {
-                      widget.chats.removeAt(index);
-                    });
-                  }
-                }, highlightYes: true)
-                    .confirmationPopup(context);
-              }));
-        });
+    return ListBuilder(
+        list: widget.chats,
+        itemBuilder: ChatListTile.itemBuilder(widget.chats, (chat) => Inbox.openChat(chat, context),
+            (int index, Chat chat) {
+          PopUp.areYouSure(
+                  Lang.getString(context, "Yes"),
+                  Lang.getString(context, "No"),
+                  Lang.getString(context, "Chat_delete_message"),
+                  Lang.getString(context, "Warning!"),
+                  Colors.red, (bool) {
+            if (bool == true) {
+              Cache.clearHiveChat(chat.id);
+              setState(() {
+                widget.chats.removeAt(index);
+              });
+            }
+          }, highlightYes: true)
+              .confirmationPopup(context);
+        }));
   }
 }

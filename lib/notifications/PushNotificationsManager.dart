@@ -14,15 +14,13 @@ import 'package:pickapp/notifications/ReserveSeatsNotificationHandler.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;
-  static bool tokenListenerRunning =
-      false; // to make sure there's only one listener to token
+  static bool tokenListenerRunning = false; // to make sure there's only one listener to token
 
   PushNotificationsManager._();
 
   factory PushNotificationsManager() => _instance;
 
-  static final PushNotificationsManager _instance =
-      PushNotificationsManager._();
+  static final PushNotificationsManager _instance = PushNotificationsManager._();
 
   bool _initialized = false;
 
@@ -60,13 +58,12 @@ class PushNotificationsManager {
     print("app in foreground and notification received");
     //        RemoteNotification notification = message.notification;
     //         AndroidNotification android = message.notification?.android;
-    NotificationHandler handler =
-        await cacheNotification(message); // do we want to initialize
+    NotificationHandler handler = await cacheNotification(message); // do we want to initialize
     // hive and notificationManager in forground?
 
     bool isSchedule = message.data["isSchedule"] == "true";
     if (!isSchedule) {
-      App.notifications.add(handler.notification);
+      App.notifications = await Cache.getNotifications();
       handler.updateApp();
       App.updateNotifications.value = true;
     }
@@ -97,8 +94,7 @@ class PushNotificationsManager {
 
     App.notifications = allNotifications;
 
-    List<MainNotification> allScheduledNotifications =
-        await Cache.getScheduledNotifications();
+    List<MainNotification> allScheduledNotifications = await Cache.getScheduledNotifications();
     List<MainNotification> updatedScheduledNotifications = [];
     updatedScheduledNotifications.addAll(allScheduledNotifications);
 
@@ -115,8 +111,7 @@ class PushNotificationsManager {
     if (isOneScheduledNotificationHandled) {
       await Cache.updateScheduledNotifications(updatedScheduledNotifications);
     }
-    if (isOneScheduledNotificationHandled ||
-        await Cache.getIsNewNotification()) {
+    if (isOneScheduledNotificationHandled || await Cache.getIsNewNotification()) {
       App.isNewNotificationNotifier.value = true;
     }
 
@@ -147,13 +142,10 @@ Future<NotificationHandler> cacheNotification(RemoteMessage message) async {
   if (isSchedule) {
     //this section is related to local notification.
     await Cache.addScheduledNotification(handler.notification);
-  } else {
+  } else if (!handler.notification.dontCache) {
     await Cache.setIsNewNotification(true);
     App.isNewNotificationNotifier.value = true;
-
-    if (!handler.notification.dontCache) {
-      await Cache.addNotification(handler.notification);
-    }
+    await Cache.addNotification(handler.notification);
   }
 
   await handler.cache();
@@ -180,7 +172,6 @@ NotificationHandler _createNotificationHandler(RemoteMessage message) {
     case MessageNotificationHandler.action:
       return MessageNotificationHandler(newNotification);
   }
-  print(
-      "this notification: " + newNotification.action + " has no handler yet.");
+  print("this notification: " + newNotification.action + " has no handler yet.");
   return null;
 }
