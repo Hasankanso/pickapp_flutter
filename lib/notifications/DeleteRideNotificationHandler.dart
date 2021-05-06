@@ -9,8 +9,7 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 class DeleteRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
 
-  DeleteRideNotificationHandler(MainNotification notification)
-      : super(notification) {
+  DeleteRideNotificationHandler(MainNotification notification) : super(notification) {
     this.rideId = (notification.object as List)[0] as String;
     this.reason = (notification.object as List)[1] as String;
   }
@@ -18,7 +17,8 @@ class DeleteRideNotificationHandler extends NotificationHandler {
   @override
   Future<void> cache() async {
     User user = await Cache.getUser();
-    Ride r = App.getRideFromObjectId(rideId);
+    Ride r = App.getRideFromObjectId(rideId); //this is searching in App.person.upcomingsRide,
+    // probably will not work in cache
     //r.passengers
     user.person.upcomingRides.remove(Ride(id: rideId));
     await Cache.setUser(user);

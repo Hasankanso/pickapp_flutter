@@ -390,8 +390,8 @@ class Settings extends StatelessWidget {
                       ),
                       LineDevider(),
                       InkWell(
-                        onTap: () async {
-                          await Cache.clearHiveChats();
+                        onTap: () {
+                          Cache.clearHiveChats();
                           App.updateInbox.value = true;
                         },
                         child: ResponsiveWidget.fullWidth(

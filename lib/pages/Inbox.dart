@@ -38,6 +38,7 @@ class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox>
         builder: (BuildContext context, bool isLoggedIn, Widget child) {
           Future<List<Chat>> chats = Cache.getChats();
           App.updateInbox.value = false;
+          print("building or rebuilding Inbox");
           return FutureBuilder<List<Chat>>(
               future: chats,
               builder: (BuildContext context, AsyncSnapshot<List<Chat>> snapshot) {
@@ -45,7 +46,7 @@ class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox>
                   appBar: MainAppBar(
                     title: Lang.getString(context, "Chats"),
                   ),
-                  body: snapshot.data != null ? _Body(snapshot.data) : Spinner(),
+                  body: snapshot.hasData ? _Body(snapshot.data) : Spinner(),
                 );
               });
         });

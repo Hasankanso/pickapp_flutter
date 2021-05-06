@@ -6,6 +6,7 @@ import 'package:pickapp/dataObjects/Message.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
+import 'package:pickapp/pages/Inbox.dart';
 import 'package:pickapp/requests/GetPerson.dart';
 import 'package:pickapp/requests/Request.dart';
 
@@ -41,10 +42,8 @@ class MessageNotificationHandler extends NotificationHandler {
   @override
   void display(BuildContext context) {
     Cache.getChat(message.senderId).then((chat) {
-      chat.initMessages().then((value) {
-        assert(chat != null);
-        Navigator.of(context).pushNamed("/Conversation", arguments: chat);
-      });
+      assert(chat != null);
+      Inbox.openChat(chat, context);
     });
   }
 }

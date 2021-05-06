@@ -52,7 +52,7 @@ class Cache {
   //will get chat correspondent to key, if not found and toStoreChat is provided, toStoreChat
   // will be cached instead, and returned
   static Future<Chat> getChat(String key, {Chat toStoreChat}) async {
-    Box<Chat> box = await Hive.openBox('chat');
+    Box<Chat> box = await Hive.openBox<Chat>('chat');
 
     Chat chat = box.get(key);
 
@@ -65,7 +65,7 @@ class Cache {
   }
 
   static Future<List<Chat>> getChats() async {
-    Box<Chat> box = await Hive.openBox('chat');
+    Box<Chat> box = await Hive.openBox<Chat>('chat');
     box = Hive.box('chat');
 
     var values = box.values;
@@ -79,14 +79,11 @@ class Cache {
   }
 
   static Future<void> clearHiveCache() async {
-    await Hive.openBox('rates');
+    await Hive.openBox<Rate>('rates');
     var rateB = Hive.box('rates');
     await rateB.clear();
     await rateB.close();
-    await Hive.openBox('notifications');
-    var notfB = Hive.box('notifications');
-    await notfB.clear();
-    await notfB.close();
+    clearNotifications();
     await Hive.openBox('scheduledNotifications');
     var sNotfB = Hive.box('scheduledNotifications');
     await sNotfB.clear();
@@ -97,23 +94,26 @@ class Cache {
   }
 
   static clearNotifications() async {
-    await Hive.openBox('notifications');
-    var notfB = Hive.box('notifications');
-    notfB.deleteFromDisk();
+    await Hive.openBox<Notification>('notifications');
+    var notfB = Hive.box<Notification>('notifications');
+    await notfB.clear();
+    await notfB.close();
   }
 
   static Future<void> clearHiveChats() async {
-    var chatB = await Hive.openBox('chat');
+    var chatB = await Hive.openBox<Chat>('chat');
 
     Iterable<Chat> iterable = chatB.values;
     for (Chat chat in iterable) {
       for (int i = chat.lastChunkIndex; i >= 0; i++) {
         var messageBox = await Hive.openBox<Message>('${chat.id}.messages.$i');
-        await messageBox.deleteFromDisk();
+        await messageBox.clear();
+        await messageBox.close();
       }
     }
 
-    await chatB.deleteFromDisk();
+    await chatB.clear();
+    await chatB.close();
   }
 
   static Future<void> clearHiveChat(String key) async {
