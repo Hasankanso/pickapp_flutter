@@ -79,23 +79,20 @@ class Cache {
   }
 
   static Future<void> clearHiveCache() async {
-    await Hive.openBox<Rate>('rates');
-    var rateB = Hive.box('rates');
+    var rateB = await Hive.openBox<Rate>('rates');
     await rateB.clear();
     await rateB.close();
-    clearNotifications();
-    await Hive.openBox('scheduledNotifications');
-    var sNotfB = Hive.box('scheduledNotifications');
+    await clearNotifications();
+    var sNotfB = await Hive.openBox<MainNotification>('scheduledNotifications');
     await sNotfB.clear();
     await sNotfB.close();
     var userB = Hive.box("user");
     await userB.clear();
-    clearHiveChats();
+    await clearHiveChats();
   }
 
   static clearNotifications() async {
-    await Hive.openBox<Notification>('notifications');
-    var notfB = Hive.box<Notification>('notifications');
+    var notfB = await Hive.openBox<MainNotification>('notifications');
     await notfB.clear();
     await notfB.close();
   }
@@ -222,9 +219,11 @@ class Cache {
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
     if (notificationBox.isOpen) {
-      var scheduledNotifications = notificationBox.get("scheduledNotifications");
+      var scheduledNotifications =
+          notificationBox.get("scheduledNotifications");
       if (scheduledNotifications != null) {
-        scheduledNotifications = scheduledNotifications.cast<MainNotification>();
+        scheduledNotifications =
+            scheduledNotifications.cast<MainNotification>();
         returnNotifications = scheduledNotifications;
       }
       await notificationBox.close();
@@ -232,7 +231,8 @@ class Cache {
     return returnNotifications;
   }
 
-  static Future<bool> updateScheduledNotifications(List<MainNotification> allnotifications) async {
+  static Future<bool> updateScheduledNotifications(
+      List<MainNotification> allnotifications) async {
     var notificationBox;
     if (!Hive.isBoxOpen("scheduledNotifications")) {
       notificationBox = await Hive.openBox("scheduledNotifications");
@@ -247,7 +247,8 @@ class Cache {
     return false;
   }
 
-  static Future<bool> addScheduledNotification(MainNotification notification) async {
+  static Future<bool> addScheduledNotification(
+      MainNotification notification) async {
     var notificationBox = await Hive.openBox("scheduledNotifications");
     List<MainNotification> returnNotifications = new List<MainNotification>();
 
@@ -286,7 +287,8 @@ class Cache {
     return returnNotifications;
   }
 
-  static Future<bool> updateNotifications(List<MainNotification> allnotifications) async {
+  static Future<bool> updateNotifications(
+      List<MainNotification> allnotifications) async {
     var notificationBox;
     if (!Hive.isBoxOpen("notifications")) {
       notificationBox = await Hive.openBox("notifications");
@@ -312,7 +314,8 @@ class Cache {
         returnNotifications.addAll(notfications);
       }
       returnNotifications.add(notification);
-      while (returnNotifications.length > PushNotificationsManager.MAX_NOTIFICATIONS) {
+      while (returnNotifications.length >
+          PushNotificationsManager.MAX_NOTIFICATIONS) {
         returnNotifications.removeAt(0);
       }
 
@@ -324,14 +327,13 @@ class Cache {
   }
 
   static Future<void> openChats(List<MainNotification> notifications) async {
-    await Hive.openBox('localNotifications');
-    final box = Hive.box("localNotifications");
+    final box = await Hive.openBox('localNotifications');
     if (box.containsKey(0)) {
       await box.put(0, notifications);
     } else {
       box.add(notifications);
     }
-    box.close();
+    await box.close();
   }
 
   static void setLocale(String languageCode) {
@@ -364,26 +366,28 @@ class Cache {
       ? _prefs.getBool("TERM_CONDITIONS")
       : false;
 
-  static bool get dateTimeRangePicker =>
-      _prefs.getBool("isRangePicker") != null ? _prefs.getBool("isRangePicker") : false;
+  static bool get dateTimeRangePicker => _prefs.getBool("isRangePicker") != null
+      ? _prefs.getBool("isRangePicker")
+      : false;
 
   static bool get disableAnimation =>
-      _prefs.getBool("DISABLE_ANIMATION") != null ? _prefs.getBool("DISABLE_ANIMATION") : false;
+      _prefs.getBool("DISABLE_ANIMATION") != null
+          ? _prefs.getBool("DISABLE_ANIMATION")
+          : false;
 
-  static bool get darkTheme =>
-      _prefs.getBool("THEME_MODE") != null ? _prefs.getBool("THEME_MODE") : false;
+  static bool get darkTheme => _prefs.getBool("THEME_MODE") != null
+      ? _prefs.getBool("THEME_MODE")
+      : false;
 
   static Future<bool> setIsNewNotification(bool value) async {
-    await Hive.openBox("appSettings");
-    var box = Hive.box("appSettings");
+    var box = await Hive.openBox("appSettings");
     await box.put("IS_NEW_NOTIFICATION", value);
     await box.close();
     return true;
   }
 
   static Future<bool> getIsNewNotification() async {
-    await Hive.openBox("appSettings");
-    var box = Hive.box("appSettings");
+    var box = await Hive.openBox("appSettings");
     bool isNewNotification = box.get("IS_NEW_NOTIFICATION");
     await box.close();
     if (isNewNotification == null) return false;
@@ -391,16 +395,14 @@ class Cache {
   }
 
   static Future<bool> setCountriesList(List<String> value) async {
-    await Hive.openBox("appSettings");
-    var box = Hive.box("appSettings");
+    var box = await Hive.openBox("appSettings");
     await box.put("countriesList", value);
     await box.close();
     return true;
   }
 
   static Future<List<String>> getCountriesList() async {
-    await Hive.openBox("appSettings");
-    var box = Hive.box("appSettings");
+    var box = await Hive.openBox("appSettings");
     List<String> countriesList = box.get("countriesList") as List<String>;
     await box.close();
     return countriesList;
