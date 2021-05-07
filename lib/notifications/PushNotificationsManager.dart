@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pickapp/classes/App.dart';
@@ -11,6 +12,8 @@ import 'package:pickapp/notifications/MessageNotificationHandler.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 import 'package:pickapp/notifications/RateNotificationHandler.dart';
 import 'package:pickapp/notifications/ReserveSeatsNotificationHandler.dart';
+import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/requests/UpdateToken.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;
@@ -45,22 +48,29 @@ class PushNotificationsManager {
       return;
     } // to make sure there's only one listener to token
     // (no memory leak)
-
     tokenListenerRunning = true;
     await for (String token in FirebaseMessaging.instance.onTokenRefresh) {
-      print("new token");
-      print(token);
+      Request<String> request = UpdateToken(App.user, token);
+      request.send(response);
     }
     tokenListenerRunning = false;
+  }
+
+  response(String userStatus, int code, String message) async {
+    if (code != HttpStatus.ok) {
+      if (code == -1 || code == -2) {
+        Cache.clearHiveCache();
+        App.user = null;
+        App.isDriverNotifier.value = false;
+        App.isLoggedInNotifier.value = false;
+      }
+    }
   }
 
   //this will be invoked when app in foreground
   Future<dynamic> _foregroundMessageHandler(RemoteMessage message) async {
     print("app in foreground and notification received");
-    //        RemoteNotification notification = message.notification;
-    //         AndroidNotification android = message.notification?.android;
-    NotificationHandler handler = await _cacheNotification(message); // do we want to initialize
-    // hive and notificationManager in forground?
+    NotificationHandler handler = await _cacheNotification(message);
 
     bool isSchedule = message.data["isSchedule"] == "true";
     if (!isSchedule) {

@@ -201,7 +201,7 @@ class Cache {
     if (!Hive.isBoxOpen("rates")) {
       rateBox = await Hive.openBox("rates");
     } else {
-      rateBox = Hive.box("rates");
+      rateBox = Hive.box<Rate>("rates");
     }
     if (rateBox.isOpen) {
       rateBox.put("rates", allRates);
