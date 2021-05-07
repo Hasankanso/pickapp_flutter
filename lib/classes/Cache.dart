@@ -52,7 +52,7 @@ class Cache {
   //will get chat correspondent to key, if not found and toStoreChat is provided, toStoreChat
   // will be cached instead, and returned
   static Future<Chat> getChat(String key, {Chat toStoreChat}) async {
-    Box<Chat> box = await Hive.openBox('chat');
+    Box<Chat> box = await Hive.openBox<Chat>('chat');
 
     Chat chat = box.get(key);
 
@@ -65,7 +65,7 @@ class Cache {
   }
 
   static Future<List<Chat>> getChats() async {
-    Box<Chat> box = await Hive.openBox('chat');
+    Box<Chat> box = await Hive.openBox<Chat>('chat');
     box = Hive.box('chat');
 
     var values = box.values;
@@ -79,24 +79,29 @@ class Cache {
   }
 
   static Future<void> clearHiveCache() async {
-    await Hive.openBox('rates');
+    await Hive.openBox<Rate>('rates');
     var rateB = Hive.box('rates');
     await rateB.clear();
     await rateB.close();
-    await Hive.openBox('notifications');
-    var notfB = Hive.box('notifications');
-    await notfB.clear();
-    await notfB.close();
+    clearNotifications();
     await Hive.openBox('scheduledNotifications');
     var sNotfB = Hive.box('scheduledNotifications');
     await sNotfB.clear();
     await sNotfB.close();
     var userB = Hive.box("user");
     await userB.clear();
+    clearHiveChats();
+  }
+
+  static clearNotifications() async {
+    await Hive.openBox<Notification>('notifications');
+    var notfB = Hive.box<Notification>('notifications');
+    await notfB.clear();
+    await notfB.close();
   }
 
   static Future<void> clearHiveChats() async {
-    Box<Chat> chatB = await Hive.openBox('chat');
+    var chatB = await Hive.openBox<Chat>('chat');
 
     Iterable<Chat> iterable = chatB.values;
     for (Chat chat in iterable) {
@@ -106,6 +111,7 @@ class Cache {
         await messageBox.close();
       }
     }
+
     await chatB.clear();
     await chatB.close();
   }
@@ -116,8 +122,7 @@ class Cache {
     Chat chat = chatB.get(key);
     for (int i = chat.lastChunkIndex; i >= 0; i++) {
       var messageBox = await Hive.openBox<Message>('${chat.id}.messages.$i');
-      await messageBox.clear();
-      await messageBox.close();
+      await messageBox.deleteFromDisk();
     }
     await chatB.clear();
     await chatB.close();
@@ -268,13 +273,13 @@ class Cache {
     } else {
       notificationBox = Hive.box("notifications");
     }
-    List<MainNotification> returnNotifications = new List<MainNotification>();
+    List<MainNotification> returnNotifications = [];
 
     if (notificationBox.isOpen) {
-      var notfications = notificationBox.get("notifications");
-      if (notfications != null) {
-        notfications = notfications.cast<MainNotification>();
-        returnNotifications.addAll(notfications);
+      var notifications = notificationBox.get("notifications");
+      if (notifications != null) {
+        notifications = notifications.cast<MainNotification>();
+        returnNotifications.addAll(notifications);
       }
       await notificationBox.close();
     }
