@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +18,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(cacheNotification);
 
   await Ads.initialize();
 
@@ -67,13 +65,12 @@ class MyAppState extends State<MyApp> {
     Request.initBackendless();
     App.init(this);
     cacheFuture = Cache.init();
-    WidgetsBinding.instance
-        .addObserver(LifecycleEventHandler(resumeCallBack: () async {
+    WidgetsBinding.instance.addObserver(LifecycleEventHandler(resumeCallBack: () async {
       await PushNotificationsManager().onResume();
     }));
-    PushNotificationsManager().init(context).then((String nice) {
-      PushNotificationsManager().initNotifications();
-    });
+    PushNotificationsManager()
+        .init()
+        .then((value) => PushNotificationsManager().initNotifications());
   }
 
   void _init() {
@@ -108,8 +105,7 @@ class MyAppState extends State<MyApp> {
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
                 ),
-                primaryTextTheme: TextTheme(
-                    headline6: TextStyle(color: Styles.secondaryColor())),
+                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
               ),
               themeMode: Styles.currentTheme(),
@@ -125,12 +121,10 @@ class MyAppState extends State<MyApp> {
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
                 ),
-                primaryTextTheme: TextTheme(
-                    headline6: TextStyle(color: Styles.secondaryColor())),
+                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
               ),
-              supportedLocales:
-                  Lang.langs.map((element) => Locale(element.code)),
+              supportedLocales: Lang.langs.map((element) => Locale(element.code)),
               localizationsDelegates: [
                 Lang.delegate,
                 GlobalMaterialLocalizations.delegate,
@@ -157,8 +151,7 @@ class MyAppState extends State<MyApp> {
                 body: GestureDetector(
                   onTap: () {
                     FocusScopeNode currentFocus = FocusScope.of(context);
-                    if (!currentFocus.hasPrimaryFocus &&
-                        currentFocus.focusedChild != null) {
+                    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
                       FocusManager.instance.primaryFocus.unfocus();
                     }
                   },
@@ -186,6 +179,9 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
         if (resumeCallBack != null) {
           await resumeCallBack();
         }
+        break;
+      case AppLifecycleState.paused:
+        await Cache.closeHiveBoxes();
         break;
     }
   }

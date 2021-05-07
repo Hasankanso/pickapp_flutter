@@ -49,35 +49,6 @@ class Cache {
     await setCountriesList([u.person.countryInformations.countryComponent]);
   }
 
-  //will get chat correspondent to key, if not found and toStoreChat is provided, toStoreChat
-  // will be cached instead, and returned
-  static Future<Chat> getChat(String key, {Chat toStoreChat}) async {
-    Box<Chat> box = await Hive.openBox<Chat>('chat');
-
-    Chat chat = box.get(key);
-
-    if (chat == null && toStoreChat != null) {
-      box.put(key, toStoreChat);
-      return toStoreChat;
-    }
-
-    return box.get(key);
-  }
-
-  static Future<List<Chat>> getChats() async {
-    Box<Chat> box = await Hive.openBox<Chat>('chat');
-    box = Hive.box('chat');
-
-    var values = box.values;
-    assert(values != null);
-
-    List<Chat> chats = values.toList();
-
-    if (chats == null) return [];
-
-    return chats;
-  }
-
   static Future<void> clearHiveCache() async {
     var rateB = await Hive.openBox<Rate>('rates');
     await rateB.clear();
@@ -119,14 +90,17 @@ class Cache {
     Chat chat = chatB.get(key);
     for (int i = chat.lastChunkIndex; i >= 0; i++) {
       var messageBox = await Hive.openBox<Message>('${chat.id}.messages.$i');
-      await messageBox.deleteFromDisk();
+      await messageBox.clear();
+      await messageBox.close();
     }
+
     await chatB.clear();
     await chatB.close();
   }
 
   static Future<void> initializeHive() async {
     final path = await PathProvider.getApplicationDocumentsDirectory();
+    print("path of hive: " + path.toString());
     if (!Hive.isAdapterRegistered(0)) {
       Hive.init(path.path);
       Hive.registerAdapter(UserAdapter());
@@ -143,6 +117,45 @@ class Cache {
       Hive.registerAdapter(MainNotificationAdapter());
       Hive.registerAdapter(UserStatisticsAdapter());
     }
+  }
+
+  static Future<void> closeHiveBoxes() async {
+    await Hive.close();
+  }
+
+  //will get chat correspondent to key, if not found and toStoreChat is provided, toStoreChat
+  // will be cached instead, and returned
+  static Future<Chat> getChat(String key, {Chat toStoreChat}) async {
+    Box<Chat> box;
+
+    if (Hive.isBoxOpen('chat')) {
+      box = Hive.box<Chat>('chat');
+    } else {
+      box = await Hive.openBox<Chat>('chat');
+    }
+
+    Chat chat = box.get(key);
+
+    if (chat == null && toStoreChat != null) {
+      box.put(key, toStoreChat);
+      return toStoreChat;
+    }
+
+    return box.get(key);
+  }
+
+  static Future<List<Chat>> getChats() async {
+    Box<Chat> box = await Hive.openBox<Chat>('chat');
+    box = Hive.box('chat');
+
+    var values = box.values;
+    assert(values != null);
+
+    List<Chat> chats = values.toList();
+
+    if (chats == null) return [];
+
+    return chats;
   }
 
   static Future<List<Rate>> getRates() async {
@@ -216,14 +229,12 @@ class Cache {
     } else {
       notificationBox = Hive.box("scheduledNotifications");
     }
-    List<MainNotification> returnNotifications = new List<MainNotification>();
+    List<MainNotification> returnNotifications = [];
 
     if (notificationBox.isOpen) {
-      var scheduledNotifications =
-          notificationBox.get("scheduledNotifications");
+      var scheduledNotifications = notificationBox.get("scheduledNotifications");
       if (scheduledNotifications != null) {
-        scheduledNotifications =
-            scheduledNotifications.cast<MainNotification>();
+        scheduledNotifications = scheduledNotifications.cast<MainNotification>();
         returnNotifications = scheduledNotifications;
       }
       await notificationBox.close();
@@ -231,8 +242,7 @@ class Cache {
     return returnNotifications;
   }
 
-  static Future<bool> updateScheduledNotifications(
-      List<MainNotification> allnotifications) async {
+  static Future<bool> updateScheduledNotifications(List<MainNotification> allnotifications) async {
     var notificationBox;
     if (!Hive.isBoxOpen("scheduledNotifications")) {
       notificationBox = await Hive.openBox("scheduledNotifications");
@@ -247,10 +257,9 @@ class Cache {
     return false;
   }
 
-  static Future<bool> addScheduledNotification(
-      MainNotification notification) async {
+  static Future<bool> addScheduledNotification(MainNotification notification) async {
     var notificationBox = await Hive.openBox("scheduledNotifications");
-    List<MainNotification> returnNotifications = new List<MainNotification>();
+    List<MainNotification> returnNotifications = [];
 
     if (notificationBox.isOpen) {
       var notfications = notificationBox.get("scheduledNotifications");
@@ -287,8 +296,7 @@ class Cache {
     return returnNotifications;
   }
 
-  static Future<bool> updateNotifications(
-      List<MainNotification> allnotifications) async {
+  static Future<bool> updateNotifications(List<MainNotification> allnotifications) async {
     var notificationBox;
     if (!Hive.isBoxOpen("notifications")) {
       notificationBox = await Hive.openBox("notifications");
@@ -314,8 +322,7 @@ class Cache {
         returnNotifications.addAll(notfications);
       }
       returnNotifications.add(notification);
-      while (returnNotifications.length >
-          PushNotificationsManager.MAX_NOTIFICATIONS) {
+      while (returnNotifications.length > PushNotificationsManager.MAX_NOTIFICATIONS) {
         returnNotifications.removeAt(0);
       }
 
@@ -366,18 +373,14 @@ class Cache {
       ? _prefs.getBool("TERM_CONDITIONS")
       : false;
 
-  static bool get dateTimeRangePicker => _prefs.getBool("isRangePicker") != null
-      ? _prefs.getBool("isRangePicker")
-      : false;
+  static bool get dateTimeRangePicker =>
+      _prefs.getBool("isRangePicker") != null ? _prefs.getBool("isRangePicker") : false;
 
   static bool get disableAnimation =>
-      _prefs.getBool("DISABLE_ANIMATION") != null
-          ? _prefs.getBool("DISABLE_ANIMATION")
-          : false;
+      _prefs.getBool("DISABLE_ANIMATION") != null ? _prefs.getBool("DISABLE_ANIMATION") : false;
 
-  static bool get darkTheme => _prefs.getBool("THEME_MODE") != null
-      ? _prefs.getBool("THEME_MODE")
-      : false;
+  static bool get darkTheme =>
+      _prefs.getBool("THEME_MODE") != null ? _prefs.getBool("THEME_MODE") : false;
 
   static Future<bool> setIsNewNotification(bool value) async {
     var box = await Hive.openBox("appSettings");

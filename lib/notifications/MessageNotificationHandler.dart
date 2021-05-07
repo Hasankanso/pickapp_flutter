@@ -36,7 +36,7 @@ class MessageNotificationHandler extends NotificationHandler {
       if (person == null) return;
       chat = new Chat(id: person.id, date: message.date, person: person, isNewMessage: true);
     }
-    chat.addAndCacheMessage(message); //add message and cache Chat
+    await chat.addAndCacheMessage(message); //add message and cache Chat
   }
 
   @override

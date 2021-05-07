@@ -24,11 +24,12 @@ class PushNotificationsManager {
 
   bool _initialized = false;
 
-  Future<String> init(context) async {
+  Future<String> init() async {
     String token;
     if (!_initialized) {
       onTokenChange();
-      FirebaseMessaging.onBackgroundMessage(cacheNotification);
+
+      FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
 
       FirebaseMessaging.onMessage.listen(_foregroundMessageHandler);
 
@@ -58,14 +59,16 @@ class PushNotificationsManager {
     print("app in foreground and notification received");
     //        RemoteNotification notification = message.notification;
     //         AndroidNotification android = message.notification?.android;
-    NotificationHandler handler = await cacheNotification(message); // do we want to initialize
+    NotificationHandler handler = await _cacheNotification(message); // do we want to initialize
     // hive and notificationManager in forground?
 
     bool isSchedule = message.data["isSchedule"] == "true";
     if (!isSchedule) {
-      App.notifications = await Cache.getNotifications();
+      Cache.getNotifications().then((value) {
+        App.notifications = value;
+        App.updateNotifications.value = true;
+      });
       handler.updateApp();
-      App.updateNotifications.value = true;
     }
   }
 
@@ -126,11 +129,15 @@ class PushNotificationsManager {
   }
 }
 
-//this is called when app is in background or terminated.
-Future<NotificationHandler> cacheNotification(RemoteMessage message) async {
+Future<void> _backgroundMessageHandler(RemoteMessage message) async {
   await Cache.initializeHive();
   await Cache.init();
+  await _cacheNotification(message);
+  await Cache.closeHiveBoxes();
+}
 
+//this is called when app is in background or terminated.
+Future<NotificationHandler> _cacheNotification(RemoteMessage message) async {
   bool isSchedule = message.data["isSchedule"] == "true";
   NotificationHandler handler = _createNotificationHandler(message);
 

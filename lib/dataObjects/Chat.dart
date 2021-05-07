@@ -68,33 +68,26 @@ class Chat {
     Box<Message> box;
 
     if (_currentOldestChunk <= lastChunkIndex) {
-      if (Hive.isBoxOpen('$id.messages.$_currentOldestChunk')) {
-        await Hive.box<Message>('$id.messages.$_currentOldestChunk').close();
-      }
-
       box = await Hive.openBox<Message>('$id.messages.$_currentOldestChunk');
 
       _currentOldestChunk -= 1;
       _messages = List<Message>.from(box.values)..addAll(_messages);
-      box.close();
 
       //if the last chunk is small, we need to load more messages.
-      if (_currentOldestChunk == lastChunkIndex &&
-          _messages.length < chunkSize &&
-          _currentOldestChunk > 0) {
-        if (Hive.isBoxOpen('$id.messages.$_currentOldestChunk')) {
-          await Hive.box<Message>('$id.messages.$_currentOldestChunk').close();
-        }
-
-        box = await Hive.openBox<Message>('$id.messages.$_currentOldestChunk');
-        _currentOldestChunk -= 1;
-        _messages = (List<Message>.from(box.values)..addAll(_messages));
+      if (_currentOldestChunk == lastChunkIndex) {
         box.close();
+
+        if (_messages.length < chunkSize && _currentOldestChunk > 0) {
+          box = await Hive.openBox<Message>('$id.messages.$_currentOldestChunk');
+          _currentOldestChunk -= 1;
+          _messages = (List<Message>.from(box.values)..addAll(_messages));
+          box.close();
+        }
       }
     }
   }
 
-  void addAndCacheMessage(Message message) async {
+  Future<void> addAndCacheMessage(Message message) async {
     print("adding message to hive and chat");
 
     if (_messages != null && newMessage != null) {
@@ -102,7 +95,13 @@ class Chat {
       newMessage.value = message.message;
     }
 
-    Box<Message> messagesBox = await Hive.openBox<Message>('$id.messages.$lastChunkIndex');
+    Box<Message> messagesBox;
+
+    if (Hive.isBoxOpen('$id.messages.$lastChunkIndex')) {
+      messagesBox = Hive.box<Message>('$id.messages.$lastChunkIndex');
+    } else {
+      messagesBox = await Hive.openBox<Message>('$id.messages.$lastChunkIndex');
+    }
 
     //if chunk is full, open new one.
     if (messagesBox.length >= chunkSize) {
@@ -112,15 +111,28 @@ class Chat {
     }
 
     //need to update chatbox because of newMessage field and lastChunkIndex field.
-    Box<Chat> chatBox = await Hive.openBox<Chat>('chat');
+
+    Box<Chat> chatBox;
+    if (Hive.isBoxOpen('chat')) {
+      chatBox = Hive.box<Chat>('chat');
+    } else {
+      chatBox = await Hive.openBox<Chat>('chat');
+    }
     lastMessage = message;
 
     if (!message.myMessage) {
       person.deviceToken = message.token;
     }
 
-    chatBox.put(person.id, this);
-
+    chatBox.put(id, this);
     messagesBox.add(message);
+
+    /*
+    //to monitor chat behavior.
+    print("chunk size: " + chunkSize.toString());
+    print("chat id: " + id);
+    print("messages count: " + messagesBox.values.length.toString());
+    print("chunk id: " + lastChunkIndex.toString());
+     */
   }
 }
