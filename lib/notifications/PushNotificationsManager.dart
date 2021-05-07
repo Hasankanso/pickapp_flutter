@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pickapp/classes/App.dart';
@@ -11,16 +12,20 @@ import 'package:pickapp/notifications/MessageNotificationHandler.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 import 'package:pickapp/notifications/RateNotificationHandler.dart';
 import 'package:pickapp/notifications/ReserveSeatsNotificationHandler.dart';
+import 'package:pickapp/requests/Request.dart';
+import 'package:pickapp/requests/UpdateToken.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;
-  static bool tokenListenerRunning = false; // to make sure there's only one listener to token
+  static bool tokenListenerRunning =
+      false; // to make sure there's only one listener to token
 
   PushNotificationsManager._();
 
   factory PushNotificationsManager() => _instance;
 
-  static final PushNotificationsManager _instance = PushNotificationsManager._();
+  static final PushNotificationsManager _instance =
+      PushNotificationsManager._();
 
   bool _initialized = false;
 
@@ -44,13 +49,23 @@ class PushNotificationsManager {
       return;
     } // to make sure there's only one listener to token
     // (no memory leak)
-
     tokenListenerRunning = true;
     await for (String token in FirebaseMessaging.instance.onTokenRefresh) {
-      print("new token");
-      print(token);
+      Request<String> request = UpdateToken(App.user, token);
+      request.send(response);
     }
     tokenListenerRunning = false;
+  }
+
+  response(String userStatus, int code, String message) async {
+    if (code != HttpStatus.ok) {
+      if (code == -1 || code == -2) {
+        Cache.clearHiveCache();
+        App.user = null;
+        App.isDriverNotifier.value = false;
+        App.isLoggedInNotifier.value = false;
+      }
+    }
   }
 
   //this will be invoked when app in foreground
@@ -58,7 +73,8 @@ class PushNotificationsManager {
     print("app in foreground and notification received");
     //        RemoteNotification notification = message.notification;
     //         AndroidNotification android = message.notification?.android;
-    NotificationHandler handler = await cacheNotification(message); // do we want to initialize
+    NotificationHandler handler =
+        await cacheNotification(message); // do we want to initialize
     // hive and notificationManager in forground?
 
     bool isSchedule = message.data["isSchedule"] == "true";
@@ -94,7 +110,8 @@ class PushNotificationsManager {
 
     App.notifications = allNotifications;
 
-    List<MainNotification> allScheduledNotifications = await Cache.getScheduledNotifications();
+    List<MainNotification> allScheduledNotifications =
+        await Cache.getScheduledNotifications();
     List<MainNotification> updatedScheduledNotifications = [];
     updatedScheduledNotifications.addAll(allScheduledNotifications);
 
@@ -111,7 +128,8 @@ class PushNotificationsManager {
     if (isOneScheduledNotificationHandled) {
       await Cache.updateScheduledNotifications(updatedScheduledNotifications);
     }
-    if (isOneScheduledNotificationHandled || await Cache.getIsNewNotification()) {
+    if (isOneScheduledNotificationHandled ||
+        await Cache.getIsNewNotification()) {
       App.isNewNotificationNotifier.value = true;
     }
 
@@ -172,6 +190,7 @@ NotificationHandler _createNotificationHandler(RemoteMessage message) {
     case MessageNotificationHandler.action:
       return MessageNotificationHandler(newNotification);
   }
-  print("this notification: " + newNotification.action + " has no handler yet.");
+  print(
+      "this notification: " + newNotification.action + " has no handler yet.");
   return null;
 }
