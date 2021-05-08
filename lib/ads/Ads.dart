@@ -45,8 +45,8 @@ class Ads {
     });
   }
 
-  static void createRewardedAd(Function callBack) {
-    _rewardedAd ??= RewardedAd(
+  static Future<void> createRewardedAd(Function callBack) async {
+    _rewardedAd =  RewardedAd(
       adUnitId: _rewardedId,
       request: adRequest,
       listener: AdListener(
@@ -72,13 +72,14 @@ class Ads {
             );
             if (callBack != null) callBack();
           }),
-    )..load();
+    );
+   await  _rewardedAd.load();
   }
 
   //call this method to show rewarded ad;
-  static void showRewardedAd() {
+  static Future<void> showRewardedAd() async {
     if (!_rewardedReady) return;
-    _rewardedAd.show();
+   await  _rewardedAd.show();
     _rewardedReady = false;
     _rewardedAd = null;
   }

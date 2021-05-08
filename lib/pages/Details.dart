@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pickapp/ads/Ads.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
@@ -85,6 +86,8 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
+    Person _newPerson = Person();
+
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Details"),
@@ -325,17 +328,20 @@ class _DetailsState extends State<Details> {
                       text_key: "Save",
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          Person _newPerson = Person();
+                          Request<Person> request;
                           _newPerson.firstName = _firstName.text;
                           _newPerson.lastName = _lastName.text;
                           _newPerson.birthday = _birthday.chosenDate;
                           _newPerson.gender = _gender;
                           _newPerson.bio = _bioController.text;
                           _newPerson.chattiness = _chattiness;
-                          _newPerson.countryInformations =
-                              CountryInformations();
-                          Request<Person> request = EditAccount(_newPerson);
-                          await request.send(_response);
+                          _newPerson.countryInformations = CountryInformations();
+                         await Ads.createRewardedAd(() async{
+                            print("LOadinggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+                            request = EditAccount(_newPerson);
+                           await request.send(_response);
+                          });
+                          await Ads.showRewardedAd();
                         }
                       },
                     ),
