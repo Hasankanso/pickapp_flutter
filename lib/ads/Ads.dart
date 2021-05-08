@@ -77,7 +77,7 @@ class Ads {
 
   //call this method to show rewarded ad;
   static void showRewardedAd() {
-    if (!_rewardedReady) return;
+    if (!_rewardedReady || _rewardedAd == null) return;
     _rewardedAd.show();
     _rewardedReady = false;
     _rewardedAd = null;

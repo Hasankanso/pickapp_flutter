@@ -30,6 +30,7 @@ class PassengerTile extends ListTile {
     if (passenger.person.networkImage == null) {
       passenger.person.setNetworkImage();
     }
+
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
@@ -71,7 +72,8 @@ class PassengerTile extends ListTile {
                           " " +
                           passenger.person.lastName +
                           ", " +
-                          App.calculateAge(passenger.person.birthday).toString(),
+                          App.calculateAge(passenger.person.birthday)
+                              .toString(),
                       style: Styles.headerTextStyle(),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -113,7 +115,8 @@ class PassengerTile extends ListTile {
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        DateFormat(App.birthdayFormat, Localizations.localeOf(context).toString())
+                        DateFormat(App.birthdayFormat,
+                                Localizations.localeOf(context).toString())
                             .format(passenger.person.creationDate),
                         style: Styles.labelTextStyle(),
                       ),

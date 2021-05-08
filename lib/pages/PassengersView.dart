@@ -4,15 +4,34 @@ import 'package:pickapp/items/PassengerTile.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 
-class PassengersView extends StatelessWidget {
-  List<Reservation> passengers;
+class PassengersView extends StatefulWidget {
+  List<Reservation> allPassengers;
 
-  PassengersView(this.passengers);
+  PassengersView(this.allPassengers);
+
+  @override
+  _PassengersViewState createState() => _PassengersViewState();
+}
+
+class _PassengersViewState extends State<PassengersView> {
+  List<Reservation> reservedPassengers;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    reservedPassengers= <Reservation>[];
+    for (int i = 0; i < widget.allPassengers.length; i++) {
+      if (widget.allPassengers[i].status != "CANCELED")
+        reservedPassengers.add(widget.allPassengers[i]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      body: ListBuilder(list: passengers, itemBuilder: PassengerTile.itemBuilder(passengers)),
+      body: ListBuilder(
+          list: reservedPassengers,
+          itemBuilder: PassengerTile.itemBuilder(reservedPassengers)),
     );
   }
 }

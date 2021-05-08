@@ -16,7 +16,9 @@ class RideAdapter extends TypeAdapter<Ride> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Ride()
+    return Ride(
+      status: fields[25] as DateTime,
+    )
       .._id = fields[0] as String
       .._comment = fields[1] as String
       .._mapBase64 = fields[2] as String
@@ -47,7 +49,7 @@ class RideAdapter extends TypeAdapter<Ride> {
   @override
   void write(BinaryWriter writer, Ride obj) {
     writer
-      ..writeByte(25)
+      ..writeByte(26)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -97,7 +99,9 @@ class RideAdapter extends TypeAdapter<Ride> {
       ..writeByte(23)
       ..write(obj._updated)
       ..writeByte(24)
-      ..write(obj._mapUrl);
+      ..write(obj._mapUrl)
+      ..writeByte(25)
+      ..write(obj.status);
   }
 
   @override
