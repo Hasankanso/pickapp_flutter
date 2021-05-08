@@ -8,8 +8,8 @@ import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/dataObjects/Person.dart';
+import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/dataObjects/User.dart';
 
 part 'Ride.g.dart';
@@ -68,6 +68,9 @@ class Ride {
   @HiveField(24)
   String _mapUrl;
 
+  @HiveField(25)
+  DateTime status;
+
   ImageProvider _mapImage;
 
   Ride(
@@ -95,7 +98,8 @@ class Ride {
       int price,
       User user,
       Car car,
-      DateTime updated}) {
+      DateTime updated,
+      this.status}) {
     this.id = id;
     this.comment = comment;
     this.from = from;
@@ -149,7 +153,8 @@ class Ride {
         "price": this.price,
         "to": this.to.toJson(),
         "from": this.from.toJson(),
-        "map": this.mapBase64
+        "map": this.mapBase64,
+        "status": this.status
       };
 
   @override
@@ -161,7 +166,8 @@ class Ride {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
     if (leavingDateJ != null) {
-      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+      leavingDate =
+          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     }
 
     User user;
@@ -193,7 +199,8 @@ class Ride {
       car: Car.fromJson(json["car"]),
       reserved: reserved,
       passengers: json["passengers"] != null
-          ? List<Reservation>.from(json["passengers"].map((x) => Reservation.fromJson(x)))
+          ? List<Reservation>.from(
+              json["passengers"].map((x) => Reservation.fromJson(x)))
           : null,
       leavingDate: leavingDate,
       reservedLuggages: json["reservedLuggages"],

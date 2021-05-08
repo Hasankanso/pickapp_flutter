@@ -65,7 +65,8 @@ class Ads {
             print('${ad.runtimeType} closed.');
             ad.dispose();
           },
-          onApplicationExit: (Ad ad) => print('${ad.runtimeType} onApplicationExit.'),
+          onApplicationExit: (Ad ad) =>
+              print('${ad.runtimeType} onApplicationExit.'),
           onRewardedAdUserEarnedReward: (RewardedAd ad, RewardItem reward) {
             print(
               '$RewardedAd with reward $RewardItem(${reward.amount}, ${reward.type})',

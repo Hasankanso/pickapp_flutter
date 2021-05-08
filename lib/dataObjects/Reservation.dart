@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 
-part 'Rerservation.g.dart';
+part 'Reservation.g.dart';
 
 @HiveType(typeId: 4)
 class Reservation {
@@ -17,8 +17,17 @@ class Reservation {
   DateTime _updated;
   @HiveField(5)
   String rideId;
+  @HiveField(6)
+  String status;
 
-  Reservation({Person person, int luggages, int seats, String id, DateTime updated, this.rideId}) {
+  Reservation(
+      {Person person,
+      int luggages,
+      int seats,
+      String id,
+      DateTime updated,
+      this.rideId,
+      this.status}) {
     this.id = id;
     this.updated = updated;
     this.person = person;
@@ -29,7 +38,8 @@ class Reservation {
     var creationDateJ = json["creationDate"];
     DateTime creationDate;
     if (creationDateJ != null) {
-      creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
+      creationDate =
+          DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
     }
 
     return Reservation(
@@ -37,6 +47,7 @@ class Reservation {
         seats: json["seats"],
         luggages: json["luggages"],
         rideId: json["rideId"],
+        status: json["status"],
         person: Person.fromJson(json["person"]));
   }
 
@@ -50,7 +61,10 @@ class Reservation {
           ", luggage: " +
           _luggages.toString();
     else
-      return " seats: " + _seats.toString() + ", luggage: " + _luggages.toString();
+      return " seats: " +
+          _seats.toString() +
+          ", luggage: " +
+          _luggages.toString();
   }
 
   Person get person => _person;
