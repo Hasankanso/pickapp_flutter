@@ -34,13 +34,9 @@ class _MyRidesState extends State<MyRides> {
           builder: (BuildContext context, bool isd, Widget child) {
             ridesList.sort((a, b) => b.leavingDate.compareTo(a.leavingDate));
 
-            App.updateUpcomingRide.value = false;
-
             return Container(
               child: App.user.person.upcomingRides.length > 0
-                  ? ListBuilder(
-                      list: ridesList,
-                      itemBuilder: MyRidesTile.itemBuilder(ridesList))
+                  ? ListBuilder(list: ridesList, itemBuilder: MyRidesTile.itemBuilder(ridesList))
                   : Center(
                       child: Text(Lang.getString(context, "No_upcoming_rides!"),
                           style: Styles.valueTextStyle())),

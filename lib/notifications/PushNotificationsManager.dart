@@ -76,7 +76,7 @@ class PushNotificationsManager {
     if (!isSchedule) {
       Cache.getNotifications().then((value) {
         App.notifications = value;
-        App.updateNotifications.value = true;
+        App.updateNotifications.value = !App.updateNotifications.value;
       });
       handler.updateApp();
     }
@@ -125,13 +125,13 @@ class PushNotificationsManager {
       await Cache.updateScheduledNotifications(updatedScheduledNotifications);
     }
     if (isOneScheduledNotificationHandled || await Cache.getIsNewNotification()) {
-      App.isNewNotificationNotifier.value = true;
+      App.isNewNotificationNotifier.value = !App.isNewNotificationNotifier.value;
     }
 
-    App.updateUpcomingRide.value = true;
-    App.updateProfile.value = true;
-    App.updateNotifications.value = true;
-    App.updateConversation.value = true;
+    App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
+    App.updateProfile.value = !App.updateProfile.value;
+    App.updateNotifications.value = !App.updateNotifications.value;
+    App.updateConversation.value = !App.updateConversation.value;
 
     if (isOneScheduledNotificationHandled) {
       await Cache.updateNotifications(allNotifications);
@@ -161,7 +161,7 @@ Future<NotificationHandler> _cacheNotification(RemoteMessage message) async {
     await Cache.addScheduledNotification(handler.notification);
   } else if (!handler.notification.dontCache) {
     await Cache.setIsNewNotification(true);
-    App.isNewNotificationNotifier.value = true;
+    App.isNewNotificationNotifier.value = !App.isNewNotificationNotifier.value;
     await Cache.addNotification(handler.notification);
   }
 

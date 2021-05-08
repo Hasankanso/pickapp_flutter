@@ -289,7 +289,7 @@ class _AddCar2State extends State<AddCar2> {
     } else {
       App.user.driver.cars = p1;
       await Cache.setUser(App.user);
-      App.updateProfile.value = true;
+      App.updateProfile.value = !App.updateProfile.value;
 
       CustomToast().showSuccessToast(Lang.getString(context, "Successfully_added!"));
       Navigator.popUntil(context, (route) => route.isFirst);

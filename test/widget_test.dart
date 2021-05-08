@@ -60,8 +60,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Styles.primaryColor(),
           foregroundColor: Styles.primaryColor(),
         ),
-        primaryTextTheme:
-            TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+        primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       themeMode: Styles.currentTheme(),
@@ -77,8 +76,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Styles.primaryColor(),
           foregroundColor: Styles.primaryColor(),
         ),
-        primaryTextTheme:
-            TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+        primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       supportedLocales: Lang.langs.map((element) => Locale(element.code)),

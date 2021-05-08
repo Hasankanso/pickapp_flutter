@@ -33,8 +33,7 @@ class App {
   static User _user;
   static ValueNotifier<bool> isLoggedInNotifier = ValueNotifier<bool>(false);
   static ValueNotifier<bool> updateProfile = ValueNotifier<bool>(false);
-  static ValueNotifier<bool> isDriverNotifier =
-      ValueNotifier<bool>(App.driver != null);
+  static ValueNotifier<bool> isDriverNotifier = ValueNotifier<bool>(App.driver != null);
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
   static dynamic maxPriceFilter;
@@ -50,15 +49,12 @@ class App {
   static ValueNotifier<bool> updateNotifications = ValueNotifier(false);
   static bool isLTR;
   static List<MainNotification> notifications = <MainNotification>[];
-  static ValueNotifier<bool> isNewNotificationNotifier =
-      ValueNotifier<bool>(false);
+  static ValueNotifier<bool> isNewNotificationNotifier = ValueNotifier<bool>(false);
 
   static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
-  static Map<String, CountryInformations> _countriesInformations =
-      <String, CountryInformations>{
+  static Map<String, CountryInformations> _countriesInformations = <String, CountryInformations>{
     'Deutschland': CountryInformations(
         name: "Deutschland",
         id: "CAE25E4F-A78C-12BB-FF38-92A6EC9D4F00",
@@ -113,9 +109,7 @@ class App {
   static void setContext(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     ScreenUtil.init(context,
-        designSize: Size(360, 640),
-        designStatusBarHeight: 24,
-        allowFontScaling: true);
+        designSize: Size(360, 640), designStatusBarHeight: 24, allowFontScaling: true);
     Styles.setFontSizes(
         subValueFontSize: ScreenUtil().setSp(12.24),
         fontSize: ScreenUtil().setSp(15),
@@ -164,8 +158,7 @@ class App {
   static int calculateAge(DateTime date) {
     int years = DateTime.now().year - date.year;
     if (DateTime.now().month < date.month ||
-        (DateTime.now().month == date.month && DateTime.now().day < date.day))
-      years--;
+        (DateTime.now().month == date.month && DateTime.now().day < date.day)) years--;
     return years;
   }
 
@@ -175,14 +168,11 @@ class App {
     DateTime(d.year, d.month + 6, d.day);
   }
 
-  static List<String> get countriesInformationsNames =>
-      _countriesInformationsNames;
+  static List<String> get countriesInformationsNames => _countriesInformationsNames;
 
-  static List<String> get countriesInformationsCodes =>
-      _countriesInformationsCodes;
+  static List<String> get countriesInformationsCodes => _countriesInformationsCodes;
 
-  static Map<String, CountryInformations> get countriesInformations =>
-      _countriesInformations;
+  static Map<String, CountryInformations> get countriesInformations => _countriesInformations;
 
   static Driver get driver => user == null ? null : user.driver;
 
@@ -226,14 +216,14 @@ class App {
 
   static deleteRideFromMyRides(Ride ride) {
     App.user.person.upcomingRides.remove(ride);
-    updateUpcomingRide.value = true;
+    updateUpcomingRide.value = !updateUpcomingRide.value;
     Cache.setUser(App.user);
   }
 
   static addRideToMyRides(Ride ride) {
     App.user.person.upcomingRides.add(ride);
     Cache.setUser(App.user);
-    App.updateUpcomingRide.value = true;
+    updateUpcomingRide.value = !updateUpcomingRide.value;
   }
 
   static double roundRate(double rate) {
@@ -244,8 +234,7 @@ class App {
       rateA = rateA.round().toDouble();
     } else if (k > 25) {
       k = 5;
-      rateA = double.parse(
-          ((rateA * 10).toInt() ~/ 10).toString() + "." + k.toString());
+      rateA = double.parse(((rateA * 10).toInt() ~/ 10).toString() + "." + k.toString());
     } else {
       rateA = rateA.round().toDouble();
     }
