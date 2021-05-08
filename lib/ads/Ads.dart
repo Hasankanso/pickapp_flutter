@@ -45,14 +45,15 @@ class Ads {
     });
   }
 
-  static Future<void> createRewardedAd(Function callBack) async {
-    _rewardedAd =  RewardedAd(
+  static Future<void> showRewardedAd(Function callBack) async {
+    _rewardedAd = RewardedAd(
       adUnitId: _rewardedId,
       request: adRequest,
       listener: AdListener(
           onAdLoaded: (Ad ad) {
-            print('${ad.runtimeType} loaded.');
+            print('${ad.runtimeType} loaded..');
             _rewardedReady = true;
+            _rewardedAd.show();
           },
           onAdFailedToLoad: (Ad ad, LoadAdError error) {
             print('${ad.runtimeType} failed to load: $error');
@@ -64,8 +65,7 @@ class Ads {
             print('${ad.runtimeType} closed.');
             ad.dispose();
           },
-          onApplicationExit: (Ad ad) =>
-              print('${ad.runtimeType} onApplicationExit.'),
+          onApplicationExit: (Ad ad) => print('${ad.runtimeType} onApplicationExit.'),
           onRewardedAdUserEarnedReward: (RewardedAd ad, RewardItem reward) {
             print(
               '$RewardedAd with reward $RewardItem(${reward.amount}, ${reward.type})',
@@ -73,14 +73,6 @@ class Ads {
             if (callBack != null) callBack();
           }),
     );
-   await  _rewardedAd.load();
-  }
-
-  //call this method to show rewarded ad;
-  static Future<void> showRewardedAd() async {
-    if (!_rewardedReady) return;
-   await  _rewardedAd.show();
-    _rewardedReady = false;
-    _rewardedAd = null;
+    await _rewardedAd.load();
   }
 }

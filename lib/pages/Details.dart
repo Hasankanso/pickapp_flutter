@@ -118,20 +118,16 @@ class _DetailsState extends State<Details> {
                                     LengthLimitingTextInputFormatter(15),
                                   ],
                                   decoration: InputDecoration(
-                                    labelText:
-                                        Lang.getString(context, "First_Name"),
-                                    hintText:
-                                        Lang.getString(context, "Name_hint"),
+                                    labelText: Lang.getString(context, "First_Name"),
+                                    hintText: Lang.getString(context, "Name_hint"),
                                     labelStyle: Styles.labelTextStyle(),
                                     hintStyle: Styles.labelTextStyle(),
                                   ),
                                   style: Styles.valueTextStyle(),
                                   validator: (value) {
-                                    String valid =
-                                        Validation.validate(value, context);
+                                    String valid = Validation.validate(value, context);
                                     String alpha =
-                                        Validation.isAlphabeticIgnoreSpaces(
-                                            context, value);
+                                        Validation.isAlphabeticIgnoreSpaces(context, value);
                                     if (valid != null)
                                       return valid;
                                     else if (alpha != null) return alpha;
@@ -149,20 +145,16 @@ class _DetailsState extends State<Details> {
                                     LengthLimitingTextInputFormatter(15),
                                   ],
                                   decoration: InputDecoration(
-                                    labelText:
-                                        Lang.getString(context, "Last_Name"),
-                                    hintText: Lang.getString(
-                                        context, "Last_name_hint"),
+                                    labelText: Lang.getString(context, "Last_Name"),
+                                    hintText: Lang.getString(context, "Last_name_hint"),
                                     labelStyle: Styles.labelTextStyle(),
                                     hintStyle: Styles.labelTextStyle(),
                                   ),
                                   style: Styles.valueTextStyle(),
                                   validator: (value) {
-                                    String valid =
-                                        Validation.validate(value, context);
+                                    String valid = Validation.validate(value, context);
                                     String alpha =
-                                        Validation.isAlphabeticIgnoreSpaces(
-                                            context, value);
+                                        Validation.isAlphabeticIgnoreSpaces(context, value);
                                     if (valid != null)
                                       return valid;
                                     else if (alpha != null)
@@ -183,27 +175,23 @@ class _DetailsState extends State<Details> {
                                 flex: 12,
                                 child: DropdownButtonFormField<String>(
                                   decoration: InputDecoration(
-                                    labelText:
-                                        Lang.getString(context, "Gender"),
+                                    labelText: Lang.getString(context, "Gender"),
                                   ),
                                   isExpanded: true,
                                   value: _gender ? _genders[0] : _genders[1],
                                   validator: (val) {
-                                    String valid =
-                                        Validation.validate(val, context);
+                                    String valid = Validation.validate(val, context);
                                     if (valid != null) return valid;
                                     return null;
                                   },
                                   onChanged: (String newValue) {
                                     setState(() {
-                                      _gender = newValue ==
-                                              Lang.getString(context, "Male")
+                                      _gender = newValue == Lang.getString(context, "Male")
                                           ? true
                                           : false;
                                     });
                                   },
-                                  items: _genders.map<DropdownMenuItem<String>>(
-                                      (String value) {
+                                  items: _genders.map<DropdownMenuItem<String>>((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
@@ -225,18 +213,15 @@ class _DetailsState extends State<Details> {
                           flex: 12,
                           child: DropdownButtonFormField<String>(
                             isExpanded: true,
-                            decoration: InputDecoration(
-                                labelText:
-                                    Lang.getString(context, "Chattiness")),
+                            decoration:
+                                InputDecoration(labelText: Lang.getString(context, "Chattiness")),
                             value: _chattinessItems[_chattiness],
                             onChanged: (String newValue) {
                               setState(() {
-                                _chattiness =
-                                    _chattinessItems.indexOf(newValue);
+                                _chattiness = _chattinessItems.indexOf(newValue);
                               });
                             },
-                            items: _chattinessItems
-                                .map<DropdownMenuItem<String>>((String value) {
+                            items: _chattinessItems.map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -280,20 +265,15 @@ class _DetailsState extends State<Details> {
                             ],
                             decoration: InputDecoration(
                               labelText: Lang.getString(context, "Bio"),
-                              hintText:
-                                  Lang.getString(context, "Write_your_bio"),
+                              hintText: Lang.getString(context, "Write_your_bio"),
                               labelStyle: Styles.labelTextStyle(),
                               hintStyle: Styles.labelTextStyle(),
                             ),
                             style: Styles.valueTextStyle(),
                             validator: (value) {
-                              String valid =
-                                  Validation.validate(value, context);
-                              String alpha =
-                                  Validation.isAlphaNumericIgnoreSpaces(
-                                      context, value);
-                              String short =
-                                  Validation.isShort(context, value, 20);
+                              String valid = Validation.validate(value, context);
+                              String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
+                              String short = Validation.isShort(context, value, 20);
 
                               if (valid != null)
                                 return valid;
@@ -336,12 +316,11 @@ class _DetailsState extends State<Details> {
                           _newPerson.bio = _bioController.text;
                           _newPerson.chattiness = _chattiness;
                           _newPerson.countryInformations = CountryInformations();
-                         await Ads.createRewardedAd(() async{
-                            print("LOadinggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+
+                          await Ads.showRewardedAd(() async {
                             request = EditAccount(_newPerson);
-                           await request.send(_response);
+                            await request.send(_response);
                           });
-                          await Ads.showRewardedAd();
                         }
                       },
                     ),
@@ -387,8 +366,7 @@ class _DetailsState extends State<Details> {
                                 fontSize: ScreenUtil().setSp(15),
                                 fontWeight: FontWeight.w400,
                                 color: (!Cache.darkTheme &&
-                                        MediaQuery.of(context)
-                                                .platformBrightness !=
+                                        MediaQuery.of(context).platformBrightness !=
                                             Brightness.dark)
                                     ? Styles.valueColor()
                                     : Colors.white,
@@ -425,8 +403,7 @@ class _DetailsState extends State<Details> {
       await Cache.setUser(u);
 
       App.updateProfile.value = !App.updateProfile.value;
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }
   }
 
@@ -474,17 +451,14 @@ class _DetailsState extends State<Details> {
     } else {
       App.user = u;
       await Cache.setUser(u);
-      App.setCountriesComponent(
-          [App.person.countryInformations.countryComponent]);
+      App.setCountriesComponent([App.person.countryInformations.countryComponent]);
       App.isDriverNotifier.value = false;
       App.user.driver = null;
 
       App.isLoggedInNotifier.value = true;
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
-      CustomToast().showSuccessToast(
-          Lang.getString(context, "Email_confirmation_pending"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
