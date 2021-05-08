@@ -31,9 +31,19 @@ class App {
   static String birthdayFormat = 'dd/MM/yyyy';
   static String countryCode = person.countryInformations.countryComponent;
   static User _user;
+
+  //these are real boolean notifiers.
   static ValueNotifier<bool> isLoggedInNotifier = ValueNotifier<bool>(false);
-  static ValueNotifier<bool> updateProfile = ValueNotifier<bool>(false);
   static ValueNotifier<bool> isDriverNotifier = ValueNotifier<bool>(App.driver != null);
+  static ValueNotifier<bool> isNewNotificationNotifier = ValueNotifier<bool>(false);
+
+  //these are only triggers.
+  static ValueNotifier<bool> updateProfile = ValueNotifier<bool>(false);
+  static ValueNotifier<bool> updateInbox = ValueNotifier(false);
+  static ValueNotifier<bool> updateConversation = ValueNotifier(false);
+  static ValueNotifier<bool> updateUpcomingRide = ValueNotifier(false);
+  static ValueNotifier<bool> updateNotifications = ValueNotifier(false);
+
   static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
   static List<String> _countriesInformationsCodes = ["49", "961"];
   static dynamic maxPriceFilter;
@@ -43,13 +53,9 @@ class App {
   static List<Component> countriesComponents = <Component>[];
   //if you want to change this variable, Rate_days_validation text.
   static int daysToShowRate = 2;
-  static ValueNotifier<bool> updateInbox = ValueNotifier(false);
-  static ValueNotifier<bool> updateConversation = ValueNotifier(false);
-  static ValueNotifier<bool> updateUpcomingRide = ValueNotifier(false);
-  static ValueNotifier<bool> updateNotifications = ValueNotifier(false);
+
   static bool isLTR;
   static List<MainNotification> notifications = <MainNotification>[];
-  static ValueNotifier<bool> isNewNotificationNotifier = ValueNotifier<bool>(false);
 
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
