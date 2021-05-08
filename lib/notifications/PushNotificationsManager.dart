@@ -129,9 +129,9 @@ class PushNotificationsManager {
     }
 
     App.updateUpcomingRide.value = true;
-    App.updateProfile.value = true;
+    App.updateProfile.value = !App.updateProfile.value;
     App.updateNotifications.value = true;
-    App.updateConversation.value = true;
+    App.updateConversation.value = !App.updateConversation.value;
 
     if (isOneScheduledNotificationHandled) {
       await Cache.updateNotifications(allNotifications);

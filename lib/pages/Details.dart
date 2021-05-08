@@ -418,7 +418,7 @@ class _DetailsState extends State<Details> {
       User u = App.user;
       await Cache.setUser(u);
 
-      App.updateProfile.value = true;
+      App.updateProfile.value = !App.updateProfile.value;
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }

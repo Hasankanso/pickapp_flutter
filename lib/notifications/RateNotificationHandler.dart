@@ -31,7 +31,7 @@ class RateNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> updateApp() async {
-    App.updateProfile.value = true;
+    App.updateProfile.value = !App.updateProfile.value;
   }
 
   @override
