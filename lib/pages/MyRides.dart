@@ -14,7 +14,7 @@ class MyRides extends StatefulWidget {
 }
 
 class _MyRidesState extends State<MyRides> {
-  List<Ride> ridesList = List<Ride>();
+  List<Ride> ridesList = [];
   @override
   void initState() {
     super.initState();

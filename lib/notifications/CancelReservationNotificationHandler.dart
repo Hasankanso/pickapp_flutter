@@ -10,8 +10,7 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 class CancelReservationNotificationHandler extends NotificationHandler {
   String rideId, reason, passengerId;
 
-  CancelReservationNotificationHandler(MainNotification notification)
-      : super(notification) {
+  CancelReservationNotificationHandler(MainNotification notification) : super(notification) {
     this.rideId = (notification.object as List)[0] as String;
     this.passengerId = (notification.object as List)[1] as String;
     this.reason = (notification.object as List)[2] as String;
@@ -38,7 +37,7 @@ class CancelReservationNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> updateApp() async {
-    App.updateUpcomingRide.value = true;
+    App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
   }
 
   @override

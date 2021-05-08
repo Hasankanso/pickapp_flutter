@@ -18,9 +18,8 @@ class Notifications extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: App.updateNotifications,
         builder: (BuildContext context, bool isd, Widget child) {
-          App.updateNotifications.value = false;
-          WidgetsBinding.instance.addPostFrameCallback(
-              (_) => App.isNewNotificationNotifier.value = false);
+          WidgetsBinding.instance
+              .addPostFrameCallback((_) => App.isNewNotificationNotifier.value = false);
           Cache.setIsNewNotification(false);
           notifications = List.from(App.notifications.reversed);
           assert(notifications != null);
@@ -32,8 +31,7 @@ class Notifications extends StatelessWidget {
               child: notifications.length > 0
                   ? ListBuilder(
                       list: notifications,
-                      itemBuilder:
-                          NotificationListTile.itemBuilder(notifications))
+                      itemBuilder: NotificationListTile.itemBuilder(notifications))
                   : Center(
                       child: Text(Lang.getString(context, "No_notifications!"),
                           style: Styles.valueTextStyle())),

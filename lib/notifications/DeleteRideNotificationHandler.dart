@@ -9,8 +9,7 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 class DeleteRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
 
-  DeleteRideNotificationHandler(MainNotification notification)
-      : super(notification) {
+  DeleteRideNotificationHandler(MainNotification notification) : super(notification) {
     this.rideId = (notification.object as List)[0] as String;
     this.reason = (notification.object as List)[1] as String;
   }
@@ -24,7 +23,7 @@ class DeleteRideNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> updateApp() async {
-    App.updateUpcomingRide.value = true;
+    App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
   }
 
   @override

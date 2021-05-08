@@ -54,7 +54,7 @@ class MyRidesTile extends StatefulWidget {
       App.person.upcomingRides.remove(r);
       App.person.upcomingRides.add(r);
       Cache.setUser(App.user);
-      App.updateUpcomingRide.value = true;
+      App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
       CustomToast().showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }

@@ -112,20 +112,17 @@ class EditRide extends StatelessWidget {
                       textInputAction: TextInputAction.done,
                       maxLines: 20,
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(
-                            400 - ride.comment.length),
+                        LengthLimitingTextInputFormatter(400 - ride.comment.length),
                       ],
                       decoration: InputDecoration(
-                        labelText:
-                            Lang.getString(context, "Additional_description"),
+                        labelText: Lang.getString(context, "Additional_description"),
                         labelStyle: Styles.labelTextStyle(),
                         hintStyle: Styles.labelTextStyle(),
                       ),
                       style: Styles.valueTextStyle(),
                       validator: (value) {
                         String valid = Validation.validate(value, context);
-                        String alpha = Validation.isAlphaNumericIgnoreSpaces(
-                            context, value);
+                        String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
 
                         if (valid != null)
                           return valid;
@@ -161,8 +158,8 @@ class EditRide extends StatelessWidget {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     if (ride.leavingDate.compareTo(DateTime.now()) < 0) {
-                      return CustomToast().showErrorToast(
-                          Lang.getString(context, "Ride_already_started"));
+                      return CustomToast()
+                          .showErrorToast(Lang.getString(context, "Ride_already_started"));
                     }
                     ride.availableSeats = personController.chosenNumber;
                     ride.availableLuggages = luggageController.chosenNumber;
@@ -188,10 +185,9 @@ class EditRide extends StatelessWidget {
       App.user.person.upcomingRides.add(result);
       Cache.setUser(App.user);
       Navigator.popUntil(context, (route) => route.isFirst);
-      App.updateUpcomingRide.value = true;
+      App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }
   }
 }
