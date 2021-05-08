@@ -1,6 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pickapp/ads/Ads.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/FakeRequests.dart';
@@ -413,6 +414,35 @@ class Settings extends StatelessWidget {
                               Expanded(
                                 flex: 18,
                                 child: Text("Wipe Chat", style: Styles.valueTextStyle()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      LineDevider(),
+                      InkWell(
+                        onTap: () {
+                          Ads.showRewardedAd(() => print("hoiii"));
+                        },
+                        child: ResponsiveWidget.fullWidth(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: Icon(
+                                  Icons.clear,
+                                  size: Styles.largeIconSize(),
+                                  color: Theme.of(context).accentIconTheme.color,
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Expanded(
+                                flex: 18,
+                                child: Text("Show Ad", style: Styles.valueTextStyle()),
                               ),
                             ],
                           ),

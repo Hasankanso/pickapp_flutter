@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/ads/Ads.dart';
 import 'package:pickapp/ads/MainNativeAd.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
@@ -68,13 +67,6 @@ class _SearchState extends State<Search>
       screenName: 'Analytics Demo',
       screenClassOverride: 'AnalyticsDemo',
     );
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Ads.createRewardedAd(ss);
   }
 
   @override
@@ -210,7 +202,8 @@ class _SearchState extends State<Search>
                       minDate:
                           dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
-                  await Ads.showRewardedAd();
+                  Request<List<Ride>> request = SearchForRides(_searchInfo);
+                  await request.send(response);
                 }
               },
             ),
@@ -218,11 +211,6 @@ class _SearchState extends State<Search>
         ]),
       ),
     );
-  }
-
-  ss() async {
-    Request<List<Ride>> request = SearchForRides(_searchInfo);
-    await request.send(response);
   }
 
   @override

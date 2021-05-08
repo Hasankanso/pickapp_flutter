@@ -45,14 +45,15 @@ class Ads {
     });
   }
 
-  static void createRewardedAd(Function callBack) {
-    _rewardedAd ??= RewardedAd(
+  static Future<void> showRewardedAd(Function callBack) async {
+    _rewardedAd = RewardedAd(
       adUnitId: _rewardedId,
       request: adRequest,
       listener: AdListener(
           onAdLoaded: (Ad ad) {
-            print('${ad.runtimeType} loaded.');
+            print('${ad.runtimeType} loaded..');
             _rewardedReady = true;
+            _rewardedAd.show();
           },
           onAdFailedToLoad: (Ad ad, LoadAdError error) {
             print('${ad.runtimeType} failed to load: $error');
@@ -72,14 +73,7 @@ class Ads {
             );
             if (callBack != null) callBack();
           }),
-    )..load();
-  }
-
-  //call this method to show rewarded ad;
-  static void showRewardedAd() {
-    if (!_rewardedReady || _rewardedAd == null) return;
-    _rewardedAd.show();
-    _rewardedReady = false;
-    _rewardedAd = null;
+    );
+    await _rewardedAd.load();
   }
 }
