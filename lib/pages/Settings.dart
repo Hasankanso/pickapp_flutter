@@ -392,7 +392,7 @@ class Settings extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Cache.clearHiveChats();
-                          App.updateInbox.value = true;
+                          App.updateInbox.value = !App.updateInbox.value;
                         },
                         child: ResponsiveWidget.fullWidth(
                           height: 64,

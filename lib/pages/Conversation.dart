@@ -108,7 +108,6 @@ class _ConversationState extends State<Conversation> {
       body: ValueListenableBuilder(
           valueListenable: App.updateConversation,
           builder: (BuildContext context, bool isLoggedIn, Widget child) {
-            App.updateConversation.value = false;
             var messages = List<Message>.from(widget._chat.messages.reversed);
             return ListBuilder(
               reverse: true,

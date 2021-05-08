@@ -69,7 +69,7 @@ class CarListTile extends ListTile {
 
       await Cache.setUser(App.user);
 
-      App.updateProfile.value = true;
+      App.updateProfile.value = !App.updateProfile.value;
 
       CustomToast().showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
       Navigator.popUntil(context, (route) => route.isFirst);

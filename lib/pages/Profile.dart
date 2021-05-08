@@ -69,7 +69,6 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       builder: (BuildContext context, bool isLoggedIn, Widget child) {
-        App.updateProfile.value = false;
         return MainScaffold(
           appBar: MainAppBar(
             title: Lang.getString(context, "Profile"),

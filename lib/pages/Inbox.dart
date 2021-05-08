@@ -37,7 +37,6 @@ class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox>
         valueListenable: App.updateInbox,
         builder: (BuildContext context, bool isLoggedIn, Widget child) {
           Future<List<Chat>> chats = Cache.getChats();
-          App.updateInbox.value = false;
           print("building or rebuilding Inbox");
           return FutureBuilder<List<Chat>>(
               future: chats,
