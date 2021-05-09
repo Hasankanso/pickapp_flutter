@@ -26,8 +26,10 @@ Future<void> main() async {
   App.user = await Cache.getUser();
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
+    List<String> c = await Cache.getCountriesList();
+    App.setCountriesComponent(c);
+
     if (App.driver != null) App.isDriverNotifier.value = true;
-    App.setCountriesComponent(await Cache.getCountriesList());
   }
 
   //navbar color, not the bottomnavbar, it's the bar where you can press back in android.
@@ -65,7 +67,8 @@ class MyAppState extends State<MyApp> {
     Request.initBackendless();
     App.init(this);
     cacheFuture = Cache.init();
-    WidgetsBinding.instance.addObserver(LifecycleEventHandler(resumeCallBack: () async {
+    WidgetsBinding.instance
+        .addObserver(LifecycleEventHandler(resumeCallBack: () async {
       await PushNotificationsManager().onResume();
     }));
     PushNotificationsManager()
@@ -105,7 +108,8 @@ class MyAppState extends State<MyApp> {
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
                 ),
-                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+                primaryTextTheme: TextTheme(
+                    headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
               ),
               themeMode: Styles.currentTheme(),
@@ -121,10 +125,12 @@ class MyAppState extends State<MyApp> {
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
                 ),
-                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+                primaryTextTheme: TextTheme(
+                    headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
               ),
-              supportedLocales: Lang.langs.map((element) => Locale(element.code)),
+              supportedLocales:
+                  Lang.langs.map((element) => Locale(element.code)),
               localizationsDelegates: [
                 Lang.delegate,
                 GlobalMaterialLocalizations.delegate,
@@ -151,7 +157,8 @@ class MyAppState extends State<MyApp> {
                 body: GestureDetector(
                   onTap: () {
                     FocusScopeNode currentFocus = FocusScope.of(context);
-                    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+                    if (!currentFocus.hasPrimaryFocus &&
+                        currentFocus.focusedChild != null) {
                       FocusManager.instance.primaryFocus.unfocus();
                     }
                   },

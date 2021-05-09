@@ -7,7 +7,6 @@ import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/pages/PersonView.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class PassengerTile extends ListTile {
@@ -105,9 +104,24 @@ class PassengerTile extends ListTile {
               ),
               Row(
                 children: [
-                  RateStars(
-                    passenger.person.statistics.rateAverage,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  Expanded(
+                    flex: 5,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Seats: ",
+                              style: Styles.labelTextStyle(),
+                            )),
+                        Expanded(
+                            flex: 2,
+                            child: Text(
+                              passenger.seats.toString(),
+                              style: Styles.valueTextStyle(),
+                            )),
+                      ],
+                    ),
                   ),
                   Expanded(
                     flex: 9,
