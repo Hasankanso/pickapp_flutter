@@ -19,7 +19,7 @@ class _PassengersViewState extends State<PassengersView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    reservedPassengers= <Reservation>[];
+    reservedPassengers = <Reservation>[];
     for (int i = 0; i < widget.allPassengers.length; i++) {
       if (widget.allPassengers[i].status != "CANCELED")
         reservedPassengers.add(widget.allPassengers[i]);

@@ -19,6 +19,7 @@ class ReservationAdapter extends TypeAdapter<Reservation> {
     return Reservation(
       rideId: fields[5] as String,
       status: fields[6] as String,
+      reason: fields[7] as String,
     )
       .._person = fields[0] as Person
       .._id = fields[1] as String
@@ -30,7 +31,7 @@ class ReservationAdapter extends TypeAdapter<Reservation> {
   @override
   void write(BinaryWriter writer, Reservation obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj._person)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class ReservationAdapter extends TypeAdapter<Reservation> {
       ..writeByte(5)
       ..write(obj.rideId)
       ..writeByte(6)
-      ..write(obj.status);
+      ..write(obj.status)
+      ..writeByte(7)
+      ..write(obj.reason);
   }
 
   @override

@@ -30,7 +30,6 @@ class PassengerTile extends ListTile {
     if (passenger.person.networkImage == null) {
       passenger.person.setNetworkImage();
     }
-
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(

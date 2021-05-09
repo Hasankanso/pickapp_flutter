@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
@@ -32,7 +33,21 @@ class CancelReservationNotificationHandler extends NotificationHandler {
 
     if (passIndex < 0) return null;
 
-    user.person.upcomingRides[index].passengers.removeAt(passIndex);
+    //fix available seats and luggage
+    user.person.upcomingRides[index].availableSeats +=
+        user.person.upcomingRides[index].passengers[passIndex].seats;
+    user.person.upcomingRides[index].availableLuggages +=
+        user.person.upcomingRides[index].passengers[passIndex].luggages;
+
+    //if there is reason =>there is rate=> status should be canceled, else delete reservation completely
+    if (reason == null)
+      user.person.upcomingRides[index].passengers.removeAt(passIndex);
+    else {
+      user.person.upcomingRides[index].passengers[passIndex].status =
+          "CANCELED";
+      user.person.upcomingRides[index].passengers[passIndex].reason =
+          this.reason;
+    }
 
     await Cache.setUser(user);
   }
@@ -41,11 +56,19 @@ class CancelReservationNotificationHandler extends NotificationHandler {
   Future<void> updateApp() async {
     App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
     App.user = await Cache.getUser();
-    //rate
   }
 
   @override
   void display(BuildContext context) {
-    // TODO: implement display
+    Ride ride = App.getRideFromObjectId(rideId);
+    if (ride == null) return;
+
+    Navigator.of(context).pushNamed("/UpcomingRideDetails", arguments: [
+      ride,
+      Lang.getString(context, "Edit_Ride"),
+      (ride) {
+        return Navigator.of(context).pushNamed("/EditRide", arguments: ride);
+      }
+    ]);
   }
 }

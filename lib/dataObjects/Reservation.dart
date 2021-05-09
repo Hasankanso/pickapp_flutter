@@ -19,6 +19,8 @@ class Reservation {
   String rideId;
   @HiveField(6)
   String status;
+  @HiveField(7)
+  String reason;
 
   Reservation(
       {Person person,
@@ -27,7 +29,8 @@ class Reservation {
       String id,
       DateTime updated,
       this.rideId,
-      this.status}) {
+      this.status,
+      this.reason}) {
     this.id = id;
     this.updated = updated;
     this.person = person;
@@ -48,6 +51,7 @@ class Reservation {
         luggages: json["luggages"],
         rideId: json["rideId"],
         status: json["status"],
+        reason: json["reason"],
         person: Person.fromJson(json["person"]));
   }
 
@@ -100,7 +104,9 @@ class Reservation {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Reservation && runtimeType == other.runtimeType && _id == other._id;
+      other is Reservation &&
+          runtimeType == other.runtimeType &&
+          _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;

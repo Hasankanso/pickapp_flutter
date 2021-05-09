@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/packages/countryPicker/Country.dart';
 import 'package:pickapp/packages/countryPicker/all_countries_list.dart';
 import 'package:pickapp/packages/countryPicker/country_code_to_name.dart';
@@ -66,7 +67,7 @@ class _CountryListViewState extends State<CountryListView> {
 
   @override
   Widget build(BuildContext context) {
-    final String searchLabel = en['search'] ?? 'Search';
+    final String searchLabel = Lang.getString(context, "Search");
 
     return Column(
       children: <Widget>[
