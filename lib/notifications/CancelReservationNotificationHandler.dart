@@ -29,6 +29,8 @@ class CancelReservationNotificationHandler extends NotificationHandler {
 
     Ride r = user.person.upcomingRides[index];
 
+    if (r.passengers == null) return;
+
     int passIndex = r.passengers.indexOf(new Reservation(id: passengerId));
 
     if (passIndex < 0) return null;

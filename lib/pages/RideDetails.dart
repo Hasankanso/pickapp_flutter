@@ -54,8 +54,8 @@ class RideDetails extends StatelessWidget {
           return CustomToast()
               .showErrorToast(Lang.getString(context, "Ride_already_started"));
         } else {
-          if (ride.leavingDate
-                  .compareTo(DateTime.now().add(Duration(hours: -48))) <=
+          if (ride.leavingDate.compareTo(
+                  DateTime.now().add(Duration(days: -App.daysToShowRate))) <=
               0) {
             _content = Column(
               children: [
