@@ -67,7 +67,7 @@ class MyRidesTile extends StatefulWidget {
     showSeatsLuggageAsText = false;
 
     if (_ride.reserved) {
-      reservedSeats = this._ride.passengers[0].seats + 10;
+      reservedSeats = this._ride.passengers[0].seats;
       maxSeats = reservedSeats;
       reservedLuggage = this._ride.passengers[0].luggages;
       maxLuggage = reservedLuggage;
@@ -207,7 +207,8 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                     color: Styles.primaryColor(),
                                     size: Styles.mediumIconSize(),
                                   ),
-                                  Text(widget.reservedSeats.toString()),
+                                  Text(widget.reservedSeats.toString() +
+                                      (widget._ride.reserved ? "" : "/${widget.maxSeats}")),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -216,7 +217,8 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                     color: Styles.primaryColor(),
                                     size: Styles.mediumIconSize(),
                                   ),
-                                  Text(widget.reservedLuggage.toString()),
+                                  Text(widget.reservedLuggage.toString() +
+                                      (widget._ride.reserved ? "" : "/${widget.maxLuggage}")),
                                 ],
                               )
                             else
