@@ -9,14 +9,15 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 
 class RateNotificationHandler extends NotificationHandler {
   Rate rate;
+  MainNotification notification;
 
   RateNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Rate)) {
       notification.object = Rate.fromJson(notification.object);
       notification.scheduleDate =
           DateTime.now().add(Duration(minutes: App.daysToShowRate));
-      notification.id = 0;
-      LocalNotificationManager.pushLocalNotification(notification);
+
+      this.notification = notification;
     }
     this.rate = notification.object;
   }
@@ -27,6 +28,9 @@ class RateNotificationHandler extends NotificationHandler {
     User user = await Cache.getUser();
     user.person.statistics = user.person.statistics.createNewStatistics(rate);
     await Cache.setUser(user);
+
+    notification.id = await Cache.setNotificationId();
+    LocalNotificationManager.pushLocalNotification(this.notification);
   }
 
   @override
