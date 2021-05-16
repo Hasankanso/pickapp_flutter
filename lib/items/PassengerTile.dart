@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -103,38 +102,45 @@ class PassengerTile extends ListTile {
                 height: 8,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 5,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
-                            flex: 3,
-                            child: Text(
-                              "Seats: ",
-                              style: Styles.labelTextStyle(),
-                            )),
+                          child: Icon(
+                            Icons.airline_seat_recline_extra_rounded,
+                            color: Styles.primaryColor(),
+                            size: Styles.mediumIconSize(),
+                          ),
+                        ),
                         Expanded(
-                            flex: 2,
-                            child: Text(
-                              passenger.seats.toString(),
-                              style: Styles.valueTextStyle(),
-                            )),
+                          child: Text(
+                            passenger.seats.toString(),
+                            style: Styles.valueTextStyle(),
+                          ),
+                        ),
+                        Expanded(
+                          child: Icon(
+                            Icons.home_repair_service,
+                            color: Styles.primaryColor(),
+                            size: Styles.mediumIconSize(),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            passenger.luggages.toString(),
+                            style: Styles.valueTextStyle(),
+                          ),
+                        )
                       ],
                     ),
                   ),
-                  Expanded(
-                    flex: 9,
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Text(
-                        DateFormat(App.birthdayFormat,
-                                Localizations.localeOf(context).toString())
-                            .format(passenger.person.creationDate),
-                        style: Styles.labelTextStyle(),
-                      ),
-                    ),
-                  ),
+                  Spacer(
+                    flex: 5,
+                  )
                 ],
               ),
             ],
