@@ -41,8 +41,7 @@ class Reservation {
     var creationDateJ = json["creationDate"];
     DateTime creationDate;
     if (creationDateJ != null) {
-      creationDate =
-          DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
+      creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
     }
 
     return Reservation(
@@ -65,10 +64,7 @@ class Reservation {
           ", luggage: " +
           _luggages.toString();
     else
-      return " seats: " +
-          _seats.toString() +
-          ", luggage: " +
-          _luggages.toString();
+      return " seats: " + _seats.toString() + ", luggage: " + _luggages.toString();
   }
 
   Person get person => _person;
@@ -83,7 +79,7 @@ class Reservation {
     _updated = value;
   }
 
-  get seats => _seats;
+  int get seats => _seats;
 
   set seats(value) {
     _seats = value;
@@ -104,9 +100,7 @@ class Reservation {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Reservation &&
-          runtimeType == other.runtimeType &&
-          _id == other._id;
+      other is Reservation && runtimeType == other.runtimeType && _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;

@@ -90,9 +90,7 @@ class Ride {
       int availableSeats,
       int maxSeats,
       int maxLuggages,
-      int reservedSeats,
       int availableLuggages,
-      int reservedLuggages,
       int stopTime,
       List<Reservation> passengers,
       int price,
@@ -111,12 +109,13 @@ class Ride {
     this.petsAllowed = petsAllowed;
     this.kidSeat = kidSeat;
     this.reserved = reserved;
+
     this.availableSeats = availableSeats;
+    this.availableLuggages = availableLuggages;
+
     this.maxSeats = maxSeats;
     this.maxLuggages = maxLuggages;
-    this.reservedSeats = reservedSeats;
-    this.availableLuggages = availableLuggages;
-    this.reservedLuggages = reservedLuggages;
+
     this.stopTime = stopTime;
     this.price = price;
     this.user = user;
@@ -125,6 +124,10 @@ class Ride {
     this.updated = updated;
     this.mapBase64 = mapBase64;
     this._mapUrl = mapUrl;
+
+    if (maxLuggages != null && availableLuggages != null)
+      this.reservedLuggages = maxLuggages - availableLuggages;
+    if (maxSeats != null && availableSeats != null) this.reservedSeats = maxSeats - availableSeats;
   }
 
   @override
@@ -166,8 +169,7 @@ class Ride {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
     if (leavingDateJ != null) {
-      leavingDate =
-          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     }
 
     User user;
@@ -199,12 +201,9 @@ class Ride {
       car: Car.fromJson(json["car"]),
       reserved: reserved,
       passengers: json["passengers"] != null
-          ? List<Reservation>.from(
-              json["passengers"].map((x) => Reservation.fromJson(x)))
+          ? List<Reservation>.from(json["passengers"].map((x) => Reservation.fromJson(x)))
           : null,
       leavingDate: leavingDate,
-      reservedLuggages: json["reservedLuggages"],
-      reservedSeats: json["reservedSeats"],
       from: MainLocation.fromJson(json["from"]),
       to: MainLocation.fromJson(json["to"]),
       price: json["price"],
@@ -318,31 +317,31 @@ class Ride {
     _availableSeats = value;
   }
 
-  get maxSeats => _maxSeats;
+  int get maxSeats => _maxSeats;
 
   set maxSeats(value) {
     _maxSeats = value;
   }
 
-  get maxLuggages => _maxLuggages;
+  int get maxLuggages => _maxLuggages;
 
   set maxLuggages(value) {
     _maxLuggages = value;
   }
 
-  get reservedSeats => _reservedSeats;
+  int get reservedSeats => _reservedSeats;
 
   set reservedSeats(value) {
     _reservedSeats = value;
   }
 
-  get availableLuggages => _availableLuggages;
+  int get availableLuggages => _availableLuggages;
 
   set availableLuggages(value) {
     _availableLuggages = value;
   }
 
-  get reservedLuggages => _reservedLuggages;
+  int get reservedLuggages => _reservedLuggages;
 
   set reservedLuggages(value) {
     _reservedLuggages = value;

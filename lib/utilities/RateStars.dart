@@ -4,17 +4,34 @@ import 'package:pickapp/classes/Styles.dart';
 
 class RateStars extends StatelessWidget {
   double _rating;
-  MainAxisAlignment mainAxisAlignment;
-  Function onPressed;
+  final MainAxisAlignment mainAxisAlignment;
+  final Function onPressed;
   double size;
+  IconData _starIcon = Icons.star;
+  Color _iconColor = Colors.yellow;
+  int maxStars;
 
-  RateStars(this._rating, {this.mainAxisAlignment, this.onPressed, this.size});
-
-  @override
-  Widget build(BuildContext context) {
+  RateStars(this._rating,
+      {this.mainAxisAlignment,
+      this.onPressed,
+      this.size,
+      IconData customIcon,
+      Color customColor,
+      this.maxStars = 5}) {
     _rating = App.roundRate(_rating);
     size = size == null ? Styles.mediumIconSize() : size;
 
+    if (customIcon != null) {
+      this._starIcon = customIcon;
+    }
+
+    if (customColor != null) {
+      this._iconColor = customColor;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     if (onPressed != null) {
       return Row(
         children: [
@@ -26,10 +43,9 @@ class RateStars extends StatelessWidget {
           GestureDetector(
             onTap: onPressed,
             child: Row(
-              mainAxisAlignment: mainAxisAlignment == null
-                  ? MainAxisAlignment.center
-                  : mainAxisAlignment,
-              children: List<Widget>.generate(6, (int index) {
+              mainAxisAlignment:
+                  mainAxisAlignment == null ? MainAxisAlignment.center : mainAxisAlignment,
+              children: List<Widget>.generate(maxStars + 1, (int index) {
                 if (index == 5) {
                   return Icon(
                     Icons.arrow_forward_ios,
@@ -39,20 +55,19 @@ class RateStars extends StatelessWidget {
                 }
                 if (_rating >= index + 1) {
                   return Icon(
-                    Icons.star,
-                    color: Colors.yellow,
+                    _starIcon,
+                    color: _iconColor,
                     size: size,
                   );
-                } else if (_rating.toInt() == index &&
-                    _rating.toInt() != _rating) {
+                } else if (_rating.toInt() == index && _rating.toInt() != _rating) {
                   return Icon(
                     Icons.star_half,
-                    color: Colors.yellow,
+                    color: _iconColor,
                     size: size,
                   );
                 } else {
                   return Icon(
-                    Icons.star,
+                    _starIcon,
                     color: Colors.grey.withOpacity(0.5),
                     size: size,
                   );
@@ -64,25 +79,23 @@ class RateStars extends StatelessWidget {
       );
     } else {
       return Row(
-        mainAxisAlignment: mainAxisAlignment == null
-            ? MainAxisAlignment.center
-            : mainAxisAlignment,
-        children: List<Widget>.generate(5, (int index) {
+        mainAxisAlignment: mainAxisAlignment == null ? MainAxisAlignment.center : mainAxisAlignment,
+        children: List<Widget>.generate(maxStars, (int index) {
           if (_rating >= index + 1) {
             return Icon(
-              Icons.star,
-              color: Colors.yellow,
+              _starIcon,
+              color: _iconColor,
               size: size,
             );
           } else if (_rating.toInt() == index && _rating.toInt() != _rating) {
             return Icon(
               Icons.star_half,
-              color: Colors.yellow,
+              color: _iconColor,
               size: size,
             );
           } else {
             return Icon(
-              Icons.star,
+              _starIcon,
               color: Colors.grey.withOpacity(0.5),
               size: size,
             );

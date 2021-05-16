@@ -17,6 +17,9 @@ import 'package:pickapp/utilities/Spinner.dart';
 
 class MyRidesTile extends StatefulWidget {
   final Ride _ride;
+  int reservedSeats, maxSeats;
+  int reservedLuggage, maxLuggage;
+  bool showSeatsLuggageAsText = false;
 
   static void seatsLuggagePopUp(BuildContext context, Ride ride) {
     Reservation reservation = ride.reservationOf(App.person);
@@ -60,7 +63,25 @@ class MyRidesTile extends StatefulWidget {
     }
   }
 
-  MyRidesTile(this._ride, {onPressed});
+  MyRidesTile(this._ride, {onPressed}) {
+    showSeatsLuggageAsText = false;
+
+    if (_ride.reserved) {
+      reservedSeats = this._ride.passengers[0].seats + 10;
+      maxSeats = reservedSeats;
+      reservedLuggage = this._ride.passengers[0].luggages;
+      maxLuggage = reservedLuggage;
+    } else {
+      reservedSeats = this._ride.reservedSeats;
+      maxSeats = this._ride.maxSeats;
+      reservedLuggage = this._ride.reservedLuggages;
+      maxLuggage = this._ride.maxLuggages;
+    }
+
+    if (maxSeats > 8 || maxLuggage > 8) {
+      showSeatsLuggageAsText = true;
+    }
+  }
 
   static Function(BuildContext, int) itemBuilder(List<Ride> rides) {
     return (context, index) {
@@ -174,10 +195,44 @@ class _MyRidesTileState extends State<MyRidesTile> {
                                 ),
                               ],
                             ),
-                            RateStars(
-                              user.person.statistics.rateAverage,
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            SizedBox(
+                              height: 5,
                             ),
+                            if (widget.showSeatsLuggageAsText)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.airline_seat_recline_extra_rounded,
+                                    color: Styles.primaryColor(),
+                                    size: Styles.mediumIconSize(),
+                                  ),
+                                  Text(widget.reservedSeats.toString()),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Icon(
+                                    Icons.home_repair_service_rounded,
+                                    color: Styles.primaryColor(),
+                                    size: Styles.mediumIconSize(),
+                                  ),
+                                  Text(widget.reservedLuggage.toString()),
+                                ],
+                              )
+                            else
+                              RateStars(
+                                widget.reservedSeats.toDouble(),
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                customIcon: Icons.airline_seat_recline_extra_rounded,
+                                customColor: Styles.primaryColor(),
+                                maxStars: widget.maxSeats,
+                              ),
+                            if (!widget.showSeatsLuggageAsText)
+                              RateStars(widget.reservedLuggage.toDouble(),
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  customIcon: Icons.home_repair_service_rounded,
+                                  customColor: Styles.primaryColor(),
+                                  maxStars: widget.maxLuggage),
                           ],
                         ),
                       ),
