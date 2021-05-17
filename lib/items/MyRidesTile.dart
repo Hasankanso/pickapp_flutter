@@ -67,9 +67,13 @@ class MyRidesTile extends StatefulWidget {
     showSeatsLuggageAsText = false;
 
     if (_ride.reserved) {
-      reservedSeats = this._ride.passengers[0].seats;
+      print(this._ride.passengers[0]);
+
+      Reservation reservation = this._ride.findReservationFrom(App.person);
+      assert(reservation != null);
+      reservedSeats = reservation.seats;
       maxSeats = reservedSeats;
-      reservedLuggage = this._ride.passengers[0].luggages;
+      reservedLuggage = reservation.luggages;
       maxLuggage = reservedLuggage;
     } else {
       reservedSeats = this._ride.reservedSeats;

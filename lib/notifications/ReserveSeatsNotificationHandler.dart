@@ -1,18 +1,20 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/notifications/LocalNotificationManager.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
+import 'package:pickapp/notifications/RateNotificationHandler.dart';
 
 class ReserveSeatsNotificationHandler extends NotificationHandler {
   Reservation reservation;
 
-  ReserveSeatsNotificationHandler(MainNotification notification)
-      : super(notification) {
+  ReserveSeatsNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Ride)) {
       notification.object = Reservation.fromJson(notification.object);
     }
@@ -24,11 +26,9 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
     User user = await Cache.getUser();
 
     //find the ride in upcomingRides
-    int rideIndex =
-        user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
+    int rideIndex = user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
 
-    if (rideIndex < 0)
-      return; //ride not found maybe the user removed it, this should be handled
+    if (rideIndex < 0) return; //ride not found maybe the user removed it, this should be handled
 
     Ride reservedRide = user.person.upcomingRides[rideIndex];
 
@@ -36,8 +36,7 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
     if (reservedRide.passengers == null || reservedRide.passengers.isEmpty) {
       reservedRide.passengers = <Reservation>[];
     } else {
-      reservedRide.passengers =
-          new List<Reservation>.from(reservedRide.passengers);
+      reservedRide.passengers = new List<Reservation>.from(reservedRide.passengers);
     }
     reservedRide.passengers.add(reservation);
 
@@ -47,6 +46,26 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
 
     //save changes.
     await Cache.setUser(user);
+
+    //add rateNotification.
+
+    PendingNotificationRequest notificationReq = LocalNotificationManager.getLocalNotification(
+        reservedRide.leavingDate.microsecondsSinceEpoch);
+
+    if (notificationReq != null) {
+      return; //it's already added.
+    }
+
+    DateTime popUpDate = reservedRide.leavingDate.add(Duration(hours: App.hoursToRequestRate));
+    MainNotification rateNotification = new MainNotification(
+        id: reservedRide.leavingDate.millisecondsSinceEpoch,
+        objectId: reservedRide.id,
+        title: "How Were Passengers?",
+        body: "Review passengers from ${reservedRide.from.name} -> ${reservedRide.to.name} ride",
+        scheduleDate: popUpDate,
+        action: RateNotificationHandler.action);
+
+    LocalNotificationManager.pushLocalNotification(rateNotification);
   }
 
   @override
@@ -56,7 +75,7 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
 
   @override
   void display(BuildContext context) {
-    Ride ride = App.getRideFromObjectId(reservation.rideId);
+    Ride ride = App.person.getUpcomingRideFromId(reservation.rideId);
     if (ride == null) {
       //in case user removed the ride. but later clicked the notification
       return;

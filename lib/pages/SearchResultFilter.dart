@@ -21,7 +21,7 @@ class SearchResultsFilter extends StatefulWidget {
 
 class _SearchResultsFilterState extends State<SearchResultsFilter> {
   ScrollController _scrollController = new ScrollController();
-  List<bool Function(Ride)> constraints = List<bool Function(Ride)>();
+  List<bool Function(Ride)> constraints = [];
   FlushbarStatus _flushbarStatus = FlushbarStatus.DISMISSED;
 
   @override
@@ -80,8 +80,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
 
   bool petsConstraint(Ride r) {
     FilterController controller = widget.controller;
-    return !controller.petsController.filter ||
-        r.petsAllowed == controller.petsController.allowed;
+    return !controller.petsController.filter || r.petsAllowed == controller.petsController.allowed;
   }
 
   bool musicConstraint(Ride r) {
@@ -92,8 +91,7 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
 
   bool acConstraint(Ride r) {
     FilterController controller = widget.controller;
-    return !controller.acController.filter ||
-        r.acAllowed == controller.acController.allowed;
+    return !controller.acController.filter || r.acAllowed == controller.acController.allowed;
   }
 
   bool validate(Ride r) {
@@ -264,10 +262,7 @@ class _BooleanFilter extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BooleanFilterState();
 
-  _BooleanFilter(
-      {this.onIcon = Icons.flash_on,
-      this.offIcon = Icons.flash_off,
-      this.controller});
+  _BooleanFilter({this.onIcon = Icons.flash_on, this.offIcon = Icons.flash_off, this.controller});
 }
 
 class _BooleanFilterState extends State<_BooleanFilter> {
@@ -296,8 +291,7 @@ class _BooleanFilterState extends State<_BooleanFilter> {
           alignment: Alignment.centerRight,
           child: Icon(
             widget.controller.allowed ? widget.onIcon : widget.offIcon,
-            color:
-                widget.controller.filter ? Styles.primaryColor() : Colors.grey,
+            color: widget.controller.filter ? Styles.primaryColor() : Colors.grey,
           ),
         ),
         Align(
@@ -336,19 +330,19 @@ class _SliderTextFilter extends StatefulWidget {
     this.absoluteMaxValue = 100,
     this.isTime = false,
     Key key,
-  }) : super (key : key);
+  }) : super(key: key);
 
   @override
   _SliderTextFilterState createState() => _SliderTextFilterState();
 }
 
 class _SliderTextFilterState extends State<_SliderTextFilter> {
-
   RangeLabels labels;
 
-  void initState(){
-    if(widget.isTime){
-      labels = RangeLabels(TimeRangeSlider.intToTime(widget.minSelected.toInt()), TimeRangeSlider.intToTime(widget.maxSelected.toInt()));
+  void initState() {
+    if (widget.isTime) {
+      labels = RangeLabels(TimeRangeSlider.intToTime(widget.minSelected.toInt()),
+          TimeRangeSlider.intToTime(widget.maxSelected.toInt()));
     } else {
       labels = RangeLabels(widget.minSelected.toString(), widget.maxSelected.toString());
     }
@@ -358,7 +352,6 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
 
   @override
   Widget build(BuildContext context) {
-
     return ResponsiveWidget(
       width: 260,
       height: 150,
@@ -385,22 +378,21 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                       min: 0,
                       max: widget.absoluteMaxValue.toDouble(),
                       controller: widget.controller,
-                onChanged : (values){
+                      onChanged: (values) {
                         setState(() {
-                          labels = RangeLabels(values.start.toInt().toString(), values.end.toInt().toString());
+                          labels = RangeLabels(
+                              values.start.toInt().toString(), values.end.toInt().toString());
                         });
-                  }
-                    )
+                      })
                   : TimeRangeSlider(
                       controller: widget.controller,
                       minSelected: widget.controller.minSelected,
                       maxSelected: widget.controller.maxSelected,
-                  onChanged : (values){
-                    setState(() {
-                      labels = values;
-                    });
-                  }
-                    ),
+                      onChanged: (values) {
+                        setState(() {
+                          labels = values;
+                        });
+                      }),
             ),
             Expanded(
               flex: 2,
@@ -409,7 +401,7 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                   Spacer(flex: 2),
                   Expanded(
                       flex: 10,
-                      child: Center(child: Text(labels.start,  style : Styles.valueTextStyle()))),
+                      child: Center(child: Text(labels.start, style: Styles.valueTextStyle()))),
                   Spacer(flex: 1),
                   Expanded(
                       flex: 4,
@@ -420,7 +412,7 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                   Spacer(flex: 1),
                   Expanded(
                       flex: 10,
-                      child: Center(child: Text(labels.end , style : Styles.valueTextStyle()))),
+                      child: Center(child: Text(labels.end, style: Styles.valueTextStyle()))),
                   Spacer(flex: 2),
                 ],
               ),
@@ -458,8 +450,8 @@ class _SliderFilter extends StatefulWidget {
 class _SliderFilterState extends State<_SliderFilter> {
   @override
   void initState() {
-    widget.controller.values = new RangeValues(
-        widget.minSelected.toDouble(), widget.maxSelected.toDouble());
+    widget.controller.values =
+        new RangeValues(widget.minSelected.toDouble(), widget.maxSelected.toDouble());
   }
 
   @override

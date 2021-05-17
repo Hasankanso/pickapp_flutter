@@ -9,15 +9,12 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 
 class RateNotificationHandler extends NotificationHandler {
   Rate rate;
-  MainNotification notification;
+  static const String action = "RATE";
 
   RateNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Rate)) {
       notification.object = Rate.fromJson(notification.object);
-      notification.scheduleDate =
-          DateTime.now().add(Duration(minutes: App.daysToShowRate));
-
-      this.notification = notification;
+      notification.scheduleDate = DateTime.now().add(Duration(days: App.daysToShowRate));
     }
     this.rate = notification.object;
   }

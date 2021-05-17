@@ -75,10 +75,9 @@ class PushNotificationsManager {
 
     bool isSchedule = message.data["isSchedule"] == "true";
     if (!isSchedule) {
-      await Cache.getNotifications().then((value) {
-        App.notifications = value;
-        App.updateNotifications.value = !App.updateNotifications.value;
-      });
+      List<MainNotification> notifications = await Cache.getNotifications();
+      App.notifications = notifications;
+      App.updateNotifications.value = !App.updateNotifications.value;
       handler.updateApp();
     }
   }
@@ -181,7 +180,7 @@ NotificationHandler _createNotificationHandler(RemoteMessage message) {
       break;
     case "RESERVATION_CANCELED":
       return CancelReservationNotificationHandler(newNotification);
-    case "RATE":
+    case RateNotificationHandler.action:
       return RateNotificationHandler(newNotification);
       break;
     case "RIDE_DELETED":

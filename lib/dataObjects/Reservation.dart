@@ -64,7 +64,14 @@ class Reservation {
           ", luggage: " +
           _luggages.toString();
     else
-      return " seats: " + _seats.toString() + ", luggage: " + _luggages.toString();
+      return "id $id " +
+          "person: " +
+          person.toString() +
+          " seats: " +
+          _seats.toString() +
+          ", "
+              "luggage: " +
+          _luggages.toString();
   }
 
   Person get person => _person;

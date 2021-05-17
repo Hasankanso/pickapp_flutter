@@ -30,6 +30,7 @@ import 'package:pickapp/pages/Phone.dart';
 import 'package:pickapp/pages/Phone2.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Profile.dart';
+import 'package:pickapp/pages/RatePassengers.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RegisterDriver.dart';
 import 'package:pickapp/pages/ReviewsListPage.dart';
@@ -405,6 +406,13 @@ class RouteGenerator {
               ((args as List)[0] as Ride),
               ((args as List)[1] as Person),
             ));
+      case 'RatePassengers':
+        return PageTransition(
+            settings: settings,
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: RatePassengers(ride: args));
       case '/AddAlert':
         return PageTransition(
             settings: settings,
