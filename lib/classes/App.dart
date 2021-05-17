@@ -53,7 +53,6 @@ class App {
   static List<Component> countriesComponents = <Component>[];
   //if you want to change this variable, Rate_days_validation text.
   static int daysToShowRate = 2;
-  static int hoursToRequestRate = 6;
 
   static bool isLTR;
   static List<MainNotification> notifications = <MainNotification>[];

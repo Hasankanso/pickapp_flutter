@@ -56,7 +56,8 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
       return; //it's already added.
     }
 
-    DateTime popUpDate = reservedRide.leavingDate.add(Duration(hours: App.hoursToRequestRate));
+    DateTime popUpDate = reservedRide.leavingDate
+        .add(Duration(hours: App.person.countryInformations.rateStartHours));
     MainNotification rateNotification = new MainNotification(
         id: reservedRide.leavingDate.millisecondsSinceEpoch,
         objectId: reservedRide.id,
