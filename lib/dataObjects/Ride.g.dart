@@ -17,7 +17,7 @@ class RideAdapter extends TypeAdapter<Ride> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Ride(
-      status: fields[25] as DateTime,
+      status: fields[23] as DateTime,
     )
       .._id = fields[0] as String
       .._comment = fields[1] as String
@@ -34,22 +34,20 @@ class RideAdapter extends TypeAdapter<Ride> {
       .._availableSeats = fields[12] as int
       .._maxSeats = fields[13] as int
       .._maxLuggages = fields[14] as int
-      .._reservedSeats = fields[15] as int
-      .._availableLuggages = fields[16] as int
-      .._reservedLuggages = fields[17] as int
-      .._stopTime = fields[18] as int
-      .._price = fields[19] as int
-      .._user = fields[20] as User
-      .._passengers = (fields[21] as List)?.cast<Reservation>()
-      .._car = fields[22] as Car
-      .._updated = fields[23] as DateTime
-      .._mapUrl = fields[24] as String;
+      .._availableLuggages = fields[15] as int
+      .._stopTime = fields[16] as int
+      .._price = fields[17] as int
+      .._user = fields[18] as User
+      .._passengers = (fields[19] as List)?.cast<Reservation>()
+      .._car = fields[20] as Car
+      .._updated = fields[21] as DateTime
+      .._mapUrl = fields[22] as String;
   }
 
   @override
   void write(BinaryWriter writer, Ride obj) {
     writer
-      ..writeByte(26)
+      ..writeByte(24)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -81,26 +79,22 @@ class RideAdapter extends TypeAdapter<Ride> {
       ..writeByte(14)
       ..write(obj._maxLuggages)
       ..writeByte(15)
-      ..write(obj._reservedSeats)
-      ..writeByte(16)
       ..write(obj._availableLuggages)
-      ..writeByte(17)
-      ..write(obj._reservedLuggages)
-      ..writeByte(18)
+      ..writeByte(16)
       ..write(obj._stopTime)
-      ..writeByte(19)
+      ..writeByte(17)
       ..write(obj._price)
-      ..writeByte(20)
+      ..writeByte(18)
       ..write(obj._user)
-      ..writeByte(21)
+      ..writeByte(19)
       ..write(obj._passengers)
-      ..writeByte(22)
+      ..writeByte(20)
       ..write(obj._car)
-      ..writeByte(23)
+      ..writeByte(21)
       ..write(obj._updated)
-      ..writeByte(24)
+      ..writeByte(22)
       ..write(obj._mapUrl)
-      ..writeByte(25)
+      ..writeByte(23)
       ..write(obj.status);
   }
 

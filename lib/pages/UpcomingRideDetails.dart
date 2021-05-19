@@ -27,7 +27,7 @@ class UpcomingRideDetails extends StatelessWidget {
 
   TextEditingController _reason = TextEditingController();
 
-  _openDeletePopUp(context) {
+  _openCancelPopUp(context) {
     Widget _content;
     if (ride.leavingDate.compareTo(DateTime.now()) < 0) {
       return CustomToast()
@@ -71,12 +71,12 @@ class UpcomingRideDetails extends StatelessWidget {
       PopUp.areYouSure(
         Lang.getString(context, "Yes"),
         Lang.getString(context, "No"),
-        Lang.getString(context, "Ride_delete_message"),
+        Lang.getString(context, "Ride_cancel_message"),
         Lang.getString(context, "Warning!"),
         Colors.red,
         (yesNo) {
           if (yesNo) {
-            deleteRideRequest(context);
+            cancelRideRequest(context);
           }
         },
         highlightYes: true,
@@ -85,7 +85,7 @@ class UpcomingRideDetails extends StatelessWidget {
     }
   }
 
-  deleteRideRequest(context) {
+  cancelRideRequest(context) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -104,6 +104,14 @@ class UpcomingRideDetails extends StatelessWidget {
     });
   }
 
+  void handleClick(String value, context) {
+    switch (value) {
+      case 'Cancel Ride':
+        _openCancelPopUp(context);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -111,16 +119,20 @@ class UpcomingRideDetails extends StatelessWidget {
       child: Scaffold(
         appBar: MainAppBar(
           actions: [
-            IconButton(
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                  size: Styles.largeIconSize(),
-                ),
-                tooltip: Lang.getString(context, "Delete"),
-                onPressed: () {
-                  _openDeletePopUp(context);
-                })
+            PopupMenuButton<String>(
+              onSelected: (value) => handleClick(value, context),
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem<String>(
+                    value: "Cancel Ride",
+                    child: Text(
+                      Lang.getString(context, "Cancel_Ride"),
+                      style: Styles.valueTextStyle(),
+                    ),
+                  ),
+                ];
+              },
+            ),
           ],
           title: Lang.getString(context, "Ride_Details"),
           bottom: TabBar(
@@ -154,10 +166,9 @@ class UpcomingRideDetails extends StatelessWidget {
       CustomToast().showErrorToast(message);
     } else {
       App.deleteRideFromMyRides(ride);
-      Navigator.pushNamedAndRemoveUntil(
-          context, "/", (Route<dynamic> route) => false);
+      Navigator.popUntil(context, (route) => route.isFirst);
       CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
+          .showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
     }
   }
 }

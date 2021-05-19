@@ -194,6 +194,7 @@
   "Ride_Reserved_Failed": "Failed to Reserve",
   "Something_Wrong": "Something is Wrong, error code:",
   "Failed_load_ad": "Failed to load the ad!",
+  "Cancel_Ride": "Cancel Ride",
 
   "Rides_Permissions": "Ride Permissions :",
   "Description": "Description",
@@ -285,7 +286,7 @@
   "Toyota":"Toyota",
   "Volkswagen":"Volkswagen",
   "Volvo":"Volvo",
-  "Ride_delete_message": "Are you sure you want to delete this ride?",
+  "Ride_cancel_message": "Are you sure you want to cancel this ride?",
   "Date_in_range_hint": "This feature let you search for rides by a range of date, and all results will match it.",
   "Permission_filter_hint_text":"To filter rides by their permissions, check the box of the permission, and choose whether you want it allowed or not.",
   "rate_reason_1":"Didn't follow the ride details",

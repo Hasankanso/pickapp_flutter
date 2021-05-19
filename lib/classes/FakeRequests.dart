@@ -8,7 +8,6 @@ import 'package:pickapp/requests/AddRide.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class FakeRequests {
-
   static int ridesCount = 20;
 
   static void response(dynamic p1, int statusCode, String p3) {
@@ -61,9 +60,8 @@ class FakeRequests {
         longitude: 35.8361633,
       );
 
-
       DateTime now = new DateTime.now();
-      List<Ride> rides = new List<Ride>();
+      List<Ride> rides = <Ride>[];
       Random ranGen = Random();
 
       for (int i = 0; i < ridesCount; i++) {
@@ -108,13 +106,13 @@ class FakeRequests {
           maxLuggages: maxLuggage,
           availableSeats: maxSeats,
           availableLuggages: maxLuggage,
-
           musicAllowed: music,
           petsAllowed: pets,
           smokingAllowed: smoking,
           acAllowed: ac,
           stopTime: stopTime,
-          mapBase64 : "iVBORw0KGgoAAAANSUhEUgAAAoAAAAKACAMAAAA7EzkRAAAC/VBMVEU/QnxLS0tPU1tcW1tDRnVbX2NkY2NjZ29qamlvcnZ0dHNydX07PoQsLqMyNKk2ObA9P7RDRbpNT7FKTL9xdYt6foJ0eJplaL98f75OUMVVV8pZW9BdYM5oaspgYtVmZ9psbN9zdNVxcuVzdeh9few0qFNChPNEiPJPjPNYk/RklOViluttnvR/q/KaazjqQzXpTD7qTUDqXlHrem6Gdb2IdbKKe7yUf6uFec6Dfd+AfvD7vAX4yj/5y0npyHr41XKDgoKGioqLioqOkpaVlZSYmJeanZ2FiKuPgbybhaeYgqmTgbaRg7uXiLmYhbScjbeanq6rk52wl5u5n5",
+          mapBase64:
+              "iVBORw0KGgoAAAANSUhEUgAAAoAAAAKACAMAAAA7EzkRAAAC/VBMVEU/QnxLS0tPU1tcW1tDRnVbX2NkY2NjZ29qamlvcnZ0dHNydX07PoQsLqMyNKk2ObA9P7RDRbpNT7FKTL9xdYt6foJ0eJplaL98f75OUMVVV8pZW9BdYM5oaspgYtVmZ9psbN9zdNVxcuVzdeh9few0qFNChPNEiPJPjPNYk/RklOViluttnvR/q/KaazjqQzXpTD7qTUDqXlHrem6Gdb2IdbKKe7yUf6uFec6Dfd+AfvD7vAX4yj/5y0npyHr41XKDgoKGioqLioqOkpaVlZSYmJeanZ2FiKuPgbybhaeYgqmTgbaRg7uXiLmYhbScjbeanq6rk52wl5u5n5",
           comment: "This is a fake Ride, just for testing, thank you",
           kidSeat: kidSeat,
           user: App.user,
@@ -123,6 +121,7 @@ class FakeRequests {
 
         Request addRide = AddRide(ride);
         await addRide.send(response);
+        App.user.person.upcomingRides.add(ride);
       }
     }
   }

@@ -6,10 +6,11 @@ import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 
-class DeleteRideNotificationHandler extends NotificationHandler {
+class CancelRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
 
-  DeleteRideNotificationHandler(MainNotification notification) : super(notification) {
+  CancelRideNotificationHandler(MainNotification notification)
+      : super(notification) {
     this.rideId = (notification.object as List)[0] as String;
     this.reason = (notification.object as List)[1] as String;
   }

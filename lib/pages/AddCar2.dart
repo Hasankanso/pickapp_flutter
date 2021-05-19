@@ -123,7 +123,8 @@ class _AddCar2State extends State<AddCar2> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CarTypeItem(_typesBool[0], _typesNames[0], 'lib/images/car2', selectType, 0)
+                CarTypeItem(_typesBool[0], _typesNames[0], 'lib/images/car2',
+                    selectType, 0)
               ],
             ),
           ),
@@ -132,7 +133,8 @@ class _AddCar2State extends State<AddCar2> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CarTypeItem(_typesBool[1], _typesNames[1], 'lib/images/car3', selectType, 1),
+                CarTypeItem(_typesBool[1], _typesNames[1], 'lib/images/car3',
+                    selectType, 1),
               ],
             ),
           ),
@@ -141,7 +143,8 @@ class _AddCar2State extends State<AddCar2> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CarTypeItem(_typesBool[2], _typesNames[2], 'lib/images/car1', selectType, 2),
+                CarTypeItem(_typesBool[2], _typesNames[2], 'lib/images/car1',
+                    selectType, 2),
               ],
             ),
           ),
@@ -150,7 +153,8 @@ class _AddCar2State extends State<AddCar2> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CarTypeItem(_typesBool[3], _typesNames[3], 'lib/images/car4', selectType, 3),
+                CarTypeItem(_typesBool[3], _typesNames[3], 'lib/images/car4',
+                    selectType, 3),
               ],
             ),
           ),
@@ -168,7 +172,8 @@ class _AddCar2State extends State<AddCar2> {
                 text_key: _btnText,
                 onPressed: () {
                   if (_type == null) {
-                    return CustomToast().showErrorToast(Lang.getString(context, "Select_type"));
+                    return CustomToast()
+                        .showErrorToast(Lang.getString(context, "Select_type"));
                   }
                   showDialog(
                     context: context,
@@ -241,7 +246,8 @@ class _AddCar2State extends State<AddCar2> {
   }
 
   _becomeDriverRequest() {
-    if (App.calculateAge(App.person.birthday) < App.person.countryInformations.drivingAge) {
+    if (App.calculateAge(App.person.birthday) <
+        App.person.countryInformations.drivingAge) {
       Navigator.pop(context);
       return CustomToast().showErrorToast(Lang.getString(context, "Under_age"));
     }
@@ -256,13 +262,19 @@ class _AddCar2State extends State<AddCar2> {
     } else {
       App.user = u;
       await Cache.setUser(u);
-      App.setCountriesComponent([App.person.countryInformations.countryComponent]);
+      App.countriesComponents = null;
+      await Cache.setCountriesList(
+          [App.person.countryInformations.countryComponent]);
+      App.setCountriesComponent(
+          [App.person.countryInformations.countryComponent]);
       App.isDriverNotifier.value = true;
 
       App.isLoggedInNotifier.value = true;
 
-      CustomToast().showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
-      CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+      CustomToast().showSuccessToast(
+          Lang.getString(context, "Email_confirmation_pending"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
@@ -291,7 +303,8 @@ class _AddCar2State extends State<AddCar2> {
       await Cache.setUser(App.user);
       App.updateProfile.value = !App.updateProfile.value;
 
-      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_added!"));
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Successfully_added!"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

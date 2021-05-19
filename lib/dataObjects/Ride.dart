@@ -47,30 +47,28 @@ class Ride {
   @HiveField(14)
   int _maxLuggages;
   @HiveField(15)
-  int _reservedSeats;
-  @HiveField(16)
   int _availableLuggages;
-  @HiveField(17)
-  int _reservedLuggages;
-  @HiveField(18)
+  @HiveField(16)
   int _stopTime;
-  @HiveField(19)
+  @HiveField(17)
   int _price;
-  @HiveField(20)
+  @HiveField(18)
   User _user;
-  @HiveField(21)
+  @HiveField(19)
   List<Reservation> _passengers;
-  @HiveField(22)
+  @HiveField(20)
   Car _car;
-  @HiveField(23)
+  @HiveField(21)
   DateTime _updated;
 
-  @HiveField(24)
+  @HiveField(22)
   String _mapUrl;
 
-  @HiveField(25)
+  @HiveField(23)
   DateTime status;
 
+  int _reservedSeats;
+  int _reservedLuggages;
   ImageProvider _mapImage;
 
   Ride(
@@ -124,10 +122,6 @@ class Ride {
     this.updated = updated;
     this.mapBase64 = mapBase64;
     this._mapUrl = mapUrl;
-
-    if (maxLuggages != null && availableLuggages != null)
-      this.reservedLuggages = maxLuggages - availableLuggages;
-    if (maxSeats != null && availableSeats != null) this.reservedSeats = maxSeats - availableSeats;
   }
 
   @override
@@ -171,14 +165,15 @@ class Ride {
 
   @override
   String toString() {
-    return 'Ride{_id: $_id, _comment: $_comment, _mapBase64: $_mapBase64, _from: $_from, _to: $_to, _leavingDate: $_leavingDate, _musicAllowed: $_musicAllowed, _acAllowed: $_acAllowed, _smokingAllowed: $_smokingAllowed, _petsAllowed: $_petsAllowed, _kidSeat: $_kidSeat, _reserved: $_reserved, _availableSeats: $_availableSeats, _maxSeats: $_maxSeats, _maxLuggages: $_maxLuggages, _reservedSeats: $_reservedSeats, _availableLuggages: $_availableLuggages, _reservedLuggages: $_reservedLuggages, _stopTime: $_stopTime, _price: $_price, _user: $_user, _passengers: $_passengers, _car: $_car, _updated: $_updated, _mapUrl: $_mapUrl, mapImage: $mapImage}';
+    return 'Ride{_id: $_id, _comment: $_comment, _mapBase64: $_mapBase64, _from: $_from, _to: $_to, _leavingDate: $_leavingDate, _musicAllowed: $_musicAllowed, _acAllowed: $_acAllowed, _smokingAllowed: $_smokingAllowed, _petsAllowed: $_petsAllowed, _kidSeat: $_kidSeat, _reserved: $_reserved, _availableSeats: $_availableSeats, _maxSeats: $_maxSeats, _maxLuggages: $_maxLuggages, reservedSeats: $reservedSeats, _availableLuggages: $_availableLuggages, reservedLuggages: $reservedLuggages, _stopTime: $_stopTime, _price: $_price, _user: $_user, _passengers: $_passengers, _car: $_car, _updated: $_updated, _mapUrl: $_mapUrl, mapImage: $mapImage}';
   }
 
   factory Ride.fromJson(Map<String, dynamic> json) {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
     if (leavingDateJ != null) {
-      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+      leavingDate =
+          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     }
 
     User user;
@@ -210,7 +205,8 @@ class Ride {
       car: Car.fromJson(json["car"]),
       reserved: reserved,
       passengers: json["passengers"] != null
-          ? List<Reservation>.from(json["passengers"].map((x) => Reservation.fromJson(x)))
+          ? List<Reservation>.from(
+              json["passengers"].map((x) => Reservation.fromJson(x)))
           : null,
       leavingDate: leavingDate,
       from: MainLocation.fromJson(json["from"]),
@@ -338,10 +334,8 @@ class Ride {
     _maxLuggages = value;
   }
 
-  int get reservedSeats => _reservedSeats;
-
-  set reservedSeats(value) {
-    _reservedSeats = value;
+  int get reservedSeats {
+    return this._maxSeats - this.availableSeats;
   }
 
   int get availableLuggages => _availableLuggages;
@@ -350,10 +344,8 @@ class Ride {
     _availableLuggages = value;
   }
 
-  int get reservedLuggages => _reservedLuggages;
-
-  set reservedLuggages(value) {
-    _reservedLuggages = value;
+  int get reservedLuggages {
+    return this._maxLuggages - this._availableLuggages;
   }
 
   get stopTime => _stopTime;

@@ -46,8 +46,8 @@ class CountryRestrictionListTile extends StatelessWidget {
                       iconSize: Styles.largeIconSize(),
                       color: Styles.primaryColor(),
                       tooltip: Lang.getString(context, "Remove_country"),
-                      onPressed: () {
-                        _removeCountry(_index);
+                      onPressed: () async {
+                        await _removeCountry(_index);
                       },
                     ),
                   )

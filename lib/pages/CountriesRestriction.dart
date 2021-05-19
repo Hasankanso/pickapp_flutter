@@ -194,10 +194,10 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
                             await Cache.setCountriesList(_updatedCountries);
                             App.countriesComponents = null;
                             App.setCountriesComponent(_updatedCountries);
-                            App.updateUpcomingRide.value =
-                                !App.updateUpcomingRide.value;
-
-                            setState(() {});
+                            setState(() {
+                              App.updateUpcomingRide.value =
+                                  !App.updateUpcomingRide.value;
+                            });
                           },
                         ),
                       ),
@@ -208,10 +208,19 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
     }
   }
 
-  _removeCountry(index) {
+  _removeCountry(index) async {
     if (_countriesControllers.length > 1) {
+      _countriesControllers.removeAt(index);
+
+      List<String> _updatedCountries = <String>[];
+      for (int i = 0; i < _countriesControllers.length; i++) {
+        _updatedCountries.add(_countriesControllers[i].country.countryCode);
+      }
+      await Cache.setCountriesList(_updatedCountries);
+      App.countriesComponents = null;
+      App.setCountriesComponent(_updatedCountries);
       setState(() {
-        _countriesControllers.removeAt(index);
+        App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
       });
     }
   }

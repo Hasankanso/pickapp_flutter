@@ -308,8 +308,13 @@ class _LoginState extends State<Login> {
       App.user = u;
       await Cache.setRates(u.person.rates);
       await Cache.setUser(u);
+
+      App.countriesComponents = null;
+      await Cache.setCountriesList(
+          [App.person.countryInformations.countryComponent]);
       App.setCountriesComponent(
           [App.person.countryInformations.countryComponent]);
+
       if (App.user.driver != null) App.isDriverNotifier.value = true;
       App.isLoggedInNotifier.value = true;
 
