@@ -65,7 +65,9 @@ class Ride {
   String _mapUrl;
 
   @HiveField(23)
-  DateTime status;
+  String status;
+  @HiveField(24)
+  String reason;
 
   int _reservedSeats;
   int _reservedLuggages;
@@ -95,7 +97,8 @@ class Ride {
       User user,
       Car car,
       DateTime updated,
-      this.status}) {
+      this.status,
+      this.reason}) {
     this.id = id;
     this.comment = comment;
     this.from = from;
@@ -202,6 +205,7 @@ class Ride {
       stopTime: json["stopTime"] == null ? 0 : json["stopTime"],
       comment: json["comment"],
       user: user,
+      status: json["status"],
       car: Car.fromJson(json["car"]),
       reserved: reserved,
       passengers: json["passengers"] != null
