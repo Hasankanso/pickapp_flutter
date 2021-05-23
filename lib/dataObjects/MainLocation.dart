@@ -43,6 +43,7 @@ class MainLocation {
       };
 
   factory MainLocation.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
     var position = json["position"];
     double longitude, latitude;
     if (position != null) {

@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
@@ -64,10 +65,11 @@ class LocalNotificationManager {
     );
   }
 
-  static _localeNotificationCallBack(String payload, context) {
+  static _localeNotificationCallBack(String payload, context) async {
     if (payload != null) {
       MainNotification notification =
           MainNotification.fromJson(json.decode(payload));
+      await Cache.removeScheduledNotificationId(notification.id);
       switch (notification.action) {
         case 'RATE':
           Navigator.pushNamed(context, "/ReviewsPageList");
@@ -148,11 +150,7 @@ class LocalNotificationManager {
         payload: json.encode(notification.toJson()),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
-/*    if (App.notifications != null) {
-      App.notifications.add(notification);
-    } else {
-      App.notifications = [notification];
-    }*/
+
     //await Cache.setNotifications(App.notifications);
   }
 
@@ -169,13 +167,20 @@ class LocalNotificationManager {
     return null;
   }
 
-  static deleteLocalNotification(int id) async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-    await flutterLocalNotificationsPlugin.cancel(id);
+  static Future<bool> cancelLocalNotification(String objectId) async {
+    int id = await Cache.getScheduledNotificationId(objectId);
+    if (id != null) {
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+          FlutterLocalNotificationsPlugin();
+      await flutterLocalNotificationsPlugin.cancel(id);
+      await Cache.removeScheduledNotification(id);
+      await Cache.removeScheduledNotificationId(objectId);
+      return true;
+    }
+    return false;
   }
 
-  static deleteAllLocalNotifications() async {
+  static cancelAllLocalNotifications() async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.cancelAll();

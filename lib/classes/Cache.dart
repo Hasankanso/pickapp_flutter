@@ -60,6 +60,8 @@ class Cache {
     var userB = Hive.box("user");
     await userB.clear();
     await clearHiveChats();
+    await removeAllScheduledNotification();
+    await removeAllScheduledNotificationId();
   }
 
   static clearNotifications() async {
@@ -262,6 +264,50 @@ class Cache {
     return false;
   }
 
+  static Future<bool> removeScheduledNotification(int notificationId) async {
+    var notificationBox;
+    if (!Hive.isBoxOpen("scheduledNotifications")) {
+      notificationBox = await Hive.openBox("scheduledNotifications");
+    } else {
+      notificationBox = Hive.box("scheduledNotifications");
+    }
+    List<MainNotification> allNotf = [];
+
+    if (notificationBox.isOpen) {
+      var scheduledNotifications =
+          notificationBox.get("scheduledNotifications");
+      if (scheduledNotifications != null) {
+        scheduledNotifications =
+            scheduledNotifications.cast<MainNotification>();
+        allNotf = scheduledNotifications;
+      }
+      await notificationBox.close();
+    }
+    for (int i = 0; i < allNotf.length; i++) {
+      if (allNotf[i].id == notificationId) {
+        allNotf.remove(allNotf[i]);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static Future<bool> removeAllScheduledNotification() async {
+    var notificationBox;
+    if (!Hive.isBoxOpen("scheduledNotifications")) {
+      notificationBox = await Hive.openBox("scheduledNotifications");
+    } else {
+      notificationBox = Hive.box("scheduledNotifications");
+    }
+
+    if (notificationBox.isOpen) {
+      await notificationBox.delete("scheduledNotifications");
+      await notificationBox.close();
+      return true;
+    }
+    return false;
+  }
+
   static Future<bool> addScheduledNotification(
       MainNotification notification) async {
     var notificationBox = await Hive.openBox("scheduledNotifications");
@@ -409,15 +455,6 @@ class Cache {
     return isNewNotification;
   }
 
-  static Future<int> setNotificationId() async {
-    var box = await Hive.openBox("appSettings");
-    int notificationId = box.get("notification_id");
-    notificationId += 1;
-    await box.put("notification_id", notificationId);
-    await box.close();
-    return notificationId;
-  }
-
   static Future<bool> setCountriesList(List<String> value) async {
     var box = await Hive.openBox("appSettings");
     await box.put("countriesList", value);
@@ -435,5 +472,50 @@ class Cache {
   static void setChat(Chat chat) async {
     Box<Chat> chatBox = await Hive.openBox('chat');
     chatBox.put(chat.id, chat);
+  }
+
+  static Future<int> setScheduledNotificationId(String objectId) async {
+    var box = await Hive.openBox("appSettings");
+    int notificationId = box.get("NOTIFICATION_ID");
+    if (notificationId >= 500) {
+      notificationId = -1;
+    }
+    notificationId += 1;
+    await box.put("NOTIFICATION_ID", notificationId);
+
+    Map<String, int> notificationD = box.get("NOTIFICATION_DICTIONARY");
+    if (notificationD == null) {
+      notificationD = new Map<String, int>();
+    }
+    notificationD[objectId] = notificationId;
+    await box.put("NOTIFICATION_DICTIONARY", notificationD);
+    await box.close();
+    return notificationId;
+  }
+
+  static Future<bool> removeAllScheduledNotificationId() async {
+    var box = await Hive.openBox("appSettings");
+
+    await box.delete("NOTIFICATION_ID");
+    await box.delete("NOTIFICATION_DICTIONARY");
+
+    await box.close();
+    return true;
+  }
+
+  static Future<int> getScheduledNotificationId(String objectId) async {
+    var box = await Hive.openBox("appSettings");
+    Map<String, int> notificationD = box.get("NOTIFICATION_DICTIONARY");
+    await box.close();
+    return notificationD[objectId];
+  }
+
+  static Future<bool> removeScheduledNotificationId(String objectId) async {
+    var box = await Hive.openBox("appSettings");
+    Map<String, int> notificationD = box.get("NOTIFICATION_DICTIONARY");
+    notificationD.remove(objectId);
+    await box.put("NOTIFICATION_DICTIONARY", notificationD);
+    await box.close();
+    return true;
   }
 }

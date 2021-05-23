@@ -62,10 +62,7 @@ class PushNotificationsManager {
   response(String userStatus, int code, String message) async {
     if (code != HttpStatus.ok) {
       if (code == -1 || code == -2) {
-        Cache.clearHiveCache();
-        App.user = null;
-        App.isDriverNotifier.value = false;
-        App.isLoggedInNotifier.value = false;
+        await App.logout();
       }
     }
   }

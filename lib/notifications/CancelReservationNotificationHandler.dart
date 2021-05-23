@@ -12,11 +12,12 @@ import 'package:pickapp/notifications/RatePassengersHandler.dart';
 class CancelReservationNotificationHandler extends NotificationHandler {
   String rideId, reason, passengerId;
 
-  CancelReservationNotificationHandler(MainNotification notification) : super(notification) {
-    this.rideId = (notification.object as List)[0] as String;
-    this.passengerId = (notification.object as List)[1] as String;
-    if ((notification.object as List).length > 2)
-      this.reason = (notification.object as List)[2] as String;
+  CancelReservationNotificationHandler(MainNotification notification)
+      : super(notification) {
+    List<Object> list = notification.object as List;
+    this.rideId = list[0] as String;
+    this.passengerId = list[1] as String;
+    if (list.length > 2) this.reason = list[2] as String;
   }
 
   @override
@@ -45,8 +46,10 @@ class CancelReservationNotificationHandler extends NotificationHandler {
     if (reason == null)
       user.person.upcomingRides[index].passengers.removeAt(passIndex);
     else {
-      user.person.upcomingRides[index].passengers[passIndex].status = "CANCELED";
-      user.person.upcomingRides[index].passengers[passIndex].reason = this.reason;
+      user.person.upcomingRides[index].passengers[passIndex].status =
+          "CANCELED";
+      user.person.upcomingRides[index].passengers[passIndex].reason =
+          this.reason;
     }
 
     await Cache.setUser(user);
