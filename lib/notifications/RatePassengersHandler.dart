@@ -15,7 +15,9 @@ class RatePassengersHandler extends NotificationHandler {
   }
 
   @override
-  Future<void> cache() async {}
+  Future<void> cache() async {
+    LocalNotificationManager.cleanAfterNotificationPopped(rideId);
+  }
 
   @override
   Future<void> updateApp() async {}
@@ -28,14 +30,13 @@ class RatePassengersHandler extends NotificationHandler {
       //in case user removed the ride. but later clicked the notification
       return;
     }
+
     Navigator.of(context).pushNamed("/RatePassengers", arguments: ride);
   }
 
   static Future<void> createLocalNotification(Ride ride) async {
-    int notificationId = 500;
-
     PendingNotificationRequest notificationReq =
-        await LocalNotificationManager.getLocalNotification(notificationId);
+        await LocalNotificationManager.getLocalNotification(ride.id);
 
     if (notificationReq != null) {
       return; //it's already added.
@@ -44,28 +45,25 @@ class RatePassengersHandler extends NotificationHandler {
     DateTime popUpDate =
         ride.leavingDate.add(Duration(hours: App.person.countryInformations.rateStartHours));
     MainNotification rateNotification = new MainNotification(
-        id: notificationId,
         objectId: ride.id,
         title: "How Were Passengers?",
         body: "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
         scheduleDate: popUpDate,
         action: RatePassengersHandler.action);
 
-    LocalNotificationManager.pushLocalNotification(rateNotification);
+    LocalNotificationManager.pushLocalNotification(rateNotification, ride.id);
   }
 
   static Future<void> updateLocalNotification(Ride ride) async {
-    int notificationId = 500;
-
     PendingNotificationRequest notificationReq =
-        await LocalNotificationManager.getLocalNotification(notificationId);
+        await LocalNotificationManager.getLocalNotification(ride.id);
 
     if (notificationReq == null) {
       return; //there's nothing to check.
     }
 
     if (ride.passengers.isEmpty) {
-      LocalNotificationManager.deleteLocalNotification(notificationId);
+      LocalNotificationManager.cancelLocalNotification(ride.id);
     }
   }
 }
