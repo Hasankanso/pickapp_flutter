@@ -21,6 +21,8 @@ class Rate {
   Ride _ride;
   @HiveField(6)
   DateTime _creationDate;
+  @HiveField(7)
+  String id;
 
   Rate(
       {double grade,
@@ -29,7 +31,8 @@ class Rate {
       Person rater,
       Person target,
       Ride ride,
-      DateTime creationDate}) {
+      DateTime creationDate,
+      this.id}) {
     this.grade = grade;
     this.comment = comment;
     this.reason = reason;
@@ -45,7 +48,8 @@ class Rate {
         "reason": this.reason,
         "user": App.user.id,
         "ride": this.ride.id,
-        "target": this.target.id
+        "target": this.target.id,
+        "objectId": this.id
       };
   factory Rate.fromJson(Map<String, dynamic> json) {
     var creationDateJ = json["created"];
@@ -59,6 +63,7 @@ class Rate {
       grade: json["grade"].toDouble(),
       comment: json["comment"],
       reason: json["reason"],
+      id: json["objectId"],
       creationDate: creationDate,
       rater: Person.fromJson(json["rater"]),
       target: Person.fromJson(json["target"]),

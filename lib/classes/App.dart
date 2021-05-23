@@ -15,6 +15,7 @@ import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/main.dart';
+import 'package:pickapp/notifications/LocalNotificationManager.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 
 import 'Localizations.dart';
@@ -257,5 +258,14 @@ class App {
     if (countriesList != null)
       for (final item in countriesList)
         countriesComponents.add(Component(Component.country, item));
+  }
+
+  static Future<bool> logout() async {
+    await Cache.clearHiveCache();
+    App.user = null;
+    App.isDriverNotifier.value = false;
+    App.isLoggedInNotifier.value = false;
+    LocalNotificationManager.cancelAllLocalNotifications();
+    return true;
   }
 }

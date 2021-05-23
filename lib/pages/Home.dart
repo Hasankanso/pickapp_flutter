@@ -78,10 +78,7 @@ class _HomeState extends State<Home> {
   response(String userStatus, int code, String message, context) async {
     if (code != HttpStatus.ok) {
       if (code == -1 || code == -2) {
-        Cache.clearHiveCache();
-        App.user = null;
-        App.isDriverNotifier.value = false;
-        App.isLoggedInNotifier.value = false;
+        await App.logout();
         CustomToast().showErrorToast(Lang.getString(context, message));
       } else if (code == -3) {
         CustomToast().showErrorToast(Lang.getString(context, message));
