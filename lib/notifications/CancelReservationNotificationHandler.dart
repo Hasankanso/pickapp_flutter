@@ -7,6 +7,7 @@ import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
+import 'package:pickapp/notifications/RatePassengersHandler.dart';
 
 class CancelReservationNotificationHandler extends NotificationHandler {
   String rideId, reason, passengerId;
@@ -26,11 +27,11 @@ class CancelReservationNotificationHandler extends NotificationHandler {
 
     if (index < 0) return null;
 
-    Ride r = user.person.upcomingRides[index];
+    Ride reservedRide = user.person.upcomingRides[index];
 
-    if (r.passengers == null) return;
+    if (reservedRide.passengers == null) return;
 
-    int passIndex = r.passengers.indexOf(new Reservation(id: passengerId));
+    int passIndex = reservedRide.passengers.indexOf(new Reservation(id: passengerId));
 
     if (passIndex < 0) return null;
 
@@ -49,6 +50,8 @@ class CancelReservationNotificationHandler extends NotificationHandler {
     }
 
     await Cache.setUser(user);
+
+    await RatePassengersHandler.updateLocalNotification(reservedRide);
   }
 
   @override
