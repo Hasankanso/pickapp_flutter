@@ -329,7 +329,7 @@ _addRideResponse(Ride result, int code, String message, context) {
   if (code != HttpStatus.ok) {
     CustomToast().showErrorToast(message);
   } else {
-    App.addRideToMyRides(result);
+    App.addRideToMyRides(result, context);
 
     Navigator.pushNamedAndRemoveUntil(
         context, "/", (Route<dynamic> route) => false);

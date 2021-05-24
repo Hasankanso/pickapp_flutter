@@ -16,7 +16,7 @@ class RatePassengersHandler extends NotificationHandler {
 
   @override
   Future<void> cache() async {
-    LocalNotificationManager.cleanAfterNotificationPopped(rideId);
+    //LocalNotificationManager.cleanAfterNotificationPopped(rideId);
   }
 
   @override
@@ -42,12 +42,13 @@ class RatePassengersHandler extends NotificationHandler {
       return; //it's already added.
     }
 
-    DateTime popUpDate =
-        ride.leavingDate.add(Duration(hours: App.person.countryInformations.rateStartHours));
+    DateTime popUpDate = ride.leavingDate
+        .add(Duration(hours: App.person.countryInformations.rateStartHours));
     MainNotification rateNotification = new MainNotification(
         objectId: ride.id,
         title: "How Were Passengers?",
-        body: "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
+        body:
+            "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
         scheduleDate: popUpDate,
         action: RatePassengersHandler.action);
 

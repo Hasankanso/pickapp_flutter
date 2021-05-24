@@ -7,9 +7,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/items/MyRidesTile.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -21,53 +24,82 @@ class LocalNotificationManager {
 
     AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    final IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings(
-        requestSoundPermission: true,
-        requestBadgePermission: true,
-        requestAlertPermission: true,
-        onDidReceiveLocalNotification: (int id, String title, String body, String payload) async {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text(title),
-              content: Text(body),
-              actions: [
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text(Lang.getString(context, "Dismiss")),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                  },
+    final IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings(
+            requestSoundPermission: true,
+            requestBadgePermission: true,
+            requestAlertPermission: true,
+            onDidReceiveLocalNotification:
+                (int id, String title, String body, String payload) async {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => CupertinoAlertDialog(
+                  title: Text(title),
+                  content: Text(body),
+                  actions: [
+                    CupertinoDialogAction(
+                      isDefaultAction: true,
+                      child: Text(Lang.getString(context, "Dismiss")),
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      isDefaultAction: true,
+                      child: Text(Lang.getString(context, "Show")),
+                      onPressed: () async {
+                        _localeNotificationCallBack(payload, context);
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
                 ),
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text(Lang.getString(context, "Show")),
-                  onPressed: () async {
-                    _localeNotificationCallBack(payload, context);
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ),
-          );
-        });
-    final InitializationSettings initializationSettings = InitializationSettings(
+              );
+            });
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onSelectNotification: (payload) => _localeNotificationCallBack(payload, context),
+      onSelectNotification: (payload) =>
+          _localeNotificationCallBack(payload, context),
     );
   }
 
   static _localeNotificationCallBack(String payload, context) async {
     if (payload != null) {
-      MainNotification notification = MainNotification.fromJson(json.decode(payload));
+      MainNotification notification =
+          MainNotification.fromJson(json.decode(payload));
       await Cache.removeScheduledNotificationId(notification.id);
       switch (notification.action) {
         case 'RATE':
           Navigator.pushNamed(context, "/ReviewsPageList");
+          break;
+        case 'RIDE_REMINDER':
+          List<Object> objects = notification.object as List;
+
+          Ride r = App.person.getUpcomingRideFromId(objects[0] as String);
+
+          if ((objects[1] as bool) == true) {
+            Navigator.of(context).pushNamed("/RideDetails", arguments: [
+              r,
+              Lang.getString(context, "Edit_Reservation"),
+              (ride) {
+                MyRidesTile.seatsLuggagePopUp(context, r);
+              },
+              false
+            ]);
+          } else {
+            Navigator.of(context).pushNamed("/UpcomingRideDetails", arguments: [
+              r,
+              Lang.getString(context, "Edit_Ride"),
+              (r) {
+                return Navigator.pushNamed(context, "/EditRide", arguments: r);
+              }
+            ]);
+          }
           break;
         default:
           //for default notification
@@ -101,7 +133,9 @@ class LocalNotificationManager {
         FilePathAndroidBitmap(imagePath),
       );
 
-      iosImage = <IOSNotificationAttachment>[IOSNotificationAttachment(imagePath)];
+      iosImage = <IOSNotificationAttachment>[
+        IOSNotificationAttachment(imagePath)
+      ];
     }
 
     String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
@@ -146,29 +180,18 @@ class LocalNotificationManager {
                 attachments: iosImage)),
         androidAllowWhileIdle: true,
         payload: json.encode(notification.toJson()),
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
-
-    //await Cache.setNotifications(App.notifications);
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
+    await Cache.addScheduledNotification(notification);
   }
 
-  static Future<PendingNotificationRequest> getLocalNotification(String id) async {
+  static Future<PendingNotificationRequest> getLocalNotification(
+      String id) async {
     List<PendingNotificationRequest> notis =
         await FlutterLocalNotificationsPlugin().pendingNotificationRequests();
 
     int integerId = await Cache.getScheduledNotificationId(id);
     return notis[integerId];
-  }
-
-  static Future<bool> cleanAfterNotificationPopped(String objectId) async {
-    int id = await Cache.getScheduledNotificationId(objectId);
-    if (id != null) {
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-          FlutterLocalNotificationsPlugin();
-      await Cache.removeScheduledNotification(id);
-      await Cache.removeScheduledNotificationId(objectId);
-      return true;
-    }
-    return false;
   }
 
   static Future<bool> cancelLocalNotification(String objectId) async {
@@ -177,7 +200,11 @@ class LocalNotificationManager {
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
           FlutterLocalNotificationsPlugin();
       await flutterLocalNotificationsPlugin.cancel(id);
-      return cleanAfterNotificationPopped(objectId);
+      if (id != null) {
+        await Cache.removeScheduledNotification(id);
+        await Cache.removeScheduledNotificationId(objectId);
+        return true;
+      }
     }
     return false;
   }

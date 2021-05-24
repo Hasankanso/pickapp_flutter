@@ -57,8 +57,10 @@ class _SearchResultsState extends State<SearchResults> {
   sortBestMatch() {
     setState(() {
       widget.searchInfo.rides.sort((r1, r2) {
-        Duration distance1 = r1.leavingDate.difference(widget.searchInfo.minDate).abs();
-        Duration distance2 = r2.leavingDate.difference(widget.searchInfo.minDate).abs();
+        Duration distance1 =
+            r1.leavingDate.difference(widget.searchInfo.minDate).abs();
+        Duration distance2 =
+            r2.leavingDate.difference(widget.searchInfo.minDate).abs();
         return distance1 > distance2 ? -1 : 1;
       });
       dateAscending = true;
@@ -81,9 +83,11 @@ class _SearchResultsState extends State<SearchResults> {
   sortDate() {
     setState(() {
       if (dateAscending) {
-        widget.searchInfo.rides.sort((r1, r2) => r1.leavingDate.isAfter(r2.leavingDate) ? 1 : -1);
+        widget.searchInfo.rides
+            .sort((r1, r2) => r1.leavingDate.isAfter(r2.leavingDate) ? 1 : -1);
       } else {
-        widget.searchInfo.rides.sort((r1, r2) => r1.leavingDate.isBefore(r2.leavingDate) ? 1 : -1);
+        widget.searchInfo.rides
+            .sort((r1, r2) => r1.leavingDate.isBefore(r2.leavingDate) ? 1 : -1);
       }
       dateAscending = !dateAscending;
       priceAscending = true;
@@ -92,7 +96,8 @@ class _SearchResultsState extends State<SearchResults> {
 
   @override
   void initState() {
-    seatsController = TextEditingController(text: widget.searchInfo.passengersNumber.toString());
+    seatsController = TextEditingController(
+        text: widget.searchInfo.passengersNumber.toString());
     luggageController = TextEditingController(text: "0");
   }
 
@@ -106,7 +111,8 @@ class _SearchResultsState extends State<SearchResults> {
       rides = widget.searchInfo.rides;
     }
 
-    CustomToast().showLongToast(rides.length.toString() + " " + Lang.getString(context, "RIDES"),
+    CustomToast().showLongToast(
+        rides.length.toString() + " " + Lang.getString(context, "RIDES"),
         backgroundColor: Colors.greenAccent);
     return MainScaffold(
       appBar: MainAppBar(
@@ -119,7 +125,8 @@ class _SearchResultsState extends State<SearchResults> {
               child: Column(
                 children: [
                   ResponsiveWidget.fullWidth(
-                      height: 60, child: _TopCard(searchInfo: widget.searchInfo)),
+                      height: 60,
+                      child: _TopCard(searchInfo: widget.searchInfo)),
                   _buildDivider(),
                   ResponsiveWidget.fullWidth(
                     height: 44,
@@ -129,7 +136,8 @@ class _SearchResultsState extends State<SearchResults> {
                           flex: 40,
                           child: IconButton(
                             color: Styles.primaryColor(),
-                            icon: Icon(Icons.filter_alt_outlined, size: Styles.mediumIconSize()),
+                            icon: Icon(Icons.filter_alt_outlined,
+                                size: Styles.mediumIconSize()),
                             onPressed: () {
                               showDialog(
                                   context: context,
@@ -160,7 +168,8 @@ class _SearchResultsState extends State<SearchResults> {
                                   sortDate();
                                 }
                               },
-                              itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<int>>[
                                     PopupMenuItem(
                                         value: 0,
                                         child: Row(children: [
@@ -168,7 +177,10 @@ class _SearchResultsState extends State<SearchResults> {
                                             Icons.auto_awesome,
                                             size: Styles.mediumIconSize(),
                                           ),
-                                          Text("  " + Lang.getString(context, "Best_Match"),
+                                          Text(
+                                              "  " +
+                                                  Lang.getString(
+                                                      context, "Best_Match"),
                                               style: Styles.valueTextStyle()),
                                         ])),
                                     PopupMenuItem(
@@ -180,7 +192,10 @@ class _SearchResultsState extends State<SearchResults> {
                                                 Icons.sync_alt,
                                                 size: Styles.mediumIconSize(),
                                               )),
-                                          Text("  " + Lang.getString(context, "Price"),
+                                          Text(
+                                              "  " +
+                                                  Lang.getString(
+                                                      context, "Price"),
                                               style: Styles.valueTextStyle()),
                                         ])),
                                     PopupMenuItem(
@@ -192,7 +207,10 @@ class _SearchResultsState extends State<SearchResults> {
                                                 Icons.sync_alt,
                                                 size: Styles.mediumIconSize(),
                                               )),
-                                          Text("  " + Lang.getString(context, "Date"),
+                                          Text(
+                                              "  " +
+                                                  Lang.getString(
+                                                      context, "Date"),
                                               style: Styles.valueTextStyle()),
                                         ])),
                                   ]),
@@ -204,7 +222,8 @@ class _SearchResultsState extends State<SearchResults> {
               )),
           Expanded(
             child: ListBuilder(
-                list: rides, itemBuilder: SearchResultTile.itemBuilder(rides, OnPressed)),
+                list: rides,
+                itemBuilder: SearchResultTile.itemBuilder(rides, OnPressed)),
           ),
         ],
       ),
@@ -216,7 +235,8 @@ class _SearchResultsState extends State<SearchResults> {
     String buttonName = Lang.getString(context, "Back");
     bool rideExists = App.person.upcomingRideExists(r.id);
 
-    if ((App.user.driver != null && r.driver.id == App.user.driver.id) || rideExists) {
+    if ((App.user.driver != null && r.driver.id == App.user.driver.id) ||
+        rideExists) {
       callbackFunction = (Ride r) => Navigator.of(context).pop();
     } else if (rideExists) {
       callbackFunction = (Ride r) => seatsLuggagePopUp(context, r);
@@ -226,8 +246,8 @@ class _SearchResultsState extends State<SearchResults> {
       buttonName = Lang.getString(context, "Reserve");
     }
 
-    Navigator.of(context)
-        .pushNamed("/RideDetails", arguments: [r, buttonName, callbackFunction, true]);
+    Navigator.of(context).pushNamed("/RideDetails",
+        arguments: [r, buttonName, callbackFunction, true]);
   }
 
   void seatsLuggagePopUp(BuildContext context, Ride ride) {
@@ -245,15 +265,19 @@ class _SearchResultsState extends State<SearchResults> {
         },
       );
       Request<Ride> req = ReserveSeat(ride, App.user, seats, luggage);
-      req.send((r, status, reason) => reserveSeatsResponse(r, status, reason, context));
+      req.send((r, status, reason) =>
+          reserveSeatsResponse(r, status, reason, context));
     });
   }
 
-  void reserveSeatsResponse(Ride r, int status, String reason, BuildContext context) {
+  void reserveSeatsResponse(
+      Ride r, int status, String reason, BuildContext context) {
     if (status == 200) {
-      App.addRideToMyRides(r);
-      CustomToast().showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
-      Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
+      App.addRideToMyRides(r, context);
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
+      Navigator.pushNamedAndRemoveUntil(
+          context, "/", (Route<dynamic> route) => false);
     } else {
       Navigator.pop(context);
       //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation
@@ -309,7 +333,9 @@ class _TopCard extends StatelessWidget {
               maxLines: 1,
             ),
             Text(
-              Lang.getString(context, "Seats") + " " + searchInfo.passengersNumber.toString(),
+              Lang.getString(context, "Seats") +
+                  " " +
+                  searchInfo.passengersNumber.toString(),
               style: TextStyle(
                   color: Theme.of(context).textTheme.caption.color,
                   fontSize: ScreenUtil().setSp(12)),

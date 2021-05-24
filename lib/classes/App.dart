@@ -6,6 +6,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:intl/intl.dart' as int1;
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
@@ -229,10 +230,27 @@ class App {
     Cache.setUser(App.user);
   }
 
-  static addRideToMyRides(Ride ride) {
+  static addRideToMyRides(Ride ride, context) {
+    String _locale = Localizations.localeOf(context).toString();
+
     App.user.person.upcomingRides.add(ride);
     Cache.setUser(App.user);
     updateUpcomingRide.value = !updateUpcomingRide.value;
+    var rd = ride.leavingDate;
+    DateTime d =
+        new DateTime(rd.year, rd.month, rd.day, rd.hour, rd.minute, rd.second);
+    String title = "Ride reminder";
+    String body = "You have an upcoming ride that will start at " +
+        int1.DateFormat(App.hourFormat, _locale).format(ride.leavingDate) +
+        ", be ready";
+
+    MainNotification notification = MainNotification(
+        title: title,
+        body: body,
+        object: [ride.id, ride.reserved],
+        action: "RIDE_REMINDER",
+        scheduleDate: d.add(Duration(minutes: -30)));
+    LocalNotificationManager.pushLocalNotification(notification, ride.id);
   }
 
   static double roundRate(double rate) {
