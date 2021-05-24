@@ -3,6 +3,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/notifications/LocalNotificationManager.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 
@@ -29,6 +30,9 @@ class CancelRideNotificationHandler extends NotificationHandler {
       user.person.upcomingRides[index].status = "CANCELED";
       user.person.upcomingRides[index].reason = this.reason;
     }
+
+    await LocalNotificationManager.cancelLocalNotification(
+        "RIDE_REMINDER" + rideId);
 
     await Cache.setUser(user);
   }

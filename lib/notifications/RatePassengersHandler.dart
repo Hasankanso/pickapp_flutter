@@ -36,7 +36,8 @@ class RatePassengersHandler extends NotificationHandler {
 
   static Future<void> createLocalNotification(Ride ride) async {
     PendingNotificationRequest notificationReq =
-        await LocalNotificationManager.getLocalNotification(ride.id);
+        await LocalNotificationManager.getLocalNotification(
+            "RATE_REQUEST" + ride.id);
 
     if (notificationReq != null) {
       return; //it's already added.
@@ -52,19 +53,22 @@ class RatePassengersHandler extends NotificationHandler {
         scheduleDate: popUpDate,
         action: RatePassengersHandler.action);
 
-    LocalNotificationManager.pushLocalNotification(rateNotification, ride.id);
+    LocalNotificationManager.pushLocalNotification(
+        rateNotification, "RATE_REQUEST" + ride.id);
   }
 
   static Future<void> updateLocalNotification(Ride ride) async {
     PendingNotificationRequest notificationReq =
-        await LocalNotificationManager.getLocalNotification(ride.id);
+        await LocalNotificationManager.getLocalNotification(
+            "RATE_REQUEST" + ride.id);
 
     if (notificationReq == null) {
       return; //there's nothing to check.
     }
 
     if (ride.passengers.isEmpty) {
-      LocalNotificationManager.cancelLocalNotification(ride.id);
+      LocalNotificationManager.cancelLocalNotification(
+          "RATE_REQUEST" + ride.id);
     }
   }
 }
