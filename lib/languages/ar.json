@@ -147,7 +147,7 @@
   "Rates": "تقييمات",
   "No_Rides_History!":"لا يوجد سجل رحلات!",
   "Logout": "تسجيل خروج",
-  "Ride_Time_validation": "يجب أن تكون رحلتك بعد أكثر من نصف ساعة",
+  "Ride_Time_validation": "يجب أن تكون رحلتك بعد أكثر من نصف ساعة من الان",
   "Min_stop_time": "5 دقائق على الأقل",
   "Max_stop_time": "30 دقيقة كحد أقصى",
   "Choose_car": "اختر سيارة",

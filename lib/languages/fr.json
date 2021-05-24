@@ -148,7 +148,7 @@
   "Rates": "Rates",
   "No_Rides_History!":"No Rides History!",
   "Logout": "Logout",
-  "Ride_Time_validation": "Your ride must be after more than a half-hour",
+  "Ride_Time_validation": "Your ride date must be after more than a half-hour from now",
   "Min_stop_time": "Min 5 minutes",
   "Max_stop_time": "Max 30 minutes",
   "Choose_car": "Choose car",

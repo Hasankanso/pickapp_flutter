@@ -120,7 +120,6 @@ class LocalNotificationManager {
     var androidImage;
     var iosImage;
 
-    print(notification.imagePath);
     if (notification.imagePath != null) {
       //todo put image file name
       final directory = await getApplicationDocumentsDirectory();

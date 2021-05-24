@@ -168,7 +168,7 @@ class Ride {
 
   @override
   String toString() {
-    return 'Ride{_id: $_id, _comment: $_comment, _mapBase64: $_mapBase64, _from: $_from, _to: $_to, _leavingDate: $_leavingDate, _musicAllowed: $_musicAllowed, _acAllowed: $_acAllowed, _smokingAllowed: $_smokingAllowed, _petsAllowed: $_petsAllowed, _kidSeat: $_kidSeat, _reserved: $_reserved, _availableSeats: $_availableSeats, _maxSeats: $_maxSeats, _maxLuggages: $_maxLuggages, reservedSeats: $reservedSeats, _availableLuggages: $_availableLuggages, reservedLuggages: $reservedLuggages, _stopTime: $_stopTime, _price: $_price, _user: $_user, _passengers: $_passengers, _car: $_car, _updated: $_updated, _mapUrl: $_mapUrl, mapImage: $mapImage}';
+    return 'Ride{_id: $_id, _comment: $_comment, _mapBase64: $_mapBase64, _from: $_from, _to: $_to, _leavingDate: $_leavingDate, _musicAllowed: $_musicAllowed, _acAllowed: $_acAllowed, _smokingAllowed: $_smokingAllowed, _petsAllowed: $_petsAllowed, _kidSeat: $_kidSeat, _reserved: $_reserved, _availableSeats: $_availableSeats, _maxSeats: $_maxSeats, _maxLuggages: $_maxLuggages, _availableLuggages: $_availableLuggages, _stopTime: $_stopTime, _price: $_price, _user: $_user, _passengers: $_passengers, _car: $_car, _updated: $_updated, _mapUrl: $_mapUrl, mapImage: $mapImage}';
   }
 
   factory Ride.fromJson(Map<String, dynamic> json) {

@@ -34,7 +34,7 @@ class _MyRidesState extends State<MyRides> {
       body: ValueListenableBuilder(
           valueListenable: App.updateUpcomingRide,
           builder: (BuildContext context, bool isd, Widget child) {
-            ridesList.sort((a, b) => b.leavingDate.compareTo(a.leavingDate));
+            ridesList.sort((a, b) => a.leavingDate.compareTo(b.leavingDate));
             return Container(
               child: App.user.person.upcomingRides.length > 0
                   ? ListBuilder(

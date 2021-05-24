@@ -232,10 +232,11 @@ class App {
 
   static addRideToMyRides(Ride ride, context) {
     String _locale = Localizations.localeOf(context).toString();
-
     App.user.person.upcomingRides.add(ride);
     Cache.setUser(App.user);
+
     updateUpcomingRide.value = !updateUpcomingRide.value;
+
     var rd = ride.leavingDate;
     DateTime d =
         new DateTime(rd.year, rd.month, rd.day, rd.hour, rd.minute, rd.second);
