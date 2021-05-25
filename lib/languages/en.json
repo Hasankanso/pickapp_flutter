@@ -166,7 +166,6 @@
   "Remove_country": "Remove country",
   "Country_restriction_validation": "Country cannot be duplicated",
   "Choose_country": "Choose country",
-
   "Results" : "Results",
   "Filter" : "Filter",
   "RIDES" : "RIDES",
@@ -187,6 +186,8 @@
   "Confirm" : "Confirm",
   "Reserve_Seats_Luggage": "Reserve Seats and Luggage Space",
   "Reviews" : "Reviews",
+  "Review" : "Review",
+  "Rate_Passengers": "Rate Passengers",
   "no_reviews_message" : "No reviews at the moment.",
   "Accomplished_rides": "Accomplished_rides",
   "Disable_Animation" : "Disable Animation",

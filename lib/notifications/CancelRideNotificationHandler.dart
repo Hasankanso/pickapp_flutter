@@ -10,8 +10,7 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 class CancelRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
 
-  CancelRideNotificationHandler(MainNotification notification)
-      : super(notification) {
+  CancelRideNotificationHandler(MainNotification notification) : super(notification) {
     List<Object> list = notification.object as List;
     this.rideId = list[0] as String;
     if (list.length > 1) this.reason = list[1] as String;
@@ -31,8 +30,7 @@ class CancelRideNotificationHandler extends NotificationHandler {
       user.person.upcomingRides[index].reason = this.reason;
     }
 
-    await LocalNotificationManager.cancelLocalNotification(
-        "RIDE_REMINDER" + rideId);
+    await LocalNotificationManager.cancelLocalNotification("ride_reminder." + rideId);
 
     await Cache.setUser(user);
   }

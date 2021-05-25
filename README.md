@@ -7,7 +7,7 @@ offer and book rides
 Loubeni: 1.My Rides History
 baddna nen2ol l rides mnl upcomingride 3ala l ride history, chayek bl myRides wl MyRidesHistory awal ma yfta7o eza fi ride 5alsa meddeta, w eza eh: n2ela mn l userBox 3ala myRidesHistory box.
 
-Adel: 1.fix ratesHandler 3.cancel ride.
+Adel: 1.cancel ride.
 
 Hassan: 1. Check MyRides tile 2. implement AddRate for driver
 
