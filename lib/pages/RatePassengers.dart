@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/items/PassengerRateTile.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
@@ -14,7 +15,7 @@ class RatePassengers extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: "Rate_Users",
+        title: Lang.getString(context, "Review_Passengers"),
       ),
       body: ride.passengers.isEmpty
           ? Center(child: Text("No Passengers"))
