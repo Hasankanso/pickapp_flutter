@@ -8,7 +8,8 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 
 class RatePassengersHandler extends NotificationHandler {
   String rideId;
-  static const String action = "RATE_REQUEST";
+  static const String action = "RATE_PASSENGERS";
+  static const String prefix = "rate_passengers.";
 
   RatePassengersHandler(MainNotification notification) : super(notification) {
     rideId = notification.objectId;
@@ -36,39 +37,34 @@ class RatePassengersHandler extends NotificationHandler {
 
   static Future<void> createLocalNotification(Ride ride) async {
     PendingNotificationRequest notificationReq =
-        await LocalNotificationManager.getLocalNotification(
-            "RATE_REQUEST" + ride.id);
+        await LocalNotificationManager.getLocalNotification(prefix + ride.id);
 
     if (notificationReq != null) {
       return; //it's already added.
     }
 
-    DateTime popUpDate = ride.leavingDate
-        .add(Duration(hours: App.person.countryInformations.rateStartHours));
+    DateTime popUpDate =
+        ride.leavingDate.add(Duration(hours: App.person.countryInformations.rateStartHours));
     MainNotification rateNotification = new MainNotification(
         objectId: ride.id,
         title: "How Were Passengers?",
-        body:
-            "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
+        body: "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
         scheduleDate: popUpDate,
         action: RatePassengersHandler.action);
 
-    LocalNotificationManager.pushLocalNotification(
-        rateNotification, "RATE_REQUEST" + ride.id);
+    LocalNotificationManager.pushLocalNotification(rateNotification, prefix + ride.id);
   }
 
   static Future<void> updateLocalNotification(Ride ride) async {
     PendingNotificationRequest notificationReq =
-        await LocalNotificationManager.getLocalNotification(
-            "RATE_REQUEST" + ride.id);
+        await LocalNotificationManager.getLocalNotification(prefix + ride.id);
 
     if (notificationReq == null) {
       return; //there's nothing to check.
     }
 
     if (ride.passengers.isEmpty) {
-      LocalNotificationManager.cancelLocalNotification(
-          "RATE_REQUEST" + ride.id);
+      LocalNotificationManager.cancelLocalNotification(prefix + ride.id);
     }
   }
 }
