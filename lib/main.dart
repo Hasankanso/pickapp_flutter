@@ -26,7 +26,6 @@ Future<void> main() async {
   App.user = await Cache.getUser();
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
-    print(1);
     List<String> c = await Cache.getCountriesList();
     App.setCountriesComponent(c);
 

@@ -72,7 +72,6 @@ class LocalNotificationManager {
     if (payload != null) {
       MainNotification notification =
           MainNotification.fromJson(json.decode(payload));
-      await Cache.removeScheduledNotificationId(notification.id);
       switch (notification.action) {
         case 'RATE':
           Navigator.pushNamed(context, "/ReviewsPageList");

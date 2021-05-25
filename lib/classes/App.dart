@@ -227,6 +227,7 @@ class App {
   static deleteRideFromMyRides(Ride ride) {
     App.user.person.upcomingRides.remove(ride);
     updateUpcomingRide.value = !updateUpcomingRide.value;
+    LocalNotificationManager.cancelLocalNotification("RIDE_REMINDER" + ride.id);
     Cache.setUser(App.user);
   }
 
@@ -251,7 +252,8 @@ class App {
         object: [ride.id, ride.reserved],
         action: "RIDE_REMINDER",
         scheduleDate: d.add(Duration(minutes: -30)));
-    LocalNotificationManager.pushLocalNotification(notification, ride.id);
+    LocalNotificationManager.pushLocalNotification(
+        notification, "RIDE_REMINDER" + ride.id);
   }
 
   static double roundRate(double rate) {
