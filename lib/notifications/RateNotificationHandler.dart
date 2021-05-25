@@ -38,6 +38,6 @@ class RateNotificationHandler extends NotificationHandler {
 
   @override
   void display(BuildContext context) {
-    // TODO: implement display
+    Navigator.pushNamed(context, "/ReviewsPageList");
   }
 }

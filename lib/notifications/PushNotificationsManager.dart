@@ -13,6 +13,7 @@ import 'package:pickapp/notifications/MessageNotificationHandler.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
 import 'package:pickapp/notifications/RateNotificationHandler.dart';
 import 'package:pickapp/notifications/ReserveSeatsNotificationHandler.dart';
+import 'package:pickapp/notifications/RideReminderNotificationHandler.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/requests/UpdateToken.dart';
 
@@ -139,6 +140,35 @@ class PushNotificationsManager {
       await Cache.updateNotifications(allNotifications);
     }
   }
+
+//this method is used i notification list page, to handle on item click event
+  static NotificationHandler createNotificationHandler(
+      MainNotification newNotification) {
+    switch (newNotification.action) {
+      case "SEATS_RESERVED":
+        return ReserveSeatsNotificationHandler(newNotification);
+        break;
+      case "RESERVATION_CANCELED":
+        return CancelReservationNotificationHandler(newNotification);
+      case RateNotificationHandler.action:
+        return RateNotificationHandler(newNotification);
+        break;
+      case "RIDE_CANCELED":
+        return CancelRideNotificationHandler(newNotification);
+        break;
+      case "ALERT_RECEIVED":
+        return BroadcastAlertNotificationHandler(newNotification);
+      case "RIDE_REMINDER":
+        return RideReminderNotificationHandler(newNotification);
+        break;
+      case MessageNotificationHandler.action:
+        return MessageNotificationHandler(newNotification);
+    }
+    print("this notification: " +
+        newNotification.action +
+        " has no handler yet.");
+    return null;
+  }
 }
 
 Future<void> _backgroundMessageHandler(RemoteMessage message) async {
@@ -190,6 +220,9 @@ NotificationHandler _createNotificationHandler(RemoteMessage message) {
       break;
     case "ALERT_RECEIVED":
       return BroadcastAlertNotificationHandler(newNotification);
+    case "RIDE_REMINDER":
+      return RideReminderNotificationHandler(newNotification);
+      break;
     case MessageNotificationHandler.action:
       return MessageNotificationHandler(newNotification);
   }

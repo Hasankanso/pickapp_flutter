@@ -7,13 +7,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/items/MyRidesTile.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
+import 'package:pickapp/notifications/NotificationsHandler.dart';
+import 'package:pickapp/notifications/PushNotificationsManager.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -72,38 +71,9 @@ class LocalNotificationManager {
     if (payload != null) {
       MainNotification notification =
           MainNotification.fromJson(json.decode(payload));
-      switch (notification.action) {
-        case 'RATE':
-          Navigator.pushNamed(context, "/ReviewsPageList");
-          break;
-        case 'RIDE_REMINDER':
-          List<Object> objects = notification.object as List;
-
-          Ride r = App.person.getUpcomingRideFromId(objects[0] as String);
-
-          if ((objects[1] as bool) == true) {
-            Navigator.of(context).pushNamed("/RideDetails", arguments: [
-              r,
-              Lang.getString(context, "Edit_Reservation"),
-              (ride) {
-                MyRidesTile.seatsLuggagePopUp(context, r);
-              },
-              false
-            ]);
-          } else {
-            Navigator.of(context).pushNamed("/UpcomingRideDetails", arguments: [
-              r,
-              Lang.getString(context, "Edit_Ride"),
-              (r) {
-                return Navigator.pushNamed(context, "/EditRide", arguments: r);
-              }
-            ]);
-          }
-          break;
-        default:
-          //for default notification
-          break;
-      }
+      NotificationHandler handler =
+          PushNotificationsManager.createNotificationHandler(notification);
+      if (handler != null) handler.display(context);
     }
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
+import 'package:pickapp/notifications/NotificationsHandler.dart';
+import 'package:pickapp/notifications/PushNotificationsManager.dart';
 
 class NotificationListTile extends ListTile {
   final MainNotification notification;
@@ -14,6 +16,8 @@ class NotificationListTile extends ListTile {
 
   @override
   Widget build(BuildContext context) {
+    NotificationHandler handler =
+        PushNotificationsManager.createNotificationHandler(notification);
     return Card(
       elevation: 1.0,
       child: ListTile(
@@ -21,7 +25,7 @@ class NotificationListTile extends ListTile {
           borderRadius: BorderRadius.all(Radius.circular(3)),
         ),
         onTap: () {
-          //Navigator.pushNamed(context, "/CarDetails", arguments: car);
+          if (handler != null) handler.display(context);
         },
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
