@@ -118,7 +118,7 @@ class PushNotificationsManager {
         await Cache.setIsNewNotification(true);
         isOneScheduledNotificationHandled = true;
         updatedScheduledNotifications.remove(n);
-        await Cache.removeScheduledNotificationId(n.id);
+        await Cache.removeScheduledNotificationId(n.dictId);
         allNotifications.add(n);
       }
     }

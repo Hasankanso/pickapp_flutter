@@ -141,6 +141,10 @@ class Styles {
     return Colors.grey;
   }
 
+  static Color lightLabelColor() {
+    return Colors.grey.shade400;
+  }
+
   static Color valueColor() {
     return Colors.black;
   }

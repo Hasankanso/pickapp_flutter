@@ -19,6 +19,7 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
     return MainNotification(
       object: fields[9] as Object,
       sentTime: fields[10] as DateTime,
+      dictId: fields[11] as String,
     )
       .._id = fields[0] as int
       .._objectId = fields[1] as String
@@ -34,7 +35,7 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
   @override
   void write(BinaryWriter writer, MainNotification obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -56,7 +57,9 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       ..writeByte(9)
       ..write(obj.object)
       ..writeByte(10)
-      ..write(obj.sentTime);
+      ..write(obj.sentTime)
+      ..writeByte(11)
+      ..write(obj.dictId);
   }
 
   @override

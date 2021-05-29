@@ -23,7 +23,8 @@ class Notifications extends StatelessWidget {
           WidgetsBinding.instance.addPostFrameCallback(
               (_) => App.isNewNotificationNotifier.value = false);
           Cache.setIsNewNotification(false);
-          notifications = List.from(App.notifications.reversed);
+          notifications = List.from(App.notifications);
+
           assert(notifications != null);
           return MainScaffold(
             appBar: MainAppBar(

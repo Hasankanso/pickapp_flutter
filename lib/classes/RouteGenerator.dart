@@ -45,13 +45,15 @@ import 'package:pickapp/pages/UpcomingRideDetails.dart';
 import 'App.dart';
 
 class RouteGenerator {
-  static PageTransitionType get isLTR =>
-      App.isLTR == true ? PageTransitionType.rightToLeft : PageTransitionType.leftToRight;
+  static PageTransitionType get isLTR => App.isLTR == true
+      ? PageTransitionType.rightToLeft
+      : PageTransitionType.leftToRight;
 
   static Duration _transitionTime = const Duration(milliseconds: 300);
 
   //this value is being updated in settings page.
-  static Duration duration = Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
+  static Duration duration =
+      Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
 
   static void disableAnimation(bool value) {
     duration = value ? Duration(milliseconds: 0) : _transitionTime;
@@ -405,6 +407,17 @@ class RouteGenerator {
             child: AddRate(
               ((args as List)[0] as Ride),
               ((args as List)[1] as Person),
+            ));
+      case '/AddRateCancel':
+        return PageTransition(
+            settings: settings,
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: AddRate(
+              ((args as List)[0] as Ride),
+              ((args as List)[1] as Person),
+              reason: ((args as List)[2] as String),
             ));
       case 'RatePassengers':
         return PageTransition(

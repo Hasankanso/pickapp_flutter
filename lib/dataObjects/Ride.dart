@@ -69,8 +69,6 @@ class Ride {
   @HiveField(24)
   String reason;
 
-  int _reservedSeats;
-  int _reservedLuggages;
   ImageProvider _mapImage;
 
   Ride(

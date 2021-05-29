@@ -10,9 +10,9 @@ import 'package:pickapp/requests/Request.dart';
 class FakeRequests {
   static int ridesCount = 20;
 
-  static void response(dynamic p1, int statusCode, String p3) {
+  static void response(Ride p1, int statusCode, String p3) {
     if (statusCode == 200) {
-      print("fake ride successfully added");
+      App.user.person.upcomingRides.add(p1);
     }
   }
 
@@ -119,9 +119,8 @@ class FakeRequests {
           car: car,
         );
 
-        Request addRide = AddRide(ride);
+        Request<Ride> addRide = AddRide(ride);
         await addRide.send(response);
-        App.user.person.upcomingRides.add(ride);
       }
     }
   }

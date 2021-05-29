@@ -22,8 +22,8 @@ import 'package:pickapp/utilities/Responsive.dart';
 class AddRate extends StatefulWidget {
   final Ride _ride;
   final Person _target;
-
-  AddRate(this._ride, this._target);
+  final String reason;
+  AddRate(this._ride, this._target, {this.reason});
 
   @override
   _AddRateState createState() => _AddRateState();
@@ -54,8 +54,91 @@ class _AddRateState extends State<AddRate> {
           key: _formKey,
           child: Column(
             children: [
+              /*      Card(
+                elevation: 3.0,
+                child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            settings: RouteSettings(name: "/UserView"),
+                            builder: (context) => MainScaffold(
+                                  appBar: MainAppBar(
+                                    title: Lang.getString(context, "Profile"),
+                                  ),
+                                  body: PersonView(
+                                    person: widget._target,
+                                  ),
+                                )));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: Styles.largeIconSize(),
+                    color: Styles.lightLabelColor(),
+                  ),
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 28,
+                    backgroundImage: widget._target.networkImage,
+                  ),
+                  title: Padding(
+                    padding: EdgeInsets.all(0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Spacer(
+                              flex: 1,
+                            ),
+                            Flexible(
+                              flex: 80,
+                              child: Text(
+                                widget._target.firstName +
+                                    " " +
+                                    widget._target.lastName +
+                                    ", " +
+                                    App.calculateAge(widget._target.birthday)
+                                        .toString(),
+                                style: Styles.headerTextStyle(),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  subtitle: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 7, 0, 0),
+                    child: Column(
+                      children: [
+                        RateStars(
+                          widget._target.statistics.rateAverage,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),*/
               VerticalSpacer(
-                height: 50,
+                height: 20,
+              ),
+              /*if (widget.reason != null)
+                Column(
+                  children: [
+                    Text(
+                      "Cancellation reason:",
+                      style: Styles.labelTextStyle(),
+                    ),
+                    Text(
+                      widget.reason,
+                      style: Styles.valueTextStyle(),
+                    ),
+                  ],
+                ),*/
+              VerticalSpacer(
+                height: 20,
               ),
               RatingBar.builder(
                 initialRating: 5,
@@ -67,12 +150,12 @@ class _AddRateState extends State<AddRate> {
                 itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                 itemBuilder: (context, _) => Icon(
                   Icons.star,
-                  color: Colors.amber,
+                  color: Colors.yellow,
                 ),
                 glow: true,
                 unratedColor: Colors.grey.shade300,
                 maxRating: 5,
-                glowColor: Colors.amber,
+                glowColor: Colors.yellow,
                 glowRadius: 0.01,
                 onRatingUpdate: (rating) {
                   _grade = rating;

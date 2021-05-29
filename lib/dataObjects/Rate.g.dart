@@ -16,7 +16,9 @@ class RateAdapter extends TypeAdapter<Rate> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Rate()
+    return Rate(
+      id: fields[7] as String,
+    )
       .._grade = fields[0] as double
       .._comment = fields[1] as String
       .._reason = fields[2] as int
@@ -29,7 +31,7 @@ class RateAdapter extends TypeAdapter<Rate> {
   @override
   void write(BinaryWriter writer, Rate obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj._grade)
       ..writeByte(1)
@@ -43,7 +45,9 @@ class RateAdapter extends TypeAdapter<Rate> {
       ..writeByte(5)
       ..write(obj._ride)
       ..writeByte(6)
-      ..write(obj._creationDate);
+      ..write(obj._creationDate)
+      ..writeByte(7)
+      ..write(obj.id);
   }
 
   @override

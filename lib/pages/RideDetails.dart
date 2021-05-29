@@ -55,7 +55,7 @@ class RideDetails extends StatelessWidget {
               .showErrorToast(Lang.getString(context, "Ride_already_started"));
         } else {
           if (ride.leavingDate.compareTo(
-                  DateTime.now().add(Duration(days: -App.daysToShowRate))) <=
+                  DateTime.now().add(Duration(days: App.daysToShowRate))) <=
               0) {
             _content = Column(
               children: [
@@ -75,7 +75,7 @@ class RideDetails extends StatelessWidget {
                   validator: (value) {
                     String valid = Validation.validate(value, context);
                     String alpha =
-                        Validation.isAlphabeticIgnoreSpaces(context, value);
+                        Validation.isAlphaNumericIgnoreSpaces(context, value);
                     String short = Validation.isShort(context, value, 15);
 
                     if (valid != null)

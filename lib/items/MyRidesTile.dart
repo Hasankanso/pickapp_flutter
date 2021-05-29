@@ -70,7 +70,7 @@ class MyRidesTile extends StatefulWidget {
   MyRidesTile(this._ride, {onPressed}) {
     showSeatsLuggageAsText = false;
 
-    if (_ride.reserved) {
+    if (_ride.reserved != null && _ride.reserved) {
       Reservation reservation = this._ride.findReservationFrom(App.person);
 
       assert(reservation != null);

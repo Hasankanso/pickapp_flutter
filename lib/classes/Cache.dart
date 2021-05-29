@@ -505,14 +505,16 @@ class Cache {
 
   static Future<int> getScheduledNotificationId(String objectId) async {
     var box = await Hive.openBox("appSettings");
-    Map<String, int> notificationD = box.get("NOTIFICATION_DICTIONARY");
+    var notificationD = box.get("NOTIFICATION_DICTIONARY");
+    notificationD = Map<String, dynamic>.from(notificationD);
     await box.close();
     return notificationD[objectId];
   }
 
   static Future<bool> removeScheduledNotificationId(String objectId) async {
     var box = await Hive.openBox("appSettings");
-    Map<String, int> notificationD = box.get("NOTIFICATION_DICTIONARY");
+    var notificationD = box.get("NOTIFICATION_DICTIONARY");
+    notificationD = Map<String, int>.from(notificationD);
     notificationD.remove(objectId);
     await box.put("NOTIFICATION_DICTIONARY", notificationD);
     await box.close();

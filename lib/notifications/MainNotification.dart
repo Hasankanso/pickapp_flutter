@@ -26,6 +26,8 @@ class MainNotification {
   Object object;
   @HiveField(10)
   DateTime sentTime;
+  @HiveField(11)
+  String dictId;
 
   bool dontCache;
 
@@ -42,7 +44,8 @@ class MainNotification {
       String subtitle,
       String imageUrl,
       Object object,
-      DateTime sentTime}) {
+      DateTime sentTime,
+      this.dictId}) {
     this.id = id;
     this.objectId = objectId;
     this.body = body;
@@ -66,6 +69,7 @@ class MainNotification {
         _action = json["action"],
         _title = json["title"],
         _subtitle = json["subtitle"],
+        dictId = json["dictId"],
         _body = json["body"],
         _scheduleDate = json["scheduleDate"],
         _imagePath = json["imagePath"],
@@ -80,7 +84,8 @@ class MainNotification {
         'body': this.body,
         'subtitle': this.subtitle,
         'imagePath': this.imagePath,
-        'imageUrl': this.imageUrl
+        'imageUrl': this.imageUrl,
+        'dictId': this.dictId
       };
 
   set imageUrl(String value) {
@@ -119,7 +124,7 @@ class MainNotification {
     _action = value;
   }
 
-  get id => _id;
+  int get id => _id;
 
   set id(value) {
     _id = value;

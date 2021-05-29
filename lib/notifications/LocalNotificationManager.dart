@@ -79,6 +79,7 @@ class LocalNotificationManager {
 
   static pushLocalNotification(MainNotification notification, String id) async {
     notification.id = await Cache.setScheduledNotificationId(id);
+    notification.dictId = id;
     _pushLocalNotification(notification);
   }
 

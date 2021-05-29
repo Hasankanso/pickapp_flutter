@@ -10,7 +10,8 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 class CancelRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
 
-  CancelRideNotificationHandler(MainNotification notification) : super(notification) {
+  CancelRideNotificationHandler(MainNotification notification)
+      : super(notification) {
     List<Object> list = notification.object as List;
     this.rideId = list[0] as String;
     if (list.length > 1) this.reason = list[1] as String;
@@ -22,15 +23,15 @@ class CancelRideNotificationHandler extends NotificationHandler {
     int index = user.person.upcomingRides.indexOf(new Ride(id: rideId));
     if (index < 0) return null;
 
-    //if there is reason =>there is rate=> status should be canceled, else delete reservation completely
+    //if there is reason =>there is rate else delete ride completely
     if (reason == null) {
       user.person.upcomingRides.removeAt(index);
     } else {
       user.person.upcomingRides[index].status = "CANCELED";
-      user.person.upcomingRides[index].reason = this.reason;
     }
 
-    await LocalNotificationManager.cancelLocalNotification("ride_reminder." + rideId);
+    await LocalNotificationManager.cancelLocalNotification(
+        "ride_reminder." + rideId);
 
     await Cache.setUser(user);
   }
@@ -42,5 +43,11 @@ class CancelRideNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display(BuildContext context) {}
+  void display(BuildContext context) {
+    Ride ride = App.person.getUpcomingRideFromId(rideId);
+    if (ride == null) return;
+
+    Navigator.of(context)
+        .pushNamed("/AddRateCancel", arguments: [ride, ride.person, reason]);
+  }
 }
