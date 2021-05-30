@@ -154,15 +154,6 @@ class LocalNotificationManager {
     await Cache.addScheduledNotification(notification);
   }
 
-  static Future<PendingNotificationRequest> getLocalNotification(
-      String id) async {
-    List<PendingNotificationRequest> notis =
-        await FlutterLocalNotificationsPlugin().pendingNotificationRequests();
-
-    int integerId = await Cache.getScheduledNotificationId(id);
-    return notis[integerId];
-  }
-
   static Future<bool> cancelLocalNotification(String objectId) async {
     int id = await Cache.getScheduledNotificationId(objectId);
     if (id != null) {

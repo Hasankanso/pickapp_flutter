@@ -410,6 +410,7 @@ class RouteGenerator {
               ((args as List)[0] as Ride),
               ((args as List)[1] as Person),
               reason: ((args as List)[2] as String),
+              cancellationDate: ((args as List)[3] as DateTime),
             ));
       case 'RatePassengers':
         return PageTransition(

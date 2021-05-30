@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/notifications/LocalNotificationManager.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
@@ -34,9 +34,8 @@ class RatePassengersHandler extends NotificationHandler {
   }
 
   static Future<void> createLocalNotification(Ride ride) async {
-    PendingNotificationRequest notificationReq = null;
-    await LocalNotificationManager.getLocalNotification(prefix + ride.id);
-
+    int notificationReq =
+        await Cache.getScheduledNotificationId(prefix + ride.id);
     if (notificationReq != null) {
       return; //it's already added.
     }
@@ -56,8 +55,8 @@ class RatePassengersHandler extends NotificationHandler {
   }
 
   static Future<void> updateLocalNotification(Ride ride) async {
-    PendingNotificationRequest notificationReq =
-        await LocalNotificationManager.getLocalNotification(prefix + ride.id);
+    int notificationReq =
+        await Cache.getScheduledNotificationId(prefix + ride.id);
 
     if (notificationReq == null) {
       return; //there's nothing to check.
