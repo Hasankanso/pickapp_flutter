@@ -3,6 +3,7 @@ import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/items/MyRidesHistoryTile.dart';
 import 'package:pickapp/items/MyRidesTile.dart';
 import 'package:pickapp/utilities/ListBuilder.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
@@ -27,24 +28,67 @@ class _MyRidesState extends State<MyRides> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(
-      appBar: MainAppBar(
-        title: Lang.getString(context, "My_Rides"),
-      ),
-      body: ValueListenableBuilder(
-          valueListenable: App.updateUpcomingRide,
-          builder: (BuildContext context, bool isd, Widget child) {
-            ridesList.sort((a, b) => a.leavingDate.compareTo(b.leavingDate));
-            return Container(
-              child: App.user.person.upcomingRides.length > 0
-                  ? ListBuilder(
-                      list: ridesList,
-                      itemBuilder: MyRidesTile.itemBuilder(ridesList))
-                  : Center(
-                      child: Text(Lang.getString(context, "No_upcoming_rides!"),
-                          style: Styles.valueTextStyle())),
-            );
-          }),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+          appBar: MainAppBar(
+            title: Lang.getString(context, "My_Rides"),
+            bottom: TabBar(
+              tabs: [
+                Row(children: [
+                  Text("UpComing Rides"),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Tab(
+                      icon: Icon(Icons.local_car_wash_outlined,
+                          size: Styles.mediumIconSize())),
+                ]),
+                Row(children: [
+                  Text("Rides History"),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Tab(
+                      icon: Icon(Icons.history,
+                          size: Styles.mediumIconSize())),
+                ]),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              ValueListenableBuilder(
+                  valueListenable: App.updateUpcomingRide,
+                  builder: (BuildContext context, bool isd, Widget child) {
+                    ridesList
+                        .sort((a, b) => a.leavingDate.compareTo(b.leavingDate));
+                    return Container(
+                      child: App.user.person.upcomingRides.length > 0
+                          ? ListBuilder(
+                              list: ridesList,
+                              itemBuilder: MyRidesTile.itemBuilder(ridesList))
+                          : Center(
+                              child: Text(
+                                  Lang.getString(context, "No_upcoming_rides!"),
+                                  style: Styles.valueTextStyle())),
+                    );
+                  }),
+              Container(
+                child:
+                    App.user.person.upcomingRides.length > 0
+              ? ListBuilder(
+                  list: ridesList,
+                  itemBuilder: MyRidesHistoryTile.itemBuilder(ridesList))
+              :
+                    Center(
+                        child: Text(
+                            Lang.getString(context, "No_Rides_History!"),
+                            style: Styles.valueTextStyle())),
+              )
+            ],
+          )),
     );
   }
 }
