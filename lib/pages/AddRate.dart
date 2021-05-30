@@ -25,7 +25,8 @@ class AddRate extends StatefulWidget {
   final Ride _ride;
   final Person _target;
   final String reason;
-  AddRate(this._ride, this._target, {this.reason});
+  final DateTime cancellationDate;
+  AddRate(this._ride, this._target, {this.reason, this.cancellationDate});
 
   @override
   _AddRateState createState() => _AddRateState();
@@ -130,8 +131,11 @@ class _AddRateState extends State<AddRate> {
                 Column(
                   children: [
                     Text(
-                      "Cancellation reason:",
+                      Lang.getString(context, "Cancellation_reason:"),
                       style: Styles.labelTextStyle(),
+                    ),
+                    VerticalSpacer(
+                      height: 10,
                     ),
                     Text(
                       widget.reason,
@@ -262,20 +266,38 @@ class _AddRateState extends State<AddRate> {
                 text_key: "Rate",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    if (widget._ride.leavingDate.isBefore(DateTime.now()
-                        .add(Duration(minutes: -App.daysToShowRate)))) {
-                      return CustomToast()
-                          .showErrorToast("Rate_days_validation");
-                    }
+                    if (widget.cancellationDate == null) {
+                      if (widget._ride.leavingDate.isBefore(DateTime.now()
+                          .add(Duration(minutes: -App.daysToShowRate)))) {
+                        return CustomToast()
+                            .showErrorToast("Rate_days_validation");
+                      }
 
-                    Rate _rate = Rate(
-                        comment: _comment.text,
-                        grade: _grade,
-                        reason: _reason,
-                        target: widget._target,
-                        ride: widget._ride);
-                    Request<bool> request = AddRateRequest(_rate);
-                    await request.send(_response);
+                      Rate _rate = Rate(
+                          comment: _comment.text,
+                          grade: _grade,
+                          reason: _reason,
+                          target: widget._target,
+                          ride: widget._ride);
+                      Request<bool> request = AddRateRequest(_rate);
+                      await request.send(_response);
+                    } else {
+                      if (widget.cancellationDate.compareTo(DateTime.now()
+                              .add(Duration(days: App.daysToShowRate))) >=
+                          0) {
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Rate_days_validation"));
+                      }
+
+                      Rate _rate = Rate(
+                          comment: _comment.text,
+                          grade: _grade,
+                          reason: _reason,
+                          target: widget._target,
+                          ride: widget._ride);
+                      Request<bool> request = AddRateRequest(_rate);
+                      await request.send(_response);
+                    }
                   }
                 },
               ),

@@ -9,12 +9,18 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 
 class CancelRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
+  DateTime cancellationDate;
 
   CancelRideNotificationHandler(MainNotification notification)
       : super(notification) {
     List<Object> list = notification.object as List;
     this.rideId = list[0] as String;
-    if (list.length > 1) this.reason = list[1] as String;
+    if (list.length > 1) {
+      this.reason = list[1] as String;
+      this.cancellationDate =
+          DateTime.fromMillisecondsSinceEpoch((list[2] as int), isUtc: true)
+              .toLocal();
+    }
   }
 
   @override
@@ -45,9 +51,12 @@ class CancelRideNotificationHandler extends NotificationHandler {
   @override
   void display(BuildContext context) {
     Ride ride = App.person.getUpcomingRideFromId(rideId);
-    if (ride == null) return;
 
-    Navigator.of(context)
-        .pushNamed("/AddRateCancel", arguments: [ride, ride.person, reason]);
+    if (ride == null ||
+        cancellationDate.compareTo(
+                DateTime.now().add(Duration(days: App.daysToShowRate))) >=
+            0) return;
+    Navigator.of(context).pushNamed("/AddRateCancel",
+        arguments: [ride, ride.person, reason, cancellationDate]);
   }
 }
