@@ -24,7 +24,6 @@ import 'package:pickapp/pages/Email.dart';
 import 'package:pickapp/pages/Home.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
-import 'package:pickapp/pages/MyRidesHistory.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/Phone.dart';
 import 'package:pickapp/pages/Phone2.dart';
@@ -183,13 +182,6 @@ class RouteGenerator {
             duration: duration,
             reverseDuration: duration,
             child: EditRide(args as Ride));
-      case '/MyRidesHistory':
-        return PageTransition(
-            settings: settings,
-            duration: duration,
-            reverseDuration: duration,
-            type: isLTR,
-            child: MyRidesHistory());
       case '/Statistics':
         return PageTransition(
             settings: settings,

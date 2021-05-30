@@ -179,6 +179,40 @@ class Cache {
     }
     return returnRates;
   }
+  static getRidesHistory() async {
+    var rideHistoryBox;
+    if (!Hive.isBoxOpen("ridesHistory")) {
+      rideHistoryBox = await Hive.openBox("ridesHistory");
+    } else {
+      rideHistoryBox = Hive.box("ridesHistory");
+    }
+    List<Ride> returnedRides = [];
+
+    if (rideHistoryBox.isOpen) {
+      var rides = rideHistoryBox.get("ridesHistory");
+      if (rides != null) {
+        rides = rides.cast<Rate>();
+        returnedRides = rides;
+      }
+      await rideHistoryBox.close();
+    }
+    return returnedRides;
+  }
+
+  static Future<bool> updateRideHistory(List<Ride> allHistoryRides) async {
+    var rideBox;
+    if (!Hive.isBoxOpen("ridesHistory")) {
+    rideBox = await Hive.openBox("ridesHistory");
+    } else {
+      rideBox = Hive.box("ridesHistory");
+    }
+    if (rideBox.isOpen) {
+      rideBox.put("ridesHistory", allHistoryRides);
+    await rideBox.close();
+    return true;
+    }
+    return false;
+  }
 
   static Future<bool> addRate(Rate rate) async {
     var rateBox = await Hive.openBox("rates");
