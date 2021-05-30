@@ -26,6 +26,7 @@ class MyRidesHistory extends StatelessWidget {
               Center(
                   child: Text(Lang.getString(context, "No_Rides_History!"),
                       style: Styles.valueTextStyle())),
-        ));
+        )
+    );
   }
 }
