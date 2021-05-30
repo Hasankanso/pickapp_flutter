@@ -24,7 +24,6 @@ import 'package:pickapp/pages/Email.dart';
 import 'package:pickapp/pages/Home.dart';
 import 'package:pickapp/pages/Login.dart';
 import 'package:pickapp/pages/LoginRegister.dart';
-import 'package:pickapp/pages/MyRidesHistory.dart';
 import 'package:pickapp/pages/Notifications.dart';
 import 'package:pickapp/pages/Phone.dart';
 import 'package:pickapp/pages/Phone2.dart';
@@ -181,13 +180,6 @@ class RouteGenerator {
             duration: duration,
             reverseDuration: duration,
             child: EditRide(args as Ride));
-      case '/MyRidesHistory':
-        return PageTransition(
-            settings: settings,
-            duration: duration,
-            reverseDuration: duration,
-            type: isLTR,
-            child: MyRidesHistory());
       case '/Statistics':
         return PageTransition(
             settings: settings,
@@ -416,6 +408,7 @@ class RouteGenerator {
               ((args as List)[0] as Ride),
               ((args as List)[1] as Person),
               reason: ((args as List)[2] as String),
+              cancellationDate: ((args as List)[3] as DateTime),
             ));
       case '/RatePassengers':
         return PageTransition(

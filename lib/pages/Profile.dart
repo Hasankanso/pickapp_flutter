@@ -327,41 +327,7 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ),
-                              LineDevider(),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed("/MyRidesHistory");
-                                },
-                                borderRadius: BorderRadius.only(
-                                    bottomRight: Radius.circular(7.0),
-                                    bottomLeft: Radius.circular(7.0)),
-                                child: ResponsiveWidget.fullWidth(
-                                  height: 60,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Icon(
-                                          Icons.history,
-                                          size: Styles.mediumIconSize(),
-                                          color: Styles.primaryColor(),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 6,
-                                        child: Text(
-                                          Lang.getString(
-                                              context, "My_Rides_History"),
-                                          style: Styles.valueTextStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+
                             ],
                           ),
                         ),
