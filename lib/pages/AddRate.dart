@@ -54,7 +54,7 @@ class _AddRateState extends State<AddRate> {
           key: _formKey,
           child: Column(
             children: [
-              /*      Card(
+                   Card(
                 elevation: 3.0,
                 child: ListTile(
                   onTap: () {
@@ -120,11 +120,11 @@ class _AddRateState extends State<AddRate> {
                     ),
                   ),
                 ),
-              ),*/
+              ),
               VerticalSpacer(
                 height: 20,
               ),
-              /*if (widget.reason != null)
+              if (widget.reason != null)
                 Column(
                   children: [
                     Text(
@@ -136,7 +136,7 @@ class _AddRateState extends State<AddRate> {
                       style: Styles.valueTextStyle(),
                     ),
                   ],
-                ),*/
+                ),
               VerticalSpacer(
                 height: 20,
               ),

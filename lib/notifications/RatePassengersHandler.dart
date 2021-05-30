@@ -35,7 +35,7 @@ class RatePassengersHandler extends NotificationHandler {
 
   static Future<void> createLocalNotification(Ride ride) async {
     PendingNotificationRequest notificationReq = null;
-    //await LocalNotificationManager.getLocalNotification(prefix + ride.id);
+    await LocalNotificationManager.getLocalNotification(prefix + ride.id);
 
     if (notificationReq != null) {
       return; //it's already added.
