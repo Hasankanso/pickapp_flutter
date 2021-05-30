@@ -11,12 +11,14 @@ import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/pages/PersonView.dart';
 import 'package:pickapp/requests/AddRateRequest.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class AddRate extends StatefulWidget {
@@ -54,7 +56,7 @@ class _AddRateState extends State<AddRate> {
           key: _formKey,
           child: Column(
             children: [
-                   Card(
+              Card(
                 elevation: 3.0,
                 child: ListTile(
                   onTap: () {
