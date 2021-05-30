@@ -77,8 +77,6 @@ class App {
         code: "961",
         drivingAge: 18),
   };
-  static CountryInformations c;
-
   static CountryInformations getCountryInfo(String code) {
     var list = _countriesInformations.values.toList();
     for (final v in list)

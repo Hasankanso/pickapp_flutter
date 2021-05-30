@@ -24,6 +24,8 @@ class Rate {
   @HiveField(7)
   String id;
 
+  static final int maximumRateReasonRequired = 3;
+
   Rate(
       {double grade,
       String comment,
@@ -55,8 +57,7 @@ class Rate {
     var creationDateJ = json["created"];
     DateTime creationDate;
     if (creationDateJ != null) {
-      creationDate =
-          DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
+      creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
     }
 
     return Rate(

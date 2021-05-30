@@ -2,9 +2,9 @@ import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class AddRateRequest extends Request<bool> {
-  Rate _rate;
+  List<Rate> _rates;
 
-  AddRateRequest(this._rate) {
+  AddRateRequest(this._rates) {
     httpPath = "/RateBusiness/AddRate";
   }
 
@@ -15,7 +15,7 @@ class AddRateRequest extends Request<bool> {
 
   @override
   Map<String, dynamic> getJson() {
-    return _rate.toJson();
+    return <String, dynamic>{"rates": List<dynamic>.from(_rates.map((x) => x.toJson()))};
   }
 
   @override
