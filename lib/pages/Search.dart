@@ -8,7 +8,6 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/SearchInfo.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -28,7 +27,8 @@ class Search extends StatefulWidget {
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Search> {
+class _SearchState extends State<Search>
+    with AutomaticKeepAliveClientMixin<Search> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
@@ -75,20 +75,10 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
         title: Lang.getString(context, "Search_for_Ride"),
         actions: [
           IconButton(
-              icon: Icon(Icons.star_rate),
-              onPressed: () {
-                Navigator.of(context).pushNamed("/AddRate", arguments: [
-                  Ride(
-                      id: "4F3958A5-FAFE-47D0-B17C-F984E7D902EC",
-                      leavingDate: DateTime.now().add(Duration(days: 1))),
-                  Person(id: "0776BCB3-BD95-4CE8-8CD0-827CBB8C4188")
-                ]);
-              }),
-          IconButton(
               icon: Icon(Icons.rate_review),
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamed("/RatePassengers", arguments: App.user.person.upcomingRides[1]);
+                Navigator.of(context).pushNamed("/RatePassengers",
+                    arguments: App.user.person.upcomingRides[1]);
               }),
           Stack(
             alignment: AlignmentDirectional.center,
@@ -105,7 +95,8 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                 },
               ),
               ValueListenableBuilder(
-                builder: (BuildContext context, bool isNewNotification, Widget child) {
+                builder: (BuildContext context, bool isNewNotification,
+                    Widget child) {
                   return Visibility(
                     visible: isNewNotification,
                     child: Positioned(
@@ -151,7 +142,8 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
             ),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
-                height: 35, child: NumberPicker(numberController, "Persons", 1, 8)),
+                height: 35,
+                child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
             ResponsiveWidget(
               width: 200,
@@ -173,13 +165,16 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
               onPressed: () async {
                 _sendAnalyticsEvent();
                 _testSetUserId();
-                String _validateFrom = fromController.validate(context, x: toController);
-                String _validateTo = toController.validate(context, x: fromController);
+                String _validateFrom =
+                    fromController.validate(context, x: toController);
+                String _validateTo =
+                    toController.validate(context, x: fromController);
                 _fromError = _validateFrom;
                 _toError = _validateTo;
                 setState(() {});
                 if (_validateFrom == null && _validateTo == null) {
-                  if (dateTimeController.startDateController.chosenDate.isBefore(DateTime.now())) {
+                  if (dateTimeController.startDateController.chosenDate
+                      .isBefore(DateTime.now())) {
                     setState(() {
                       dateTimeController.startDateController.chosenDate =
                           DateTime.now().add(Duration(minutes: 30));
@@ -199,7 +194,8 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                       to: to,
                       from: from,
                       passengersNumber: numberController.chosenNumber,
-                      minDate: dateTimeController.startDateController.chosenDate,
+                      minDate:
+                          dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
                   await request.send(response);

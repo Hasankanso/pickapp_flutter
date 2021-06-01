@@ -301,5 +301,8 @@
   "rate_reason_5":"Not friendly",
   "rate_reason_6":"Was late",
   "rate_reason_7":"Others",
-  "Rate_days_validation":"You can't rate this person after 2 days from the ride"
+  "Rate_days_validation":"You can't rate this person after 2 days from the ride",
+  "History": "History",
+  "Upcoming": "Upcoming"
+
 }

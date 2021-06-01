@@ -301,5 +301,7 @@
   "rate_reason_5":"غير ودي",
   "rate_reason_6":"كان متاخر",
   "rate_reason_7":"شيء آخر",
-  "Rate_days_validation":"لا يمكنك تقييم هذا الشخص بعد يومين من الرحلة"
+  "Rate_days_validation":"لا يمكنك تقييم هذا الشخص بعد يومين من الرحلة",
+  "History": "تاريخ",
+  "Upcoming": "القادمة"
 }
