@@ -55,27 +55,58 @@ class PassengerTile extends ListTile {
         ),
         title: Padding(
           padding: EdgeInsets.all(0),
-          child: Column(
+          child: Row(
             children: [
-              Row(
-                children: [
-                  Spacer(
-                    flex: 1,
-                  ),
-                  Flexible(
-                    flex: 80,
-                    child: Text(
-                      passenger.person.firstName +
-                          " " +
-                          passenger.person.lastName +
-                          ", " +
-                          App.calculateAge(passenger.person.birthday)
-                              .toString(),
-                      style: Styles.headerTextStyle(),
-                      overflow: TextOverflow.ellipsis,
+              Expanded(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Spacer(
+                          flex: 1,
+                        ),
+                        Flexible(
+                          flex: 80,
+                          child: Text(
+                            passenger.person.firstName +
+                                " " +
+                                passenger.person.lastName +
+                                ", " +
+                                App.calculateAge(passenger.person.birthday)
+                                    .toString(),
+                            style: Styles.headerTextStyle(),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (passenger.status == "CANCELED")
+                          Expanded(
+                            flex: 30,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                Lang.getString(context, "Canceled"),
+                                style: Styles.valueTextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

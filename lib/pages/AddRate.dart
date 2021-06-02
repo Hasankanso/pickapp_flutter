@@ -101,7 +101,8 @@ class _AddRateState extends State<AddRate> {
                                     " " +
                                     widget._target.lastName +
                                     ", " +
-                                    App.calculateAge(widget._target.birthday).toString(),
+                                    App.calculateAge(widget._target.birthday)
+                                        .toString(),
                                 style: Styles.headerTextStyle(),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -139,6 +140,7 @@ class _AddRateState extends State<AddRate> {
                     ),
                     Text(
                       widget.reason,
+                      textAlign: TextAlign.center,
                       style: Styles.valueTextStyle(),
                     ),
                   ],
@@ -187,14 +189,16 @@ class _AddRateState extends State<AddRate> {
                         flex: 12,
                         child: DropdownButtonFormField<String>(
                           isExpanded: true,
-                          decoration: InputDecoration(labelText: Lang.getString(context, "Reason")),
+                          decoration: InputDecoration(
+                              labelText: Lang.getString(context, "Reason")),
                           value: _reasonsItems[_reason],
                           onChanged: (String newValue) {
                             setState(() {
                               _reason = _reasonsItems.indexOf(newValue);
                             });
                           },
-                          items: _reasonsItems.map<DropdownMenuItem<String>>((String value) {
+                          items: _reasonsItems
+                              .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -229,7 +233,8 @@ class _AddRateState extends State<AddRate> {
                           String valid, alpha, short;
                           if (_grade < 3) {
                             valid = Validation.validate(value, context);
-                            alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
+                            alpha = Validation.isAlphaNumericIgnoreSpaces(
+                                context, value);
                             short = Validation.isShort(context, value, 20);
                           }
 
@@ -264,10 +269,10 @@ class _AddRateState extends State<AddRate> {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     if (widget.cancellationDate == null) {
-                      if (DateTime.now().isAfter(
-                          widget._ride.leavingDate.add(Duration(days: App.daysToShowRate)))) {
-                        return CustomToast()
-                            .showErrorToast(Lang.getString(context, "Rate_days_validation"));
+                      if (DateTime.now().isAfter(widget._ride.leavingDate
+                          .add(Duration(days: App.daysToShowRate)))) {
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Rate_days_validation"));
                       }
 
                       Rate _rate = Rate(
@@ -279,11 +284,11 @@ class _AddRateState extends State<AddRate> {
                       Request<bool> request = AddRateRequest([_rate]);
                       await request.send(_response);
                     } else {
-                      if (widget.cancellationDate
-                              .compareTo(DateTime.now().add(Duration(days: App.daysToShowRate))) >=
+                      if (widget.cancellationDate.compareTo(DateTime.now()
+                              .add(Duration(days: App.daysToShowRate))) >=
                           0) {
-                        return CustomToast()
-                            .showErrorToast(Lang.getString(context, "Rate_days_validation"));
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Rate_days_validation"));
                       }
 
                       Rate _rate = Rate(
@@ -309,7 +314,11 @@ class _AddRateState extends State<AddRate> {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
     } else {
-      if (result) CustomToast().showSuccessToast(Lang.getString(context, "Successfully_rated!"));
+      if (result) {
+        Navigator.popUntil(context, (route) => route.isFirst);
+        CustomToast()
+            .showSuccessToast(Lang.getString(context, "Successfully_rated!"));
+      }
     }
   }
 }

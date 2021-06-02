@@ -14,24 +14,12 @@ class PassengersView extends StatefulWidget {
 }
 
 class _PassengersViewState extends State<PassengersView> {
-  List<Reservation> reservedPassengers;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    reservedPassengers = <Reservation>[];
-    for (int i = 0; i < widget.allPassengers.length; i++) {
-      if (widget.allPassengers[i].status != "CANCELED")
-        reservedPassengers.add(widget.allPassengers[i]);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
       body: ListBuilder(
-          list: reservedPassengers,
-          itemBuilder: PassengerTile.itemBuilder(reservedPassengers)),
+          list: widget.allPassengers,
+          itemBuilder: PassengerTile.itemBuilder(widget.allPassengers)),
     );
   }
 }

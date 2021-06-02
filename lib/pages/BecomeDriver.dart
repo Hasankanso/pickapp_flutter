@@ -327,7 +327,6 @@ class _BecomeDriverState extends State<BecomeDriver> {
       CustomToast().showErrorToast(p3);
     } else {
       App.driver.regions = p1.regions;
-
       await Cache.setUser(App.user);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));

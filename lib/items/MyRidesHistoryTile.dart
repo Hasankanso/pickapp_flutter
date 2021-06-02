@@ -24,7 +24,7 @@ class MyRidesHistoryTile extends ListTile {
     if (_ride.person.networkImage == null) {
       _ride.person.setNetworkImage();
     }
-
+    print(_ride.status);
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
@@ -83,13 +83,22 @@ class MyRidesHistoryTile extends ListTile {
                     ),
                   ),
                   Expanded(
-                    flex: 3,
-                    child: Text(
-                      _ride.price.toInt().toString() +
-                          " " +
-                          Lang.getString(
-                              context, App.person.countryInformations.unit),
-                      style: Styles.valueTextStyle(bold: FontWeight.w500),
+                    flex: 4,
+                    child: Column(
+                      children: [
+                        Text(
+                          _ride.price.toInt().toString() +
+                              " " +
+                              Lang.getString(
+                                  context, App.person.countryInformations.unit),
+                          style: Styles.valueTextStyle(bold: FontWeight.w500),
+                        ),
+                        if (_ride.status == "CANCELED")
+                          Text(
+                            Lang.getString(context, "Canceled"),
+                            style: Styles.valueTextStyle(color: Colors.red),
+                          ),
+                      ],
                     ),
                   ),
                 ],
