@@ -59,12 +59,11 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
   }
 
   _filterRates(List<Rate> rates) {
-    this.rates = List<Rate>();
+    this.rates = [];
     for (int i = rates.length - 1; i >= 0; i--) {
-      if (rates[i]
-          .creationDate
-          .isBefore(DateTime.now().add(Duration(minutes: -App.daysToShowRate))))
-        this.rates.add(rates[i]);
+      DateTime before2Days = DateTime.now().add(-App.availableDurationToRate);
+
+      if (rates[i].creationDate.isBefore(before2Days)) this.rates.add(rates[i]);
     }
   }
 
@@ -77,17 +76,14 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (rates != null)
-      rates.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+    if (rates != null) rates.sort((a, b) => b.creationDate.compareTo(a.creationDate));
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Reviews"),
       ),
       body: rates != null
           ? rates.isNotEmpty
-              ? ListBuilder(
-                  list: rates,
-                  itemBuilder: RateTile.itemBuilder(rates, reasons))
+              ? ListBuilder(list: rates, itemBuilder: RateTile.itemBuilder(rates, reasons))
               : Center(
                   child: Text(
                   Lang.getString(context, "no_reviews_message"),

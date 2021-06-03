@@ -30,12 +30,9 @@ class UpcomingRideDetails extends StatelessWidget {
   _openCancelPopUp(context) {
     Widget _content;
     if (ride.leavingDate.compareTo(DateTime.now()) < 0) {
-      return CustomToast()
-          .showErrorToast(Lang.getString(context, "Ride_already_started"));
+      return CustomToast().showErrorToast(Lang.getString(context, "Ride_already_started"));
     } else {
-      if (ride.leavingDate.compareTo(
-              DateTime.now().add(Duration(days: App.daysToShowRate))) <=
-          0) {
+      if (ride.leavingDate.compareTo(DateTime.now().add(App.availableDurationToRate)) <= 0) {
         _content = Column(
           children: [
             TextFormField(
@@ -53,8 +50,7 @@ class UpcomingRideDetails extends StatelessWidget {
               style: Styles.valueTextStyle(),
               validator: (value) {
                 String valid = Validation.validate(value, context);
-                String alpha =
-                    Validation.isAlphaNumericIgnoreSpaces(context, value);
+                String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
                 String short = Validation.isShort(context, value, 15);
 
                 if (valid != null)
@@ -139,8 +135,8 @@ class UpcomingRideDetails extends StatelessWidget {
             tabs: [
               Tab(icon: Icon(Icons.map, size: Styles.mediumIconSize())),
               Tab(
-                  icon: Icon(Icons.airline_seat_recline_extra_sharp,
-                      size: Styles.mediumIconSize())),
+                  icon:
+                      Icon(Icons.airline_seat_recline_extra_sharp, size: Styles.mediumIconSize())),
             ],
           ),
         ),
@@ -167,8 +163,7 @@ class UpcomingRideDetails extends StatelessWidget {
     } else {
       App.deleteRideFromMyRides(ride);
       Navigator.popUntil(context, (route) => route.isFirst);
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
     }
   }
 }
