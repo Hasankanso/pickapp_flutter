@@ -4,10 +4,10 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
+import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/pages/AddAlert.dart';
 import 'package:pickapp/pages/AddCar.dart';
 import 'package:pickapp/pages/AddCar2.dart';
-import 'package:pickapp/pages/AddRate.dart';
 import 'package:pickapp/pages/AddRidePage2.dart';
 import 'package:pickapp/pages/AddRidePage3.dart';
 import 'package:pickapp/pages/AddRidePage4.dart';
@@ -29,6 +29,7 @@ import 'package:pickapp/pages/Phone.dart';
 import 'package:pickapp/pages/Phone2.dart';
 import 'package:pickapp/pages/PrivacyPolicy.dart';
 import 'package:pickapp/pages/Profile.dart';
+import 'package:pickapp/pages/RateDriver.dart';
 import 'package:pickapp/pages/RatePassengers.dart';
 import 'package:pickapp/pages/Register.dart';
 import 'package:pickapp/pages/RegisterDriver.dart';
@@ -44,13 +45,15 @@ import 'package:pickapp/pages/UpcomingRideDetails.dart';
 import 'App.dart';
 
 class RouteGenerator {
-  static PageTransitionType get isLTR =>
-      App.isLTR == true ? PageTransitionType.rightToLeft : PageTransitionType.leftToRight;
+  static PageTransitionType get isLTR => App.isLTR == true
+      ? PageTransitionType.rightToLeft
+      : PageTransitionType.leftToRight;
 
   static Duration _transitionTime = const Duration(milliseconds: 300);
 
   //this value is being updated in settings page.
-  static Duration duration = Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
+  static Duration duration =
+      Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
 
   static void disableAnimation(bool value) {
     duration = value ? Duration(milliseconds: 0) : _transitionTime;
@@ -388,27 +391,18 @@ class RouteGenerator {
             reverseDuration: duration,
             type: isLTR,
             child: ReviewsListPage(args));
-      case '/AddRate':
+      case '/RateDriver':
         return PageTransition(
             settings: settings,
             duration: duration,
             reverseDuration: duration,
             type: isLTR,
-            child: AddRate(
+            child: RateDriver(
               ((args as List)[0] as Ride),
               ((args as List)[1] as Person),
-            ));
-      case '/AddRateCancel':
-        return PageTransition(
-            settings: settings,
-            duration: duration,
-            reverseDuration: duration,
-            type: isLTR,
-            child: AddRate(
-              ((args as List)[0] as Ride),
-              ((args as List)[1] as Person),
-              reason: ((args as List)[2] as String),
-              cancellationDate: ((args as List)[3] as DateTime),
+              ((args as List)[2] as String),
+              ((args as List)[3] as DateTime),
+              ((args as List)[4] as MainNotification),
             ));
       case '/RatePassengers':
         return PageTransition(

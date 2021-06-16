@@ -7,26 +7,24 @@ class MainNotification {
   @HiveField(0)
   int _id;
   @HiveField(1)
-  String _objectId;
-  @HiveField(2)
   String _action;
-  @HiveField(3)
+  @HiveField(2)
   String _title;
-  @HiveField(4)
+  @HiveField(3)
   String _body;
-  @HiveField(5)
+  @HiveField(4)
   DateTime _scheduleDate;
-  @HiveField(6)
+  @HiveField(5)
   String _subtitle;
-  @HiveField(7)
+  @HiveField(6)
   String _imagePath;
-  @HiveField(8)
+  @HiveField(7)
   String _imageUrl;
-  @HiveField(9)
+  @HiveField(8)
   Object object;
-  @HiveField(10)
+  @HiveField(9)
   DateTime sentTime;
-  @HiveField(11)
+  @HiveField(10)
   String dictId;
 
   bool dontCache;
@@ -47,7 +45,6 @@ class MainNotification {
       DateTime sentTime,
       this.dictId}) {
     this.id = id;
-    this.objectId = objectId;
     this.body = body;
     this.title = title;
     this.action = action;
@@ -60,8 +57,7 @@ class MainNotification {
   }
 
   MainNotification.fromJson(Map<String, dynamic> json)
-      : _objectId = json["objectId"],
-        dontCache = json["dontCache"] == null
+      : dontCache = json["dontCache"] == null
             ? false
             : json["dontCache"] == "true"
                 ? true
@@ -78,7 +74,6 @@ class MainNotification {
         sentTime = json["sentTime"];
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'objectId': this.objectId,
         'action': this.action,
         'title': this.title,
         'body': this.body,
@@ -98,12 +93,6 @@ class MainNotification {
 
   set imagePath(String value) {
     _imagePath = value;
-  }
-
-  String get objectId => _objectId;
-
-  set objectId(String value) {
-    _objectId = value;
   }
 
   String get title => _title;
@@ -143,7 +132,17 @@ class MainNotification {
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MainNotification &&
+          runtimeType == other.runtimeType &&
+          _id == other._id;
+
+  @override
+  int get hashCode => _id.hashCode;
+
+  @override
   String toString() {
-    return 'MainNotification{_id: $_id, _objectId: $_objectId, _action: $_action, _title: $_title, _body: $_body, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
+    return 'MainNotification{_id: $_id, _action: $_action, _title: $_title, _body: $_body, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
   }
 }

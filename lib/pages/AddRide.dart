@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_webservice/directions.dart';
 import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
@@ -44,15 +43,15 @@ class _AddRideState extends State<AddRide> {
   void initState() {
     // TODO: implement initState
     super.initState();
-      fromController = LocationEditingController();
-      toController = LocationEditingController();
-      dateTimeController = DateTimeController(
-        chosenDate: DateTime.now().add(Duration(minutes: 40)),
-      );
-      smokeController = SwitcherController();
-      acController = SwitcherController();
-      petsController = SwitcherController();
-      musicController = SwitcherController();
+    fromController = LocationEditingController();
+    toController = LocationEditingController();
+    dateTimeController = DateTimeController(
+      chosenDate: DateTime.now().add(Duration(minutes: 40)),
+    );
+    smokeController = SwitcherController();
+    acController = SwitcherController();
+    petsController = SwitcherController();
+    musicController = SwitcherController();
   }
 
   @override
@@ -268,36 +267,36 @@ class _AddRideState extends State<AddRide> {
                           bool isMusic = musicController.isOn;
                           var rideDate = dateTimeController.chosenDate;
                           rideDate = rideDate.add(Duration(minutes: -20));
-                            for (final item in App.person.upcomingRides) {
-                              if (item == null) continue;
-                              var diff = rideDate
-                                  .difference(item.leavingDate)
-                                  .inMinutes;
-                              if (rideDate.isAfter(item.leavingDate) &&
-                                  diff <= 0 &&
-                                  diff >= -20) {
-                                return CustomToast().showErrorToast(
-                                    Lang.getString(
-                                        context, "Ride_compare_upcoming"));
-                              }
-                              if (rideDate.isBefore(item.leavingDate) &&
-                                  diff >= -40) {
-                                return CustomToast().showErrorToast(
-                                    Lang.getString(
-                                        context, "Ride_compare_upcoming"));
-                              }
+                          for (final item in App.person.upcomingRides) {
+                            if (item == null || item.status == "CANCELED")
+                              continue;
+                            var diff =
+                                rideDate.difference(item.leavingDate).inMinutes;
+                            if (rideDate.isAfter(item.leavingDate) &&
+                                diff <= 0 &&
+                                diff >= -20) {
+                              return CustomToast().showErrorToast(
+                                  Lang.getString(
+                                      context, "Ride_compare_upcoming"));
                             }
-                            rideInfo.user = App.user;
+                            if (rideDate.isBefore(item.leavingDate) &&
+                                diff >= -40) {
+                              return CustomToast().showErrorToast(
+                                  Lang.getString(
+                                      context, "Ride_compare_upcoming"));
+                            }
+                          }
+                          rideInfo.user = App.user;
 
-                            rideInfo.to = to;
-                            rideInfo.from = from;
-                            rideInfo.leavingDate = date;
-                            rideInfo.smokingAllowed = isSmoke;
-                            rideInfo.petsAllowed = isPets;
-                            rideInfo.musicAllowed = isMusic;
-                            rideInfo.acAllowed = isAc;
-                            Navigator.of(context).pushNamed("/AddRidePage2",
-                                arguments: [rideInfo, _appBarTitleKey]);
+                          rideInfo.to = to;
+                          rideInfo.from = from;
+                          rideInfo.leavingDate = date;
+                          rideInfo.smokingAllowed = isSmoke;
+                          rideInfo.petsAllowed = isPets;
+                          rideInfo.musicAllowed = isMusic;
+                          rideInfo.acAllowed = isAc;
+                          Navigator.of(context).pushNamed("/AddRidePage2",
+                              arguments: [rideInfo, _appBarTitleKey]);
                         }
                       },
                     ),

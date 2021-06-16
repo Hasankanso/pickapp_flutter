@@ -15,18 +15,12 @@ class MyRides extends StatefulWidget {
 }
 
 class _MyRidesState extends State<MyRides> {
-  List<Ride> ridesList = [];
   List<Ride> ridesHistory = [];
   @override
   void initState() {
     super.initState();
     getRidesHistory();
     checkOutDatedRides();
-    if (App.user != null) {
-      for (final ride in App.person.upcomingRides) {
-        if (ride.status != "CANCELED") ridesList.add(ride);
-      }
-    }
   }
 
   Future<void> checkOutDatedRides() async {
@@ -79,13 +73,14 @@ class _MyRidesState extends State<MyRides> {
               ValueListenableBuilder(
                   valueListenable: App.updateUpcomingRide,
                   builder: (BuildContext context, bool isd, Widget child) {
-                    ridesList
+                    App.person.upcomingRides
                         .sort((a, b) => a.leavingDate.compareTo(b.leavingDate));
                     return Container(
-                      child: App.user.person.upcomingRides.length > 0
+                      child: App.person.upcomingRides.length > 0
                           ? ListBuilder(
-                              list: ridesList,
-                              itemBuilder: MyRidesTile.itemBuilder(ridesList))
+                              list: App.person.upcomingRides,
+                              itemBuilder: MyRidesTile.itemBuilder(
+                                  App.person.upcomingRides))
                           : Center(
                               child: Text(
                                   Lang.getString(context, "No_upcoming_rides!"),

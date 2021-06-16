@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
@@ -50,7 +51,8 @@ class Person {
   String _phone;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Person && _id == other._id;
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Person && _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;
@@ -123,8 +125,9 @@ class Person {
       countryInformations = CountryInformations.fromJson(countryJ);
     }
 
-    UserStatistics statistics =
-        json["statistics"] == null ? null : UserStatistics.fromJson(json["statistics"]);
+    UserStatistics statistics = json["statistics"] == null
+        ? null
+        : UserStatistics.fromJson(json["statistics"]);
 
     var createdJ = json["created"];
     DateTime created;
@@ -177,16 +180,26 @@ class Person {
   }
 
   //Ride
-  Ride getUpcomingRideFromId(String objectId) {
+  Future<Ride> getUpcomingRideFromId(String objectId,
+      {bool searchHistory = false}) async {
     int index = this.upcomingRides.indexOf(new Ride(id: objectId));
 
-    if (index < 0) return null;
+    if (index < 0) {
+      if (!searchHistory) {
+        return null;
+      } else {
+        List<Ride> rides = await Cache.getRidesHistory();
+        int indexHistory = rides.indexOf(new Ride(id: objectId));
+        if (indexHistory < 0) return null;
+        return rides[indexHistory];
+      }
+    }
 
     return this.upcomingRides[index];
   }
 
-  bool upcomingRideExists(String objectId) {
-    Ride r = getUpcomingRideFromId(objectId);
+  Future<bool> upcomingRideExists(String objectId) async {
+    Ride r = await getUpcomingRideFromId(objectId);
     return r != null;
   }
 

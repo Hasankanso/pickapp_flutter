@@ -32,7 +32,8 @@ class CancelReservationNotificationHandler extends NotificationHandler {
 
     if (reservedRide.passengers == null) return;
 
-    int passIndex = reservedRide.passengers.indexOf(new Reservation(id: passengerId));
+    int passIndex =
+        reservedRide.passengers.indexOf(new Reservation(id: passengerId));
 
     if (passIndex < 0) return null;
 
@@ -64,8 +65,8 @@ class CancelReservationNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display(BuildContext context) {
-    Ride ride = App.person.getUpcomingRideFromId(rideId);
+  Future<void> display(BuildContext context) async {
+    Ride ride = await App.person.getUpcomingRideFromId(rideId);
     if (ride == null) return;
 
     Navigator.of(context).pushNamed("/UpcomingRideDetails", arguments: [

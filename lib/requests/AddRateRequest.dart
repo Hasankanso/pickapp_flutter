@@ -10,12 +10,14 @@ class AddRateRequest extends Request<bool> {
 
   @override
   bool buildObject(json) {
-    return json["sent"] == "true";
+    return json["sent"];
   }
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, dynamic>{"rates": List<dynamic>.from(_rates.map((x) => x.toJson()))};
+    return <String, dynamic>{
+      "rates": List<dynamic>.from(_rates.map((x) => x.toJson()))
+    };
   }
 
   @override

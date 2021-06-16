@@ -117,6 +117,7 @@ class _MyRidesTileState extends State<MyRidesTile> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3.0,
+      color: widget._ride.status == "CANCELED" ? Colors.grey.shade200 : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
@@ -259,11 +260,23 @@ class _MyRidesTileState extends State<MyRidesTile> {
                         flex: 5,
                         child: Align(
                           alignment: Alignment.bottomRight,
-                          child: Text(
-                            DateFormat('h:mm a',
-                                    Localizations.localeOf(context).toString())
-                                .format(widget._ride.leavingDate),
-                            style: Styles.labelTextStyle(),
+                          child: Column(
+                            children: [
+                              if (widget._ride.status == "CANCELED")
+                                Text(
+                                  Lang.getString(context, "Canceled"),
+                                  style:
+                                      Styles.valueTextStyle(color: Colors.red),
+                                ),
+                              Text(
+                                DateFormat(
+                                        'h:mm a',
+                                        Localizations.localeOf(context)
+                                            .toString())
+                                    .format(widget._ride.leavingDate),
+                                style: Styles.labelTextStyle(),
+                              ),
+                            ],
                           ),
                         ),
                       ),

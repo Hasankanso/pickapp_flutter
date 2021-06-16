@@ -139,7 +139,7 @@ class Cache {
     Chat chat = box.get(key);
 
     if (chat == null && toStoreChat != null) {
-      box.put(key, toStoreChat);
+      await box.put(key, toStoreChat);
       return toStoreChat;
     }
 
@@ -180,7 +180,7 @@ class Cache {
     return returnRates;
   }
 
-  static getRidesHistory() async {
+  static Future<List<Ride>> getRidesHistory() async {
     var rideHistoryBox;
     if (!Hive.isBoxOpen("ridesHistory")) {
       rideHistoryBox = await Hive.openBox("ridesHistory");
@@ -208,7 +208,7 @@ class Cache {
       rideBox = Hive.box("ridesHistory");
     }
     if (rideBox.isOpen) {
-      rideBox.put("ridesHistory", allHistoryRides);
+      await rideBox.put("ridesHistory", allHistoryRides);
       await rideBox.close();
       return true;
     }
@@ -241,7 +241,7 @@ class Cache {
       rateBox = Hive.box<Rate>("rates");
     }
     if (rateBox.isOpen) {
-      rateBox.put("rates", allRates);
+      await rateBox.put("rates", allRates);
       await rateBox.close();
       return true;
     }
@@ -290,7 +290,7 @@ class Cache {
       notificationBox = Hive.box("scheduledNotifications");
     }
     if (notificationBox.isOpen) {
-      notificationBox.put("scheduledNotifications", allnotifications);
+      await notificationBox.put("scheduledNotifications", allnotifications);
       await notificationBox.close();
       return true;
     }
@@ -390,7 +390,7 @@ class Cache {
       notificationBox = Hive.box("notifications");
     }
     if (notificationBox.isOpen) {
-      notificationBox.put("notifications", allnotifications);
+      await notificationBox.put("notifications", allnotifications);
       await notificationBox.close();
       return true;
     }
@@ -505,7 +505,7 @@ class Cache {
 
   static void setChat(Chat chat) async {
     Box<Chat> chatBox = await Hive.openBox('chat');
-    chatBox.put(chat.id, chat);
+    await chatBox.put(chat.id, chat);
   }
 
   static Future<int> setScheduledNotificationId(String objectId) async {

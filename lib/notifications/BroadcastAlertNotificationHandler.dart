@@ -21,8 +21,9 @@ class BroadcastAlertNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> updateApp() async {}
+
   @override
-  void display(BuildContext context) {
-    if (alert == null) return;
+  Future<void> display(BuildContext context) {
+    if (alert == null) return null;
   }
 }

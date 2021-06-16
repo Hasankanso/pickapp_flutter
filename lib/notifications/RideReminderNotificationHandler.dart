@@ -17,10 +17,10 @@ class RideReminderNotificationHandler extends NotificationHandler {
   Future<void> updateApp() async {}
 
   @override
-  void display(BuildContext context) {
+  Future<void> display(BuildContext context) async {
     List<Object> objects = notification.object as List;
 
-    Ride r = App.person.getUpcomingRideFromId(objects[0] as String);
+    Ride r = await App.person.getUpcomingRideFromId(objects[0] as String);
     if (r != null) {
       if ((objects[1] as bool) == true) {
         Navigator.of(context).pushNamed("/RideDetails", arguments: [
