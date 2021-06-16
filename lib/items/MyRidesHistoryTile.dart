@@ -24,7 +24,6 @@ class MyRidesHistoryTile extends ListTile {
     if (_ride.person.networkImage == null) {
       _ride.person.setNetworkImage();
     }
-    print(_ride.status);
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
