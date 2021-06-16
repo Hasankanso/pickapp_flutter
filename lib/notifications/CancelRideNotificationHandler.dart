@@ -11,15 +11,13 @@ class CancelRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
   DateTime cancellationDate;
 
-  CancelRideNotificationHandler(MainNotification notification)
-      : super(notification) {
+  CancelRideNotificationHandler(MainNotification notification) : super(notification) {
     List<Object> list = notification.object as List;
     this.rideId = list[0] as String;
     if (list.length > 1) {
       this.reason = list[1] as String;
       this.cancellationDate =
-          DateTime.fromMillisecondsSinceEpoch((list[2] as int), isUtc: true)
-              .toLocal();
+          DateTime.fromMillisecondsSinceEpoch((list[2] as int), isUtc: true).toLocal();
     }
   }
 
@@ -36,8 +34,7 @@ class CancelRideNotificationHandler extends NotificationHandler {
       user.person.upcomingRides[index].status = "CANCELED";
     }
 
-    await LocalNotificationManager.cancelLocalNotification(
-        "ride_reminder." + rideId);
+    await LocalNotificationManager.cancelLocalNotification("ride_reminder." + rideId);
 
     await Cache.setUser(user);
   }
@@ -53,10 +50,8 @@ class CancelRideNotificationHandler extends NotificationHandler {
     Ride ride = App.person.getUpcomingRideFromId(rideId);
 
     if (ride == null ||
-        cancellationDate.compareTo(
-                DateTime.now().add(Duration(days: App.daysToShowRate))) >=
-            0) return;
-    Navigator.of(context).pushNamed("/AddRateCancel",
-        arguments: [ride, ride.person, reason, cancellationDate]);
+        cancellationDate.compareTo(DateTime.now().add(App.availableDurationToRate)) >= 0) return;
+    Navigator.of(context)
+        .pushNamed("/AddRateCancel", arguments: [ride, ride.person, reason, cancellationDate]);
   }
 }

@@ -15,7 +15,7 @@ class RateNotificationHandler extends NotificationHandler {
   RateNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Rate)) {
       notification.object = Rate.fromJson(notification.object);
-      notification.scheduleDate = DateTime.now().add(Duration(days: App.daysToShowRate));
+      notification.scheduleDate = DateTime.now().add(App.availableDurationToRate);
     }
     this.rate = notification.object;
   }

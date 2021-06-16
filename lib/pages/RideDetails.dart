@@ -28,8 +28,7 @@ class RideDetails extends StatelessWidget {
   bool isEditDisabled;
   TextEditingController _reason = TextEditingController();
 
-  RideDetails(this.ride,
-      {this.buttonText, this.onPressed, this.isEditDisabled = true});
+  RideDetails(this.ride, {this.buttonText, this.onPressed, this.isEditDisabled = true});
 
   _cancelReservation(bool deleted, int code, String message, context) {
     if (code != HttpStatus.ok) {
@@ -38,8 +37,7 @@ class RideDetails extends StatelessWidget {
     } else {
       if (deleted) {
         App.deleteRideFromMyRides(ride);
-        CustomToast().showSuccessToast(
-            Lang.getString(context, "Successfully_canceled!"));
+        CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
         Navigator.popUntil(context, (route) => route.isFirst);
       }
     }
@@ -51,12 +49,9 @@ class RideDetails extends StatelessWidget {
         _reason.text = "";
         Widget _content;
         if (ride.leavingDate.compareTo(DateTime.now()) < 0) {
-          return CustomToast()
-              .showErrorToast(Lang.getString(context, "Ride_already_started"));
+          return CustomToast().showErrorToast(Lang.getString(context, "Ride_already_started"));
         } else {
-          if (ride.leavingDate.compareTo(
-                  DateTime.now().add(Duration(days: App.daysToShowRate))) <=
-              0) {
+          if (ride.leavingDate.compareTo(DateTime.now().add(App.availableDurationToRate)) <= 0) {
             _content = Column(
               children: [
                 TextFormField(
@@ -74,8 +69,7 @@ class RideDetails extends StatelessWidget {
                   style: Styles.valueTextStyle(),
                   validator: (value) {
                     String valid = Validation.validate(value, context);
-                    String alpha =
-                        Validation.isAlphaNumericIgnoreSpaces(context, value);
+                    String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
                     String short = Validation.isShort(context, value, 15);
 
                     if (valid != null)
@@ -109,8 +103,7 @@ class RideDetails extends StatelessWidget {
                     );
                   },
                 );
-                Request<bool> request =
-                    CancelReservedSeats(ride, reason: _reason.text);
+                Request<bool> request = CancelReservedSeats(ride, reason: _reason.text);
                 request.send((v, p, s) => _cancelReservation(v, p, s, context));
               }
             },
@@ -150,9 +143,7 @@ class RideDetails extends StatelessWidget {
             tabs: [
               Tab(icon: Icon(Icons.map, size: Styles.mediumIconSize())),
               Tab(icon: Icon(Icons.person, size: Styles.mediumIconSize())),
-              Tab(
-                  icon: Icon(Icons.directions_car,
-                      size: Styles.mediumIconSize())),
+              Tab(icon: Icon(Icons.directions_car, size: Styles.mediumIconSize())),
             ],
           ),
         ),
@@ -168,8 +159,7 @@ class RideDetails extends StatelessWidget {
     );
   }
 
-  static void seatsLuggagePopUp(
-      BuildContext context, Ride ride, Function(int, int) onPressed,
+  static void seatsLuggagePopUp(BuildContext context, Ride ride, Function(int, int) onPressed,
       {Reservation reservation}) {
     if (reservation == null) {
       reservation = new Reservation(seats: 0, luggages: 0);
@@ -216,13 +206,11 @@ class RideDetails extends StatelessWidget {
         buttons: [
           DialogButton(
             child: Text(Lang.getString(context, "Confirm"),
-                style: Styles.buttonTextStyle(),
-                overflow: TextOverflow.visible),
+                style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
             color: Styles.primaryColor(),
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                onPressed(seatsController.chosenNumber,
-                    luggageController.chosenNumber);
+                onPressed(seatsController.chosenNumber, luggageController.chosenNumber);
               }
             },
           ),
