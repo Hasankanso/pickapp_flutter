@@ -54,6 +54,7 @@ class App {
   static dynamic stepPriceFilter;
   static Locale locale;
   static List<Component> countriesComponents = <Component>[];
+
   //if you want to change this variable, Rate_days_validation text.
   static Duration availableDurationToRate = Duration(days: 2);
 
@@ -62,6 +63,10 @@ class App {
 
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
+  static List<String> _chattiness;
+  static List<String> _rateReasons;
+  static List<String> _genders;
 
   static Map<String, CountryInformations> _countriesInformations = <String, CountryInformations>{
     'Deutschland': CountryInformations(
@@ -77,6 +82,7 @@ class App {
         code: "961",
         drivingAge: 18),
   };
+
   static CountryInformations getCountryInfo(String code) {
     var list = _countriesInformations.values.toList();
     for (final v in list)
@@ -110,6 +116,11 @@ class App {
 
   static void init(MyAppState state) {
     _state = state;
+  }
+
+  static void updateUserCache() {
+    Cache.setUser(App.user);
+    updateUpcomingRide.value = !updateUpcomingRide.value;
   }
 
   //called in Home class
@@ -186,45 +197,51 @@ class App {
   static Person get person => user == null ? null : user.person;
 
   static List<String> getRateReasons(context) {
-    return <String>[
-      Lang.getString(context, "rate_reason_1"),
-      Lang.getString(context, "rate_reason_2"),
-      Lang.getString(context, "rate_reason_3"),
-      Lang.getString(context, "rate_reason_4"),
-      Lang.getString(context, "rate_reason_5"),
-      Lang.getString(context, "rate_reason_6"),
-      Lang.getString(context, "rate_reason_7")
-    ];
+    if (_rateReasons == null) {
+      _rateReasons = <String>[
+        Lang.getString(context, "rate_reason_1"),
+        Lang.getString(context, "rate_reason_2"),
+        Lang.getString(context, "rate_reason_3"),
+        Lang.getString(context, "rate_reason_4"),
+        Lang.getString(context, "rate_reason_5"),
+        Lang.getString(context, "rate_reason_6"),
+        Lang.getString(context, "rate_reason_7")
+      ];
+    }
+    return _rateReasons;
   }
 
   static List<String> getGender(context) {
-    return <String>[
-      Lang.getString(context, "Male"),
-      Lang.getString(context, "Female"),
-    ];
+    if (_genders == null) {
+      _genders = <String>[
+        Lang.getString(context, "Male"),
+        Lang.getString(context, "Female"),
+      ];
+    }
+    return _genders;
   }
 
   static List<String> getChattiness(context) {
-    return <String>[
-      Lang.getString(context, "I'm_a_quiet_person"),
-      Lang.getString(context, "I_talk_depending_on_my_mood"),
-      Lang.getString(context, "I_love_to_chat!"),
-    ];
+    if (_chattiness == null) {
+      _chattiness = <String>[
+        Lang.getString(context, "I'm_a_quiet_person"),
+        Lang.getString(context, "I_talk_depending_on_my_mood"),
+        Lang.getString(context, "I_love_to_chat!"),
+      ];
+    }
+    return _chattiness;
   }
 
   static deleteRideFromMyRides(Ride ride) {
     App.user.person.upcomingRides.remove(ride);
-    updateUpcomingRide.value = !updateUpcomingRide.value;
     LocalNotificationManager.cancelLocalNotification("ride_reminder." + ride.id);
-    Cache.setUser(App.user);
+    updateUserCache();
   }
 
   static addRideToMyRides(Ride ride, context) {
     String _locale = Localizations.localeOf(context).toString();
     App.user.person.upcomingRides.add(ride);
-    Cache.setUser(App.user);
-
-    updateUpcomingRide.value = !updateUpcomingRide.value;
+    updateUserCache();
 
     var rd = ride.leavingDate;
     DateTime d = new DateTime(rd.year, rd.month, rd.day, rd.hour, rd.minute, rd.second);
