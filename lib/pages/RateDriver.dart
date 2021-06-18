@@ -301,19 +301,11 @@ class _RateDriverState extends State<RateDriver> {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(p3);
     } else {
-      print("honnnn");
-      print(result);
       if (result) {
-        print(1);
         App.notifications.remove(widget._notification);
-        print(2);
         await Cache.updateNotifications(App.notifications);
-        print(3);
         App.updateNotifications.value = !App.updateNotifications.value;
-        print(4);
-
         Navigator.popUntil(context, (route) => route.isFirst);
-        print(5);
         CustomToast()
             .showSuccessToast(Lang.getString(context, "Successfully_rated!"));
       }

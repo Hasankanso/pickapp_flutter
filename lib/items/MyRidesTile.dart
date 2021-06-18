@@ -117,7 +117,12 @@ class _MyRidesTileState extends State<MyRidesTile> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3.0,
-      color: widget._ride.status == "CANCELED" ? Colors.grey.shade200 : null,
+      color: widget._ride.status == "CANCELED"
+          ? (!Cache.darkTheme &&
+                  MediaQuery.of(context).platformBrightness != Brightness.dark)
+              ? Colors.grey.shade200
+              : Colors.grey.shade400
+          : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
@@ -126,28 +131,30 @@ class _MyRidesTileState extends State<MyRidesTile> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
         ),
-        onTap: widget._ride.reserved == true
-            ? () {
-                Navigator.of(context).pushNamed("/RideDetails", arguments: [
-                  widget._ride,
-                  Lang.getString(context, "Edit_Reservation"),
-                  (ride) {
-                    MyRidesTile.seatsLuggagePopUp(context, widget._ride);
-                  },
-                  false
-                ]);
-              }
-            : () {
-                Navigator.of(context)
-                    .pushNamed("/UpcomingRideDetails", arguments: [
-                  widget._ride,
-                  Lang.getString(context, "Edit_Ride"),
-                  (ride) {
-                    return Navigator.pushNamed(context, "/EditRide",
-                        arguments: ride);
+        onTap: widget._ride.status != "CANCELED"
+            ? widget._ride.reserved == true
+                ? () {
+                    Navigator.of(context).pushNamed("/RideDetails", arguments: [
+                      widget._ride,
+                      Lang.getString(context, "Edit_Reservation"),
+                      (ride) {
+                        MyRidesTile.seatsLuggagePopUp(context, widget._ride);
+                      },
+                      false
+                    ]);
                   }
-                ]);
-              },
+                : () {
+                    Navigator.of(context)
+                        .pushNamed("/UpcomingRideDetails", arguments: [
+                      widget._ride,
+                      Lang.getString(context, "Edit_Ride"),
+                      (ride) {
+                        return Navigator.pushNamed(context, "/EditRide",
+                            arguments: ride);
+                      }
+                    ]);
+                  }
+            : null,
         title: Row(
           children: [
             Expanded(

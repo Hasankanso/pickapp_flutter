@@ -126,7 +126,40 @@ class _HomeState extends State<Home> {
                     label: Lang.getString(context, "Search"),
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.chat_outlined),
+                    icon: Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        Icon(
+                          Icons.chat_outlined,
+                        ),
+                        ValueListenableBuilder(
+                          builder: (BuildContext context, bool isNewMessage,
+                              Widget child) {
+                            if (_currenIndex == 3) {
+                              App.isNewMessageNotifier.value = false;
+                              isNewMessage = false;
+                            }
+                            return Visibility(
+                              visible: isNewMessage,
+                              child: Positioned(
+                                top: 0,
+                                left: !App.isLTR ? 0 : null,
+                                right: App.isLTR ? 0 : null,
+                                child: Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: new BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          valueListenable: App.isNewMessageNotifier,
+                        ),
+                      ],
+                    ),
                     label: Lang.getString(context, "Chats"),
                   ),
                   BottomNavigationBarItem(

@@ -25,6 +25,7 @@ class MessageNotificationHandler extends NotificationHandler {
   Future<void> updateApp() async {
     App.updateConversation.value = !App.updateConversation.value;
     App.updateInbox.value = !App.updateInbox.value;
+    App.isNewMessageNotifier.value = true;
   }
 
   @override
