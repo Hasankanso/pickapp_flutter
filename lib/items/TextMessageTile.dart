@@ -13,7 +13,8 @@ class TextMessageTile extends StatelessWidget {
 
   TextMessageTile({this.msg, this.onPressed});
 
-  static Function(BuildContext, int) itemBuilder(List<Message> msgs, onPressed) {
+  static Function(BuildContext, int) itemBuilder(
+      List<Message> msgs, onPressed) {
     return (context, index) {
       return TextMessageTile(msg: msgs[index], onPressed: onPressed);
     };
@@ -29,7 +30,8 @@ class TextMessageTile extends StatelessWidget {
           maxWidth: ScreenUtil().setWidth(300),
         ),
         child: Card(
-          color: msg.myMessage ? Colors.lightGreen.shade400 : Theme.of(context).cardColor,
+          color:
+              msg.myMessage ? Color(0xffdcf8c6) : Theme.of(context).cardColor,
           child: Padding(
             padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
             child: Column(
@@ -49,7 +51,8 @@ class TextMessageTile extends StatelessWidget {
                             height: 3,
                           ),
                           Text(
-                            DateFormat(App.hourFormat, Localizations.localeOf(context).toString())
+                            DateFormat(App.hourFormat,
+                                    Localizations.localeOf(context).toString())
                                 .format(msg.date),
                             style: TextStyle(
                               fontSize: ScreenUtil().setSp(11),

@@ -31,13 +31,14 @@ class PassengerTile extends ListTile {
     }
     return Card(
       elevation: 3.0,
-      color: passenger.status == "CANCELED"
-          ? (!Cache.darkTheme &&
-                  MediaQuery.of(context).platformBrightness != Brightness.dark)
-              ? Colors.grey.shade200
-              : Colors.grey.shade400
-          : null,
       shape: RoundedRectangleBorder(
+        side: passenger.status == "CANCELED"
+            ? (!Cache.darkTheme &&
+                    MediaQuery.of(context).platformBrightness !=
+                        Brightness.dark)
+                ? BorderSide(color: Colors.red.shade200, width: 1.5)
+                : BorderSide(color: Colors.red, width: 1.5)
+            : null,
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: ListTile(
