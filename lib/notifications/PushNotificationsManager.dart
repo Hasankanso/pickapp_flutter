@@ -19,13 +19,15 @@ import 'package:pickapp/requests/UpdateToken.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;
-  static bool tokenListenerRunning = false; // to make sure there's only one listener to token
+  static bool tokenListenerRunning =
+      false; // to make sure there's only one listener to token
 
   PushNotificationsManager._();
 
   factory PushNotificationsManager() => _instance;
 
-  static final PushNotificationsManager _instance = PushNotificationsManager._();
+  static final PushNotificationsManager _instance =
+      PushNotificationsManager._();
 
   bool _initialized = false;
 
@@ -52,8 +54,10 @@ class PushNotificationsManager {
     // (no memory leak)
     tokenListenerRunning = true;
     await for (String token in FirebaseMessaging.instance.onTokenRefresh) {
-      Request<String> request = UpdateToken(App.user, token);
-      request.send(response);
+      if (App.user != null) {
+        Request<String> request = UpdateToken(App.user, token);
+        request.send(response);
+      }
     }
     tokenListenerRunning = false;
   }
@@ -105,7 +109,8 @@ class PushNotificationsManager {
 
     App.notifications = allNotifications;
 
-    List<MainNotification> allScheduledNotifications = await Cache.getScheduledNotifications();
+    List<MainNotification> allScheduledNotifications =
+        await Cache.getScheduledNotifications();
     List<MainNotification> updatedScheduledNotifications = [];
     updatedScheduledNotifications.addAll(allScheduledNotifications);
 
@@ -123,7 +128,8 @@ class PushNotificationsManager {
     if (isOneScheduledNotificationHandled) {
       await Cache.updateScheduledNotifications(updatedScheduledNotifications);
     }
-    if (isOneScheduledNotificationHandled || await Cache.getIsNewNotification()) {
+    if (isOneScheduledNotificationHandled ||
+        await Cache.getIsNewNotification()) {
       App.isNewNotificationNotifier.value = true;
     }
 
@@ -138,7 +144,8 @@ class PushNotificationsManager {
   }
 
 //this method is used i notification list page, to handle on item click event
-  static NotificationHandler createNotificationHandler(MainNotification newNotification) {
+  static NotificationHandler createNotificationHandler(
+      MainNotification newNotification) {
     switch (newNotification.action) {
       case "SEATS_RESERVED":
         return ReserveSeatsNotificationHandler(newNotification);
@@ -159,7 +166,9 @@ class PushNotificationsManager {
       case MessageNotificationHandler.action:
         return MessageNotificationHandler(newNotification);
     }
-    print("this notification: " + newNotification.action + " has no handler yet.");
+    print("this notification: " +
+        newNotification.action +
+        " has no handler yet.");
     return null;
   }
 }
@@ -221,6 +230,7 @@ NotificationHandler _createNotificationHandler(RemoteMessage message) {
     case MessageNotificationHandler.action:
       return MessageNotificationHandler(newNotification);
   }
-  print("this notification: " + newNotification.action + " has no handler yet.");
+  print(
+      "this notification: " + newNotification.action + " has no handler yet.");
   return null;
 }

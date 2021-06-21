@@ -186,14 +186,7 @@ class Car {
   @override
   bool operator ==(Object other) {
     var car = other as Car;
-    return car != null &&
-        id == car.id &&
-        year == car.year &&
-        maxLuggage == car.maxLuggage &&
-        maxSeats == car.maxSeats &&
-        name == car.name &&
-        color == car.color &&
-        brand == car.brand;
+    return car != null && id == car.id;
   }
 
   @override

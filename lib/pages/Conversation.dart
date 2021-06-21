@@ -32,6 +32,7 @@ class _ConversationState extends State<Conversation> {
   TextEditingController msgInputController = new TextEditingController();
   ScrollController _controller = new ScrollController();
   final focusNode = FocusNode();
+  bool sendBtnDisabled = true;
 
   @override
   void initState() {
@@ -71,8 +72,7 @@ class _ConversationState extends State<Conversation> {
     });
   }
 
-  Future<void> sendPushMessage(BuildContext context) async {
-    String msg = msgInputController.text;
+  Future<void> sendPushMessage(BuildContext context, String msg) async {
     try {
       Response result = await post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -84,11 +84,14 @@ class _ConversationState extends State<Conversation> {
         body: constructFCMPayload(msg),
       );
 
-      if (result.statusCode == HttpStatus.ok && json.decode(result.body)["success"] > 0) {
+      if (result.statusCode == HttpStatus.ok &&
+          json.decode(result.body)["success"] > 0) {
         print('FCM request for device sent!');
-        msgInputController.text = "";
-        widget._chat.addAndCacheMessage(
-            Message(senderId: App.person.id, message: msg, myMessage: true, date: DateTime.now()));
+        widget._chat.addAndCacheMessage(Message(
+            senderId: App.person.id,
+            message: msg,
+            myMessage: true,
+            date: DateTime.now()));
         setState(() {});
       } else {
         print("error:" + result.statusCode.toString());
@@ -103,7 +106,8 @@ class _ConversationState extends State<Conversation> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: widget._chat.person.firstName + " " + widget._chat.person.lastName,
+        title:
+            widget._chat.person.firstName + " " + widget._chat.person.lastName,
       ),
       body: ValueListenableBuilder(
           valueListenable: App.updateConversation,
@@ -116,13 +120,16 @@ class _ConversationState extends State<Conversation> {
               itemBuilder: TextMessageTile.itemBuilder(messages, null),
             );
           }),
-      bottomNavigationBar: Row(
-        children: [
-          Expanded(
-            flex: 5,
-            child: Card(
-              margin: EdgeInsets.only(bottom: 1),
-              elevation: 20,
+      bottomNavigationBar: Card(
+        margin: EdgeInsets.only(bottom: 1),
+        elevation: 20,
+        child: Row(
+          children: [
+            Spacer(
+              flex: 1,
+            ),
+            Expanded(
+              flex: 30,
               child: TextFormField(
                 focusNode: focusNode,
                 controller: msgInputController,
@@ -130,8 +137,21 @@ class _ConversationState extends State<Conversation> {
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 4,
+                onChanged: (text) {
+                  if ((text.length > 0 && text.trim().length != 0) &&
+                      sendBtnDisabled) {
+                    setState(() {
+                      sendBtnDisabled = false;
+                    });
+                  } else if ((text.length <= 0 || text.trim().length == 0) &&
+                      !sendBtnDisabled) {
+                    setState(() {
+                      sendBtnDisabled = true;
+                    });
+                  }
+                },
                 decoration: InputDecoration(
-                  hintText: 'Type a message...',
+                  hintText: Lang.getString(context, "Type_a_message"),
                   suffixIcon: IconButton(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
@@ -141,24 +161,21 @@ class _ConversationState extends State<Conversation> {
                       ),
                       color: Styles.primaryColor(),
                       tooltip: null,
-                      onPressed: () {
-                        focusNode.unfocus();
-                        // Disable text field's focus node request
-                        focusNode.canRequestFocus = false;
-                        sendPushMessage(context);
-
-                        Future.delayed(Duration.zero, () {
-                          focusNode.canRequestFocus = true;
-                        });
-                      }),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Styles.primaryColor(), width: 2),
-                  ),
+                      onPressed: !sendBtnDisabled
+                          ? () {
+                              sendPushMessage(context, msgInputController.text);
+                              setState(() {
+                                msgInputController.text = "";
+                                sendBtnDisabled = true;
+                              });
+                            }
+                          : null),
+                  border: InputBorder.none,
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

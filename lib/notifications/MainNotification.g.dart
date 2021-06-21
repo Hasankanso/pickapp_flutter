@@ -17,48 +17,45 @@ class MainNotificationAdapter extends TypeAdapter<MainNotification> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MainNotification(
-      object: fields[9] as Object,
-      sentTime: fields[10] as DateTime,
-      dictId: fields[11] as String,
+      object: fields[8] as Object,
+      sentTime: fields[9] as DateTime,
+      dictId: fields[10] as String,
     )
       .._id = fields[0] as int
-      .._objectId = fields[1] as String
-      .._action = fields[2] as String
-      .._title = fields[3] as String
-      .._body = fields[4] as String
-      .._scheduleDate = fields[5] as DateTime
-      .._subtitle = fields[6] as String
-      .._imagePath = fields[7] as String
-      .._imageUrl = fields[8] as String;
+      .._action = fields[1] as String
+      .._title = fields[2] as String
+      .._body = fields[3] as String
+      .._scheduleDate = fields[4] as DateTime
+      .._subtitle = fields[5] as String
+      .._imagePath = fields[6] as String
+      .._imageUrl = fields[7] as String;
   }
 
   @override
   void write(BinaryWriter writer, MainNotification obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
-      ..write(obj._objectId)
-      ..writeByte(2)
       ..write(obj._action)
-      ..writeByte(3)
+      ..writeByte(2)
       ..write(obj._title)
-      ..writeByte(4)
+      ..writeByte(3)
       ..write(obj._body)
-      ..writeByte(5)
+      ..writeByte(4)
       ..write(obj._scheduleDate)
-      ..writeByte(6)
+      ..writeByte(5)
       ..write(obj._subtitle)
-      ..writeByte(7)
+      ..writeByte(6)
       ..write(obj._imagePath)
-      ..writeByte(8)
+      ..writeByte(7)
       ..write(obj._imageUrl)
-      ..writeByte(9)
+      ..writeByte(8)
       ..write(obj.object)
-      ..writeByte(10)
+      ..writeByte(9)
       ..write(obj.sentTime)
-      ..writeByte(11)
+      ..writeByte(10)
       ..write(obj.dictId);
   }
 

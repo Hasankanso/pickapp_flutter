@@ -205,21 +205,31 @@ class _CarDetailsState extends State<CarDetails> {
                             Lang.getString(context, "Delete_car_message"));
                       }
                     }
-
-                    if (widget.car.updated != null &&
+                    /* if (widget.car.updated != null &&
                         widget.car.updated.difference(DateTime.now()).inDays >
                             -30) {
                       return CustomToast().showErrorToast(
                           Lang.getString(context, "Car_edit_time"));
-                    }
-
-                    Car car = widget.car;
+                    }*/
+                    Car c = widget.car;
+                    Car car = Car(
+                        color: c.color,
+                        id: c.id,
+                        name: c.name,
+                        updated: c.updated,
+                        maxLuggage: c.maxLuggage,
+                        year: c.year,
+                        carPictureUrl: c.carPictureUrl,
+                        type: c.type,
+                        brand: c.brand,
+                        maxSeats: c.maxSeats);
                     car.name = _nameController.text;
                     car.year = int.parse(_yearController.text);
                     car.color = _colorController.pickedColor.value;
                     if (_imageController.pickedImage != null) {
                       await car.setPictureFile(_imageController.pickedImage);
                     }
+
                     showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -232,7 +242,7 @@ class _CarDetailsState extends State<CarDetails> {
                         );
                       },
                     );
-                    Request<List<Car>> request = EditCar(widget.car);
+                    Request<Car> request = EditCar(car);
                     request.send(_editCarResponse);
                   }
                 },
@@ -244,18 +254,19 @@ class _CarDetailsState extends State<CarDetails> {
     );
   }
 
-  _editCarResponse(List<Car> p1, int code, String message) async {
+  _editCarResponse(Car p1, int code, String message) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
     } else {
-      App.user.driver.cars = p1;
+      App.user.driver.cars.remove(p1);
+      App.user.driver.cars.add(p1);
       await Cache.setUser(App.user);
       App.updateProfile.value = !App.updateProfile.value;
 
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
-      Navigator.popUntil(context, ModalRoute.withName("/CarView"));
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
 }

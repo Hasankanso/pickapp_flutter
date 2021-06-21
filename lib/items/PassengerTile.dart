@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/dataObjects/Reservation.dart';
@@ -31,22 +32,31 @@ class PassengerTile extends ListTile {
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
+        side: passenger.status == "CANCELED"
+            ? (!Cache.darkTheme &&
+                    MediaQuery.of(context).platformBrightness !=
+                        Brightness.dark)
+                ? BorderSide(color: Colors.red.shade200, width: 1.5)
+                : BorderSide(color: Colors.red, width: 1.5)
+            : null,
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: ListTile(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  settings: RouteSettings(name: "/UserView"),
-                  builder: (context) => MainScaffold(
-                        appBar: MainAppBar(
-                          title: Lang.getString(context, "Passenger"),
-                        ),
-                        body: PersonView(
-                          person: passenger.person,
-                        ),
-                      )));
+          if (passenger.status != "CANCELED") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    settings: RouteSettings(name: "/UserView"),
+                    builder: (context) => MainScaffold(
+                          appBar: MainAppBar(
+                            title: Lang.getString(context, "Passenger"),
+                          ),
+                          body: PersonView(
+                            person: passenger.person,
+                          ),
+                        )));
+          }
         },
         leading: CircleAvatar(
           backgroundColor: Colors.transparent,

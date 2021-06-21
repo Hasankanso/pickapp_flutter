@@ -14,7 +14,8 @@ class MessageNotificationHandler extends NotificationHandler {
   Message message;
   static const String action = "CHAT_MESSAGE";
 
-  MessageNotificationHandler(MainNotification notification) : super(notification) {
+  MessageNotificationHandler(MainNotification notification)
+      : super(notification) {
     print("message received");
     message = Message.fromJson(notification.object);
     notification.object = message;
@@ -24,6 +25,7 @@ class MessageNotificationHandler extends NotificationHandler {
   Future<void> updateApp() async {
     App.updateConversation.value = !App.updateConversation.value;
     App.updateInbox.value = !App.updateInbox.value;
+    App.isNewMessageNotifier.value = true;
   }
 
   @override
@@ -32,15 +34,20 @@ class MessageNotificationHandler extends NotificationHandler {
 
     if (chat == null || chat.person == null) {
       Request.initBackendless();
-      Person person = await GetPerson(message.senderId).send((hi, bye, lay) => {});
+      Person person =
+          await GetPerson(message.senderId).send((hi, bye, lay) => {});
       if (person == null) return;
-      chat = new Chat(id: person.id, date: message.date, person: person, isNewMessage: true);
+      chat = new Chat(
+          id: person.id,
+          date: message.date,
+          person: person,
+          isNewMessage: true);
     }
     await chat.addAndCacheMessage(message); //add message and cache Chat
   }
 
   @override
-  void display(BuildContext context) {
+  Future<void> display(BuildContext context) {
     Cache.getChat(message.senderId).then((chat) {
       assert(chat != null);
       Inbox.openChat(chat, context);

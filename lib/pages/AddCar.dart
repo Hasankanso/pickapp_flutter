@@ -294,7 +294,7 @@ class _AddCarState extends State<AddCar> {
                   if (_validate()) {
                     if (_imageController.pickedImage == null) {
                       return CustomToast().showErrorToast(
-                          Lang.getString(context, "Select_an_image"));
+                          Lang.getString(context, "Choose_image"));
                     }
                     //becomedriver
                     if (widget.driver != null) {

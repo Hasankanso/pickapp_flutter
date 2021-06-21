@@ -1,9 +1,8 @@
 import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/requests/Request.dart';
 
-class AddCar extends Request<List<Car>> {
+class AddCar extends Request<Car> {
   Car _car;
 
   AddCar(this._car) {
@@ -11,10 +10,8 @@ class AddCar extends Request<List<Car>> {
   }
 
   @override
-  List<Car> buildObject(json) {
-    return json != null
-        ? List<Car>.from(json.map((x) => Car.fromJson(x)))
-        : null;
+  Car buildObject(json) {
+    return Car.fromJson(json);
   }
 
   @override
@@ -26,10 +23,6 @@ class AddCar extends Request<List<Car>> {
 
   @override
   String isValid() {
-    String validateUser = Validation.validateLogin(App.user);
-    if (!Validation.isNullOrEmpty(validateUser)) {
-      return validateUser;
-    }
     return null;
   }
 }

@@ -230,10 +230,10 @@ class _SearchResultsState extends State<SearchResults> {
     );
   }
 
-  void OnPressed(Ride r) {
+  Future<void> OnPressed(Ride r) async {
     Function callbackFunction;
     String buttonName = Lang.getString(context, "Back");
-    bool rideExists = App.person.upcomingRideExists(r.id);
+    bool rideExists = await App.person.upcomingRideExists(r.id);
 
     if ((App.user.driver != null && r.driver.id == App.user.driver.id) ||
         rideExists) {
@@ -252,6 +252,20 @@ class _SearchResultsState extends State<SearchResults> {
 
   void seatsLuggagePopUp(BuildContext context, Ride ride) {
     RideDetails.seatsLuggagePopUp(context, ride, (seats, luggage) {
+      var rideDate = ride.leavingDate;
+      rideDate = rideDate.add(Duration(minutes: -20));
+      for (final item in App.person.upcomingRides) {
+        if (item == null || item.status == "CANCELED") continue;
+        var diff = rideDate.difference(item.leavingDate).inMinutes;
+        if (rideDate.isAfter(item.leavingDate) && diff <= 0 && diff >= -20) {
+          return CustomToast()
+              .showErrorToast(Lang.getString(context, "Ride_compare_upcoming"));
+        }
+        if (rideDate.isBefore(item.leavingDate) && diff >= -40) {
+          return CustomToast()
+              .showErrorToast(Lang.getString(context, "Ride_compare_upcoming"));
+        }
+      }
       showDialog(
         context: context,
         barrierDismissible: false,

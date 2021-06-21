@@ -26,6 +26,7 @@ class MyRidesHistoryTile extends ListTile {
     }
     return Card(
       elevation: 3.0,
+      color: _ride.status == "CANCELED" ? Colors.grey.shade200 : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/directions.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -12,6 +11,7 @@ import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/dataObjects/MainLocation.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/items/RegionListTile.dart';
+import 'package:pickapp/packages/FlushBar/flushbar.dart';
 import 'package:pickapp/requests/EditRegions.dart';
 import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/Buttons.dart';

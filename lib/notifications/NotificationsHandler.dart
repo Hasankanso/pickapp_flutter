@@ -10,5 +10,5 @@ abstract class NotificationHandler {
 
   Future<void> cache();
   Future<void> updateApp();
-  void display(BuildContext context);
+  Future<void> display(BuildContext context);
 }

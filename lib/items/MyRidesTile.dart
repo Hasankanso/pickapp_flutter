@@ -118,6 +118,13 @@ class _MyRidesTileState extends State<MyRidesTile> {
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
+        side: widget._ride.status == "CANCELED"
+            ? (!Cache.darkTheme &&
+                    MediaQuery.of(context).platformBrightness !=
+                        Brightness.dark)
+                ? BorderSide(color: Colors.red.shade200, width: 1.5)
+                : BorderSide(color: Colors.red, width: 1.5)
+            : null,
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: ListTile(
@@ -125,28 +132,30 @@ class _MyRidesTileState extends State<MyRidesTile> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15.0)),
         ),
-        onTap: widget._ride.reserved == true
-            ? () {
-                Navigator.of(context).pushNamed("/RideDetails", arguments: [
-                  widget._ride,
-                  Lang.getString(context, "Edit_Reservation"),
-                  (ride) {
-                    MyRidesTile.seatsLuggagePopUp(context, widget._ride);
-                  },
-                  false
-                ]);
-              }
-            : () {
-                Navigator.of(context)
-                    .pushNamed("/UpcomingRideDetails", arguments: [
-                  widget._ride,
-                  Lang.getString(context, "Edit_Ride"),
-                  (ride) {
-                    return Navigator.pushNamed(context, "/EditRide",
-                        arguments: ride);
+        onTap: widget._ride.status != "CANCELED"
+            ? widget._ride.reserved == true
+                ? () {
+                    Navigator.of(context).pushNamed("/RideDetails", arguments: [
+                      widget._ride,
+                      Lang.getString(context, "Edit_Reservation"),
+                      (ride) {
+                        MyRidesTile.seatsLuggagePopUp(context, widget._ride);
+                      },
+                      false
+                    ]);
                   }
-                ]);
-              },
+                : () {
+                    Navigator.of(context)
+                        .pushNamed("/UpcomingRideDetails", arguments: [
+                      widget._ride,
+                      Lang.getString(context, "Edit_Ride"),
+                      (ride) {
+                        return Navigator.pushNamed(context, "/EditRide",
+                            arguments: ride);
+                      }
+                    ]);
+                  }
+            : null,
         title: Row(
           children: [
             Expanded(
@@ -259,11 +268,23 @@ class _MyRidesTileState extends State<MyRidesTile> {
                         flex: 5,
                         child: Align(
                           alignment: Alignment.bottomRight,
-                          child: Text(
-                            DateFormat('h:mm a',
-                                    Localizations.localeOf(context).toString())
-                                .format(widget._ride.leavingDate),
-                            style: Styles.labelTextStyle(),
+                          child: Column(
+                            children: [
+                              if (widget._ride.status == "CANCELED")
+                                Text(
+                                  Lang.getString(context, "Canceled"),
+                                  style:
+                                      Styles.valueTextStyle(color: Colors.red),
+                                ),
+                              Text(
+                                DateFormat(
+                                        'h:mm a',
+                                        Localizations.localeOf(context)
+                                            .toString())
+                                    .format(widget._ride.leavingDate),
+                                style: Styles.labelTextStyle(),
+                              ),
+                            ],
                           ),
                         ),
                       ),

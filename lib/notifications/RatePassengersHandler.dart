@@ -12,7 +12,10 @@ class RatePassengersHandler extends NotificationHandler {
   static const String prefix = "rate_passengers.";
 
   RatePassengersHandler(MainNotification notification) : super(notification) {
-    rideId = notification.objectId;
+    if (!(notification.object is String)) {
+      this.rideId = notification.object as String;
+    }
+    this.rideId = notification.object;
   }
 
   @override
@@ -22,8 +25,8 @@ class RatePassengersHandler extends NotificationHandler {
   Future<void> updateApp() async {}
 
   @override
-  void display(BuildContext context) {
-    Ride ride = App.person.getUpcomingRideFromId(rideId);
+  Future<void> display(BuildContext context) async {
+    Ride ride = await App.person.getUpcomingRideFromId(rideId);
 
     if (ride == null) {
       //in case user removed the ride. but later clicked the notification
@@ -43,10 +46,10 @@ class RatePassengersHandler extends NotificationHandler {
     DateTime popUpDate = ride.leavingDate
         .add(Duration(hours: App.person.countryInformations.rateStartHours));
     MainNotification rateNotification = new MainNotification(
-        objectId: ride.id,
         title: "How Were Passengers?",
         body:
             "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
+        object: ride.id,
         scheduleDate: popUpDate,
         action: RatePassengersHandler.action);
 

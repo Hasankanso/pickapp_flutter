@@ -60,8 +60,8 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display(BuildContext context) {
-    Ride ride = App.person.getUpcomingRideFromId(reservation.rideId);
+  Future<void> display(BuildContext context) async {
+    Ride ride = await App.person.getUpcomingRideFromId(reservation.rideId);
     if (ride == null) {
       //in case user removed the ride. but later clicked the notification
       return;

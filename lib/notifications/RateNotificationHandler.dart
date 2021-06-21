@@ -15,7 +15,8 @@ class RateNotificationHandler extends NotificationHandler {
   RateNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Rate)) {
       notification.object = Rate.fromJson(notification.object);
-      notification.scheduleDate = DateTime.now().add(App.availableDurationToRate);
+      notification.scheduleDate =
+          DateTime.now().add(App.availableDurationToRate);
     }
     this.rate = notification.object;
   }
@@ -27,7 +28,8 @@ class RateNotificationHandler extends NotificationHandler {
     user.person.statistics = user.person.statistics.createNewStatistics(rate);
     await Cache.setUser(user);
 
-    LocalNotificationManager.pushLocalNotification(this.notification, prefix + rate.id);
+    LocalNotificationManager.pushLocalNotification(
+        this.notification, prefix + rate.id);
   }
 
   @override
@@ -36,7 +38,7 @@ class RateNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display(BuildContext context) {
+  Future<void> display(BuildContext context) {
     Navigator.pushNamed(context, "/ReviewsPageList");
   }
 }

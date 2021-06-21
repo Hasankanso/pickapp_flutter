@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pickapp/classes/App.dart';
+import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/Validation.dart';
@@ -11,6 +12,7 @@ import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/pages/PersonView.dart';
 import 'package:pickapp/requests/AddRateRequest.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -21,19 +23,21 @@ import 'package:pickapp/utilities/MainScaffold.dart';
 import 'package:pickapp/utilities/RateStars.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
-class AddRate extends StatefulWidget {
+class RateDriver extends StatefulWidget {
   final Ride _ride;
   final Person _target;
-  final String reason;
-  final DateTime cancellationDate;
+  final String _reason;
+  final DateTime _cancellationDate;
+  final MainNotification _notification;
 
-  AddRate(this._ride, this._target, {this.reason, this.cancellationDate});
+  RateDriver(this._ride, this._target, this._reason, this._cancellationDate,
+      this._notification);
 
   @override
-  _AddRateState createState() => _AddRateState();
+  _RateDriverState createState() => _RateDriverState();
 }
 
-class _AddRateState extends State<AddRate> {
+class _RateDriverState extends State<RateDriver> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _comment = TextEditingController();
   double _grade = 5;
@@ -101,7 +105,8 @@ class _AddRateState extends State<AddRate> {
                                     " " +
                                     widget._target.lastName +
                                     ", " +
-                                    App.calculateAge(widget._target.birthday).toString(),
+                                    App.calculateAge(widget._target.birthday)
+                                        .toString(),
                                 style: Styles.headerTextStyle(),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -127,7 +132,7 @@ class _AddRateState extends State<AddRate> {
               VerticalSpacer(
                 height: 20,
               ),
-              if (widget.reason != null)
+              if (widget._reason != null)
                 Column(
                   children: [
                     Text(
@@ -138,7 +143,7 @@ class _AddRateState extends State<AddRate> {
                       height: 10,
                     ),
                     Text(
-                      widget.reason,
+                      widget._reason,
                       textAlign: TextAlign.center,
                       style: Styles.valueTextStyle(),
                     ),
@@ -188,14 +193,16 @@ class _AddRateState extends State<AddRate> {
                         flex: 12,
                         child: DropdownButtonFormField<String>(
                           isExpanded: true,
-                          decoration: InputDecoration(labelText: Lang.getString(context, "Reason")),
+                          decoration: InputDecoration(
+                              labelText: Lang.getString(context, "Reason")),
                           value: _reasonsItems[_reason],
                           onChanged: (String newValue) {
                             setState(() {
                               _reason = _reasonsItems.indexOf(newValue);
                             });
                           },
-                          items: _reasonsItems.map<DropdownMenuItem<String>>((String value) {
+                          items: _reasonsItems
+                              .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -230,7 +237,8 @@ class _AddRateState extends State<AddRate> {
                           String valid, alpha, short;
                           if (_grade < 3) {
                             valid = Validation.validate(value, context);
-                            alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
+                            alpha = Validation.isAlphaNumericIgnoreSpaces(
+                                context, value);
                             short = Validation.isShort(context, value, 20);
                           }
 
@@ -264,17 +272,11 @@ class _AddRateState extends State<AddRate> {
                 text_key: "Rate",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    if (widget.cancellationDate == null) {
-                      if (DateTime.now()
-                          .isAfter(widget._ride.leavingDate.add(App.availableDurationToRate))) {
-                        return CustomToast()
-                            .showErrorToast(Lang.getString(context, "Rate_days_validation"));
-                      }
-                    } else if (widget.cancellationDate
-                            .compareTo(DateTime.now().add(App.availableDurationToRate)) >=
+                    if (widget._cancellationDate.compareTo(
+                            DateTime.now().add(App.availableDurationToRate)) >=
                         0) {
-                      return CustomToast()
-                          .showErrorToast(Lang.getString(context, "Rate_days_validation"));
+                      return CustomToast().showErrorToast(
+                          Lang.getString(context, "Rate_days_validation"));
                     }
 
                     Rate _rate = Rate(
@@ -300,8 +302,12 @@ class _AddRateState extends State<AddRate> {
       CustomToast().showErrorToast(p3);
     } else {
       if (result) {
+        App.notifications.remove(widget._notification);
+        await Cache.updateNotifications(App.notifications);
+        App.updateNotifications.value = !App.updateNotifications.value;
         Navigator.popUntil(context, (route) => route.isFirst);
-        CustomToast().showSuccessToast(Lang.getString(context, "Successfully_rated!"));
+        CustomToast()
+            .showSuccessToast(Lang.getString(context, "Successfully_rated!"));
       }
     }
   }

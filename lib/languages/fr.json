@@ -21,6 +21,7 @@
   "Persons": "Personnes",
   "Notifications":"Notifications",
   "Next":"Next",
+  "Type_a_message": "Type a message",
 
   "Contact_Us" : "Contact Us",
   "Send" : "Send",
@@ -91,6 +92,7 @@
   "Add_a_region": "Add a region",
   "Remove_region": "Remove region",
   "Select_an_image": "Select an image",
+  "Choose_image": "Choose image",
   "Sedan": "Sedan",
   "SUV": "SUV",
   "Hatchback": "Hatchback",
@@ -304,6 +306,7 @@
   "rate_reason_7":"Others",
   "Rate_days_validation":"You can't rate this person after 2 days from the ride",
   "History": "History",
-  "Upcoming": "Upcoming"
+  "Upcoming": "Upcoming",
+  "Logout_message": "Waiting for your come back!"
 
 }

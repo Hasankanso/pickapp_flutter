@@ -11,13 +11,15 @@ class CancelRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
   DateTime cancellationDate;
 
-  CancelRideNotificationHandler(MainNotification notification) : super(notification) {
+  CancelRideNotificationHandler(MainNotification notification)
+      : super(notification) {
     List<Object> list = notification.object as List;
     this.rideId = list[0] as String;
     if (list.length > 1) {
       this.reason = list[1] as String;
       this.cancellationDate =
-          DateTime.fromMillisecondsSinceEpoch((list[2] as int), isUtc: true).toLocal();
+          DateTime.fromMillisecondsSinceEpoch((list[2] as int), isUtc: true)
+              .toLocal();
     }
   }
 
@@ -27,14 +29,10 @@ class CancelRideNotificationHandler extends NotificationHandler {
     int index = user.person.upcomingRides.indexOf(new Ride(id: rideId));
     if (index < 0) return null;
 
-    //if there is reason =>there is rate else delete ride completely
-    if (reason == null) {
-      user.person.upcomingRides.removeAt(index);
-    } else {
-      user.person.upcomingRides[index].status = "CANCELED";
-    }
+    user.person.upcomingRides[index].status = "CANCELED";
 
-    await LocalNotificationManager.cancelLocalNotification("ride_reminder." + rideId);
+    await LocalNotificationManager.cancelLocalNotification(
+        "ride_reminder." + rideId);
 
     await Cache.setUser(user);
   }
@@ -46,12 +44,18 @@ class CancelRideNotificationHandler extends NotificationHandler {
   }
 
   @override
-  void display(BuildContext context) {
-    Ride ride = App.person.getUpcomingRideFromId(rideId);
+  Future<void> display(BuildContext context) async {
+    Ride ride =
+        await App.person.getUpcomingRideFromId(rideId, searchHistory: true);
 
     if (ride == null ||
-        cancellationDate.compareTo(DateTime.now().add(App.availableDurationToRate)) >= 0) return;
-    Navigator.of(context)
-        .pushNamed("/AddRateCancel", arguments: [ride, ride.person, reason, cancellationDate]);
+        ride.status != "CANCELED" ||
+        reason == null ||
+        cancellationDate
+                .compareTo(DateTime.now().add(App.availableDurationToRate)) >=
+            0) return;
+
+    Navigator.of(context).pushNamed("/RateDriver",
+        arguments: [ride, ride.person, reason, cancellationDate, notification]);
   }
 }
