@@ -92,6 +92,7 @@
   "Add_a_region": "أضف منطقة",
   "Remove_region": "إزالة المنطقة",
   "Select_an_image": "إختر صورة",
+  "Choose_image": "إختر صورة",
   "Sedan": "سيدان",
   "SUV": "دفع رباعي",
   "Hatchback": "هاتشباك",
@@ -305,5 +306,7 @@
   "rate_reason_7":"شيء آخر",
   "Rate_days_validation":"لا يمكنك تقييم هذا الشخص بعد يومين من الرحلة",
   "History": "تاريخ",
-  "Upcoming": "القادمة"
+  "Upcoming": "القادمة",
+  "Logout_message": "في انتظار عودتك!"
+
 }

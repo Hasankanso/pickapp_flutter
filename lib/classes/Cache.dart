@@ -73,7 +73,7 @@ class Cache {
 
     Iterable<Chat> iterable = chatB.values;
     for (Chat chat in iterable) {
-      for (int i = chat.lastChunkIndex; i >= 0; i++) {
+      for (int i = chat.lastChunkIndex; i >= 0; i--) {
         var messageBox = await Hive.openBox<Message>('${chat.id}.messages.$i');
         await messageBox.clear();
         await messageBox.close();

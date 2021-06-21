@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
@@ -10,6 +9,7 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/classes/screenutil.dart';
 import 'package:pickapp/dataObjects/Car.dart';
+import 'package:pickapp/packages/FlushBar/flushbar.dart';
 import 'package:pickapp/pages/CarView.dart';
 import 'package:pickapp/requests/DeleteCar.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -47,20 +47,21 @@ class CarListTile extends ListTile {
     for (var item in App.person.upcomingRides) {
       if (item.car.id == car.id) {
         Navigator.pop(context);
-        return CustomToast().showErrorToast(Lang.getString(context, "Delete_car_message"));
+        return CustomToast()
+            .showErrorToast(Lang.getString(context, "Delete_car_message"));
       }
     }
 
-    Request<List<Car>> request = DeleteCar(car);
+    Request<Car> request = DeleteCar(car);
     request.send((c, co, m) => _deleteCarResponse(c, co, m, context));
   }
 
-  _deleteCarResponse(List<Car> p1, int code, String message, context) async {
+  _deleteCarResponse(Car p1, int code, String message, context) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
     } else {
-      App.user.driver.cars = p1;
+      App.user.driver.cars.remove(p1);
 
       if (App.user.driver.cars == null || App.user.driver.cars.length == 0) {
         App.isDriverNotifier.value = false;
@@ -71,7 +72,8 @@ class CarListTile extends ListTile {
 
       App.updateProfile.value = !App.updateProfile.value;
 
-      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Successfully_deleted!"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
@@ -97,7 +99,8 @@ class CarListTile extends ListTile {
                           IconButton(
                               icon: Icon(Icons.edit),
                               onPressed: () {
-                                Navigator.pushNamed(context, "/CarDetails", arguments: car);
+                                Navigator.pushNamed(context, "/CarDetails",
+                                    arguments: car);
                               }),
                           IconButton(
                             icon: Icon(
@@ -110,7 +113,8 @@ class CarListTile extends ListTile {
                               if (i == 0) if (App.driver.cars.length == 1) {
                                 i++;
                                 Flushbar(
-                                  message: Lang.getString(context, "No_driver_anymore"),
+                                  message: Lang.getString(
+                                      context, "No_driver_anymore"),
                                   flushbarPosition: FlushbarPosition.TOP,
                                   flushbarStyle: FlushbarStyle.GROUNDED,
                                   reverseAnimationCurve: Curves.decelerate,
@@ -138,10 +142,13 @@ class CarListTile extends ListTile {
                               PopUp.areYouSure(
                                       Lang.getString(context, "Yes"),
                                       Lang.getString(context, "No"),
-                                      Lang.getString(context, "Car_delete_message"),
+                                      Lang.getString(
+                                          context, "Car_delete_message"),
                                       Lang.getString(context, "Warning!"),
                                       Colors.red,
-                                      (bool) => bool ? _deleteCarRequest(context) : null,
+                                      (bool) => bool
+                                          ? _deleteCarRequest(context)
+                                          : null,
                                       highlightYes: true)
                                   .confirmationPopup(context);
                             },
@@ -207,7 +214,8 @@ class CarListTile extends ListTile {
                             ),
                             Text(
                               car.maxSeats.toString(),
-                              style: Styles.valueTextStyle(bold: FontWeight.w500),
+                              style:
+                                  Styles.valueTextStyle(bold: FontWeight.w500),
                             ),
                           ],
                         ),
@@ -222,7 +230,8 @@ class CarListTile extends ListTile {
                             ),
                             Text(
                               car.maxLuggage.toString(),
-                              style: Styles.valueTextStyle(bold: FontWeight.w500),
+                              style:
+                                  Styles.valueTextStyle(bold: FontWeight.w500),
                             ),
                           ],
                         ),

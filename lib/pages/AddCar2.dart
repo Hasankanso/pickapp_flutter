@@ -100,65 +100,67 @@ class _AddCar2State extends State<AddCar2> {
       appBar: MainAppBar(
         title: Lang.getString(context, "Add_Car"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          VerticalSpacer(
-            height: 20,
-          ),
-          ResponsiveWidget.fullWidth(
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  Lang.getString(context, "Select_car_type:"),
-                  style: Styles.labelTextStyle(),
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            VerticalSpacer(
+              height: 20,
             ),
-          ),
-          ResponsiveWidget.fullWidth(
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CarTypeItem(_typesBool[0], _typesNames[0], 'lib/images/car2',
-                    selectType, 0)
-              ],
+            ResponsiveWidget.fullWidth(
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    Lang.getString(context, "Select_car_type:"),
+                    style: Styles.labelTextStyle(),
+                  ),
+                ],
+              ),
             ),
-          ),
-          ResponsiveWidget.fullWidth(
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CarTypeItem(_typesBool[1], _typesNames[1], 'lib/images/car3',
-                    selectType, 1),
-              ],
+            ResponsiveWidget.fullWidth(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CarTypeItem(_typesBool[0], _typesNames[0], 'lib/images/car2',
+                      selectType, 0)
+                ],
+              ),
             ),
-          ),
-          ResponsiveWidget.fullWidth(
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CarTypeItem(_typesBool[2], _typesNames[2], 'lib/images/car1',
-                    selectType, 2),
-              ],
+            ResponsiveWidget.fullWidth(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CarTypeItem(_typesBool[1], _typesNames[1], 'lib/images/car3',
+                      selectType, 1),
+                ],
+              ),
             ),
-          ),
-          ResponsiveWidget.fullWidth(
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CarTypeItem(_typesBool[3], _typesNames[3], 'lib/images/car4',
-                    selectType, 3),
-              ],
+            ResponsiveWidget.fullWidth(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CarTypeItem(_typesBool[2], _typesNames[2], 'lib/images/car1',
+                      selectType, 2),
+                ],
+              ),
             ),
-          ),
-        ],
+            ResponsiveWidget.fullWidth(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CarTypeItem(_typesBool[3], _typesNames[3], 'lib/images/car4',
+                      selectType, 3),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
         height: 80,
@@ -241,7 +243,7 @@ class _AddCar2State extends State<AddCar2> {
   }
 
   _addCarRequest() {
-    Request<List<Car>> request = AddCar(widget.car);
+    Request<Car> request = AddCar(widget.car);
     request.send(_addCarResponse);
   }
 
@@ -294,12 +296,17 @@ class _AddCar2State extends State<AddCar2> {
     }
   }
 
-  _addCarResponse(List<Car> p1, int code, String message) async {
+  _addCarResponse(Car p1, int code, String message) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
     } else {
-      App.user.driver.cars = p1;
+      if (App.user.driver.cars == null) {
+        App.user.driver.cars = [p1];
+      } else {
+        App.user.driver.cars.add(p1);
+      }
+
       await Cache.setUser(App.user);
       App.updateProfile.value = !App.updateProfile.value;
 

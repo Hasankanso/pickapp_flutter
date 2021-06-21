@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/ads/Ads.dart';
@@ -8,6 +7,8 @@ import 'package:pickapp/classes/FakeRequests.dart';
 import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
+import 'package:pickapp/packages/FlushBar/flushbar.dart';
+import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
 import 'package:pickapp/utilities/LineDevider.dart';
@@ -303,6 +304,8 @@ class Settings extends StatelessWidget {
                       InkWell(
                         onTap: () async {
                           await App.logout();
+                          CustomToast().showSuccessToast(
+                              Lang.getString(context, "Logout_message"));
                           Navigator.pop(context);
                         },
                         child: ResponsiveWidget.fullWidth(

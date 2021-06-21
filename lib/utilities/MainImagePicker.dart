@@ -40,7 +40,6 @@ class _MainImagePickerState extends State<MainImagePicker> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.controller.pickedImage != null)
       _image = widget.controller.pickedImage;
