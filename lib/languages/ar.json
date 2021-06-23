@@ -307,6 +307,8 @@
   "Rate_days_validation":"لا يمكنك تقييم هذا الشخص بعد يومين من الرحلة",
   "History": "تاريخ",
   "Upcoming": "القادمة",
-  "Logout_message": "في انتظار عودتك!"
+  "Logout_message": "في انتظار عودتك!",
+  "Reservation_editing_message": "يرجى تعديل الحجز الخاص بك"
+
 
 }

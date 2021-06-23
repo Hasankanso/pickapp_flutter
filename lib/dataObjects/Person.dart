@@ -198,6 +198,16 @@ class Person {
     return this.upcomingRides[index];
   }
 
+  Ride getUpcomingRideOnlyFromId(
+    String objectId,
+  ) {
+    int index = this.upcomingRides.indexOf(new Ride(id: objectId));
+    if (index < 0) {
+      return null;
+    }
+    return this.upcomingRides[index];
+  }
+
   Future<bool> upcomingRideExists(String objectId) async {
     Ride r = await getUpcomingRideFromId(objectId);
     return r != null;

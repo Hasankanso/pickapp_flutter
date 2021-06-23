@@ -6,7 +6,7 @@ class GetUserReviews extends Request<List<Rate>> {
   Person person;
 
   GetUserReviews(this.person) {
-    httpPath = "/RateBusiness/GetDriverRate";
+    httpPath = "/RateBusiness/GetUserReviews";
   }
 
   @override

@@ -36,9 +36,9 @@ class PassengerTile extends ListTile {
             ? (!Cache.darkTheme &&
                     MediaQuery.of(context).platformBrightness !=
                         Brightness.dark)
-                ? BorderSide(color: Colors.red.shade200, width: 1.5)
-                : BorderSide(color: Colors.red, width: 1.5)
-            : null,
+                ? BorderSide(color: Colors.red.shade200, width: 2)
+                : BorderSide(color: Colors.red, width: 2)
+            : BorderSide.none,
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: ListTile(

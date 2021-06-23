@@ -38,12 +38,6 @@ class Reservation {
     this.luggages = luggages;
   }
   factory Reservation.fromJson(Map<String, dynamic> json) {
-    var creationDateJ = json["creationDate"];
-    DateTime creationDate;
-    if (creationDateJ != null) {
-      creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
-    }
-
     return Reservation(
         id: json["objectId"],
         seats: json["seats"],
@@ -107,7 +101,9 @@ class Reservation {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Reservation && runtimeType == other.runtimeType && _id == other._id;
+      other is Reservation &&
+          runtimeType == other.runtimeType &&
+          _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;

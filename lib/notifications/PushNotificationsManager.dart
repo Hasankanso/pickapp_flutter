@@ -8,6 +8,7 @@ import 'package:pickapp/classes/Cache.dart';
 import 'package:pickapp/notifications/BroadcastAlertNotificationHandler.dart';
 import 'package:pickapp/notifications/CancelReservationNotificationHandler.dart';
 import 'package:pickapp/notifications/CancelRideNotificationHandler.dart';
+import 'package:pickapp/notifications/EditReservationNotificationHandler.dart';
 import 'package:pickapp/notifications/MainNotification.dart';
 import 'package:pickapp/notifications/MessageNotificationHandler.dart';
 import 'package:pickapp/notifications/NotificationsHandler.dart';
@@ -143,7 +144,7 @@ class PushNotificationsManager {
     }
   }
 
-//this method is used i notification list page, to handle on item click event
+//this method is used in notification list page, to handle on item click event
   static NotificationHandler createNotificationHandler(
       MainNotification newNotification) {
     switch (newNotification.action) {
@@ -157,6 +158,9 @@ class PushNotificationsManager {
         break;
       case "RIDE_CANCELED":
         return CancelRideNotificationHandler(newNotification);
+        break;
+      case "EDIT_RESERVATION":
+        return EditReservationNotificationHandler(newNotification);
         break;
       case "ALERT_RECEIVED":
         return BroadcastAlertNotificationHandler(newNotification);
@@ -226,6 +230,9 @@ NotificationHandler _createNotificationHandler(RemoteMessage message) {
       return BroadcastAlertNotificationHandler(newNotification);
     case "RIDE_REMINDER":
       return RideReminderNotificationHandler(newNotification);
+      break;
+    case "EDIT_RESERVATION":
+      return EditReservationNotificationHandler(newNotification);
       break;
     case MessageNotificationHandler.action:
       return MessageNotificationHandler(newNotification);
