@@ -47,6 +47,17 @@ class Reservation {
         reason: json["reason"],
         person: Person.fromJson(json["person"]));
   }
+  Reservation copy() {
+    return Reservation(
+        id: this.id,
+        seats: this.seats,
+        luggages: this.luggages,
+        rideId: this.rideId,
+        status: this.status,
+        reason: this.reason,
+        updated: this.updated,
+        person: this.person);
+  }
 
   @override
   String toString() {

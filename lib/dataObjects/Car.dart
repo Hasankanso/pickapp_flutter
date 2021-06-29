@@ -78,6 +78,7 @@ class Car {
       };
 
   factory Car.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
     var updatedJ = json["updated"];
     DateTime updated;
     if (updatedJ != null) {

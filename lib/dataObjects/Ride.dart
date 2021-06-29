@@ -172,9 +172,11 @@ class Ride {
   factory Ride.fromJson(Map<String, dynamic> json) {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
-    if (leavingDateJ != null) {
+    if (leavingDateJ != null && leavingDateJ is int) {
       leavingDate =
           DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+    } else {
+      leavingDate = DateTime.parse(leavingDateJ);
     }
 
     User user;
@@ -221,6 +223,36 @@ class Ride {
     r.setMapImage();
 
     return r;
+  }
+  Ride copy() {
+    return new Ride(
+        kidSeat: this.kidSeat,
+        id: this.id,
+        acAllowed: this.acAllowed,
+        musicAllowed: this.musicAllowed,
+        smokingAllowed: this.smokingAllowed,
+        petsAllowed: this.petsAllowed,
+        availableLuggages: this.availableLuggages,
+        maxSeats: this.maxSeats,
+        maxLuggages: this.maxLuggages,
+        availableSeats: this.availableSeats,
+        stopTime: this.stopTime,
+        comment: this.comment,
+        user: user,
+        status: this.status,
+        reserved: reserved,
+        passengers: this.passengers != null
+            ? List<Reservation>.from(this.passengers.map((x) => x.copy()))
+            : null,
+        leavingDate: leavingDate,
+        from: this.from.copy(),
+        to: this.to.copy(),
+        price: this.price,
+        mapBase64: this.mapBase64,
+        mapUrl: this.mapUrl,
+        updated: this.updated,
+        car: this.car,
+        reason: this.reason);
   }
 
   get price => _price;

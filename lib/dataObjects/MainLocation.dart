@@ -55,10 +55,19 @@ class MainLocation {
     }
 
     return MainLocation(
-        /*id:json["objectId"],*/ name: json["name"],
+        name: json["name"],
         placeId: json["placeId"],
         longitude: longitude,
         latitude: latitude);
+  }
+  MainLocation copy() {
+    return MainLocation(
+        name: this.name,
+        placeId: this.placeId,
+        longitude: this.longitude,
+        latitude: this.latitude,
+        updated: this.updated,
+        id: this.id);
   }
 
   static bool equals(lat1, long1, lat2, long2) {

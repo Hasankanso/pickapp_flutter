@@ -24,8 +24,8 @@ class NotificationListTile extends ListTile {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(3)),
         ),
-        onTap: () {
-          if (handler != null) handler.display(context);
+        onTap: () async {
+          if (handler != null) await handler.display(context);
         },
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
