@@ -20,7 +20,14 @@ class User {
   Person _person;
   @HiveField(6)
   Driver _driver;
-  String _idToken;
+
+  String _idToken; //this is for firebase phone verification, on register.
+
+  @HiveField(7)
+  String password;
+  @HiveField(8)
+  String sessionToken; //backendless session token.
+
   bool isExistChecked = false;
 
   User(
