@@ -182,6 +182,11 @@ class Person {
   //Ride
   Future<Ride> getUpcomingRideFromId(String objectId,
       {bool searchHistory = false}) async {
+    if (this.upcomingRides == null) {
+      this.upcomingRides = [];
+      return null;
+    }
+
     int index = this.upcomingRides.indexOf(new Ride(id: objectId));
 
     if (index < 0) {
@@ -311,7 +316,10 @@ class Person {
     _phone = value;
   }
 
-  List<Ride> get upcomingRides => _upcomingRides;
+  List<Ride> get upcomingRides {
+    if (_upcomingRides == null) _upcomingRides = [];
+    return _upcomingRides;
+  }
 
   set upcomingRides(List<Ride> value) {
     _upcomingRides = new List<Ride>.from(value);

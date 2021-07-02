@@ -27,18 +27,20 @@ class _MyRidesState extends State<MyRides> {
     bool needUpdate = false;
     List<Ride> toRemove = <Ride>[];
 
-    for (final ride in App.person.upcomingRides) {
-      DateTime d = ride.leavingDate
-          .add(Duration(hours: App.person.countryInformations.rateStartHours));
-      if (DateTime.now().isAfter(d)) {
-        needUpdate = true;
-        ridesHistory.add(ride);
-        toRemove.add(ride);
+    if (App.person.upcomingRides != null) {
+      for (final ride in App.person.upcomingRides) {
+        DateTime d = ride.leavingDate.add(
+            Duration(hours: App.person.countryInformations.rateStartHours));
+        if (DateTime.now().isAfter(d)) {
+          needUpdate = true;
+          ridesHistory.add(ride);
+          toRemove.add(ride);
+        }
       }
-    }
-    App.person.upcomingRides.removeWhere((e) => toRemove.contains(e));
-    if (needUpdate) {
-      await Cache.updateRideHistory(ridesHistory);
+      App.person.upcomingRides.removeWhere((e) => toRemove.contains(e));
+      if (needUpdate) {
+        await Cache.updateRideHistory(ridesHistory);
+      }
     }
   }
 
@@ -73,6 +75,11 @@ class _MyRidesState extends State<MyRides> {
               ValueListenableBuilder(
                   valueListenable: App.updateUpcomingRide,
                   builder: (BuildContext context, bool isd, Widget child) {
+                    Center center = Center(
+                        child: Text(
+                            Lang.getString(context, "No_upcoming_rides!"),
+                            style: Styles.valueTextStyle()));
+                    if (App.person.upcomingRides == null) return center;
                     App.person.upcomingRides
                         .sort((a, b) => a.leavingDate.compareTo(b.leavingDate));
                     return Container(
@@ -81,10 +88,7 @@ class _MyRidesState extends State<MyRides> {
                               list: App.person.upcomingRides,
                               itemBuilder: MyRidesTile.itemBuilder(
                                   App.person.upcomingRides))
-                          : Center(
-                              child: Text(
-                                  Lang.getString(context, "No_upcoming_rides!"),
-                                  style: Styles.valueTextStyle())),
+                          : center,
                     );
                   }),
               ValueListenableBuilder(

@@ -262,6 +262,11 @@ class App {
         int1.DateFormat(App.hourFormat, _locale).format(ride.leavingDate) +
         ", be ready";
 
+    d.add(Duration(minutes: -30));
+    //if there is less than 30 minutes then no need for reminder
+    if (d.isAfter(DateTime.now())) {
+      return;
+    }
     MainNotification notification = MainNotification(
         title: title,
         body: body,

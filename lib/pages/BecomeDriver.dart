@@ -156,33 +156,39 @@ class _BecomeDriverState extends State<BecomeDriver> {
       _regions.add(MainLocation());
       _regionsControllers.add(LocationEditingController());
       _errorTexts.add(null);
-      Future.delayed(Duration.zero, () async {
-        Flushbar(
-          message: Lang.getString(context, "Regions_require_message"),
-          flushbarPosition: FlushbarPosition.TOP,
-          flushbarStyle: FlushbarStyle.GROUNDED,
-          reverseAnimationCurve: Curves.decelerate,
-          forwardAnimationCurve: Curves.decelerate,
+      _showRegionsMessage();
+    }
+  }
+
+  _showRegionsMessage() {
+    Future.delayed(Duration.zero, () async {
+      Flushbar(
+        message: Lang.getString(context, "Regions_require_message"),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.GROUNDED,
+        reverseAnimationCurve: Curves.decelerate,
+        forwardAnimationCurve: Curves.decelerate,
+        isDismissible: true,
+        duration: Duration(seconds: 4),
+        icon: Icon(
+          Icons.info_outline,
+          color: Styles.primaryColor(),
+          size: Styles.mediumIconSize(),
+        ),
+        mainButton: IconButton(
+          focusColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Icon(
-            Icons.info_outline,
-            color: Styles.primaryColor(),
+            Icons.clear,
+            color: Styles.secondaryColor(),
             size: Styles.mediumIconSize(),
           ),
-          mainButton: IconButton(
-            focusColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.clear,
-              color: Styles.secondaryColor(),
-              size: Styles.mediumIconSize(),
-            ),
-          ),
-        )..show(context);
-      });
-    }
+        ),
+      )..show(context);
+    });
   }
 
   @override
@@ -191,6 +197,16 @@ class _BecomeDriverState extends State<BecomeDriver> {
       appBar: MainAppBar(
         title: Lang.getString(
             context, widget.isRegionPage ? "Regions" : "Become_a_Driver"),
+        actions: [
+          !widget.isRegionPage
+              ? IconButton(
+                  icon: Icon(
+                    Icons.info_outline,
+                    size: Styles.mediumIconSize(),
+                  ),
+                  onPressed: _showRegionsMessage)
+              : Container(),
+        ],
       ),
       body: Column(
         children: [
