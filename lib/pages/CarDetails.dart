@@ -33,6 +33,7 @@ class _CarDetailsState extends State<CarDetails> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _yearController = TextEditingController();
   MainImageController _imageController = MainImageController();
+  bool _isOldImage = true;
 
   @override
   void initState() {
@@ -64,9 +65,14 @@ class _CarDetailsState extends State<CarDetails> {
                   alignment: Alignment.center,
                   child: MainImagePicker(
                     isCarPicker: true,
-                    imageUrl: widget.car.carPictureUrl,
+                    imageUrl: _isOldImage ? widget.car.carPictureUrl : null,
                     controller: _imageController,
                     title: Lang.getString(context, "Car"),
+                    callBack: () {
+                      setState(() {
+                        _isOldImage = false;
+                      });
+                    },
                   ),
                 ),
               ),
