@@ -6,10 +6,10 @@ import 'package:pickapp/utilities/MainAppBar.dart';
 import 'package:pickapp/utilities/MainScaffold.dart';
 
 class ImageViewer extends StatelessWidget {
-  File _image;
-  String _title;
-  ImageProvider imageProvider;
-  bool isCarPicker;
+  final File _image;
+  final String _title;
+  final ImageProvider imageProvider;
+  final bool isCarPicker;
 
   ImageViewer(this._image, this._title,
       {this.imageProvider, this.isCarPicker = false});

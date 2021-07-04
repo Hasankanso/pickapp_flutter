@@ -20,7 +20,8 @@ abstract class Request<T> {
   Future<T> send(Function(T, int, String) callback) async {
     String valid = isValid();
     print(host + httpPath);
-    print("offlineValidator (deprecated) " + Validation.isNullOrEmpty(valid).toString());
+    print("offlineValidator (deprecated) " +
+        Validation.isNullOrEmpty(valid).toString());
     if (!Validation.isNullOrEmpty(valid)) {
       callback(null, 406, valid);
       return null;
@@ -32,8 +33,10 @@ abstract class Request<T> {
 
     //if this is about a register send request, App will not even have a user, nor a sessionToken.
     var header;
-    if (App.user != null && App.user.sessionToken == null) {
-      header = <String, String>{'Content-Type': 'application/json; charset=utf-8'};
+    if (App.user == null || App.user.sessionToken == null) {
+      header = <String, String>{
+        'Content-Type': 'application/json; charset=utf-8'
+      };
     } else {
       header = <String, String>{
         'user-token': App.user.sessionToken,
@@ -49,7 +52,8 @@ abstract class Request<T> {
         )
         .timeout(const Duration(seconds: 20))
         .catchError((Object o) {
-      callback(null, HttpStatus.networkConnectTimeoutError, "no_internet_connection");
+      callback(null, HttpStatus.networkConnectTimeoutError,
+          "no_internet_connection");
       return null;
     });
 
@@ -61,7 +65,8 @@ abstract class Request<T> {
           decodedResponse[0] == null &&
           decodedResponse["code"] != "null") {
         //extracting code and message
-        var jCode = response.body.contains("code") ? decodedResponse["code"] : null;
+        var jCode =
+            response.body.contains("code") ? decodedResponse["code"] : null;
         var jMessage = decodedResponse["message"];
         if (jCode == null) {
           var jbody = decodedResponse["body"];
@@ -72,7 +77,22 @@ abstract class Request<T> {
         }
         //check if there's error
         if (jCode != null) {
-          callback(null, jCode is String ? int.tryParse(jCode) : jCode, jMessage);
+          var code = jCode is String ? int.tryParse(jCode) : jCode;
+          //if there's no session token request it.
+          if (App.user != null &&
+              (code == 3048 ||
+                  App.user.sessionToken == null ||
+                  App.user.sessionToken.isEmpty)) {
+            App.user.sessionToken = null;
+            String token =
+                await AutoLogin(App.user.id, App.user.password).send(null);
+            App.user.sessionToken = token;
+            if (token != null) {
+              return await send(callback);
+            }
+          }
+
+          callback(null, code, jMessage);
           return null;
         }
       }
@@ -83,12 +103,6 @@ abstract class Request<T> {
         print(e);
         callback(null, HttpStatus.partialContent, "Something_Wrong");
         return null;
-      }
-
-      //if there's no session token request it.
-      if (App.user != null && (App.user.sessionToken == null || App.user.sessionToken.isEmpty)) {
-        String token = await AutoLogin(App.user.id, App.user.password).send(null);
-        App.user.sessionToken = token;
       }
 
       callback(object, response.statusCode, response.reasonPhrase);
@@ -112,7 +126,11 @@ abstract class Request<T> {
     String IOS_API_KEY = "D2DDEB57-BEBC-48EB-9E07-39A5DB9D8CEF";
     String REST_API_KEY = "A47932AF-43E1-4CDC-9B54-12F8A88FB22E";
 
-    host = "https://api.backendless.com/" + APPLICATION_ID + "/" + REST_API_KEY + "/services";
+    host = "https://api.backendless.com/" +
+        APPLICATION_ID +
+        "/" +
+        REST_API_KEY +
+        "/services";
   }
 
   onError() {}
