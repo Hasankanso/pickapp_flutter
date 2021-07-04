@@ -21,7 +21,7 @@ class User {
   @HiveField(6)
   Driver _driver;
 
-  String _idToken; //this is for firebase phone verification, on register.
+  String idToken; //this is for firebase phone verification, on register.
 
   @HiveField(7)
   String password;
@@ -68,15 +68,11 @@ class User {
         _phone = json["phone"],
         _email = json["email"],
         _verificationCode = json["verificationCode"],
+        sessionToken = json["sessionToken"],
+        password = json["password"],
         _userStatus = json["userStatus"],
         _driver = Driver.fromJson(json["driver"]),
         _person = Person.fromJson(json["person"]);
-
-  String get idToken => _idToken;
-
-  set idToken(String value) {
-    _idToken = value;
-  }
 
   String get id => _id;
 

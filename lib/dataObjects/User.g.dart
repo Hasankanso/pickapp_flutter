@@ -23,13 +23,15 @@ class UserAdapter extends TypeAdapter<User> {
       .._verificationCode = fields[3] as String
       .._userStatus = fields[4] as String
       .._person = fields[5] as Person
-      .._driver = fields[6] as Driver;
+      .._driver = fields[6] as Driver
+      ..password = fields[7] as String
+      ..sessionToken = fields[8] as String;
   }
 
   @override
   void write(BinaryWriter writer, User obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -43,7 +45,11 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(5)
       ..write(obj._person)
       ..writeByte(6)
-      ..write(obj._driver);
+      ..write(obj._driver)
+      ..writeByte(7)
+      ..write(obj.password)
+      ..writeByte(8)
+      ..write(obj.sessionToken);
   }
 
   @override
