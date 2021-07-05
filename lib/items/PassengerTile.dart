@@ -33,9 +33,7 @@ class PassengerTile extends ListTile {
       elevation: 3.0,
       shape: RoundedRectangleBorder(
         side: passenger.status == "CANCELED"
-            ? (!Cache.darkTheme &&
-                    MediaQuery.of(context).platformBrightness !=
-                        Brightness.dark)
+            ? (!Cache.darkTheme && MediaQuery.of(context).platformBrightness != Brightness.dark)
                 ? BorderSide(color: Colors.red.shade200, width: 2)
                 : BorderSide(color: Colors.red, width: 2)
             : BorderSide.none,
@@ -82,8 +80,7 @@ class PassengerTile extends ListTile {
                                 " " +
                                 passenger.person.lastName +
                                 ", " +
-                                App.calculateAge(passenger.person.birthday)
-                                    .toString(),
+                                App.calculateAge(passenger.person.birthday).toString(),
                             style: Styles.headerTextStyle(),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -172,7 +169,7 @@ class PassengerTile extends ListTile {
                         ),
                         Expanded(
                           child: Text(
-                            passenger.luggages.toString(),
+                            passenger.luggage.toString(),
                             style: Styles.valueTextStyle(),
                           ),
                         )

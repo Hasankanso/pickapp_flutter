@@ -115,7 +115,7 @@ void main() async {
 
     Person person = new Person(firstName: "Ahmed", lastName: "Kanso");
     Reservation reservation = new Reservation(person: person);
-    Ride ride = new Ride(id: "asdasd", passengers: [reservation]);
+    Ride ride = new Ride(id: "asdasd", reservations: [reservation]);
     await tester.pumpWidget(MyApp(child: RatePassengers(ride: ride)));
     await tester.pump();
     //expect(find.byElementType(ProgressButton), findsOneWidget);

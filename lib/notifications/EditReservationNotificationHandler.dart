@@ -11,8 +11,7 @@ import 'package:pickapp/notifications/NotificationsHandler.dart';
 class EditReservationNotificationHandler extends NotificationHandler {
   Reservation reservation;
 
-  EditReservationNotificationHandler(MainNotification notification)
-      : super(notification) {
+  EditReservationNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Reservation)) {
       notification.object = Reservation.fromJson(notification.object);
     }
@@ -24,8 +23,7 @@ class EditReservationNotificationHandler extends NotificationHandler {
     User user = await Cache.getUser();
 
     //find the ride in upcomingRides
-    int rideIndex =
-        user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
+    int rideIndex = user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
 
     if (rideIndex < 0) return;
 
@@ -33,24 +31,21 @@ class EditReservationNotificationHandler extends NotificationHandler {
 
     //add the new reservation to it
 
-    reservedRide.passengers =
-        new List<Reservation>.from(reservedRide.passengers);
+    reservedRide.reservations = new List<Reservation>.from(reservedRide.reservations);
 
-    int oldReservIndex = reservedRide.passengers.indexOf(reservation);
+    int oldReservIndex = reservedRide.reservations.indexOf(reservation);
 
     if (oldReservIndex < 0) return;
-    Reservation oldReservation = reservedRide.passengers[oldReservIndex];
+    Reservation oldReservation = reservedRide.reservations[oldReservIndex];
 
-    reservedRide.passengers.remove(reservation);
-    reservedRide.passengers.add(reservation);
+    reservedRide.reservations.remove(reservation);
+    reservedRide.reservations.add(reservation);
 
     //update seats and luggage accordingly
     reservedRide.availableSeats =
-        (reservedRide.availableSeats + oldReservation.seats) -
-            reservation.seats;
+        (reservedRide.availableSeats + oldReservation.seats) - reservation.seats;
     reservedRide.availableLuggages =
-        (reservedRide.availableLuggages + oldReservation.luggages) +
-            reservation.luggages;
+        (reservedRide.availableLuggages + oldReservation.luggage) + reservation.luggage;
 
     //save changes.
     await Cache.setUser(user);

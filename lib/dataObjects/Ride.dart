@@ -17,19 +17,19 @@ part 'Ride.g.dart';
 @HiveType(typeId: 7)
 class Ride {
   @HiveField(0)
-  String _id;
+  String id;
   @HiveField(1)
   String _comment;
   @HiveField(2)
-  String _mapBase64;
+  String mapBase64;
   @HiveField(3)
-  MainLocation _from;
+  MainLocation from;
   @HiveField(4)
-  MainLocation _to;
+  MainLocation to;
   @HiveField(5)
-  DateTime _leavingDate;
+  DateTime leavingDate;
   @HiveField(6)
-  bool _musicAllowed;
+  bool musicAllowed;
   @HiveField(7)
   bool _acAllowed;
   @HiveField(8)
@@ -41,28 +41,28 @@ class Ride {
   @HiveField(11)
   bool _reserved;
   @HiveField(12)
-  int _availableSeats;
+  int availableSeats;
   @HiveField(13)
-  int _maxSeats;
+  int maxSeats;
   @HiveField(14)
-  int _maxLuggages;
+  int maxLuggage;
   @HiveField(15)
-  int _availableLuggages;
+  int availableLuggage;
   @HiveField(16)
   int _stopTime;
   @HiveField(17)
   int _price;
   @HiveField(18)
-  User _user;
+  User user;
   @HiveField(19)
-  List<Reservation> _passengers;
+  List<Reservation> reservations;
   @HiveField(20)
-  Car _car;
+  Car car;
   @HiveField(21)
-  DateTime _updated;
+  DateTime updated;
 
   @HiveField(22)
-  String _mapUrl;
+  String mapUrl;
 
   @HiveField(23)
   String status;
@@ -87,10 +87,10 @@ class Ride {
       bool reserved,
       int availableSeats,
       int maxSeats,
-      int maxLuggages,
-      int availableLuggages,
+      int maxLuggage,
+      int availableLuggage,
       int stopTime,
-      List<Reservation> passengers,
+      List<Reservation> reservations,
       int price,
       User user,
       Car car,
@@ -110,28 +110,27 @@ class Ride {
     this.reserved = reserved;
 
     this.availableSeats = availableSeats;
-    this.availableLuggages = availableLuggages;
+    this.availableLuggages = availableLuggage;
 
     this.maxSeats = maxSeats;
-    this.maxLuggages = maxLuggages;
+    this.maxLuggage = maxLuggage;
 
     this.stopTime = stopTime;
     this.price = price;
     this.user = user;
-    this.passengers = passengers;
+    this.reservations = reservations;
     this.car = car;
     this.updated = updated;
     this.mapBase64 = mapBase64;
-    this._mapUrl = mapUrl;
+    this.mapUrl = mapUrl;
   }
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Ride && runtimeType == other.runtimeType && _id == other._id;
+      identical(this, other) || other is Ride && runtimeType == other.runtimeType && id == other.id;
 
   @override
-  int get hashCode => _id.hashCode;
+  int get hashCode => id.hashCode;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'kidSeat': this.kidSeat,
@@ -142,7 +141,7 @@ class Ride {
         "availableLuggages": this.availableLuggages,
         "availableSeats": this.availableSeats,
         "maxSeats": this.maxSeats,
-        "maxLuggages": this.maxLuggages,
+        "maxLuggages": this.maxLuggage,
         "stopTime": this.stopTime,
         "leavingDate": this.leavingDate,
         "car": this.car.id,
@@ -156,9 +155,9 @@ class Ride {
       };
 
   Reservation findReservationFrom(Person person) {
-    for (Reservation reserv in this.passengers) {
-      if (reserv.person == person) {
-        return reserv;
+    for (Reservation reserve in this.reservations) {
+      if (reserve.person == person) {
+        return reserve;
       }
     }
     return null;
@@ -166,15 +165,19 @@ class Ride {
 
   @override
   String toString() {
-    return 'Ride{_id: $_id, _comment: $_comment, _mapBase64: $_mapBase64, _from: $_from, _to: $_to, _leavingDate: $_leavingDate, _musicAllowed: $_musicAllowed, _acAllowed: $_acAllowed, _smokingAllowed: $_smokingAllowed, _petsAllowed: $_petsAllowed, _kidSeat: $_kidSeat, _reserved: $_reserved, _availableSeats: $_availableSeats, _maxSeats: $_maxSeats, _maxLuggages: $_maxLuggages, _availableLuggages: $_availableLuggages, _stopTime: $_stopTime, _price: $_price, _user: $_user, _passengers: $_passengers, _car: $_car, _updated: $_updated, _mapUrl: $_mapUrl, mapImage: $mapImage}';
+    return 'Ride{_id: $id, _comment: $_comment, _mapBase64: $mapBase64, _from: $from,'
+        ' _to: $to, _leavingDate: $leavingDate, _musicAllowed: $musicAllowed, _acAllowed: $_acAllowed,'
+        ' _smokingAllowed: $_smokingAllowed, _petsAllowed: $_petsAllowed, _kidSeat: $_kidSeat,'
+        ' _reserved: $_reserved, _availableSeats: $availableSeats, _maxSeats: $maxSeats, _maxLuggage: $maxLuggage'
+        ' _availableLuggage: $availableLuggage, _stopTime: $_stopTime, _price: $_price, _user: $user,'
+        ' _passengers: $reservations, _car: $car, _updated: $updated, _mapUrl: $mapUrl, mapImage: $mapImage}';
   }
 
   factory Ride.fromJson(Map<String, dynamic> json) {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
     if (leavingDateJ != null && leavingDateJ is int) {
-      leavingDate =
-          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     } else {
       leavingDate = DateTime.parse(leavingDateJ);
     }
@@ -198,9 +201,9 @@ class Ride {
       musicAllowed: json["musicAllowed"],
       smokingAllowed: json["smokingAllowed"],
       petsAllowed: json["petsAllowed"],
-      availableLuggages: json["availableLuggages"],
+      availableLuggage: json["availableLuggages"],
       maxSeats: json["maxSeats"],
-      maxLuggages: json["maxLuggages"],
+      maxLuggage: json["maxLuggages"],
       availableSeats: json["availableSeats"],
       stopTime: json["stopTime"] == null ? 0 : json["stopTime"],
       comment: json["comment"],
@@ -208,9 +211,8 @@ class Ride {
       status: json["status"],
       car: Car.fromJson(json["car"]),
       reserved: reserved,
-      passengers: json["passengers"] != null
-          ? List<Reservation>.from(
-              json["passengers"].map((x) => Reservation.fromJson(x)))
+      reservations: json["passengers"] != null
+          ? List<Reservation>.from(json["passengers"].map((x) => Reservation.fromJson(x)))
           : null,
       leavingDate: leavingDate,
       from: MainLocation.fromJson(json["from"]),
@@ -224,6 +226,7 @@ class Ride {
 
     return r;
   }
+
   Ride copy() {
     return new Ride(
         kidSeat: this.kidSeat,
@@ -232,17 +235,17 @@ class Ride {
         musicAllowed: this.musicAllowed,
         smokingAllowed: this.smokingAllowed,
         petsAllowed: this.petsAllowed,
-        availableLuggages: this.availableLuggages,
+        availableLuggage: this.availableLuggages,
         maxSeats: this.maxSeats,
-        maxLuggages: this.maxLuggages,
+        maxLuggage: this.maxLuggage,
         availableSeats: this.availableSeats,
         stopTime: this.stopTime,
         comment: this.comment,
         user: user,
         status: this.status,
         reserved: reserved,
-        passengers: this.passengers != null
-            ? List<Reservation>.from(this.passengers.map((x) => x.copy()))
+        reservations: this.reservations != null
+            ? List<Reservation>.from(this.reservations.map((x) => x.copy()))
             : null,
         leavingDate: leavingDate,
         from: this.from.copy(),
@@ -261,21 +264,9 @@ class Ride {
     _price = value;
   }
 
-  String get id => _id;
-
-  set id(String value) {
-    _id = value;
-  }
-
-  String get mapBase64 => _mapBase64;
-
-  set mapBase64(String value) {
-    _mapBase64 = value;
-  }
-
   Reservation reservationOf(Person person) {
-    if (passengers == null) return null;
-    for (Reservation p in passengers) {
+    if (reservations == null) return null;
+    for (Reservation p in reservations) {
       if (p.person == person) {
         return p;
       }
@@ -289,35 +280,11 @@ class Ride {
     _comment = value;
   }
 
-  setMap(File value) async {
+  setMap(File value) {
     if (value != null) {
-      List<int> imageBytes = await value.readAsBytesSync();
-      _mapBase64 = await base64Encode(imageBytes);
+      List<int> imageBytes = value.readAsBytesSync();
+      mapBase64 = base64Encode(imageBytes);
     }
-  }
-
-  MainLocation get from => _from;
-
-  set from(MainLocation value) {
-    _from = value;
-  }
-
-  MainLocation get to => _to;
-
-  set to(MainLocation value) {
-    _to = value;
-  }
-
-  DateTime get leavingDate => _leavingDate;
-
-  set leavingDate(DateTime value) {
-    _leavingDate = value;
-  }
-
-  bool get musicAllowed => _musicAllowed;
-
-  set musicAllowed(bool value) {
-    _musicAllowed = value;
   }
 
   get acAllowed => _acAllowed;
@@ -350,36 +317,18 @@ class Ride {
     _reserved = value;
   }
 
-  int get availableSeats => _availableSeats;
-
-  set availableSeats(int value) {
-    _availableSeats = value;
-  }
-
-  int get maxSeats => _maxSeats;
-
-  set maxSeats(value) {
-    _maxSeats = value;
-  }
-
-  int get maxLuggages => _maxLuggages;
-
-  set maxLuggages(value) {
-    _maxLuggages = value;
-  }
-
   int get reservedSeats {
-    return this._maxSeats - this.availableSeats;
+    return this.maxSeats - this.availableSeats;
   }
 
-  int get availableLuggages => _availableLuggages;
+  int get availableLuggages => availableLuggage;
 
   set availableLuggages(value) {
-    _availableLuggages = value;
+    availableLuggage = value;
   }
 
   int get reservedLuggages {
-    return this._maxLuggages - this._availableLuggages;
+    return this.maxLuggage - this.availableLuggage;
   }
 
   get stopTime => _stopTime;
@@ -388,42 +337,12 @@ class Ride {
     _stopTime = value;
   }
 
-  User get user => _user;
-
-  set user(User value) {
-    _user = value;
-  }
-
-  Car get car => _car;
-
-  set car(Car value) {
-    _car = value;
-  }
-
-  String get mapUrl => _mapUrl;
-
-  set mapUrl(String value) {
-    _mapUrl = value;
-  }
-
-  DateTime get updated => _updated;
-
-  set updated(DateTime value) {
-    _updated = value;
-  }
-
-  List<Reservation> get passengers => _passengers;
-
-  set passengers(List<Reservation> value) {
-    _passengers = value;
-  }
-
   ImageProvider get mapImage {
     return _mapImage;
   }
 
   setMapImage() {
-    if (_mapUrl == null) {
+    if (mapUrl == null) {
       this._mapImage = new AssetImage("lib/images/map.jpg");
     } else {
       this._mapImage = new NetworkImage(this.mapUrl);

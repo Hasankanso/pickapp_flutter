@@ -6,15 +6,15 @@ part 'Reservation.g.dart';
 @HiveType(typeId: 4)
 class Reservation {
   @HiveField(0)
-  Person _person;
+  Person person;
   @HiveField(1)
-  String _id;
+  String id;
   @HiveField(2)
-  int _luggages;
+  int luggage;
   @HiveField(3)
-  int _seats;
+  int seats;
   @HiveField(4)
-  DateTime _updated;
+  DateTime updated;
   @HiveField(5)
   String rideId;
   @HiveField(6)
@@ -24,7 +24,7 @@ class Reservation {
 
   Reservation(
       {Person person,
-      int luggages,
+      int luggage,
       int seats,
       String id,
       DateTime updated,
@@ -35,23 +35,25 @@ class Reservation {
     this.updated = updated;
     this.person = person;
     this.seats = seats;
-    this.luggages = luggages;
+    this.luggage = luggage;
   }
+
   factory Reservation.fromJson(Map<String, dynamic> json) {
     return Reservation(
         id: json["objectId"],
         seats: json["seats"],
-        luggages: json["luggages"],
+        luggage: json["luggages"],
         rideId: json["rideId"],
         status: json["status"],
         reason: json["reason"],
         person: Person.fromJson(json["person"]));
   }
+
   Reservation copy() {
     return Reservation(
         id: this.id,
         seats: this.seats,
-        luggages: this.luggages,
+        luggage: this.luggage,
         rideId: this.rideId,
         status: this.status,
         reason: this.reason,
@@ -65,57 +67,25 @@ class Reservation {
       return "person: " +
           person.firstName +
           ", seats: " +
-          _seats.toString() +
+          seats.toString() +
           ", luggage: " +
-          _luggages.toString();
+          luggage.toString();
     else
       return "id $id " +
           "person: " +
           person.toString() +
           " seats: " +
-          _seats.toString() +
+          seats.toString() +
           ", "
               "luggage: " +
-          _luggages.toString();
-  }
-
-  Person get person => _person;
-
-  set person(Person value) {
-    _person = value;
-  }
-
-  DateTime get updated => _updated;
-
-  set updated(DateTime value) {
-    _updated = value;
-  }
-
-  int get seats => _seats;
-
-  set seats(value) {
-    _seats = value;
-  }
-
-  int get luggages => _luggages;
-
-  set luggages(int value) {
-    _luggages = value;
-  }
-
-  String get id => _id;
-
-  set id(String value) {
-    _id = value;
+          luggage.toString();
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Reservation &&
-          runtimeType == other.runtimeType &&
-          _id == other._id;
+      other is Reservation && runtimeType == other.runtimeType && id == other.id;
 
   @override
-  int get hashCode => _id.hashCode;
+  int get hashCode => id.hashCode;
 }

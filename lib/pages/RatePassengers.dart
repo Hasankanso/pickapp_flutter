@@ -19,7 +19,7 @@ class RatePassengers extends StatelessWidget {
   final List<GlobalKey<FormState>> formKeys = [];
 
   RatePassengers({Key key, this.ride}) : super(key: key) {
-    for (var passenger in ride.passengers) {
+    for (var passenger in ride.reservations) {
       rates.add(new Rate(
           ride: ride, rater: ride.person, target: passenger.person, creationDate: DateTime.now()));
       formKeys.add(new GlobalKey<FormState>());
@@ -41,10 +41,10 @@ class RatePassengers extends StatelessWidget {
       appBar: MainAppBar(
         title: Lang.getString(context, "Rate_Passengers"),
       ),
-      body: ride.passengers.isEmpty
+      body: ride.reservations.isEmpty
           ? Center(child: Text("No Passengers"))
           : ListBuilder(
-              list: ride.passengers,
+              list: ride.reservations,
               itemBuilder: PassengerRateTile.createPassengersItems(rates, formKeys)),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
         height: 80,

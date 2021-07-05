@@ -144,8 +144,8 @@ class UpcomingRideDetails extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           children: [
             RideView(ride, buttonText: buttonText, onPressed: onPressed),
-            ride.passengers != null
-                ? PassengersView(ride.passengers)
+            ride.reservations != null
+                ? PassengersView(ride.reservations)
                 : Center(
                     child: Text(
                     Lang.getString(context, "No_passengers_yet!"),

@@ -21,11 +21,11 @@ class ReservationAdapter extends TypeAdapter<Reservation> {
       status: fields[6] as String,
       reason: fields[7] as String,
     )
-      .._person = fields[0] as Person
-      .._id = fields[1] as String
-      .._luggages = fields[2] as int
-      .._seats = fields[3] as int
-      .._updated = fields[4] as DateTime;
+      ..person = fields[0] as Person
+      ..id = fields[1] as String
+      ..luggage = fields[2] as int
+      ..seats = fields[3] as int
+      ..updated = fields[4] as DateTime;
   }
 
   @override
@@ -33,15 +33,15 @@ class ReservationAdapter extends TypeAdapter<Reservation> {
     writer
       ..writeByte(8)
       ..writeByte(0)
-      ..write(obj._person)
+      ..write(obj.person)
       ..writeByte(1)
-      ..write(obj._id)
+      ..write(obj.id)
       ..writeByte(2)
-      ..write(obj._luggages)
+      ..write(obj.luggage)
       ..writeByte(3)
-      ..write(obj._seats)
+      ..write(obj.seats)
       ..writeByte(4)
-      ..write(obj._updated)
+      ..write(obj.updated)
       ..writeByte(5)
       ..write(obj.rideId)
       ..writeByte(6)
@@ -56,7 +56,5 @@ class ReservationAdapter extends TypeAdapter<Reservation> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ReservationAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is ReservationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
