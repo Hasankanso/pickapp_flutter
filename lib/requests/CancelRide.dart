@@ -1,4 +1,3 @@
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/requests/Request.dart';
 
@@ -18,11 +17,7 @@ class CancelRide extends Request<bool> {
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, dynamic>{
-      'user': App.user.id,
-      'id': _ride.id,
-      'reason': _reason
-    };
+    return <String, dynamic>{'id': _ride.id, 'reason': _reason};
   }
 
   @override

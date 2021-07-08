@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/dataObjects/CountryInformations.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
@@ -147,7 +146,6 @@ class Ride {
         "leavingDate": this.leavingDate,
         "car": this.car.id,
         "comment": this.comment,
-        "user": App.user.id,
         "price": this.price,
         "to": this.to.toJson(),
         "from": this.from.toJson(),
@@ -190,7 +188,6 @@ class Ride {
     } else {
       reserved = false;
     }
-
     Ride r = new Ride(
       kidSeat: json["kidSeat"],
       id: json["objectId"],

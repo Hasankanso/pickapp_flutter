@@ -1,4 +1,3 @@
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Car.dart';
 import 'package:pickapp/requests/Request.dart';
 
@@ -16,9 +15,7 @@ class DeleteCar extends Request<Car> {
 
   @override
   Map<String, dynamic> getJson() {
-    var carJ = _car.toJson();
-    carJ["user"] = App.user.id;
-    return carJ;
+    return _car.toJson();
   }
 
   @override
