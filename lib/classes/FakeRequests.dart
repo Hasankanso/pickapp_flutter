@@ -78,14 +78,7 @@ class FakeRequests {
         bool kidSeat = ranGen.nextBool();
         int stopTime = ranGen.nextInt(31);
 
-        List<MainLocation> locations = [
-          Dekwene,
-          Saida,
-          Doueir,
-          Beirut,
-          Tyre,
-          Tripoli
-        ];
+        List<MainLocation> locations = [Dekwene, Saida, Doueir, Beirut, Tyre, Tripoli];
 
         int fromIndex = ranGen.nextInt(locations.length);
         MainLocation from = locations[fromIndex];
@@ -99,13 +92,12 @@ class FakeRequests {
         Ride ride = Ride(
           from: from,
           to: to,
-          leavingDate:
-              now.add(Duration(days: day, hours: hours, minutes: month)),
+          leavingDate: now.add(Duration(days: day, hours: hours, minutes: month)),
           maxSeats: maxSeats,
           price: price,
-          maxLuggages: maxLuggage,
+          maxLuggage: maxLuggage,
           availableSeats: maxSeats,
-          availableLuggages: maxLuggage,
+          availableLuggage: maxLuggage,
           musicAllowed: music,
           petsAllowed: pets,
           smokingAllowed: smoking,

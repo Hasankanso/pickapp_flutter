@@ -273,7 +273,7 @@ class _PlacesAutocompleteResult extends State<PlacesAutocompleteResult> {
         children.add(_Loader());
       }
       children.add(GPSListView(
-        predictions: new List<Prediction>(),
+        predictions: [],
         onTap: onTap,
       ));
       return Stack(children: children);

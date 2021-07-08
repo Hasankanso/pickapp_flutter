@@ -1,4 +1,5 @@
 import 'package:pickapp/classes/Validation.dart';
+import 'package:pickapp/dataObjects/Reservation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -6,15 +7,18 @@ import 'package:pickapp/requests/Request.dart';
 class ReserveSeat extends Request<Ride> {
   Ride _ride;
   User _user;
-  int _seats, _luggages;
+  int _seats, _luggage;
 
-  ReserveSeat(this._ride, this._user, this._seats, this._luggages) {
+  ReserveSeat(this._ride, this._user, this._seats, this._luggage) {
     httpPath = "/ReserveBusiness/ReserveSeat";
   }
 
   @override
   buildObject(json) {
-    return Ride.fromJson(json);
+    var reservation = Reservation.fromJson(json);
+    var ride = Ride.fromJson(json["ride"]);
+    ride.reservations.add(reservation);
+    return ride;
   }
 
   @override
@@ -23,7 +27,7 @@ class ReserveSeat extends Request<Ride> {
       'ride': {'id': _ride.id},
       'user': {'id': _user.id},
       'seats': _seats,
-      'luggages': _luggages
+      'luggages': _luggage
     };
   }
 
@@ -42,13 +46,11 @@ class ReserveSeat extends Request<Ride> {
     if (_seats > _ride.availableSeats) {
       return "There is " + _ride.availableSeats.toString() + " available seats";
     }
-    if (_luggages < 0) {
+    if (_luggage < 0) {
       return "Please select luggage";
     }
-    if (_luggages > _ride.availableLuggages) {
-      return "There is " +
-          _ride.availableLuggages.toString() +
-          " available luggage";
+    if (_luggage > _ride.availableLuggages) {
+      return "There is " + _ride.availableLuggages.toString() + " available luggage";
     }
     return null;
   }

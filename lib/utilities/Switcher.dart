@@ -9,8 +9,7 @@ class Switcher extends StatefulWidget {
   void Function(bool) onChanged;
   bool isDisabled;
 
-  Switcher(
-      {this.isOn, this.controller, this.onChanged, this.isDisabled = false});
+  Switcher({this.isOn, this.controller, this.onChanged, this.isDisabled = false});
 
   @override
   _SwitcherState createState() => _SwitcherState();
@@ -36,7 +35,7 @@ class _SwitcherState extends State<Switcher> {
         onChanged: !widget.isDisabled ? _onChanged : null,
         activeColor: Styles.primaryColor(),
       );
-    } else if (App.isAndroid()) {
+    } else {
       return Switch(
         onChanged: !widget.isDisabled ? _onChanged : null,
         value: widget.isOn,

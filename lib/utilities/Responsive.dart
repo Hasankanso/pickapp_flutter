@@ -4,19 +4,15 @@ import 'package:flutter/widgets.dart';
 import 'package:pickapp/classes/screenutil.dart';
 
 class ResponsiveRow extends StatelessWidget {
-  List<Widget> children;
-  int flex;
+  final List<Widget> children;
+  final int flex;
 
-  ResponsiveRow(
-      {List<Widget> children = const <Widget>[], flex = 6}) {
-    this.children = children;
-    this.flex = flex;
-  }
+  ResponsiveRow({this.children = const <Widget>[], this.flex = 6});
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> spacedChildren = new List<Widget>(3 * children.length);
-    Size screen = MediaQuery.of(context).size;
+    List<Widget> spacedChildren = new List<Widget>.filled(3 * children.length, null);
+
     int i = 0;
     for (Widget w in children) {
       spacedChildren[i] = Spacer();
@@ -32,7 +28,7 @@ class ResponsiveRow extends StatelessWidget {
 
 class ResponsiveWidget extends StatelessWidget {
   double height = 0, width = 0;
-  Widget child;
+  final Widget child;
 
   ResponsiveWidget({width, height, this.child}) {
     this.width = ScreenUtil().setWidth(width);
@@ -51,8 +47,9 @@ class ResponsiveWidget extends StatelessWidget {
 }
 
 class VerticalSpacer extends StatelessWidget {
-  double height = 10;
-  VerticalSpacer({this.height});
+  final double height;
+
+  VerticalSpacer({this.height = 10});
 
   @override
   Widget build(BuildContext context) {
@@ -67,23 +64,18 @@ class ResponsiveSpacer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: ScreenUtil().setWidth(width),
-        height: ScreenUtil().setHeight(height));
+    return SizedBox(width: ScreenUtil().setWidth(width), height: ScreenUtil().setHeight(height));
   }
 }
 
 class DifferentSizeResponsiveRow extends StatelessWidget {
-  List<Widget> children;
+  final List<Widget> children;
 
-  DifferentSizeResponsiveRow({List<Widget> children = const <Widget>[]}) {
-    this.children = children;
-  }
+  DifferentSizeResponsiveRow({this.children});
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> spacedChildren = new List<Widget>(3 * children.length);
-    Size screen = MediaQuery.of(context).size;
+    List<Widget> spacedChildren = new List<Widget>.filled(3 * children.length, null);
 
     int i = 0;
     for (Widget w in children) {
@@ -94,7 +86,7 @@ class DifferentSizeResponsiveRow extends StatelessWidget {
       spacedChildren[i] = Spacer();
       i++;
     }
-    double space = screen.height / 20;
+
     return Row(children: spacedChildren);
   }
 }

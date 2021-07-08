@@ -20,8 +20,8 @@ class EditReservation extends Request<Ride> {
     r.availableSeats = ride["availableSeats"];
     r.availableLuggages = ride["availableLuggages"];
 
-    r.passengers.remove(reserve);
-    r.passengers.add(reserve);
+    r.reservations.remove(reserve);
+    r.reservations.add(reserve);
     return r;
   }
 

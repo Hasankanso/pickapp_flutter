@@ -20,29 +20,29 @@ class RideAdapter extends TypeAdapter<Ride> {
       status: fields[23] as String,
       reason: fields[24] as String,
     )
-      .._id = fields[0] as String
+      ..id = fields[0] as String
       .._comment = fields[1] as String
-      .._mapBase64 = fields[2] as String
-      .._from = fields[3] as MainLocation
-      .._to = fields[4] as MainLocation
-      .._leavingDate = fields[5] as DateTime
-      .._musicAllowed = fields[6] as bool
+      ..mapBase64 = fields[2] as String
+      ..from = fields[3] as MainLocation
+      ..to = fields[4] as MainLocation
+      ..leavingDate = fields[5] as DateTime
+      ..musicAllowed = fields[6] as bool
       .._acAllowed = fields[7] as bool
       .._smokingAllowed = fields[8] as bool
       .._petsAllowed = fields[9] as bool
       .._kidSeat = fields[10] as bool
       .._reserved = fields[11] as bool
-      .._availableSeats = fields[12] as int
-      .._maxSeats = fields[13] as int
-      .._maxLuggages = fields[14] as int
-      .._availableLuggages = fields[15] as int
+      ..availableSeats = fields[12] as int
+      ..maxSeats = fields[13] as int
+      ..maxLuggage = fields[14] as int
+      ..availableLuggage = fields[15] as int
       .._stopTime = fields[16] as int
       .._price = fields[17] as int
-      .._user = fields[18] as User
-      .._passengers = (fields[19] as List)?.cast<Reservation>()
-      .._car = fields[20] as Car
-      .._updated = fields[21] as DateTime
-      .._mapUrl = fields[22] as String;
+      ..user = fields[18] as User
+      ..reservations = (fields[19] as List)?.cast<Reservation>()
+      ..car = fields[20] as Car
+      ..updated = fields[21] as DateTime
+      ..mapUrl = fields[22] as String;
   }
 
   @override
@@ -50,19 +50,19 @@ class RideAdapter extends TypeAdapter<Ride> {
     writer
       ..writeByte(25)
       ..writeByte(0)
-      ..write(obj._id)
+      ..write(obj.id)
       ..writeByte(1)
       ..write(obj._comment)
       ..writeByte(2)
-      ..write(obj._mapBase64)
+      ..write(obj.mapBase64)
       ..writeByte(3)
-      ..write(obj._from)
+      ..write(obj.from)
       ..writeByte(4)
-      ..write(obj._to)
+      ..write(obj.to)
       ..writeByte(5)
-      ..write(obj._leavingDate)
+      ..write(obj.leavingDate)
       ..writeByte(6)
-      ..write(obj._musicAllowed)
+      ..write(obj.musicAllowed)
       ..writeByte(7)
       ..write(obj._acAllowed)
       ..writeByte(8)
@@ -74,27 +74,27 @@ class RideAdapter extends TypeAdapter<Ride> {
       ..writeByte(11)
       ..write(obj._reserved)
       ..writeByte(12)
-      ..write(obj._availableSeats)
+      ..write(obj.availableSeats)
       ..writeByte(13)
-      ..write(obj._maxSeats)
+      ..write(obj.maxSeats)
       ..writeByte(14)
-      ..write(obj._maxLuggages)
+      ..write(obj.maxLuggage)
       ..writeByte(15)
-      ..write(obj._availableLuggages)
+      ..write(obj.availableLuggage)
       ..writeByte(16)
       ..write(obj._stopTime)
       ..writeByte(17)
       ..write(obj._price)
       ..writeByte(18)
-      ..write(obj._user)
+      ..write(obj.user)
       ..writeByte(19)
-      ..write(obj._passengers)
+      ..write(obj.reservations)
       ..writeByte(20)
-      ..write(obj._car)
+      ..write(obj.car)
       ..writeByte(21)
-      ..write(obj._updated)
+      ..write(obj.updated)
       ..writeByte(22)
-      ..write(obj._mapUrl)
+      ..write(obj.mapUrl)
       ..writeByte(23)
       ..write(obj.status)
       ..writeByte(24)
@@ -107,7 +107,5 @@ class RideAdapter extends TypeAdapter<Ride> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is RideAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is RideAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
