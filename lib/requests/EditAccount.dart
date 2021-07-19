@@ -1,5 +1,3 @@
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/requests/Request.dart';
 
@@ -17,17 +15,11 @@ class EditAccount extends Request<Person> {
 
   @override
   Map<String, dynamic> getJson() {
-    var personJ = _newPerson.toJson();
-    personJ['user'] = App.user.id;
-    return personJ;
+    return _newPerson.toJson();
   }
 
   @override
   String isValid() {
-    String validateUser = Validation.validateLogin(App.user);
-    if (!Validation.isNullOrEmpty(validateUser)) {
-      return validateUser;
-    }
     return null;
   }
 }

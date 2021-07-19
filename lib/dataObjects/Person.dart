@@ -107,11 +107,12 @@ class Person {
 
   factory Person.fromJson(Map<String, dynamic> json) {
     if (json == null) return null;
-
     var birthdayJ = json["birthday"];
     DateTime birthday;
-    if (birthdayJ != null) {
+    if (birthdayJ != null && !(birthdayJ is String)) {
       birthday = DateTime.fromMillisecondsSinceEpoch(birthdayJ, isUtc: true);
+    } else {
+      birthday = DateTime.parse(birthdayJ);
     }
     var updatedJ = json["updated"];
     DateTime updated;
@@ -135,7 +136,6 @@ class Person {
       created = DateTime.fromMillisecondsSinceEpoch(createdJ);
     }
     var deviceToken = json["token"];
-
     Person p = Person(
       phone: json['phone'],
       id: json["objectId"],

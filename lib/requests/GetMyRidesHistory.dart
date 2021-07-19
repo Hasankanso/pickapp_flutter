@@ -1,4 +1,3 @@
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/Request.dart';
@@ -26,10 +25,6 @@ class GetMyRidesHistory extends Request<List<Ride>> {
 
   @override
   String isValid() {
-    String validateUser = Validation.validateLogin(_user);
-    if (!Validation.isNullOrEmpty(validateUser)) {
-      return validateUser;
-    }
     return null;
   }
 }

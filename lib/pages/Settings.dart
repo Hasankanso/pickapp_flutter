@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/ads/Ads.dart';
@@ -8,6 +10,8 @@ import 'package:pickapp/classes/Localizations.dart';
 import 'package:pickapp/classes/RouteGenerator.dart';
 import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/packages/FlushBar/flushbar.dart';
+import 'package:pickapp/requests/Logout.dart';
+import 'package:pickapp/requests/Request.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 import 'package:pickapp/utilities/FromToPicker.dart';
 import 'package:pickapp/utilities/LanguagesDropDown.dart';
@@ -303,10 +307,10 @@ class Settings extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () async {
-                          await App.logout();
-                          CustomToast().showSuccessToast(
-                              Lang.getString(context, "Logout_message"));
-                          Navigator.pop(context);
+                          Request<bool> request = Logout();
+                          request.send((result, code, message) {
+                            return response(result, code, message, context);
+                          });
                         },
                         child: ResponsiveWidget.fullWidth(
                           height: 64,
@@ -546,5 +550,14 @@ class Settings extends StatelessWidget {
         ),
       )..show(context);
     }
+  }
+
+  response(bool result, int code, String message, context) async {
+    if (code != HttpStatus.ok) {
+      print(message);
+    }
+    await App.logout();
+    CustomToast().showSuccessToast(Lang.getString(context, "Logout_message"));
+    Navigator.pop(context);
   }
 }

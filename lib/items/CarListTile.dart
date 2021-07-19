@@ -45,7 +45,7 @@ class CarListTile extends ListTile {
       },
     );
     for (var item in App.person.upcomingRides) {
-      if (item.car.id == car.id) {
+      if (item.car != null && item.car.id == car.id) {
         Navigator.pop(context);
         return CustomToast()
             .showErrorToast(Lang.getString(context, "Delete_car_message"));

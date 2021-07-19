@@ -1,5 +1,4 @@
 import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/dataObjects/User.dart';
 
 class Validation {
   static String invalid(context) {
@@ -58,12 +57,5 @@ class Validation {
   static bool isNullOrEmpty(String toCheck) {
     if ([null, ""].contains(toCheck)) return true;
     return false;
-  }
-
-  static String validateLogin(User user) {
-    if (Validation.isNullOrEmpty(user.id)) {
-      return "Please login";
-    }
-    return null;
   }
 }

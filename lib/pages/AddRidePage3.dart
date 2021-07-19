@@ -42,27 +42,6 @@ class _AddRidePage3State extends State<AddRidePage3>
   _AddRidePage3State(this.rideInfo);
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (car == null) selectedCar = Lang.getString(context, "Choose_car");
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    rideInfo.price = int.tryParse(priceController.text);
-
-    if (car != null) {
-      rideInfo.car = car;
-      rideInfo.availableSeats = personController.chosenNumber;
-      rideInfo.availableLuggages = luggageController.chosenNumber;
-    }
-
-    priceController.dispose();
-  }
-
-  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -88,6 +67,27 @@ class _AddRidePage3State extends State<AddRidePage3>
             : rideInfo.availableLuggages,
       );
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (car == null) selectedCar = Lang.getString(context, "Choose_car");
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    rideInfo.price = int.tryParse(priceController.text);
+
+    if (car != null) {
+      rideInfo.car = car;
+      rideInfo.availableSeats = personController.chosenNumber;
+      rideInfo.availableLuggages = luggageController.chosenNumber;
+    }
+
+    priceController.dispose();
   }
 
   @override
@@ -261,8 +261,8 @@ class _AddRidePage3State extends State<AddRidePage3>
                       rideInfo.car = car;
                       int price = int.parse(priceController.text);
                       rideInfo.price = price;
-                        Navigator.of(context).pushNamed("/AddRidePage4",
-                            arguments: [rideInfo, widget.appBarTitleKey]);
+                      Navigator.of(context).pushNamed("/AddRidePage4",
+                          arguments: [rideInfo, widget.appBarTitleKey]);
                     } else
                       CustomToast().showErrorToast(
                           Lang.getString(context, "Select_car"));

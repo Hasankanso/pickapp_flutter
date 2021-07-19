@@ -53,6 +53,7 @@ class _ProfileState extends State<Profile> {
       result.upcomingRides = upcomingRides;
       result.rates = rates;
       result.statistics = App.user.person.statistics;
+      result.countryInformations = App.user.person.countryInformations;
 
       App.user.person = result;
       await Cache.setUser(App.user);
@@ -327,7 +328,6 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         ),

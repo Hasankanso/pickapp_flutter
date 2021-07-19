@@ -1,5 +1,3 @@
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Validation.dart';
 import 'package:pickapp/dataObjects/Driver.dart';
 import 'package:pickapp/requests/Request.dart';
 
@@ -17,17 +15,11 @@ class BecomeDriverRequest extends Request<Driver> {
 
   @override
   Map<String, dynamic> getJson() {
-    var driverJ = _driver.toJson();
-    driverJ["user"] = App.user.id;
-    return driverJ;
+    return _driver.toJson();
   }
 
   @override
   String isValid() {
-    String validateUser = Validation.validateLogin(App.user);
-    if (!Validation.isNullOrEmpty(validateUser)) {
-      return validateUser;
-    }
     return null;
   }
 }

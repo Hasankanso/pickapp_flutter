@@ -1,14 +1,19 @@
 import 'package:pickapp/requests/Request.dart';
 
-class Logout extends Request<String> {
+class Logout extends Request<bool> {
+  Logout() {
+    httpPath = "/UserBusiness/Logout";
+  }
+
   @override
-  String buildObject(json) {
-    return "{}";
+  bool buildObject(json) {
+    bool x = json["loggedOut"];
+    return x == "true";
   }
 
   @override
   Map<String, dynamic> getJson() {
-    return {};
+    return null;
   }
 
   @override

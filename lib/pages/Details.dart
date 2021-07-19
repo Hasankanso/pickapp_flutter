@@ -420,6 +420,8 @@ class _DetailsState extends State<Details> {
       }
       result.statistics = App.user.person.statistics;
 
+      result.countryInformations = App.user.person.countryInformations;
+
       App.user.person = result;
       User u = App.user;
       await Cache.setUser(u);

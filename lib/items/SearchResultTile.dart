@@ -20,6 +20,8 @@ class SearchResultTile extends ListTile {
 
   @override
   Widget build(BuildContext context) {
+    print(_ride.id);
+    print(_ride.user);
     if (_ride.person.networkImage == null) {
       _ride.person.setNetworkImage();
     }

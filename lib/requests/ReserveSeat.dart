@@ -17,7 +17,9 @@ class ReserveSeat extends Request<Ride> {
   buildObject(json) {
     var reservation = Reservation.fromJson(json);
     var ride = Ride.fromJson(json["ride"]);
-    ride.reservations.add(reservation);
+    ride.reservations == null
+        ? ride.reservations = [reservation]
+        : ride.reservations.add(reservation);
     return ride;
   }
 
@@ -33,10 +35,6 @@ class ReserveSeat extends Request<Ride> {
 
   @override
   String isValid() {
-    String validateUser = Validation.validateLogin(_user);
-    if (!Validation.isNullOrEmpty(validateUser)) {
-      return validateUser;
-    }
     if (Validation.isNullOrEmpty(_ride.id)) {
       return "Ride id is null";
     }
@@ -50,7 +48,9 @@ class ReserveSeat extends Request<Ride> {
       return "Please select luggage";
     }
     if (_luggage > _ride.availableLuggages) {
-      return "There is " + _ride.availableLuggages.toString() + " available luggage";
+      return "There is " +
+          _ride.availableLuggages.toString() +
+          " available luggage";
     }
     return null;
   }
