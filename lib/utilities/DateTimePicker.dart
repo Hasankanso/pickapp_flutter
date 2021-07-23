@@ -8,10 +8,21 @@ import 'package:pickapp/classes/Styles.dart';
 import 'package:pickapp/utilities/Responsive.dart';
 
 class DateTimePicker extends StatefulWidget {
-  DateTime startDate;
+  final DateTime startDate;
   final DateTimeController _controller;
   final VoidCallback callBack;
+
   DateTimePicker(this._controller, {this.callBack, this.startDate});
+
+  static DateTime nowWithoutSec() {
+    DateTime chosenDate = DateTime.now().add(Duration(
+      minutes: 20,
+    ));
+
+    //remove seconds and milliseconds, because backendless doesn't like it.
+    return new DateTime(chosenDate.year, chosenDate.month, chosenDate.day, chosenDate.hour,
+        chosenDate.minute, 0, 0, 0);
+  }
 
   @override
   DateTimePickerState createState() => DateTimePickerState();
@@ -28,7 +39,7 @@ class DateTimePickerState extends State<DateTimePicker> {
 
   selectDate(BuildContext context) async {
     if (widget.startDate == null) {
-      _minDate = DateTime.now();
+      _minDate = DateTimePicker.nowWithoutSec();
     } else {
       _minDate = widget.startDate;
     }
@@ -38,7 +49,7 @@ class DateTimePickerState extends State<DateTimePicker> {
       _initialDate = _minDate;
     }
     //max is one year
-    _maxDate = DateTime.now().add(Duration(days: 365));
+    _maxDate = DateTimePicker.nowWithoutSec().add(Duration(days: 365));
 
     if (App.isIphone()) {
       DatePicker.showDatePicker(
@@ -90,13 +101,12 @@ class DateTimePickerState extends State<DateTimePicker> {
 
   _setTime(date, time) {
     setState(() {
-      var chosenD =
-          DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      var chosenD = DateTime(date.year, date.month, date.day, time.hour, time.minute);
       if (chosenD.compareTo(DateTime.now()) >= 0) {
         widget._controller.chosenDate =
             DateTime(date.year, date.month, date.day, time.hour, time.minute);
       } else {
-        widget._controller.chosenDate = DateTime.now();
+        widget._controller.chosenDate = DateTimePicker.nowWithoutSec();
       }
 
       if (widget.callBack != null) widget.callBack();
@@ -153,11 +163,10 @@ class DateTimePickerState extends State<DateTimePicker> {
 
 class DateTimeController {
   DateTime chosenDate;
+
   DateTimeController({this.chosenDate}) {
     if (chosenDate == null) {
-      this.chosenDate = DateTime.now().add(Duration(
-        minutes: 20,
-      ));
+      this.chosenDate = DateTimePicker.nowWithoutSec();
     } else {
       this.chosenDate = chosenDate;
     }

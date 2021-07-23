@@ -17,56 +17,13 @@ abstract class Request<T> {
 
   T buildObject(json);
 
-  Future<T> send(Function(T, int, String) callback) async {
-    String valid = isValid();
-    print(host + httpPath);
-    print("offlineValidator (deprecated) " +
-        Validation.isNullOrEmpty(valid).toString());
-    if (!Validation.isNullOrEmpty(valid)) {
-      callback(null, 406, valid);
-      return null;
-    }
-
-    Map<String, dynamic> data = getJson();
-    String jsonData = json.encode(data, toEncodable: _dateToIso8601String);
-    print("request-data: " + jsonData);
-
-    //if this is about a register send request, App will not even have a user, nor a sessionToken.
-    var header;
-    if (App.user == null || App.user.sessionToken == null) {
-      header = <String, String>{
-        'Content-Type': 'application/json; charset=utf-8'
-      };
-    } else {
-      header = <String, String>{
-        'user-token': App.user.sessionToken,
-        'Content-Type': 'application/json; charset=utf-8'
-      };
-    }
-
-    http.Response response = await http
-        .post(
-          Uri.parse(host + httpPath),
-          headers: header,
-          body: jsonData,
-        )
-        .timeout(const Duration(seconds: 20))
-        .catchError((Object o) {
-      callback(null, HttpStatus.networkConnectTimeoutError,
-          "no_internet_connection");
-      return null;
-    });
-
-    if (response != null) {
-      var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
-      print("backendless: " + decodedResponse.toString());
-
-      if (decodedResponse.length != 0 &&
-          decodedResponse[0] == null &&
-          decodedResponse["code"] != "null") {
-        //extracting code and message
-        var jCode =
-            response.body.contains("code") ? decodedResponse["code"] : null;
+  List checkError(http.Response response, dynamic decodedResponse) {
+    if (decodedResponse.length != 0 &&
+        decodedResponse[0] == null && //why decodedResponse[0] == null?
+        decodedResponse["code"] != "null") {
+      //extracting code and message
+      if (response.body.contains("code")) {
+        var jCode = decodedResponse["code"];
         var jMessage = decodedResponse["message"];
         if (jCode == null) {
           var jbody = decodedResponse["body"];
@@ -75,43 +32,114 @@ abstract class Request<T> {
             jMessage = jbody["message"];
           }
         }
-        //check if there's error
-        if (jCode != null) {
-          var code = jCode is String ? int.tryParse(jCode) : jCode;
-          //if there's no session token request it.
-          if (App.user != null &&
-              (code == 3048 ||
-                  App.user.sessionToken == null ||
-                  App.user.sessionToken.isEmpty)) {
-            App.user.sessionToken = null;
-            String token =
-                await AutoLogin(App.user.id, App.user.password).send(null);
-            App.user.sessionToken = token;
-            if (token != null) {
-              return await send(callback);
-            }
-          }
-
-          callback(null, code, jMessage);
-          return null;
-        }
+        return [jCode, jMessage];
       }
-      T object;
-      try {
-        object = buildObject(decodedResponse);
-      } catch (e) {
-        print(e);
-        callback(null, HttpStatus.partialContent, "Something_Wrong");
-        return null;
-      }
+    }
+    return []; // there's no error.
+  }
 
-      callback(object, response.statusCode, response.reasonPhrase);
-      return object;
+  // return true if there's an error
+  Future<bool> handleGeneralErrors(
+      http.Response response, dynamic decodedResponse, Function(T, int, String) callback) async {
+    //check if there's error
+    var codeMessage = checkError(response, decodedResponse);
+
+    if (codeMessage.length != 2) {
+      return false;
     }
 
-    print("no response");
-    callback(null, HttpStatus.expectationFailed, "Something_Wrong");
-    return null;
+    var jCode = codeMessage[0];
+    var jMessage = codeMessage[1];
+
+    var code = jCode is String ? int.tryParse(jCode) : jCode;
+
+    if (code == 3003) {
+      // 3003 login information are wrong.
+      return true;
+    } else if (App.user != null &&
+        (code == 3048 || // 3048 is wrong login information by backendless
+            App.user.sessionToken == null ||
+            App.user.sessionToken.isEmpty)) {
+      //if there's no session token, request it.
+      App.user.sessionToken = null;
+      String token = await AutoLogin(App.user.id, App.user.password).send((a, b, c) {});
+
+      if (token == null) {
+        await App.logout();
+        return true;
+      } else {
+        App.user.sessionToken = token;
+        await send(callback);
+        return true;
+      }
+    }
+
+    callback(null, code, jMessage);
+    return true;
+  }
+
+  Future<T> send(Function(T, int, String) callback) async {
+    String valid = isValid();
+    if (!Validation.isNullOrEmpty(valid)) {
+      callback(null, 406, valid);
+      return null;
+    }
+
+    Map<String, dynamic> data = getJson();
+    String jsonData = json.encode(data, toEncodable: _dateToIso8601String);
+    print(httpPath + " request-data: " + jsonData);
+
+    //if this is about a register send request, App will not even have a user, nor a sessionToken.
+    var header;
+    if (App.user == null || App.user.sessionToken == null) {
+      header = <String, String>{'Content-Type': 'application/json; charset=utf-8'};
+    } else {
+      header = <String, String>{
+        'user-token': App.user.sessionToken,
+        'Content-Type': 'application/json; charset=utf-8'
+      };
+    }
+
+    //send request
+    http.Response response = await http
+        .post(
+          Uri.parse(host + httpPath),
+          headers: header,
+          body: jsonData,
+        )
+        .timeout(const Duration(seconds: 20))
+        .catchError((Object o) {
+      callback(null, HttpStatus.networkConnectTimeoutError, "no_internet_connection");
+      return null;
+    });
+
+    //check response existence
+    if (response == null) {
+      print("no response");
+      callback(null, HttpStatus.expectationFailed, "Something_Wrong");
+      return null;
+    }
+
+    //decode response
+    var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
+    print("backendless: " + decodedResponse.toString());
+
+    // deal with backendless errors
+    bool isError = await handleGeneralErrors(response, decodedResponse, callback);
+    if (isError) {
+      return null;
+    }
+
+    //parse returned object.
+    try {
+      T object = buildObject(decodedResponse);
+      callback(object, response.statusCode, response.reasonPhrase);
+      return object;
+    } catch (e) {
+      print(e);
+      callback(null, HttpStatus.partialContent, "Something_Wrong");
+      return null;
+    }
   }
 
   dynamic _dateToIso8601String(dynamic object) {
@@ -127,11 +155,7 @@ abstract class Request<T> {
     String IOS_API_KEY = "D2DDEB57-BEBC-48EB-9E07-39A5DB9D8CEF";
     String REST_API_KEY = "A47932AF-43E1-4CDC-9B54-12F8A88FB22E";
 
-    host = "https://api.backendless.com/" +
-        APPLICATION_ID +
-        "/" +
-        REST_API_KEY +
-        "/services";
+    host = "https://api.backendless.com/" + APPLICATION_ID + "/" + REST_API_KEY + "/services";
   }
 
   onError() {}
