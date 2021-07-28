@@ -32,7 +32,12 @@ abstract class Request<T> {
             jMessage = jbody["message"];
           }
         }
-        return [jCode, jMessage];
+        assert(!(jCode != null && jMessage == null));
+        assert(!(jCode == null && jMessage != null));
+
+        if (jCode != null && jMessage != null) {
+          return [jCode, jMessage];
+        }
       }
     }
     return []; // there's no error.
@@ -43,11 +48,10 @@ abstract class Request<T> {
       http.Response response, dynamic decodedResponse, Function(T, int, String) callback) async {
     //check if there's error
     var codeMessage = checkError(response, decodedResponse);
-
     if (codeMessage.length != 2) {
       return false;
     }
-
+    print("code and message: " + codeMessage[0].toString() + " " + codeMessage[1].toString());
     var jCode = codeMessage[0];
     var jMessage = codeMessage[1];
 
