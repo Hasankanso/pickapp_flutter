@@ -28,10 +28,13 @@ class EditReservation extends Request<Ride> {
   @override
   Map<String, dynamic> getJson() {
     return <String, dynamic>{
-      'ride': {'id': _ride.id},
-      'user': App.user.id,
-      'seats': _seats,
-      'luggage': _luggage
+      'fullName': App.person.fullName,
+      'newReservation': {
+        'ride': {'id': _ride.id},
+        'user': App.user.id,
+        'seats': _seats,
+        'luggage': _luggage
+      }
     };
   }
 

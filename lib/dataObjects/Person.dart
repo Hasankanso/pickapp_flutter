@@ -50,9 +50,10 @@ class Person {
   //user
   String _phone;
 
+  get fullName => firstName + lastName;
+
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is Person && _id == other._id;
+  bool operator ==(Object other) => identical(this, other) || other is Person && _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;
@@ -126,9 +127,8 @@ class Person {
       countryInformations = CountryInformations.fromJson(countryJ);
     }
 
-    UserStatistics statistics = json["statistics"] == null
-        ? null
-        : UserStatistics.fromJson(json["statistics"]);
+    UserStatistics statistics =
+        json["statistics"] == null ? null : UserStatistics.fromJson(json["statistics"]);
 
     var createdJ = json["created"];
     DateTime created;
@@ -180,8 +180,7 @@ class Person {
   }
 
   //Ride
-  Future<Ride> getUpcomingRideFromId(String objectId,
-      {bool searchHistory = false}) async {
+  Future<Ride> getUpcomingRideFromId(String objectId, {bool searchHistory = false}) async {
     if (this.upcomingRides == null) {
       this.upcomingRides = [];
       return null;
