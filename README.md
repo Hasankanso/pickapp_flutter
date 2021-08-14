@@ -35,3 +35,13 @@ if it didnt work then:<br>
 ```flutter packages pub run build_runner build —delete-conflicting-outputs```<br>
 if still not working then, delete all `*.g.dart` files manually and try the commands mentioned above again.<br>
 p.s. : `*.g.dart` files are in `lib/dataObjects` and `MainNotification.g.dart` in `lib/notifications`
+
+
+## Update Password
+
+create a token using this tutorial:
+https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+then in your project call this:
+
+```git remote set-url origin https://<token>@github.com/<user-name>/pickapp_flutter```
