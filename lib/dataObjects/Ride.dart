@@ -153,8 +153,11 @@ class Ride {
       };
 
   Reservation findReservationFrom(Person person) {
+    print("looking");
     for (Reservation reserve in this.reservations) {
-      if (reserve.person == person) {
+      if (reserve.person == null || reserve.person == person) {
+        // == null part is ugly, need to
+        // change
         return reserve;
       }
     }
