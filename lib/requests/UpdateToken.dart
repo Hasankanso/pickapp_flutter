@@ -1,11 +1,11 @@
 import 'package:pickapp/dataObjects/User.dart';
 import 'package:pickapp/requests/Request.dart';
 
-class UpdateToken extends Request<String> {
+class UpdateNotificationToken extends Request<String> {
   User _user;
   String _token;
-  UpdateToken(this._user, this._token) {
-    httpPath = "/UserBusiness/UpdateToken";
+  UpdateNotificationToken(this._user, this._token) {
+    httpPath = "/UserBusiness/UpdateNotificationToken";
   }
 
   @override
@@ -15,11 +15,7 @@ class UpdateToken extends Request<String> {
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, dynamic>{
-      'id': _user.id,
-      'verificationCode': _user.verificationCode,
-      'token': _token
-    };
+    return <String, dynamic>{'token': _token};
   }
 
   @override

@@ -98,6 +98,7 @@ abstract class Request<T> {
     if (App.user == null || App.user.sessionToken == null) {
       header = <String, String>{'Content-Type': 'application/json; charset=utf-8'};
     } else {
+      print(App.user.password);
       header = <String, String>{
         'user-token': App.user.sessionToken,
         'Content-Type': 'application/json; charset=utf-8'

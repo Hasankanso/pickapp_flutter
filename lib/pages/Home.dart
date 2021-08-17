@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pickapp/classes/App.dart';
@@ -15,8 +14,6 @@ import 'package:pickapp/pages/LoginRegister.dart';
 import 'package:pickapp/pages/MyRides.dart';
 import 'package:pickapp/pages/Profile.dart';
 import 'package:pickapp/pages/Search.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/Startup.dart';
 import 'package:pickapp/utilities/CustomToast.dart';
 
 class Home extends StatefulWidget {
@@ -61,18 +58,6 @@ class _HomeState extends State<Home> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       App.isAppBuild = true;
     });
-    startup();
-  }
-
-  startup() async {
-    if (App.user != null) {
-      Request<String> request;
-      FirebaseMessaging.instance.getToken().then((token) => {
-            request = Startup(App.user, token),
-            request.send((userStatus, code, message) =>
-                response(userStatus, code, message, context)),
-          });
-    }
   }
 
   response(String userStatus, int code, String message, context) async {
@@ -108,15 +93,13 @@ class _HomeState extends State<Home> {
             aspectRatio: 13 / 2,
             child: Container(
               decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                    spreadRadius: -4, offset: Offset(0, -4), color: Colors.grey)
+                BoxShadow(spreadRadius: -4, offset: Offset(0, -4), color: Colors.grey)
               ]),
               child: BottomNavigationBar(
                 type: BottomNavigationBarType.shifting,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.list_alt),
-                      label: Lang.getString(context, "My_Rides")),
+                      icon: Icon(Icons.list_alt), label: Lang.getString(context, "My_Rides")),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.drive_eta),
                     label: Lang.getString(context, "Add_Ride"),
@@ -133,8 +116,7 @@ class _HomeState extends State<Home> {
                           Icons.chat_outlined,
                         ),
                         ValueListenableBuilder(
-                          builder: (BuildContext context, bool isNewMessage,
-                              Widget child) {
+                          builder: (BuildContext context, bool isNewMessage, Widget child) {
                             if (_currenIndex == 3) {
                               App.isNewMessageNotifier.value = false;
                               isNewMessage = false;
