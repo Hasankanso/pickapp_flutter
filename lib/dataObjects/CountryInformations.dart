@@ -56,7 +56,12 @@ class CountryInformations {
     this.countryComponent = countryComponent;
   }
 
-  Map<String, dynamic> toJson() => <String, dynamic>{'id': this.id};
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': this.id,
+        'drivingAge': this.drivingAge,
+        'minPrice': minPrice,
+        'maxPrice': maxPrice
+      };
 
   factory CountryInformations.fromJson(Map<String, dynamic> json) {
     return CountryInformations(
@@ -64,15 +69,10 @@ class CountryInformations {
         name: json["name"],
         code: json["code"],
         unit: json["unit"],
-        maxPrice: json["maxPrice"] is int
-            ? (json["maxPrice"] as int).toDouble()
-            : json["maxPrice"],
-        minPrice: json["minPrice"] is int
-            ? (json["minPrice"] as int).toDouble()
-            : json["minPrice"],
-        priceStep: json["priceStep"] is int
-            ? (json["priceStep"] as int).toDouble()
-            : json["priceStep"],
+        maxPrice: json["maxPrice"] is int ? (json["maxPrice"] as int).toDouble() : json["maxPrice"],
+        minPrice: json["minPrice"] is int ? (json["minPrice"] as int).toDouble() : json["minPrice"],
+        priceStep:
+            json["priceStep"] is int ? (json["priceStep"] as int).toDouble() : json["priceStep"],
         rateStart: json["rateStart"],
         drivingAge: json["drivingAge"],
         countryComponent: json["countryComponent"],

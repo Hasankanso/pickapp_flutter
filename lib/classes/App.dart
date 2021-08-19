@@ -35,10 +35,8 @@ class App {
 
   //these are real boolean notifiers.
   static ValueNotifier<bool> isLoggedInNotifier = ValueNotifier<bool>(false);
-  static ValueNotifier<bool> isDriverNotifier =
-      ValueNotifier<bool>(App.driver != null);
-  static ValueNotifier<bool> isNewNotificationNotifier =
-      ValueNotifier<bool>(false);
+  static ValueNotifier<bool> isDriverNotifier = ValueNotifier<bool>(App.driver != null);
+  static ValueNotifier<bool> isNewNotificationNotifier = ValueNotifier<bool>(false);
   static ValueNotifier<bool> isNewMessageNotifier = ValueNotifier<bool>(false);
 
   //these are only triggers.
@@ -64,15 +62,13 @@ class App {
   static List<MainNotification> notifications = <MainNotification>[];
 
   static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   static List<String> _chattiness;
   static List<String> _rateReasons;
   static List<String> _genders;
 
-  static Map<String, CountryInformations> _countriesInformations =
-      <String, CountryInformations>{
+  static Map<String, CountryInformations> _countriesInformations = <String, CountryInformations>{
     'Deutschland': CountryInformations(
         name: "Deutschland",
         id: "CAE25E4F-A78C-12BB-FF38-92A6EC9D4F00",
@@ -131,9 +127,7 @@ class App {
   static void setContext(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     ScreenUtil.init(context,
-        designSize: Size(360, 640),
-        designStatusBarHeight: 24,
-        allowFontScaling: true);
+        designSize: Size(360, 640), designStatusBarHeight: 24, allowFontScaling: true);
     Styles.setFontSizes(
         subValueFontSize: ScreenUtil().setSp(12.24),
         fontSize: ScreenUtil().setSp(15),
@@ -182,8 +176,7 @@ class App {
   static int calculateAge(DateTime date) {
     int years = DateTime.now().year - date.year;
     if (DateTime.now().month < date.month ||
-        (DateTime.now().month == date.month && DateTime.now().day < date.day))
-      years--;
+        (DateTime.now().month == date.month && DateTime.now().day < date.day)) years--;
     return years;
   }
 
@@ -193,14 +186,11 @@ class App {
     DateTime(d.year, d.month + 6, d.day);
   }
 
-  static List<String> get countriesInformationsNames =>
-      _countriesInformationsNames;
+  static List<String> get countriesInformationsNames => _countriesInformationsNames;
 
-  static List<String> get countriesInformationsCodes =>
-      _countriesInformationsCodes;
+  static List<String> get countriesInformationsCodes => _countriesInformationsCodes;
 
-  static Map<String, CountryInformations> get countriesInformations =>
-      _countriesInformations;
+  static Map<String, CountryInformations> get countriesInformations => _countriesInformations;
 
   static Driver get driver => user == null ? null : user.driver;
 
@@ -244,8 +234,7 @@ class App {
 
   static deleteRideFromMyRides(Ride ride) {
     App.user.person.upcomingRides.remove(ride);
-    LocalNotificationManager.cancelLocalNotification(
-        "ride_reminder." + ride.id);
+    LocalNotificationManager.cancelLocalNotification("ride_reminder." + ride.id);
     updateUserCache();
   }
 
@@ -255,8 +244,7 @@ class App {
     updateUserCache();
 
     var rd = ride.leavingDate;
-    DateTime d =
-        new DateTime(rd.year, rd.month, rd.day, rd.hour, rd.minute, rd.second);
+    DateTime d = new DateTime(rd.year, rd.month, rd.day, rd.hour, rd.minute, rd.second);
     String title = "Ride reminder";
     String body = "You have an upcoming ride that will start at " +
         int1.DateFormat(App.hourFormat, _locale).format(ride.leavingDate) +
@@ -273,8 +261,7 @@ class App {
         object: [ride.id, ride.reserved],
         action: "RIDE_REMINDER",
         scheduleDate: d.add(Duration(minutes: -30)));
-    LocalNotificationManager.pushLocalNotification(
-        notification, "ride_reminder." + ride.id);
+    LocalNotificationManager.pushLocalNotification(notification, "ride_reminder." + ride.id);
   }
 
   static double roundRate(double rate) {
@@ -285,8 +272,7 @@ class App {
       rateA = rateA.round().toDouble();
     } else if (k > 25) {
       k = 5;
-      rateA = double.parse(
-          ((rateA * 10).toInt() ~/ 10).toString() + "." + k.toString());
+      rateA = double.parse(((rateA * 10).toInt() ~/ 10).toString() + "." + k.toString());
     } else {
       rateA = rateA.round().toDouble();
     }
@@ -298,8 +284,7 @@ class App {
       countriesComponents = <Component>[];
     }
     if (countriesList != null)
-      for (final item in countriesList)
-        countriesComponents.add(Component(Component.country, item));
+      for (final item in countriesList) countriesComponents.add(Component(Component.country, item));
   }
 
   static Future<bool> logout() async {

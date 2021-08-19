@@ -30,8 +30,7 @@ class RateDriver extends StatefulWidget {
   final DateTime _cancellationDate;
   final MainNotification _notification;
 
-  RateDriver(this._ride, this._target, this._reason, this._cancellationDate,
-      this._notification);
+  RateDriver(this._ride, this._target, this._reason, this._cancellationDate, this._notification);
 
   @override
   _RateDriverState createState() => _RateDriverState();
@@ -105,8 +104,7 @@ class _RateDriverState extends State<RateDriver> {
                                     " " +
                                     widget._target.lastName +
                                     ", " +
-                                    App.calculateAge(widget._target.birthday)
-                                        .toString(),
+                                    App.calculateAge(widget._target.birthday).toString(),
                                 style: Styles.headerTextStyle(),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -193,16 +191,14 @@ class _RateDriverState extends State<RateDriver> {
                         flex: 12,
                         child: DropdownButtonFormField<String>(
                           isExpanded: true,
-                          decoration: InputDecoration(
-                              labelText: Lang.getString(context, "Reason")),
+                          decoration: InputDecoration(labelText: Lang.getString(context, "Reason")),
                           value: _reasonsItems[_reason],
                           onChanged: (String newValue) {
                             setState(() {
                               _reason = _reasonsItems.indexOf(newValue);
                             });
                           },
-                          items: _reasonsItems
-                              .map<DropdownMenuItem<String>>((String value) {
+                          items: _reasonsItems.map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -235,10 +231,9 @@ class _RateDriverState extends State<RateDriver> {
                         style: Styles.valueTextStyle(),
                         validator: (value) {
                           String valid, alpha, short;
-                          if (_grade < 3) {
+                          if (_grade < Rate.maximumRateReasonRequired) {
                             valid = Validation.validate(value, context);
-                            alpha = Validation.isAlphaNumericIgnoreSpaces(
-                                context, value);
+                            alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
                             short = Validation.isShort(context, value, 20);
                           }
 
@@ -272,11 +267,11 @@ class _RateDriverState extends State<RateDriver> {
                 text_key: "Rate",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    if (widget._cancellationDate.compareTo(
-                            DateTime.now().add(App.availableDurationToRate)) >=
+                    if (widget._cancellationDate
+                            .compareTo(DateTime.now().add(App.availableDurationToRate)) >=
                         0) {
-                      return CustomToast().showErrorToast(
-                          Lang.getString(context, "Rate_days_validation"));
+                      return CustomToast()
+                          .showErrorToast(Lang.getString(context, "Rate_days_validation"));
                     }
 
                     Rate _rate = Rate(
@@ -285,7 +280,7 @@ class _RateDriverState extends State<RateDriver> {
                         reason: _reason,
                         target: widget._target,
                         ride: widget._ride);
-                    Request<bool> request = AddRateRequest([_rate]);
+                    Request<bool> request = AddRateRequest([_rate], isDriver: false);
                     await request.send(_response);
                   }
                 },
@@ -306,8 +301,7 @@ class _RateDriverState extends State<RateDriver> {
         await Cache.updateNotifications(App.notifications);
         App.updateNotifications.value = !App.updateNotifications.value;
         Navigator.popUntil(context, (route) => route.isFirst);
-        CustomToast()
-            .showSuccessToast(Lang.getString(context, "Successfully_rated!"));
+        CustomToast().showSuccessToast(Lang.getString(context, "Successfully_rated!"));
       }
     }
   }

@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:pickapp/classes/App.dart';
 import 'package:pickapp/dataObjects/Person.dart';
 import 'package:pickapp/dataObjects/Ride.dart';
 
@@ -48,8 +47,8 @@ class Rate {
         "comment": this.comment,
         "grade": this.grade,
         "reason": this.reason,
-        "user": App.user.id,
         "ride": this.ride.id,
+        "rater": this.rater.id,
         "target": this.target.id,
         "objectId": this.id
       };

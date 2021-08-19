@@ -69,8 +69,8 @@ class RatePassengers extends StatelessWidget {
                       }
                     }
                   }
-                  //any fail above, the return line will not let the code below get executed
-                  Request<bool> request = AddRateRequest(rates);
+                  //any fail above, the return line will not let the program to reach this code
+                  Request<bool> request = AddRateRequest(rates, isDriver: true);
                   await request
                       .send((bool p1, int p2, String p3) => _response(p1, p2, p3, context));
                 },

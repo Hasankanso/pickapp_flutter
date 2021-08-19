@@ -1,10 +1,11 @@
+import 'package:flutter/widgets.dart';
 import 'package:pickapp/dataObjects/Rate.dart';
 import 'package:pickapp/requests/Request.dart';
 
 class AddRateRequest extends Request<bool> {
   List<Rate> _rates;
-
-  AddRateRequest(this._rates) {
+  bool isDriver = false;
+  AddRateRequest(this._rates, {@required this.isDriver}) {
     httpPath = "/RateBusiness/AddRate";
   }
 
@@ -16,6 +17,7 @@ class AddRateRequest extends Request<bool> {
   @override
   Map<String, dynamic> getJson() {
     return <String, dynamic>{
+      'isDriver': isDriver,
       "rates": List<dynamic>.from(_rates.map((x) => x.toJson()))
     };
   }

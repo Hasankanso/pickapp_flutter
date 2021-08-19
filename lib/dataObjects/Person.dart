@@ -47,9 +47,6 @@ class Person {
 
   ImageProvider _networkImage;
 
-  //user
-  String _phone;
-
   get fullName => firstName + lastName;
 
   @override
@@ -64,7 +61,6 @@ class Person {
       String lastName,
       CountryInformations countryInformations,
       int chattiness,
-      String phone,
       String bio,
       bool gender,
       DateTime birthday,
@@ -80,7 +76,6 @@ class Person {
     this.lastName = lastName;
     this.updated = updated;
     this.chattiness = chattiness;
-    this.phone = phone;
     this.bio = bio;
     this.countryInformations = countryInformations;
     this.gender = gender;
@@ -137,7 +132,6 @@ class Person {
     }
     var deviceToken = json["token"];
     Person p = Person(
-      phone: json['phone'],
       id: json["objectId"],
       updated: updated,
       birthday: birthday,
@@ -219,7 +213,7 @@ class Person {
 
   @override
   String toString() {
-    return 'Person{_id: $_id, creationDate: $creationDate, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender, _phone: $_phone}';
+    return 'Person{_id: $_id, creationDate: $creationDate, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender}';
   }
 
   ImageProvider get networkImage => _networkImage;
@@ -307,12 +301,6 @@ class Person {
 
   set gender(bool value) {
     _gender = value;
-  }
-
-  String get phone => _phone;
-
-  set phone(String value) {
-    _phone = value;
   }
 
   List<Ride> get upcomingRides {
