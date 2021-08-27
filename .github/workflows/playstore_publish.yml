@@ -20,7 +20,7 @@ jobs:
       - name: Clone Flutter repository with master channel
         uses: subosito/flutter-action@4389e6cbc6cb8a4b18c628ff96ff90be0e926aa8
         with:
-          channel: android_production
+          channel: master
       - run: flutter doctor -v
 
       # Checkout gallery code and get packages.
@@ -49,7 +49,8 @@ jobs:
           KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
           KEYSTORE_STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
         working-directory: android
-
+     
+      - run : bundle update
       # Build and deploy with Fastlane (by default, to beta track) 🚀.
       # Naturally, promote_to_production only deploys.
       - run: bundle exec fastlane ${{ github.event.inputs.lane || 'beta' }}
