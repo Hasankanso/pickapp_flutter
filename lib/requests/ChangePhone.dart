@@ -15,9 +15,10 @@ class ChangePhone extends Request<User> {
 
   @override
   Map<String, dynamic> getJson() {
-    var userJ = _user.toJson();
-    userJ["id"] = _user.id;
-    return <String, dynamic>{'user': userJ, 'idToken': _user.idToken};
+    return <String, dynamic>{
+      'user': _user.toJson(),
+      'idToken': _user.idToken,
+    };
   }
 
   @override

@@ -288,6 +288,8 @@ class Settings extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () async {
+                          print("session token");
+                          print(App.user.sessionToken);
                           Request<bool> request = Logout();
                           request.send((result, code, message) {
                             return response(result, code, message, context);

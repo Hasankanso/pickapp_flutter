@@ -12,6 +12,7 @@ class CancelRide extends Request<bool> {
   @override
   bool buildObject(json) {
     bool x = json["deleted"];
+    //todo we are comparing boolean with string?
     return x == "true";
   }
 

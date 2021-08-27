@@ -11,7 +11,6 @@ class AutoLogin extends Request<String> {
 
   fromUser(User user) {
     httpPath = "/UserBusiness/AutoLogin";
-
     userId = user.id;
     password = user.password;
   }
@@ -33,7 +32,8 @@ class AutoLogin extends Request<String> {
 
   @override
   String isValid() {
-    if (Validation.isNullOrEmpty(userId) || Validation.isNullOrEmpty(password)) {
+    if (Validation.isNullOrEmpty(userId) ||
+        Validation.isNullOrEmpty(password)) {
       return "Authentication_Error";
     }
     return null;
