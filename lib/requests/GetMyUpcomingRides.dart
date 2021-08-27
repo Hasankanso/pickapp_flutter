@@ -1,6 +1,6 @@
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class GetMyUpComingRides extends Request<List<Ride>> {
   User _user;
@@ -11,9 +11,7 @@ class GetMyUpComingRides extends Request<List<Ride>> {
 
   @override
   List<Ride> buildObject(json) {
-    return json != null
-        ? List<Ride>.from(json.map((x) => Ride.fromJson(x)))
-        : null;
+    return json != null ? List<Ride>.from(json.map((x) => Ride.fromJson(x))) : null;
   }
 
   @override

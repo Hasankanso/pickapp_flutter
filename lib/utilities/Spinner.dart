@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Styles.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Styles.dart';
 
 class Spinner extends StatelessWidget {
   double strokeWidth;
@@ -10,10 +10,10 @@ class Spinner extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
       strokeWidth: strokeWidth,
-      backgroundColor: (Cache.darkTheme &&
-              MediaQuery.of(context).platformBrightness == Brightness.dark)
-          ? Styles.primaryColor()
-          : null,
+      backgroundColor:
+          (Cache.darkTheme && MediaQuery.of(context).platformBrightness == Brightness.dark)
+              ? Styles.primaryColor()
+              : null,
     );
   }
 }

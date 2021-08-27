@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:998948836075:android:b4e8c79c2ef5b5bb2d24ae",
+        "mobilesdk_app_id": "1:998948836075:android:47dee987fc0308392d24ae",
         "android_client_info": {
-          "package_name": "com.DefaultCompany.NewUnityProject3"
+          "package_name": "com.example.pickapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "998948836075-p0h7neis2ov9jsdfdk6ouebjl9rr6ia7.apps.googleusercontent.com",
+          "client_id": "998948836075-hs69hno9j4bjbqhvcvtvf2hvgpc0j0sa.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.DefaultCompany.NewUnityProject3",
-            "certificate_hash": "2c5b9ba8feea02cf8a032d3b345e880a932519ab"
+            "package_name": "com.example.pickapp",
+            "certificate_hash": "6b0a6ac6c19a2628cbe6c23309124b5b40315974"
           }
         },
         {
@@ -52,9 +52,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:998948836075:android:47dee987fc0308392d24ae",
+        "mobilesdk_app_id": "1:998948836075:android:b4b8c00e48d536e02d24ae",
         "android_client_info": {
-          "package_name": "com.example.pickapp"
+          "package_name": "com.justMiles.justMiles"
         }
       },
       "oauth_client": [

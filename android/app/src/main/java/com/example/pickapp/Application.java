@@ -1,4 +1,4 @@
-package com.example.pickapp;
+package com.justMiles.justMiles;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;

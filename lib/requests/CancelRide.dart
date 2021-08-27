@@ -1,5 +1,5 @@
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class CancelRide extends Request<bool> {
   Ride _ride;

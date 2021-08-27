@@ -1,7 +1,7 @@
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/dataObjects/Reservation.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/dataObjects/Reservation.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class EditReservation extends Request<Ride> {
   Ride _ride;

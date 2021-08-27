@@ -3,21 +3,21 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/requests/LoginRequest.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/VerifyAccount.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/requests/LoginRequest.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/requests/VerifyAccount.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Login extends StatefulWidget {
@@ -82,8 +82,7 @@ class _LoginState extends State<Login> {
                           isExpanded: true,
                           decoration: InputDecoration(
                               labelText: "",
-                              labelStyle: TextStyle(
-                                  fontSize: 8, color: Colors.transparent)),
+                              labelStyle: TextStyle(fontSize: 8, color: Colors.transparent)),
                           value: '$_countryCode',
                           validator: (val) {
                             String valid = Validation.validate(val, context);
@@ -95,8 +94,7 @@ class _LoginState extends State<Login> {
                               _countryCode = newValue;
                             });
                           },
-                          items: _countriesCodes
-                              .map<DropdownMenuItem<String>>((String value) {
+                          items: _countriesCodes.map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -115,15 +113,13 @@ class _LoginState extends State<Login> {
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(
-                              App.getCountryInfo(_countryCode).digits),
+                          LengthLimitingTextInputFormatter(App.getCountryInfo(_countryCode).digits),
                         ],
                         controller: _phone,
                         textInputAction: TextInputAction.done,
                         validator: (value) {
                           String valid = Validation.validate(value, context);
-                          String phone =
-                              Validation.isPhoneNumber(context, value);
+                          String phone = Validation.isPhoneNumber(context, value);
                           if (valid != null)
                             return valid;
                           else if (phone != null) return phone;
@@ -153,8 +149,7 @@ class _LoginState extends State<Login> {
                 isRequest: true,
                 onPressed: () async {
                   if (_phoneFormKey.currentState.validate()) {
-                    Request<String> request =
-                        VerifyAccount("+" + _countryCode + _phone.text);
+                    Request<String> request = VerifyAccount("+" + _countryCode + _phone.text);
                     await request.send(_respondAccountVerification);
                   }
                 },
@@ -268,8 +263,7 @@ class _LoginState extends State<Login> {
         buttons: [
           DialogButton(
             child: Text(Lang.getString(context, "Verify"),
-                style: Styles.buttonTextStyle(),
-                overflow: TextOverflow.visible),
+                style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
             color: Styles.primaryColor(),
             onPressed: () {
               if (_codeFormKey.currentState.validate()) {
@@ -290,8 +284,8 @@ class _LoginState extends State<Login> {
                 Request<User> request;
                 FirebaseMessaging.instance.getToken().then((token) => {
                       request = LoginRequest(_user, token),
-                      request.send((u, code, message) =>
-                          codeValidationResponse(u, code, message, context)),
+                      request.send(
+                          (u, code, message) => codeValidationResponse(u, code, message, context)),
                     });
               }
             },
@@ -299,8 +293,7 @@ class _LoginState extends State<Login> {
         ]).show();
   }
 
-  Future<void> codeValidationResponse(
-      User u, int code, String message, context) async {
+  Future<void> codeValidationResponse(User u, int code, String message, context) async {
     if (code != HttpStatus.ok) {
       CustomToast().showErrorToast(message);
       Navigator.pop(context);
@@ -310,16 +303,13 @@ class _LoginState extends State<Login> {
       await Cache.setUser(u);
 
       App.countriesComponents = null;
-      await Cache.setCountriesList(
-          [App.person.countryInformations.countryComponent]);
-      App.setCountriesComponent(
-          [App.person.countryInformations.countryComponent]);
+      await Cache.setCountriesList([App.person.countryInformations.countryComponent]);
+      App.setCountriesComponent([App.person.countryInformations.countryComponent]);
 
       if (App.user.driver != null) App.isDriverNotifier.value = true;
       App.isLoggedInNotifier.value = true;
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Welcome_back_PickApp"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Welcome_back_PickApp"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

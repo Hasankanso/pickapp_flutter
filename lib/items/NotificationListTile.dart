@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:pickapp/notifications/NotificationsHandler.dart';
-import 'package:pickapp/notifications/PushNotificationsManager.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/notifications/NotificationsHandler.dart';
+import 'package:just_miles/notifications/PushNotificationsManager.dart';
 
 class NotificationListTile extends ListTile {
   final MainNotification notification;
@@ -16,8 +16,7 @@ class NotificationListTile extends ListTile {
 
   @override
   Widget build(BuildContext context) {
-    NotificationHandler handler =
-        PushNotificationsManager.createNotificationHandler(notification);
+    NotificationHandler handler = PushNotificationsManager.createNotificationHandler(notification);
     return Card(
       elevation: 1.0,
       child: ListTile(

@@ -1,6 +1,6 @@
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class GetUserReviews extends Request<List<Rate>> {
   Person person;
@@ -11,9 +11,7 @@ class GetUserReviews extends Request<List<Rate>> {
 
   @override
   List<Rate> buildObject(json) {
-    return json != null
-        ? List<Rate>.from(json.map((x) => Rate.fromJson(x)))
-        : null;
+    return json != null ? List<Rate>.from(json.map((x) => Rate.fromJson(x))) : null;
   }
 
   @override

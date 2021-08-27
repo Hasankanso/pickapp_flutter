@@ -1,4 +1,4 @@
-import 'package:pickapp/classes/Localizations.dart';
+import 'package:just_miles/classes/Localizations.dart';
 
 class Validation {
   static String invalid(context) {

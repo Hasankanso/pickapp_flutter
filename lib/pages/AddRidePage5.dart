@@ -2,24 +2,23 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/requests/AddRide.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/requests/AddRide.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class AddRidePage5 extends StatefulWidget {
   final Ride rideInfo;
   final String appBarTitleKey;
 
-  const AddRidePage5({Key key, this.rideInfo, this.appBarTitleKey})
-      : super(key: key);
+  const AddRidePage5({Key key, this.rideInfo, this.appBarTitleKey}) : super(key: key);
 
   @override
   _AddRidePage5State createState() => _AddRidePage5State(rideInfo);
@@ -47,8 +46,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 Spacer(),
                 Expanded(
                     flex: 5,
-                    child: Container(
-                        child: _Title(text: Lang.getString(context, "From")))),
+                    child: Container(child: _Title(text: Lang.getString(context, "From")))),
                 Expanded(
                   flex: 20,
                   child: _Value(
@@ -83,9 +81,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 Spacer(
                   flex: 1,
                 ),
-                Expanded(
-                    flex: 20,
-                    child: _Title(text: Lang.getString(context, "Details"))),
+                Expanded(flex: 20, child: _Title(text: Lang.getString(context, "Details"))),
               ],
             ),
             VerticalSpacer(height: 10),
@@ -94,30 +90,22 @@ class _AddRidePage5State extends State<AddRidePage5> {
               children: [
                 Icon(
                   Icons.pets,
-                  color: ride.petsAllowed
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
+                  color: ride.petsAllowed ? Styles.primaryColor() : Styles.labelColor(),
                   size: Styles.largeIconSize(),
                 ),
                 Icon(
                   ride.smokingAllowed ? Icons.smoking_rooms : Icons.smoke_free,
-                  color: ride.smokingAllowed
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
+                  color: ride.smokingAllowed ? Styles.primaryColor() : Styles.labelColor(),
                   size: Styles.largeIconSize(),
                 ),
                 Icon(
                   Icons.ac_unit,
-                  color: ride.acAllowed
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
+                  color: ride.acAllowed ? Styles.primaryColor() : Styles.labelColor(),
                   size: Styles.largeIconSize(),
                 ),
                 Icon(
                   ride.musicAllowed ? Icons.music_note : Icons.music_off,
-                  color: ride.musicAllowed
-                      ? Styles.primaryColor()
-                      : Styles.labelColor(),
+                  color: ride.musicAllowed ? Styles.primaryColor() : Styles.labelColor(),
                   size: Styles.largeIconSize(),
                 ),
               ],
@@ -135,8 +123,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 Expanded(
                   flex: 22,
                   child: Text(
-                    DateFormat(App.dateFormat,
-                            Localizations.localeOf(context).toString())
+                    DateFormat(App.dateFormat, Localizations.localeOf(context).toString())
                         .format(ride.leavingDate),
                     maxLines: 1,
                     style: Styles.valueTextStyle(),
@@ -158,9 +145,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 Expanded(
                   flex: 22,
                   child: Text(
-                    Lang.getString(context, ride.car.brand) +
-                        " " +
-                        ride.car.name.toString(),
+                    Lang.getString(context, ride.car.brand) + " " + ride.car.name.toString(),
                     maxLines: 1,
                     style: Styles.valueTextStyle(),
                     overflow: TextOverflow.clip,
@@ -174,10 +159,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 Spacer(
                   flex: 2,
                 ),
-                Expanded(
-                    flex: 15,
-                    child: _Title(
-                        text: Lang.getString(context, "Available_Seats"))),
+                Expanded(flex: 15, child: _Title(text: Lang.getString(context, "Available_Seats"))),
                 Expanded(
                   flex: 22,
                   child: Text(
@@ -282,10 +264,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 Spacer(
                   flex: 1,
                 ),
-                Expanded(
-                    flex: 20,
-                    child:
-                        _Title(text: Lang.getString(context, "Description"))),
+                Expanded(flex: 20, child: _Title(text: Lang.getString(context, "Description"))),
               ],
             ),
             VerticalSpacer(height: 10),
@@ -313,8 +292,8 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 text_key: "Done",
                 onPressed: () async {
                   Request<Ride> request = AddRide(ride);
-                  await request.send((result, code, message) =>
-                      _addRideResponse(result, code, message, context));
+                  await request.send(
+                      (result, code, message) => _addRideResponse(result, code, message, context));
                 },
               ),
             ),
@@ -331,11 +310,9 @@ _addRideResponse(Ride result, int code, String message, context) {
   } else {
     App.addRideToMyRides(result, context);
 
-    Navigator.pushNamedAndRemoveUntil(
-        context, "/", (Route<dynamic> route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
 
-    CustomToast()
-        .showSuccessToast(Lang.getString(context, "Successfully_added!"));
+    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_added!"));
   }
 }
 

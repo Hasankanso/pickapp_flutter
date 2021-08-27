@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/notifications/LocalNotificationManager.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:pickapp/notifications/NotificationsHandler.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/notifications/LocalNotificationManager.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/notifications/NotificationsHandler.dart';
 
 class RatePassengersHandler extends NotificationHandler {
   String rideId;

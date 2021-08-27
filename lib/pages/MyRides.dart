@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/items/MyRidesHistoryTile.dart';
-import 'package:pickapp/items/MyRidesTile.dart';
-import 'package:pickapp/utilities/ListBuilder.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/items/MyRidesHistoryTile.dart';
+import 'package:just_miles/items/MyRidesTile.dart';
+import 'package:just_miles/utilities/ListBuilder.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
 
 class MyRides extends StatefulWidget {
   @override
@@ -29,8 +29,8 @@ class _MyRidesState extends State<MyRides> {
 
     if (App.person.upcomingRides != null) {
       for (final ride in App.person.upcomingRides) {
-        DateTime d = ride.leavingDate.add(
-            Duration(hours: App.person.countryInformations.rateStartHours));
+        DateTime d =
+            ride.leavingDate.add(Duration(hours: App.person.countryInformations.rateStartHours));
         if (DateTime.now().isAfter(d)) {
           needUpdate = true;
           ridesHistory.add(ride);
@@ -59,12 +59,10 @@ class _MyRidesState extends State<MyRides> {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  child: Text(Lang.getString(context, "Upcoming"),
-                      style: Styles.valueTextStyle()),
+                  child: Text(Lang.getString(context, "Upcoming"), style: Styles.valueTextStyle()),
                 ),
                 Tab(
-                  child: Text(Lang.getString(context, "History"),
-                      style: Styles.valueTextStyle()),
+                  child: Text(Lang.getString(context, "History"), style: Styles.valueTextStyle()),
                 ),
               ],
             ),
@@ -76,35 +74,29 @@ class _MyRidesState extends State<MyRides> {
                   valueListenable: App.updateUpcomingRide,
                   builder: (BuildContext context, bool isd, Widget child) {
                     Center center = Center(
-                        child: Text(
-                            Lang.getString(context, "No_upcoming_rides!"),
+                        child: Text(Lang.getString(context, "No_upcoming_rides!"),
                             style: Styles.valueTextStyle()));
                     if (App.person.upcomingRides == null) return center;
-                    App.person.upcomingRides
-                        .sort((a, b) => a.leavingDate.compareTo(b.leavingDate));
+                    App.person.upcomingRides.sort((a, b) => a.leavingDate.compareTo(b.leavingDate));
                     return Container(
                       child: App.person.upcomingRides.length > 0
                           ? ListBuilder(
                               list: App.person.upcomingRides,
-                              itemBuilder: MyRidesTile.itemBuilder(
-                                  App.person.upcomingRides))
+                              itemBuilder: MyRidesTile.itemBuilder(App.person.upcomingRides))
                           : center,
                     );
                   }),
               ValueListenableBuilder(
                   valueListenable: App.updateUpcomingRide,
                   builder: (BuildContext context, bool isd, Widget child) {
-                    ridesHistory
-                        .sort((a, b) => b.leavingDate.compareTo(a.leavingDate));
+                    ridesHistory.sort((a, b) => b.leavingDate.compareTo(a.leavingDate));
                     return Container(
                       child: ridesHistory.length > 0
                           ? ListBuilder(
                               list: ridesHistory,
-                              itemBuilder:
-                                  MyRidesHistoryTile.itemBuilder(ridesHistory))
+                              itemBuilder: MyRidesHistoryTile.itemBuilder(ridesHistory))
                           : Center(
-                              child: Text(
-                                  Lang.getString(context, "No_Rides_History!"),
+                              child: Text(Lang.getString(context, "No_Rides_History!"),
                                   style: Styles.valueTextStyle())),
                     );
                   }),

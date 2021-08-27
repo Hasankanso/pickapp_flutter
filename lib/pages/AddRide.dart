@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/pages/BecomeDriver.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/DateTimePicker.dart';
-import 'package:pickapp/utilities/FromToPicker.dart';
-import 'package:pickapp/utilities/LocationFinder.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Switcher.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/MainLocation.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/pages/BecomeDriver.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/DateTimePicker.dart';
+import 'package:just_miles/utilities/FromToPicker.dart';
+import 'package:just_miles/utilities/LocationFinder.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Switcher.dart';
 
 class AddRide extends StatefulWidget {
   Ride rideInfo;
@@ -116,9 +116,8 @@ class _AddRideState extends State<AddRide> {
                                   controller: smokeController,
                                   onChanged: (value) {
                                     setState(() {
-                                      smokeIcon = value == true
-                                          ? Icons.smoking_rooms
-                                          : Icons.smoke_free;
+                                      smokeIcon =
+                                          value == true ? Icons.smoking_rooms : Icons.smoke_free;
                                     });
                                   },
                                 ),
@@ -145,9 +144,7 @@ class _AddRideState extends State<AddRide> {
                                       controller: petsController,
                                       onChanged: (value) {
                                         setState(() {
-                                          petsIcon = value == true
-                                              ? Icons.pets
-                                              : Icons.pets;
+                                          petsIcon = value == true ? Icons.pets : Icons.pets;
                                         });
                                       },
                                     ),
@@ -180,9 +177,7 @@ class _AddRideState extends State<AddRide> {
                                 controller: musicController,
                                 onChanged: (value) {
                                   setState(() {
-                                    musicIcon = value == true
-                                        ? Icons.music_note
-                                        : Icons.music_off;
+                                    musicIcon = value == true ? Icons.music_note : Icons.music_off;
                                   });
                                 },
                               ),
@@ -209,9 +204,7 @@ class _AddRideState extends State<AddRide> {
                                     controller: acController,
                                     onChanged: (value) {
                                       setState(() {
-                                        acIcon = value == true
-                                            ? Icons.ac_unit
-                                            : Icons.ac_unit;
+                                        acIcon = value == true ? Icons.ac_unit : Icons.ac_unit;
                                       });
                                     },
                                   ),
@@ -236,18 +229,16 @@ class _AddRideState extends State<AddRide> {
                     child: MainButton(
                       text_key: "Next",
                       onPressed: () {
-                        String _validateFrom =
-                            fromController.validate(context, x: toController);
-                        String _validateTo =
-                            toController.validate(context, x: fromController);
+                        String _validateFrom = fromController.validate(context, x: toController);
+                        String _validateTo = toController.validate(context, x: fromController);
                         _fromError = _validateFrom;
                         _toError = _validateTo;
                         setState(() {});
                         if (_validateFrom == null && _validateTo == null) {
-                          if (dateTimeController.chosenDate.isBefore(
-                              DateTime.now().add(Duration(minutes: 29)))) {
-                            return CustomToast().showErrorToast(Lang.getString(
-                                context, "Ride_Time_validation"));
+                          if (dateTimeController.chosenDate
+                              .isBefore(DateTime.now().add(Duration(minutes: 29)))) {
+                            return CustomToast()
+                                .showErrorToast(Lang.getString(context, "Ride_Time_validation"));
                           }
 
                           MainLocation to = MainLocation(
@@ -268,22 +259,15 @@ class _AddRideState extends State<AddRide> {
                           var rideDate = dateTimeController.chosenDate;
                           rideDate = rideDate.add(Duration(minutes: -20));
                           for (final item in App.person.upcomingRides) {
-                            if (item == null || item.status == "CANCELED")
-                              continue;
-                            var diff =
-                                rideDate.difference(item.leavingDate).inMinutes;
-                            if (rideDate.isAfter(item.leavingDate) &&
-                                diff <= 0 &&
-                                diff >= -20) {
-                              return CustomToast().showErrorToast(
-                                  Lang.getString(
-                                      context, "Ride_compare_upcoming"));
+                            if (item == null || item.status == "CANCELED") continue;
+                            var diff = rideDate.difference(item.leavingDate).inMinutes;
+                            if (rideDate.isAfter(item.leavingDate) && diff <= 0 && diff >= -20) {
+                              return CustomToast()
+                                  .showErrorToast(Lang.getString(context, "Ride_compare_upcoming"));
                             }
-                            if (rideDate.isBefore(item.leavingDate) &&
-                                diff >= -40) {
-                              return CustomToast().showErrorToast(
-                                  Lang.getString(
-                                      context, "Ride_compare_upcoming"));
+                            if (rideDate.isBefore(item.leavingDate) && diff >= -40) {
+                              return CustomToast()
+                                  .showErrorToast(Lang.getString(context, "Ride_compare_upcoming"));
                             }
                           }
                           rideInfo.user = App.user;
@@ -295,8 +279,8 @@ class _AddRideState extends State<AddRide> {
                           rideInfo.petsAllowed = isPets;
                           rideInfo.musicAllowed = isMusic;
                           rideInfo.acAllowed = isAc;
-                          Navigator.of(context).pushNamed("/AddRidePage2",
-                              arguments: [rideInfo, _appBarTitleKey]);
+                          Navigator.of(context)
+                              .pushNamed("/AddRidePage2", arguments: [rideInfo, _appBarTitleKey]);
                         }
                       },
                     ),

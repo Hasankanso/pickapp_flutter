@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/utilities/RateStars.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/utilities/RateStars.dart';
 
 class SearchResultTile extends ListTile {
   final Ride _ride;
@@ -44,19 +44,14 @@ class SearchResultTile extends ListTile {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.panorama_fish_eye,
-                              color: Styles.primaryColor(),
-                              size: Styles.smallIconSize()),
-                          Icon(Icons.more_vert,
-                              color: Styles.primaryColor(),
-                              size: Styles.smallIconSize()),
-                          Icon(Icons.circle,
-                              color: Styles.primaryColor(),
-                              size: Styles.smallIconSize()),
-                        ]),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Icon(Icons.panorama_fish_eye,
+                          color: Styles.primaryColor(), size: Styles.smallIconSize()),
+                      Icon(Icons.more_vert,
+                          color: Styles.primaryColor(), size: Styles.smallIconSize()),
+                      Icon(Icons.circle,
+                          color: Styles.primaryColor(), size: Styles.smallIconSize()),
+                    ]),
                   ),
                   Expanded(
                     flex: 12,
@@ -92,8 +87,7 @@ class SearchResultTile extends ListTile {
                     child: Text(
                       _ride.price.toInt().toString() +
                           " " +
-                          Lang.getString(
-                              context, _ride.person.countryInformations.unit),
+                          Lang.getString(context, _ride.person.countryInformations.unit),
                       style: Styles.valueTextStyle(bold: FontWeight.w500),
                     ),
                   ),
@@ -138,9 +132,7 @@ class SearchResultTile extends ListTile {
                                       Expanded(
                                         flex: 30,
                                         child: Text(
-                                          _ride.person.firstName +
-                                              " " +
-                                              _ride.person.lastName,
+                                          _ride.person.firstName + " " + _ride.person.lastName,
                                           style: Styles.valueTextStyle(),
                                         ),
                                       ),
@@ -158,10 +150,8 @@ class SearchResultTile extends ListTile {
                               child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: Text(
-                                  DateFormat(
-                                          App.dateFormat,
-                                          Localizations.localeOf(context)
-                                              .toString())
+                                  DateFormat(App.dateFormat,
+                                          Localizations.localeOf(context).toString())
                                       .format(_ride.leavingDate),
                                   style: Styles.labelTextStyle(),
                                 ),

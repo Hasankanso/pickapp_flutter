@@ -1,5 +1,5 @@
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class EditAccount extends Request<Person> {
   Person _newPerson;

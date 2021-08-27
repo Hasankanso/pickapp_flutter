@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
 
 class BirthDayPicker extends StatefulWidget {
   DateTime startDate;
@@ -43,11 +43,9 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
 
     DateTime initialDate = DateTime.now();
     //max age 100 year
-    _minDate =
-        DateTime(initialDate.year - 100, initialDate.month, initialDate.day);
+    _minDate = DateTime(initialDate.year - 100, initialDate.month, initialDate.day);
     //min age 14 years
-    _maxDate =
-        DateTime(initialDate.year - 14, initialDate.month, initialDate.day);
+    _maxDate = DateTime(initialDate.year - 14, initialDate.month, initialDate.day);
     if (App.isAndroid()) {
       _theme = DatePickerTheme(
         headerColor: Styles.primaryColor(),
@@ -85,8 +83,7 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
                 fontSize: ScreenUtil().setSp(15),
                 fontWeight: FontWeight.w400,
                 color: (!Cache.darkTheme &&
-                        MediaQuery.of(context).platformBrightness !=
-                            Brightness.dark)
+                        MediaQuery.of(context).platformBrightness != Brightness.dark)
                     ? Styles.valueColor()
                     : Colors.white,
               ),
@@ -115,7 +112,6 @@ class BirthdayController {
   DateTime chosenDate;
   BirthdayController() {
     DateTime initialDate = DateTime.now();
-    chosenDate =
-        DateTime(initialDate.year - 18, initialDate.month, initialDate.day);
+    chosenDate = DateTime(initialDate.year - 18, initialDate.month, initialDate.day);
   }
 }

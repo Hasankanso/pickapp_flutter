@@ -1,4 +1,4 @@
-import 'package:pickapp/packages/countryPicker/country_code_to_name.dart';
+import 'package:just_miles/packages/countryPicker/country_code_to_name.dart';
 
 ///The country Model that has all the country
 ///information needed from the [country_picker]
@@ -79,8 +79,7 @@ class Country {
   bool startsWith(String query) =>
       name.toLowerCase().startsWith(query.toLowerCase()) ||
       countryCode.toLowerCase().startsWith(query.toLowerCase()) ||
-      (en[countryCode]?.toLowerCase()?.startsWith(query.toLowerCase()) ??
-          false);
+      (en[countryCode]?.toLowerCase()?.startsWith(query.toLowerCase()) ?? false);
 
   @override
   String toString() {

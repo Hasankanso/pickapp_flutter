@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class PassengerRateTile extends StatefulWidget {
   final Rate rate;

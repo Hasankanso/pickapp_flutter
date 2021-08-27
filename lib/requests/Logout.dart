@@ -1,4 +1,4 @@
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class Logout extends Request<bool> {
   Logout() {

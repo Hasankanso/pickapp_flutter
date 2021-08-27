@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Styles.dart';
+import 'package:just_miles/classes/Styles.dart';
 
 class BrandAutocomplete extends SearchDelegate<List<String>> {
   BrandAutocomplete({context, this.carBrands})

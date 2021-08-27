@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/utilities/LocationFinder.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/utilities/LocationFinder.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class RegionListTile extends StatelessWidget {
   bool isDefault;
@@ -12,8 +12,8 @@ class RegionListTile extends StatelessWidget {
   LocationEditingController regionController;
   String errorText;
 
-  RegionListTile(this.isDefault, this._index, this._removeRegion,
-      this.regionController, this.errorText);
+  RegionListTile(
+      this.isDefault, this._index, this._removeRegion, this.regionController, this.errorText);
 
   @override
   Widget build(BuildContext context) {

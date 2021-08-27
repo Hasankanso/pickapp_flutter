@@ -2,20 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/requests/EditRideRequest.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/NumberPicker.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/requests/EditRideRequest.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/NumberPicker.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class EditRide extends StatelessWidget {
   final Ride ride;
@@ -112,20 +112,17 @@ class EditRide extends StatelessWidget {
                       textInputAction: TextInputAction.done,
                       maxLines: 20,
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(
-                            399 - ride.comment.length),
+                        LengthLimitingTextInputFormatter(399 - ride.comment.length),
                       ],
                       decoration: InputDecoration(
-                        labelText:
-                            Lang.getString(context, "Additional_description"),
+                        labelText: Lang.getString(context, "Additional_description"),
                         labelStyle: Styles.labelTextStyle(),
                         hintStyle: Styles.labelTextStyle(),
                       ),
                       style: Styles.valueTextStyle(),
                       validator: (value) {
                         String valid = Validation.validate(value, context);
-                        String alpha = Validation.isAlphaNumericIgnoreSpaces(
-                            context, value);
+                        String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
 
                         if (valid != null)
                           return valid;
@@ -162,8 +159,8 @@ class EditRide extends StatelessWidget {
                   Ride r = ride.copy();
                   if (_formKey.currentState.validate()) {
                     if (r.leavingDate.compareTo(DateTime.now()) < 0) {
-                      return CustomToast().showErrorToast(
-                          Lang.getString(context, "Ride_already_started"));
+                      return CustomToast()
+                          .showErrorToast(Lang.getString(context, "Ride_already_started"));
                     }
                     r.availableSeats = personController.chosenNumber;
                     r.availableLuggages = luggageController.chosenNumber;
@@ -192,8 +189,7 @@ class EditRide extends StatelessWidget {
       Navigator.popUntil(context, (route) => route.isFirst);
       App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }
   }
 }

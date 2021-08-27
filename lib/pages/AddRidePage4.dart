@@ -4,25 +4,24 @@ import 'dart:convert' as convert;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/RideRoute.dart';
-import 'package:pickapp/items/RouteTile.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/ListBuilder.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/RideRoute.dart';
+import 'package:just_miles/items/RouteTile.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/ListBuilder.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 
 class AddRidePage4 extends StatefulWidget {
   final Ride rideInfo;
   final String appBarTitleKey;
 
-  const AddRidePage4({Key key, this.rideInfo, this.appBarTitleKey})
-      : super(key: key);
+  const AddRidePage4({Key key, this.rideInfo, this.appBarTitleKey}) : super(key: key);
 
   @override
   _AddRidePage4State createState() => _AddRidePage4State(rideInfo);
@@ -53,8 +52,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
       var jsonResponse = convert.jsonDecode(response.body);
       List<dynamic> roads = jsonResponse["routes"];
       for (int i = 0; i < roads.length; i++) {
-        rideRoutes.add(RideRoute(
-            roads[i]["summary"], roads[i]["overview_polyline"]["points"]));
+        rideRoutes.add(RideRoute(roads[i]["summary"], roads[i]["overview_polyline"]["points"]));
       }
     } else {
       print('Request failed with status: ${response.statusCode}.');
@@ -63,19 +61,11 @@ class _AddRidePage4State extends State<AddRidePage4> {
 
   void getMap(String roadPoints) async {
     var staticMapURL = "https://maps.googleapis.com/maps/api/staticmap?";
-    var response = await http.get(Uri.parse(staticMapURL +
-        "size=640x640" +
-        "&path=enc%3A" +
-        roadPoints +
-        "&key=" +
-        App.googleKey));
+    var response = await http.get(Uri.parse(
+        staticMapURL + "size=640x640" + "&path=enc%3A" + roadPoints + "&key=" + App.googleKey));
     if (response.statusCode == 200) {
       var base64String = base64.encode(response.bodyBytes);
-      mapUrl = staticMapURL +
-          "size=640x640&path=enc%3A" +
-          roadPoints +
-          "&key=" +
-          App.googleKey;
+      mapUrl = staticMapURL + "size=640x640&path=enc%3A" + roadPoints + "&key=" + App.googleKey;
       base64Map = base64String;
       setState(() {});
     } else {
@@ -96,13 +86,8 @@ class _AddRidePage4State extends State<AddRidePage4> {
   }
 
   void getMapAndDirection() async {
-    await getDirection(
-        rideInfo.from.latitude.toString() +
-            "," +
-            rideInfo.from.longitude.toString(),
-        rideInfo.to.latitude.toString() +
-            "," +
-            rideInfo.to.longitude.toString());
+    await getDirection(rideInfo.from.latitude.toString() + "," + rideInfo.from.longitude.toString(),
+        rideInfo.to.latitude.toString() + "," + rideInfo.to.longitude.toString());
     if (rideRoutes.length > 0) {
       mapReady = true;
       getMap(rideRoutes[0].points);
@@ -146,8 +131,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                               ],
                             ),
                             errorWidget: (context, url, error) {
-                              return Image(
-                                  image: AssetImage("lib/images/user.png"));
+                              return Image(image: AssetImage("lib/images/user.png"));
                             },
                           ),
                   ),
@@ -158,9 +142,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                     height: 25,
                     child: Center(
                       child: Text(
-                        Lang.getString(
-                                context, "Choose_A_Route_From_The_List_Below") +
-                            " :",
+                        Lang.getString(context, "Choose_A_Route_From_The_List_Below") + " :",
                         style: Styles.labelTextStyle(),
                       ),
                     ),
@@ -173,8 +155,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                     child: Container(
                       child: ListBuilder(
                         list: rideRoutes,
-                        itemBuilder: RouteTile.itemBuilder(
-                            rideRoutes, getMap, listController),
+                        itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap, listController),
                       ),
                     ),
                   ),
@@ -216,8 +197,8 @@ class _AddRidePage4State extends State<AddRidePage4> {
                   text_key: "Next",
                   onPressed: () {
                     rideInfo.mapBase64 = base64Map;
-                    Navigator.of(context).pushNamed("/AddRidePage5",
-                        arguments: [rideInfo, widget.appBarTitleKey]);
+                    Navigator.of(context)
+                        .pushNamed("/AddRidePage5", arguments: [rideInfo, widget.appBarTitleKey]);
                   },
                 ),
               ),

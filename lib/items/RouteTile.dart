@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/RideRoute.dart';
-import 'package:pickapp/utilities/ListBuilder.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/RideRoute.dart';
+import 'package:just_miles/utilities/ListBuilder.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class RouteTile extends StatefulWidget {
   final RideRoute r;

@@ -3,20 +3,20 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/notifications/BroadcastAlertNotificationHandler.dart';
-import 'package:pickapp/notifications/CancelReservationNotificationHandler.dart';
-import 'package:pickapp/notifications/CancelRideNotificationHandler.dart';
-import 'package:pickapp/notifications/EditReservationNotificationHandler.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:pickapp/notifications/MessageNotificationHandler.dart';
-import 'package:pickapp/notifications/NotificationsHandler.dart';
-import 'package:pickapp/notifications/RateNotificationHandler.dart';
-import 'package:pickapp/notifications/ReserveSeatsNotificationHandler.dart';
-import 'package:pickapp/notifications/RideReminderNotificationHandler.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/UpdateToken.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/notifications/BroadcastAlertNotificationHandler.dart';
+import 'package:just_miles/notifications/CancelReservationNotificationHandler.dart';
+import 'package:just_miles/notifications/CancelRideNotificationHandler.dart';
+import 'package:just_miles/notifications/EditReservationNotificationHandler.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/notifications/MessageNotificationHandler.dart';
+import 'package:just_miles/notifications/NotificationsHandler.dart';
+import 'package:just_miles/notifications/RateNotificationHandler.dart';
+import 'package:just_miles/notifications/ReserveSeatsNotificationHandler.dart';
+import 'package:just_miles/notifications/RideReminderNotificationHandler.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/requests/UpdateToken.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;

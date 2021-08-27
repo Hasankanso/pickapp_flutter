@@ -10,16 +10,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Reservation.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/notifications/PushNotificationsManager.dart';
-import 'package:pickapp/pages/RatePassengers.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Reservation.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/notifications/PushNotificationsManager.dart';
+import 'package:just_miles/pages/RatePassengers.dart';
 
 class InitializerWidget extends StatefulWidget {
   final Widget child;

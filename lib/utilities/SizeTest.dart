@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Switcher.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Switcher.dart';
 
 import 'MainAppBar.dart';
 
@@ -38,10 +38,7 @@ class _TestScaffoldState extends State<SizeTest> {
         child: GestureDetector(
           child: Column(
             children: [
-              ResponsiveWidget(
-                  width: widget.width,
-                  height: widget.height,
-                  child: widget.body),
+              ResponsiveWidget(width: widget.width, height: widget.height, child: widget.body),
             ],
           ),
           onPanUpdate: (details) {

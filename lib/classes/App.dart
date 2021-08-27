@@ -6,17 +6,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:intl/intl.dart' as int1;
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/CountryInformations.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/main.dart';
-import 'package:pickapp/notifications/LocalNotificationManager.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/dataObjects/CountryInformations.dart';
+import 'package:just_miles/dataObjects/Driver.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/main.dart';
+import 'package:just_miles/notifications/LocalNotificationManager.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
 
 import 'Localizations.dart';
 

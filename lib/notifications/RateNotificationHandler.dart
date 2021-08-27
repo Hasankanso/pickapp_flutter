@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/notifications/LocalNotificationManager.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:pickapp/notifications/NotificationsHandler.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/notifications/LocalNotificationManager.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/notifications/NotificationsHandler.dart';
 
 class RateNotificationHandler extends NotificationHandler {
   Rate rate;
@@ -15,8 +15,7 @@ class RateNotificationHandler extends NotificationHandler {
   RateNotificationHandler(MainNotification notification) : super(notification) {
     if (!(notification.object is Rate)) {
       notification.object = Rate.fromJson(notification.object);
-      notification.scheduleDate =
-          DateTime.now().add(App.availableDurationToRate);
+      notification.scheduleDate = DateTime.now().add(App.availableDurationToRate);
     }
     this.rate = notification.object;
   }
@@ -28,8 +27,7 @@ class RateNotificationHandler extends NotificationHandler {
     user.person.statistics = user.person.statistics.createNewStatistics(rate);
     await Cache.setUser(user);
 
-    LocalNotificationManager.pushLocalNotification(
-        this.notification, prefix + rate.id);
+    LocalNotificationManager.pushLocalNotification(this.notification, prefix + rate.id);
   }
 
   @override

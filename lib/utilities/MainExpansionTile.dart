@@ -6,8 +6,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 const Duration _kExpand = Duration(milliseconds: 200);
 
@@ -149,14 +149,10 @@ class MainExpansionTile extends StatefulWidget {
   MainExpansionTileState createState() => MainExpansionTileState();
 }
 
-class MainExpansionTileState extends State<MainExpansionTile>
-    with SingleTickerProviderStateMixin {
-  static final Animatable<double> _easeOutTween =
-      CurveTween(curve: Curves.easeOut);
-  static final Animatable<double> _easeInTween =
-      CurveTween(curve: Curves.easeIn);
-  static final Animatable<double> _halfTween =
-      Tween<double>(begin: 0.0, end: 0.5);
+class MainExpansionTileState extends State<MainExpansionTile> with SingleTickerProviderStateMixin {
+  static final Animatable<double> _easeOutTween = CurveTween(curve: Curves.easeOut);
+  static final Animatable<double> _easeInTween = CurveTween(curve: Curves.easeIn);
+  static final Animatable<double> _halfTween = Tween<double>(begin: 0.0, end: 0.5);
 
   final ColorTween _borderColorTween = ColorTween();
   final ColorTween _headerColorTween = ColorTween();
@@ -182,11 +178,9 @@ class MainExpansionTileState extends State<MainExpansionTile>
     _borderColor = _controller.drive(_borderColorTween.chain(_easeOutTween));
     _headerColor = _controller.drive(_headerColorTween.chain(_easeInTween));
     _iconColor = _controller.drive(_iconColorTween.chain(_easeInTween));
-    _backgroundColor =
-        _controller.drive(_backgroundColorTween.chain(_easeOutTween));
+    _backgroundColor = _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
-    _isExpanded = PageStorage.of(context)?.readState(context) as bool ??
-        widget.initiallyExpanded;
+    _isExpanded = PageStorage.of(context)?.readState(context) as bool ?? widget.initiallyExpanded;
     if (_isExpanded) _controller.value = 1.0;
   }
 
@@ -219,8 +213,7 @@ class MainExpansionTileState extends State<MainExpansionTile>
       }
       PageStorage.of(context)?.writeState(context, _isExpanded);
     });
-    if (widget.onExpansionChanged != null)
-      widget.onExpansionChanged(_isExpanded);
+    if (widget.onExpansionChanged != null) widget.onExpansionChanged(_isExpanded);
   }
 
   Widget _buildChildren(BuildContext context, Widget child) {
@@ -248,9 +241,7 @@ class MainExpansionTileState extends State<MainExpansionTile>
                             children: [
                               Expanded(
                                 flex: 1,
-                                child: widget.leading == null
-                                    ? SizedBox()
-                                    : widget.leading,
+                                child: widget.leading == null ? SizedBox() : widget.leading,
                               ),
                               Expanded(
                                 flex: 6,
@@ -316,8 +307,7 @@ class MainExpansionTileState extends State<MainExpansionTile>
           child: Padding(
             padding: widget.childrenPadding ?? EdgeInsets.zero,
             child: Column(
-              crossAxisAlignment: widget.expandedCrossAxisAlignment ??
-                  CrossAxisAlignment.center,
+              crossAxisAlignment: widget.expandedCrossAxisAlignment ?? CrossAxisAlignment.center,
               children: widget.children,
             ),
           ),

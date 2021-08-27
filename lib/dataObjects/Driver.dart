@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:just_miles/dataObjects/Car.dart';
+import 'package:just_miles/dataObjects/MainLocation.dart';
 
 part 'Driver.g.dart';
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/utilities/pickapp_google_places.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/dataObjects/MainLocation.dart';
+import 'package:just_miles/utilities/pickapp_google_places.dart';
 import 'package:uuid/uuid.dart';
 
 class LocationFinder extends StatefulWidget {
@@ -69,8 +69,7 @@ class _LocationFinderState extends State<LocationFinder> {
       setState(() {
         String curr_loc = Lang.getString(context, "My_Current_Location");
         _textEditingController.text = curr_loc;
-        widget._controller.location =
-            new Location(lat: locPred.lat, lng: locPred.lng);
+        widget._controller.location = new Location(lat: locPred.lat, lng: locPred.lng);
         widget._controller.placeId = null;
         widget._controller.description = curr_loc;
         widget._initialDescription = curr_loc;
@@ -82,10 +81,8 @@ class _LocationFinderState extends State<LocationFinder> {
     //request longitude and latitude from google_place_details api
     GoogleMapsPlaces _places =
         new GoogleMapsPlaces(apiKey: widget._API_KEY); //Same _API_KEY as above
-    PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
-        locPred.placeId,
-        sessionToken: sessionToken,
-        fields: ["geometry"]);
+    PlacesDetailsResponse detail = await _places
+        .getDetailsByPlaceId(locPred.placeId, sessionToken: sessionToken, fields: ["geometry"]);
     double latitude = detail.result.geometry.location.lat;
     double longitude = detail.result.geometry.location.lng;
     String address = locPred.description;
@@ -153,8 +150,7 @@ class LocationEditingController {
     if (_isEmpty != null) {
       return _isEmpty;
     } else if (x != null &&
-        MainLocation.equals(this.location.lat, this.location.lng,
-            x.location.lat, x.location.lng)) {
+        MainLocation.equals(this.location.lat, this.location.lng, x.location.lat, x.location.lng)) {
       return Lang.getString(context, "Too_close");
     } else {
       return null;

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/CountryInformations.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/utilities/BirthdayPicker.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainImagePicker.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/dataObjects/CountryInformations.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/utilities/BirthdayPicker.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainImagePicker.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -99,11 +99,8 @@ class _RegisterState extends State<Register> {
                             ),
                             style: Styles.valueTextStyle(),
                             validator: (value) {
-                              String valid =
-                                  Validation.validate(value, context);
-                              String alpha =
-                                  Validation.isAlphabeticIgnoreSpaces(
-                                      context, value);
+                              String valid = Validation.validate(value, context);
+                              String alpha = Validation.isAlphabeticIgnoreSpaces(context, value);
 
                               if (valid != null)
                                 return valid;
@@ -123,18 +120,14 @@ class _RegisterState extends State<Register> {
                             ],
                             decoration: InputDecoration(
                               labelText: Lang.getString(context, "Last_Name"),
-                              hintText:
-                                  Lang.getString(context, "Last_name_hint"),
+                              hintText: Lang.getString(context, "Last_name_hint"),
                               labelStyle: Styles.labelTextStyle(),
                               hintStyle: Styles.labelTextStyle(),
                             ),
                             style: Styles.valueTextStyle(),
                             validator: (value) {
-                              String valid =
-                                  Validation.validate(value, context);
-                              String alpha =
-                                  Validation.isAlphabeticIgnoreSpaces(
-                                      context, value);
+                              String valid = Validation.validate(value, context);
+                              String alpha = Validation.isAlphabeticIgnoreSpaces(context, value);
                               if (valid != null)
                                 return valid;
                               else if (alpha != null)
@@ -169,8 +162,7 @@ class _RegisterState extends State<Register> {
                                 _country = newValue;
                               });
                             },
-                            items: _countries
-                                .map<DropdownMenuItem<String>>((String value) {
+                            items: _countries.map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -194,13 +186,10 @@ class _RegisterState extends State<Register> {
                             onChanged: (String newValue) {
                               setState(() {
                                 _gender =
-                                    newValue == Lang.getString(context, "Male")
-                                        ? true
-                                        : false;
+                                    newValue == Lang.getString(context, "Male") ? true : false;
                               });
                             },
-                            items: _genders
-                                .map<DropdownMenuItem<String>>((String value) {
+                            items: _genders.map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -230,8 +219,7 @@ class _RegisterState extends State<Register> {
                             ),
                             style: Styles.valueTextStyle(),
                             validator: (value) {
-                              String valid =
-                                  Validation.validate(value, context);
+                              String valid = Validation.validate(value, context);
                               if (valid != null) return valid;
                               String email = Validation.isEmail(context, value);
                               if (email != null) return email;
@@ -274,8 +262,7 @@ class _RegisterState extends State<Register> {
                 text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    CountryInformations cI =
-                        App.countriesInformations[_country];
+                    CountryInformations cI = App.countriesInformations[_country];
                     Person _newPerson = Person();
                     _newPerson.firstName = _firstName.text;
                     _newPerson.lastName = _lastName.text;

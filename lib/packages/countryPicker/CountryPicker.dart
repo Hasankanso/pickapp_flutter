@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/packages/countryPicker/Country.dart';
-import 'package:pickapp/packages/countryPicker/countries_list_view.dart';
-import 'package:pickapp/packages/countryPicker/country_code_to_name.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/packages/countryPicker/Country.dart';
+import 'package:just_miles/packages/countryPicker/countries_list_view.dart';
+import 'package:just_miles/packages/countryPicker/country_code_to_name.dart';
 
 class CountryPicker extends StatefulWidget {
   CountryPickerController controller;
@@ -32,8 +32,7 @@ class _CountryPickerState extends State<CountryPicker> {
                     Expanded(
                       flex: 4,
                       child: Text(
-                        CountryListView.countryCodeToEmoji(
-                            widget.controller.country.countryCode),
+                        CountryListView.countryCodeToEmoji(widget.controller.country.countryCode),
                         style: Styles.titleTextStyle(),
                         overflow: TextOverflow.clip,
                       ),

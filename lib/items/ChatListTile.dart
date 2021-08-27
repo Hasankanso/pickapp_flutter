@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Chat.dart';
-import 'package:pickapp/utilities/Spinner.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/dataObjects/Chat.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 
 class ChatListTile extends ListTile {
   final Chat chat;
@@ -109,7 +109,6 @@ class ChatListTile extends ListTile {
           );
         });
   }
-
 
   bool isSameDate(DateTime d1, DateTime d2) {
     return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;

@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/dataObjects/CountryInformations.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/UserStatistics.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/dataObjects/CountryInformations.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/UserStatistics.dart';
 
 part 'Person.g.dart';
 

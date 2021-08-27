@@ -2,21 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/CountryInformations.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/requests/CheckUserExist.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/PopUp.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/dataObjects/CountryInformations.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/requests/CheckUserExist.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/PopUp.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class Phone extends StatefulWidget {
   User _user;
@@ -40,8 +40,8 @@ class _PhoneState extends State<Phone> {
     // TODO: implement initState
     super.initState();
     if (widget._user != null && widget._user.phone != null) {
-      _phone.text = (widget._user.phone)
-          .split("+" + widget._user.person.countryInformations.code)[1];
+      _phone.text =
+          (widget._user.phone).split("+" + widget._user.person.countryInformations.code)[1];
     }
     _countryInfo = App.getCountryInfo(_countryCode);
   }
@@ -86,8 +86,7 @@ class _PhoneState extends State<Phone> {
                           isExpanded: true,
                           decoration: InputDecoration(
                               labelText: "",
-                              labelStyle: TextStyle(
-                                  fontSize: 8, color: Colors.transparent)),
+                              labelStyle: TextStyle(fontSize: 8, color: Colors.transparent)),
                           value: '$_countryCode',
                           validator: (val) {
                             String valid = Validation.validate(val, context);
@@ -100,8 +99,7 @@ class _PhoneState extends State<Phone> {
                               _countryInfo = App.getCountryInfo(_countryCode);
                             });
                           },
-                          items: _countriesCodes
-                              .map<DropdownMenuItem<String>>((String value) {
+                          items: _countriesCodes.map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -194,14 +192,11 @@ class _PhoneState extends State<Phone> {
                             _phone.text +
                             Lang.getString(context, "Same_phone"));
                       }
-                      Person p = Person(
-                          countryInformations:
-                              CountryInformations(id: _countryInfo.id));
+                      Person p =
+                          Person(countryInformations: CountryInformations(id: _countryInfo.id));
                       Navigator.of(context).pushNamed('/Phone2ChangePhone',
                           arguments: User(
-                              id: App.user.id,
-                              phone: "+" + _countryCode + _phone.text,
-                              person: p));
+                              id: App.user.id, phone: "+" + _countryCode + _phone.text, person: p));
                     }
                   }
                 },
@@ -221,8 +216,7 @@ class _PhoneState extends State<Phone> {
       Request<bool> request = CheckUserExist(checkUser);
       await request.send(_checkUserExistResponse);
     } else {
-      Navigator.of(context)
-          .pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
+      Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
     }
   }
 
@@ -246,8 +240,7 @@ class _PhoneState extends State<Phone> {
           hideClose: true,
         ).confirmationPopup(context);
       } else {
-        Navigator.of(context)
-            .pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
+        Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
       }
     }
   }
@@ -258,7 +251,6 @@ class _PhoneState extends State<Phone> {
 
   _skip() {
     _isForceRegister = true;
-    Navigator.of(context)
-        .pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
+    Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
   }
 }

@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/utilities/ImageViewer.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/utilities/ImageViewer.dart';
-import 'package:pickapp/utilities/Spinner.dart';
 
 import 'Responsive.dart';
 

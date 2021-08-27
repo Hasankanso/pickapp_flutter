@@ -2,19 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/notifications/LocalNotificationManager.dart';
-import 'package:pickapp/pages/AddRide.dart';
-import 'package:pickapp/pages/Inbox.dart';
-import 'package:pickapp/pages/LoginRegister.dart';
-import 'package:pickapp/pages/MyRides.dart';
-import 'package:pickapp/pages/Profile.dart';
-import 'package:pickapp/pages/Search.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/notifications/LocalNotificationManager.dart';
+import 'package:just_miles/pages/AddRide.dart';
+import 'package:just_miles/pages/Inbox.dart';
+import 'package:just_miles/pages/LoginRegister.dart';
+import 'package:just_miles/pages/MyRides.dart';
+import 'package:just_miles/pages/Profile.dart';
+import 'package:just_miles/pages/Search.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
 
 class Home extends StatefulWidget {
   @override

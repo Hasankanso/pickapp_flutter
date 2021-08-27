@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/utilities/RateStars.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/utilities/RateStars.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class RateTile extends StatelessWidget {
   Rate rate;
@@ -12,8 +12,7 @@ class RateTile extends StatelessWidget {
 
   RateTile(this.rate, this.reasons);
 
-  static Function(BuildContext, int) itemBuilder(
-      List<Rate> rates, List<String> reasons) {
+  static Function(BuildContext, int) itemBuilder(List<Rate> rates, List<String> reasons) {
     return (context, index) {
       return RateTile(rates[index], reasons);
     };
@@ -44,8 +43,7 @@ class RateTile extends StatelessWidget {
                 Expanded(
                   flex: 8,
                   child: Text(
-                    DateFormat(App.birthdayFormat,
-                            Localizations.localeOf(context).toString())
+                    DateFormat(App.birthdayFormat, Localizations.localeOf(context).toString())
                         .format(rate.creationDate),
                     style: Styles.labelTextStyle(),
                   ),
@@ -54,8 +52,7 @@ class RateTile extends StatelessWidget {
             ),
             Row(
               children: [
-                ResponsiveWidget(
-                    height: 9, width: 120, child: RateStars(rate.grade)),
+                ResponsiveWidget(height: 9, width: 120, child: RateStars(rate.grade)),
               ],
             ),
             Row(
@@ -64,8 +61,7 @@ class RateTile extends StatelessWidget {
                   width: 12,
                   height: 50,
                 ),
-                Text(reasons[rate.reason],
-                    style: Styles.labelTextStyle(size: 13.0)),
+                Text(reasons[rate.reason], style: Styles.labelTextStyle(size: 13.0)),
               ],
             ),
             ResponsiveSpacer(

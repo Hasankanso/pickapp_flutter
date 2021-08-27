@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
+import 'package:just_miles/dataObjects/MainLocation.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/User.dart';
 
 part 'SearchInfo.g.dart';
 

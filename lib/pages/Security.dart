@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/utilities/LineDevider.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/utilities/LineDevider.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class Security extends StatelessWidget {
   @override
@@ -46,8 +46,7 @@ class Security extends StatelessWidget {
                             ),
                             Expanded(
                               flex: 18,
-                              child: Text(App.user.email,
-                                  style: Styles.valueTextStyle()),
+                              child: Text(App.user.email, style: Styles.valueTextStyle()),
                             ),
                           ],
                         ),
@@ -76,8 +75,7 @@ class Security extends StatelessWidget {
                             ),
                             Expanded(
                               flex: 18,
-                              child: Text(App.user.phone,
-                                  style: Styles.valueTextStyle()),
+                              child: Text(App.user.phone, style: Styles.valueTextStyle()),
                             ),
                           ],
                         ),

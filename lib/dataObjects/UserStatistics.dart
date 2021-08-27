@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
 
 part 'UserStatistics.g.dart';
 
@@ -24,16 +24,8 @@ class UserStatistics {
   @HiveField(9)
   final int canceledRides;
 
-  UserStatistics(
-      this.ones,
-      this.twos,
-      this.threes,
-      this.fours,
-      this.fives,
-      this.rateAverage,
-      this.ratesCount,
-      this.acomplishedRides,
-      this.canceledRides);
+  UserStatistics(this.ones, this.twos, this.threes, this.fours, this.fives, this.rateAverage,
+      this.ratesCount, this.acomplishedRides, this.canceledRides);
 
   static UserStatistics fromJson(Map<String, dynamic> json) {
     int ones = json["ones"];
@@ -46,8 +38,8 @@ class UserStatistics {
     int acomplishedRides = json["acomplishedRides"];
     int canceledRides = json["canceledRides"];
 
-    return new UserStatistics(ones, twos, threes, fours, fives, rateAverage,
-        ratesCount, acomplishedRides, canceledRides);
+    return new UserStatistics(
+        ones, twos, threes, fours, fives, rateAverage, ratesCount, acomplishedRides, canceledRides);
   }
 
   UserStatistics createNewStatistics(Rate rate) {
@@ -78,8 +70,8 @@ class UserStatistics {
     }
     ratesCount += 1;
     rateAverage = (rateAverage * ratesCount + rate.grade) / 2;
-    return UserStatistics(ones, twos, threes, fours, fives, rateAverage,
-        ratesCount, acomplishedRides, canceledRides);
+    return UserStatistics(
+        ones, twos, threes, fours, fives, rateAverage, ratesCount, acomplishedRides, canceledRides);
   }
 
   @override

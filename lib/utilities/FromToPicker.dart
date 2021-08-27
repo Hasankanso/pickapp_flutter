@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/utilities/LocationFinder.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/utilities/LocationFinder.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class FromToPicker extends StatefulWidget {
   LocationEditingController fromController;
   LocationEditingController toController;
   String fromError, toError;
 
-  FromToPicker(
-      {this.fromController, this.toController, this.fromError, this.toError});
+  FromToPicker({this.fromController, this.toController, this.fromError, this.toError});
 
   @override
   _FromToPickerState createState() => _FromToPickerState();
@@ -25,12 +24,9 @@ class _FromToPickerState extends State<FromToPicker> {
       Expanded(
         flex: 8,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(Icons.panorama_fish_eye,
-              color: Styles.primaryColor(), size: Styles.smallIconSize()),
-          Icon(Icons.more_vert,
-              color: Styles.primaryColor(), size: Styles.smallIconSize()),
-          Icon(Icons.circle,
-              color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.panorama_fish_eye, color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.more_vert, color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.circle, color: Styles.primaryColor(), size: Styles.smallIconSize()),
         ]),
       ),
       Expanded(

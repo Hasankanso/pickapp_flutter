@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class LoginRegister extends StatelessWidget {
   @override
@@ -16,8 +16,7 @@ class LoginRegister extends StatelessWidget {
               constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("lib/images/background.jpg"),
-                      fit: BoxFit.cover)),
+                      image: AssetImage("lib/images/background.jpg"), fit: BoxFit.cover)),
               child: Center(
                 child: Column(
                   children: [

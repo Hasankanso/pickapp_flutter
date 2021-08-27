@@ -1,59 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/pages/AddAlert.dart';
+import 'package:just_miles/pages/AddCar.dart';
+import 'package:just_miles/pages/AddCar2.dart';
+import 'package:just_miles/pages/AddRidePage2.dart';
+import 'package:just_miles/pages/AddRidePage3.dart';
+import 'package:just_miles/pages/AddRidePage4.dart';
+import 'package:just_miles/pages/AddRidePage5.dart';
+import 'package:just_miles/pages/BecomeDriver.dart';
+import 'package:just_miles/pages/CarDetails.dart';
+import 'package:just_miles/pages/CarView.dart';
+import 'package:just_miles/pages/ContactUs.dart';
+import 'package:just_miles/pages/Conversation.dart';
+import 'package:just_miles/pages/CountriesRestriction.dart';
+import 'package:just_miles/pages/Details.dart';
+import 'package:just_miles/pages/EditRide.dart';
+import 'package:just_miles/pages/Email.dart';
+import 'package:just_miles/pages/Home.dart';
+import 'package:just_miles/pages/Login.dart';
+import 'package:just_miles/pages/LoginRegister.dart';
+import 'package:just_miles/pages/Notifications.dart';
+import 'package:just_miles/pages/Phone.dart';
+import 'package:just_miles/pages/Phone2.dart';
+import 'package:just_miles/pages/PrivacyPolicy.dart';
+import 'package:just_miles/pages/Profile.dart';
+import 'package:just_miles/pages/RateDriver.dart';
+import 'package:just_miles/pages/RatePassengers.dart';
+import 'package:just_miles/pages/Register.dart';
+import 'package:just_miles/pages/RegisterDriver.dart';
+import 'package:just_miles/pages/ReviewsListPage.dart';
+import 'package:just_miles/pages/RideDetails.dart';
+import 'package:just_miles/pages/SearchResults.dart';
+import 'package:just_miles/pages/Security.dart';
+import 'package:just_miles/pages/Settings.dart';
+import 'package:just_miles/pages/Statistics.dart';
+import 'package:just_miles/pages/TermAndConditions.dart';
+import 'package:just_miles/pages/UpcomingRideDetails.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:pickapp/pages/AddAlert.dart';
-import 'package:pickapp/pages/AddCar.dart';
-import 'package:pickapp/pages/AddCar2.dart';
-import 'package:pickapp/pages/AddRidePage2.dart';
-import 'package:pickapp/pages/AddRidePage3.dart';
-import 'package:pickapp/pages/AddRidePage4.dart';
-import 'package:pickapp/pages/AddRidePage5.dart';
-import 'package:pickapp/pages/BecomeDriver.dart';
-import 'package:pickapp/pages/CarDetails.dart';
-import 'package:pickapp/pages/CarView.dart';
-import 'package:pickapp/pages/ContactUs.dart';
-import 'package:pickapp/pages/Conversation.dart';
-import 'package:pickapp/pages/CountriesRestriction.dart';
-import 'package:pickapp/pages/Details.dart';
-import 'package:pickapp/pages/EditRide.dart';
-import 'package:pickapp/pages/Email.dart';
-import 'package:pickapp/pages/Home.dart';
-import 'package:pickapp/pages/Login.dart';
-import 'package:pickapp/pages/LoginRegister.dart';
-import 'package:pickapp/pages/Notifications.dart';
-import 'package:pickapp/pages/Phone.dart';
-import 'package:pickapp/pages/Phone2.dart';
-import 'package:pickapp/pages/PrivacyPolicy.dart';
-import 'package:pickapp/pages/Profile.dart';
-import 'package:pickapp/pages/RateDriver.dart';
-import 'package:pickapp/pages/RatePassengers.dart';
-import 'package:pickapp/pages/Register.dart';
-import 'package:pickapp/pages/RegisterDriver.dart';
-import 'package:pickapp/pages/ReviewsListPage.dart';
-import 'package:pickapp/pages/RideDetails.dart';
-import 'package:pickapp/pages/SearchResults.dart';
-import 'package:pickapp/pages/Security.dart';
-import 'package:pickapp/pages/Settings.dart';
-import 'package:pickapp/pages/Statistics.dart';
-import 'package:pickapp/pages/TermAndConditions.dart';
-import 'package:pickapp/pages/UpcomingRideDetails.dart';
 
 import 'App.dart';
 
 class RouteGenerator {
-  static PageTransitionType get isLTR => App.isLTR == true
-      ? PageTransitionType.rightToLeft
-      : PageTransitionType.leftToRight;
+  static PageTransitionType get isLTR =>
+      App.isLTR == true ? PageTransitionType.rightToLeft : PageTransitionType.leftToRight;
 
   static Duration _transitionTime = const Duration(milliseconds: 300);
 
   //this value is being updated in settings page.
-  static Duration duration =
-      Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
+  static Duration duration = Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
 
   static void disableAnimation(bool value) {
     duration = value ? Duration(milliseconds: 0) : _transitionTime;

@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/dataObjects/Car.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CarView extends StatelessWidget {
@@ -28,8 +28,8 @@ class CarView extends StatelessWidget {
       parallaxEnabled: true,
       parallaxOffset: .5,
       color: Theme.of(context).scaffoldBackgroundColor,
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
+      borderRadius:
+          BorderRadius.only(topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       maxHeight: ScreenUtil().setHeight(320),
       minHeight: ScreenUtil().setHeight(120),
       panelBuilder: (ScrollController sc) => _panel(sc, car),

@@ -2,25 +2,25 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/items/CarTypeItem.dart';
-import 'package:pickapp/requests/AddCar.dart';
-import 'package:pickapp/requests/BecomeDriverRequest.dart';
-import 'package:pickapp/requests/ForceRegisterPerson.dart';
-import 'package:pickapp/requests/RegisterPerson.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Car.dart';
+import 'package:just_miles/dataObjects/Driver.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/items/CarTypeItem.dart';
+import 'package:just_miles/requests/AddCar.dart';
+import 'package:just_miles/requests/BecomeDriverRequest.dart';
+import 'package:just_miles/requests/ForceRegisterPerson.dart';
+import 'package:just_miles/requests/RegisterPerson.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 
 class AddCar2 extends StatefulWidget {
   Driver driver;
@@ -124,8 +124,7 @@ class _AddCar2State extends State<AddCar2> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarTypeItem(_typesBool[0], _typesNames[0], 'lib/images/car2',
-                      selectType, 0)
+                  CarTypeItem(_typesBool[0], _typesNames[0], 'lib/images/car2', selectType, 0)
                 ],
               ),
             ),
@@ -134,8 +133,7 @@ class _AddCar2State extends State<AddCar2> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarTypeItem(_typesBool[1], _typesNames[1], 'lib/images/car3',
-                      selectType, 1),
+                  CarTypeItem(_typesBool[1], _typesNames[1], 'lib/images/car3', selectType, 1),
                 ],
               ),
             ),
@@ -144,8 +142,7 @@ class _AddCar2State extends State<AddCar2> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarTypeItem(_typesBool[2], _typesNames[2], 'lib/images/car1',
-                      selectType, 2),
+                  CarTypeItem(_typesBool[2], _typesNames[2], 'lib/images/car1', selectType, 2),
                 ],
               ),
             ),
@@ -154,8 +151,7 @@ class _AddCar2State extends State<AddCar2> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarTypeItem(_typesBool[3], _typesNames[3], 'lib/images/car4',
-                      selectType, 3),
+                  CarTypeItem(_typesBool[3], _typesNames[3], 'lib/images/car4', selectType, 3),
                 ],
               ),
             ),
@@ -174,8 +170,7 @@ class _AddCar2State extends State<AddCar2> {
                 text_key: _btnText,
                 onPressed: () {
                   if (_type == null) {
-                    return CustomToast()
-                        .showErrorToast(Lang.getString(context, "Select_type"));
+                    return CustomToast().showErrorToast(Lang.getString(context, "Select_type"));
                   }
                   showDialog(
                     context: context,
@@ -248,8 +243,7 @@ class _AddCar2State extends State<AddCar2> {
   }
 
   _becomeDriverRequest() {
-    if (App.calculateAge(App.person.birthday) <
-        App.person.countryInformations.drivingAge) {
+    if (App.calculateAge(App.person.birthday) < App.person.countryInformations.drivingAge) {
       Navigator.pop(context);
       return CustomToast().showErrorToast(Lang.getString(context, "Under_age"));
     }
@@ -265,18 +259,14 @@ class _AddCar2State extends State<AddCar2> {
       App.user = u;
       await Cache.setUser(u);
       App.countriesComponents = null;
-      await Cache.setCountriesList(
-          [App.person.countryInformations.countryComponent]);
-      App.setCountriesComponent(
-          [App.person.countryInformations.countryComponent]);
+      await Cache.setCountriesList([App.person.countryInformations.countryComponent]);
+      App.setCountriesComponent([App.person.countryInformations.countryComponent]);
       App.isDriverNotifier.value = true;
 
       App.isLoggedInNotifier.value = true;
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
-      CustomToast().showSuccessToast(
-          Lang.getString(context, "Email_confirmation_pending"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
@@ -310,8 +300,7 @@ class _AddCar2State extends State<AddCar2> {
       await Cache.setUser(App.user);
       App.updateProfile.value = !App.updateProfile.value;
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_added!"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_added!"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Styles.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Styles.dart';
 
 class RateStars extends StatelessWidget {
   double _rating;

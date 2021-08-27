@@ -1,6 +1,6 @@
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class EditRate extends Request<Rate> {
   Rate _rate;
@@ -28,8 +28,7 @@ class EditRate extends Request<Rate> {
     if (_rate.grade < 3 && Validation.isNullOrEmpty(_rate.comment)) {
       return "Please comment the reason of low _rate";
     }
-    if (_rate.creationDate.compareTo(DateTime.now().add(Duration(days: -1))) <
-        0) {
+    if (_rate.creationDate.compareTo(DateTime.now().add(Duration(days: -1))) < 0) {
       return "You can't edit _rate after one day of its publishing";
     }
     if (Validation.isNullOrEmpty(_rate.rater.id)) {

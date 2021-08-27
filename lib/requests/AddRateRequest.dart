@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class AddRateRequest extends Request<bool> {
   List<Rate> _rates;

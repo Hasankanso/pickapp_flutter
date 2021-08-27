@@ -3,24 +3,24 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/directions.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/items/RegionListTile.dart';
-import 'package:pickapp/packages/FlushBar/flushbar.dart';
-import 'package:pickapp/requests/EditRegions.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/LocationFinder.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/pickapp_google_places.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Driver.dart';
+import 'package:just_miles/dataObjects/MainLocation.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/items/RegionListTile.dart';
+import 'package:just_miles/packages/FlushBar/flushbar.dart';
+import 'package:just_miles/requests/EditRegions.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/LocationFinder.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/pickapp_google_places.dart';
 import 'package:uuid/uuid.dart';
 
 class BecomeDriver extends StatefulWidget {
@@ -38,8 +38,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
   Driver driver = Driver();
   List<MainLocation> _regions = <MainLocation>[];
   List<String> _errorTexts = <String>[];
-  List<LocationEditingController> _regionsControllers =
-      <LocationEditingController>[];
+  List<LocationEditingController> _regionsControllers = <LocationEditingController>[];
 
   _addRegion() async {
     if (_regions.length <= 2) {
@@ -76,10 +75,8 @@ class _BecomeDriverState extends State<BecomeDriver> {
       //request longitude and latitude from google_place_details api
       GoogleMapsPlaces _places =
           new GoogleMapsPlaces(apiKey: App.googleKey); //Same _API_KEY as above
-      PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
-          locPred.placeId,
-          sessionToken: sessionToken,
-          fields: ["geometry"]);
+      PlacesDetailsResponse detail = await _places
+          .getDetailsByPlaceId(locPred.placeId, sessionToken: sessionToken, fields: ["geometry"]);
       double latitude = detail.result.geometry.location.lat;
       double longitude = detail.result.geometry.location.lng;
       setState(() {
@@ -195,8 +192,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(
-            context, widget.isRegionPage ? "Regions" : "Become_a_Driver"),
+        title: Lang.getString(context, widget.isRegionPage ? "Regions" : "Become_a_Driver"),
         actions: [
           !widget.isRegionPage
               ? IconButton(
@@ -237,10 +233,8 @@ class _BecomeDriverState extends State<BecomeDriver> {
                                 icon: Icon(Icons.add_location_alt),
                                 iconSize: Styles.largeIconSize(),
                                 color: Styles.primaryColor(),
-                                tooltip:
-                                    Lang.getString(context, "Add_a_region"),
-                                onPressed:
-                                    !(_regions.length >= 3) ? _addRegion : null,
+                                tooltip: Lang.getString(context, "Add_a_region"),
+                                onPressed: !(_regions.length >= 3) ? _addRegion : null,
                               ),
                             ),
                           ],
@@ -292,20 +286,16 @@ class _BecomeDriverState extends State<BecomeDriver> {
                     for (int i = 0; i < _regionsControllers.length; i++) {
                       _regions[i].name = _regionsControllers[i].description;
                       _regions[i].placeId = _regionsControllers[i].placeId;
-                      _regions[i].longitude =
-                          _regionsControllers[i].location.lng;
-                      _regions[i].latitude =
-                          _regionsControllers[i].location.lat;
+                      _regions[i].longitude = _regionsControllers[i].location.lng;
+                      _regions[i].latitude = _regionsControllers[i].location.lat;
                     }
 
                     for (int i = 0; i < _regions.length; i++) {
                       for (int j = i + 1; j < _regions.length; j++) {
                         if (_regions[i].latitude == _regions[j].latitude &&
                             _regions[i].longitude == _regions[j].longitude) {
-                          _errorTexts[i] =
-                              Lang.getString(context, "Region_validation");
-                          _errorTexts[j] =
-                              Lang.getString(context, "Region_validation");
+                          _errorTexts[i] = Lang.getString(context, "Region_validation");
+                          _errorTexts[j] = Lang.getString(context, "Region_validation");
                           isValid = false;
                         }
                       }
@@ -318,15 +308,13 @@ class _BecomeDriverState extends State<BecomeDriver> {
                       await request.send(_editRegionsResponse);
                     } else if (widget.user != null) {
                       widget.user.driver.regions = _regions;
-                      Navigator.pushNamed(context, "/AddCarRegister",
-                          arguments: [
-                            widget.user,
-                            widget.isForceRegister,
-                          ]);
+                      Navigator.pushNamed(context, "/AddCarRegister", arguments: [
+                        widget.user,
+                        widget.isForceRegister,
+                      ]);
                     } else {
                       driver.regions = _regions;
-                      Navigator.pushNamed(context, "/AddCarDriver",
-                          arguments: driver);
+                      Navigator.pushNamed(context, "/AddCarDriver", arguments: driver);
                     }
                   }
                 },
@@ -344,8 +332,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
     } else {
       App.driver.regions = p1.regions;
       await Cache.setUser(App.user);
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     }
   }
 }

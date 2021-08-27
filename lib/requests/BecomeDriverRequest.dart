@@ -1,5 +1,5 @@
-import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/Driver.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class BecomeDriverRequest extends Request<Driver> {
   Driver _driver;

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Styles.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Styles.dart';
 
 class Switcher extends StatefulWidget {
   bool isOn = false;

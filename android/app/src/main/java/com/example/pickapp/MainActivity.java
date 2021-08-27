@@ -1,4 +1,4 @@
-package com.example.pickapp;
+package com.justMiles.justMiles;
 
 import io.flutter.embedding.android.FlutterActivity;
 

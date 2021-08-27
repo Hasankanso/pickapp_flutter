@@ -1,4 +1,4 @@
-import 'package:pickapp/dataObjects/MainLocation.dart';
+import 'package:just_miles/dataObjects/MainLocation.dart';
 
 class Alert {
   String _id, _comment;
@@ -40,8 +40,7 @@ class Alert {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
     if (leavingDateJ != null) {
-      leavingDate =
-          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     }
 
     return Alert(

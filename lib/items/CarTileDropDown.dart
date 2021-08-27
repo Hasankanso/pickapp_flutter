@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Car.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+
 import '../utilities/MainExpansionTile.dart';
 
 class CarTileDropDown extends StatefulWidget {
@@ -21,7 +22,7 @@ class _CarTileDropDownState extends State<CarTileDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    return  ResponsiveWidget.fullWidth(
+    return ResponsiveWidget.fullWidth(
       height: 70,
       child: Card(
         elevation: 2,

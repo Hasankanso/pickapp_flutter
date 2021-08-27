@@ -1,5 +1,5 @@
-import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/Car.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class EditCar extends Request<Car> {
   Car _car;

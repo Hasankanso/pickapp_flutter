@@ -2,22 +2,22 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/requests/ForceRegisterPerson.dart';
-import 'package:pickapp/requests/RegisterPerson.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/dataObjects/Driver.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/requests/ForceRegisterPerson.dart';
+import 'package:just_miles/requests/RegisterPerson.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 
 class RegisterDriver extends StatefulWidget {
   bool isForceRegister;
@@ -72,8 +72,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
                 text_key: "Next",
                 onPressed: () {
                   widget.user.driver = Driver();
-                  Navigator.of(context)
-                      .pushNamed("/BecomeDriverRegister", arguments: [
+                  Navigator.of(context).pushNamed("/BecomeDriverRegister", arguments: [
                     widget.user,
                     widget.isForceRegister,
                   ]);
@@ -112,10 +111,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
                               if (!widget.isForceRegister)
                                 {registerRequest = RegisterPerson(widget.user)}
                               else
-                                {
-                                  registerRequest =
-                                      ForceRegisterPerson(widget.user)
-                                },
+                                {registerRequest = ForceRegisterPerson(widget.user)},
                               registerRequest.send(_registerResponse)
                             });
                       },
@@ -125,8 +121,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
                           fontSize: ScreenUtil().setSp(15),
                           fontWeight: FontWeight.w400,
                           color: (!Cache.darkTheme &&
-                                  MediaQuery.of(context).platformBrightness !=
-                                      Brightness.dark)
+                                  MediaQuery.of(context).platformBrightness != Brightness.dark)
                               ? Styles.valueColor()
                               : Colors.white,
                         ),
@@ -152,19 +147,15 @@ class _RegisterDriverState extends State<RegisterDriver> {
     } else {
       App.user = u;
       await Cache.setUser(u);
-      await Cache.setCountriesList(
-          [App.person.countryInformations.countryComponent]);
-      App.setCountriesComponent(
-          [App.person.countryInformations.countryComponent]);
+      await Cache.setCountriesList([App.person.countryInformations.countryComponent]);
+      App.setCountriesComponent([App.person.countryInformations.countryComponent]);
       App.isDriverNotifier.value = false;
       App.user.driver = null;
 
       App.isLoggedInNotifier.value = true;
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
-      CustomToast().showSuccessToast(
-          Lang.getString(context, "Email_confirmation_pending"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

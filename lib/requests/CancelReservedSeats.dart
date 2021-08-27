@@ -1,7 +1,7 @@
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class CancelReservedSeats extends Request<bool> {
   Ride _ride;

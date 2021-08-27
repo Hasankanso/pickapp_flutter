@@ -4,17 +4,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Chat.dart';
-import 'package:pickapp/dataObjects/Message.dart';
-import 'package:pickapp/items/TextMessageTile.dart';
-import 'package:pickapp/notifications/MessageNotificationHandler.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/ListBuilder.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Chat.dart';
+import 'package:just_miles/dataObjects/Message.dart';
+import 'package:just_miles/items/TextMessageTile.dart';
+import 'package:just_miles/notifications/MessageNotificationHandler.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/ListBuilder.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
 
 class Conversation extends StatefulWidget {
   Chat _chat;
@@ -84,14 +84,10 @@ class _ConversationState extends State<Conversation> {
         body: constructFCMPayload(msg),
       );
 
-      if (result.statusCode == HttpStatus.ok &&
-          json.decode(result.body)["success"] > 0) {
+      if (result.statusCode == HttpStatus.ok && json.decode(result.body)["success"] > 0) {
         print('FCM request for device sent!');
-        widget._chat.addAndCacheMessage(Message(
-            senderId: App.person.id,
-            message: msg,
-            myMessage: true,
-            date: DateTime.now()));
+        widget._chat.addAndCacheMessage(
+            Message(senderId: App.person.id, message: msg, myMessage: true, date: DateTime.now()));
         setState(() {});
       } else {
         print("error:" + result.statusCode.toString());
@@ -106,8 +102,7 @@ class _ConversationState extends State<Conversation> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title:
-            widget._chat.person.firstName + " " + widget._chat.person.lastName,
+        title: widget._chat.person.firstName + " " + widget._chat.person.lastName,
       ),
       body: ValueListenableBuilder(
           valueListenable: App.updateConversation,
@@ -138,13 +133,11 @@ class _ConversationState extends State<Conversation> {
                 minLines: 1,
                 maxLines: 4,
                 onChanged: (text) {
-                  if ((text.length > 0 && text.trim().length != 0) &&
-                      sendBtnDisabled) {
+                  if ((text.length > 0 && text.trim().length != 0) && sendBtnDisabled) {
                     setState(() {
                       sendBtnDisabled = false;
                     });
-                  } else if ((text.length <= 0 || text.trim().length == 0) &&
-                      !sendBtnDisabled) {
+                  } else if ((text.length <= 0 || text.trim().length == 0) && !sendBtnDisabled) {
                     setState(() {
                       sendBtnDisabled = true;
                     });

@@ -1,5 +1,5 @@
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class RegisterPerson extends Request<User> {
   User _newUser;
@@ -15,10 +15,7 @@ class RegisterPerson extends Request<User> {
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, dynamic>{
-      'user': _newUser.toJson(),
-      'idToken': _newUser.idToken
-    };
+    return <String, dynamic>{'user': _newUser.toJson(), 'idToken': _newUser.idToken};
   }
 
   @override

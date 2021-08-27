@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/PopUp.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
 
 class MyRidesListTile extends ListTile {
   final Ride o;
@@ -18,15 +17,15 @@ class MyRidesListTile extends ListTile {
 
   void deletationResponse(bool result) {
     if (result) {
-      CustomToast().showShortToast("Deletion Cancelled !", backgroundColor :Colors.red);
+      CustomToast().showShortToast("Deletion Cancelled !", backgroundColor: Colors.red);
     } else {
       CustomToast()
-          .showShortToast("Ride Deleted Successfully", backgroundColor :Colors.greenAccent);
+          .showShortToast("Ride Deleted Successfully", backgroundColor: Colors.greenAccent);
     }
   }
 
   void cc(String item) {
-    CustomToast().showShortToast("You clicked : " + item, backgroundColor :Colors.blue);
+    CustomToast().showShortToast("You clicked : " + item, backgroundColor: Colors.blue);
   }
 
   @override
@@ -100,9 +99,7 @@ class MyRidesListTile extends ListTile {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     IconButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: () {},
                       icon: Icon(Icons.delete, color: Colors.red[500]),
                     )
                   ],

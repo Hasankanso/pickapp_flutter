@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/packages/countryPicker/CountryPicker.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/packages/countryPicker/CountryPicker.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class CountryRestrictionListTile extends StatelessWidget {
   bool isDefault;
@@ -10,8 +10,7 @@ class CountryRestrictionListTile extends StatelessWidget {
   Function(int) _removeCountry;
   CountryPickerController _controller;
 
-  CountryRestrictionListTile(
-      this.isDefault, this._index, this._removeCountry, this._controller);
+  CountryRestrictionListTile(this.isDefault, this._index, this._removeCountry, this._controller);
 
   @override
   Widget build(BuildContext context) {

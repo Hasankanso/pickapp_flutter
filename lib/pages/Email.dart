@@ -1,18 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/requests/ChangeEmail.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/requests/ChangeEmail.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class Email extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -76,8 +76,8 @@ class Email extends StatelessWidget {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     Request<String> request = ChangeEmail(_email.text);
-                    await request.send((value, code, message) =>
-                        _response(value, code, message, context));
+                    await request
+                        .send((value, code, message) => _response(value, code, message, context));
                   }
                 },
               ),
@@ -95,8 +95,7 @@ class Email extends StatelessWidget {
       App.user.email = p1;
       Cache.setUser(App.user);
 
-      CustomToast().showSuccessToast(
-          Lang.getString(context, "Email_confirmation_pending"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
     }
   }
 }

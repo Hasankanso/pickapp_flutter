@@ -1,6 +1,6 @@
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/dataObjects/Alert.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/dataObjects/Alert.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class BroadCastAlert extends Request<String> {
   Alert _alert;

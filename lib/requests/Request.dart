@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/requests/AutoLogin.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/requests/AutoLogin.dart';
 
 abstract class Request<T> {
   static String host;

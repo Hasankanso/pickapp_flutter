@@ -2,33 +2,32 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/ads/MainNativeAd.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/SearchInfo.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/SearchForRides.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/DateTimeRangePicker.dart';
-import 'package:pickapp/utilities/FromToPicker.dart';
-import 'package:pickapp/utilities/LocationFinder.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/NumberPicker.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/ads/MainNativeAd.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/MainLocation.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/SearchInfo.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/requests/SearchForRides.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/DateTimeRangePicker.dart';
+import 'package:just_miles/utilities/FromToPicker.dart';
+import 'package:just_miles/utilities/LocationFinder.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/NumberPicker.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class Search extends StatefulWidget {
   @override
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search>
-    with AutomaticKeepAliveClientMixin<Search> {
+class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Search> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
@@ -46,19 +45,15 @@ class _SearchState extends State<Search>
     }
   }
 
-  void _sendAnalyticsEvent() async {
+  void _sendAnalyticsEvent(String from, String to, String time) async {
     await App.analytics.logEvent(
       name: 'search_event',
       parameters: <String, dynamic>{
-        'from': 'doueir',
-        'to': 'tripoli',
-        'time': '12345678910',
+        'from': from,
+        'to': to,
+        'time': time,
       },
     );
-  }
-
-  void _testSetUserId() async {
-    await App.analytics.setUserId('person_id_or_user_id');
   }
 
   Future<void> _testSetCurrentScreen() async {
@@ -74,12 +69,6 @@ class _SearchState extends State<Search>
       appBar: MainAppBar(
         title: Lang.getString(context, "Search_for_Ride"),
         actions: [
-          IconButton(
-              icon: Icon(Icons.rate_review),
-              onPressed: () {
-                Navigator.of(context).pushNamed("/RatePassengers",
-                    arguments: App.user.person.upcomingRides[1]);
-              }),
           Stack(
             alignment: AlignmentDirectional.center,
             children: [
@@ -95,8 +84,7 @@ class _SearchState extends State<Search>
                 },
               ),
               ValueListenableBuilder(
-                builder: (BuildContext context, bool isNewNotification,
-                    Widget child) {
+                builder: (BuildContext context, bool isNewNotification, Widget child) {
                   return Visibility(
                     visible: isNewNotification,
                     child: Positioned(
@@ -142,8 +130,7 @@ class _SearchState extends State<Search>
             ),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
-                height: 35,
-                child: NumberPicker(numberController, "Persons", 1, 8)),
+                height: 35, child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
             ResponsiveWidget(
               width: 200,
@@ -163,18 +150,13 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                _sendAnalyticsEvent();
-                _testSetUserId();
-                String _validateFrom =
-                    fromController.validate(context, x: toController);
-                String _validateTo =
-                    toController.validate(context, x: fromController);
+                String _validateFrom = fromController.validate(context, x: toController);
+                String _validateTo = toController.validate(context, x: fromController);
                 _fromError = _validateFrom;
                 _toError = _validateTo;
                 setState(() {});
                 if (_validateFrom == null && _validateTo == null) {
-                  if (dateTimeController.startDateController.chosenDate
-                      .isBefore(DateTime.now())) {
+                  if (dateTimeController.startDateController.chosenDate.isBefore(DateTime.now())) {
                     setState(() {
                       dateTimeController.startDateController.chosenDate =
                           DateTime.now().add(Duration(minutes: 30));
@@ -194,10 +176,11 @@ class _SearchState extends State<Search>
                       to: to,
                       from: from,
                       passengersNumber: numberController.chosenNumber,
-                      minDate:
-                          dateTimeController.startDateController.chosenDate,
+                      minDate: dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
+                  _sendAnalyticsEvent(fromController.description, toController.description,
+                      dateTimeController.startDateController.toString());
                   await request.send(response);
                 }
               },

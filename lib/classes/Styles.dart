@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/screenutil.dart';
+import 'package:just_miles/classes/screenutil.dart';
 
 class Styles {
   static double _fontSize, _titleFontSize, _subValueFontSize;
@@ -21,18 +21,14 @@ class Styles {
     _currentTheme = theme;
   }
 
-  static setFontSizes(
-      {double fontSize, double titleFontSize, double subValueFontSize}) {
+  static setFontSizes({double fontSize, double titleFontSize, double subValueFontSize}) {
     _fontSize = fontSize;
     _titleFontSize = titleFontSize;
     _subValueFontSize = subValueFontSize;
   }
 
   static setIconSizes(
-      {double largeSize,
-      double mediumSize,
-      double subMediumSize,
-      double smallSize}) {
+      {double largeSize, double mediumSize, double subMediumSize, double smallSize}) {
     _largeSize = largeSize;
     _mediumSize = mediumSize;
     _subMediumSize = subMediumSize;
@@ -107,8 +103,7 @@ class Styles {
   }
 
   static TextStyle subValueTextStyle({color}) {
-    return TextStyle(
-        fontSize: _subValueFontSize, fontWeight: FontWeight.w400, color: color);
+    return TextStyle(fontSize: _subValueFontSize, fontWeight: FontWeight.w400, color: color);
   }
 
   static double titleFontSize() {

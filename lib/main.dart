@@ -3,15 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:pickapp/ads/Ads.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/RouteGenerator.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/notifications/PushNotificationsManager.dart';
-import 'package:pickapp/pages/SplashScreen.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/ads/Ads.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/RouteGenerator.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/notifications/PushNotificationsManager.dart';
+import 'package:just_miles/pages/SplashScreen.dart';
+import 'package:just_miles/requests/Request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -67,8 +67,7 @@ class MyAppState extends State<MyApp> {
     Request.initBackendless();
     App.init(this);
     cacheFuture = Cache.init();
-    WidgetsBinding.instance
-        .addObserver(LifecycleEventHandler(resumeCallBack: () async {
+    WidgetsBinding.instance.addObserver(LifecycleEventHandler(resumeCallBack: () async {
       await PushNotificationsManager().onResume();
     }));
     PushNotificationsManager()
@@ -108,8 +107,7 @@ class MyAppState extends State<MyApp> {
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
                 ),
-                primaryTextTheme: TextTheme(
-                    headline6: TextStyle(color: Styles.secondaryColor())),
+                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
               ),
               themeMode: Styles.currentTheme(),
@@ -125,12 +123,10 @@ class MyAppState extends State<MyApp> {
                   backgroundColor: Styles.primaryColor(),
                   foregroundColor: Styles.primaryColor(),
                 ),
-                primaryTextTheme: TextTheme(
-                    headline6: TextStyle(color: Styles.secondaryColor())),
+                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
                 visualDensity: VisualDensity.adaptivePlatformDensity,
               ),
-              supportedLocales:
-                  Lang.langs.map((element) => Locale(element.code)),
+              supportedLocales: Lang.langs.map((element) => Locale(element.code)),
               localizationsDelegates: [
                 Lang.delegate,
                 GlobalMaterialLocalizations.delegate,
@@ -157,8 +153,7 @@ class MyAppState extends State<MyApp> {
                 body: GestureDetector(
                   onTap: () {
                     FocusScopeNode currentFocus = FocusScope.of(context);
-                    if (!currentFocus.hasPrimaryFocus &&
-                        currentFocus.focusedChild != null) {
+                    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
                       FocusManager.instance.primaryFocus.unfocus();
                     }
                   },

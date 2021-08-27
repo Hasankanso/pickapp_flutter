@@ -1,16 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/requests/SendContactUs.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/requests/SendContactUs.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class ContactUs extends StatelessWidget {
   TextEditingController nameController = new TextEditingController();
@@ -28,8 +28,7 @@ class ContactUs extends StatelessWidget {
               VerticalSpacer(height: 20),
             ],
           ),
-          Icon(Icons.drive_eta,
-              color: Styles.primaryColor(), size: ScreenUtil().setSp(90)),
+          Icon(Icons.drive_eta, color: Styles.primaryColor(), size: ScreenUtil().setSp(90)),
           VerticalSpacer(height: 60),
           ResponsiveWidget(
             width: 270,
@@ -77,10 +76,10 @@ class ContactUs extends StatelessWidget {
                       text_key: "Send",
                       isRequest: true,
                       onPressed: () async {
-                        Request<String> request = SendContactUs(
-                            subjectController.text, messageController.text);
-                        await request.send((result, error, message) =>
-                            _response(result, error, message, context));
+                        Request<String> request =
+                            SendContactUs(subjectController.text, messageController.text);
+                        await request.send(
+                            (result, error, message) => _response(result, error, message, context));
                       },
                     )
                   ],

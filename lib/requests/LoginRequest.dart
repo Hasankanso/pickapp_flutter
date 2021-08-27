@@ -1,5 +1,5 @@
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class LoginRequest extends Request<User> {
   User _user;

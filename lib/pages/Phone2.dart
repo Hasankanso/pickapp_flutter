@@ -4,20 +4,20 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/requests/ChangePhone.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/requests/ChangePhone.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 
 class Phone2 extends StatefulWidget {
   User user;
@@ -57,8 +57,7 @@ class _Phone2State extends State<Phone2> {
     _resendCodeLocale = Lang.getString(context, "Resend_code");
     _resendCodeInLocale = Lang.getString(context, "Resend_code_in");
     _secondsLocale = Lang.getString(context, "Resend_code_seconds");
-    _resendCodeTimer =
-        _resendCodeInLocale + _timeout.toString() + _secondsLocale;
+    _resendCodeTimer = _resendCodeInLocale + _timeout.toString() + _secondsLocale;
 
     await _sendCode();
     _startTimer();
@@ -125,8 +124,7 @@ class _Phone2State extends State<Phone2> {
                       validator: (value) {
                         String valid = Validation.validate(value, context);
                         if (valid != null) return valid;
-                        if (value.length != 6)
-                          return Validation.invalid(context);
+                        if (value.length != 6) return Validation.invalid(context);
                         return null;
                       },
                       keyboardType: TextInputType.number,
@@ -240,8 +238,7 @@ class _Phone2State extends State<Phone2> {
         } else {
           setState(() {
             _timeout--;
-            _resendCodeTimer =
-                _resendCodeInLocale + _timeout.toString() + _secondsLocale;
+            _resendCodeTimer = _resendCodeInLocale + _timeout.toString() + _secondsLocale;
           });
         }
       },
@@ -261,29 +258,25 @@ class _Phone2State extends State<Phone2> {
         _changePhoneRequest();
       }
     };
-    auth.PhoneVerificationFailed verificationFailed =
-        (auth.FirebaseAuthException authException) {
+    auth.PhoneVerificationFailed verificationFailed = (auth.FirebaseAuthException authException) {
       if (authException.code == "too-many-requests") {
         CustomToast().showErrorToast(Lang.getString(context, "To_many_sms"));
       }
       CustomToast().showErrorToast(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
     };
-    auth.PhoneCodeSent codeSent =
-        (String verificationId, [int forceResendingToken]) async {
+    auth.PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
       CustomToast().showSuccessToast(Lang.getString(context, "Sms_code_hint"));
       _verificationSmsId = verificationId;
     };
 
-    auth.PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-        (String verificationId) {
+    auth.PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
       _verificationSmsId = verificationId;
     };
 
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber:
-              widget.user != null ? widget.user.phone : widget.oldUser.phone,
+          phoneNumber: widget.user != null ? widget.user.phone : widget.oldUser.phone,
           timeout: Duration(seconds: 120),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
@@ -301,8 +294,7 @@ class _Phone2State extends State<Phone2> {
         verificationId: _verificationSmsId,
         smsCode: _smsCode.text,
       );
-      final auth.User user =
-          (await _auth.signInWithCredential(credential)).user;
+      final auth.User user = (await _auth.signInWithCredential(credential)).user;
       _idToken = await user.getIdToken();
       if (widget.user != null) {
         Navigator.pop(context);
@@ -313,16 +305,12 @@ class _Phone2State extends State<Phone2> {
     } catch (e) {
       auth.FirebaseAuthException exception = (e as auth.FirebaseAuthException);
       if (exception.code == "session-expired") {
-        CustomToast()
-            .showErrorToast(Lang.getString(context, "Code_has_expired"));
+        CustomToast().showErrorToast(Lang.getString(context, "Code_has_expired"));
       } else if (exception.code == "invalid-verification-code") {
-        CustomToast().showErrorToast(
-            Lang.getString(context, "Incorrect_verification_code"));
+        CustomToast().showErrorToast(Lang.getString(context, "Incorrect_verification_code"));
       } else {
-        CustomToast().showErrorToast("faild to sign in: code:" +
-            exception.code +
-            " message: " +
-            exception.message);
+        CustomToast().showErrorToast(
+            "faild to sign in: code:" + exception.code + " message: " + exception.message);
       }
       Navigator.pop(context);
     }
@@ -342,8 +330,7 @@ class _Phone2State extends State<Phone2> {
       App.user = localUser;
       await Cache.setUser(localUser);
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

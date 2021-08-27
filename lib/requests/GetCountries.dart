@@ -1,5 +1,5 @@
-import 'package:pickapp/dataObjects/CountryInformations.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/dataObjects/CountryInformations.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class GetCountries extends Request<List<CountryInformations>> {
   GetCountries() {
@@ -8,8 +8,7 @@ class GetCountries extends Request<List<CountryInformations>> {
 
   @override
   buildObject(json) {
-    return List<CountryInformations>.from(
-        json.map((x) => CountryInformations.fromJson(x)));
+    return List<CountryInformations>.from(json.map((x) => CountryInformations.fromJson(x)));
   }
 
   @override

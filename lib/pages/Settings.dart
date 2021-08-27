@@ -2,26 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pickapp/ads/Ads.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/FakeRequests.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/RouteGenerator.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/packages/FlushBar/flushbar.dart';
-import 'package:pickapp/requests/Logout.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/FromToPicker.dart';
-import 'package:pickapp/utilities/LanguagesDropDown.dart';
-import 'package:pickapp/utilities/LineDevider.dart';
-import 'package:pickapp/utilities/LocationFinder.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/SizeTest.dart';
-import 'package:pickapp/utilities/Switcher.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/RouteGenerator.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/packages/FlushBar/flushbar.dart';
+import 'package:just_miles/requests/Logout.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/LanguagesDropDown.dart';
+import 'package:just_miles/utilities/LineDevider.dart';
+import 'package:just_miles/utilities/LocationFinder.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Switcher.dart';
 
 class Settings extends StatelessWidget {
   FlushbarStatus _flushbarStatus = FlushbarStatus.DISMISSED;
@@ -69,8 +65,7 @@ class Settings extends StatelessWidget {
                           Spacer(flex: 1),
                           Expanded(
                             flex: 10,
-                            child: Text(
-                                Lang.getString(context, "Date_In_Range"),
+                            child: Text(Lang.getString(context, "Date_In_Range"),
                                 style: Styles.valueTextStyle()),
                           ),
                           IconButton(
@@ -86,8 +81,7 @@ class Settings extends StatelessWidget {
                               }),
                           Switcher(
                               isOn: Cache.dateTimeRangePicker,
-                              onChanged: (bool value) =>
-                                  {Cache.setDateTimeRangePicker(value)})
+                              onChanged: (bool value) => {Cache.setDateTimeRangePicker(value)})
                         ]),
                       ),
                       LineDevider(),
@@ -103,8 +97,7 @@ class Settings extends StatelessWidget {
                           Switcher(
                               isOn: Cache.darkTheme,
                               isDisabled:
-                                  MediaQuery.of(context).platformBrightness ==
-                                      Brightness.dark,
+                                  MediaQuery.of(context).platformBrightness == Brightness.dark,
                               onChanged: (bool value) => {App.setTheme(value)})
                         ]),
                       ),
@@ -115,8 +108,7 @@ class Settings extends StatelessWidget {
                           Spacer(flex: 1),
                           Expanded(
                             flex: 12,
-                            child: Text(
-                                Lang.getString(context, "Disable_Animation"),
+                            child: Text(Lang.getString(context, "Disable_Animation"),
                                 style: Styles.valueTextStyle()),
                           ),
                           Switcher(
@@ -147,8 +139,7 @@ class Settings extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.of(context)
-                              .pushNamed("/CountriesRestriction");
+                          Navigator.of(context).pushNamed("/CountriesRestriction");
                         },
                         child: ResponsiveWidget.fullWidth(
                           height: 64,
@@ -160,8 +151,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.language,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -169,9 +159,7 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text(
-                                    Lang.getString(
-                                        context, "Countries_Restriction"),
+                                child: Text(Lang.getString(context, "Countries_Restriction"),
                                     style: Styles.valueTextStyle()),
                               ),
                             ],
@@ -210,8 +198,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.email,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -219,8 +206,7 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text(
-                                    Lang.getString(context, "Contact_Us"),
+                                child: Text(Lang.getString(context, "Contact_Us"),
                                     style: Styles.valueTextStyle()),
                               ),
                             ],
@@ -242,8 +228,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.policy,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -251,8 +236,7 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text(
-                                    Lang.getString(context, "Privacy_Policy"),
+                                child: Text(Lang.getString(context, "Privacy_Policy"),
                                     style: Styles.valueTextStyle()),
                               ),
                             ],
@@ -274,8 +258,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.rule,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -283,9 +266,7 @@ class Settings extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 18,
-                                child: Text(
-                                    Lang.getString(
-                                        context, "Terms_&_Conditions"),
+                                child: Text(Lang.getString(context, "Terms_&_Conditions"),
                                     style: Styles.valueTextStyle()),
                               ),
                             ],
@@ -322,8 +303,7 @@ class Settings extends StatelessWidget {
                                 child: Icon(
                                   Icons.logout,
                                   size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
+                                  color: Theme.of(context).accentIconTheme.color,
                                 ),
                               ),
                               Spacer(
@@ -332,175 +312,6 @@ class Settings extends StatelessWidget {
                               Expanded(
                                 flex: 18,
                                 child: Text(Lang.getString(context, "Logout"),
-                                    style: Styles.valueTextStyle()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LineDevider(),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SizeTest(
-                                  width: 260,
-                                  height: 80,
-                                  body: FromToPicker(
-                                    fromController: fromController,
-                                    toController: toController,
-                                  ),
-                                ),
-                              ));
-                        },
-                        child: ResponsiveWidget.fullWidth(
-                          height: 64,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Icon(
-                                  Icons.car_repair,
-                                  size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 18,
-                                child: Text("Test Size",
-                                    style: Styles.valueTextStyle()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LineDevider(),
-                      InkWell(
-                        onTap: () async {
-                          FakeRequests.ridesCount = 20;
-                          FakeRequests.addRides();
-                        },
-                        child: ResponsiveWidget.fullWidth(
-                          height: 64,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Icon(
-                                  Icons.create_new_folder,
-                                  size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 18,
-                                child: Text("Generate Rides",
-                                    style: Styles.valueTextStyle()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LineDevider(),
-                      InkWell(
-                        onTap: () {
-                          Cache.clearHiveChats();
-                          App.updateInbox.value = !App.updateInbox.value;
-                        },
-                        child: ResponsiveWidget.fullWidth(
-                          height: 64,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Icon(
-                                  Icons.clear,
-                                  size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 18,
-                                child: Text("Wipe Chat",
-                                    style: Styles.valueTextStyle()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LineDevider(),
-                      InkWell(
-                        onTap: () {
-                          Ads.showRewardedAd(() => print("hoiii"));
-                        },
-                        child: ResponsiveWidget.fullWidth(
-                          height: 64,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Icon(
-                                  Icons.clear,
-                                  size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 18,
-                                child: Text("Show Ad",
-                                    style: Styles.valueTextStyle()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      LineDevider(),
-                      InkWell(
-                        onTap: () async {
-                          await Cache.clearNotifications();
-                          App.notifications = [];
-                        },
-                        child: ResponsiveWidget.fullWidth(
-                          height: 64,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Icon(
-                                  Icons.clear,
-                                  size: Styles.largeIconSize(),
-                                  color:
-                                      Theme.of(context).accentIconTheme.color,
-                                ),
-                              ),
-                              Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 18,
-                                child: Text("Wipe Notification",
                                     style: Styles.valueTextStyle()),
                               ),
                             ],

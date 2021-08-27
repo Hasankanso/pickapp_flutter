@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class RideView extends StatelessWidget {
@@ -32,12 +32,11 @@ class RideView extends StatelessWidget {
       parallaxEnabled: true,
       parallaxOffset: .5,
       color: Theme.of(context).scaffoldBackgroundColor,
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
+      borderRadius:
+          BorderRadius.only(topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       maxHeight: ScreenUtil().setHeight(500),
       minHeight: ScreenUtil().setHeight(120),
-      panelBuilder: (ScrollController sc) =>
-          _panel(sc, buttonText, ride, onPressed),
+      panelBuilder: (ScrollController sc) => _panel(sc, buttonText, ride, onPressed),
       body: Column(
         children: [
           ResponsiveWidget.fullWidth(
@@ -168,8 +167,7 @@ class _panel extends StatelessWidget {
                     ResponsiveWidget.fullWidth(
                       height: 40,
                       child: Text(
-                        DateFormat(App.dateFormat,
-                                Localizations.localeOf(context).toString())
+                        DateFormat(App.dateFormat, Localizations.localeOf(context).toString())
                             .format(ride.leavingDate),
                         maxLines: 1,
                         style: Styles.valueTextStyle(),
@@ -181,8 +179,7 @@ class _panel extends StatelessWidget {
                       child: Text(
                         ride.price.toString() +
                             " " +
-                            Lang.getString(
-                                context, user.person.countryInformations.unit),
+                            Lang.getString(context, user.person.countryInformations.unit),
                         maxLines: 1,
                         style: Styles.valueTextStyle(),
                         overflow: TextOverflow.clip,
@@ -211,27 +208,19 @@ class _panel extends StatelessWidget {
             children: [
               Icon(
                 Icons.pets,
-                color: ride.petsAllowed
-                    ? Styles.primaryColor()
-                    : Styles.labelColor(),
+                color: ride.petsAllowed ? Styles.primaryColor() : Styles.labelColor(),
               ),
               Icon(
                 ride.smokingAllowed ? Icons.smoking_rooms : Icons.smoke_free,
-                color: ride.smokingAllowed
-                    ? Styles.primaryColor()
-                    : Styles.labelColor(),
+                color: ride.smokingAllowed ? Styles.primaryColor() : Styles.labelColor(),
               ),
               Icon(
                 Icons.ac_unit,
-                color: ride.acAllowed
-                    ? Styles.primaryColor()
-                    : Styles.labelColor(),
+                color: ride.acAllowed ? Styles.primaryColor() : Styles.labelColor(),
               ),
               Icon(
                 ride.musicAllowed ? Icons.music_note : Icons.music_off,
-                color: ride.musicAllowed
-                    ? Styles.primaryColor()
-                    : Styles.labelColor(),
+                color: ride.musicAllowed ? Styles.primaryColor() : Styles.labelColor(),
               ),
             ],
           ),

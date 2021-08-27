@@ -1,5 +1,5 @@
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class ChangeEmail extends Request<String> {
   String _email;

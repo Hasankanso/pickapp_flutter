@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/dataObjects/UserStatistics.dart';
+import 'package:just_miles/utilities/RateStars.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/dataObjects/UserStatistics.dart';
-import 'package:pickapp/utilities/RateStars.dart';
-import 'package:pickapp/utilities/Responsive.dart';
 
 class RatesView extends StatelessWidget {
   final List<Rate> rates;
@@ -55,8 +55,8 @@ class RatesView extends StatelessWidget {
       children: [
         if (pressable)
           InkWell(
-            onTap: () => Navigator.pushNamed(context, "/ReviewsPageList",
-                arguments: Person(reviews: rates)),
+            onTap: () =>
+                Navigator.pushNamed(context, "/ReviewsPageList", arguments: Person(reviews: rates)),
             child: Row(
               children: [
                 ResponsiveSpacer(
@@ -75,17 +75,14 @@ class RatesView extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child:
-                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Text(
                   App.roundRate(rateAverage).toString(),
                   style: Styles.valueTextStyle(size: 45),
                 ),
                 Row(
                   children: [
-                    Expanded(
-                        flex: 15,
-                        child: RateStars(App.roundRate(rateAverage), size: 11)),
+                    Expanded(flex: 15, child: RateStars(App.roundRate(rateAverage), size: 11)),
                   ],
                 ),
                 Row(

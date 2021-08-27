@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/dataObjects/Reservation.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:pickapp/notifications/NotificationsHandler.dart';
-import 'package:pickapp/notifications/RatePassengersHandler.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/dataObjects/Reservation.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/notifications/NotificationsHandler.dart';
+import 'package:just_miles/notifications/RatePassengersHandler.dart';
 
 class ReserveSeatsNotificationHandler extends NotificationHandler {
   Reservation reservation;

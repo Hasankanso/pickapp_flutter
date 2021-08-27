@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
 
 abstract class NotificationHandler {
   MainNotification notification;

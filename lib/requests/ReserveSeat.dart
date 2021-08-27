@@ -1,8 +1,8 @@
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/Reservation.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/dataObjects/User.dart';
-import 'package:pickapp/requests/Request.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/dataObjects/Reservation.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/requests/Request.dart';
 
 class ReserveSeat extends Request<Ride> {
   Ride _ride;
@@ -48,9 +48,7 @@ class ReserveSeat extends Request<Ride> {
       return "Please select luggage";
     }
     if (_luggage > _ride.availableLuggages) {
-      return "There is " +
-          _ride.availableLuggages.toString() +
-          " available luggage";
+      return "There is " + _ride.availableLuggages.toString() + " available luggage";
     }
     return null;
   }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:pickapp/ads/Ads.dart';
+import 'package:just_miles/ads/Ads.dart';
 
 class MainBannerAd extends StatelessWidget {
   BannerAd _bannerAd;

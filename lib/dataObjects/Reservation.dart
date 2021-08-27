@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:pickapp/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Person.dart';
 
 part 'Reservation.g.dart';
 

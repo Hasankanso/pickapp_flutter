@@ -5,7 +5,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Styles.dart';
+import 'package:just_miles/classes/Styles.dart';
 
 class ScreenUtil {
   static ScreenUtil _instance;
@@ -137,12 +137,9 @@ class ScreenUtil {
   ///Font size adaptation method
   ///- [fontSize] The size of the font on the UI design, in px.
   ///- [allowFontScaling]
-  double setSp(num fontSize, {bool allowFontScalingSelf}) =>
-      allowFontScalingSelf == null
-          ? (allowFontScaling
-              ? (fontSize * scaleText)
-              : ((fontSize * scaleText) / _textScaleFactor))
-          : (allowFontScalingSelf
-              ? (fontSize * scaleText)
-              : ((fontSize * scaleText) / _textScaleFactor));
+  double setSp(num fontSize, {bool allowFontScalingSelf}) => allowFontScalingSelf == null
+      ? (allowFontScaling ? (fontSize * scaleText) : ((fontSize * scaleText) / _textScaleFactor))
+      : (allowFontScalingSelf
+          ? (fontSize * scaleText)
+          : ((fontSize * scaleText) / _textScaleFactor));
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/dataObjects/Rate.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/items/PassengerRateTile.dart';
-import 'package:pickapp/requests/AddRateRequest.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/ListBuilder.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/items/PassengerRateTile.dart';
+import 'package:just_miles/requests/AddRateRequest.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/ListBuilder.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class RatePassengers extends StatelessWidget {
   final Ride ride;

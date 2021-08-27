@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
 
 part 'Rate.g.dart';
 

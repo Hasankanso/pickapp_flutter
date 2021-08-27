@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/dataObjects/CountryInformations.dart';
-import 'package:pickapp/dataObjects/Driver.dart';
-import 'package:pickapp/dataObjects/MainLocation.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/dataObjects/Reservation.dart';
-import 'package:pickapp/dataObjects/User.dart';
+import 'package:just_miles/dataObjects/Car.dart';
+import 'package:just_miles/dataObjects/CountryInformations.dart';
+import 'package:just_miles/dataObjects/Driver.dart';
+import 'package:just_miles/dataObjects/MainLocation.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Reservation.dart';
+import 'package:just_miles/dataObjects/User.dart';
 
 part 'Ride.g.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/PopUp.dart';
-import 'package:pickapp/utilities/Responsive.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/PopUp.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 
 class TermAndConditions extends StatefulWidget {
   @override

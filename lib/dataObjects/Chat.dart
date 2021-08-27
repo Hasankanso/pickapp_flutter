@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import 'package:pickapp/dataObjects/Message.dart';
-import 'package:pickapp/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/Message.dart';
+import 'package:just_miles/dataObjects/Person.dart';
 
 part 'Chat.g.dart';
 

@@ -3,17 +3,17 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/dataObjects/Chat.dart';
+import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/pages/Inbox.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/RatesView.dart';
+import 'package:just_miles/utilities/Responsive.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/screenutil.dart';
-import 'package:pickapp/dataObjects/Chat.dart';
-import 'package:pickapp/dataObjects/Person.dart';
-import 'package:pickapp/pages/Inbox.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/RatesView.dart';
-import 'package:pickapp/utilities/Responsive.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PersonView extends StatefulWidget {
@@ -37,8 +37,7 @@ class _PersonViewState extends State<PersonView> {
     dataMap = {
       Lang.getString(context, "Accomplished_Rides"):
           widget.person.statistics.acomplishedRides.toDouble(),
-      Lang.getString(context, "Canceled_Rides"):
-          widget.person.statistics.canceledRides.toDouble(),
+      Lang.getString(context, "Canceled_Rides"): widget.person.statistics.canceledRides.toDouble(),
     };
   }
 
@@ -63,8 +62,8 @@ class _PersonViewState extends State<PersonView> {
       parallaxEnabled: true,
       parallaxOffset: .5,
       color: Theme.of(context).scaffoldBackgroundColor,
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
+      borderRadius:
+          BorderRadius.only(topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       panelBuilder: (ScrollController sc) => _Panel(
           controller: sc,
           person: widget.person,
@@ -121,12 +120,10 @@ class _Panel extends StatelessWidget {
   double accomplishedCanceledRatio = 0;
 
   _Panel({this.person, this.controller, this.chattinessItems, this.dataMap}) {
-    int ridesCount =
-        person.statistics.acomplishedRides + person.statistics.canceledRides;
+    int ridesCount = person.statistics.acomplishedRides + person.statistics.canceledRides;
 
     if (ridesCount > 0) {
-      accomplishedCanceledRatio =
-          person.statistics.acomplishedRides / ridesCount;
+      accomplishedCanceledRatio = person.statistics.acomplishedRides / ridesCount;
     }
   }
 
@@ -174,8 +171,7 @@ class _Panel extends StatelessWidget {
               Text(
                 person.gender ? Styles.maleIcon : Styles.femaleIcon,
                 maxLines: 1,
-                style: Styles.valueTextStyle(
-                    color: Styles.primaryColor(), bold: FontWeight.w800),
+                style: Styles.valueTextStyle(color: Styles.primaryColor(), bold: FontWeight.w800),
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,
               ),
@@ -185,8 +181,7 @@ class _Panel extends StatelessWidget {
         ResponsiveWidget.fullWidth(
           height: 30,
           child: Text(
-            DateFormat(App.birthdayFormat,
-                    Localizations.localeOf(context).toString())
+            DateFormat(App.birthdayFormat, Localizations.localeOf(context).toString())
                 .format(person.creationDate),
             maxLines: 1,
             style: Styles.labelTextStyle(size: 11, bold: FontWeight.bold),
@@ -208,8 +203,7 @@ class _Panel extends StatelessWidget {
                       Icons.speed,
                     ),
                     Text(
-                      (person.statistics.acomplishedRides +
-                                  person.statistics.canceledRides)
+                      (person.statistics.acomplishedRides + person.statistics.canceledRides)
                               .toInt()
                               .toString() +
                           " " +
@@ -225,8 +219,7 @@ class _Panel extends StatelessWidget {
                     lineHeight: 16.0,
                     percent: accomplishedCanceledRatio,
                     center: Text(
-                      (accomplishedCanceledRatio * 100).toInt().toString() +
-                          "%",
+                      (accomplishedCanceledRatio * 100).toInt().toString() + "%",
                       style: Styles.buttonTextStyle(size: 12),
                     ),
                     backgroundColor: Colors.red,

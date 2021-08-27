@@ -2,22 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Cache.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/classes/Styles.dart';
-import 'package:pickapp/classes/Validation.dart';
-import 'package:pickapp/dataObjects/Car.dart';
-import 'package:pickapp/requests/EditCar.dart';
-import 'package:pickapp/requests/Request.dart';
-import 'package:pickapp/utilities/Buttons.dart';
-import 'package:pickapp/utilities/ColorPicker.dart';
-import 'package:pickapp/utilities/CustomToast.dart';
-import 'package:pickapp/utilities/MainAppBar.dart';
-import 'package:pickapp/utilities/MainImagePicker.dart';
-import 'package:pickapp/utilities/MainScaffold.dart';
-import 'package:pickapp/utilities/Responsive.dart';
-import 'package:pickapp/utilities/Spinner.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/dataObjects/Car.dart';
+import 'package:just_miles/requests/EditCar.dart';
+import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/ColorPicker.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:just_miles/utilities/MainAppBar.dart';
+import 'package:just_miles/utilities/MainImagePicker.dart';
+import 'package:just_miles/utilities/MainScaffold.dart';
+import 'package:just_miles/utilities/Responsive.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 
 class CarDetails extends StatefulWidget {
   Car car;
@@ -100,8 +100,7 @@ class _CarDetailsState extends State<CarDetails> {
                           String valid = Validation.validate(value, context);
                           if (valid != null)
                             return valid;
-                          else if (value.length < 2)
-                            return Validation.invalid(context);
+                          else if (value.length < 2) return Validation.invalid(context);
                           return null;
                         },
                       ),
@@ -207,8 +206,8 @@ class _CarDetailsState extends State<CarDetails> {
                   if (_formKey.currentState.validate()) {
                     for (var item in App.person.upcomingRides) {
                       if (item.car.id == widget.car.id) {
-                        return CustomToast().showErrorToast(
-                            Lang.getString(context, "Delete_car_message"));
+                        return CustomToast()
+                            .showErrorToast(Lang.getString(context, "Delete_car_message"));
                       }
                     }
                     /* if (widget.car.updated != null &&
@@ -270,8 +269,7 @@ class _CarDetailsState extends State<CarDetails> {
       await Cache.setUser(App.user);
       App.updateProfile.value = !App.updateProfile.value;
 
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

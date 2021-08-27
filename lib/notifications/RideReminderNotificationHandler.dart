@@ -1,14 +1,13 @@
 import 'package:flutter/widgets.dart';
-import 'package:pickapp/classes/App.dart';
-import 'package:pickapp/classes/Localizations.dart';
-import 'package:pickapp/dataObjects/Ride.dart';
-import 'package:pickapp/items/MyRidesTile.dart';
-import 'package:pickapp/notifications/MainNotification.dart';
-import 'package:pickapp/notifications/NotificationsHandler.dart';
+import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/items/MyRidesTile.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/notifications/NotificationsHandler.dart';
 
 class RideReminderNotificationHandler extends NotificationHandler {
-  RideReminderNotificationHandler(MainNotification notification)
-      : super(notification);
+  RideReminderNotificationHandler(MainNotification notification) : super(notification);
 
   @override
   Future<void> cache() async {}
