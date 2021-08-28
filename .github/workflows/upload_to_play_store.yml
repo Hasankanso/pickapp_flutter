@@ -19,8 +19,7 @@ jobs:
       - name: Download a single artifact
         uses: actions/download-artifact@v2
         with:
-          name: justMiles.aab
-          path: build/app/outputs/bundle/release/
+          name: build/app/outputs/bundle/release/justMiles.aab
 
       - name: upload to internal testing play store
         uses: r0adkll/upload-google-play@v1
