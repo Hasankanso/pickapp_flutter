@@ -9,11 +9,37 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+
+  job_1:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
     # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        
+      - name: Clone Flutter repository with master channel
+        uses: subosito/flutter-action@4389e6cbc6cb8a4b18c628ff96ff90be0e926aa8
+        with:
+          channel: master
+      - run: flutter doctor -v
+
+      - name: pub get and build aab
+        uses: actions/checkout@v2
+      - run: flutter pub get
+      - run: flutter build appbundle
+      
+      - name: Save aab file
+        uses: actions/upload-artifact@v2
+        with:
+          name: justMiles.aab
+          path: build/app/outputs/bundle/release/*.aab
+          
+  job_2:
+    needs: job_1
+    runs-on: ubuntu-latest
+      # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
       - name: Download a single artifact
@@ -28,5 +54,6 @@ jobs:
           packageName: com.justMiles.justMiles
           releaseFiles: justMiles.aab
           track: internal
-          inAppUpdatePriority: 1
+          inAppUpdatePriority: 2
+          userFraction: 0.99
           whatsNewDirectory: distribution
