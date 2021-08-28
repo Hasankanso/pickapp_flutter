@@ -52,7 +52,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.justMiles.justMiles
-          releaseFile:  r*.aab
+          releaseFile:  app-release.aab
           track: internal
           inAppUpdatePriority: 2
           userFraction: 0.99
