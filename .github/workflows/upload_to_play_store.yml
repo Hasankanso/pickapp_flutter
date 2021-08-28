@@ -47,8 +47,8 @@ jobs:
         with:
           name: justMiles.aab
 
-      - name: upload to internal testing play store
-        uses: r0adkll/upload-google-play@v1.0.6
+      - name: Upload Android Release to Play Store (internal track publishing is default)
+        uses: devussy/upload-google-play@v1.0.6
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.justMiles.justMiles
