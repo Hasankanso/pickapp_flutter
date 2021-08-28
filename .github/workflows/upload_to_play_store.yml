@@ -37,7 +37,6 @@ jobs:
           packageName: com.justMiles.justMiles
           releaseFiles: build/app/outputs/bundle/release/*.aab
           track: internal
-          inAppUpdatePriority: 2
-          userFraction: 0.33
+          inAppUpdatePriority: 1
           whatsNewDirectory: distribution
           mappingFile: build/app/outputs/mapping/release/mapping.txt
