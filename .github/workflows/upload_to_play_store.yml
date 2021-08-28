@@ -15,21 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-        
-      - name: Clone Flutter repository with master channel
-        uses: subosito/flutter-action@4389e6cbc6cb8a4b18c628ff96ff90be0e926aa8
-        with:
-          channel: master
-      - run: flutter doctor -v
-
-      # Checkout gallery code and get packages.
-      - name: pub get and build aab
-        uses: actions/checkout@v2
-      - run: flutter pub get
-      - run: flutter build appbundle
-      
+    
       - name: upload to internal testing play store 
         uses: r0adkll/upload-google-play@v1
         with:
