@@ -54,4 +54,4 @@ jobs:
           packageName: com.justMiles.justMiles
           releaseFiles:  app-release.aab
           track: internal
-          status: draft
+          status: 'draft'
