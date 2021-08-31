@@ -26,7 +26,6 @@ class LocationFinder extends StatefulWidget {
       String hintText,
       String initialDescription,
       String language,
-      String country,
       this.errorText,
       this.onValidate,
       this.isUnderlineBorder = true}) {
@@ -34,7 +33,6 @@ class LocationFinder extends StatefulWidget {
     _title = title;
     _hintText = hintText;
     _language = language;
-    _country = country;
     _API_KEY = App.googleKey;
     _initialDescription = initialDescription;
     isUnderlineBorder = isUnderlineBorder;
@@ -69,7 +67,8 @@ class _LocationFinderState extends State<LocationFinder> {
       setState(() {
         String curr_loc = Lang.getString(context, "My_Current_Location");
         _textEditingController.text = curr_loc;
-        widget._controller.location = new Location(lat: locPred.lat, lng: locPred.lng);
+        widget._controller.location =
+            new Location(lat: locPred.lat, lng: locPred.lng);
         widget._controller.placeId = null;
         widget._controller.description = curr_loc;
         widget._initialDescription = curr_loc;
@@ -81,8 +80,10 @@ class _LocationFinderState extends State<LocationFinder> {
     //request longitude and latitude from google_place_details api
     GoogleMapsPlaces _places =
         new GoogleMapsPlaces(apiKey: widget._API_KEY); //Same _API_KEY as above
-    PlacesDetailsResponse detail = await _places
-        .getDetailsByPlaceId(locPred.placeId, sessionToken: sessionToken, fields: ["geometry"]);
+    PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
+        locPred.placeId,
+        sessionToken: sessionToken,
+        fields: ["geometry"]);
     double latitude = detail.result.geometry.location.lat;
     double longitude = detail.result.geometry.location.lng;
     String address = locPred.description;
@@ -150,7 +151,8 @@ class LocationEditingController {
     if (_isEmpty != null) {
       return _isEmpty;
     } else if (x != null &&
-        MainLocation.equals(this.location.lat, this.location.lng, x.location.lat, x.location.lng)) {
+        MainLocation.equals(this.location.lat, this.location.lng,
+            x.location.lat, x.location.lng)) {
       return Lang.getString(context, "Too_close");
     } else {
       return null;

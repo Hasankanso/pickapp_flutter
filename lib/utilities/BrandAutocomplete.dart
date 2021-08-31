@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Styles.dart';
 
 class BrandAutocomplete extends SearchDelegate<List<String>> {
@@ -63,21 +64,33 @@ class BrandAutocomplete extends SearchDelegate<List<String>> {
       _filtered = carBrands;
     }
     return FutureBuilder(
-        builder: (context, snapshot) => ListView.builder(
-              itemBuilder: (context, index) {
-                var item = _filtered.entries.elementAt(index);
-                return ListTile(
-                  title: Text(
-                    item.value,
-                    style: Styles.valueTextStyle(),
-                  ),
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                    Navigator.pop(context, [item.key, item.value]);
-                  },
-                );
-              },
-              itemCount: _filtered.length,
+        builder: (context, snapshot) => Container(
+              color: (Cache.darkTheme ||
+                      MediaQuery.of(context).platformBrightness ==
+                          Brightness.dark)
+                  ? Color(0xFF212121)
+                  : Theme.of(context).scaffoldBackgroundColor,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  var item = _filtered.entries.elementAt(index);
+                  return ListTile(
+                    title: Text(
+                      item.value,
+                      style: Styles.valueTextStyle().copyWith(
+                          color: (Cache.darkTheme ||
+                                  MediaQuery.of(context).platformBrightness ==
+                                      Brightness.dark)
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                      Navigator.pop(context, [item.key, item.value]);
+                    },
+                  );
+                },
+                itemCount: _filtered.length,
+              ),
             ));
   }
 

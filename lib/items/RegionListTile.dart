@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/utilities/LocationFinder.dart';
@@ -12,8 +11,8 @@ class RegionListTile extends StatelessWidget {
   LocationEditingController regionController;
   String errorText;
 
-  RegionListTile(
-      this.isDefault, this._index, this._removeRegion, this.regionController, this.errorText);
+  RegionListTile(this.isDefault, this._index, this._removeRegion,
+      this.regionController, this.errorText);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,6 @@ class RegionListTile extends StatelessWidget {
                     hintText: Lang.getString(context, "Region"),
                     initialDescription: regionController.description,
                     language: Lang.getString(context, "lang"),
-                    country: App.countryCode,
                     isUnderlineBorder: false,
                     errorText: errorText,
                   ),

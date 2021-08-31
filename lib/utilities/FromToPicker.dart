@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/utilities/LocationFinder.dart';
@@ -11,7 +10,8 @@ class FromToPicker extends StatefulWidget {
   LocationEditingController toController;
   String fromError, toError;
 
-  FromToPicker({this.fromController, this.toController, this.fromError, this.toError});
+  FromToPicker(
+      {this.fromController, this.toController, this.fromError, this.toError});
 
   @override
   _FromToPickerState createState() => _FromToPickerState();
@@ -24,9 +24,12 @@ class _FromToPickerState extends State<FromToPicker> {
       Expanded(
         flex: 8,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(Icons.panorama_fish_eye, color: Styles.primaryColor(), size: Styles.smallIconSize()),
-          Icon(Icons.more_vert, color: Styles.primaryColor(), size: Styles.smallIconSize()),
-          Icon(Icons.circle, color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.panorama_fish_eye,
+              color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.more_vert,
+              color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.circle,
+              color: Styles.primaryColor(), size: Styles.smallIconSize()),
         ]),
       ),
       Expanded(
@@ -40,7 +43,6 @@ class _FromToPickerState extends State<FromToPicker> {
                 initialDescription: widget.fromController.description,
                 hintText: Lang.getString(context, "From_Where"),
                 language: Lang.getString(context, "lang"),
-                country: App.countryCode,
                 errorText: widget.fromError,
               ),
             ),
@@ -51,7 +53,6 @@ class _FromToPickerState extends State<FromToPicker> {
                 initialDescription: widget.toController.description,
                 hintText: Lang.getString(context, "To_Where"),
                 language: Lang.getString(context, "lang"),
-                country: App.countryCode,
                 errorText: widget.toError,
               ),
             )

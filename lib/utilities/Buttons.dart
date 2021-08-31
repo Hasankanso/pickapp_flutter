@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 
@@ -10,7 +11,8 @@ class MainButton extends StatelessWidget {
   bool isRequest;
   String text;
 
-  MainButton({this.text_key, this.onPressed, this.isRequest = false, this.text});
+  MainButton(
+      {this.text_key, this.onPressed, this.isRequest = false, this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +22,23 @@ class MainButton extends StatelessWidget {
         highlightElevation: 0,
         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         color: Styles.primaryColor(),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_radius)),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(_radius)),
         child: Text(Lang.getString(context, text_key) ?? this.text ?? "No Text",
             style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
         onPressed: onPressed,
       );
     } else {
       return ProgressButton(
-        defaultWidget: Text(Lang.getString(context, text_key) ?? this.text ?? "No Text",
-            style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
+        defaultWidget: Text(
+            Lang.getString(context, text_key) ?? this.text ?? "No Text",
+            style: Styles.buttonTextStyle(),
+            overflow: TextOverflow.visible),
         progressWidget: CircularProgressIndicator(
-          backgroundColor: Styles.secondaryColor(),
+          backgroundColor: (Cache.darkTheme ||
+                  MediaQuery.of(context).platformBrightness == Brightness.dark)
+              ? Styles.primaryColor()
+              : Styles.secondaryColor(),
         ),
         color: Styles.primaryColor(),
         borderRadius: _radius,
@@ -78,7 +86,8 @@ class ProgressButton extends StatefulWidget {
   _ProgressButtonState createState() => _ProgressButtonState();
 }
 
-class _ProgressButtonState extends State<ProgressButton> with TickerProviderStateMixin {
+class _ProgressButtonState extends State<ProgressButton>
+    with TickerProviderStateMixin {
   GlobalKey _globalKey = GlobalKey();
   Animation _anim;
   AnimationController _animController;
@@ -126,7 +135,8 @@ class _ProgressButtonState extends State<ProgressButton> with TickerProviderStat
         child: RaisedButton(
           padding: EdgeInsets.all(0.0),
           color: widget.color,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_borderRadius)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(_borderRadius)),
           child: _buildChildren(context),
           onPressed: widget.onPressed == null
               ? null
@@ -205,8 +215,8 @@ class _ProgressButtonState extends State<ProgressButton> with TickerProviderStat
       ..addListener(() {
         setState(() {
           _width = initialWidth - ((initialWidth - targetWidth) * _anim.value);
-          _borderRadius =
-              initialBorderRadius - ((initialBorderRadius - targetBorderRadius) * _anim.value);
+          _borderRadius = initialBorderRadius -
+              ((initialBorderRadius - targetBorderRadius) * _anim.value);
         });
       })
       ..addStatusListener(stateListener);
