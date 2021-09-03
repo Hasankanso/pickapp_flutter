@@ -67,13 +67,17 @@ class _GPSTileState extends State<GPSTile> {
 class GPSListView extends StatelessWidget {
   final List<Prediction> predictions;
   final ValueChanged<dynamic> onTap;
+  final canPickCurrLocation;
 
-  GPSListView({@required this.predictions, this.onTap});
+  GPSListView({@required this.predictions, this.onTap, this.canPickCurrLocation = true});
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> list = new List<Widget>();
-    list.add(GPSTile(onTap: onTap));
+    List<Widget> list = [];
+
+    if (canPickCurrLocation) {
+      list.add(GPSTile(onTap: onTap));
+    }
     list.addAll(predictions.map((Prediction p) => PredictionTile(prediction: p, onTap: onTap)));
     return ListView(
       children: list,
