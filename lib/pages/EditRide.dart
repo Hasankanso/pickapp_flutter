@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_miles/classes/App.dart';
@@ -19,6 +17,7 @@ import 'package:just_miles/utilities/Responsive.dart';
 
 class EditRide extends StatelessWidget {
   final Ride ride;
+
   EditRide(this.ride);
 
   final _formKey = GlobalKey<FormState>();
@@ -180,16 +179,15 @@ class EditRide extends StatelessWidget {
   }
 
   _editRideResponse(Ride result, int code, String message, context) {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
-    } else {
-      App.user.person.upcomingRides.remove(result);
-      App.user.person.upcomingRides.add(result);
-      Cache.setUser(App.user);
-      Navigator.popUntil(context, (route) => route.isFirst);
-      App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
-
-      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+    if (App.handleErrors(context, code, message)) {
+      return;
     }
+    App.user.person.upcomingRides.remove(result);
+    App.user.person.upcomingRides.add(result);
+    Cache.setUser(App.user);
+    Navigator.popUntil(context, (route) => route.isFirst);
+    App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
+
+    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
   }
 }

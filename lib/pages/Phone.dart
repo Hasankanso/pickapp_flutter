@@ -20,6 +20,7 @@ import 'package:just_miles/utilities/Responsive.dart';
 
 class Phone extends StatefulWidget {
   User _user;
+
   Phone(this._user);
 
   @override
@@ -221,27 +222,28 @@ class _PhoneState extends State<Phone> {
   }
 
   void _checkUserExistResponse(bool userExist, int statusCode, String message) {
-    if (statusCode != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
+    if (App.handleErrors(context, statusCode, message)) {
+      Navigator.pop(context);
+      return;
+    }
+
+    widget._user.isExistChecked = true;
+    if (userExist == true) {
+      PopUp.areYouSure(
+        Lang.getString(context, "Skip"),
+        Lang.getString(context, "Login"),
+        Lang.getString(context, "Account_with_phone") +
+            _code.text +
+            _phone.text +
+            Lang.getString(context, "Exist_desc"),
+        Lang.getString(context, "Account_already_exist"),
+        Styles.primaryColor(),
+        (bool) => bool ? _skip() : _login(),
+        highlightYes: false,
+        hideClose: true,
+      ).confirmationPopup(context);
     } else {
-      widget._user.isExistChecked = true;
-      if (userExist == true) {
-        PopUp.areYouSure(
-          Lang.getString(context, "Skip"),
-          Lang.getString(context, "Login"),
-          Lang.getString(context, "Account_with_phone") +
-              _code.text +
-              _phone.text +
-              Lang.getString(context, "Exist_desc"),
-          Lang.getString(context, "Account_already_exist"),
-          Styles.primaryColor(),
-          (bool) => bool ? _skip() : _login(),
-          highlightYes: false,
-          hideClose: true,
-        ).confirmationPopup(context);
-      } else {
-        Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
-      }
+      Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
     }
   }
 

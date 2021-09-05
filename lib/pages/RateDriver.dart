@@ -292,17 +292,17 @@ class _RateDriverState extends State<RateDriver> {
     );
   }
 
-  _response(bool result, int code, String p3) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(p3);
-    } else {
-      if (result) {
-        App.notifications.remove(widget._notification);
-        await Cache.updateNotifications(App.notifications);
-        App.updateNotifications.value = !App.updateNotifications.value;
-        Navigator.popUntil(context, (route) => route.isFirst);
-        CustomToast().showSuccessToast(Lang.getString(context, "Successfully_rated!"));
-      }
+  _response(bool result, int code, String message) async {
+    if (App.handleErrors(context, code, message)) {
+      return;
+    }
+
+    if (result) {
+      App.notifications.remove(widget._notification);
+      await Cache.updateNotifications(App.notifications);
+      App.updateNotifications.value = !App.updateNotifications.value;
+      Navigator.popUntil(context, (route) => route.isFirst);
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_rated!"));
     }
   }
 }

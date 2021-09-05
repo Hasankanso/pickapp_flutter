@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
@@ -72,11 +70,9 @@ class _RegisterDriverState extends State<RegisterDriver> {
                 text_key: "Next",
                 onPressed: () {
                   widget.user.driver = Driver();
-                  App.setCountriesComponent([
-                    widget.user.person.countryInformations.countryComponent
-                  ]);
-                  Navigator.of(context)
-                      .pushNamed("/BecomeDriverRegister", arguments: [
+                  App.setCountriesComponent(
+                      [widget.user.person.countryInformations.countryComponent]);
+                  Navigator.of(context).pushNamed("/BecomeDriverRegister", arguments: [
                     widget.user,
                     widget.isForceRegister,
                   ]);
@@ -115,10 +111,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
                               if (!widget.isForceRegister)
                                 {registerRequest = RegisterPerson(widget.user)}
                               else
-                                {
-                                  registerRequest =
-                                      ForceRegisterPerson(widget.user)
-                                },
+                                {registerRequest = ForceRegisterPerson(widget.user)},
                               registerRequest.send(_registerResponse)
                             });
                       },
@@ -128,8 +121,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
                           fontSize: ScreenUtil().setSp(15),
                           fontWeight: FontWeight.w400,
                           color: (!Cache.darkTheme &&
-                                  MediaQuery.of(context).platformBrightness !=
-                                      Brightness.dark)
+                                  MediaQuery.of(context).platformBrightness != Brightness.dark)
                               ? Styles.valueColor()
                               : Colors.white,
                         ),
@@ -149,26 +141,22 @@ class _RegisterDriverState extends State<RegisterDriver> {
   }
 
   Future<void> _registerResponse(User u, int code, String message) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
+    if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
-    } else {
-      App.user = u;
-      await Cache.setUser(u);
-      await Cache.setCountriesList(
-          [App.person.countryInformations.countryComponent]);
-      App.setCountriesComponent(
-          [App.person.countryInformations.countryComponent]);
-      App.isDriverNotifier.value = false;
-      App.user.driver = null;
-
-      App.isLoggedInNotifier.value = true;
-
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
-      CustomToast().showSuccessToast(
-          Lang.getString(context, "Email_confirmation_pending"));
-      Navigator.popUntil(context, (route) => route.isFirst);
+      return;
     }
+
+    App.user = u;
+    await Cache.setUser(u);
+    await Cache.setCountriesList([App.person.countryInformations.countryComponent]);
+    App.setCountriesComponent([App.person.countryInformations.countryComponent]);
+    App.isDriverNotifier.value = false;
+    App.user.driver = null;
+
+    App.isLoggedInNotifier.value = true;
+
+    CustomToast().showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+    CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 }

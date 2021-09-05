@@ -303,5 +303,17 @@
   "History": "History",
   "Upcoming": "Upcoming",
   "Logout_message": "Waiting for your come back!",
-  "Reservation_editing_message": "Please edit your reservation"
+  "Reservation_editing_message": "Please edit your reservation",
+
+  "-1000" : "Please login first",
+  "-1001" : "Something is wrong, please logout and login",
+  "-1002" : "Something is wrong, please contact support",
+  "-1003" : "Something is wrong, please contact support",
+
+  "-3000" : "Become a driver first",
+  "-3001" : "You've the maximum amount of cars",
+  "-3002" : "The car you're trying to add is too old",
+  "-3003" : "Car is not found",
+  "-3004" : "You can edit your car information 1 time every two months",
+  "-3005" : "can't remove, You use this car in an active ride"
 }

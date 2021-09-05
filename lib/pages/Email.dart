@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
@@ -89,13 +87,13 @@ class Email extends StatelessWidget {
   }
 
   _response(String p1, int code, String message, context) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
-    } else {
-      App.user.email = p1;
-      Cache.setUser(App.user);
-
-      CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
+    if (App.handleErrors(context, code, message)) {
+      return;
     }
+
+    App.user.email = p1;
+    Cache.setUser(App.user);
+
+    CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
   }
 }

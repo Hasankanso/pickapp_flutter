@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_miles/classes/App.dart';
@@ -31,15 +29,15 @@ class RideDetails extends StatelessWidget {
   RideDetails(this.ride, {this.buttonText, this.onPressed, this.isEditDisabled = true});
 
   _cancelReservation(bool deleted, int code, String message, context) {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
+    if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
-    } else {
-      if (deleted) {
-        App.deleteRideFromMyRides(ride);
-        CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
-        Navigator.popUntil(context, (route) => route.isFirst);
-      }
+      return;
+    }
+
+    if (deleted) {
+      App.deleteRideFromMyRides(ride);
+      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
 

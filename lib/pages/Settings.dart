@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
@@ -366,9 +364,10 @@ class Settings extends StatelessWidget {
   }
 
   response(bool result, int code, String message, context) async {
-    if (code != HttpStatus.ok) {
-      print(message);
+    if (App.handleErrors(context, code, message)) {
+      return;
     }
+
     await App.logout();
     CustomToast().showSuccessToast(Lang.getString(context, "Logout_message"));
     Navigator.pop(context);

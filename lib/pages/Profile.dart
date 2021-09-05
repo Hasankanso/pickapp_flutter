@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
@@ -41,27 +39,27 @@ class _ProfileState extends State<Profile> {
     request.send((result, code, message) => _response(result, code, message, context));
   }
 
-  _response(Person result, int code, String p3, context) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(p3);
+  _response(Person result, int code, String message, context) async {
+    if (App.handleErrors(context, code, message)) {
       _isImageLoading = false;
-    } else {
-      List<Ride> upcomingRides = List<Ride>.from(App.person.upcomingRides);
-      List<Rate> rates = App.person.rates;
-
-      result.upcomingRides = upcomingRides;
-      result.rates = rates;
-      result.statistics = App.user.person.statistics;
-      result.countryInformations = App.user.person.countryInformations;
-
-      App.user.person = result;
-      await Cache.setUser(App.user);
-      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
-      setState(() {
-        _isImageLoading = false;
-        App.user.person = result;
-      });
+      return;
     }
+
+    List<Ride> upcomingRides = List<Ride>.from(App.person.upcomingRides);
+    List<Rate> rates = App.person.rates;
+
+    result.upcomingRides = upcomingRides;
+    result.rates = rates;
+    result.statistics = App.user.person.statistics;
+    result.countryInformations = App.user.person.countryInformations;
+
+    App.user.person = result;
+    await Cache.setUser(App.user);
+    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+    setState(() {
+      _isImageLoading = false;
+      App.user.person = result;
+    });
   }
 
   @override

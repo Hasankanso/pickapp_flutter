@@ -41,13 +41,16 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
     }
   }
 
-  response(List<Rate> rates, int status, String reason) {
-    if (status == 200) {
-      setState(() {
-        widget.person.rates = rates;
-        _filterRates(rates);
-      });
+  response(List<Rate> rates, int code, String reason) {
+    if (App.handleErrors(context, code, reason)) {
+      Navigator.pop(context);
+      return;
     }
+
+    setState(() {
+      widget.person.rates = rates;
+      _filterRates(rates);
+    });
   }
 
   _getRates() async {

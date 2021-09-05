@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
@@ -252,56 +250,55 @@ class _AddCar2State extends State<AddCar2> {
   }
 
   Future<void> _registerResponse(User u, int code, String message) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
+    if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
-    } else {
-      App.user = u;
-      await Cache.setUser(u);
-      App.countriesComponents = null;
-      await Cache.setCountriesList([App.person.countryInformations.countryComponent]);
-      App.setCountriesComponent([App.person.countryInformations.countryComponent]);
-      App.isDriverNotifier.value = true;
-
-      App.isLoggedInNotifier.value = true;
-
-      CustomToast().showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
-      CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
-      Navigator.popUntil(context, (route) => route.isFirst);
+      return;
     }
+
+    App.user = u;
+    await Cache.setUser(u);
+    App.countriesComponents = null;
+    await Cache.setCountriesList([App.person.countryInformations.countryComponent]);
+    App.setCountriesComponent([App.person.countryInformations.countryComponent]);
+    App.isDriverNotifier.value = true;
+
+    App.isLoggedInNotifier.value = true;
+
+    CustomToast().showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+    CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 
   _becomeDriverResponse(Driver p1, int code, String message) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
+    if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
-    } else {
-      App.user.driver = p1;
-
-      await Cache.setUser(App.user);
-
-      App.isDriverNotifier.value = true;
-      CustomToast().showSuccessToast(Lang.getString(context, "Now_driver"));
-      Navigator.popUntil(context, (route) => route.isFirst);
+      return;
     }
+
+    App.user.driver = p1;
+    await Cache.setUser(App.user);
+
+    App.isDriverNotifier.value = true;
+    CustomToast().showSuccessToast(Lang.getString(context, "Now_driver"));
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 
   _addCarResponse(Car p1, int code, String message) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
+    if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
-    } else {
-      if (App.user.driver.cars == null) {
-        App.user.driver.cars = [p1];
-      } else {
-        App.user.driver.cars.add(p1);
-      }
-
-      await Cache.setUser(App.user);
-      App.updateProfile.value = !App.updateProfile.value;
-
-      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_added!"));
-      Navigator.popUntil(context, (route) => route.isFirst);
+      return;
     }
+
+    if (App.user.driver.cars == null) {
+      App.user.driver.cars = [p1];
+    } else {
+      App.user.driver.cars.add(p1);
+    }
+
+    await Cache.setUser(App.user);
+    App.updateProfile.value = !App.updateProfile.value;
+
+    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_added!"));
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 }

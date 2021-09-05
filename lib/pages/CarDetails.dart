@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_miles/ads/MainNativeAd.dart';
@@ -22,6 +20,7 @@ import 'package:just_miles/utilities/Spinner.dart';
 
 class CarDetails extends StatefulWidget {
   Car car;
+
   CarDetails({this.car});
 
   @override
@@ -101,8 +100,7 @@ class _CarDetailsState extends State<CarDetails> {
                           String valid = Validation.validate(value, context);
                           if (valid != null)
                             return valid;
-                          else if (value.length < 2)
-                            return Validation.invalid(context);
+                          else if (value.length < 2) return Validation.invalid(context);
                           return null;
                         },
                       ),
@@ -219,15 +217,13 @@ class _CarDetailsState extends State<CarDetails> {
                   if (_formKey.currentState.validate()) {
                     for (var item in App.person.upcomingRides) {
                       if (item.car.id == widget.car.id) {
-                        return CustomToast().showErrorToast(
-                            Lang.getString(context, "Delete_car_message"));
+                        return CustomToast()
+                            .showErrorToast(Lang.getString(context, "Delete_car_message"));
                       }
                     }
                     if (widget.car.updated != null &&
-                        widget.car.updated.difference(DateTime.now()).inDays >
-                            -30) {
-                      return CustomToast().showErrorToast(
-                          Lang.getString(context, "Car_edit_time"));
+                        widget.car.updated.difference(DateTime.now()).inDays > -30) {
+                      return CustomToast().showErrorToast(Lang.getString(context, "Car_edit_time"));
                     }
                     Car c = widget.car;
                     Car car = Car(
@@ -273,18 +269,17 @@ class _CarDetailsState extends State<CarDetails> {
   }
 
   _editCarResponse(Car p1, int code, String message) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
+    if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
-    } else {
-      App.user.driver.cars.remove(p1);
-      App.user.driver.cars.add(p1);
-      await Cache.setUser(App.user);
-      App.updateProfile.value = !App.updateProfile.value;
-
-      CustomToast()
-          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
-      Navigator.popUntil(context, (route) => route.isFirst);
+      return;
     }
+
+    App.user.driver.cars.remove(p1);
+    App.user.driver.cars.add(p1);
+    await Cache.setUser(App.user);
+    App.updateProfile.value = !App.updateProfile.value;
+
+    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 }

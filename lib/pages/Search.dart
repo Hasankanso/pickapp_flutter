@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_miles/ads/MainNativeAd.dart';
@@ -13,7 +11,6 @@ import 'package:just_miles/dataObjects/SearchInfo.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/requests/SearchForRides.dart';
 import 'package:just_miles/utilities/Buttons.dart';
-import 'package:just_miles/utilities/CustomToast.dart';
 import 'package:just_miles/utilities/DateTimeRangePicker.dart';
 import 'package:just_miles/utilities/FromToPicker.dart';
 import 'package:just_miles/utilities/LocationFinder.dart';
@@ -27,8 +24,7 @@ class Search extends StatefulWidget {
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search>
-    with AutomaticKeepAliveClientMixin<Search> {
+class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Search> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
@@ -38,12 +34,10 @@ class _SearchState extends State<Search>
   String _fromError, _toError;
 
   response(List<Ride> result, int code, String message) {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
-    } else {
-      _searchInfo.rides = result;
-      Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
-    }
+    if (App.handleErrors(context, code, message)) return;
+
+    _searchInfo.rides = result;
+    Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
   }
 
   void _sendAnalyticsEvent(String from, String to, String time) async {
@@ -85,8 +79,7 @@ class _SearchState extends State<Search>
                 },
               ),
               ValueListenableBuilder(
-                builder: (BuildContext context, bool isNewNotification,
-                    Widget child) {
+                builder: (BuildContext context, bool isNewNotification, Widget child) {
                   return Visibility(
                     visible: isNewNotification,
                     child: Positioned(
@@ -132,8 +125,7 @@ class _SearchState extends State<Search>
             ),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
-                height: 35,
-                child: NumberPicker(numberController, "Persons", 1, 8)),
+                height: 35, child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
               height: 120,
@@ -165,16 +157,13 @@ class _SearchState extends State<Search>
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                String _validateFrom =
-                    fromController.validate(context, x: toController);
-                String _validateTo =
-                    toController.validate(context, x: fromController);
+                String _validateFrom = fromController.validate(context, x: toController);
+                String _validateTo = toController.validate(context, x: fromController);
                 _fromError = _validateFrom;
                 _toError = _validateTo;
                 setState(() {});
                 if (_validateFrom == null && _validateTo == null) {
-                  if (dateTimeController.startDateController.chosenDate
-                      .isBefore(DateTime.now())) {
+                  if (dateTimeController.startDateController.chosenDate.isBefore(DateTime.now())) {
                     setState(() {
                       dateTimeController.startDateController.chosenDate =
                           DateTime.now().add(Duration(minutes: 30));
@@ -194,13 +183,10 @@ class _SearchState extends State<Search>
                       to: to,
                       from: from,
                       passengersNumber: numberController.chosenNumber,
-                      minDate:
-                          dateTimeController.startDateController.chosenDate,
+                      minDate: dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
-                  _sendAnalyticsEvent(
-                      fromController.description,
-                      toController.description,
+                  _sendAnalyticsEvent(fromController.description, toController.description,
                       dateTimeController.startDateController.toString());
                   await request.send(response);
                 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_miles/classes/App.dart';
@@ -267,12 +265,10 @@ class _AddAlertState extends State<AddAlert> {
     );
   }
 
-  _response(String p1, int code, String p3) {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(p3);
-    } else {
-      CustomToast().showErrorToast(Lang.getString(context, p1));
-      Navigator.pop(context);
-    }
+  _response(String p1, int code, String message) {
+    if (App.handleErrors(context, code, message)) return;
+
+    CustomToast().showSuccessToast(Lang.getString(context, p1));
+    Navigator.pop(context);
   }
 }

@@ -261,17 +261,15 @@ class _SearchResultsState extends State<SearchResults> {
     });
   }
 
-  void reserveSeatsResponse(Ride r, int status, String reason, BuildContext context) {
-    if (status == 200) {
-      App.addRideToMyRides(r, context);
-      CustomToast().showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
-      Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
-    } else {
+  void reserveSeatsResponse(Ride r, int code, String message, BuildContext context) {
+    if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
-      //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation
-      //CustomToast().showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
-      CustomToast().showErrorToast(reason);
+      return;
     }
+
+    App.addRideToMyRides(r, context);
+    CustomToast().showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
+    Navigator.pushNamedAndRemoveUntil(context, "/", (Route<dynamic> route) => false);
   }
 }
 

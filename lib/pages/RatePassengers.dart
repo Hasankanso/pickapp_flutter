@@ -26,13 +26,13 @@ class RatePassengers extends StatelessWidget {
     }
   }
 
-  void _response(bool p1, int p2, String p3, BuildContext context) {
-    if (p2 == 200) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_rated!"));
-    } else {
-      CustomToast().showErrorToast(Lang.getString(context, "Something_Wrong") + p2.toString());
+  void _response(bool p1, int code, String message, BuildContext context) {
+    if (App.handleErrors(context, code, message)) {
+      return;
     }
+
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_rated!"));
   }
 
   @override

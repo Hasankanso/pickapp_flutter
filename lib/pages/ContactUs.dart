@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/screenutil.dart';
@@ -93,11 +94,11 @@ class ContactUs extends StatelessWidget {
     );
   }
 
-  _response(String result, int code, String p3, context) async {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(p3);
-    } else {
-      CustomToast().showSuccessToast(Lang.getString(context, result));
+  _response(String result, int code, String message, context) async {
+    if (App.handleErrors(context, code, message)) {
+      return;
     }
+
+    CustomToast().showSuccessToast(Lang.getString(context, result));
   }
 }

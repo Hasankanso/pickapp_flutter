@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -158,12 +156,13 @@ class UpcomingRideDetails extends StatelessWidget {
   }
 
   response(bool result, int code, String message, context) {
-    if (code != HttpStatus.ok) {
-      CustomToast().showErrorToast(message);
-    } else {
-      App.deleteRideFromMyRides(ride);
-      Navigator.popUntil(context, (route) => route.isFirst);
-      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
+    if (App.handleErrors(context, code, message)) {
+      Navigator.pop(context);
+      return;
     }
+
+    App.deleteRideFromMyRides(ride);
+    Navigator.popUntil(context, (route) => route.isFirst);
+    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
   }
 }
