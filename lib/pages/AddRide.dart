@@ -75,6 +75,7 @@ class _AddRideState extends State<AddRide> {
                         toController: toController,
                         fromError: _fromError,
                         toError: _toError,
+                        canPickCurrLocation: false,
                       )),
                   VerticalSpacer(height: 30),
                   ResponsiveWidget(

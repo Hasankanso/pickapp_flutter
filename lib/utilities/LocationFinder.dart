@@ -13,12 +13,12 @@ class LocationFinder extends StatefulWidget {
   String _title;
   String _hintText;
   String _language;
-  String _country;
   String _API_KEY;
   String _initialDescription;
   String errorText;
   String Function(String) onValidate;
   bool isUnderlineBorder;
+  final bool canPickCurrLocation;
 
   LocationFinder(
       {LocationEditingController controller,
@@ -26,6 +26,7 @@ class LocationFinder extends StatefulWidget {
       String hintText,
       String initialDescription,
       String language,
+      this.canPickCurrLocation = true,
       this.errorText,
       this.onValidate,
       this.isUnderlineBorder = true}) {
@@ -56,7 +57,9 @@ class _LocationFinderState extends State<LocationFinder> {
       language: widget._language,
       strictbounds: false,
       sessionToken: sessionToken,
+      canPickCurrLocation: widget.canPickCurrLocation,
     );
+
     if (locPred == null) {
       FocusScope.of(context).requestFocus(new FocusNode());
       return;
@@ -67,8 +70,7 @@ class _LocationFinderState extends State<LocationFinder> {
       setState(() {
         String curr_loc = Lang.getString(context, "My_Current_Location");
         _textEditingController.text = curr_loc;
-        widget._controller.location =
-            new Location(lat: locPred.lat, lng: locPred.lng);
+        widget._controller.location = new Location(lat: locPred.lat, lng: locPred.lng);
         widget._controller.placeId = null;
         widget._controller.description = curr_loc;
         widget._initialDescription = curr_loc;
@@ -80,13 +82,10 @@ class _LocationFinderState extends State<LocationFinder> {
     //request longitude and latitude from google_place_details api
     GoogleMapsPlaces _places =
         new GoogleMapsPlaces(apiKey: widget._API_KEY); //Same _API_KEY as above
-    PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
-        locPred.placeId,
-        sessionToken: sessionToken,
-        fields: ["geometry"]);
+    PlacesDetailsResponse detail = await _places
+        .getDetailsByPlaceId(locPred.placeId, sessionToken: sessionToken, fields: ["geometry"]);
     double latitude = detail.result.geometry.location.lat;
     double longitude = detail.result.geometry.location.lng;
-    String address = locPred.description;
 
     setState(() {
       widget._controller.location = new Location(lat: latitude, lng: longitude);
@@ -151,8 +150,7 @@ class LocationEditingController {
     if (_isEmpty != null) {
       return _isEmpty;
     } else if (x != null &&
-        MainLocation.equals(this.location.lat, this.location.lng,
-            x.location.lat, x.location.lng)) {
+        MainLocation.equals(this.location.lat, this.location.lng, x.location.lat, x.location.lng)) {
       return Lang.getString(context, "Too_close");
     } else {
       return null;
