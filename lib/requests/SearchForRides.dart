@@ -11,7 +11,11 @@ class SearchForRides extends Request<List<Ride>> {
 
   @override
   List<Ride> buildObject(json) {
-    return json != null ? List<Ride>.from(json.map((x) => Ride.fromJson(x))) : null;
+    return json != null
+        ? List<Ride>.from(json.map((x) {
+            return Ride.fromJson(x);
+          }))
+        : null;
   }
 
   @override

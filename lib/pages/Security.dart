@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
@@ -46,7 +47,8 @@ class Security extends StatelessWidget {
                             ),
                             Expanded(
                               flex: 18,
-                              child: Text(App.user.email, style: Styles.valueTextStyle()),
+                              child: Text(App.user.email,
+                                  style: Styles.valueTextStyle()),
                             ),
                           ],
                         ),
@@ -75,7 +77,8 @@ class Security extends StatelessWidget {
                             ),
                             Expanded(
                               flex: 18,
-                              child: Text(App.user.phone, style: Styles.valueTextStyle()),
+                              child: Text(App.user.phone,
+                                  style: Styles.valueTextStyle()),
                             ),
                           ],
                         ),
@@ -83,9 +86,25 @@ class Security extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
+          VerticalSpacer(
+            height: 40,
+          ),
+          ResponsiveRow(flex: 30, children: [
+            ResponsiveWidget.fullWidth(
+              height: 300,
+              child: DifferentSizeResponsiveRow(
+                children: [
+                  Expanded(
+                      flex: 60,
+                      child:  MainNativeAd(),
+                      ),
+                ],
+              ),
+            ),
+          ]),
         ],
       ),
     );

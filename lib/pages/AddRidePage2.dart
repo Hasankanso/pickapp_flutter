@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/Validation.dart';
@@ -205,7 +206,8 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   style: Styles.valueTextStyle(),
                   validator: (value) {
                     String valid = Validation.validate(value, context);
-                    String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
+                    String alpha =
+                        Validation.isAlphaNumericIgnoreSpaces(context, value);
                     String short = Validation.isShort(context, value, 25);
 
                     if (valid != null)
@@ -217,6 +219,23 @@ class _AddRidePage2State extends State<AddRidePage2> {
                     else
                       return null;
                   },
+                ),
+              ),
+              ResponsiveWidget.fullWidth(
+                height: 100,
+                child: DifferentSizeResponsiveRow(
+                  children: [
+                    Spacer(
+                      flex: 8,
+                    ),
+                    Expanded(
+                      flex: 60,
+                      child: MainNativeAd(),
+                    ),
+                    Spacer(
+                      flex: 8,
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -240,8 +259,8 @@ class _AddRidePage2State extends State<AddRidePage2> {
                         int time = int.parse(timeController.text);
                         rideInfo.stopTime = time;
                       }
-                      Navigator.of(context)
-                          .pushNamed("/AddRidePage3", arguments: [rideInfo, widget.appBarTitleKey]);
+                      Navigator.of(context).pushNamed("/AddRidePage3",
+                          arguments: [rideInfo, widget.appBarTitleKey]);
                     }
                   }),
             ),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:just_miles/ads/Ads.dart';
+import 'package:just_miles/classes/Styles.dart';
 
 class MainNativeAd extends StatelessWidget {
   NativeAd _nativeAd;
@@ -14,7 +15,7 @@ class MainNativeAd extends StatelessWidget {
       adUnitId: Ads.nativeId,
       request: Ads.adRequest,
       factoryId: 'adFactoryID',
-      listener: AdListener(
+      listener: NativeAdListener(
         onAdLoaded: (Ad ad) {
           print('$NativeAd loaded.');
           _nativeAdCompleter.complete(ad as NativeAd);
@@ -26,7 +27,8 @@ class MainNativeAd extends StatelessWidget {
         },
         onAdOpened: (Ad ad) => print('$NativeAd onAdOpened.'),
         onAdClosed: (Ad ad) => print('$NativeAd onAdClosed.'),
-        onApplicationExit: (Ad ad) => print('$NativeAd onApplicationExit.'),
+        onAdWillDismissScreen: (Ad ad) =>
+            print('$NativeAd onAdWillDismissScreen.'),
       ),
     );
 
@@ -47,11 +49,17 @@ class MainNativeAd extends StatelessWidget {
             if (snapshot.hasData) {
               child = AdWidget(ad: _nativeAd);
             } else {
-              child = Text('Error loading $NativeAd');
+              child = Center(
+                child: Text(
+                  'Error loading Advertisement',
+                  style: Styles.valueTextStyle(),
+                ),
+              );
             }
         }
 
         return Container(
+          color: Colors.red,
           child: child,
         );
       },

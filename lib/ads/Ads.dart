@@ -9,10 +9,7 @@ class Ads {
   static bool _rewardedReady = false;
   static String bannerId, nativeId, _rewardedId;
 
-  static List<String> testDevices = ["CCFDAC7398A8A50F2A79982FEB7459E2"];
-
   static AdRequest adRequest = AdRequest(
-    testDevices: Ads.testDevices,
     nonPersonalizedAds: true,
   );
 
@@ -46,34 +43,29 @@ class Ads {
   }
 
   static Future<void> showRewardedAd(Function callBack) async {
-    _rewardedAd = RewardedAd(
+    await RewardedAd.load(
       adUnitId: _rewardedId,
       request: adRequest,
-      listener: AdListener(
-          onAdLoaded: (Ad ad) {
-            print('${ad.runtimeType} loaded..');
-            _rewardedReady = true;
-            _rewardedAd.show();
-          },
-          onAdFailedToLoad: (Ad ad, LoadAdError error) {
-            print('${ad.runtimeType} failed to load: $error');
-            ad.dispose();
-            _rewardedAd = null;
-          },
-          onAdOpened: (Ad ad) => print('${ad.runtimeType} onAdOpened.'),
-          onAdClosed: (Ad ad) {
-            print('${ad.runtimeType} closed.');
-            ad.dispose();
-          },
-          onApplicationExit: (Ad ad) =>
-              print('${ad.runtimeType} onApplicationExit.'),
-          onRewardedAdUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+      rewardedAdLoadCallback:
+          RewardedAdLoadCallback(onAdLoaded: (RewardedAd ad) async {
+        print('${ad.runtimeType} loaded..');
+        _rewardedReady = true;
+        _rewardedAd = ad;
+        print(_rewardedAd);
+        print(1222);
+
+        await _rewardedAd.show(
+          onUserEarnedReward: (RewardedAd ad, RewardItem rewardItem) {
             print(
-              '$RewardedAd with reward $RewardItem(${reward.amount}, ${reward.type})',
+              '$RewardedAd with reward $rewardItem})',
             );
             if (callBack != null) callBack();
-          }),
+          },
+        );
+      }, onAdFailedToLoad: (LoadAdError error) {
+        _rewardedAd = null;
+        print("failed to load");
+      }),
     );
-    await _rewardedAd.load();
   }
 }

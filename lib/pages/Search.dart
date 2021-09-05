@@ -27,7 +27,8 @@ class Search extends StatefulWidget {
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Search> {
+class _SearchState extends State<Search>
+    with AutomaticKeepAliveClientMixin<Search> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
@@ -84,7 +85,8 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                 },
               ),
               ValueListenableBuilder(
-                builder: (BuildContext context, bool isNewNotification, Widget child) {
+                builder: (BuildContext context, bool isNewNotification,
+                    Widget child) {
                   return Visibility(
                     visible: isNewNotification,
                     child: Positioned(
@@ -130,12 +132,25 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
             ),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
-                height: 35, child: NumberPicker(numberController, "Persons", 1, 8)),
+                height: 35,
+                child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
-            ResponsiveWidget(
-              width: 200,
-              height: 100,
-              child: MainNativeAd(),
+            ResponsiveWidget.fullWidth(
+              height: 120,
+              child: DifferentSizeResponsiveRow(
+                children: [
+                  Spacer(
+                    flex: 8,
+                  ),
+                  Expanded(
+                    flex: 60,
+                    child: MainNativeAd(),
+                  ),
+                  Spacer(
+                    flex: 8,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -150,13 +165,16 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
               text_key: "Search",
               isRequest: true,
               onPressed: () async {
-                String _validateFrom = fromController.validate(context, x: toController);
-                String _validateTo = toController.validate(context, x: fromController);
+                String _validateFrom =
+                    fromController.validate(context, x: toController);
+                String _validateTo =
+                    toController.validate(context, x: fromController);
                 _fromError = _validateFrom;
                 _toError = _validateTo;
                 setState(() {});
                 if (_validateFrom == null && _validateTo == null) {
-                  if (dateTimeController.startDateController.chosenDate.isBefore(DateTime.now())) {
+                  if (dateTimeController.startDateController.chosenDate
+                      .isBefore(DateTime.now())) {
                     setState(() {
                       dateTimeController.startDateController.chosenDate =
                           DateTime.now().add(Duration(minutes: 30));
@@ -176,10 +194,13 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                       to: to,
                       from: from,
                       passengersNumber: numberController.chosenNumber,
-                      minDate: dateTimeController.startDateController.chosenDate,
+                      minDate:
+                          dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
-                  _sendAnalyticsEvent(fromController.description, toController.description,
+                  _sendAnalyticsEvent(
+                      fromController.description,
+                      toController.description,
                       dateTimeController.startDateController.toString());
                   await request.send(response);
                 }

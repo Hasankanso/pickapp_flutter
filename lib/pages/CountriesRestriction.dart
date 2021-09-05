@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
@@ -19,7 +20,8 @@ class CountriesRestriction extends StatefulWidget {
 }
 
 class _CountriesRestrictionState extends State<CountriesRestriction> {
-  List<CountryPickerController> _countriesControllers = <CountryPickerController>[];
+  List<CountryPickerController> _countriesControllers =
+      <CountryPickerController>[];
   int _countriesMaxNb = 5;
 
   _getCountries() async {
@@ -27,7 +29,8 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
     List<String> countries = await Cache.getCountriesList();
     setState(() {
       for (final c in countries) {
-        Country country = a.where((country) => country.countryCode == c.toUpperCase()).first;
+        Country country =
+            a.where((country) => country.countryCode == c.toUpperCase()).first;
         _countriesControllers.add(CountryPickerController(country: country));
       }
     });
@@ -76,7 +79,8 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
                                 color: Styles.primaryColor(),
                                 tooltip: Lang.getString(context, "Add_country"),
                                 onPressed: !(_countriesControllers != null &&
-                                        _countriesControllers.length >= _countriesMaxNb)
+                                        _countriesControllers.length >=
+                                            _countriesMaxNb)
                                     ? _addCountry
                                     : null,
                               ),
@@ -92,6 +96,7 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
           ),
           if (_countriesControllers != null)
             Expanded(
+              flex: 6,
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   return CountryRestrictionListTile(
@@ -104,6 +109,29 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
                 itemCount: _countriesControllers.length,
               ),
             ),
+          Expanded(
+            flex: 6,
+            child: ResponsiveWidget.fullWidth(
+              height: 130,
+              child: Row(
+                children: [
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Expanded(
+                    flex: 100,
+                    child: MainNativeAd(),
+                  ),
+                  Spacer(
+                    flex: 1,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Spacer(
+            flex: 1,
+          )
         ],
       ),
     );
@@ -147,21 +175,33 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
                         child: CountryListView(
                           showPhoneCode: false,
                           onSelect: (c) async {
-                            _countriesControllers.add(CountryPickerController(country: c));
+                            _countriesControllers
+                                .add(CountryPickerController(country: c));
 
-                            for (int i = 0; i < _countriesControllers.length; i++) {
-                              var validate = _countriesControllers[i].validate(context);
+                            for (int i = 0;
+                                i < _countriesControllers.length;
+                                i++) {
+                              var validate =
+                                  _countriesControllers[i].validate(context);
                               if (validate != null) {
                                 _countriesControllers.removeLast();
                                 return;
                               }
                             }
-                            for (int i = 0; i < _countriesControllers.length; i++) {
-                              for (int j = i + 1; j < _countriesControllers.length; j++) {
+                            for (int i = 0;
+                                i < _countriesControllers.length;
+                                i++) {
+                              for (int j = i + 1;
+                                  j < _countriesControllers.length;
+                                  j++) {
                                 if (_countriesControllers[j].country != null &&
                                     _countriesControllers[i].country != null &&
-                                    _countriesControllers[i].country.countryCode ==
-                                        _countriesControllers[j].country.countryCode) {
+                                    _countriesControllers[i]
+                                            .country
+                                            .countryCode ==
+                                        _countriesControllers[j]
+                                            .country
+                                            .countryCode) {
                                   _countriesControllers.removeLast();
                                   return;
                                 }
@@ -169,15 +209,19 @@ class _CountriesRestrictionState extends State<CountriesRestriction> {
                             }
                             //validation done
                             List<String> _updatedCountries = <String>[];
-                            for (int i = 0; i < _countriesControllers.length; i++) {
-                              _updatedCountries.add(_countriesControllers[i].country.countryCode);
+                            for (int i = 0;
+                                i < _countriesControllers.length;
+                                i++) {
+                              _updatedCountries.add(
+                                  _countriesControllers[i].country.countryCode);
                             }
 
                             await Cache.setCountriesList(_updatedCountries);
                             App.countriesComponents = null;
                             App.setCountriesComponent(_updatedCountries);
                             setState(() {
-                              App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
+                              App.updateUpcomingRide.value =
+                                  !App.updateUpcomingRide.value;
                             });
                           },
                         ),

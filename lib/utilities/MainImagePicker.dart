@@ -41,7 +41,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller.pickedImage != null) _image = widget.controller.pickedImage;
+    if (widget.controller.pickedImage != null)
+      _image = widget.controller.pickedImage;
   }
 
   @override
@@ -53,7 +54,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
       child: Stack(
         children: [
           !widget.isLoading
-              ? widget.imageUrl != null
+              ? (widget.imageUrl != null && widget.imageUrl.isNotEmpty)
                   ? CachedNetworkImage(
                       imageUrl: widget.imageUrl,
                       imageBuilder: (context, imageProvider) {
@@ -73,8 +74,9 @@ class _MainImagePickerState extends State<MainImagePicker> {
                         return CircleAvatar(
                           backgroundColor: Colors.transparent,
                           radius: ScreenUtil().setSp(45),
-                          backgroundImage: AssetImage(
-                              !widget.isCarPicker ? "lib/images/user.png" : "lib/images/car.png"),
+                          backgroundImage: AssetImage(!widget.isCarPicker
+                              ? "lib/images/user.png"
+                              : "lib/images/car.png"),
                         );
                       },
                     )
@@ -83,8 +85,9 @@ class _MainImagePickerState extends State<MainImagePicker> {
                       radius: ScreenUtil().setSp(45),
                       backgroundImage: _image != null
                           ? Image.file(File(_image.path)).image
-                          : AssetImage(
-                              !widget.isCarPicker ? "lib/images/user.png" : "lib/images/car.png"),
+                          : AssetImage(!widget.isCarPicker
+                              ? "lib/images/user.png"
+                              : "lib/images/car.png"),
                     )
               : CircleAvatar(
                   backgroundColor: Colors.transparent,
@@ -110,7 +113,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
     Navigator.pop(context);
     var pickedFile;
     try {
-      pickedFile = await picker.getImage(source: ImageSource.camera, imageQuality: 50);
+      pickedFile =
+          await picker.getImage(source: ImageSource.camera, imageQuality: 50);
     } catch (PlatformException) {
       openAppSettings();
       return;
@@ -128,7 +132,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
     Navigator.pop(context);
     var pickedFile;
     try {
-      pickedFile = await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+      pickedFile =
+          await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
     } catch (PlatformException) {
       openAppSettings();
       return;
@@ -161,8 +166,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
     showModalBottomSheet<void>(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.only(topRight: Radius.circular(10.0), topLeft: Radius.circular(10.0)),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10.0), topLeft: Radius.circular(10.0)),
       ),
       builder: (BuildContext context) {
         return Container(

@@ -38,6 +38,7 @@ class Driver {
 
     List<MainLocation> regions = [];
     var reg1 = json["region1"];
+
     MainLocation regL1;
     if (reg1 != null) {
       regL1 = MainLocation.fromJson(reg1);
@@ -57,9 +58,12 @@ class Driver {
       regL3 = MainLocation.fromJson(reg3);
       regions.add(regL3);
     }
+
     return Driver(
       id: json["objectId"],
-      cars: json["cars"] != null ? List<Car>.from(json["cars"].map((x) => Car.fromJson(x))) : null,
+      cars: json["cars"] != null
+          ? List<Car>.from(json["cars"].map((x) => Car.fromJson(x)))
+          : null,
       regions: regions,
     );
   }

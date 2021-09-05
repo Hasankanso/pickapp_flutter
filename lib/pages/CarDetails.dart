@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
@@ -100,7 +101,8 @@ class _CarDetailsState extends State<CarDetails> {
                           String valid = Validation.validate(value, context);
                           if (valid != null)
                             return valid;
-                          else if (value.length < 2) return Validation.invalid(context);
+                          else if (value.length < 2)
+                            return Validation.invalid(context);
                           return null;
                         },
                       ),
@@ -189,6 +191,17 @@ class _CarDetailsState extends State<CarDetails> {
                   ],
                 ),
               ),
+              VerticalSpacer(
+                height: 10,
+              ),
+              ResponsiveWidget.fullWidth(
+                height: 150,
+                child: DifferentSizeResponsiveRow(
+                  children: [
+                    Expanded(flex: 5, child: MainNativeAd()),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -206,16 +219,16 @@ class _CarDetailsState extends State<CarDetails> {
                   if (_formKey.currentState.validate()) {
                     for (var item in App.person.upcomingRides) {
                       if (item.car.id == widget.car.id) {
-                        return CustomToast()
-                            .showErrorToast(Lang.getString(context, "Delete_car_message"));
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Delete_car_message"));
                       }
                     }
-                    /* if (widget.car.updated != null &&
+                    if (widget.car.updated != null &&
                         widget.car.updated.difference(DateTime.now()).inDays >
                             -30) {
                       return CustomToast().showErrorToast(
                           Lang.getString(context, "Car_edit_time"));
-                    }*/
+                    }
                     Car c = widget.car;
                     Car car = Car(
                         color: c.color,
@@ -269,7 +282,8 @@ class _CarDetailsState extends State<CarDetails> {
       await Cache.setUser(App.user);
       App.updateProfile.value = !App.updateProfile.value;
 
-      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

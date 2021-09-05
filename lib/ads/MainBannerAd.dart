@@ -14,7 +14,7 @@ class MainBannerAd extends StatelessWidget {
       adUnitId: Ads.bannerId,
       size: AdSize.fullBanner,
       request: Ads.adRequest,
-      listener: AdListener(
+      listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
           print('$NativeAd loaded.');
           _bannerAdCompleter.complete(ad as BannerAd);
@@ -26,7 +26,8 @@ class MainBannerAd extends StatelessWidget {
         },
         onAdOpened: (Ad ad) => print('$NativeAd onAdOpened.'),
         onAdClosed: (Ad ad) => print('$NativeAd onAdClosed.'),
-        onApplicationExit: (Ad ad) => print('$NativeAd onApplicationExit.'),
+        onAdWillDismissScreen: (Ad ad) =>
+            print('$NativeAd onAdWillDismissScreen.'),
       ),
     );
 

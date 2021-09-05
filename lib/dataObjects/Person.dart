@@ -50,7 +50,8 @@ class Person {
   get fullName => firstName + lastName;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is Person && _id == other._id;
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Person && _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;
@@ -103,6 +104,7 @@ class Person {
 
   factory Person.fromJson(Map<String, dynamic> json) {
     if (json == null) return null;
+
     var birthdayJ = json["birthday"];
     DateTime birthday;
     if (birthdayJ != null && !(birthdayJ is String)) {
@@ -110,6 +112,7 @@ class Person {
     } else {
       birthday = DateTime.parse(birthdayJ);
     }
+
     var updatedJ = json["updated"];
     DateTime updated;
     if (updatedJ != null) {
@@ -122,14 +125,16 @@ class Person {
       countryInformations = CountryInformations.fromJson(countryJ);
     }
 
-    UserStatistics statistics =
-        json["statistics"] == null ? null : UserStatistics.fromJson(json["statistics"]);
+    UserStatistics statistics = json["statistics"] == null
+        ? null
+        : UserStatistics.fromJson(json["statistics"]);
 
     var createdJ = json["created"];
     DateTime created;
     if (createdJ != null) {
       created = DateTime.fromMillisecondsSinceEpoch(createdJ);
     }
+
     var deviceToken = json["token"];
     Person p = Person(
       id: json["objectId"],
@@ -174,7 +179,8 @@ class Person {
   }
 
   //Ride
-  Future<Ride> getUpcomingRideFromId(String objectId, {bool searchHistory = false}) async {
+  Future<Ride> getUpcomingRideFromId(String objectId,
+      {bool searchHistory = false}) async {
     if (this.upcomingRides == null) {
       this.upcomingRides = [];
       return null;
@@ -222,7 +228,7 @@ class Person {
   }
 
   setNetworkImage() {
-    if (profilePictureUrl == null) {
+    if (profilePictureUrl == null || profilePictureUrl.isEmpty) {
       this._networkImage = AssetImage("lib/images/user.png");
     } else {
       this._networkImage = NetworkImage(this.profilePictureUrl);
@@ -279,7 +285,7 @@ class Person {
     }
   }
 
-  get profilePictureUrl => _profilePictureUrl;
+  String get profilePictureUrl => _profilePictureUrl;
 
   set profilePictureUrl(value) {
     _profilePictureUrl = value;

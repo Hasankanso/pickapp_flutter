@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/directions.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
@@ -253,6 +254,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
             ),
           ),
           Expanded(
+            flex: 3,
             child: ListView.builder(
               itemBuilder: (context, index) {
                 return RegionListTile(
@@ -264,6 +266,26 @@ class _BecomeDriverState extends State<BecomeDriver> {
                 );
               },
               itemCount: _regions.length,
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: ResponsiveWidget.fullWidth(
+              height: 130,
+              child: Row(
+                children: [
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Expanded(
+                    flex: 120,
+                    child: MainNativeAd(),
+                  ),
+                  Spacer(
+                    flex: 1,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
