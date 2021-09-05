@@ -1,4 +1,4 @@
-package com.justMiles.justMiles;
+package com.example.pickapp;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,6 +13,8 @@ import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
 //import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin;
 //import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
+
+import com.justMiles.justMiles.R;
 import com.whelksoft.flutter_native_timezone.FlutterNativeTimezonePlugin;
 import com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin;
 

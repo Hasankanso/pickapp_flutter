@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_miles/ads/MainNativeAd.dart';
 
 class ListBuilder extends StatelessWidget {
   final Widget Function(BuildContext, int) itemBuilder;
@@ -13,8 +14,15 @@ class ListBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scrollbar(
       controller: controller,
-      child: ListView.builder(
+      child: ListView.separated(
           controller: controller,
+          separatorBuilder: (BuildContext context, int index) {
+            if (index % 0 == 0) {
+              // Display `AdmobBanner` every 5 'separators'.
+              return MainNativeAd();
+            }
+            return Divider();
+          },
           reverse: reverse,
           itemBuilder: itemBuilder,
           itemCount: list.length),
