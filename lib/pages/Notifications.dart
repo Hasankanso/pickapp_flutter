@@ -4,6 +4,7 @@ import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/items/NotificationListTile.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/PushNotificationsManager.dart';
@@ -20,8 +21,8 @@ class Notifications extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: App.updateNotifications,
         builder: (BuildContext context, bool isd, Widget child) {
-          WidgetsBinding.instance
-              .addPostFrameCallback((_) => App.isNewNotificationNotifier.value = false);
+          WidgetsBinding.instance.addPostFrameCallback(
+              (_) => App.isNewNotificationNotifier.value = false);
           Cache.setIsNewNotification(false);
           notifications = List.from(App.notifications.reversed);
 
@@ -34,7 +35,11 @@ class Notifications extends StatelessWidget {
               child: notifications.length > 0
                   ? ListBuilder(
                       list: notifications,
-                      itemBuilder: NotificationListTile.itemBuilder(notifications))
+                      itemBuilder:
+                          NotificationListTile.itemBuilder(notifications),
+                      nativeAdHeight: ScreenUtil().setSp(74),
+                      nativeAdElevation: 1,
+                      nativeAdRoundCorner: 5)
                   : Center(
                       child: Text(Lang.getString(context, "No_notifications!"),
                           style: Styles.valueTextStyle())),
