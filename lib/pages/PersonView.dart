@@ -37,7 +37,8 @@ class _PersonViewState extends State<PersonView> {
     dataMap = {
       Lang.getString(context, "Accomplished_Rides"):
           widget.person.statistics.acomplishedRides.toDouble(),
-      Lang.getString(context, "Canceled_Rides"): widget.person.statistics.canceledRides.toDouble(),
+      Lang.getString(context, "Canceled_Rides"):
+          widget.person.statistics.canceledRides.toDouble(),
     };
   }
 
@@ -62,8 +63,8 @@ class _PersonViewState extends State<PersonView> {
       parallaxEnabled: true,
       parallaxOffset: .5,
       color: Theme.of(context).scaffoldBackgroundColor,
-      borderRadius:
-          BorderRadius.only(topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
       panelBuilder: (ScrollController sc) => _Panel(
           controller: sc,
           person: widget.person,
@@ -120,10 +121,12 @@ class _Panel extends StatelessWidget {
   double accomplishedCanceledRatio = 0;
 
   _Panel({this.person, this.controller, this.chattinessItems, this.dataMap}) {
-    int ridesCount = person.statistics.acomplishedRides + person.statistics.canceledRides;
+    int ridesCount =
+        person.statistics.acomplishedRides + person.statistics.canceledRides;
 
     if (ridesCount > 0) {
-      accomplishedCanceledRatio = person.statistics.acomplishedRides / ridesCount;
+      accomplishedCanceledRatio =
+          person.statistics.acomplishedRides / ridesCount;
     }
   }
 
@@ -171,7 +174,8 @@ class _Panel extends StatelessWidget {
               Text(
                 person.gender ? Styles.maleIcon : Styles.femaleIcon,
                 maxLines: 1,
-                style: Styles.valueTextStyle(color: Styles.primaryColor(), bold: FontWeight.w800),
+                style: Styles.valueTextStyle(
+                    color: Styles.primaryColor(), bold: FontWeight.w800),
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,
               ),
@@ -181,7 +185,8 @@ class _Panel extends StatelessWidget {
         ResponsiveWidget.fullWidth(
           height: 30,
           child: Text(
-            DateFormat(App.birthdayFormat, Localizations.localeOf(context).toString())
+            DateFormat(App.birthdayFormat,
+                    Localizations.localeOf(context).toString())
                 .format(person.creationDate),
             maxLines: 1,
             style: Styles.labelTextStyle(size: 11, bold: FontWeight.bold),
@@ -203,7 +208,8 @@ class _Panel extends StatelessWidget {
                       Icons.speed,
                     ),
                     Text(
-                      (person.statistics.acomplishedRides + person.statistics.canceledRides)
+                      (person.statistics.acomplishedRides +
+                                  person.statistics.canceledRides)
                               .toInt()
                               .toString() +
                           " " +
@@ -219,7 +225,8 @@ class _Panel extends StatelessWidget {
                     lineHeight: 16.0,
                     percent: accomplishedCanceledRatio,
                     center: Text(
-                      (accomplishedCanceledRatio * 100).toInt().toString() + "%",
+                      (accomplishedCanceledRatio * 100).toInt().toString() +
+                          "%",
                       style: Styles.buttonTextStyle(size: 12),
                     ),
                     backgroundColor: Colors.red,
@@ -264,18 +271,19 @@ class _Panel extends StatelessWidget {
           ),
         ),
         VerticalSpacer(height: 5),
-        _Title(text: Lang.getString(context, "Bio")),
-        ResponsiveRow(
-          children: [
-            Text(
-              person.bio,
-              textAlign: TextAlign.center,
-              maxLines: 7,
-              style: Styles.valueTextStyle(),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
+        if (person.bio != null) _Title(text: Lang.getString(context, "Bio")),
+        if (person.bio != null)
+          ResponsiveRow(
+            children: [
+              Text(
+                person.bio,
+                textAlign: TextAlign.center,
+                maxLines: 7,
+                style: Styles.valueTextStyle(),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         VerticalSpacer(height: 14),
       ]),
     );

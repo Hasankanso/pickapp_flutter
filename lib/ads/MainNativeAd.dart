@@ -7,6 +7,8 @@ import 'package:just_miles/classes/Styles.dart';
 
 class MainNativeAd extends StatelessWidget {
   NativeAd _nativeAd;
+  final Decoration decoration;
+  MainNativeAd({this.decoration});
   final Completer<NativeAd> _nativeAdCompleter = Completer<NativeAd>();
 
   @override
@@ -59,8 +61,9 @@ class MainNativeAd extends StatelessWidget {
         }
 
         return Container(
-          color: Colors.red,
+          decoration: decoration,
           child: child,
+          color: Colors.red,
         );
       },
     );

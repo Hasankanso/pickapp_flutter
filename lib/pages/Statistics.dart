@@ -142,11 +142,23 @@ class Statistics extends StatelessWidget {
               )
             ],
           ),
+          VerticalSpacer(height: 18),
         ],
       ),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
-        height: 275,
-        child: MainNativeAd(),
+        height: 300,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ResponsiveWidget.fullWidth(
+              height: 275,
+              child: MainNativeAd(),
+            ),
+            VerticalSpacer(
+              height: 20,
+            ),
+          ],
+        ),
       ),
     );
   }

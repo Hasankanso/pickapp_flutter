@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
@@ -57,7 +58,8 @@ class _Phone2State extends State<Phone2> {
     _resendCodeLocale = Lang.getString(context, "Resend_code");
     _resendCodeInLocale = Lang.getString(context, "Resend_code_in");
     _secondsLocale = Lang.getString(context, "Resend_code_seconds");
-    _resendCodeTimer = _resendCodeInLocale + _timeout.toString() + _secondsLocale;
+    _resendCodeTimer =
+        _resendCodeInLocale + _timeout.toString() + _secondsLocale;
 
     await _sendCode();
     _startTimer();
@@ -69,121 +71,147 @@ class _Phone2State extends State<Phone2> {
       appBar: MainAppBar(
         title: Lang.getString(context, "Phone"),
       ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ResponsiveWidget.fullWidth(
-              height: 50,
-              child: DifferentSizeResponsiveRow(
-                children: [
-                  Spacer(
-                    flex: 8,
-                  ),
-                  Expanded(
-                    flex: 20,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.edit,
-                            size: Styles.smallIconSize(),
-                          ),
-                          Text(
-                            widget.user == null
-                                ? " " + widget.oldUser.phone
-                                : " " + widget.user.phone,
-                            style: Styles.valueTextStyle(),
-                          ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              VerticalSpacer(
+                height: 100,
+              ),
+              ResponsiveWidget.fullWidth(
+                height: 50,
+                child: DifferentSizeResponsiveRow(
+                  children: [
+                    Spacer(
+                      flex: 8,
+                    ),
+                    Expanded(
+                      flex: 20,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.edit,
+                              size: Styles.smallIconSize(),
+                            ),
+                            Text(
+                              widget.user == null
+                                  ? " " + widget.oldUser.phone
+                                  : " " + widget.user.phone,
+                              style: Styles.valueTextStyle(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Spacer(
+                      flex: 8,
+                    ),
+                  ],
+                ),
+              ),
+              ResponsiveWidget.fullWidth(
+                height: 100,
+                child: DifferentSizeResponsiveRow(
+                  children: [
+                    Spacer(
+                      flex: 11,
+                    ),
+                    Expanded(
+                      flex: 14,
+                      child: TextFormField(
+                        controller: _smsCode,
+                        validator: (value) {
+                          String valid = Validation.validate(value, context);
+                          if (valid != null) return valid;
+                          if (value.length != 6)
+                            return Validation.invalid(context);
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(6),
                         ],
+                        maxLengthEnforced: true,
+                        decoration: InputDecoration(
+                          labelText: Lang.getString(context, "Code"),
+                          hintText: "024512",
+                          labelStyle: Styles.labelTextStyle(),
+                        ),
                       ),
                     ),
-                  ),
-                  Spacer(
-                    flex: 8,
-                  ),
-                ],
+                    Spacer(
+                      flex: 11,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            ResponsiveWidget.fullWidth(
-              height: 100,
-              child: DifferentSizeResponsiveRow(
-                children: [
-                  Spacer(
-                    flex: 11,
-                  ),
-                  Expanded(
-                    flex: 14,
-                    child: TextFormField(
-                      controller: _smsCode,
-                      validator: (value) {
-                        String valid = Validation.validate(value, context);
-                        if (valid != null) return valid;
-                        if (value.length != 6) return Validation.invalid(context);
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(6),
-                      ],
-                      maxLengthEnforced: true,
-                      decoration: InputDecoration(
-                        labelText: Lang.getString(context, "Code"),
-                        hintText: "024512",
-                        labelStyle: Styles.labelTextStyle(),
+              ResponsiveWidget.fullWidth(
+                height: 50,
+                child: DifferentSizeResponsiveRow(
+                  children: [
+                    Spacer(
+                      flex: 6,
+                    ),
+                    Expanded(
+                      flex: 22,
+                      child: TextButton(
+                        onPressed: !_isCounterStillOn
+                            ? () async {
+                                await _sendCode();
+                                _startTimer();
+                              }
+                            : null,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.sms_outlined,
+                              size: Styles.smallIconSize(),
+                            ),
+                            Text(
+                              " " + _resendCodeTimer,
+                              style: Styles.valueTextStyle(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Spacer(
-                    flex: 11,
-                  ),
-                ],
-              ),
-            ),
-            ResponsiveWidget.fullWidth(
-              height: 50,
-              child: DifferentSizeResponsiveRow(
-                children: [
-                  Spacer(
-                    flex: 6,
-                  ),
-                  Expanded(
-                    flex: 22,
-                    child: TextButton(
-                      onPressed: !_isCounterStillOn
-                          ? () async {
-                              await _sendCode();
-                              _startTimer();
-                            }
-                          : null,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.sms_outlined,
-                            size: Styles.smallIconSize(),
-                          ),
-                          Text(
-                            " " + _resendCodeTimer,
-                            style: Styles.valueTextStyle(),
-                          ),
-                        ],
-                      ),
+                    Spacer(
+                      flex: 6,
                     ),
-                  ),
-                  Spacer(
-                    flex: 6,
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+              VerticalSpacer(
+                height: 25,
+              ),
+              ResponsiveWidget.fullWidth(
+                height: 140,
+                child: DifferentSizeResponsiveRow(
+                  children: [
+                    Spacer(
+                      flex: 8,
+                    ),
+                    Expanded(
+                      flex: 60,
+                      child: MainNativeAd(),
+                    ),
+                    Spacer(
+                      flex: 8,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
@@ -238,7 +266,8 @@ class _Phone2State extends State<Phone2> {
         } else {
           setState(() {
             _timeout--;
-            _resendCodeTimer = _resendCodeInLocale + _timeout.toString() + _secondsLocale;
+            _resendCodeTimer =
+                _resendCodeInLocale + _timeout.toString() + _secondsLocale;
           });
         }
       },
@@ -258,25 +287,29 @@ class _Phone2State extends State<Phone2> {
         _changePhoneRequest();
       }
     };
-    auth.PhoneVerificationFailed verificationFailed = (auth.FirebaseAuthException authException) {
+    auth.PhoneVerificationFailed verificationFailed =
+        (auth.FirebaseAuthException authException) {
       if (authException.code == "too-many-requests") {
         CustomToast().showErrorToast(Lang.getString(context, "To_many_sms"));
       }
       CustomToast().showErrorToast(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
     };
-    auth.PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
+    auth.PhoneCodeSent codeSent =
+        (String verificationId, [int forceResendingToken]) async {
       CustomToast().showSuccessToast(Lang.getString(context, "Sms_code_hint"));
       _verificationSmsId = verificationId;
     };
 
-    auth.PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
+    auth.PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationId) {
       _verificationSmsId = verificationId;
     };
 
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber: widget.user != null ? widget.user.phone : widget.oldUser.phone,
+          phoneNumber:
+              widget.user != null ? widget.user.phone : widget.oldUser.phone,
           timeout: Duration(seconds: 120),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
@@ -294,7 +327,8 @@ class _Phone2State extends State<Phone2> {
         verificationId: _verificationSmsId,
         smsCode: _smsCode.text,
       );
-      final auth.User user = (await _auth.signInWithCredential(credential)).user;
+      final auth.User user =
+          (await _auth.signInWithCredential(credential)).user;
       _idToken = await user.getIdToken();
       if (widget.user != null) {
         Navigator.pop(context);
@@ -305,12 +339,16 @@ class _Phone2State extends State<Phone2> {
     } catch (e) {
       auth.FirebaseAuthException exception = (e as auth.FirebaseAuthException);
       if (exception.code == "session-expired") {
-        CustomToast().showErrorToast(Lang.getString(context, "Code_has_expired"));
+        CustomToast()
+            .showErrorToast(Lang.getString(context, "Code_has_expired"));
       } else if (exception.code == "invalid-verification-code") {
-        CustomToast().showErrorToast(Lang.getString(context, "Incorrect_verification_code"));
-      } else {
         CustomToast().showErrorToast(
-            "faild to sign in: code:" + exception.code + " message: " + exception.message);
+            Lang.getString(context, "Incorrect_verification_code"));
+      } else {
+        CustomToast().showErrorToast("faild to sign in: code:" +
+            exception.code +
+            " message: " +
+            exception.message);
       }
       Navigator.pop(context);
     }
@@ -332,7 +370,8 @@ class _Phone2State extends State<Phone2> {
     App.user = localUser;
     await Cache.setUser(localUser);
 
-    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+    CustomToast()
+        .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     Navigator.popUntil(context, (route) => route.isFirst);
   }
 
