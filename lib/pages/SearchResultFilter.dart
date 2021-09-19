@@ -326,7 +326,7 @@ class _SliderTextFilter extends StatefulWidget {
     this.controller,
     this.minSelected = 0,
     this.maxSelected = 100,
-    this.step = 100,
+    this.step = 1000,
     this.absoluteMaxValue = 100,
     this.isTime = false,
     Key key,

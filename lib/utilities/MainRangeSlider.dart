@@ -13,7 +13,7 @@ class MainRangeSlider extends StatefulWidget {
     this.max = 100,
     this.minSelected = 20,
     this.maxSelected = 80,
-    this.step = 10,
+    this.step = 100,
     this.controller,
     this.onChanged,
   });
@@ -47,15 +47,14 @@ class _MainRangeSliderState extends State<MainRangeSlider> {
             values: widget.controller.values,
             min: widget.controller.minAbsolute,
             max: widget.controller.maxAbsolute,
-            divisions: widget.step.toInt(),
-            labels: RangeLabels(
-                widget.controller.minSelected.toInt().toString(),
+            divisions: widget.controller.maxAbsolute ~/ widget.step,
+            labels: RangeLabels(widget.controller.minSelected.toInt().toString(),
                 widget.controller.maxSelected.toInt().toString()),
             onChanged: (values) {
               setState(() {
                 widget.controller.changedAtLeastOnce = true;
                 widget.controller.values = values;
-                if(widget.onChanged!=null){
+                if (widget.onChanged != null) {
                   widget.onChanged(values);
                 }
               });
@@ -103,7 +102,6 @@ class TimeRangeSlider extends StatefulWidget {
 }
 
 class _TimeRangeSliderState extends State<TimeRangeSlider> {
-
   RangeLabels labels;
 
   @override
@@ -115,8 +113,7 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
     widget.controller.minAbsolute = 0;
     widget.controller.maxAbsolute = 1439;
 
-    labels = RangeLabels(
-        TimeRangeSlider.intToTime(widget.controller.minSelected.toInt()),
+    labels = RangeLabels(TimeRangeSlider.intToTime(widget.controller.minSelected.toInt()),
         TimeRangeSlider.intToTime(widget.controller.maxSelected.toInt()));
 
     super.initState();
@@ -145,10 +142,9 @@ class _TimeRangeSliderState extends State<TimeRangeSlider> {
                     TimeRangeSlider.intToTime(widget.controller.minSelected.toInt()),
                     TimeRangeSlider.intToTime(widget.controller.maxSelected.toInt()));
 
-                if(widget.onChanged!=null){
+                if (widget.onChanged != null) {
                   widget.onChanged(labels);
                 }
-
               });
             },
           ),
@@ -168,8 +164,7 @@ class MainRangeSliderController {
 
   double get maxSelected => values.end;
 
-  MainRangeSliderController(){
+  MainRangeSliderController() {
     changedAtLeastOnce = false;
   }
-
 }
