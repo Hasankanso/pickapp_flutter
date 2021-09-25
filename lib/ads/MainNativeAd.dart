@@ -54,8 +54,7 @@ class MainNativeAd extends StatelessWidget {
             break;
           case ConnectionState.done:
             if (snapshot.hasData) {
-              child = FittedBox(
-                  fit: BoxFit.contain, child: AdWidget(ad: _nativeAd));
+              child = AdWidget(ad: _nativeAd);
             } else {
               child = Center(
                 child: Text(
