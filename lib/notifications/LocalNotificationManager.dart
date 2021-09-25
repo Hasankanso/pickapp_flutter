@@ -23,49 +23,54 @@ class LocalNotificationManager {
 
     AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    final IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings(
-        requestSoundPermission: true,
-        requestBadgePermission: true,
-        requestAlertPermission: true,
-        onDidReceiveLocalNotification: (int id, String title, String body, String payload) async {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text(title),
-              content: Text(body),
-              actions: [
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text(Lang.getString(context, "Dismiss")),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                  },
+    final IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings(
+            requestSoundPermission: true,
+            requestBadgePermission: true,
+            requestAlertPermission: true,
+            onDidReceiveLocalNotification:
+                (int id, String title, String body, String payload) async {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => CupertinoAlertDialog(
+                  title: Text(title),
+                  content: Text(body),
+                  actions: [
+                    CupertinoDialogAction(
+                      isDefaultAction: true,
+                      child: Text(Lang.getString(context, "Dismiss")),
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      isDefaultAction: true,
+                      child: Text(Lang.getString(context, "Show")),
+                      onPressed: () async {
+                        _localeNotificationCallBack(payload, context);
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
                 ),
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text(Lang.getString(context, "Show")),
-                  onPressed: () async {
-                    _localeNotificationCallBack(payload, context);
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ),
-          );
-        });
-    final InitializationSettings initializationSettings = InitializationSettings(
+              );
+            });
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onSelectNotification: (payload) => _localeNotificationCallBack(payload, context),
+      onSelectNotification: (payload) =>
+          _localeNotificationCallBack(payload, context),
     );
   }
 
   static _localeNotificationCallBack(String payload, context) async {
     if (payload != null) {
-      MainNotification notification = MainNotification.fromJson(json.decode(payload));
+      MainNotification notification =
+          MainNotification.fromJson(json.decode(payload));
       NotificationHandler handler =
           PushNotificationsManager.createNotificationHandler(notification);
       if (handler != null) handler.display(context);
@@ -97,7 +102,9 @@ class LocalNotificationManager {
         FilePathAndroidBitmap(imagePath),
       );
 
-      iosImage = <IOSNotificationAttachment>[IOSNotificationAttachment(imagePath)];
+      iosImage = <IOSNotificationAttachment>[
+        IOSNotificationAttachment(imagePath)
+      ];
     }
 
     String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
@@ -118,7 +125,7 @@ class LocalNotificationManager {
             notification.scheduleDate.millisecond),
         NotificationDetails(
             android: AndroidNotificationDetails(
-              'pickapp-channel',
+              'justMiles-channel',
               'PickApp',
               'This channel is for PickApp',
               importance: Importance.max,
@@ -142,7 +149,8 @@ class LocalNotificationManager {
                 attachments: iosImage)),
         androidAllowWhileIdle: true,
         payload: json.encode(notification.toJson()),
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
     await Cache.addScheduledNotification(notification);
   }
 

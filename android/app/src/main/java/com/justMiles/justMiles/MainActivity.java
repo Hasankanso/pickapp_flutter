@@ -1,4 +1,4 @@
-package com.example.pickapp;
+package com.justMiles.justMiles;
 
 
 import io.flutter.embedding.android.FlutterActivity;
@@ -11,11 +11,11 @@ public class MainActivity extends FlutterActivity {
     public void configureFlutterEngine(FlutterEngine flutterEngine) {
         flutterEngine.getPlugins().add(new GoogleMobileAdsPlugin());
         super.configureFlutterEngine(flutterEngine);
-        GoogleMobileAdsPlugin.registerNativeAdFactory(flutterEngine, "adFactoryExample", new NativeAdFactoryExample(getLayoutInflater()));
+        GoogleMobileAdsPlugin.registerNativeAdFactory(flutterEngine, "adFactoryID", new NativeAdFactoryExample(getLayoutInflater()));
     }
     @Override
     public void cleanUpFlutterEngine(FlutterEngine flutterEngine) {
-        GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "adFactoryExample");
+        GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "adFactoryID");
     }
 
 }

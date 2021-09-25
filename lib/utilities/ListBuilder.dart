@@ -22,9 +22,9 @@ class ListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(nativeAdRoundCorner == null ? 15.0 : nativeAdRoundCorner);
     return Scrollbar(
       controller: controller,
-
       child: nativeAdHeight != null
           ? ListView.separated(
               controller: controller,

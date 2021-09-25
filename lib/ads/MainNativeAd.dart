@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:just_miles/ads/Ads.dart';
 import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 
 class MainNativeAd extends StatelessWidget {
   NativeAd _nativeAd;
@@ -44,12 +45,17 @@ class MainNativeAd extends StatelessWidget {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
+            child = Center(
+              child: Spinner(),
+            );
+            break;
           case ConnectionState.active:
             child = Container();
             break;
           case ConnectionState.done:
             if (snapshot.hasData) {
-              child = AdWidget(ad: _nativeAd);
+              child = FittedBox(
+                  fit: BoxFit.contain, child: AdWidget(ad: _nativeAd));
             } else {
               child = Center(
                 child: Text(
@@ -59,11 +65,9 @@ class MainNativeAd extends StatelessWidget {
               );
             }
         }
-
         return Container(
           decoration: decoration,
           child: child,
-          color: Colors.red,
         );
       },
     );

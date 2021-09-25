@@ -26,7 +26,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
   })  : _builder = Builder(builder: (BuildContext innerContext) {
           return GestureDetector(
             child: flushbar,
-            onTap: flushbar.onTap != null ? () => flushbar.onTap(flushbar) : null,
+            onTap:
+                flushbar.onTap != null ? () => flushbar.onTap(flushbar) : null,
           );
         }),
         _onStatusChanged = flushbar.onStatusChanged,
@@ -78,7 +79,9 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
             final Widget annotatedChild = Semantics(
               child: AlignTransition(
                 alignment: _animation,
-                child: flushbar.isDismissible ? _getDismissibleFlushbar(_builder) : _getFlushbar(),
+                child: flushbar.isDismissible
+                    ? _getDismissibleFlushbar(_builder)
+                    : _getFlushbar(),
               ),
               focused: false,
               container: true,
@@ -100,7 +103,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
         builder: (context, child) {
           return BackdropFilter(
             filter: ImageFilter.blur(
-                sigmaX: _filterBlurAnimation.value, sigmaY: _filterBlurAnimation.value),
+                sigmaX: _filterBlurAnimation.value,
+                sigmaY: _filterBlurAnimation.value),
             child: Container(
               constraints: BoxConstraints.expand(),
               color: _filterColorAnimation.value,
@@ -116,7 +120,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
         builder: (context, child) {
           return BackdropFilter(
             filter: ImageFilter.blur(
-                sigmaX: _filterBlurAnimation.value, sigmaY: _filterBlurAnimation.value),
+                sigmaX: _filterBlurAnimation.value,
+                sigmaY: _filterBlurAnimation.value),
             child: Container(
               constraints: BoxConstraints.expand(),
               color: Colors.transparent,
@@ -194,7 +199,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
   }
 
   @override
-  bool get finishedWhenPopped => _controller.status == AnimationStatus.dismissed;
+  bool get finishedWhenPopped =>
+      _controller.status == AnimationStatus.dismissed;
 
   /// The animation that drives the route's transition and the previous route's
   /// forward transition.
@@ -212,8 +218,10 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
   /// this route from the previous one, and back to the previous route from this
   /// one.
   AnimationController createAnimationController() {
-    assert(!_transitionCompleter.isCompleted, 'Cannot reuse a $runtimeType after disposing it.');
-    assert(flushbar.animationDuration != null && flushbar.animationDuration >= Duration.zero);
+    assert(!_transitionCompleter.isCompleted,
+        'Cannot reuse a $runtimeType after disposing it.');
+    assert(flushbar.animationDuration != null &&
+        flushbar.animationDuration >= Duration.zero);
     return AnimationController(
       duration: flushbar.animationDuration,
       debugLabel: debugLabel,
@@ -225,7 +233,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
   /// the transition controlled by the animation controller created by
   /// [createAnimationController()].
   Animation<Alignment> createAnimation() {
-    assert(!_transitionCompleter.isCompleted, 'Cannot reuse a $runtimeType after disposing it.');
+    assert(!_transitionCompleter.isCompleted,
+        'Cannot reuse a $runtimeType after disposing it.');
     assert(_controller != null);
     return AlignmentTween(begin: _initialAlignment, end: _endAlignment).animate(
       CurvedAnimation(
@@ -254,7 +263,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
   Animation<Color> createColorFilterAnimation() {
     if (flushbar.routeColor == null) return null;
 
-    return ColorTween(begin: Colors.transparent, end: flushbar.routeColor).animate(
+    return ColorTween(begin: Colors.transparent, end: flushbar.routeColor)
+        .animate(
       CurvedAnimation(
         parent: _controller,
         curve: Interval(
@@ -287,7 +297,7 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
       case AnimationStatus.dismissed:
         assert(!overlayEntries.first.opaque);
         // We might still be the current route if a subclass is controlling the
-        // the transition and hits the dismissed status. For example, the iOS
+        // the transition and hits the dismissed status. For justMiles, the iOS
         // back gesture drives this animation to the dismissed status before
         // popping the navigator.
         currentStatus = FlushbarStatus.DISMISSED;
@@ -307,9 +317,11 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
 
   @override
   void install() {
-    assert(!_transitionCompleter.isCompleted, 'Cannot install a $runtimeType after disposing it.');
+    assert(!_transitionCompleter.isCompleted,
+        'Cannot install a $runtimeType after disposing it.');
     _controller = createAnimationController();
-    assert(_controller != null, '$runtimeType.createAnimationController() returned null.');
+    assert(_controller != null,
+        '$runtimeType.createAnimationController() returned null.');
     _filterBlurAnimation = createBlurFilterAnimation();
     _filterColorAnimation = createColorFilterAnimation();
     _animation = createAnimation();
@@ -321,7 +333,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
   TickerFuture didPush() {
     assert(_controller != null,
         '$runtimeType.didPush called before calling install() or after calling dispose().');
-    assert(!_transitionCompleter.isCompleted, 'Cannot reuse a $runtimeType after disposing it.');
+    assert(!_transitionCompleter.isCompleted,
+        'Cannot reuse a $runtimeType after disposing it.');
     _animation.addStatusListener(_handleStatusChanged);
     _configureTimer();
     super.didPush();
@@ -332,8 +345,10 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
   void didReplace(Route<dynamic> oldRoute) {
     assert(_controller != null,
         '$runtimeType.didReplace called before calling install() or after calling dispose().');
-    assert(!_transitionCompleter.isCompleted, 'Cannot reuse a $runtimeType after disposing it.');
-    if (oldRoute is FlushbarRoute) _controller.value = oldRoute._controller.value;
+    assert(!_transitionCompleter.isCompleted,
+        'Cannot reuse a $runtimeType after disposing it.');
+    if (oldRoute is FlushbarRoute)
+      _controller.value = oldRoute._controller.value;
     _animation.addStatusListener(_handleStatusChanged);
     super.didReplace(oldRoute);
   }
@@ -342,7 +357,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
   bool didPop(T result) {
     assert(_controller != null,
         '$runtimeType.didPop called before calling install() or after calling dispose().');
-    assert(!_transitionCompleter.isCompleted, 'Cannot reuse a $runtimeType after disposing it.');
+    assert(!_transitionCompleter.isCompleted,
+        'Cannot reuse a $runtimeType after disposing it.');
 
     _result = result;
     _cancelTimer();
@@ -399,7 +415,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
 
   @override
   void dispose() {
-    assert(!_transitionCompleter.isCompleted, 'Cannot dispose a $runtimeType twice.');
+    assert(!_transitionCompleter.isCompleted,
+        'Cannot dispose a $runtimeType twice.');
     _controller?.dispose();
     _transitionCompleter.complete(_result);
     super.dispose();
@@ -412,7 +429,8 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
   String toString() => '$runtimeType(animation: $_controller)';
 }
 
-FlushbarRoute showFlushbar<T>({@required BuildContext context, @required Flushbar flushbar}) {
+FlushbarRoute showFlushbar<T>(
+    {@required BuildContext context, @required Flushbar flushbar}) {
   assert(flushbar != null);
 
   return FlushbarRoute<T>(

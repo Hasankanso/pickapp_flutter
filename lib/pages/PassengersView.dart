@@ -18,7 +18,11 @@ class _PassengersViewState extends State<PassengersView> {
   Widget build(BuildContext context) {
     return MainScaffold(
       body: ListBuilder(
-          list: widget.allPassengers, itemBuilder: PassengerTile.itemBuilder(widget.allPassengers)),
+        list: widget.allPassengers,
+        itemBuilder: PassengerTile.itemBuilder(widget.allPassengers),
+        nativeAdElevation: 3.0,
+        nativeAdHeight: 90,
+      ),
     );
   }
 }

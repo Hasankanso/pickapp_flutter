@@ -1,4 +1,4 @@
-package com.example.pickapp;
+package com.justMiles.justMiles;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
