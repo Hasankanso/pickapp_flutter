@@ -186,6 +186,8 @@ class Cache {
 
     if (rideHistoryBox.isOpen) {
       var rides = rideHistoryBox.get("ridesHistory");
+      print("rides");
+      print(rides);
       if (rides != null) {
         rides = rides.cast<Ride>();
         returnedRides = new List<Ride>.from(rides);
@@ -202,6 +204,8 @@ class Cache {
     } else {
       rideBox = Hive.box("ridesHistory");
     }
+    print("update rides");
+    print(allHistoryRides);
     if (rideBox.isOpen) {
       await rideBox.put("ridesHistory", allHistoryRides);
       await rideBox.close();

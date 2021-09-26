@@ -79,14 +79,20 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (rates != null) rates.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+    if (rates != null)
+      rates.sort((a, b) => b.creationDate.compareTo(a.creationDate));
     return MainScaffold(
       appBar: MainAppBar(
         title: Lang.getString(context, "Reviews"),
       ),
       body: rates != null
           ? rates.isNotEmpty
-              ? ListBuilder(list: rates, itemBuilder: RateTile.itemBuilder(rates, reasons))
+              ? ListBuilder(
+                  list: rates,
+                  itemBuilder: RateTile.itemBuilder(rates, reasons),
+                  nativeAdHeight: 140,
+                  nativeAdElevation: 3,
+                )
               : Center(
                   child: Text(
                   Lang.getString(context, "no_reviews_message"),
