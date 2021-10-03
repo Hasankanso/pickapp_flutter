@@ -52,6 +52,9 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
   }
 
   _getRates() async {
+    if (await Cache.getIsGetRateRequest()) {
+      await _getRatesRequest();
+    }
     var rates = await Cache.getRates();
     setState(() {
       App.user.person.rates = rates;
@@ -86,8 +89,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
         list: rates,
         onPullRefresh: widget.person == null
             ? () async {
-                Request<List<Rate>> getRates = GetUserReviews();
-                await getRates.send(getRatesResponse);
+                _getRatesRequest();
               }
             : null,
         itemBuilder: RateTile.itemBuilder(rates, reasons),
@@ -104,5 +106,10 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
         this.rates = rates;
       });
     }
+  }
+
+  Future<void> _getRatesRequest() async {
+    Request<List<Rate>> getRates = GetUserReviews();
+    await getRates.send(getRatesResponse);
   }
 }

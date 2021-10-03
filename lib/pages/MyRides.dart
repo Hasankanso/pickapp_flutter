@@ -22,6 +22,13 @@ class _MyRidesState extends State<MyRides> {
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  init() async {
+    if (await Cache.getIsGetUpcomingRideRequest()) {
+      await _getUpcomingRides();
+    }
     getRidesHistory();
     checkOutDatedRides();
   }
@@ -87,8 +94,7 @@ class _MyRidesState extends State<MyRides> {
                             MyRidesTile.itemBuilder(App.person.upcomingRides),
                         nativeAdHeight: ScreenUtil().setSp(140),
                         onPullRefresh: () async {
-                          Request<List<Ride>> getRides = GetMyUpComingRides();
-                          await getRides.send(getRidesCallBack);
+                          _getUpcomingRides();
                         },
                       ),
                     );
@@ -127,5 +133,10 @@ class _MyRidesState extends State<MyRides> {
         App.person.upcomingRides = rides;
       });
     }
+  }
+
+  Future<void> _getUpcomingRides() async {
+    Request<List<Ride>> getRides = GetMyUpComingRides();
+    await getRides.send(getRidesCallBack);
   }
 }
