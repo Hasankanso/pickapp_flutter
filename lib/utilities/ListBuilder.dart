@@ -107,21 +107,8 @@ class ListBuilder extends StatelessWidget {
                   ],
                 ),
               ),
-              footer: CustomFooter(
-                builder: (BuildContext context, LoadStatus mode) {
-                  Widget body;
-                  if (mode == LoadStatus.idle) {
-                    body = Text("pull up load");
-                  } else if (mode == LoadStatus.loading) {
-                  } else if (mode == LoadStatus.failed) {
-                    body = Text("Load Failed!Click retry!");
-                  } else if (mode == LoadStatus.canLoading) {
-                    body = Text("release to load more");
-                  } else {
-                    body = Text("No more Data");
-                  }
-                  return Center(child: body);
-                },
+              footer: ClassicFooter(
+                loadStyle: LoadStyle.ShowWhenLoading,
               ),
               controller: _refreshController,
               onRefresh: () async {

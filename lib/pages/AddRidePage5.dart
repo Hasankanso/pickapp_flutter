@@ -315,7 +315,6 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 onPressed: () async {
                   print(1);
                   await Ads.showRewardedAd(() async {
-                    print(App.person.countryInformations);
                     Request<Ride> request = AddRide(ride);
                     await request.send((result, code, message) =>
                         _addRideResponse(result, code, message, context));
