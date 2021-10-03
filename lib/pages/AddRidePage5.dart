@@ -313,13 +313,14 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 isRequest: true,
                 text_key: "Done",
                 onPressed: () async {
-                  Request<Ride> request;
+                  print(1);
                   await Ads.showRewardedAd(() async {
                     print(App.person.countryInformations);
-                    request = AddRide(ride);
+                    Request<Ride> request = AddRide(ride);
                     await request.send((result, code, message) =>
                         _addRideResponse(result, code, message, context));
                   });
+                  print(2);
                 },
               ),
             ),

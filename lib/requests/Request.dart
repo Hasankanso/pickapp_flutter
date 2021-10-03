@@ -102,7 +102,7 @@ abstract class Request<T> {
         'Content-Type': 'application/json; charset=utf-8'
       };
     }
-
+    print(host + httpPath);
     //send request
     http.Response response = await http
         .post(

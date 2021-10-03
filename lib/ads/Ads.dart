@@ -43,6 +43,7 @@ class Ads {
   }
 
   static Future<void> showRewardedAd(Function callBack) async {
+    if (_rewardedReady) return;
     await RewardedAd.load(
       adUnitId: _rewardedId,
       request: adRequest,
@@ -51,14 +52,12 @@ class Ads {
         print('${ad.runtimeType} loaded..');
         _rewardedReady = true;
         _rewardedAd = ad;
-        print(_rewardedAd);
-        print(1222);
-
         await _rewardedAd.show(
           onUserEarnedReward: (RewardedAd ad, RewardItem rewardItem) {
             print(
               '$RewardedAd with reward $rewardItem})',
             );
+            _rewardedReady = false;
             if (callBack != null) callBack();
           },
         );

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:just_miles/ads/MainNativeAd.dart';
+import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/utilities/Spinner.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ListBuilder extends StatelessWidget {
   final Widget Function(BuildContext, int) itemBuilder;
+  final VoidFutureCallBack onPullRefresh;
   final List<Object> list;
   final bool reverse;
   final double nativeAdHeight;
@@ -11,6 +15,8 @@ class ListBuilder extends StatelessWidget {
   double nativeAdRoundCorner;
   ListController listController = new ListController();
   ScrollController controller = new ScrollController(initialScrollOffset: 1.1);
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   ListBuilder(
       {this.list,
       this.itemBuilder,
@@ -18,59 +24,114 @@ class ListBuilder extends StatelessWidget {
       this.reverse = false,
       this.nativeAdHeight,
       this.nativeAdElevation,
-      this.nativeAdRoundCorner});
+      this.nativeAdRoundCorner,
+      this.onPullRefresh});
+
+  Widget buildList() {
+    if (nativeAdHeight != null) {
+      return ListView.separated(
+          controller: controller,
+          separatorBuilder: (BuildContext context, int index) {
+            if (!isAdShown && index % 1 == 0) {
+              isAdShown = true;
+              return Card(
+                elevation: nativeAdElevation == null ? 3.0 : nativeAdElevation,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      nativeAdRoundCorner == null ? 15.0 : nativeAdRoundCorner),
+                ),
+                child: Container(
+                  height: nativeAdHeight,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.all(Radius.circular(
+                        nativeAdRoundCorner == null
+                            ? 15.0
+                            : nativeAdRoundCorner)),
+                  ),
+                  child: MainNativeAd(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.all(Radius.circular(
+                          nativeAdRoundCorner == null
+                              ? 15.0
+                              : nativeAdRoundCorner)),
+                    ),
+                  ),
+                ),
+              );
+            }
+            return Divider();
+          },
+          reverse: reverse,
+          itemBuilder: itemBuilder,
+          itemCount: list.length);
+    } else {
+      return ListView.builder(
+          controller: controller,
+          reverse: reverse,
+          itemBuilder: itemBuilder,
+          itemCount: list.length);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(nativeAdRoundCorner == null ? 15.0 : nativeAdRoundCorner);
     return Scrollbar(
       controller: controller,
-      child: nativeAdHeight != null
-          ? ListView.separated(
-              controller: controller,
-              separatorBuilder: (BuildContext context, int index) {
-                if (!isAdShown && index % 1 == 0) {
-                  isAdShown = true;
-                  return Card(
-                    elevation:
-                        nativeAdElevation == null ? 3.0 : nativeAdElevation,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          nativeAdRoundCorner == null
-                              ? 15.0
-                              : nativeAdRoundCorner),
-                    ),
-                    child: Container(
-                      height: nativeAdHeight,
+      child: onPullRefresh != null
+          ? SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: true,
+              header: WaterDropHeader(
+                waterDropColor: Styles.primaryColor(),
+                refresh: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Container(
                       decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.all(Radius.circular(
-                            nativeAdRoundCorner == null
-                                ? 15.0
-                                : nativeAdRoundCorner)),
+                        shape: BoxShape.circle,
+                        color: Styles.labelColor().withOpacity(0.2),
                       ),
-                      child: MainNativeAd(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              nativeAdRoundCorner == null
-                                  ? 15.0
-                                  : nativeAdRoundCorner)),
-                        ),
-                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Spinner(),
+                      )),
+                ),
+                complete: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.done,
+                      color: Styles.primaryColor(),
                     ),
-                  );
-                }
-                return Divider();
+                  ],
+                ),
+              ),
+              footer: CustomFooter(
+                builder: (BuildContext context, LoadStatus mode) {
+                  Widget body;
+                  if (mode == LoadStatus.idle) {
+                    body = Text("pull up load");
+                  } else if (mode == LoadStatus.loading) {
+                  } else if (mode == LoadStatus.failed) {
+                    body = Text("Load Failed!Click retry!");
+                  } else if (mode == LoadStatus.canLoading) {
+                    body = Text("release to load more");
+                  } else {
+                    body = Text("No more Data");
+                  }
+                  return Center(child: body);
+                },
+              ),
+              controller: _refreshController,
+              onRefresh: () async {
+                await onPullRefresh();
+                _refreshController.refreshCompleted();
+                _refreshController.loadComplete();
               },
-              reverse: reverse,
-              itemBuilder: itemBuilder,
-              itemCount: list.length)
-          : ListView.builder(
-              controller: controller,
-              reverse: reverse,
-              itemBuilder: itemBuilder,
-              itemCount: list.length),
+              child: buildList(),
+            )
+          : buildList(),
     );
   }
 }
