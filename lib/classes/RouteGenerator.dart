@@ -45,13 +45,15 @@ import 'package:page_transition/page_transition.dart';
 import 'App.dart';
 
 class RouteGenerator {
-  static PageTransitionType get isLTR =>
-      App.isLTR == true ? PageTransitionType.rightToLeft : PageTransitionType.leftToRight;
+  static PageTransitionType get isLTR => App.isLTR == true
+      ? PageTransitionType.rightToLeft
+      : PageTransitionType.leftToRight;
 
   static Duration _transitionTime = const Duration(milliseconds: 300);
 
   //this value is being updated in settings page.
-  static Duration duration = Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
+  static Duration duration =
+      Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
 
   static void disableAnimation(bool value) {
     duration = value ? Duration(milliseconds: 0) : _transitionTime;

@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
-import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/items/RateTile.dart';
@@ -11,7 +10,6 @@ import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/ListBuilder.dart';
 import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
-import 'package:just_miles/utilities/Spinner.dart';
 
 class ReviewsListPage extends StatefulWidget {
   final Person person;
@@ -23,7 +21,7 @@ class ReviewsListPage extends StatefulWidget {
 }
 
 class _ReviewsListPageState extends State<ReviewsListPage> {
-  List<Rate> rates;
+  List<Rate> rates = [];
   List<String> reasons;
 
   @override
@@ -31,7 +29,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
     super.initState();
     if (widget.person != null) {
       if (widget.person.rates == null) {
-        Request<List<Rate>> getRated = GetUserReviews(widget.person);
+        Request<List<Rate>> getRated = GetUserReviews(person: widget.person);
         getRated.send(response);
       } else {
         this.rates = widget.person.rates;
@@ -72,7 +70,6 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     reasons = App.getRateReasons(context);
   }
@@ -85,21 +82,27 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
       appBar: MainAppBar(
         title: Lang.getString(context, "Reviews"),
       ),
-      body: rates != null
-          ? rates.isNotEmpty
-              ? ListBuilder(
-                  list: rates,
-                  itemBuilder: RateTile.itemBuilder(rates, reasons),
-                  nativeAdHeight: 140,
-                  nativeAdElevation: 3,
-                )
-              : Center(
-                  child: Text(
-                  Lang.getString(context, "no_reviews_message"),
-                  style: Styles.valueTextStyle(),
-                  textAlign: TextAlign.center,
-                ))
-          : Center(child: Spinner()),
+      body: ListBuilder(
+        list: rates,
+        onPullRefresh: widget.person == null
+            ? () async {
+                Request<List<Rate>> getRates = GetUserReviews();
+                await getRates.send(getRatesResponse);
+              }
+            : null,
+        itemBuilder: RateTile.itemBuilder(rates, reasons),
+        nativeAdHeight: 140,
+        nativeAdElevation: 3,
+      ),
     );
+  }
+
+  getRatesResponse(List<Rate> rates, int status, String message) {
+    if (status != 200) {
+    } else {
+      setState(() {
+        this.rates = rates;
+      });
+    }
   }
 }
