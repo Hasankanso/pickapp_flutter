@@ -17,6 +17,7 @@ import 'package:just_miles/utilities/PopUp.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import '../classes/Cache.dart';
 import 'CarView.dart';
 
 class RideDetails extends StatelessWidget {
@@ -25,10 +26,11 @@ class RideDetails extends StatelessWidget {
   void Function(Ride) onPressed;
   bool isEditDisabled;
   TextEditingController _reason = TextEditingController();
+  List<Ride> ridesHistory = [];
 
   RideDetails(this.ride, {this.buttonText, this.onPressed, this.isEditDisabled = true});
 
-  _cancelReservation(bool deleted, int code, String message, context) {
+  _cancelReservation(bool deleted, int code, String message, context) async {
     if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
       return;
@@ -37,6 +39,9 @@ class RideDetails extends StatelessWidget {
     if (deleted) {
       App.deleteRideFromMyRides(ride);
       CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
+        ridesHistory = await Cache.getRidesHistory();
+        ridesHistory.add(ride);
+        await Cache.updateRideHistory(ridesHistory);
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

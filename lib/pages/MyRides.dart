@@ -12,6 +12,8 @@ import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/ListBuilder.dart';
 import 'package:just_miles/utilities/MainAppBar.dart';
 
+import '../dataObjects/Ride.dart';
+
 class MyRides extends StatefulWidget {
   @override
   _MyRidesState createState() => _MyRidesState();
@@ -87,6 +89,7 @@ class _MyRidesState extends State<MyRides> {
                   builder: (BuildContext context, bool isd, Widget child) {
                     App.person.upcomingRides
                         .sort((a, b) => a.leavingDate.compareTo(b.leavingDate));
+                    print(App.person.upcomingRides.length);
                     return Container(
                       child: ListBuilder(
                         list: App.person.upcomingRides,
@@ -123,15 +126,25 @@ class _MyRidesState extends State<MyRides> {
     );
   }
 
-  getRidesCallBack(List<Ride> rides, int code, String message) {
+  getRidesCallBack(List<Ride> rides, int code, String message) async{
+    List<Ride> historyRides=[];
+    List<Ride> updatedUpcomingRides=List.from(rides);
     if (App.handleErrors(context, code, message)) {
       return;
     }
     if (code != 200) {
     } else {
-      setState(() {
-        App.person.upcomingRides = rides;
-      });
+      for(int i=0;i<rides.length;i++){
+        DateTime d = rides[i].leavingDate.add(
+            Duration(hours: App.person.countryInformations.rateStartHours));
+        if (DateTime.now().isAfter(d) || rides[i].status=="CANCELED" ) {
+          historyRides.add(rides[i]);
+          updatedUpcomingRides.remove(rides[i]);
+        }
+      }
+      App.person.upcomingRides = updatedUpcomingRides;
+      App.updateUserCache();
+      await Cache.updateRideHistory(historyRides);
     }
   }
 

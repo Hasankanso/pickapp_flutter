@@ -13,6 +13,7 @@ import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/PopUp.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
+import '../classes/Cache.dart';
 import 'PassengersView.dart';
 import 'RideView.dart';
 
@@ -20,6 +21,7 @@ class UpcomingRideDetails extends StatelessWidget {
   final Ride ride;
   String buttonText;
   void Function(Ride) onPressed;
+  List<Ride> ridesHistory = [];
 
   UpcomingRideDetails(this.ride, {this.buttonText, this.onPressed});
 
@@ -155,13 +157,17 @@ class UpcomingRideDetails extends StatelessWidget {
     );
   }
 
-  response(bool result, int code, String message, context) {
+  response(bool result, int code, String message, context) async {
     if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
       return;
     }
 
     App.deleteRideFromMyRides(ride);
+    ridesHistory = await Cache.getRidesHistory();
+    ride.status="CANCELED";
+    ridesHistory.add(ride);
+    await Cache.updateRideHistory(ridesHistory);
     Navigator.popUntil(context, (route) => route.isFirst);
     CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
   }
