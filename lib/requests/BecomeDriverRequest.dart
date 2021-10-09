@@ -17,9 +17,4 @@ class BecomeDriverRequest extends Request<Driver> {
   Map<String, dynamic> getJson() {
     return _driver.toJson();
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

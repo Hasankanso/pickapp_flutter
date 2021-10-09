@@ -111,21 +111,21 @@ class EditRide extends StatelessWidget {
                       textInputAction: TextInputAction.done,
                       maxLines: 20,
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(399 - ride.comment.length),
+                        LengthLimitingTextInputFormatter(
+                            399 - ride.comment.length),
                       ],
                       decoration: InputDecoration(
-                        labelText: Lang.getString(context, "Additional_description"),
+                        labelText:
+                            Lang.getString(context, "Additional_description"),
                         labelStyle: Styles.labelTextStyle(),
                         hintStyle: Styles.labelTextStyle(),
                       ),
                       style: Styles.valueTextStyle(),
                       validator: (value) {
-                        String valid = Validation.validate(value, context);
-                        String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
+                        String alpha = Validation.isAlphaNumericIgnoreSpaces(
+                            context, value);
 
-                        if (valid != null)
-                          return valid;
-                        else if (alpha != null)
+                        if (alpha != null)
                           return alpha;
                         else
                           return null;
@@ -158,8 +158,8 @@ class EditRide extends StatelessWidget {
                   Ride r = ride.copy();
                   if (_formKey.currentState.validate()) {
                     if (r.leavingDate.compareTo(DateTime.now()) < 0) {
-                      return CustomToast()
-                          .showErrorToast(Lang.getString(context, "Ride_already_started"));
+                      return CustomToast().showErrorToast(
+                          Lang.getString(context, "Ride_already_started"));
                     }
                     r.availableSeats = personController.chosenNumber;
                     r.availableLuggages = luggageController.chosenNumber;
@@ -178,16 +178,17 @@ class EditRide extends StatelessWidget {
     );
   }
 
-  _editRideResponse(Ride result, int code, String message, context) {
+  _editRideResponse(Ride ride, int code, String message, context) {
     if (App.handleErrors(context, code, message)) {
       return;
     }
-    App.user.person.upcomingRides.remove(result);
-    App.user.person.upcomingRides.add(result);
+    App.user.person.upcomingRides.remove(ride);
+    App.user.person.upcomingRides.add(ride);
     Cache.setUser(App.user);
     Navigator.popUntil(context, (route) => route.isFirst);
     App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
 
-    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+    CustomToast()
+        .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
   }
 }

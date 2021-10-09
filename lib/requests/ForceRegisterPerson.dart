@@ -15,11 +15,9 @@ class ForceRegisterPerson extends Request<User> {
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, dynamic>{'user': _newUser.toJson(), 'idToken': _newUser.idToken};
-  }
-
-  @override
-  String isValid() {
-    return null;
+    return <String, dynamic>{
+      'user': _newUser.toJson(),
+      'idToken': _newUser.idToken
+    };
   }
 }

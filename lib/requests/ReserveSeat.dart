@@ -1,4 +1,3 @@
-import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/dataObjects/User.dart';
@@ -31,25 +30,5 @@ class ReserveSeat extends Request<Ride> {
       'seats': _seats,
       'luggages': _luggage
     };
-  }
-
-  @override
-  String isValid() {
-    if (Validation.isNullOrEmpty(_ride.id)) {
-      return "Ride id is null";
-    }
-    if (_seats < 0) {
-      return "Please select seats";
-    }
-    if (_seats > _ride.availableSeats) {
-      return "There is " + _ride.availableSeats.toString() + " available seats";
-    }
-    if (_luggage < 0) {
-      return "Please select luggage";
-    }
-    if (_luggage > _ride.availableLuggages) {
-      return "There is " + _ride.availableLuggages.toString() + " available luggage";
-    }
-    return null;
   }
 }

@@ -54,9 +54,6 @@ class Ads {
         _rewardedAd = ad;
         await _rewardedAd.show(
           onUserEarnedReward: (RewardedAd ad, RewardItem rewardItem) {
-            print(
-              '$RewardedAd with reward $rewardItem})',
-            );
             _rewardedReady = false;
             if (callBack != null) callBack();
           },

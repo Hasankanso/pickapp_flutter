@@ -37,9 +37,4 @@ class EditReservation extends Request<Ride> {
       }
     };
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

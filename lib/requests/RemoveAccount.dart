@@ -19,10 +19,4 @@ class RemoveAccount extends Request<Person> {
       'id': _person.id,
     };
   }
-
-  @override
-  String isValid() {
-    // TODO: implement isValid
-    return null;
-  }
 }

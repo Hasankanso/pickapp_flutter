@@ -20,9 +20,4 @@ class CancelRide extends Request<bool> {
   Map<String, dynamic> getJson() {
     return <String, dynamic>{'id': _ride.id, 'reason': _reason};
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

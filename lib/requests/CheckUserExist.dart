@@ -19,9 +19,4 @@ class CheckUserExist extends Request<bool> {
       'phone': _user.phone,
     };
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

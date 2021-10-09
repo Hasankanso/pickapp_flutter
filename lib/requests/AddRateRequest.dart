@@ -21,9 +21,4 @@ class AddRateRequest extends Request<bool> {
       "rates": List<dynamic>.from(_rates.map((x) => x.toJson()))
     };
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

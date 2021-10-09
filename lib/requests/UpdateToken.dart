@@ -17,9 +17,4 @@ class UpdateNotificationToken extends Request<String> {
   Map<String, dynamic> getJson() {
     return <String, dynamic>{'token': _token};
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

@@ -21,9 +21,4 @@ class GetPerson extends Request<Person> {
 
     return json;
   }
-
-  @override
-  String isValid() {
-    return "";
-  }
 }

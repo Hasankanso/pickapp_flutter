@@ -26,9 +26,4 @@ class SearchForRides extends Request<List<Ride>> {
     }
     return json;
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

@@ -1,4 +1,3 @@
-import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/requests/Request.dart';
 
@@ -28,14 +27,5 @@ class AutoLogin extends Request<String> {
     json["password"] = password;
 
     return json;
-  }
-
-  @override
-  String isValid() {
-    if (Validation.isNullOrEmpty(userId) ||
-        Validation.isNullOrEmpty(password)) {
-      return "Authentication_Error";
-    }
-    return null;
   }
 }

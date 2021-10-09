@@ -24,9 +24,4 @@ class GetUserReviews extends Request<List<Rate>> {
           }
         : null;
   }
-
-  @override
-  String isValid() {
-    return "";
-  }
 }

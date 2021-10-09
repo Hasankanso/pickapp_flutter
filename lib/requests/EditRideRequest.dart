@@ -19,9 +19,4 @@ class EditRideRequest extends Request<Ride> {
     ride["id"] = _ride.id;
     return ride;
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

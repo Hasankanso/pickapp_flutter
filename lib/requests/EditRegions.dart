@@ -15,11 +15,8 @@ class EditRegions extends Request<Driver> {
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, dynamic>{'regions': List<dynamic>.from(_driver.regions.map((x) => x.toJson()))};
-  }
-
-  @override
-  String isValid() {
-    return null;
+    return <String, dynamic>{
+      'regions': List<dynamic>.from(_driver.regions.map((x) => x.toJson()))
+    };
   }
 }

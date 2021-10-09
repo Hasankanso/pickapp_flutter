@@ -20,17 +20,4 @@ class BroadCastAlert extends Request<String> {
     alertJ["user"] = App.user.id;
     return alertJ;
   }
-
-  @override
-  String isValid() {
-    //todo need detailed checking
-    /*
-    if (_alert.minDate.compareTo(App.maxAlertDate) > 0) {
-      return "The max period of alert is six months";
-    }
-    if (_alert.maxDate.compareTo(App.maxAlertDate) > 0) {
-      return "The max period of alert is six months";
-    }*/
-    return null;
-  }
 }
