@@ -8,16 +8,12 @@ class GetCountries extends Request<List<CountryInformations>> {
 
   @override
   buildObject(json) {
-    return List<CountryInformations>.from(json.map((x) => CountryInformations.fromJson(x)));
+    return List<CountryInformations>.from(
+        json.map((x) => CountryInformations.fromJson(x)));
   }
 
   @override
   Map<String, dynamic> getJson() {
     return {};
-  }
-
-  @override
-  String isValid() {
-    return null;
   }
 }

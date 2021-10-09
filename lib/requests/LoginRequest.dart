@@ -21,9 +21,4 @@ class LoginRequest extends Request<User> {
       'token': _token,
     };
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

@@ -94,7 +94,7 @@ class _MyRidesState extends State<MyRides> {
                             MyRidesTile.itemBuilder(App.person.upcomingRides),
                         nativeAdHeight: ScreenUtil().setSp(140),
                         onPullRefresh: () async {
-                          _getUpcomingRides();
+                          await _getUpcomingRides();
                         },
                       ),
                     );

@@ -17,9 +17,4 @@ class AddRide extends Request<Ride> {
   Map<String, dynamic> getJson() {
     return _ride.toJson();
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

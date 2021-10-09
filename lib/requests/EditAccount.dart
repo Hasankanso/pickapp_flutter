@@ -17,9 +17,4 @@ class EditAccount extends Request<Person> {
   Map<String, dynamic> getJson() {
     return _newPerson.toJson();
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

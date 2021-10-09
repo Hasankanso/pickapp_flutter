@@ -20,9 +20,4 @@ class ChangePhone extends Request<User> {
       'idToken': _user.idToken,
     };
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

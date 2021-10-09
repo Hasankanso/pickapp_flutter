@@ -28,7 +28,7 @@ class NativeAdFactoryExample implements NativeAdFactory {
         headlineView.setText(nativeAd.getHeadline());
         bodyView.setText(nativeAd.getBody());
 
-        adView.setBackgroundColor(Color.BLUE);
+        adView.setBackgroundColor(Color.parseColor("#ff2196f3"));
 
         adView.setNativeAd(nativeAd);
         adView.setBodyView(bodyView);

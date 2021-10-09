@@ -17,9 +17,4 @@ class DeleteCar extends Request<Car> {
   Map<String, dynamic> getJson() {
     return _car.toJson();
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

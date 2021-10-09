@@ -26,9 +26,4 @@ class SendContactUs extends Request<String> {
       'message': this._message
     };
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

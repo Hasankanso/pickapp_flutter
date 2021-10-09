@@ -17,9 +17,4 @@ class ChangeEmail extends Request<String> {
   Map<String, dynamic> getJson() {
     return <String, dynamic>{'email': _email, 'id': App.user.id};
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

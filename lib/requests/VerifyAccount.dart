@@ -17,9 +17,4 @@ class VerifyAccount extends Request<String> {
       'phone': _phoneNumber,
     };
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

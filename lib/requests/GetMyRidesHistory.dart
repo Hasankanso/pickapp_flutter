@@ -11,7 +11,9 @@ class GetMyRidesHistory extends Request<List<Ride>> {
 
   @override
   List<Ride> buildObject(json) {
-    return json != null ? List<Ride>.from(json.map((x) => Ride.fromJson(x))) : null;
+    return json != null
+        ? List<Ride>.from(json.map((x) => Ride.fromJson(x)))
+        : null;
   }
 
   @override
@@ -19,10 +21,5 @@ class GetMyRidesHistory extends Request<List<Ride>> {
     return <String, dynamic>{
       'user': _user.id,
     };
-  }
-
-  @override
-  String isValid() {
-    return null;
   }
 }

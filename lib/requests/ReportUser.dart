@@ -22,10 +22,4 @@ class ReportUser extends Request<Person> {
       'comment': _comment
     };
   }
-
-  @override
-  String isValid() {
-    // TODO: implement isValid
-    throw UnimplementedError();
-  }
 }

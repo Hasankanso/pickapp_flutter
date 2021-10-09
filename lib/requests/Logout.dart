@@ -15,9 +15,4 @@ class Logout extends Request<bool> {
   Map<String, dynamic> getJson() {
     return null;
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

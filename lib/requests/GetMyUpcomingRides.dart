@@ -17,9 +17,4 @@ class GetMyUpComingRides extends Request<List<Ride>> {
   Map<String, dynamic> getJson() {
     return <String, dynamic>{};
   }
-
-  @override
-  String isValid() {
-    return null;
-  }
 }

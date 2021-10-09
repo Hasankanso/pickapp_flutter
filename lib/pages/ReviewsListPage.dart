@@ -89,7 +89,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
         list: rates,
         onPullRefresh: widget.person == null
             ? () async {
-                _getRatesRequest();
+                await _getRatesRequest();
               }
             : null,
         itemBuilder: RateTile.itemBuilder(rates, reasons),
