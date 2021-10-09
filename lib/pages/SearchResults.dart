@@ -100,6 +100,11 @@ class _SearchResultsState extends State<SearchResults> {
     seatsController = TextEditingController(
         text: widget.searchInfo.passengersNumber.toString());
     luggageController = TextEditingController(text: "0");
+    _loadAd();
+  }
+
+  _loadAd() async {
+    await Ads.loadRewardedAd();
   }
 
   @override

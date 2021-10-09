@@ -42,7 +42,7 @@ class Ads {
     });
   }
 
-  static Future<void> showRewardedAd(Function callBack) async {
+  static Future<void> loadRewardedAd() async {
     if (_rewardedReady) return;
     await RewardedAd.load(
       adUnitId: _rewardedId,
@@ -52,16 +52,20 @@ class Ads {
         print('${ad.runtimeType} loaded..');
         _rewardedReady = true;
         _rewardedAd = ad;
-        await _rewardedAd.show(
-          onUserEarnedReward: (RewardedAd ad, RewardItem rewardItem) {
-            _rewardedReady = false;
-            if (callBack != null) callBack();
-          },
-        );
       }, onAdFailedToLoad: (LoadAdError error) {
         _rewardedAd = null;
         print("failed to load");
       }),
+    );
+  }
+
+  static Future<void> showRewardedAd(Function callBack) async {
+    if (!_rewardedReady) return;
+    await _rewardedAd.show(
+      onUserEarnedReward: (RewardedAd ad, RewardItem rewardItem) {
+        _rewardedReady = false;
+        if (callBack != null) callBack();
+      },
     );
   }
 }

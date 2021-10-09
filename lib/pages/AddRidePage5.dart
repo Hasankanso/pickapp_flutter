@@ -32,6 +32,12 @@ class _AddRidePage5State extends State<AddRidePage5> {
   _AddRidePage5State(this.ride);
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
@@ -313,13 +319,11 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 isRequest: true,
                 text_key: "Done",
                 onPressed: () async {
-                  print(1);
                   await Ads.showRewardedAd(() async {
                     Request<Ride> request = AddRide(ride);
                     await request.send((result, code, message) =>
                         _addRideResponse(result, code, message, context));
                   });
-                  print(2);
                 },
               ),
             ),

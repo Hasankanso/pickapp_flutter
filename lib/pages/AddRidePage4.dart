@@ -4,6 +4,7 @@ import 'dart:convert' as convert;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:just_miles/ads/Ads.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
@@ -91,8 +92,13 @@ class _AddRidePage4State extends State<AddRidePage4> {
   @override
   void initState() {
     super.initState();
+    _loadAd();
     getMapAndDirection();
     listController.selected = 0;
+  }
+
+  _loadAd() async {
+    await Ads.loadRewardedAd();
   }
 
   void getMapAndDirection() async {
