@@ -34,5 +34,5 @@ jobs:
       - name: Save aab file
         uses: actions/upload-artifact@v2
         with:
-          name: justMiles.aab
+          name: voomcar.aab
           path: build/app/outputs/bundle/release/*.aab

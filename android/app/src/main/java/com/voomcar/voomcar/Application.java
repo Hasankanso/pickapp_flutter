@@ -1,4 +1,4 @@
-package com.justMiles.justMiles;
+package com.voomcar.voomcar;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,7 +14,7 @@ import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
 //import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
 
-import com.justMiles.justMiles.R;
+import com.voomcar.voomcar.R;
 import com.whelksoft.flutter_native_timezone.FlutterNativeTimezonePlugin;
 import com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin;
 

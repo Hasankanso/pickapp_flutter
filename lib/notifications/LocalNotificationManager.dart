@@ -125,7 +125,7 @@ class LocalNotificationManager {
             notification.scheduleDate.millisecond),
         NotificationDetails(
             android: AndroidNotificationDetails(
-              'justMiles-channel',
+              'voomcar-channel',
               'PickApp',
               'This channel is for PickApp',
               importance: Importance.max,

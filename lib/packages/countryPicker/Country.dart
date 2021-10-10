@@ -15,13 +15,13 @@ class Country {
   ///The country name in English
   final String name;
 
-  ///An justMiles of a telephone number without the phone code
+  ///An voomcar of a telephone number without the phone code
   final String example;
 
   ///Country name (country code) [phone code]
   final String displayName;
 
-  ///An justMiles of a telephone number with the phone code and plus sign
+  ///An voomcar of a telephone number with the phone code and plus sign
   final String fullExampleWithPlusSign;
 
   ///Country name (country code)
@@ -54,7 +54,7 @@ class Country {
         geographic = json['geographic'] as bool,
         level = json['level'] as int,
         name = json['name'] as String,
-        example = json['justMiles'] as String,
+        example = json['voomcar'] as String,
         displayName = json['display_name'] as String,
         fullExampleWithPlusSign = json['full_example_with_plus_sign'] as String,
         displayNameNoCountryCode = json['display_name_no_e164_cc'] as String,
@@ -68,7 +68,7 @@ class Country {
     data['geographic'] = geographic;
     data['level'] = level;
     data['name'] = name;
-    data['justMiles'] = example;
+    data['voomcar'] = example;
     data['display_name'] = displayName;
     data['full_example_with_plus_sign'] = fullExampleWithPlusSign;
     data['display_name_no_e164_cc'] = displayNameNoCountryCode;
@@ -84,7 +84,7 @@ class Country {
 
   @override
   String toString() {
-    return 'Country{phoneCode: $phoneCode, countryCode: $countryCode, e164Sc: $e164Sc, geographic: $geographic, level: $level, name: $name, justMiles: $example, displayName: $displayName, fullExampleWithPlusSign: $fullExampleWithPlusSign, displayNameNoCountryCode: $displayNameNoCountryCode, e164Key: $e164Key}';
+    return 'Country{phoneCode: $phoneCode, countryCode: $countryCode, e164Sc: $e164Sc, geographic: $geographic, level: $level, name: $name, voomcar: $example, displayName: $displayName, fullExampleWithPlusSign: $fullExampleWithPlusSign, displayNameNoCountryCode: $displayNameNoCountryCode, e164Key: $e164Key}';
   }
 
   @override

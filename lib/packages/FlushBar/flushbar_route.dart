@@ -297,7 +297,7 @@ class FlushbarRoute<T> extends OverlayRoute<T> {
       case AnimationStatus.dismissed:
         assert(!overlayEntries.first.opaque);
         // We might still be the current route if a subclass is controlling the
-        // the transition and hits the dismissed status. For justMiles, the iOS
+        // the transition and hits the dismissed status. For voomcar, the iOS
         // back gesture drives this animation to the dismissed status before
         // popping the navigator.
         currentStatus = FlushbarStatus.DISMISSED;

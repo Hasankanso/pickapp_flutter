@@ -1,11 +1,11 @@
-package com.justMiles.justMiles;
+package com.voomcar.voomcar;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
-import com.justMiles.justMiles.R;
+import com.voomcar.voomcar.R;
 
 import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin.NativeAdFactory;
 import java.util.Map;
