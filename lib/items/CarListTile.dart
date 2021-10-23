@@ -179,7 +179,7 @@ class CarListTile extends ListTile {
             radius: ScreenUtil().setSp(30),
             backgroundColor: Colors.transparent,
             child: Image(
-              image: AssetImage("lib/images/user.png"),
+              image: AssetImage("lib/images/car.png"),
             ),
           ),
         ),

@@ -60,7 +60,7 @@ class _LoginState extends State<Login> {
               child: ResponsiveRow(
                 children: [
                   Image(
-                    image: AssetImage("lib/images/user.png"),
+                    image: AssetImage("lib/images/splash_screen.png"),
                   ),
                 ],
               ),

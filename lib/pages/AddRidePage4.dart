@@ -153,7 +153,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                             ),
                             errorWidget: (context, url, error) {
                               return Image(
-                                  image: AssetImage("lib/images/user.png"));
+                                  image: AssetImage("lib/images/map.png"));
                             },
                           ),
                   ),

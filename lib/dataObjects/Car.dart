@@ -103,7 +103,7 @@ class Car {
 
   setNetworkImage() {
     if (_carPictureUrl == null) {
-      this._networkImage = new AssetImage("lib/images/user.png");
+      this._networkImage = new AssetImage("lib/images/car.png");
     } else {
       this._networkImage = new NetworkImage(this.carPictureUrl);
     }
