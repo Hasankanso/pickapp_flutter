@@ -7,6 +7,7 @@ import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/requests/LoginRequest.dart';
 import 'package:just_miles/requests/Request.dart';
@@ -50,25 +51,25 @@ class _LoginState extends State<Login> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             VerticalSpacer(
               height: 20,
             ),
-            ResponsiveWidget.fullWidth(
-              height: 160,
-              child: ResponsiveRow(
-                children: [
-                  Image(
-                    image: AssetImage("lib/images/splash_screen.png"),
-                  ),
-                ],
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: ScreenUtil().setSp(70),
+                backgroundImage: AssetImage("lib/images/logo.png"),
               ),
             ),
             Form(
               key: _phoneFormKey,
               child: ResponsiveWidget.fullWidth(
-                height: 200,
+                height: 170,
                 child: DifferentSizeResponsiveRow(
                   children: [
                     Spacer(

@@ -14,9 +14,11 @@ class LoginRegister extends StatelessWidget {
       body: Center(
           child: Container(
               constraints: BoxConstraints.expand(),
-              // decoration: BoxDecoration(
-              //     image: DecorationImage(
-              //         image: AssetImage("lib/images/background.jpg"), fit: BoxFit.cover)),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(
+                          "lib/images/login_register_background_logo.png"),
+                      fit: BoxFit.cover)),
               child: Center(
                 child: Column(
                   children: [
