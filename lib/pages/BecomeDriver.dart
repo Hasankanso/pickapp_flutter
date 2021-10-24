@@ -23,11 +23,13 @@ import 'package:just_miles/utilities/pickapp_google_places.dart';
 import 'package:uuid/uuid.dart';
 
 class BecomeDriver extends StatefulWidget {
-  bool isRegionPage;
-  bool isForceRegister;
-  User user;
+  final bool isRegionPage;
+  final bool isForceRegister;
+  final User user;
+  final bool isInRegister;
 
-  BecomeDriver({this.isRegionPage = false, this.isForceRegister, this.user});
+  BecomeDriver(
+      {this.isRegionPage = false, this.isForceRegister, this.user, this.isInRegister = false});
 
   @override
   _BecomeDriverState createState() => _BecomeDriverState();
@@ -37,8 +39,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
   Driver driver = Driver();
   List<MainLocation> _regions = <MainLocation>[];
   List<String> _errorTexts = <String>[];
-  List<LocationEditingController> _regionsControllers =
-      <LocationEditingController>[];
+  List<LocationEditingController> _regionsControllers = <LocationEditingController>[];
 
   _addRegion() async {
     if (_regions.length <= 2) {
@@ -60,12 +61,12 @@ class _BecomeDriverState extends State<BecomeDriver> {
       //if user chose current location
       if (locPred.runtimeType == Location) {
         setState(() {
-          String curr_loc = Lang.getString(context, "My_Current_Location");
+          String currLoc = Lang.getString(context, "My_Current_Location");
           _regions.add(MainLocation());
           _regionsControllers.add(LocationEditingController(
               location: Location(lat: locPred.lat, lng: locPred.lng),
               placeId: null,
-              description: curr_loc));
+              description: currLoc));
           _errorTexts.add(null);
           FocusScope.of(context).unfocus();
         });
@@ -75,10 +76,8 @@ class _BecomeDriverState extends State<BecomeDriver> {
       //request longitude and latitude from google_place_details api
       GoogleMapsPlaces _places =
           new GoogleMapsPlaces(apiKey: App.googleKey); //Same _API_KEY as above
-      PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
-          locPred.placeId,
-          sessionToken: sessionToken,
-          fields: ["geometry"]);
+      PlacesDetailsResponse detail = await _places
+          .getDetailsByPlaceId(locPred.placeId, sessionToken: sessionToken, fields: ["geometry"]);
       double latitude = detail.result.geometry.location.lat;
       double longitude = detail.result.geometry.location.lng;
       setState(() {
@@ -125,37 +124,41 @@ class _BecomeDriverState extends State<BecomeDriver> {
       _regions.add(MainLocation());
       _regionsControllers.add(LocationEditingController());
       _errorTexts.add(null);
-      Future.delayed(Duration.zero, () async {
-        Flushbar(
-          message: Lang.getString(context, "Regions_require_message"),
-          flushbarPosition: FlushbarPosition.TOP,
-          flushbarStyle: FlushbarStyle.GROUNDED,
-          reverseAnimationCurve: Curves.decelerate,
-          forwardAnimationCurve: Curves.decelerate,
-          icon: Icon(
-            Icons.info_outline,
-            color: Styles.primaryColor(),
-            size: Styles.mediumIconSize(),
-          ),
-          mainButton: IconButton(
-            focusColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () {
-              Navigator.pop(context);
-            },
+      if (widget.isInRegister) {
+        Future.delayed(Duration.zero, () async {
+          Flushbar(
+            message: Lang.getString(context, "Regions_require_message"),
+            flushbarPosition: FlushbarPosition.TOP,
+            flushbarStyle: FlushbarStyle.GROUNDED,
+            reverseAnimationCurve: Curves.decelerate,
+            forwardAnimationCurve: Curves.decelerate,
             icon: Icon(
-              Icons.clear,
-              color: Styles.secondaryColor(),
+              Icons.info_outline,
+              color: Styles.primaryColor(),
               size: Styles.mediumIconSize(),
             ),
-          ),
-        )..show(context);
-      });
+            mainButton: IconButton(
+              focusColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.clear,
+                color: Styles.secondaryColor(),
+                size: Styles.mediumIconSize(),
+              ),
+            ),
+          )..show(context);
+        });
+      }
     } else {
       _regions.add(MainLocation());
       _regionsControllers.add(LocationEditingController());
       _errorTexts.add(null);
-      _showRegionsMessage();
+      if (widget.isInRegister) {
+        _showRegionsMessage();
+      }
     }
   }
 
@@ -194,8 +197,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: Lang.getString(
-            context, widget.isRegionPage ? "Regions" : "Become_a_Driver"),
+        title: Lang.getString(context, widget.isRegionPage ? "Regions" : "Become_a_Driver"),
         actions: [
           !widget.isRegionPage
               ? IconButton(
@@ -236,10 +238,8 @@ class _BecomeDriverState extends State<BecomeDriver> {
                                 icon: Icon(Icons.add_location_alt),
                                 iconSize: Styles.largeIconSize(),
                                 color: Styles.primaryColor(),
-                                tooltip:
-                                    Lang.getString(context, "Add_a_region"),
-                                onPressed:
-                                    !(_regions.length >= 3) ? _addRegion : null,
+                                tooltip: Lang.getString(context, "Add_a_region"),
+                                onPressed: !(_regions.length >= 3) ? _addRegion : null,
                               ),
                             ),
                           ],
@@ -315,20 +315,16 @@ class _BecomeDriverState extends State<BecomeDriver> {
                     for (int i = 0; i < _regionsControllers.length; i++) {
                       _regions[i].name = _regionsControllers[i].description;
                       _regions[i].placeId = _regionsControllers[i].placeId;
-                      _regions[i].longitude =
-                          _regionsControllers[i].location.lng;
-                      _regions[i].latitude =
-                          _regionsControllers[i].location.lat;
+                      _regions[i].longitude = _regionsControllers[i].location.lng;
+                      _regions[i].latitude = _regionsControllers[i].location.lat;
                     }
 
                     for (int i = 0; i < _regions.length; i++) {
                       for (int j = i + 1; j < _regions.length; j++) {
                         if (_regions[i].latitude == _regions[j].latitude &&
                             _regions[i].longitude == _regions[j].longitude) {
-                          _errorTexts[i] =
-                              Lang.getString(context, "Region_validation");
-                          _errorTexts[j] =
-                              Lang.getString(context, "Region_validation");
+                          _errorTexts[i] = Lang.getString(context, "Region_validation");
+                          _errorTexts[j] = Lang.getString(context, "Region_validation");
                           isValid = false;
                         }
                       }
@@ -341,15 +337,13 @@ class _BecomeDriverState extends State<BecomeDriver> {
                       await request.send(_editRegionsResponse);
                     } else if (widget.user != null) {
                       widget.user.driver.regions = _regions;
-                      Navigator.pushNamed(context, "/AddCarRegister",
-                          arguments: [
-                            widget.user,
-                            widget.isForceRegister,
-                          ]);
+                      Navigator.pushNamed(context, "/AddCarRegister", arguments: [
+                        widget.user,
+                        widget.isForceRegister,
+                      ]);
                     } else {
                       driver.regions = _regions;
-                      Navigator.pushNamed(context, "/AddCarDriver",
-                          arguments: driver);
+                      Navigator.pushNamed(context, "/AddCarDriver", arguments: driver);
                     }
                   }
                 },
@@ -368,7 +362,6 @@ class _BecomeDriverState extends State<BecomeDriver> {
 
     App.driver.regions = p1.regions;
     await Cache.setUser(App.user);
-    CustomToast()
-        .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
   }
 }

@@ -45,15 +45,13 @@ import 'package:page_transition/page_transition.dart';
 import 'App.dart';
 
 class RouteGenerator {
-  static PageTransitionType get isLTR => App.isLTR == true
-      ? PageTransitionType.rightToLeft
-      : PageTransitionType.leftToRight;
+  static PageTransitionType get isLTR =>
+      App.isLTR == true ? PageTransitionType.rightToLeft : PageTransitionType.leftToRight;
 
   static Duration _transitionTime = const Duration(milliseconds: 300);
 
   //this value is being updated in settings page.
-  static Duration duration =
-      Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
+  static Duration duration = Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
 
   static void disableAnimation(bool value) {
     duration = value ? Duration(milliseconds: 0) : _transitionTime;
@@ -249,13 +247,15 @@ class RouteGenerator {
 
       //become driver screens
       case '/BecomeDriver':
+        List argsList = args as List;
         return PageTransition(
             settings: settings,
             duration: duration,
             reverseDuration: duration,
             type: isLTR,
             child: BecomeDriver(
-              isRegionPage: args,
+              isRegionPage: argsList[0] as bool,
+              isInRegister: argsList[1] as bool,
             ));
       case '/AddCarDriver':
         return PageTransition(
@@ -353,6 +353,7 @@ class RouteGenerator {
             child: BecomeDriver(
               user: ((args as List)[0] as User),
               isForceRegister: (args as List)[1],
+              isInRegister: true,
             ));
       case '/AddCarRegister':
         return PageTransition(
