@@ -6,14 +6,22 @@ import 'package:just_miles/ads/Ads.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
-class MainNativeAd extends StatelessWidget {
-  NativeAd _nativeAd;
+class MainNativeAd extends StatefulWidget {
   final Decoration decoration;
+
   MainNativeAd({this.decoration});
-  final Completer<NativeAd> _nativeAdCompleter = Completer<NativeAd>();
 
   @override
-  Widget build(BuildContext context) {
+  _MainNativeAdState createState() => _MainNativeAdState();
+}
+
+class _MainNativeAdState extends State<MainNativeAd> {
+  NativeAd _nativeAd;
+  Future<NativeAd> adLoader;
+
+  final Completer<NativeAd> _nativeAdCompleter = Completer<NativeAd>();
+
+  Future<NativeAd> loadAd() async {
     _nativeAd = NativeAd(
       adUnitId: Ads.nativeId,
       request: Ads.adRequest,
@@ -30,15 +38,25 @@ class MainNativeAd extends StatelessWidget {
         },
         onAdOpened: (Ad ad) => print('$NativeAd onAdOpened.'),
         onAdClosed: (Ad ad) => print('$NativeAd onAdClosed.'),
-        onAdWillDismissScreen: (Ad ad) =>
-            print('$NativeAd onAdWillDismissScreen.'),
+        onAdWillDismissScreen: (Ad ad) => print('$NativeAd onAdWillDismissScreen.'),
       ),
     );
 
-    Future<void>.delayed(Duration(seconds: 1), () => _nativeAd.load());
+    await Future<void>.delayed(Duration(seconds: 1), () => _nativeAd.load());
 
+    return await _nativeAdCompleter.future;
+  }
+
+  @override
+  void initState() {
+    adLoader = loadAd();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return FutureBuilder<NativeAd>(
-      future: _nativeAdCompleter.future,
+      future: adLoader,
       builder: (BuildContext context, AsyncSnapshot<NativeAd> snapshot) {
         Widget child;
 
@@ -65,7 +83,7 @@ class MainNativeAd extends StatelessWidget {
             }
         }
         return Container(
-          decoration: decoration,
+          decoration: widget.decoration,
           child: child,
         );
       },

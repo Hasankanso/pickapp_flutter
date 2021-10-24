@@ -43,7 +43,7 @@ class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox>
               builder: (BuildContext context, AsyncSnapshot<List<Chat>> snapshot) {
                 return MainScaffold(
                   appBar: MainAppBar(
-                    title: Lang.getString(context, "Chats"),
+                    title: Lang.getString(context, "Inbox"),
                   ),
                   body: snapshot.hasData ? _Body(snapshot.data) : Spinner(),
                 );

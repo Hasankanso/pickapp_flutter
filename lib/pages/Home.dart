@@ -142,7 +142,7 @@ class _HomeState extends State<Home> {
                         ),
                       ],
                     ),
-                    label: Lang.getString(context, "Chats"),
+                    label: Lang.getString(context, "Inbox"),
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.account_circle),
