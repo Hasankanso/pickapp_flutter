@@ -25,7 +25,7 @@ class App {
   static final navKey = new GlobalKey<NavigatorState>();
   static bool isAppBuild = false;
   static MyAppState _state;
-  static final String appName = "PickApp";
+  static final String appName = "Voomcar";
   static TextStyle textStyling = new TextStyle(fontSize: 30);
   static final String googleKey = "AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0";
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
