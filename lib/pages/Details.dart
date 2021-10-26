@@ -513,7 +513,7 @@ class _DetailsState extends State<Details> {
 
     App.isLoggedInNotifier.value = true;
 
-    CustomToast().showSuccessToast(Lang.getString(context, "Welcome_PickApp"));
+    CustomToast().showSuccessToast(Lang.getString(context, "Welcome_Voomcar"));
     // CustomToast().showSuccessToast(
     //     Lang.getString(context, "Email_confirmation_pending"));
     Navigator.popUntil(context, (route) => route.isFirst);

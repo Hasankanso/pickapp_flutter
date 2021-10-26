@@ -189,7 +189,7 @@ class _LoginState extends State<Login> {
                     child: Row(
                       children: [
                         Text(
-                          Lang.getString(context, "New_to_PickApp?") + " ",
+                          Lang.getString(context, "New_to_Voomcar?") + " ",
                           style: Styles.labelTextStyle(),
                         ),
                         InkWell(
@@ -333,7 +333,7 @@ class _LoginState extends State<Login> {
     App.isLoggedInNotifier.value = true;
 
     CustomToast()
-        .showSuccessToast(Lang.getString(context, "Welcome_back_PickApp"));
+        .showSuccessToast(Lang.getString(context, "Welcome_back_Voomcar"));
     Navigator.popUntil(context, (route) => route.isFirst);
   }
 }
