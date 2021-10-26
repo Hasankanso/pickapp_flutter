@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/utilities/Buttons.dart';
 import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
@@ -9,15 +10,14 @@ class LoginRegister extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainScaffold(
       appBar: MainAppBar(
-        title: "PickApp",
+        title: App.appName,
       ),
       body: Center(
           child: Container(
               constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(
-                          "lib/images/login_register_background_logo.png"),
+                      image: AssetImage("lib/images/login_register_background_logo.png"),
                       fit: BoxFit.cover)),
               child: Center(
                 child: Column(
