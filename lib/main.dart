@@ -10,13 +10,11 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/RouteGenerator.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/notifications/PushNotificationsManager.dart';
-import 'package:just_miles/pages/SplashScreen.dart';
 import 'package:just_miles/requests/Request.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Cache.init();
   await Firebase.initializeApp();
 
   await Ads.initialize();
@@ -32,7 +30,7 @@ Future<void> main() async {
     if (App.driver != null) App.isDriverNotifier.value = true;
   }
 
-  //navbar color, not the bottomnavbar, it's the bar where you can press back in android.
+  //navbar color, not the bottom navbar, it's the bar where you can press back in android.
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Styles.primaryColor(),
   ));
@@ -47,7 +45,6 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   Locale _locale;
-  Future<SharedPreferences> cacheFuture;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -66,8 +63,9 @@ class MyAppState extends State<MyApp> {
     super.initState();
     Request.initBackendless();
     App.init(this);
-    cacheFuture = Cache.init();
-    WidgetsBinding.instance.addObserver(LifecycleEventHandler(resumeCallBack: () async {
+
+    WidgetsBinding.instance
+        .addObserver(LifecycleEventHandler(resumeCallBack: () async {
       await PushNotificationsManager().onResume();
     }));
     PushNotificationsManager()
@@ -84,86 +82,78 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<SharedPreferences>(
-        future: cacheFuture,
-        builder: (context, AsyncSnapshot<SharedPreferences> snapshot) {
-          if (Cache.loading) {
-            return SplashScreen();
-          } else if (Cache.failed) {
-            Cache.init();
-            return SplashScreen();
-          } else {
-            _init();
-            return MaterialApp(
-              navigatorKey: App.navKey,
-              title: App.appName,
-              locale: _locale,
-              navigatorObservers: <NavigatorObserver>[App.observer],
-              theme: ThemeData(
-                brightness: Brightness.light,
-                primarySwatch: Styles.primaryColor(),
-                accentIconTheme: IconThemeData(color: Styles.labelColor()),
-                floatingActionButtonTheme: FloatingActionButtonThemeData(
-                  backgroundColor: Styles.primaryColor(),
-                  foregroundColor: Styles.primaryColor(),
-                ),
-                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-              ),
-              themeMode: Styles.currentTheme(),
-              darkTheme: ThemeData(
-                brightness: Brightness.dark,
-                accentColor: Styles.secondaryColor(),
-                primarySwatch: Styles.primaryColor(),
-                toggleableActiveColor: Styles.primaryColor(),
-                textSelectionHandleColor: Styles.primaryColor(),
-                textSelectionColor: Styles.highlitedPrimary(),
-                accentIconTheme: IconThemeData(color: Styles.secondaryColor()),
-                floatingActionButtonTheme: FloatingActionButtonThemeData(
-                  backgroundColor: Styles.primaryColor(),
-                  foregroundColor: Styles.primaryColor(),
-                ),
-                primaryTextTheme: TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-              ),
-              supportedLocales: Lang.langs.map((element) => Locale(element.code)),
-              localizationsDelegates: [
-                Lang.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              localeResolutionCallback: (deviceLocale, supportedLocales) {
-                Locale chosen = supportedLocales.first;
-                for (var locale in supportedLocales) {
-                  if (locale.languageCode == deviceLocale.languageCode) {
-                    chosen = deviceLocale;
-                    break;
-                  }
-                }
-                //check if locale was cached
-                if (_locale == null) Cache.setLocale(chosen.languageCode);
-                App.locale = chosen;
-
-                return chosen;
-              },
-              debugShowCheckedModeBanner: false,
-              onGenerateRoute: RouteGenerator.generateRoute,
-              builder: (context, child) => Scaffold(
-                body: GestureDetector(
-                  onTap: () {
-                    FocusScopeNode currentFocus = FocusScope.of(context);
-                    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-                      FocusManager.instance.primaryFocus.unfocus();
-                    }
-                  },
-                  child: child,
-                ),
-              ),
-              initialRoute: '/',
-            );
+    _init();
+    return MaterialApp(
+      navigatorKey: App.navKey,
+      title: App.appName,
+      locale: _locale,
+      navigatorObservers: <NavigatorObserver>[App.observer],
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primarySwatch: Styles.primaryColor(),
+        accentIconTheme: IconThemeData(color: Styles.labelColor()),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Styles.primaryColor(),
+          foregroundColor: Styles.primaryColor(),
+        ),
+        primaryTextTheme:
+            TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      themeMode: Styles.currentTheme(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        accentColor: Styles.secondaryColor(),
+        primarySwatch: Styles.primaryColor(),
+        toggleableActiveColor: Styles.primaryColor(),
+        textSelectionHandleColor: Styles.primaryColor(),
+        textSelectionColor: Styles.highlitedPrimary(),
+        accentIconTheme: IconThemeData(color: Styles.secondaryColor()),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Styles.primaryColor(),
+          foregroundColor: Styles.primaryColor(),
+        ),
+        primaryTextTheme:
+            TextTheme(headline6: TextStyle(color: Styles.secondaryColor())),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      supportedLocales: Lang.langs.map((element) => Locale(element.code)),
+      localizationsDelegates: [
+        Lang.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      localeResolutionCallback: (deviceLocale, supportedLocales) {
+        Locale chosen = supportedLocales.first;
+        for (var locale in supportedLocales) {
+          if (locale.languageCode == deviceLocale.languageCode) {
+            chosen = deviceLocale;
+            break;
           }
-        });
+        }
+        //check if locale was cached
+        if (_locale == null) Cache.setLocale(chosen.languageCode);
+        App.locale = chosen;
+
+        return chosen;
+      },
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: RouteGenerator.generateRoute,
+      builder: (context, child) => Scaffold(
+        body: GestureDetector(
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus &&
+                currentFocus.focusedChild != null) {
+              FocusManager.instance.primaryFocus.unfocus();
+            }
+          },
+          child: child,
+        ),
+      ),
+      initialRoute: '/',
+    );
   }
 }
 
