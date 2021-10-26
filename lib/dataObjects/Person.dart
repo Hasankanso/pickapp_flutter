@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:just_miles/classes/Cache.dart';
@@ -8,6 +5,7 @@ import 'package:just_miles/dataObjects/CountryInformations.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/dataObjects/UserStatistics.dart';
+import 'package:just_miles/requests/Request.dart';
 
 part 'Person.g.dart';
 
@@ -21,7 +19,6 @@ class Person {
   String _lastName;
   @HiveField(3)
   String _bio;
-  String _image;
   @HiveField(4)
   String _profilePictureUrl;
   @HiveField(5)
@@ -50,8 +47,7 @@ class Person {
   get fullName => firstName + lastName;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is Person && _id == other._id;
+  bool operator ==(Object other) => identical(this, other) || other is Person && _id == other._id;
 
   @override
   int get hashCode => _id.hashCode;
@@ -94,7 +90,7 @@ class Person {
         'firstName': this.firstName,
         'lastName': this.lastName,
         'bio': this.bio,
-        'image': this.image,
+        'image': this._profilePictureUrl,
         'chattiness': this.chattiness,
         'countryInformations': this.countryInformations.toJson(),
         'birthday': this.birthday,
@@ -125,9 +121,8 @@ class Person {
       countryInformations = CountryInformations.fromJson(countryJ);
     }
 
-    UserStatistics statistics = json["statistics"] == null
-        ? null
-        : UserStatistics.fromJson(json["statistics"]);
+    UserStatistics statistics =
+        json["statistics"] == null ? null : UserStatistics.fromJson(json["statistics"]);
 
     var createdJ = json["created"];
     DateTime created;
@@ -178,9 +173,15 @@ class Person {
     return p;
   }
 
+  Future<void> uploadImage() async {
+    if (profilePictureUrl != null) {
+      String imageURL = await Request.uploadImage(_profilePictureUrl, VoomcarImageType.Profile);
+      _profilePictureUrl = imageURL;
+    }
+  }
+
   //Ride
-  Future<Ride> getUpcomingRideFromId(String objectId,
-      {bool searchHistory = false}) async {
+  Future<Ride> getUpcomingRideFromId(String objectId, {bool searchHistory = false}) async {
     if (this.upcomingRides == null) {
       this.upcomingRides = [];
       return null;
@@ -219,7 +220,7 @@ class Person {
 
   @override
   String toString() {
-    return 'Person{_id: $_id, creationDate: $creationDate, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_image, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender}';
+    return 'Person{_id: $_id, creationDate: $creationDate, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_profilePictureUrl, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender}';
   }
 
   ImageProvider get networkImage => _networkImage;
@@ -274,15 +275,6 @@ class Person {
   UserStatistics get statistics => _statistics;
   set statistics(value) {
     _statistics = value;
-  }
-
-  get image => _image;
-
-  setImage(File value) async {
-    if (value != null) {
-      List<int> imageBytes = await value.readAsBytesSync();
-      _image = await base64Encode(imageBytes);
-    }
   }
 
   String get profilePictureUrl => _profilePictureUrl;

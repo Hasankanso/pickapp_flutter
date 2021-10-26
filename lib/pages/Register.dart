@@ -269,7 +269,7 @@ class _RegisterState extends State<Register> {
                     _newPerson.birthday = _birthday.chosenDate;
                     _newPerson.countryInformations = cI;
                     _newPerson.gender = _gender;
-                    await _newPerson.setImage(_imageController.pickedImage);
+                    _newPerson.profilePictureUrl = _imageController.pickedImage.path;
 
                     _newUser.person = _newPerson;
                     _newUser.email = _email.text;

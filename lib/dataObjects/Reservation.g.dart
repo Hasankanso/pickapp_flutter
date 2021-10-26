@@ -17,15 +17,15 @@ class ReservationAdapter extends TypeAdapter<Reservation> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Reservation(
+      person: fields[0] as Person,
+      luggage: fields[2] as int,
+      seats: fields[3] as int,
+      id: fields[1] as String,
+      updated: fields[4] as DateTime,
       rideId: fields[5] as String,
       status: fields[6] as String,
       reason: fields[7] as String,
-    )
-      ..person = fields[0] as Person
-      ..id = fields[1] as String
-      ..luggage = fields[2] as int
-      ..seats = fields[3] as int
-      ..updated = fields[4] as DateTime;
+    );
   }
 
   @override
@@ -56,5 +56,7 @@ class ReservationAdapter extends TypeAdapter<Reservation> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ReservationAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ReservationAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

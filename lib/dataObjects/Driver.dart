@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:just_miles/dataObjects/Car.dart';
 import 'package:just_miles/dataObjects/MainLocation.dart';
+import 'package:just_miles/requests/Request.dart';
 
 part 'Driver.g.dart';
 
@@ -61,9 +62,7 @@ class Driver {
 
     return Driver(
       id: json["objectId"],
-      cars: json["cars"] != null
-          ? List<Car>.from(json["cars"].map((x) => Car.fromJson(x)))
-          : null,
+      cars: json["cars"] != null ? List<Car>.from(json["cars"].map((x) => Car.fromJson(x))) : null,
       regions: regions,
     );
   }
@@ -87,6 +86,23 @@ class Driver {
 
   set regions(List<MainLocation> value) {
     _regions = value;
+  }
+
+  Future<void> uploadCarsImages() async {
+    if (cars != null) {
+      List<Future<String>> carImageFutures = <Future<String>>[];
+
+      for (Car car in cars) {
+        carImageFutures.add(Request.uploadImage(car.carPictureUrl, VoomcarImageType.Car));
+      }
+
+      List<String> carImagesUrl = await Future.wait(carImageFutures);
+      int i = 0;
+      for (Car car in cars) {
+        car.carPictureUrl = carImagesUrl[i];
+        i += 1;
+      }
+    }
   }
 
   List<Car> get cars => _cars;

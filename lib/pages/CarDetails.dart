@@ -68,7 +68,7 @@ class _CarDetailsState extends State<CarDetails> {
                     imageUrl: _isOldImage ? widget.car.carPictureUrl : null,
                     controller: _imageController,
                     title: Lang.getString(context, "Car"),
-                    callBack: () {
+                    callBack: (imageFile) {
                       setState(() {
                         _isOldImage = false;
                       });

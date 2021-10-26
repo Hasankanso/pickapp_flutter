@@ -5,9 +5,12 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/requests/AutoLogin.dart';
+import 'package:path/path.dart' as Path;
+
+enum VoomcarImageType { Car, Profile, Map }
 
 abstract class Request<T> {
-  static String host;
+  static String host, filesHost;
   String httpPath;
 
   Map<String, dynamic> getJson();
@@ -41,17 +44,14 @@ abstract class Request<T> {
   }
 
   // return true if there's an error
-  Future<bool> handleGeneralErrors(http.Response response,
-      dynamic decodedResponse, Function(T, int, String) callback) async {
+  Future<bool> handleGeneralErrors(
+      http.Response response, dynamic decodedResponse, Function(T, int, String) callback) async {
     //check if there's error
     var codeMessage = checkError(response, decodedResponse);
     if (codeMessage.length != 2) {
       return false;
     }
-    print("code and message: " +
-        codeMessage[0].toString() +
-        " " +
-        codeMessage[1].toString());
+    print("code and message: " + codeMessage[0].toString() + " " + codeMessage[1].toString());
     var jCode = codeMessage[0];
     var jMessage = codeMessage[1];
 
@@ -66,8 +66,7 @@ abstract class Request<T> {
             App.user.sessionToken.isEmpty)) {
       //if there's no session token, request it.
       App.user.sessionToken = null;
-      String token =
-          await AutoLogin(App.user.id, App.user.password).send((a, b, c) {});
+      String token = await AutoLogin(App.user.id, App.user.password).send((a, b, c) {});
 
       if (token == null) {
         await App.logout();
@@ -90,9 +89,7 @@ abstract class Request<T> {
     //if this is about a register send request, App will not even have a user, nor a sessionToken.
     var header;
     if (App.user == null || App.user.sessionToken == null) {
-      header = <String, String>{
-        'Content-Type': 'application/json; charset=utf-8'
-      };
+      header = <String, String>{'Content-Type': 'application/json; charset=utf-8'};
     } else {
       header = <String, String>{
         'user-token': App.user.sessionToken,
@@ -110,8 +107,7 @@ abstract class Request<T> {
         )
         .timeout(const Duration(seconds: 20))
         .catchError((Object o) {
-      callback(null, HttpStatus.networkConnectTimeoutError,
-          "no_internet_connection");
+      callback(null, HttpStatus.networkConnectTimeoutError, "no_internet_connection");
       return null;
     });
 
@@ -127,8 +123,7 @@ abstract class Request<T> {
     print("backendless: " + decodedResponse.toString());
 
     // deal with backendless errors
-    bool isError =
-        await handleGeneralErrors(response, decodedResponse, callback);
+    bool isError = await handleGeneralErrors(response, decodedResponse, callback);
     if (isError) {
       return null;
     }
@@ -146,6 +141,51 @@ abstract class Request<T> {
     }
   }
 
+  static Future<String> uploadImage(String path, VoomcarImageType imageType,
+      {bool fromBytes = false, List<int> bytes}) async {
+    String type = imageType == VoomcarImageType.Car
+        ? "Car"
+        : imageType == VoomcarImageType.Map
+            ? ""
+                "RideMaps"
+            : "ProfileImages";
+
+    var header;
+    if (App.user == null || App.user.sessionToken == null) {
+      header = <String, String>{'Content-Type': 'multipart/form-data'};
+    } else {
+      header = <String, String>{
+        'user-token': App.user.sessionToken,
+        'Content-Type': 'multipart/form-data'
+      };
+    }
+
+    String url = filesHost +
+        "/images/$type/" +
+        DateTime.now().millisecondsSinceEpoch.toString() +
+        Path.extension(path);
+    print(url);
+
+    var postUri = Uri.parse(url);
+    var request = new http.MultipartRequest("POST", postUri);
+
+    request.headers.addAll(header);
+
+    if (fromBytes) {
+      request.files.add(http.MultipartFile.fromBytes('file', bytes));
+    } else {
+      request.files.add(await http.MultipartFile.fromPath('file', path));
+    }
+    var response = await request.send().timeout(const Duration(seconds: 20)).catchError((Object o) {
+      return null;
+    });
+
+    print(response);
+
+    String imageURL = await response.stream.transform(utf8.decoder).first;
+    return imageURL;
+  }
+
   dynamic _dateToIso8601String(dynamic object) {
     if (object is DateTime) {
       return object.toIso8601String();
@@ -159,11 +199,8 @@ abstract class Request<T> {
     String IOS_API_KEY = "D2DDEB57-BEBC-48EB-9E07-39A5DB9D8CEF";
     String REST_API_KEY = "A47932AF-43E1-4CDC-9B54-12F8A88FB22E";
 
-    host = "https://api.backendless.com/" +
-        APPLICATION_ID +
-        "/" +
-        REST_API_KEY +
-        "/services";
+    host = "https://api.backendless.com/" + APPLICATION_ID + "/" + REST_API_KEY + "/services";
+    filesHost = "https://api.backendless.com/" + APPLICATION_ID + "/" + REST_API_KEY + "/files";
   }
 
   onError() {}

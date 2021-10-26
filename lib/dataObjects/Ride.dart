@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
@@ -19,8 +18,7 @@ class Ride {
   String id;
   @HiveField(1)
   String _comment;
-  @HiveField(2)
-  String mapBase64;
+  Uint8List imageBytes;
   @HiveField(3)
   MainLocation from;
   @HiveField(4)
@@ -74,7 +72,6 @@ class Ride {
       {String id,
       String comment,
       String mapUrl,
-      String mapBase64,
       MainLocation from,
       MainLocation to,
       DateTime leavingDate,
@@ -120,14 +117,12 @@ class Ride {
     this.reservations = reservations;
     this.car = car;
     this.updated = updated;
-    this.mapBase64 = mapBase64;
     this.mapUrl = mapUrl;
   }
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Ride && runtimeType == other.runtimeType && id == other.id;
+      identical(this, other) || other is Ride && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -149,7 +144,7 @@ class Ride {
         "price": this.price,
         "to": this.to.toJson(),
         "from": this.from.toJson(),
-        "map": this.mapBase64,
+        "map": this.mapUrl,
         "status": this.status
       };
 
@@ -167,7 +162,7 @@ class Ride {
 
   @override
   String toString() {
-    return 'Ride{_id: $id, _comment: $_comment, _mapBase64: $mapBase64, _from: $from,'
+    return 'Ride{_id: $id, _comment: $_comment, _mapUrl: $mapUrl, _from: $from,'
         ' _to: $to, _leavingDate: $leavingDate, _musicAllowed: $musicAllowed, _acAllowed: $_acAllowed,'
         ' _smokingAllowed: $_smokingAllowed, _petsAllowed: $_petsAllowed, _kidSeat: $_kidSeat,'
         ' _reserved: $_reserved, _availableSeats: $availableSeats, _maxSeats: $maxSeats, _maxLuggage: $maxLuggage'
@@ -179,8 +174,7 @@ class Ride {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
     if (leavingDateJ != null && leavingDateJ is int) {
-      leavingDate =
-          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     } else {
       leavingDate = DateTime.parse(leavingDateJ);
     }
@@ -219,14 +213,12 @@ class Ride {
       car: Car.fromJson(json["car"]),
       reserved: reserved,
       reservations: json["passengers"] != null
-          ? List<Reservation>.from(
-              json["passengers"].map((x) => Reservation.fromJson(x)))
+          ? List<Reservation>.from(json["passengers"].map((x) => Reservation.fromJson(x)))
           : null,
       leavingDate: leavingDate,
       from: MainLocation.fromJson(json["from"]),
       to: MainLocation.fromJson(json["to"]),
       price: json["price"],
-      mapBase64: json["map"],
       mapUrl: json["map"],
     );
 
@@ -259,7 +251,6 @@ class Ride {
         from: this.from.copy(),
         to: this.to.copy(),
         price: this.price,
-        mapBase64: this.mapBase64,
         mapUrl: this.mapUrl,
         updated: this.updated,
         car: this.car,
@@ -286,13 +277,6 @@ class Ride {
 
   set comment(value) {
     _comment = value;
-  }
-
-  setMap(File value) {
-    if (value != null) {
-      List<int> imageBytes = value.readAsBytesSync();
-      mapBase64 = base64Encode(imageBytes);
-    }
   }
 
   get acAllowed => _acAllowed;

@@ -17,44 +17,41 @@ class RideAdapter extends TypeAdapter<Ride> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Ride(
+      id: fields[0] as String,
+      mapUrl: fields[22] as String,
+      from: fields[3] as MainLocation,
+      to: fields[4] as MainLocation,
+      leavingDate: fields[5] as DateTime,
+      musicAllowed: fields[6] as bool,
+      availableSeats: fields[12] as int,
+      maxSeats: fields[13] as int,
+      maxLuggage: fields[14] as int,
+      availableLuggage: fields[15] as int,
+      reservations: (fields[19] as List)?.cast<Reservation>(),
+      user: fields[18] as User,
+      car: fields[20] as Car,
+      updated: fields[21] as DateTime,
       status: fields[23] as String,
       reason: fields[24] as String,
     )
-      ..id = fields[0] as String
       .._comment = fields[1] as String
-      ..mapBase64 = fields[2] as String
-      ..from = fields[3] as MainLocation
-      ..to = fields[4] as MainLocation
-      ..leavingDate = fields[5] as DateTime
-      ..musicAllowed = fields[6] as bool
       .._acAllowed = fields[7] as bool
       .._smokingAllowed = fields[8] as bool
       .._petsAllowed = fields[9] as bool
       .._kidSeat = fields[10] as bool
       .._reserved = fields[11] as bool
-      ..availableSeats = fields[12] as int
-      ..maxSeats = fields[13] as int
-      ..maxLuggage = fields[14] as int
-      ..availableLuggage = fields[15] as int
       .._stopTime = fields[16] as int
-      .._price = fields[17] as int
-      ..user = fields[18] as User
-      ..reservations = (fields[19] as List)?.cast<Reservation>()
-      ..car = fields[20] as Car
-      ..updated = fields[21] as DateTime
-      ..mapUrl = fields[22] as String;
+      .._price = fields[17] as int;
   }
 
   @override
   void write(BinaryWriter writer, Ride obj) {
     writer
-      ..writeByte(25)
+      ..writeByte(24)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj._comment)
-      ..writeByte(2)
-      ..write(obj.mapBase64)
       ..writeByte(3)
       ..write(obj.from)
       ..writeByte(4)
@@ -107,5 +104,7 @@ class RideAdapter extends TypeAdapter<Ride> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is RideAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is RideAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

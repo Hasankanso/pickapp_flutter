@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
@@ -10,7 +12,6 @@ import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/items/CarListTile.dart';
-import 'package:just_miles/requests/EditAccount.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
 import 'package:just_miles/utilities/LineDevider.dart';
@@ -30,13 +31,15 @@ class _ProfileState extends State<Profile> {
   MainImageController _imageController = MainImageController();
   bool _isImageLoading = false;
 
-  _onImagePicked() async {
+  _onImagePicked(File imageFile) async {
     _isImageLoading = true;
     setState(() {});
     Person _person = App.person;
-    await _person.setImage(_imageController.pickedImage);
-    Request<Person> request = EditAccount(_person);
-    request.send((result, code, message) => _response(result, code, message, context));
+    //await _person.setImage(_imageController.pickedImage);
+    await Request.uploadImage(imageFile.path, VoomcarImageType.Profile);
+
+    //Request<Person> request = EditAccount(_person);
+    //request.send((result, code, message) => _response(result, code, message, context));
   }
 
   _response(Person result, int code, String message, context) async {

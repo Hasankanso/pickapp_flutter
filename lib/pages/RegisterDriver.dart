@@ -91,11 +91,9 @@ class _RegisterDriverState extends State<RegisterDriver> {
                 text_key: "Next",
                 onPressed: () {
                   widget.user.driver = Driver();
-                  App.setCountriesComponent([
-                    widget.user.person.countryInformations.countryComponent
-                  ]);
-                  Navigator.of(context)
-                      .pushNamed("/BecomeDriverRegister", arguments: [
+                  App.setCountriesComponent(
+                      [widget.user.person.countryInformations.countryComponent]);
+                  Navigator.of(context).pushNamed("/BecomeDriverRegister", arguments: [
                     widget.user,
                     widget.isForceRegister,
                   ]);
@@ -126,20 +124,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
                           },
                         );
                         widget.user.driver = null;
-                        Request<User> registerRequest;
-
-                        //get device token before registering
-                        FirebaseMessaging.instance.getToken().then((value) => {
-                              widget.user.person.deviceToken = value,
-                              if (!widget.isForceRegister)
-                                {registerRequest = RegisterPerson(widget.user)}
-                              else
-                                {
-                                  registerRequest =
-                                      ForceRegisterPerson(widget.user)
-                                },
-                              registerRequest.send(_registerResponse)
-                            });
+                        _registerRequest();
                       },
                       child: Text(
                         Lang.getString(context, "Register"),
@@ -147,8 +132,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
                           fontSize: ScreenUtil().setSp(15),
                           fontWeight: FontWeight.w400,
                           color: (!Cache.darkTheme &&
-                                  MediaQuery.of(context).platformBrightness !=
-                                      Brightness.dark)
+                                  MediaQuery.of(context).platformBrightness != Brightness.dark)
                               ? Styles.valueColor()
                               : Colors.white,
                         ),
@@ -167,6 +151,23 @@ class _RegisterDriverState extends State<RegisterDriver> {
     );
   }
 
+  Future<void> _registerRequest() async {
+    Request<User> registerRequest;
+
+    //get device token before registering
+    String messagingToken = await FirebaseMessaging.instance.getToken();
+    await widget.user.person.uploadImage();
+
+    widget.user.person.deviceToken = messagingToken;
+
+    if (!widget.isForceRegister) {
+      registerRequest = RegisterPerson(widget.user);
+    } else {
+      registerRequest = ForceRegisterPerson(widget.user);
+    }
+    registerRequest.send(_registerResponse);
+  }
+
   Future<void> _registerResponse(User u, int code, String message) async {
     if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
@@ -175,10 +176,8 @@ class _RegisterDriverState extends State<RegisterDriver> {
 
     App.user = u;
     await Cache.setUser(u);
-    await Cache.setCountriesList(
-        [App.person.countryInformations.countryComponent]);
-    App.setCountriesComponent(
-        [App.person.countryInformations.countryComponent]);
+    await Cache.setCountriesList([App.person.countryInformations.countryComponent]);
+    App.setCountriesComponent([App.person.countryInformations.countryComponent]);
     App.isDriverNotifier.value = false;
     App.user.driver = null;
 
