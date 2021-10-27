@@ -49,7 +49,7 @@ class PopUp {
       animationType: AnimationType.grow,
       overlayColor: Colors.black87,
       isCloseButton: !hideClose,
-      isOverlayTapDismiss: true,
+      isOverlayTapDismiss: false,
       titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: mainColor),
       descStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
       animationDuration: Duration(milliseconds: 400),

@@ -238,16 +238,23 @@ class _AddCar2State extends State<AddCar2> {
     registerRequest.send(_registerResponse);
   }
 
-  _addCarRequest() {
+  _addCarRequest() async {
+    String url = await Request.uploadImage(widget.car.carPictureUrl, VoomcarImageType.Car);
+    if (url.isNotEmpty) {
+      widget.car.carPictureUrl = url;
+    }
+
     Request<Car> request = AddCar(widget.car);
     request.send(_addCarResponse);
   }
 
-  _becomeDriverRequest() {
+  _becomeDriverRequest() async {
     if (App.calculateAge(App.person.birthday) < App.person.countryInformations.drivingAge) {
       Navigator.pop(context);
       return CustomToast().showErrorToast(Lang.getString(context, "Under_age"));
     }
+
+    await widget.user.driver.uploadCarsImages();
     Request<Driver> request = BecomeDriverRequest(widget.driver);
     request.send(_becomeDriverResponse);
   }

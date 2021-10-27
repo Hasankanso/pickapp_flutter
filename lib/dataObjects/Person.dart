@@ -20,7 +20,7 @@ class Person {
   @HiveField(3)
   String _bio;
   @HiveField(4)
-  String _profilePictureUrl;
+  String profilePictureUrl;
   @HiveField(5)
   DateTime _birthday;
   @HiveField(6)
@@ -42,7 +42,7 @@ class Person {
   @HiveField(14)
   String deviceToken;
 
-  ImageProvider _networkImage;
+  ImageProvider networkImage;
 
   get fullName => firstName + lastName;
 
@@ -90,7 +90,7 @@ class Person {
         'firstName': this.firstName,
         'lastName': this.lastName,
         'bio': this.bio,
-        'image': this._profilePictureUrl,
+        'image': this.profilePictureUrl,
         'chattiness': this.chattiness,
         'countryInformations': this.countryInformations.toJson(),
         'birthday': this.birthday,
@@ -175,8 +175,8 @@ class Person {
 
   Future<void> uploadImage() async {
     if (profilePictureUrl != null) {
-      String imageURL = await Request.uploadImage(_profilePictureUrl, VoomcarImageType.Profile);
-      _profilePictureUrl = imageURL;
+      String imageURL = await Request.uploadImage(profilePictureUrl, VoomcarImageType.Profile);
+      profilePictureUrl = imageURL;
     }
   }
 
@@ -220,19 +220,14 @@ class Person {
 
   @override
   String toString() {
-    return 'Person{_id: $_id, creationDate: $creationDate, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $_profilePictureUrl, _profilePictureUrl: $_profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender}';
-  }
-
-  ImageProvider get networkImage => _networkImage;
-  set networkImage(ImageProvider value) {
-    _networkImage = value;
+    return 'Person{_id: $_id, creationDate: $creationDate, _firstName: $_firstName, _lastName: $_lastName, _bio: $_bio, _chattiness: $_chattiness, _image: $profilePictureUrl, _profilePictureUrl: $profilePictureUrl, _birthday: $_birthday, _updated: $_updated, _gender: $_gender}';
   }
 
   setNetworkImage() {
     if (profilePictureUrl == null || profilePictureUrl.isEmpty) {
-      this._networkImage = AssetImage("lib/images/user.png");
+      this.networkImage = AssetImage("lib/images/user.png");
     } else {
-      this._networkImage = NetworkImage(this.profilePictureUrl);
+      this.networkImage = NetworkImage(this.profilePictureUrl);
     }
   }
 
@@ -275,12 +270,6 @@ class Person {
   UserStatistics get statistics => _statistics;
   set statistics(value) {
     _statistics = value;
-  }
-
-  String get profilePictureUrl => _profilePictureUrl;
-
-  set profilePictureUrl(value) {
-    _profilePictureUrl = value;
   }
 
   DateTime get birthday => _birthday;

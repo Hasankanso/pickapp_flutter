@@ -16,24 +16,24 @@ class CarAdapter extends TypeAdapter<Car> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Car()
+    return Car(
+      carPictureUrl: fields[4] as String,
+    )
       .._id = fields[0] as String
       .._name = fields[1] as String
       .._color = fields[2] as int
       .._brand = fields[3] as String
-      .._carPictureUrl = fields[4] as String
-      .._pictureBase64 = fields[5] as String
-      .._year = fields[6] as int
-      .._maxLuggage = fields[7] as int
-      .._maxSeats = fields[8] as int
-      .._updated = fields[9] as DateTime
-      .._type = fields[10] as int;
+      .._year = fields[5] as int
+      .._maxLuggage = fields[6] as int
+      .._maxSeats = fields[7] as int
+      .._updated = fields[8] as DateTime
+      .._type = fields[9] as int;
   }
 
   @override
   void write(BinaryWriter writer, Car obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)
@@ -43,18 +43,16 @@ class CarAdapter extends TypeAdapter<Car> {
       ..writeByte(3)
       ..write(obj._brand)
       ..writeByte(4)
-      ..write(obj._carPictureUrl)
+      ..write(obj.carPictureUrl)
       ..writeByte(5)
-      ..write(obj._pictureBase64)
-      ..writeByte(6)
       ..write(obj._year)
-      ..writeByte(7)
+      ..writeByte(6)
       ..write(obj._maxLuggage)
-      ..writeByte(8)
+      ..writeByte(7)
       ..write(obj._maxSeats)
-      ..writeByte(9)
+      ..writeByte(8)
       ..write(obj._updated)
-      ..writeByte(10)
+      ..writeByte(9)
       ..write(obj._type);
   }
 

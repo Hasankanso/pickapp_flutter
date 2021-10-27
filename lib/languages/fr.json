@@ -112,6 +112,7 @@
   "Email": "Courriel :",
   "Email_hint": "Entrez votre courriel",
   "Skip": "Skip",
+  "Ignore": "Ignorer",
   "Account_already_exist": "Le compte existe déjà",
   "Account_with_phone": "Compte avec téléphone +",
   "Exist_desc": " déjà enregistré, si ce n'est pas votre compte, passez votre chemin.",

@@ -113,6 +113,7 @@
   "Email": "Email",
   "Email_hint": "Enter your email",
   "Skip": "Skip",
+  "Ignore" : "Ignore",
   "Account_already_exist": "Account already exist",
   "Account_with_phone": "Account with phone +",
   "Exist_desc": " already registered, if it's not your account please skip.",

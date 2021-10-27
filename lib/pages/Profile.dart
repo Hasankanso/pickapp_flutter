@@ -12,6 +12,7 @@ import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/items/CarListTile.dart';
+import 'package:just_miles/requests/EditAccount.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
 import 'package:just_miles/utilities/LineDevider.dart';
@@ -35,11 +36,11 @@ class _ProfileState extends State<Profile> {
     _isImageLoading = true;
     setState(() {});
     Person _person = App.person;
-    //await _person.setImage(_imageController.pickedImage);
-    await Request.uploadImage(imageFile.path, VoomcarImageType.Profile);
+    App.person.profilePictureUrl =
+        await Request.uploadImage(imageFile.path, VoomcarImageType.Profile);
 
-    //Request<Person> request = EditAccount(_person);
-    //request.send((result, code, message) => _response(result, code, message, context));
+    Request<Person> request = EditAccount(_person);
+    await request.send((result, code, message) => _response(result, code, message, context));
   }
 
   _response(Person result, int code, String message, context) async {
@@ -67,6 +68,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    print(App.person);
     return ValueListenableBuilder(
       builder: (BuildContext context, bool isLoggedIn, Widget child) {
         return MainScaffold(

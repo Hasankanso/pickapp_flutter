@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_miles/classes/Localizations.dart';
@@ -49,7 +51,8 @@ class _AddCarState extends State<AddCar> {
       if (!Validation.isNullOrEmpty(_name.text)) carJ.name = _name.text;
       if (!Validation.isNullOrEmpty(_brand.text)) carJ.brand = _brandKey;
       if (!Validation.isNullOrEmpty(_year.text)) carJ.year = int.parse(_year.text);
-      if (_imageController.pickedImage != null) carJ.imageFile = _imageController.pickedImage;
+      if (_imageController.pickedImage != null)
+        carJ.carPictureUrl = _imageController.pickedImage.path;
       if (_colorController.pickedColor != null) carJ.color = _colorController.pickedColor.value;
     } else if (widget.user != null) {
       if (widget.user.driver.cars == null || widget.user.driver.cars.length == 0) {
@@ -61,7 +64,7 @@ class _AddCarState extends State<AddCar> {
       if (!Validation.isNullOrEmpty(_brand.text)) carD.brand = _brandKey;
       if (!Validation.isNullOrEmpty(_year.text)) carD.year = int.parse(_year.text);
       if (_imageController.pickedImage != null) {
-        carD.imageFile = _imageController.pickedImage;
+        carD.carPictureUrl = _imageController.pickedImage.path;
       }
       if (_colorController.pickedColor != null) carD.color = _colorController.pickedColor.value;
     }
@@ -88,7 +91,7 @@ class _AddCarState extends State<AddCar> {
           _brand.text = _carBrands[carJ.brand];
         }
         if (carJ.year != null) _year.text = carJ.year.toString();
-        if (carJ.imageFile != null) _imageController.pickedImage = carJ.imageFile;
+        if (carJ.carPictureUrl != null) _imageController.pickedImage = File(carJ.carPictureUrl);
         if (carJ.color != null) _colorController.pickedColor = Color(carJ.color);
       } else {
         widget.driver.cars = [Car()];
@@ -103,7 +106,7 @@ class _AddCarState extends State<AddCar> {
           _brand.text = _carBrands[carD.brand];
         }
         if (carD.year != null) _year.text = carD.year.toString();
-        if (carD.imageFile != null) _imageController.pickedImage = carD.imageFile;
+        if (carD.carPictureUrl != null) _imageController.pickedImage = File(carD.carPictureUrl);
         if (carD.color != null) _colorController.pickedColor = Color(carD.color);
       } else {
         widget.user.driver.cars = [Car()];
@@ -297,7 +300,11 @@ class _AddCarState extends State<AddCar> {
                         this.car.color = _colorController.pickedColor.value;
                         widget.driver.cars = [this.car];
                       }
-                      await widget.driver.cars[0].setPictureFile(_imageController.pickedImage);
+
+                      if (_imageController.pickedImage != null) {
+                        widget.driver.cars[0].carPictureUrl = _imageController.pickedImage.path;
+                      }
+
                       Navigator.pushNamed(context, "/AddCar2Driver", arguments: widget.driver);
                     } else if (widget.user != null) {
                       //register
@@ -315,7 +322,7 @@ class _AddCarState extends State<AddCar> {
 
                         widget.user.driver.cars = [this.car];
                       }
-                      await widget.user.driver.cars[0].setPictureFile(_imageController.pickedImage);
+                      widget.user.driver.cars[0].carPictureUrl = _imageController.pickedImage.path;
 
                       Navigator.pushNamed(context, "/AddCar2Register", arguments: [
                         widget.user,
@@ -327,7 +334,7 @@ class _AddCarState extends State<AddCar> {
                       this.car.brand = _brandKey;
                       this.car.year = int.parse(_year.text);
                       this.car.color = _colorController.pickedColor.value;
-                      await this.car.setPictureFile(_imageController.pickedImage);
+                      this.car.carPictureUrl = _imageController.pickedImage.path;
                       Navigator.pushNamed(context, "/AddCar2", arguments: this.car);
                     }
                   }

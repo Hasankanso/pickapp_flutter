@@ -241,7 +241,7 @@ class _CarDetailsState extends State<CarDetails> {
                     car.year = int.parse(_yearController.text);
                     car.color = _colorController.pickedColor.value;
                     if (_imageController.pickedImage != null) {
-                      await car.setPictureFile(_imageController.pickedImage);
+                      car.carPictureUrl = _imageController.pickedImage.path;
                     }
 
                     showDialog(
@@ -256,6 +256,11 @@ class _CarDetailsState extends State<CarDetails> {
                         );
                       },
                     );
+
+                    if (car.carPictureUrl != null) {
+                      car.carPictureUrl =
+                          await Request.uploadImage(car.carPictureUrl, VoomcarImageType.Car);
+                    }
                     Request<Car> request = EditCar(car);
                     request.send(_editCarResponse);
                   }

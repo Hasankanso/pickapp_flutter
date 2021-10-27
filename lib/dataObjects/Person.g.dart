@@ -17,6 +17,7 @@ class PersonAdapter extends TypeAdapter<Person> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Person(
+      profilePictureUrl: fields[4] as String,
       creationDate: fields[13] as DateTime,
       deviceToken: fields[14] as String,
     )
@@ -24,7 +25,6 @@ class PersonAdapter extends TypeAdapter<Person> {
       .._firstName = fields[1] as String
       .._lastName = fields[2] as String
       .._bio = fields[3] as String
-      .._profilePictureUrl = fields[4] as String
       .._birthday = fields[5] as DateTime
       .._gender = fields[6] as bool
       .._chattiness = fields[7] as int
@@ -48,7 +48,7 @@ class PersonAdapter extends TypeAdapter<Person> {
       ..writeByte(3)
       ..write(obj._bio)
       ..writeByte(4)
-      ..write(obj._profilePictureUrl)
+      ..write(obj.profilePictureUrl)
       ..writeByte(5)
       ..write(obj._birthday)
       ..writeByte(6)

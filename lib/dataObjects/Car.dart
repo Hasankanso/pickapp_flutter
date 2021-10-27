@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:core';
-import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
@@ -18,20 +16,17 @@ class Car {
   @HiveField(3)
   String _brand;
   @HiveField(4)
-  String _carPictureUrl;
+  String carPictureUrl;
   @HiveField(5)
-  String _pictureBase64;
-  @HiveField(6)
   int _year;
-  @HiveField(7)
+  @HiveField(6)
   int _maxLuggage;
-  @HiveField(8)
+  @HiveField(7)
   int _maxSeats;
-  @HiveField(9)
+  @HiveField(8)
   DateTime _updated;
-  @HiveField(10)
+  @HiveField(9)
   int _type;
-  File _imageFile;
 
   ImageProvider _networkImage;
 
@@ -61,7 +56,6 @@ class Car {
     this.year = year;
     this.maxLuggage = maxLuggage;
     this.maxSeats = maxSeats;
-    this._pictureBase64 = pictureBase64;
     this.updated = updated;
   }
 
@@ -74,7 +68,7 @@ class Car {
         'name': this.name,
         'type': this.type,
         'color': this.color,
-        'picture': this.pictureBase64,
+        'picture': this.carPictureUrl,
       };
 
   factory Car.fromJson(Map<String, dynamic> json) {
@@ -102,17 +96,11 @@ class Car {
   ImageProvider get networkImage => _networkImage;
 
   setNetworkImage() {
-    if (_carPictureUrl == null) {
+    if (carPictureUrl == null) {
       this._networkImage = new AssetImage("lib/images/car.png");
     } else {
       this._networkImage = new NetworkImage(this.carPictureUrl);
     }
-  }
-
-  File get imageFile => _imageFile;
-
-  set imageFile(File value) {
-    _imageFile = value;
   }
 
   String get id => _id;
@@ -151,21 +139,6 @@ class Car {
     _year = value;
   }
 
-  setPictureFile(File value) async {
-    if (value != null) {
-      List<int> imageBytes = await value.readAsBytesSync();
-      _pictureBase64 = base64Encode(imageBytes);
-    }
-  }
-
-  get pictureBase64 => _pictureBase64;
-
-  get carPictureUrl => _carPictureUrl;
-
-  set carPictureUrl(value) {
-    _carPictureUrl = value;
-  }
-
   get brand => _brand;
 
   set brand(value) {
@@ -192,6 +165,7 @@ class Car {
 
   @override
   String toString() {
-    return 'Car{_id: $_id, _name: $_name, _color: $_color, _brand: $_brand, _carPictureUrl: $_carPictureUrl, _pictureBase64: $_pictureBase64, _year: $_year, _maxLuggage: $_maxLuggage, _maxSeats: $_maxSeats, _updated: $_updated, _type: $_type}';
+    return 'Car{_id: $_id, _name: $_name, _color: $_color, _brand: $_brand, picture: $carPictureUrl, _year: $_year, _maxLuggage: $_maxLuggage, '
+        '_maxSeats: $_maxSeats, _updated: $_updated, _type: $_type}';
   }
 }

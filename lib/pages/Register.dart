@@ -269,8 +269,9 @@ class _RegisterState extends State<Register> {
                     _newPerson.birthday = _birthday.chosenDate;
                     _newPerson.countryInformations = cI;
                     _newPerson.gender = _gender;
-                    _newPerson.profilePictureUrl = _imageController.pickedImage.path;
-
+                    if (_imageController.pickedImage != null) {
+                      _newPerson.profilePictureUrl = _imageController.pickedImage.path;
+                    }
                     _newUser.person = _newPerson;
                     _newUser.email = _email.text;
                     Navigator.pushNamed(context, "/Phone", arguments: _newUser);

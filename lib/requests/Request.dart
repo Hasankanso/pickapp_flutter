@@ -174,16 +174,25 @@ abstract class Request<T> {
     if (fromBytes) {
       request.files.add(http.MultipartFile.fromBytes('file', bytes));
     } else {
-      request.files.add(await http.MultipartFile.fromPath('file', path));
+      try {
+        request.files.add(await http.MultipartFile.fromPath('file', path));
+      } catch (e) {
+        return path;
+      }
     }
     var response = await request.send().timeout(const Duration(seconds: 20)).catchError((Object o) {
       return null;
     });
 
-    print(response);
-
     String imageURL = await response.stream.transform(utf8.decoder).first;
-    return imageURL;
+    var json = jsonDecode(imageURL);
+
+    if (json["fileURL"] != null) {
+      print(json["fileURL"]);
+
+      return json["fileURL"];
+    }
+    return "";
   }
 
   dynamic _dateToIso8601String(dynamic object) {
