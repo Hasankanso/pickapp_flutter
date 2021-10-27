@@ -33,19 +33,18 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
     // TODO: implement initState
     super.initState();
 
-    if (widget.startDate == null) {
-      //initial age is 18 years
-      _initialDate = widget._controller.chosenDate;
-    } else {
+    if (widget.startDate != null) {
       _initialDate = widget.startDate;
       widget._controller.chosenDate = widget.startDate;
+      print(123);
     }
-
     DateTime initialDate = DateTime.now();
     //max age 100 year
-    _minDate = DateTime(initialDate.year - 100, initialDate.month, initialDate.day);
+    _minDate =
+        DateTime(initialDate.year - 100, initialDate.month, initialDate.day);
     //min age 14 years
-    _maxDate = DateTime(initialDate.year - 14, initialDate.month, initialDate.day);
+    _maxDate =
+        DateTime(initialDate.year - 14, initialDate.month, initialDate.day);
     if (App.isAndroid()) {
       _theme = DatePickerTheme(
         headerColor: Styles.primaryColor(),
@@ -56,6 +55,7 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
   }
 
   _setDate(date) {
+    print("set date");
     setState(() {
       widget._controller.chosenDate = date;
     });
@@ -64,6 +64,7 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
   @override
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
+    print(widget._controller.chosenDate);
     return Row(
       children: [
         Expanded(
@@ -77,13 +78,16 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
           flex: 5,
           child: TextButton(
             child: Text(
-              DateFormat(App.birthdayFormat, _appLocale.toString())
-                  .format(widget._controller.chosenDate),
+              widget._controller.chosenDate != null
+                  ? DateFormat(App.birthdayFormat, _appLocale.toString())
+                      .format(widget._controller.chosenDate)
+                  : Lang.getString(context, "Pick_birthday"),
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(15),
                 fontWeight: FontWeight.w400,
                 color: (!Cache.darkTheme &&
-                        MediaQuery.of(context).platformBrightness != Brightness.dark)
+                        MediaQuery.of(context).platformBrightness !=
+                            Brightness.dark)
                     ? Styles.valueColor()
                     : Colors.white,
               ),
@@ -110,8 +114,4 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
 
 class BirthdayController {
   DateTime chosenDate;
-  BirthdayController() {
-    DateTime initialDate = DateTime.now();
-    chosenDate = DateTime(initialDate.year - 18, initialDate.month, initialDate.day);
-  }
 }

@@ -40,8 +40,13 @@ class _PhoneState extends State<Phone> {
     // TODO: implement initState
     super.initState();
     if (widget._user != null && widget._user.phone != null) {
-      _phone.text = (widget._user.phone)
-          .split("+" + widget._user.person.countryInformations.code)[1];
+      print(widget._user.phone);
+      try {
+        _phone.text = (widget._user.phone)
+            .split("+" + widget._user.person.countryInformations.code)[1];
+      } catch (e) {
+        _phone.text = "";
+      }
     }
     _countryInfo = App.getCountryInfo(_countryCode);
   }
