@@ -9,6 +9,7 @@ import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/utilities/BirthdayPicker.dart';
 import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
 import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/MainImagePicker.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
@@ -262,6 +263,10 @@ class _RegisterState extends State<Register> {
                 text_key: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
+                    if (_birthday.chosenDate == null) {
+                      CustomToast().showErrorToast(Lang.getString(context, "Pick_birthday"));
+                      return;
+                    }
                     CountryInformations cI = App.countriesInformations[_country];
                     Person _newPerson = Person();
                     _newPerson.firstName = _firstName.text;

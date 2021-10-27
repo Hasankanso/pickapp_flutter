@@ -1,4 +1,5 @@
 {
+  "Pick_birthday": "Pick your birth date",
   "Country_rest_desc": "Search for places in these countries:",
   "From" : "From",
   "From_Where" : "From Where",
@@ -350,7 +351,7 @@
   "-8002": "Comment is longer than 400 characters",
   "-8003": "error code 8003",
   "-8004": "error code 8004",
-  "-7006": "Same from and to location",
+  "-8006": "Same from and to location",
   "-8007": "ride should be after 25 minutes from now",
   "-8008": "stop time is smaller than 5 or greater than 30",
   "-8009": "comment length is smaller than 25 or greater than 400",

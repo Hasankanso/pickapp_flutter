@@ -1,4 +1,5 @@
 {
+  "Pick_birthday": "إختر تاريخ ميلادك",
   "Country_rest_desc": "ابحث عن الأماكن في هذه البلدان:",
   "From" :"من" ,
   "From_Where" : "من أين",
@@ -159,7 +160,6 @@
   "Choose_car": "اختر سيارة",
   "Ride_already_started": "بدأت الرحلة بالفعل",
   "Cancel_reserve_message": "هل انت متاكد انك تريد الغاء حجزك؟",
-  "Successfully_canceled!": "تم الإلغاء بنجاح!",
   "No_upcoming_rides!": "لا توجد رحلات قادمة!",
   "Invalid_phone_number": "رقم الهاتف غير صحيح",
   "Broadcasted_successfully!": "تم البث بنجاح!",
