@@ -21,10 +21,9 @@ import 'package:just_miles/utilities/Spinner.dart';
 
 class Phone2 extends StatefulWidget {
   User user;
-  bool isForceRegister = false;
   User oldUser;
 
-  Phone2({this.user, this.isForceRegister, this.oldUser});
+  Phone2({this.user, this.oldUser});
 
   @override
   _Phone2State createState() => _Phone2State();
@@ -378,7 +377,7 @@ class _Phone2State extends State<Phone2> {
   _openDetailsPage() {
     widget.user.idToken = _idToken;
     Navigator.pushReplacementNamed(context, "/RegisterDetails",
-        arguments: [widget.user, widget.isForceRegister]);
+        arguments: [widget.user]);
   }
 
   _changePhoneRequest() {

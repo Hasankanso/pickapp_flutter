@@ -23,10 +23,9 @@ import 'package:just_miles/utilities/Spinner.dart';
 class AddCar2 extends StatefulWidget {
   Driver driver;
   Car car;
-  bool isForceRegister;
   User user;
 
-  AddCar2({this.driver, this.car, this.isForceRegister, this.user});
+  AddCar2({this.driver, this.car, this.user});
 
   @override
   _AddCar2State createState() => _AddCar2State();
@@ -122,7 +121,8 @@ class _AddCar2State extends State<AddCar2> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarTypeItem(_typesBool[0], _typesNames[0], 'lib/images/car2', selectType, 0)
+                  CarTypeItem(_typesBool[0], _typesNames[0], 'lib/images/car2',
+                      selectType, 0)
                 ],
               ),
             ),
@@ -131,7 +131,8 @@ class _AddCar2State extends State<AddCar2> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarTypeItem(_typesBool[1], _typesNames[1], 'lib/images/car3', selectType, 1),
+                  CarTypeItem(_typesBool[1], _typesNames[1], 'lib/images/car3',
+                      selectType, 1),
                 ],
               ),
             ),
@@ -140,7 +141,8 @@ class _AddCar2State extends State<AddCar2> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarTypeItem(_typesBool[2], _typesNames[2], 'lib/images/car1', selectType, 2),
+                  CarTypeItem(_typesBool[2], _typesNames[2], 'lib/images/car1',
+                      selectType, 2),
                 ],
               ),
             ),
@@ -149,7 +151,8 @@ class _AddCar2State extends State<AddCar2> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CarTypeItem(_typesBool[3], _typesNames[3], 'lib/images/car4', selectType, 3),
+                  CarTypeItem(_typesBool[3], _typesNames[3], 'lib/images/car4',
+                      selectType, 3),
                 ],
               ),
             ),
@@ -168,7 +171,8 @@ class _AddCar2State extends State<AddCar2> {
                 text_key: _btnText,
                 onPressed: () {
                   if (_type == null) {
-                    return CustomToast().showErrorToast(Lang.getString(context, "Select_type"));
+                    return CustomToast()
+                        .showErrorToast(Lang.getString(context, "Select_type"));
                   }
                   showDialog(
                     context: context,
@@ -230,7 +234,7 @@ class _AddCar2State extends State<AddCar2> {
     await widget.user.driver.uploadCarsImages();
 
     widget.user.person.deviceToken = messagingToken;
-    if (!widget.isForceRegister) {
+    if (!widget.user.isForceRegister) {
       registerRequest = RegisterPerson(widget.user);
     } else {
       registerRequest = ForceRegisterPerson(widget.user);
@@ -239,7 +243,8 @@ class _AddCar2State extends State<AddCar2> {
   }
 
   _addCarRequest() async {
-    String url = await Request.uploadImage(widget.car.carPictureUrl, VoomcarImageType.Car);
+    String url = await Request.uploadImage(
+        widget.car.carPictureUrl, VoomcarImageType.Car);
     if (url.isNotEmpty) {
       widget.car.carPictureUrl = url;
     }
@@ -249,7 +254,8 @@ class _AddCar2State extends State<AddCar2> {
   }
 
   _becomeDriverRequest() async {
-    if (App.calculateAge(App.person.birthday) < App.person.countryInformations.drivingAge) {
+    if (App.calculateAge(App.person.birthday) <
+        App.person.countryInformations.drivingAge) {
       Navigator.pop(context);
       return CustomToast().showErrorToast(Lang.getString(context, "Under_age"));
     }
@@ -268,8 +274,10 @@ class _AddCar2State extends State<AddCar2> {
     App.user = u;
     await Cache.setUser(u);
     App.countriesComponents = null;
-    await Cache.setCountriesList([App.person.countryInformations.countryComponent]);
-    App.setCountriesComponent([App.person.countryInformations.countryComponent]);
+    await Cache.setCountriesList(
+        [App.person.countryInformations.countryComponent]);
+    App.setCountriesComponent(
+        [App.person.countryInformations.countryComponent]);
     App.isDriverNotifier.value = true;
 
     App.isLoggedInNotifier.value = true;
@@ -308,7 +316,8 @@ class _AddCar2State extends State<AddCar2> {
     await Cache.setUser(App.user);
     App.updateProfile.value = !App.updateProfile.value;
 
-    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_added!"));
+    CustomToast()
+        .showSuccessToast(Lang.getString(context, "Successfully_added!"));
     Navigator.popUntil(context, (route) => route.isFirst);
   }
 }

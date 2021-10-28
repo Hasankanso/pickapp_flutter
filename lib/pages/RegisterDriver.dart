@@ -19,10 +19,9 @@ import 'package:just_miles/utilities/Responsive.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
 class RegisterDriver extends StatefulWidget {
-  bool isForceRegister;
   User user;
 
-  RegisterDriver({this.isForceRegister, this.user});
+  RegisterDriver({this.user});
 
   @override
   _RegisterDriverState createState() => _RegisterDriverState();
@@ -91,11 +90,12 @@ class _RegisterDriverState extends State<RegisterDriver> {
                 text_key: "Next",
                 onPressed: () {
                   widget.user.driver = Driver();
-                  App.setCountriesComponent(
-                      [widget.user.person.countryInformations.countryComponent]);
-                  Navigator.of(context).pushNamed("/BecomeDriverRegister", arguments: [
+                  App.setCountriesComponent([
+                    widget.user.person.countryInformations.countryComponent
+                  ]);
+                  Navigator.of(context)
+                      .pushNamed("/BecomeDriverRegister", arguments: [
                     widget.user,
-                    widget.isForceRegister,
                   ]);
                 },
               ),
@@ -132,7 +132,8 @@ class _RegisterDriverState extends State<RegisterDriver> {
                           fontSize: ScreenUtil().setSp(15),
                           fontWeight: FontWeight.w400,
                           color: (!Cache.darkTheme &&
-                                  MediaQuery.of(context).platformBrightness != Brightness.dark)
+                                  MediaQuery.of(context).platformBrightness !=
+                                      Brightness.dark)
                               ? Styles.valueColor()
                               : Colors.white,
                         ),
@@ -160,7 +161,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
 
     widget.user.person.deviceToken = messagingToken;
 
-    if (!widget.isForceRegister) {
+    if (!widget.user.isForceRegister) {
       registerRequest = RegisterPerson(widget.user);
     } else {
       registerRequest = ForceRegisterPerson(widget.user);
@@ -176,8 +177,10 @@ class _RegisterDriverState extends State<RegisterDriver> {
 
     App.user = u;
     await Cache.setUser(u);
-    await Cache.setCountriesList([App.person.countryInformations.countryComponent]);
-    App.setCountriesComponent([App.person.countryInformations.countryComponent]);
+    await Cache.setCountriesList(
+        [App.person.countryInformations.countryComponent]);
+    App.setCountriesComponent(
+        [App.person.countryInformations.countryComponent]);
     App.isDriverNotifier.value = false;
     App.user.driver = null;
 

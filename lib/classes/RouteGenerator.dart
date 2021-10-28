@@ -45,13 +45,15 @@ import 'package:page_transition/page_transition.dart';
 import 'App.dart';
 
 class RouteGenerator {
-  static PageTransitionType get isLTR =>
-      App.isLTR == true ? PageTransitionType.rightToLeft : PageTransitionType.leftToRight;
+  static PageTransitionType get isLTR => App.isLTR == true
+      ? PageTransitionType.rightToLeft
+      : PageTransitionType.leftToRight;
 
   static Duration _transitionTime = const Duration(milliseconds: 300);
 
   //this value is being updated in settings page.
-  static Duration duration = Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
+  static Duration duration =
+      Cache.disableAnimation ? Duration(milliseconds: 0) : _transitionTime;
 
   static void disableAnimation(bool value) {
     duration = value ? Duration(milliseconds: 0) : _transitionTime;
@@ -312,7 +314,6 @@ class RouteGenerator {
             type: isLTR,
             child: Phone2(
               user: ((args as List)[0] as User),
-              isForceRegister: (args as List)[1],
             ));
       case "/Phone2ChangePhone":
         return PageTransition(
@@ -331,7 +332,6 @@ class RouteGenerator {
             type: isLTR,
             child: Details(
               user: ((args as List)[0] as User),
-              isForceRegister: (args as List)[1],
             ));
       case '/RegisterDriver':
         return PageTransition(
@@ -341,7 +341,6 @@ class RouteGenerator {
             type: isLTR,
             child: RegisterDriver(
               user: ((args as List)[0] as User),
-              isForceRegister: (args as List)[1],
             ));
       //register driver screens
       case '/BecomeDriverRegister':
@@ -352,7 +351,6 @@ class RouteGenerator {
             type: isLTR,
             child: BecomeDriver(
               user: ((args as List)[0] as User),
-              isForceRegister: (args as List)[1],
               isInRegister: true,
             ));
       case '/AddCarRegister':
@@ -363,7 +361,6 @@ class RouteGenerator {
             type: isLTR,
             child: AddCar(
               user: ((args as List)[0] as User),
-              isForceRegister: (args as List)[1],
             ));
       case "/AddCar2Register":
         return PageTransition(
@@ -373,7 +370,6 @@ class RouteGenerator {
             type: isLTR,
             child: AddCar2(
               user: ((args as List)[0] as User),
-              isForceRegister: (args as List)[1],
             ));
       case '/Conversation':
         return PageTransition(

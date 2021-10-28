@@ -29,6 +29,7 @@ class User {
   String sessionToken; //backendless session token.
 
   bool isExistChecked = false;
+  bool isForceRegister = false;
 
   User(
       {Person person,
