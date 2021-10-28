@@ -142,13 +142,13 @@ abstract class Request<T> {
   }
 
   static Future<String> uploadImage(String path, VoomcarImageType imageType,
-      {bool fromBytes = false, List<int> bytes}) async {
-    String type = imageType == VoomcarImageType.Car
-        ? "Car"
-        : imageType == VoomcarImageType.Map
-            ? ""
-                "RideMaps"
-            : "ProfileImages";
+      {bool fromBytes = false, List<int> bytes,String fileName}) async {
+    String type ;
+    if(imageType == VoomcarImageType.Car)
+        type="Car";
+    else if(imageType == VoomcarImageType.Map)
+            type= "RideMaps";
+    else type="ProfileImages";
 
     var header;
     if (App.user == null || App.user.sessionToken == null) {
@@ -172,7 +172,7 @@ abstract class Request<T> {
     request.headers.addAll(header);
 
     if (fromBytes) {
-      request.files.add(http.MultipartFile.fromBytes('file', bytes));
+      request.files.add(http.MultipartFile.fromBytes('file', bytes,filename: fileName));
     } else {
       try {
         request.files.add(await http.MultipartFile.fromPath('file', path));
@@ -192,7 +192,7 @@ abstract class Request<T> {
 
       return json["fileURL"];
     }
-    return "";
+    return imageURL;
   }
 
   dynamic _dateToIso8601String(dynamic object) {

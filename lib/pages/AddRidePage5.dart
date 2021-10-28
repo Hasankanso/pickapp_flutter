@@ -292,13 +292,15 @@ class _AddRidePage5State extends State<AddRidePage5> {
                 isRequest: true,
                 text_key: "Done",
                 onPressed: () async {
-                  await Ads.showRewardedAd(() async {
-                    await Request.uploadImage("vayroos.png", VoomcarImageType.Map,
-                        fromBytes: true, bytes: ride.imageBytes);
+
+                 await Ads.showRewardedAd(() async {
+                  ride.mapUrl=await Request.uploadImage("name.png", VoomcarImageType.Map,
+                        fileName: "name",fromBytes: true, bytes: ride.imageBytes);
                     Request<Ride> request = AddRide(ride);
-                    await request.send((result, code, message) =>
-                        _addRideResponse(result, code, message, context));
-                  });
+                    await request.send((result, code, message) {
+                      return _addRideResponse(result, code, message, context);
+                    });
+                });
                 },
               ),
             ),
