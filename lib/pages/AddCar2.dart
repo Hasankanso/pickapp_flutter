@@ -254,7 +254,7 @@ class _AddCar2State extends State<AddCar2> {
       return CustomToast().showErrorToast(Lang.getString(context, "Under_age"));
     }
 
-    await widget.user.driver.uploadCarsImages();
+    await widget.driver.uploadCarsImages();
     Request<Driver> request = BecomeDriverRequest(widget.driver);
     request.send(_becomeDriverResponse);
   }
