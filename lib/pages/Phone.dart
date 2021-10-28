@@ -28,7 +28,6 @@ class Phone extends StatefulWidget {
 
 class _PhoneState extends State<Phone> {
   final _formKey = GlobalKey<FormState>();
-  bool _isForceRegister = false;
   TextEditingController _phone = TextEditingController();
   TextEditingController _code = TextEditingController();
   List<String> _countriesCodes = App.countriesInformationsCodes;
@@ -41,8 +40,8 @@ class _PhoneState extends State<Phone> {
     super.initState();
     if (widget._user != null && widget._user.phone != null) {
       try {
-        _phone.text =
-            (widget._user.phone).split("+" + widget._user.person.countryInformations.code)[1];
+        _phone.text = (widget._user.phone)
+            .split("+" + widget._user.person.countryInformations.code)[1];
       } catch (e) {
         _phone.text = "";
       }
@@ -94,7 +93,8 @@ class _PhoneState extends State<Phone> {
                             isExpanded: true,
                             decoration: InputDecoration(
                                 labelText: "",
-                                labelStyle: TextStyle(fontSize: 8, color: Colors.transparent)),
+                                labelStyle: TextStyle(
+                                    fontSize: 8, color: Colors.transparent)),
                             value: '$_countryCode',
                             validator: (val) {
                               String valid = Validation.validate(val, context);
@@ -107,7 +107,8 @@ class _PhoneState extends State<Phone> {
                                 _countryInfo = App.getCountryInfo(_countryCode);
                               });
                             },
-                            items: _countriesCodes.map<DropdownMenuItem<String>>((String value) {
+                            items: _countriesCodes
+                                .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -153,7 +154,8 @@ class _PhoneState extends State<Phone> {
                         textInputAction: TextInputAction.done,
                         validator: (value) {
                           String valid = Validation.validate(value, context);
-                          String phone = Validation.isPhoneNumber(context, value);
+                          String phone =
+                              Validation.isPhoneNumber(context, value);
                           if (valid != null)
                             return valid;
                           else if (phone != null) return phone;
@@ -210,7 +212,7 @@ class _PhoneState extends State<Phone> {
                         await _openSecondPage(phone);
                       } else if (widget._user.idToken != null) {
                         Navigator.of(context).pushNamed('/RegisterDetails',
-                            arguments: [widget._user, _isForceRegister]);
+                            arguments: [widget._user]);
                       } else {
                         await _openSecondPage(phone);
                       }
@@ -221,11 +223,14 @@ class _PhoneState extends State<Phone> {
                             _phone.text +
                             Lang.getString(context, "Same_phone"));
                       }
-                      Person p =
-                          Person(countryInformations: CountryInformations(id: _countryInfo.id));
+                      Person p = Person(
+                          countryInformations:
+                              CountryInformations(id: _countryInfo.id));
                       Navigator.of(context).pushNamed('/Phone2ChangePhone',
                           arguments: User(
-                              id: App.user.id, phone: "+" + _countryCode + _phone.text, person: p));
+                              id: App.user.id,
+                              phone: "+" + _countryCode + _phone.text,
+                              person: p));
                     }
                   }
                 },
@@ -245,7 +250,7 @@ class _PhoneState extends State<Phone> {
       Request<bool> request = CheckUserExist(checkUser);
       await request.send(_checkUserExistResponse);
     } else {
-      Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
+      Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user]);
     }
   }
 
@@ -257,6 +262,7 @@ class _PhoneState extends State<Phone> {
 
     widget._user.isExistChecked = true;
     if (userExist == true) {
+      widget._user.isForceRegister = true;
       PopUp.areYouSure(
         Lang.getString(context, "Ignore"),
         Lang.getString(context, "Login"),
@@ -271,7 +277,8 @@ class _PhoneState extends State<Phone> {
         hideClose: true,
       ).confirmationPopup(context);
     } else {
-      Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
+      widget._user.isForceRegister = false;
+      Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user]);
     }
   }
 
@@ -280,7 +287,6 @@ class _PhoneState extends State<Phone> {
   }
 
   _skip() {
-    _isForceRegister = true;
-    Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user, _isForceRegister]);
+    Navigator.of(context).pushNamed('/Phone2', arguments: [widget._user]);
   }
 }
