@@ -108,7 +108,7 @@ abstract class Request<T> {
         'Content-Type': 'application/json; charset=utf-8'
       };
     }
-    print("api::" + host + httpPath);
+    print("request:" + host + httpPath);
     print("json body " + data.toString());
     //send request
     http.Response response = await http
