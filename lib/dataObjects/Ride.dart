@@ -122,7 +122,8 @@ class Ride {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is Ride && runtimeType == other.runtimeType && id == other.id;
+      identical(this, other) ||
+      other is Ride && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -149,7 +150,6 @@ class Ride {
       };
 
   Reservation findReservationFrom(Person person) {
-    print("looking");
     for (Reservation reserve in this.reservations) {
       if (reserve.person == null || reserve.person == person) {
         // == null part is ugly, need to
@@ -172,29 +172,27 @@ class Ride {
 
   factory Ride.fromJson(Map<String, dynamic> json) {
     var leavingDateJ = json["leavingDate"];
+
     DateTime leavingDate;
     if (leavingDateJ != null && leavingDateJ is int) {
-      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+      leavingDate =
+          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     } else {
       leavingDate = DateTime.parse(leavingDateJ);
     }
-
     User user;
     bool reserved;
     if (json["driver"] != null && json["driver"] != "") {
       Map<String, dynamic> driverJ = json["driver"];
-
       Driver driver = Driver.fromJson(driverJ);
 
       Person person = Person.fromJson(driverJ["person"]);
 
       user = User(person: person, driver: driver);
-
       reserved = true;
     } else {
       reserved = false;
     }
-
     Ride r = new Ride(
       kidSeat: json["kidSeat"],
       id: json["objectId"],
@@ -213,7 +211,8 @@ class Ride {
       car: Car.fromJson(json["car"]),
       reserved: reserved,
       reservations: json["passengers"] != null
-          ? List<Reservation>.from(json["passengers"].map((x) => Reservation.fromJson(x)))
+          ? List<Reservation>.from(
+              json["passengers"].map((x) => Reservation.fromJson(x)))
           : null,
       leavingDate: leavingDate,
       from: MainLocation.fromJson(json["from"]),
@@ -221,7 +220,6 @@ class Ride {
       price: json["price"],
       mapUrl: json["map"],
     );
-
     r.setMapImage();
 
     return r;

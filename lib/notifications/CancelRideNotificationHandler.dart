@@ -11,13 +11,13 @@ class CancelRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
   DateTime cancellationDate;
 
-  CancelRideNotificationHandler(MainNotification notification) : super(notification) {
+  CancelRideNotificationHandler(MainNotification notification)
+      : super(notification) {
     List<Object> list = notification.object as List;
     this.rideId = list[0] as String;
     if (list.length > 1) {
       this.reason = list[1] as String;
-      this.cancellationDate =
-          DateTime.fromMillisecondsSinceEpoch((list[2] as int), isUtc: true).toLocal();
+      this.cancellationDate = DateTime.parse(list[2]).toLocal();
     }
   }
 
@@ -26,10 +26,12 @@ class CancelRideNotificationHandler extends NotificationHandler {
     User user = await Cache.getUser();
     int index = user.person.upcomingRides.indexOf(new Ride(id: rideId));
     if (index < 0) return null;
-
+    print("ride id $index");
     user.person.upcomingRides[index].status = "CANCELED";
+    print("ride${user.person.upcomingRides[index]}");
 
-    await LocalNotificationManager.cancelLocalNotification("ride_reminder." + rideId);
+    await LocalNotificationManager.cancelLocalNotification(
+        "ride_reminder." + rideId);
 
     await Cache.setUser(user);
   }
@@ -42,12 +44,15 @@ class CancelRideNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> display(BuildContext context) async {
-    Ride ride = await App.person.getUpcomingRideFromId(rideId, searchHistory: true);
+    Ride ride =
+        await App.person.getUpcomingRideFromId(rideId, searchHistory: true);
 
     if (ride == null ||
         ride.status != "CANCELED" ||
         reason == null ||
-        cancellationDate.compareTo(DateTime.now().add(App.availableDurationToRate)) >= 0) return;
+        cancellationDate
+                .compareTo(DateTime.now().add(App.availableDurationToRate)) >=
+            0) return;
 
     Navigator.of(context).pushNamed("/RateDriver",
         arguments: [ride, ride.person, reason, cancellationDate, notification]);

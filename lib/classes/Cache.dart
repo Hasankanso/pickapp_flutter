@@ -204,8 +204,6 @@ class Cache {
     } else {
       rideBox = Hive.box("ridesHistory");
     }
-    print("update rides");
-    print(allHistoryRides);
     if (rideBox.isOpen) {
       await rideBox.put("ridesHistory", allHistoryRides);
       await rideBox.close();

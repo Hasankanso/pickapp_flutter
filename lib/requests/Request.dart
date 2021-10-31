@@ -132,7 +132,14 @@ abstract class Request<T> {
     }
 
     //decode response
-    var decodedResponse = json.decode(utf8.decode(response.bodyBytes));
+    var decodedResponse;
+    try {
+      decodedResponse = json.decode(utf8.decode(response.bodyBytes));
+    } catch (e) {
+      print("unknown exception");
+      callback(null, HttpStatus.partialContent, "Something_Wrong");
+      return null;
+    }
     print("backendless: " + decodedResponse.toString());
 
     // deal with backendless errors
@@ -156,13 +163,14 @@ abstract class Request<T> {
   }
 
   static Future<String> uploadImage(String path, VoomcarImageType imageType,
-      {bool fromBytes = false, List<int> bytes,String fileName}) async {
-    String type ;
-    if(imageType == VoomcarImageType.Car)
-        type="Car";
-    else if(imageType == VoomcarImageType.Map)
-            type= "RideMaps";
-    else type="ProfileImages";
+      {bool fromBytes = false, List<int> bytes, String fileName}) async {
+    String type;
+    if (imageType == VoomcarImageType.Car)
+      type = "Car";
+    else if (imageType == VoomcarImageType.Map)
+      type = "RideMaps";
+    else
+      type = "ProfileImages";
 
     var header;
     if (App.user == null || App.user.sessionToken == null) {
@@ -186,7 +194,8 @@ abstract class Request<T> {
     request.headers.addAll(header);
 
     if (fromBytes) {
-      request.files.add(http.MultipartFile.fromBytes('file', bytes,filename: fileName));
+      request.files
+          .add(http.MultipartFile.fromBytes('file', bytes, filename: fileName));
     } else {
       try {
         request.files.add(await http.MultipartFile.fromPath('file', path));

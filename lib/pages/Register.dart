@@ -100,8 +100,11 @@ class _RegisterState extends State<Register> {
                             ),
                             style: Styles.valueTextStyle(),
                             validator: (value) {
-                              String valid = Validation.validate(value, context);
-                              String alpha = Validation.isAlphabeticIgnoreSpaces(context, value);
+                              String valid =
+                                  Validation.validate(value, context);
+                              String alpha =
+                                  Validation.isAlphabeticIgnoreSpaces(
+                                      context, value);
 
                               if (valid != null)
                                 return valid;
@@ -121,14 +124,18 @@ class _RegisterState extends State<Register> {
                             ],
                             decoration: InputDecoration(
                               labelText: Lang.getString(context, "Last_Name"),
-                              hintText: Lang.getString(context, "Last_name_hint"),
+                              hintText:
+                                  Lang.getString(context, "Last_name_hint"),
                               labelStyle: Styles.labelTextStyle(),
                               hintStyle: Styles.labelTextStyle(),
                             ),
                             style: Styles.valueTextStyle(),
                             validator: (value) {
-                              String valid = Validation.validate(value, context);
-                              String alpha = Validation.isAlphabeticIgnoreSpaces(context, value);
+                              String valid =
+                                  Validation.validate(value, context);
+                              String alpha =
+                                  Validation.isAlphabeticIgnoreSpaces(
+                                      context, value);
                               if (valid != null)
                                 return valid;
                               else if (alpha != null)
@@ -163,7 +170,8 @@ class _RegisterState extends State<Register> {
                                 _country = newValue;
                               });
                             },
-                            items: _countries.map<DropdownMenuItem<String>>((String value) {
+                            items: _countries
+                                .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -187,10 +195,13 @@ class _RegisterState extends State<Register> {
                             onChanged: (String newValue) {
                               setState(() {
                                 _gender =
-                                    newValue == Lang.getString(context, "Male") ? true : false;
+                                    newValue == Lang.getString(context, "Male")
+                                        ? true
+                                        : false;
                               });
                             },
-                            items: _genders.map<DropdownMenuItem<String>>((String value) {
+                            items: _genders
+                                .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -219,10 +230,12 @@ class _RegisterState extends State<Register> {
                               hintStyle: Styles.labelTextStyle(),
                             ),
                             style: Styles.valueTextStyle(),
-                            validator: (value) {
-                              String valid = Validation.validate(value, context);
+                            validator: (String value) {
+                              String valid =
+                                  Validation.validate(value, context);
                               if (valid != null) return valid;
-                              String email = Validation.isEmail(context, value);
+                              String email = Validation.isEmail(context,
+                                  value.toLowerCase().replaceAll(' ', ''));
                               if (email != null) return email;
                               return null;
                             },
@@ -264,10 +277,12 @@ class _RegisterState extends State<Register> {
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     if (_birthday.chosenDate == null) {
-                      CustomToast().showErrorToast(Lang.getString(context, "Pick_birthday"));
+                      CustomToast().showErrorToast(
+                          Lang.getString(context, "Pick_birthday"));
                       return;
                     }
-                    CountryInformations cI = App.countriesInformations[_country];
+                    CountryInformations cI =
+                        App.countriesInformations[_country];
                     Person _newPerson = Person();
                     _newPerson.firstName = _firstName.text;
                     _newPerson.lastName = _lastName.text;
@@ -275,7 +290,8 @@ class _RegisterState extends State<Register> {
                     _newPerson.countryInformations = cI;
                     _newPerson.gender = _gender;
                     if (_imageController.pickedImage != null) {
-                      _newPerson.profilePictureUrl = _imageController.pickedImage.path;
+                      _newPerson.profilePictureUrl =
+                          _imageController.pickedImage.path;
                     }
                     _newUser.person = _newPerson;
                     _newUser.email = _email.text;

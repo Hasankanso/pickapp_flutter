@@ -28,7 +28,8 @@ class RideDetails extends StatelessWidget {
   TextEditingController _reason = TextEditingController();
   List<Ride> ridesHistory = [];
 
-  RideDetails(this.ride, {this.buttonText, this.onPressed, this.isEditDisabled = true});
+  RideDetails(this.ride,
+      {this.buttonText, this.onPressed, this.isEditDisabled = true});
 
   _cancelReservation(bool deleted, int code, String message, context) async {
     if (App.handleErrors(context, code, message)) {
@@ -38,10 +39,11 @@ class RideDetails extends StatelessWidget {
 
     if (deleted) {
       App.deleteRideFromMyRides(ride);
-      CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
-        ridesHistory = await Cache.getRidesHistory();
-        ridesHistory.add(ride);
-        await Cache.updateRideHistory(ridesHistory);
+      CustomToast()
+          .showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
+      ridesHistory = await Cache.getRidesHistory();
+      ridesHistory.add(ride);
+      await Cache.updateRideHistory(ridesHistory);
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
@@ -52,9 +54,12 @@ class RideDetails extends StatelessWidget {
         _reason.text = "";
         Widget _content;
         if (ride.leavingDate.compareTo(DateTime.now()) < 0) {
-          return CustomToast().showErrorToast(Lang.getString(context, "Ride_already_started"));
+          return CustomToast()
+              .showErrorToast(Lang.getString(context, "Ride_already_started"));
         } else {
-          if (ride.leavingDate.compareTo(DateTime.now().add(App.availableDurationToRate)) <= 0) {
+          if (ride.leavingDate
+                  .compareTo(DateTime.now().add(App.availableDurationToRate)) <=
+              0) {
             _content = Column(
               children: [
                 TextFormField(
@@ -72,7 +77,8 @@ class RideDetails extends StatelessWidget {
                   style: Styles.valueTextStyle(),
                   validator: (value) {
                     String valid = Validation.validate(value, context);
-                    String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
+                    String alpha =
+                        Validation.isAlphaNumericIgnoreSpaces(context, value);
                     String short = Validation.isShort(context, value, 15);
 
                     if (valid != null)
@@ -106,7 +112,8 @@ class RideDetails extends StatelessWidget {
                     );
                   },
                 );
-                Request<bool> request = CancelReservedSeats(ride, reason: _reason.text);
+                Request<bool> request =
+                    CancelReservedSeats(ride, reason: _reason.text);
                 request.send((v, p, s) => _cancelReservation(v, p, s, context));
               }
             },
@@ -146,7 +153,9 @@ class RideDetails extends StatelessWidget {
             tabs: [
               Tab(icon: Icon(Icons.map, size: Styles.mediumIconSize())),
               Tab(icon: Icon(Icons.person, size: Styles.mediumIconSize())),
-              Tab(icon: Icon(Icons.directions_car, size: Styles.mediumIconSize())),
+              Tab(
+                  icon: Icon(Icons.directions_car,
+                      size: Styles.mediumIconSize())),
             ],
           ),
         ),
@@ -162,7 +171,8 @@ class RideDetails extends StatelessWidget {
     );
   }
 
-  static void seatsLuggagePopUp(BuildContext context, Ride ride, Function(int, int) onPressed,
+  static void seatsLuggagePopUp(
+      BuildContext context, Ride ride, Function(int, int) onPressed,
       {Reservation reservation}) {
     bool isReserveSeats = false;
     if (reservation == null) {
@@ -192,14 +202,14 @@ class RideDetails extends StatelessWidget {
               seatsController,
               "Seats",
               reservation.seats,
-              ride.maxSeats,
+              ride.availableSeats,
               isSmallIconSize: true,
             ),
             NumberPicker(
               luggageController,
               "Luggage",
               reservation.luggage,
-              ride.maxLuggage,
+              ride.availableLuggage,
               isSmallIconSize: true,
             ),
           ],
@@ -207,18 +217,20 @@ class RideDetails extends StatelessWidget {
         buttons: [
           DialogButton(
             child: Text(Lang.getString(context, "Confirm"),
-                style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
+                style: Styles.buttonTextStyle(),
+                overflow: TextOverflow.visible),
             color: Styles.primaryColor(),
             onPressed: () {
               if (!isReserveSeats) {
                 if (reservation.seats == seatsController.chosenNumber &&
                     reservation.luggage == luggageController.chosenNumber) {
-                  return CustomToast()
-                      .showErrorToast(Lang.getString(context, "Reservation_editing_message"));
+                  return CustomToast().showErrorToast(
+                      Lang.getString(context, "Reservation_editing_message"));
                 }
               }
 
-              onPressed(seatsController.chosenNumber, luggageController.chosenNumber);
+              onPressed(
+                  seatsController.chosenNumber, luggageController.chosenNumber);
             },
           ),
         ]).show();

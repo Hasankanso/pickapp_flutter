@@ -41,14 +41,18 @@ class ListBuilder extends StatelessWidget {
                   height: nativeAdHeight,
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(nativeAdRoundCorner == null ? 15.0 : nativeAdRoundCorner)),
+                    borderRadius: BorderRadius.all(Radius.circular(
+                        nativeAdRoundCorner == null
+                            ? 15.0
+                            : nativeAdRoundCorner)),
                   ),
                   child: MainNativeAd(
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.all(Radius.circular(
-                          nativeAdRoundCorner == null ? 15.0 : nativeAdRoundCorner)),
+                          nativeAdRoundCorner == null
+                              ? 15.0
+                              : nativeAdRoundCorner)),
                     ),
                   ),
                 ),
@@ -70,14 +74,18 @@ class ListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Scrollbar scrollbar = Scrollbar(
+      controller: controller,
+      child: buildList(),
+    );
+    if (onPullRefresh == null) {
+      return scrollbar;
+    }
     return RefreshIndicator(
       onRefresh: () async {
         onPullRefresh();
       },
-      child: Scrollbar(
-        controller: controller,
-        child: buildList(),
-      ),
+      child: scrollbar,
     );
   }
 }

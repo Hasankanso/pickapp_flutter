@@ -161,10 +161,13 @@ class EditRide extends StatelessWidget {
                       return CustomToast().showErrorToast(
                           Lang.getString(context, "Ride_already_started"));
                     }
-                    r.availableSeats = personController.chosenNumber;
-                    r.availableLuggages = luggageController.chosenNumber;
+                    r.availableSeats +=
+                        (personController.chosenNumber - r.maxSeats);
+                    r.availableLuggage +=
+                        (luggageController.chosenNumber - r.maxLuggage);
+                    r.maxSeats = personController.chosenNumber;
+                    r.maxLuggage = luggageController.chosenNumber;
                     r.comment = ride.comment + "\n" + descController.text;
-
                     Request<Ride> request = EditRideRequest(r);
                     await request.send((result, code, message) =>
                         _editRideResponse(result, code, message, context));

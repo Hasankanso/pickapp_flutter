@@ -126,18 +126,18 @@ class _MyRidesState extends State<MyRides> {
     );
   }
 
-  getRidesCallBack(List<Ride> rides, int code, String message) async{
-    List<Ride> historyRides=[];
-    List<Ride> updatedUpcomingRides=List.from(rides);
+  getRidesCallBack(List<Ride> rides, int code, String message) async {
+    List<Ride> historyRides = [];
+    List<Ride> updatedUpcomingRides = List.from(rides);
     if (App.handleErrors(context, code, message)) {
       return;
     }
     if (code != 200) {
     } else {
-      for(int i=0;i<rides.length;i++){
+      for (int i = 0; i < rides.length; i++) {
         DateTime d = rides[i].leavingDate.add(
             Duration(hours: App.person.countryInformations.rateStartHours));
-        if (DateTime.now().isAfter(d) || rides[i].status=="CANCELED" ) {
+        if (DateTime.now().isAfter(d) || rides[i].status == "CANCELED") {
           historyRides.add(rides[i]);
           updatedUpcomingRides.remove(rides[i]);
         }
