@@ -22,10 +22,7 @@ class CancelReservedSeats extends Request<bool> {
 
     return <String, dynamic>{
       'ride': {'id': _ride.id},
-      'user': {
-        'id': App.user.id,
-        'fullName': person.firstName + " " + person.lastName
-      },
+      'fullName': person.firstName + " " + person.lastName,
       'reason': reason,
     };
   }

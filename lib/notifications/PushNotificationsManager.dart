@@ -11,6 +11,7 @@ import 'package:just_miles/notifications/CancelRideNotificationHandler.dart';
 import 'package:just_miles/notifications/EditReservationNotificationHandler.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/MessageNotificationHandler.dart';
+import 'package:just_miles/notifications/NotificationOnlyHandler.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
 import 'package:just_miles/notifications/RateNotificationHandler.dart';
 import 'package:just_miles/notifications/ReserveSeatsNotificationHandler.dart';
@@ -212,11 +213,16 @@ Future<NotificationHandler> _cacheNotification(RemoteMessage message) async {
 NotificationHandler _createNotificationHandler(RemoteMessage message) {
   MainNotification newNotification = MainNotification.fromJson(message.data);
   newNotification.sentTime = message.sentTime;
-  newNotification.object = json.decode(newNotification.object);
-  print(newNotification.object.toString());
+  if (newNotification.object != null) {
+    newNotification.object = json.decode(newNotification.object);
+    print(newNotification.object.toString());
+  }
   switch (newNotification.action) {
     case "SEATS_RESERVED":
       return ReserveSeatsNotificationHandler(newNotification);
+      break;
+    case "NOTIFICATION_ONLY":
+      return NotificationOnlyHandler(newNotification);
       break;
     case "RESERVATION_CANCELED":
       return CancelReservationNotificationHandler(newNotification);

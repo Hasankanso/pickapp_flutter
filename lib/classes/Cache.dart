@@ -186,8 +186,6 @@ class Cache {
 
     if (rideHistoryBox.isOpen) {
       var rides = rideHistoryBox.get("ridesHistory");
-      print("rides");
-      print(rides);
       if (rides != null) {
         rides = rides.cast<Ride>();
         returnedRides = new List<Ride>.from(rides);

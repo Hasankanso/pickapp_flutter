@@ -12,9 +12,11 @@ import 'package:just_miles/notifications/RatePassengersHandler.dart';
 class ReserveSeatsNotificationHandler extends NotificationHandler {
   Reservation reservation;
 
-  ReserveSeatsNotificationHandler(MainNotification notification) : super(notification) {
+  ReserveSeatsNotificationHandler(MainNotification notification)
+      : super(notification) {
     if (!(notification.object is Reservation)) {
-      notification.object = Reservation.fromJson(notification.object);
+      if (notification.object != null)
+        notification.object = Reservation.fromJson(notification.object);
     }
     this.reservation = notification.object;
   }
@@ -24,17 +26,21 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
     User user = await Cache.getUser();
 
     //find the ride in upcomingRides
-    int rideIndex = user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
+    int rideIndex =
+        user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
 
-    if (rideIndex < 0) return; //ride not found maybe the user removed it, this should be handled
+    if (rideIndex < 0)
+      return; //ride not found maybe the user removed it, this should be handled
 
     Ride reservedRide = user.person.upcomingRides[rideIndex];
 
     //add the new reservation to it
-    if (reservedRide.reservations == null || reservedRide.reservations.isEmpty) {
+    if (reservedRide.reservations == null ||
+        reservedRide.reservations.isEmpty) {
       reservedRide.reservations = <Reservation>[];
     } else {
-      reservedRide.reservations = new List<Reservation>.from(reservedRide.reservations);
+      reservedRide.reservations =
+          new List<Reservation>.from(reservedRide.reservations);
     }
     reservedRide.reservations.add(reservation);
 
