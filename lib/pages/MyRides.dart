@@ -12,7 +12,6 @@ import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/ListBuilder.dart';
 import 'package:just_miles/utilities/MainAppBar.dart';
 
-
 class MyRides extends StatefulWidget {
   @override
   _MyRidesState createState() => _MyRidesState();
@@ -20,6 +19,7 @@ class MyRides extends StatefulWidget {
 
 class _MyRidesState extends State<MyRides> {
   List<Ride> ridesHistory = [];
+
   @override
   void initState() {
     super.initState();
@@ -130,8 +130,7 @@ class _MyRidesState extends State<MyRides> {
       return;
     }
     if (code != 200) {
-    } else {
-      if (rides == null) return;
+    } else if (rides != null) {
       List<Ride> historyRides = [];
       List<Ride> updatedUpcomingRides = List.from(rides);
       for (int i = 0; i < rides.length; i++) {
