@@ -5,19 +5,20 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/notifications/BroadcastAlertNotificationHandler.dart';
 import 'package:just_miles/notifications/CancelReservationNotificationHandler.dart';
 import 'package:just_miles/notifications/CancelRideNotificationHandler.dart';
 import 'package:just_miles/notifications/EditReservationNotificationHandler.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/MessageNotificationHandler.dart';
-import 'package:just_miles/notifications/NotificationOnlyHandler.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
 import 'package:just_miles/notifications/RateNotificationHandler.dart';
 import 'package:just_miles/notifications/ReserveSeatsNotificationHandler.dart';
 import 'package:just_miles/notifications/RideReminderNotificationHandler.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/requests/UpdateToken.dart';
+import 'package:just_miles/requests/get_reservation.dart';
 
 class PushNotificationsManager {
   static final int MAX_NOTIFICATIONS = 20;
@@ -89,10 +90,10 @@ class PushNotificationsManager {
   //this will be invoked when app is in background or terminated and user click the notification
   Future<dynamic> _onAppOpen(RemoteMessage message) async {
     print("you clicked on a notification");
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(Duration(seconds: 1), (timer) async {
       if (App.isAppBuild) {
         timer.cancel();
-        NotificationHandler handler = _createNotificationHandler(message);
+        NotificationHandler handler = await _createNotificationHandler(message);
         if (handler != null) {
           handler.display(App.navKey.currentState.context);
         }
@@ -188,7 +189,7 @@ Future<void> _backgroundMessageHandler(RemoteMessage message) async {
 //this is called when app is in background or terminated.
 Future<NotificationHandler> _cacheNotification(RemoteMessage message) async {
   bool isSchedule = message.data["isSchedule"] == "true";
-  NotificationHandler handler = _createNotificationHandler(message);
+  NotificationHandler handler = await _createNotificationHandler(message);
 
   if (handler == null) {
     // no handler for this notification
@@ -210,7 +211,17 @@ Future<NotificationHandler> _cacheNotification(RemoteMessage message) async {
   return handler;
 }
 
-NotificationHandler _createNotificationHandler(RemoteMessage message) {
+Future<Reservation> getReservation(MainNotification newNotification) async {
+    List<String> ids = newNotification.object as List;
+    String reservationId = ids[0];
+    String rideId = ids[0];
+    GetReservation request = GetReservation(reservationId, rideId);
+    Reservation reserve = await request.send(null);
+    print(reserve);
+   return reserve;
+}
+
+Future<NotificationHandler> _createNotificationHandler(RemoteMessage message) async {
   MainNotification newNotification = MainNotification.fromJson(message.data);
   newNotification.sentTime = message.sentTime;
   if (newNotification.object != null) {
@@ -219,10 +230,10 @@ NotificationHandler _createNotificationHandler(RemoteMessage message) {
   }
   switch (newNotification.action) {
     case "SEATS_RESERVED":
+      if(newNotification.isMinimized) {
+        newNotification.object = await getReservation(newNotification);
+      }
       return ReserveSeatsNotificationHandler(newNotification);
-      break;
-    case "NOTIFICATION_ONLY":
-      return NotificationOnlyHandler(newNotification);
       break;
     case "RESERVATION_CANCELED":
       return CancelReservationNotificationHandler(newNotification);
@@ -238,6 +249,9 @@ NotificationHandler _createNotificationHandler(RemoteMessage message) {
       return RideReminderNotificationHandler(newNotification);
       break;
     case "EDIT_RESERVATION":
+      if(newNotification.isMinimized) {
+        newNotification.object = await getReservation(newNotification);
+      }
       return EditReservationNotificationHandler(newNotification);
       break;
     case MessageNotificationHandler.action:

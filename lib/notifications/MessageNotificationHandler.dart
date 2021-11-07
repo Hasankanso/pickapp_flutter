@@ -15,7 +15,6 @@ class MessageNotificationHandler extends NotificationHandler {
   static const String action = "CHAT_MESSAGE";
 
   MessageNotificationHandler(MainNotification notification) : super(notification) {
-    print("message received");
     message = Message.fromJson(notification.object);
     notification.object = message;
   }

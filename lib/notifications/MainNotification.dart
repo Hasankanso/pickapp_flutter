@@ -27,6 +27,7 @@ class MainNotification {
   @HiveField(10)
   String dictId;
 
+  bool isMinimized;
   bool dontCache;
 
   static List<MainNotification> notifications = [];
@@ -43,6 +44,7 @@ class MainNotification {
       String imageUrl,
       Object object,
       DateTime sentTime,
+      this.isMinimized,
       this.dictId}) {
     this.id = id;
     this.body = body;
@@ -71,6 +73,7 @@ class MainNotification {
         _imagePath = json["imagePath"],
         _imageUrl = json["imageUrl"],
         object = json["object"],
+        isMinimized = json["isMinimized"].toString().toLowerCase() == "true",
         sentTime = json["sentTime"];
 
   Map<String, dynamic> toJson() => <String, dynamic>{
