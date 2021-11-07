@@ -127,13 +127,14 @@ class _MyRidesState extends State<MyRides> {
   }
 
   getRidesCallBack(List<Ride> rides, int code, String message) async {
-    List<Ride> historyRides = [];
-    List<Ride> updatedUpcomingRides = List.from(rides);
     if (App.handleErrors(context, code, message)) {
       return;
     }
     if (code != 200) {
     } else {
+      if (rides == null) return;
+      List<Ride> historyRides = [];
+      List<Ride> updatedUpcomingRides = List.from(rides);
       for (int i = 0; i < rides.length; i++) {
         DateTime d = rides[i].leavingDate.add(
             Duration(hours: App.person.countryInformations.rateStartHours));

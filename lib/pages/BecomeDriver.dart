@@ -272,9 +272,9 @@ class _BecomeDriverState extends State<BecomeDriver> {
             ),
           ),
           Expanded(
-            flex: 8,
+            flex: 6,
             child: ResponsiveWidget.fullWidth(
-              height: 130,
+              height: 100,
               child: Row(
                 children: [
                   Spacer(
