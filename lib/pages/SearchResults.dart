@@ -274,20 +274,20 @@ class _SearchResultsState extends State<SearchResults> {
               .showErrorToast(Lang.getString(context, "Ride_compare_upcoming"));
         }
       }
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return WillPopScope(
-            onWillPop: () async => false,
-            child: Center(
-              child: Spinner(),
-            ),
-          );
-        },
-      );
       Request<Ride> req;
       await Ads.showRewardedAd(() async {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return WillPopScope(
+              onWillPop: () async => false,
+              child: Center(
+                child: Spinner(),
+              ),
+            );
+          },
+        );
         req = ReserveSeat(ride, App.user, seats, luggage);
         await req.send((r, status, reason) =>
             reserveSeatsResponse(r, status, reason, context));

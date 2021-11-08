@@ -5,7 +5,9 @@ class GetReservation extends Request<Reservation> {
   String reservationId;
   String rideId;
 
-  GetReservation(this.reservationId, this.rideId);
+  GetReservation(this.reservationId, this.rideId) {
+    httpPath = "/ReserveBusiness/GetReservation";
+  }
 
   @override
   Reservation buildObject(json) {
@@ -14,8 +16,6 @@ class GetReservation extends Request<Reservation> {
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, String>{ "objectId" : reservationId, "ride" : rideId};
+    return <String, String>{"objectId": reservationId, "ride": rideId};
   }
-
-
 }

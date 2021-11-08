@@ -212,16 +212,20 @@ Future<NotificationHandler> _cacheNotification(RemoteMessage message) async {
 }
 
 Future<Reservation> getReservation(MainNotification newNotification) async {
-    List<String> ids = newNotification.object as List;
-    String reservationId = ids[0];
-    String rideId = ids[0];
-    GetReservation request = GetReservation(reservationId, rideId);
-    Reservation reserve = await request.send(null);
-    print(reserve);
-   return reserve;
+  List<dynamic> ids = (newNotification.object as List);
+  print("idss");
+  String reservationId = ids[0];
+  print("reserv id $reservationId");
+  String rideId = ids[1];
+  print("rideId id $rideId");
+  GetReservation request = GetReservation(reservationId, rideId);
+  Reservation reserve = await request.send(null);
+  print(reserve);
+  return reserve;
 }
 
-Future<NotificationHandler> _createNotificationHandler(RemoteMessage message) async {
+Future<NotificationHandler> _createNotificationHandler(
+    RemoteMessage message) async {
   MainNotification newNotification = MainNotification.fromJson(message.data);
   newNotification.sentTime = message.sentTime;
   if (newNotification.object != null) {
@@ -230,7 +234,7 @@ Future<NotificationHandler> _createNotificationHandler(RemoteMessage message) as
   }
   switch (newNotification.action) {
     case "SEATS_RESERVED":
-      if(newNotification.isMinimized) {
+      if (newNotification.isMinimized) {
         newNotification.object = await getReservation(newNotification);
       }
       return ReserveSeatsNotificationHandler(newNotification);
@@ -249,7 +253,7 @@ Future<NotificationHandler> _createNotificationHandler(RemoteMessage message) as
       return RideReminderNotificationHandler(newNotification);
       break;
     case "EDIT_RESERVATION":
-      if(newNotification.isMinimized) {
+      if (newNotification.isMinimized) {
         newNotification.object = await getReservation(newNotification);
       }
       return EditReservationNotificationHandler(newNotification);

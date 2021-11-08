@@ -87,8 +87,10 @@ abstract class Request<T> {
         return true;
       }
     }
-
-    callback(null, code, jMessage);
+    //cause get reservation request has no callback
+    if (callback != null) {
+      callback(null, code, jMessage);
+    }
     return true;
   }
 
@@ -108,6 +110,8 @@ abstract class Request<T> {
         'Content-Type': 'application/json; charset=utf-8'
       };
     }
+    print("host $host ");
+    print("http path $httpPath");
     print("request:" + host + httpPath);
     print("json body " + data.toString());
     //send request
@@ -119,15 +123,17 @@ abstract class Request<T> {
         )
         .timeout(const Duration(seconds: 20))
         .catchError((Object o) {
-      callback(null, HttpStatus.networkConnectTimeoutError,
-          "no_internet_connection");
+      if (callback != null)
+        callback(null, HttpStatus.networkConnectTimeoutError,
+            "no_internet_connection");
       return null;
     });
 
     //check response existence
     if (response == null) {
       print("no response");
-      callback(null, HttpStatus.expectationFailed, "Something_Wrong");
+      if (callback != null)
+        callback(null, HttpStatus.expectationFailed, "Something_Wrong");
       return null;
     }
 
@@ -137,7 +143,8 @@ abstract class Request<T> {
       decodedResponse = json.decode(utf8.decode(response.bodyBytes));
     } catch (e) {
       print("unknown exception");
-      callback(null, HttpStatus.partialContent, "Something_Wrong");
+      if (callback != null)
+        callback(null, HttpStatus.partialContent, "Something_Wrong");
       return null;
     }
     print("backendless: " + decodedResponse.toString());
@@ -152,12 +159,13 @@ abstract class Request<T> {
     //parse returned object.
     try {
       T object = buildObject(decodedResponse);
-
-      callback(object, response.statusCode, response.reasonPhrase);
+      if (callback != null)
+        callback(object, response.statusCode, response.reasonPhrase);
       return object;
     } catch (e) {
       print(e);
-      callback(null, HttpStatus.partialContent, "Something_Wrong");
+      if (callback != null)
+        callback(null, HttpStatus.partialContent, "Something_Wrong");
       return null;
     }
   }
