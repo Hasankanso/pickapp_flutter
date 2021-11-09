@@ -47,20 +47,23 @@ class Ads {
     await RewardedAd.load(
       adUnitId: _rewardedId,
       request: adRequest,
-      rewardedAdLoadCallback:
-          RewardedAdLoadCallback(onAdLoaded: (RewardedAd ad) async {
-        print('${ad.runtimeType} loaded..');
-        _rewardedReady = true;
-        _rewardedAd = ad;
-      }, onAdFailedToLoad: (LoadAdError error) {
-        _rewardedAd = null;
-        print("failed to load");
-      }),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (RewardedAd ad) async {
+          print('${ad.runtimeType} loaded..');
+          _rewardedReady = true;
+          _rewardedAd = ad;
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          _rewardedAd = null;
+          print("failed to load");
+        },
+      ),
     );
   }
 
   static Future<void> showRewardedAd(Function callBack) async {
     if (!_rewardedReady) return;
+
     await _rewardedAd.show(
       onUserEarnedReward: (RewardedAd ad, RewardItem rewardItem) {
         _rewardedReady = false;

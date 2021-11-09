@@ -213,14 +213,10 @@ Future<NotificationHandler> _cacheNotification(RemoteMessage message) async {
 
 Future<Reservation> getReservation(MainNotification newNotification) async {
   List<dynamic> ids = (newNotification.object as List);
-  print("idss");
   String reservationId = ids[0];
-  print("reserv id $reservationId");
   String rideId = ids[1];
-  print("rideId id $rideId");
   GetReservation request = GetReservation(reservationId, rideId);
   Reservation reserve = await request.send(null);
-  print(reserve);
   return reserve;
 }
 

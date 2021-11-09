@@ -23,17 +23,17 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> cache() async {
+    if (reservation == null) return;
+
     User user = await Cache.getUser();
 
     //find the ride in upcomingRides
     int rideIndex =
         user.person.upcomingRides.indexOf(new Ride(id: reservation.rideId));
-
     if (rideIndex < 0)
       return; //ride not found maybe the user removed it, this should be handled
 
     Ride reservedRide = user.person.upcomingRides[rideIndex];
-
     //add the new reservation to it
     if (reservedRide.reservations == null ||
         reservedRide.reservations.isEmpty) {
@@ -47,10 +47,8 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
     //update seats and luggage accordingly
     reservedRide.availableSeats -= reservation.seats;
     reservedRide.availableLuggages -= reservation.luggage;
-
     //save changes.
     await Cache.setUser(user);
-
     //add rateNotification.
 
     await RatePassengersHandler.createLocalNotification(reservedRide);

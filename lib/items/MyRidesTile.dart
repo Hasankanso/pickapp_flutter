@@ -88,6 +88,7 @@ class MyRidesTile extends StatefulWidget {
       maxSeats = this._ride.maxSeats;
       reservedLuggage = this._ride.reservedLuggages;
       maxLuggage = this._ride.maxLuggage;
+      print("seatsss ${this._ride.availableLuggage}");
     }
 
     if (maxSeats > 8 || maxLuggage > 8) {
