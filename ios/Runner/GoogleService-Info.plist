@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>998948836075-t5j3d3moglc34gtalt23tdeetrueosoi.apps.googleusercontent.com</string>
+	<string>998948836075-8s3timoj58ls49aa1sq1bv7on7k8pji5.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.998948836075-t5j3d3moglc34gtalt23tdeetrueosoi</string>
+	<string>com.googleusercontent.apps.998948836075-8s3timoj58ls49aa1sq1bv7on7k8pji5</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>998948836075-hs69hno9j4bjbqhvcvtvf2hvgpc0j0sa.apps.googleusercontent.com</string>
+	<string>998948836075-0b41k2p0a8k6bvl3g1vjf43bhcjq0shv.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCW2cCfTMctkSMiipNWw1a7JY7FjSJPMhM</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.pickapp</string>
+	<string>com.voomcar.voomcar</string>
 	<key>PROJECT_ID</key>
 	<string>pickapp-ed95e</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:998948836075:ios:9efda525b8d4fd1d2d24ae</string>
+	<string>1:998948836075:ios:b69bc8cad240fbbc2d24ae</string>
 	<key>DATABASE_URL</key>
 	<string>https://pickapp-ed95e.firebaseio.com</string>
 </dict>

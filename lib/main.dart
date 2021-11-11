@@ -87,7 +87,6 @@ class MyAppState extends State<MyApp> {
       navigatorKey: App.navKey,
       title: App.appName,
       locale: _locale,
-      navigatorObservers: <NavigatorObserver>[App.observer],
       theme: ThemeData(
         brightness: Brightness.light,
         primarySwatch: Styles.primaryColor(),

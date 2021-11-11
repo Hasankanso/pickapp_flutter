@@ -1,7 +1,4 @@
 import 'dart:io' show HttpStatus, Platform;
-
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -60,9 +57,6 @@ class App {
 
   static bool isLTR;
   static List<MainNotification> notifications = <MainNotification>[];
-
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   static List<String> _chattiness;
   static List<String> _rateReasons;

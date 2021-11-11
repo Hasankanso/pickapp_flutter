@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Styles.dart';
@@ -6,7 +8,7 @@ class BrandAutocomplete extends SearchDelegate<List<String>> {
   BrandAutocomplete({context, this.carBrands})
       : super(
           keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.none,
+          textInputAction: Platform.isIOS? null : TextInputAction.none,
           searchFieldStyle: Styles.titleTextStyle(),
         );
 

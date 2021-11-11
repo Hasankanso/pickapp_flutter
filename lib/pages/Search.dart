@@ -40,24 +40,6 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
     Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
   }
 
-  void _sendAnalyticsEvent(String from, String to, String time) async {
-    await App.analytics.logEvent(
-      name: 'search_event',
-      parameters: <String, dynamic>{
-        'from': from,
-        'to': to,
-        'time': time,
-      },
-    );
-  }
-
-  Future<void> _testSetCurrentScreen() async {
-    await App.analytics.setCurrentScreen(
-      screenName: 'Analytics Demo',
-      screenClassOverride: 'AnalyticsDemo',
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -186,8 +168,6 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                       minDate: dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
-                  _sendAnalyticsEvent(fromController.description, toController.description,
-                      dateTimeController.startDateController.toString());
                   await request.send(response);
                 }
               },
