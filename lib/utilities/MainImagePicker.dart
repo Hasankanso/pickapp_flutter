@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +10,6 @@ import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/utilities/ImageViewer.dart';
 import 'package:just_miles/utilities/Spinner.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'Responsive.dart';
 
@@ -112,7 +112,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
     try {
       pickedFile = await picker.getImage(source: ImageSource.camera, imageQuality: 50);
     } catch (PlatformException) {
-      openAppSettings();
+      AppSettings.openAppSettings();
       return;
     }
     setState(() {
@@ -130,7 +130,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
     try {
       pickedFile = await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
     } catch (PlatformException) {
-      openAppSettings();
+      AppSettings.openAppSettings();
       return;
     }
     setState(() {
