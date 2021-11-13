@@ -1,7 +1,6 @@
 import 'dart:convert' as convert;
 import 'dart:typed_data';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:just_miles/ads/Ads.dart';
@@ -17,12 +16,14 @@ import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
 import 'package:just_miles/utilities/Responsive.dart';
 import 'package:just_miles/utilities/Spinner.dart';
+import 'package:photo_view/photo_view.dart';
 
 class AddRidePage4 extends StatefulWidget {
   final Ride rideInfo;
   final String appBarTitleKey;
 
-  const AddRidePage4({Key key, this.rideInfo, this.appBarTitleKey}) : super(key: key);
+  const AddRidePage4({Key key, this.rideInfo, this.appBarTitleKey})
+      : super(key: key);
 
   @override
   _AddRidePage4State createState() => _AddRidePage4State(rideInfo);
@@ -34,7 +35,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
   final List<RideRoute> rideRoutes = new List();
   String mapUrl;
   Uint8List imageBytes;
-
   ListController listController = new ListController();
   ScrollController controller = new ScrollController();
 
@@ -54,7 +54,8 @@ class _AddRidePage4State extends State<AddRidePage4> {
       var jsonResponse = convert.jsonDecode(response.body);
       List<dynamic> roads = jsonResponse["routes"];
       for (int i = 0; i < roads.length; i++) {
-        rideRoutes.add(RideRoute(roads[i]["summary"], roads[i]["overview_polyline"]["points"]));
+        rideRoutes.add(RideRoute(
+            roads[i]["summary"], roads[i]["overview_polyline"]["points"]));
       }
     } else {
       print('Request failed with status: ${response.statusCode}.');
@@ -63,20 +64,24 @@ class _AddRidePage4State extends State<AddRidePage4> {
 
   void getMap(String roadPoints) async {
     var staticMapURL = "https://maps.googleapis.com/maps/api/staticmap?";
-    var response = await http.get(Uri.parse(
-        staticMapURL + "size=640x640" + "&path=enc%3A" + roadPoints + "&key=" + App.googleKey));
+    var response = await http.get(Uri.parse(staticMapURL +
+        "size=640x640" +
+        "&path=enc%3A" +
+        roadPoints +
+        "&key=" +
+        App.googleKey));
     if (response.statusCode == 200) {
-      mapUrl = staticMapURL + "size=640x640&path=enc%3A" + roadPoints + "&key=" + App.googleKey;
+      mapUrl = staticMapURL +
+          "size=640x640&path=enc%3A" +
+          roadPoints +
+          "&key=" +
+          App.googleKey;
       imageBytes = response.bodyBytes;
       setState(() {});
     } else {
       print("Error");
       return null;
     }
-  }
-
-  response(Ride result, int code, String message) {
-    print(result);
   }
 
   @override
@@ -92,12 +97,97 @@ class _AddRidePage4State extends State<AddRidePage4> {
   }
 
   void getMapAndDirection() async {
-    await getDirection(rideInfo.from.latitude.toString() + "," + rideInfo.from.longitude.toString(),
-        rideInfo.to.latitude.toString() + "," + rideInfo.to.longitude.toString());
+    await getDirection(
+        rideInfo.from.latitude.toString() +
+            "," +
+            rideInfo.from.longitude.toString(),
+        rideInfo.to.latitude.toString() +
+            "," +
+            rideInfo.to.longitude.toString());
     if (rideRoutes.length > 0) {
       mapReady = true;
       getMap(rideRoutes[0].points);
     }
+  }
+
+  _viewImage() {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MainScaffold(
+                appBar: MainAppBar(
+                  title: "Map",
+                ),
+                body: Container(
+                  alignment: Alignment.center,
+                  color: Colors.grey.withOpacity(0.1),
+                  child: PhotoView(
+                    imageProvider: Image.memory(imageBytes).image,
+                    maxScale: 1.8,
+                    backgroundDecoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor),
+                    minScale: PhotoViewComputedScale.contained,
+                  ),
+                ),
+              ),
+          fullscreenDialog: true),
+    );
+  }
+
+  _showBottomSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10.0), topLeft: Radius.circular(10.0)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                height: 10,
+              ),
+              Container(
+                width: 35,
+                height: 5,
+                decoration: new BoxDecoration(
+                    color: Colors.grey.shade400,
+                    borderRadius: new BorderRadius.all(Radius.circular(10))),
+              ),
+              InkWell(
+                onTap: _viewImage,
+                child: ResponsiveWidget.fullWidth(
+                  height: 60,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Icon(
+                          Icons.person_pin_outlined,
+                          color: Styles.primaryColor(),
+                          size: Styles.mediumIconSize(),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 6,
+                        child: Text(
+                          Lang.getString(context, "View"),
+                          style: Styles.valueTextStyle(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -117,29 +207,16 @@ class _AddRidePage4State extends State<AddRidePage4> {
                     height: 250,
                     child: mapUrl == null
                         ? null
-                        : CachedNetworkImage(
-                            imageUrl: mapUrl,
-                            imageBuilder: (context, imageProvider) {
-                              return Image(image: imageProvider);
+                        : InkWell(
+                            onTap: () {
+                              if (imageBytes != null && imageBytes.isNotEmpty) {
+                                _showBottomSheet();
+                              }
                             },
-                            placeholder: (context, url) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Center(
-                                  child: Container(
-                                    height: 30,
-                                    width: 30,
-                                    margin: EdgeInsets.all(5),
-                                    child: Spinner(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            errorWidget: (context, url, error) {
-                              return Image(image: AssetImage("lib/images/map.png"));
-                            },
-                          ),
+                            child: imageBytes != null
+                                ? Image.memory(imageBytes)
+                                : Image(
+                                    image: AssetImage("lib/images/map.png"))),
                   ),
                   VerticalSpacer(
                     height: 20,
@@ -148,7 +225,9 @@ class _AddRidePage4State extends State<AddRidePage4> {
                     height: 25,
                     child: Center(
                       child: Text(
-                        Lang.getString(context, "Choose_A_Route_From_The_List_Below") + " :",
+                        Lang.getString(
+                                context, "Choose_A_Route_From_The_List_Below") +
+                            " :",
                         style: Styles.labelTextStyle(),
                       ),
                     ),
@@ -161,7 +240,8 @@ class _AddRidePage4State extends State<AddRidePage4> {
                     child: Container(
                       child: ListBuilder(
                         list: rideRoutes,
-                        itemBuilder: RouteTile.itemBuilder(rideRoutes, getMap, listController),
+                        itemBuilder: RouteTile.itemBuilder(
+                            rideRoutes, getMap, listController),
                       ),
                     ),
                   ),
@@ -203,8 +283,8 @@ class _AddRidePage4State extends State<AddRidePage4> {
                   text_key: "Next",
                   onPressed: () {
                     rideInfo.imageBytes = imageBytes;
-                    Navigator.of(context)
-                        .pushNamed("/AddRidePage5", arguments: [rideInfo, widget.appBarTitleKey]);
+                    Navigator.of(context).pushNamed("/AddRidePage5",
+                        arguments: [rideInfo, widget.appBarTitleKey]);
                   },
                 ),
               ),

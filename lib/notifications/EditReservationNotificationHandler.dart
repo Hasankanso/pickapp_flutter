@@ -49,7 +49,7 @@ class EditReservationNotificationHandler extends NotificationHandler {
         (reservedRide.availableSeats + oldReservation.seats) -
             reservation.seats;
     reservedRide.availableLuggages =
-        (reservedRide.availableLuggages + oldReservation.luggage) +
+        (reservedRide.availableLuggages + oldReservation.luggage) -
             reservation.luggage;
 
     //save changes.

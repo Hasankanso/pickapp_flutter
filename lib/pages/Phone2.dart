@@ -141,7 +141,7 @@ class _Phone2State extends State<Phone2> {
                         maxLengthEnforced: true,
                         decoration: InputDecoration(
                           labelText: Lang.getString(context, "Code"),
-                          hintText: "024512",
+                          hintText: Lang.getString(context, "ex:") + " 024512",
                           labelStyle: Styles.labelTextStyle(),
                         ),
                       ),

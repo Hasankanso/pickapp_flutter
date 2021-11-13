@@ -95,6 +95,7 @@ class PushNotificationsManager {
         timer.cancel();
         NotificationHandler handler = await _createNotificationHandler(message);
         if (handler != null) {
+          handler.updateApp();
           handler.display(App.navKey.currentState.context);
         }
       }

@@ -25,12 +25,14 @@ class Inbox extends StatefulWidget {
 
   static Future<Chat> getChat(Person person) async {
     Chat chat = await Cache.getChat(person.id,
-        toStoreChat: new Chat(id: person.id, person: person, isNewMessage: false));
+        toStoreChat:
+            new Chat(id: person.id, person: person, isNewMessage: false));
     return chat;
   }
 }
 
-class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox> {
+class _InboxState extends State<Inbox>
+    with AutomaticKeepAliveClientMixin<Inbox> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -40,7 +42,8 @@ class _InboxState extends State<Inbox> with AutomaticKeepAliveClientMixin<Inbox>
           print("building or rebuilding Inbox");
           return FutureBuilder<List<Chat>>(
               future: chats,
-              builder: (BuildContext context, AsyncSnapshot<List<Chat>> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Chat>> snapshot) {
                 return MainScaffold(
                   appBar: MainAppBar(
                     title: Lang.getString(context, "Inbox"),
@@ -72,7 +75,8 @@ class __BodyState extends State<_Body> {
   Widget build(BuildContext context) {
     return ListBuilder(
         list: widget.chats,
-        itemBuilder: ChatListTile.itemBuilder(widget.chats, (chat) => Inbox.openChat(chat, context),
+        itemBuilder: ChatListTile.itemBuilder(
+            widget.chats, (chat) => Inbox.openChat(chat, context),
             (int index, Chat chat) {
           PopUp.areYouSure(
                   Lang.getString(context, "Yes"),

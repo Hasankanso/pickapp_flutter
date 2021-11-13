@@ -302,6 +302,7 @@
   "Upcoming": "Prochainement",
   "Logout_message": "J'attends votre retour !",
   "Reservation_editing_message": "Veuillez modifier votre réservation",
+  "ex:":"ex:",
 
   "-1000" : "Veuillez vous connecter d'abord",
   "-1001" : "Quelque chose ne va pas, veuillez vous déconnecter et vous connecter",

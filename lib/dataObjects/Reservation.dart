@@ -39,8 +39,6 @@ class Reservation {
   }
 
   factory Reservation.fromJson(Map<String, dynamic> json) {
-    print("comming person");
-    print(json["person"]);
     return Reservation(
         id: json["objectId"],
         seats: json["seats"],

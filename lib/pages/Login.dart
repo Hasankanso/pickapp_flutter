@@ -266,7 +266,7 @@ class _LoginState extends State<Login> {
                   maxLengthEnforced: true,
                   decoration: InputDecoration(
                     labelText: Lang.getString(context, "Code"),
-                    hintText: "02451",
+                    hintText: Lang.getString(context, "ex:") + " 02451",
                     labelStyle: Styles.labelTextStyle(),
                   ),
                   onFieldSubmitted: (String text) {},
