@@ -14,6 +14,7 @@ import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/MessageNotificationHandler.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
 import 'package:just_miles/notifications/RateNotificationHandler.dart';
+import 'package:just_miles/notifications/RatePassengersHandler.dart';
 import 'package:just_miles/notifications/ReserveSeatsNotificationHandler.dart';
 import 'package:just_miles/notifications/RideReminderNotificationHandler.dart';
 import 'package:just_miles/requests/Request.dart';
@@ -171,6 +172,9 @@ class PushNotificationsManager {
       case "RIDE_REMINDER":
         return RideReminderNotificationHandler(newNotification);
         break;
+      case "RATE_PASSENGERS":
+        return RatePassengersHandler(newNotification);
+        break;
       case MessageNotificationHandler.action:
         return MessageNotificationHandler(newNotification);
     }
@@ -241,6 +245,9 @@ Future<NotificationHandler> _createNotificationHandler(
       return CancelReservationNotificationHandler(newNotification);
     case RateNotificationHandler.action:
       return RateNotificationHandler(newNotification);
+      break;
+    case "RATE_PASSENGERS":
+      return RatePassengersHandler(newNotification);
       break;
     case "RIDE_CANCELED":
       return CancelRideNotificationHandler(newNotification);

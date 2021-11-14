@@ -77,7 +77,9 @@ class _AddRidePage4State extends State<AddRidePage4> {
           "&key=" +
           App.googleKey;
       imageBytes = response.bodyBytes;
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     } else {
       print("Error");
       return null;

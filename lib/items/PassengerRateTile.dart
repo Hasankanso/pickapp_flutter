@@ -58,7 +58,9 @@ class _PassengerRateTileState extends State<PassengerRateTile> {
                     children: [
                       SizedBox(width: 10),
                       Text(
-                        widget.rate.target.firstName + " " + widget.rate.target.lastName,
+                        widget.rate.target.firstName +
+                            " " +
+                            widget.rate.target.lastName,
                         style: Styles.valueTextStyle(),
                       ),
                     ],
@@ -95,21 +97,22 @@ class _PassengerRateTileState extends State<PassengerRateTile> {
                     },
                   ),
                 ),
-                Spacer(flex: 1),
-                Expanded(
-                  flex: 4,
-                  child: Visibility(
-                    visible: _isReasonVisible,
+                if (_isReasonVisible) Spacer(flex: 1),
+                if (_isReasonVisible)
+                  Expanded(
+                    flex: 4,
                     child: ResponsiveWidget.fullWidth(
                       height: 115,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(8, 0, 8, 2),
                         child: DropdownButtonFormField<String>(
                           isExpanded: true,
-                          decoration: InputDecoration(labelText: Lang.getString(context, "Reason")),
+                          decoration: InputDecoration(
+                              labelText: Lang.getString(context, "Reason")),
                           value: _reasonsItems[0],
                           onChanged: (String newValue) {},
-                          items: _reasonsItems.map<DropdownMenuItem<String>>((String value) {
+                          items: _reasonsItems
+                              .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -119,7 +122,6 @@ class _PassengerRateTileState extends State<PassengerRateTile> {
                       ),
                     ),
                   ),
-                ),
                 Expanded(
                   flex: _isReasonVisible ? 8 : 12,
                   child: Padding(
@@ -143,7 +145,8 @@ class _PassengerRateTileState extends State<PassengerRateTile> {
                       style: Styles.valueTextStyle(),
                       validator: (value) {
                         String valid = Validation.validate(value, context);
-                        String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
+                        String alpha = Validation.isAlphaNumericIgnoreSpaces(
+                            context, value);
 
                         if (valid != null)
                           return valid;

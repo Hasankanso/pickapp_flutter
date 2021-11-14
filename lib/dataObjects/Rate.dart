@@ -56,7 +56,8 @@ class Rate {
     var creationDateJ = json["created"];
     DateTime creationDate;
     if (creationDateJ != null) {
-      creationDate = DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
+      creationDate =
+          DateTime.fromMillisecondsSinceEpoch(creationDateJ, isUtc: true);
     }
 
     return Rate(
@@ -99,7 +100,7 @@ class Rate {
     _rater = value;
   }
 
-  get target => _target;
+  Person get target => _target;
 
   set target(value) {
     _target = value;
