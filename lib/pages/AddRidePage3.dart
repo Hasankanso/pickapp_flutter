@@ -237,7 +237,7 @@ class _AddRidePage3State extends State<AddRidePage3> with TickerProviderStateMix
               width: 270,
               height: 50,
               child: MainButton(
-                text_key: "Next",
+                textKey: "Next",
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     if (valueSelected) {

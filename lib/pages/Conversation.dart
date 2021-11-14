@@ -120,56 +120,56 @@ class _ConversationState extends State<Conversation> {
               itemBuilder: TextMessageTile.itemBuilder(messages, null),
             );
           }),
-      bottomNavigationBar: Card(
-        margin: EdgeInsets.only(bottom: 1),
-        elevation: 20,
-        child: Row(
-          children: [
-            Spacer(
-              flex: 1,
-            ),
-            Expanded(
-              flex: 30,
-              child: TextFormField(
-                focusNode: focusNode,
-                controller: msgInputController,
-                textInputAction: TextInputAction.send,
-                keyboardType: TextInputType.multiline,
-                minLines: 1,
-                maxLines: 4,
-                onFieldSubmitted: (value) {
-                  if (!sendBtnDisabled) sendMessage();
-                },
-                onChanged: (text) {
-                  if ((text.length > 0 && text.trim().length != 0) &&
-                      sendBtnDisabled) {
-                    setState(() {
-                      sendBtnDisabled = false;
-                    });
-                  } else if ((text.length <= 0 || text.trim().length == 0) &&
-                      !sendBtnDisabled) {
-                    setState(() {
-                      sendBtnDisabled = true;
-                    });
-                  }
-                },
-                decoration: InputDecoration(
-                  hintText: Lang.getString(context, "Type_a_message"),
-                  suffixIcon: IconButton(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      icon: Icon(
-                        Icons.send,
-                        size: Styles.largeIconSize(),
-                      ),
-                      color: Styles.primaryColor(),
-                      tooltip: null,
-                      onPressed: !sendBtnDisabled ? sendMessage : null),
-                  border: InputBorder.none,
+      bottomNavigationBar: Container( color: Theme.of(context).cardColor,
+        child: SafeArea(
+          child: Row(
+            children: [
+              Spacer(
+                flex: 1,
+              ),
+              Expanded(
+                flex: 30,
+                child: TextFormField(
+                  focusNode: focusNode,
+                  controller: msgInputController,
+                  textInputAction: TextInputAction.send,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 4,
+                  onFieldSubmitted: (value) {
+                    if (!sendBtnDisabled) sendMessage();
+                  },
+                  onChanged: (text) {
+                    if ((text.length > 0 && text.trim().length != 0) &&
+                        sendBtnDisabled) {
+                      setState(() {
+                        sendBtnDisabled = false;
+                      });
+                    } else if ((text.length <= 0 || text.trim().length == 0) &&
+                        !sendBtnDisabled) {
+                      setState(() {
+                        sendBtnDisabled = true;
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                    hintText: Lang.getString(context, "Type_a_message"),
+                    suffixIcon: IconButton(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        icon: Icon(
+                          Icons.send,
+                          size: Styles.largeIconSize(),
+                        ),
+                        color: Styles.primaryColor(),
+                        tooltip: null,
+                        onPressed: !sendBtnDisabled ? sendMessage : null),
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

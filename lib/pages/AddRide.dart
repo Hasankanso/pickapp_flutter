@@ -228,7 +228,7 @@ class _AddRideState extends State<AddRide> {
                     width: 270,
                     height: 50,
                     child: MainButton(
-                      text_key: "Next",
+                      textKey: "Next",
                       onPressed: () {
                         String _validateFrom = fromController.validate(context, x: toController);
                         String _validateTo = toController.validate(context, x: fromController);

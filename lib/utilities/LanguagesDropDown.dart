@@ -6,6 +6,9 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 
 class LanguagesDropdown extends StatefulWidget {
+
+  final bool spaced;
+  const LanguagesDropdown({this.spaced = true});
   @override
   _LanguagesDropdownState createState() => _LanguagesDropdownState();
 }
@@ -31,13 +34,13 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    List<DropdownMenuItem> items = List<DropdownMenuItem>();
+    List<DropdownMenuItem> items = [];
     Lang.langs.asMap().forEach((index, element) => items.add(DropdownMenuItem(
         value: index,
         child: Row(children: [
-          Spacer(),
+          if(widget.spaced) Spacer(),
           Text(element.fullname, style: Styles.valueTextStyle()),
-          Spacer(flex: 13),
+          if(widget.spaced) Spacer(flex: 13) else SizedBox(width: 10,),
           Text(
             element.flag,
             textAlign: TextAlign.left,
@@ -48,7 +51,7 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
     return DropdownButton(
       hint: Text(Lang.getString(context, "Select_Language")),
       underline: Container(color: Colors.transparent),
-      isExpanded: true,
+      isExpanded: widget.spaced,
       value: _selectedLang,
       items: items,
       onChanged: onChanged,

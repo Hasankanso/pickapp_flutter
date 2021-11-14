@@ -250,7 +250,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
               width: 270,
               height: 50,
               child: MainButton(
-                  text_key: "Next",
+                  textKey: "Next",
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       rideInfo.kidSeat = kidsSeat;

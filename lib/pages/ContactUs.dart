@@ -74,7 +74,7 @@ class ContactUs extends StatelessWidget {
                 child: ResponsiveRow(
                   children: [
                     MainButton(
-                      text_key: "Send",
+                      textKey: "Send",
                       isRequest: true,
                       onPressed: () async {
                         Request<String> request =

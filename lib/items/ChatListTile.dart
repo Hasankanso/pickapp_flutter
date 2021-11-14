@@ -12,10 +12,10 @@ import 'package:just_miles/utilities/Spinner.dart';
 
 class ChatListTile extends ListTile {
   final Chat chat;
-  Function(Chat) onPressed;
-  List<Chat> c;
-  int index;
-  Function(int, Chat) onDismiss;
+  final Function(Chat) onPressed;
+  final List<Chat> c;
+  final int index;
+  final Function(int, Chat) onDismiss;
 
   ChatListTile(this.chat, this.onPressed, this.c, this.index, this.onDismiss);
 

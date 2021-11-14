@@ -82,7 +82,7 @@
   "Name_hint": "Entrez votre nom",
   "Last_name_hint": "Entrez votre nom de famille",
   "Name": "Nom",
-  "Car_name_hint": "Corolla",
+  "Car_name_hint": "ex:Corolla",
   "Brand": "Marque",
   "Car_brand_hint": "Toyota",
   "Year": "Année",

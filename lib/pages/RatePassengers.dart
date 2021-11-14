@@ -55,7 +55,7 @@ class RatePassengers extends StatelessWidget {
               height: 50,
               child: MainButton(
                 isRequest: true,
-                text_key: "Rate",
+                textKey: "Rate",
                 onPressed: () async {
                   for (int i = 0; i < rates.length; i++) {
                     Ride _ride = rates[i].ride;

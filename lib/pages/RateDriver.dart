@@ -264,7 +264,7 @@ class _RateDriverState extends State<RateDriver> {
               height: 50,
               child: MainButton(
                 isRequest: true,
-                text_key: "Rate",
+                textKey: "Rate",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     if (widget._cancellationDate

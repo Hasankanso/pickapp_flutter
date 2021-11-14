@@ -8,7 +8,7 @@ import 'package:just_miles/dataObjects/Message.dart';
 import 'package:just_miles/utilities/Responsive.dart';
 
 class TextMessageTile extends StatelessWidget {
-  Message msg;
+  final Message msg;
   void Function(Message) onPressed;
 
   TextMessageTile({this.msg, this.onPressed});
@@ -43,7 +43,7 @@ class TextMessageTile extends StatelessWidget {
                         children: [
                           Text(
                             msg.message,
-                            style: Styles.valueTextStyle(),
+                            style: Styles.valueTextStyle(color: msg.myMessage ? Colors.black : null),
                           ),
                           VerticalSpacer(
                             height: 3,

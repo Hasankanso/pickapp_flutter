@@ -220,7 +220,7 @@ class _AddAlertState extends State<AddAlert> {
               width: 270,
               height: 50,
               child: MainButton(
-                text_key: "Broadcast",
+                textKey: "Broadcast",
                 isRequest: true,
                 onPressed: () async {
                   String _validateFrom = fromController.validate(context, x: toController);

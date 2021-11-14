@@ -40,10 +40,19 @@ class _InboxState extends State<Inbox>
         builder: (BuildContext context, bool isLoggedIn, Widget child) {
           Future<List<Chat>> chats = Cache.getChats();
           print("building or rebuilding Inbox");
+
           return FutureBuilder<List<Chat>>(
               future: chats,
               builder:
                   (BuildContext context, AsyncSnapshot<List<Chat>> snapshot) {
+
+                if(snapshot.hasData){
+                  Chat testChat = Chat(id: App.person.id, person: App.person, isNewMessage: true);
+                  if (!snapshot.data.contains(testChat)){
+                    snapshot.data.add(testChat..initMessages());
+                    }
+                }
+
                 return MainScaffold(
                   appBar: MainAppBar(
                     title: Lang.getString(context, "Inbox"),

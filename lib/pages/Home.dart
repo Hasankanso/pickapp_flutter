@@ -88,77 +88,79 @@ class _HomeState extends State<Home> {
             onPageChanged: _pageSwipped,
             children: _pages,
           ),
-          bottomNavigationBar: SafeArea(
-              child: AspectRatio(
-            aspectRatio: 13 / 2,
-            child: Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(spreadRadius: -4, offset: Offset(0, -4), color: Colors.grey)
-              ]),
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.shifting,
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.list_alt), label: Lang.getString(context, "My_Rides")),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.drive_eta),
-                    label: Lang.getString(context, "Add_Ride"),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: Lang.getString(context, "Search"),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: [
-                        Icon(
-                          Icons.chat_outlined,
-                        ),
-                        ValueListenableBuilder(
-                          builder: (BuildContext context, bool isNewMessage, Widget child) {
-                            if (_currenIndex == 3) {
-                              App.isNewMessageNotifier.value = false;
-                              isNewMessage = false;
-                            }
-                            return Visibility(
-                              visible: isNewMessage,
-                              child: Positioned(
-                                top: 0,
-                                left: !App.isLTR ? 0 : null,
-                                right: App.isLTR ? 0 : null,
-                                child: Container(
-                                  width: 10,
-                                  height: 10,
-                                  decoration: new BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
+          bottomNavigationBar: Container( color: Theme.of(context).scaffoldBackgroundColor,
+            child: SafeArea(
+                child: AspectRatio(
+              aspectRatio: 13 / 2,
+              child: Container(
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(spreadRadius: -4, offset: Offset(0, -4), color: Colors.grey)
+                ]),
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.shifting,
+                  items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.list_alt), label: Lang.getString(context, "My_Rides")),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.drive_eta),
+                      label: Lang.getString(context, "Add_Ride"),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.search),
+                      label: Lang.getString(context, "Search"),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          Icon(
+                            Icons.chat_outlined,
+                          ),
+                          ValueListenableBuilder(
+                            builder: (BuildContext context, bool isNewMessage, Widget child) {
+                              if (_currenIndex == 3) {
+                                App.isNewMessageNotifier.value = false;
+                                isNewMessage = false;
+                              }
+                              return Visibility(
+                                visible: isNewMessage,
+                                child: Positioned(
+                                  top: 0,
+                                  left: !App.isLTR ? 0 : null,
+                                  right: App.isLTR ? 0 : null,
+                                  child: Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: new BoxDecoration(
+                                      color: Colors.red,
+                                      shape: BoxShape.circle,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                          valueListenable: App.isNewMessageNotifier,
-                        ),
-                      ],
+                              );
+                            },
+                            valueListenable: App.isNewMessageNotifier,
+                          ),
+                        ],
+                      ),
+                      label: Lang.getString(context, "Inbox"),
                     ),
-                    label: Lang.getString(context, "Inbox"),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.account_circle),
-                    label: Lang.getString(context, "Profile"),
-                  ),
-                ],
-                currentIndex: _currenIndex,
-                iconSize: ScreenUtil().setSp(23),
-                selectedFontSize: ScreenUtil().setSp(12),
-                selectedItemColor: Styles.primaryColor(),
-                unselectedItemColor: Styles.labelColor(),
-                elevation: 0,
-                onTap: _bottomTapped,
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.account_circle),
+                      label: Lang.getString(context, "Profile"),
+                    ),
+                  ],
+                  currentIndex: _currenIndex,
+                  iconSize: ScreenUtil().setSp(23),
+                  selectedFontSize: ScreenUtil().setSp(12),
+                  selectedItemColor: Styles.primaryColor(),
+                  unselectedItemColor: Styles.labelColor(),
+                  elevation: 0,
+                  onTap: _bottomTapped,
+                ),
               ),
-            ),
-          )),
+            )),
+          ),
         );
       },
       valueListenable: App.isLoggedInNotifier,

@@ -91,7 +91,7 @@ class Styles {
   }
 
   static TextStyle valueTextStyle(
-      {bold = FontWeight.w400, bool underline = false, color, int size}) {
+      {bold = FontWeight.w400, bool underline = false, Color color, int size}) {
     double realSize = size == null ? _fontSize : ScreenUtil().setSp(size);
 
     return TextStyle(

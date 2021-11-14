@@ -202,7 +202,7 @@ class _PhoneState extends State<Phone> {
               height: 50,
               child: MainButton(
                 isRequest: true,
-                text_key: "Next",
+                textKey: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     if (widget._user != null) {

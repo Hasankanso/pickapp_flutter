@@ -152,7 +152,7 @@ class EditRide extends StatelessWidget {
               width: 270,
               height: 50,
               child: MainButton(
-                text_key: "Edit_Ride",
+                textKey: "Edit_Ride",
                 isRequest: true,
                 onPressed: () async {
                   Ride r = ride.copy();

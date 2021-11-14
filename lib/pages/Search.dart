@@ -136,7 +136,7 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
             width: 270,
             height: 50,
             child: MainButton(
-              text_key: "Search",
+              textKey: "Search",
               isRequest: true,
               onPressed: () async {
                 String _validateFrom = fromController.validate(context, x: toController);

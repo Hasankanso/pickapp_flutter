@@ -58,7 +58,8 @@ class PushNotificationsManager {
     tokenListenerRunning = true;
     await for (String token in FirebaseMessaging.instance.onTokenRefresh) {
       if (App.user != null) {
-        Request<String> request = UpdateNotificationToken(App.user, token);
+        Request<String> request = UpdateNotificationToken(token);
+        App.person.deviceToken = token;
         request.send(response);
       }
     }

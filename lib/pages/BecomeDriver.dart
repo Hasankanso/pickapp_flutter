@@ -305,7 +305,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
               height: 50,
               child: MainButton(
                 isRequest: true,
-                text_key: widget.isRegionPage ? "Edit" : "Next",
+                textKey: widget.isRegionPage ? "Edit" : "Next",
                 onPressed: () async {
                   bool isValid = true;
                   for (int i = 0; i < _regionsControllers.length; i++) {

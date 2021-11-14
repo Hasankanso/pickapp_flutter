@@ -28,7 +28,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _phoneFormKey = GlobalKey<FormState>();
   final _codeFormKey = GlobalKey<FormState>();
-  String _text = "";
 
   TextEditingController _phone = TextEditingController();
   List<String> _countriesCodes = App.countriesInformationsCodes;
@@ -38,7 +37,6 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _phone.dispose();
     super.dispose();
   }
@@ -56,15 +54,10 @@ class _LoginState extends State<Login> {
             VerticalSpacer(
               height: 20,
             ),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: ScreenUtil().setSp(70),
-                backgroundImage: AssetImage("lib/images/logo.png"),
-              ),
+            CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: ScreenUtil().setSp(70),
+              backgroundImage: AssetImage("lib/images/logo.png"),
             ),
             Form(
               key: _phoneFormKey,
@@ -166,7 +159,7 @@ class _LoginState extends State<Login> {
               width: 270,
               height: 50,
               child: MainButton(
-                text_key: "Login",
+                textKey: "Login",
                 isRequest: true,
                 onPressed: () async {
                   if (_phoneFormKey.currentState.validate()) {

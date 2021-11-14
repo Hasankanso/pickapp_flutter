@@ -32,7 +32,7 @@ class AddRidePage4 extends StatefulWidget {
 class _AddRidePage4State extends State<AddRidePage4> {
   final Ride rideInfo;
   bool mapReady = false;
-  final List<RideRoute> rideRoutes = new List();
+  final List<RideRoute> rideRoutes = [];
   String mapUrl;
   Uint8List imageBytes;
   ListController listController = new ListController();
@@ -40,7 +40,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
 
   _AddRidePage4State(this.rideInfo);
 
-  void getDirection(String origin, String destination) async {
+  Future<void> getDirection(String origin, String destination) async {
     var url = 'https://maps.googleapis.com/maps/api/directions/json?';
     var response = await http.get(Uri.parse(url +
         "origin=" +
@@ -96,7 +96,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
     await Ads.loadRewardedAd();
   }
 
-  void getMapAndDirection() async {
+  Future<void> getMapAndDirection() async {
     await getDirection(
         rideInfo.from.latitude.toString() +
             "," +
@@ -111,7 +111,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
   }
 
   _viewImage() {
-    Navigator.pop(context);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -135,61 +134,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
     );
   }
 
-  _showBottomSheet() {
-    showModalBottomSheet<void>(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topRight: Radius.circular(10.0), topLeft: Radius.circular(10.0)),
-      ),
-      builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                height: 10,
-              ),
-              Container(
-                width: 35,
-                height: 5,
-                decoration: new BoxDecoration(
-                    color: Colors.grey.shade400,
-                    borderRadius: new BorderRadius.all(Radius.circular(10))),
-              ),
-              InkWell(
-                onTap: _viewImage,
-                child: ResponsiveWidget.fullWidth(
-                  height: 60,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Icon(
-                          Icons.person_pin_outlined,
-                          color: Styles.primaryColor(),
-                          size: Styles.mediumIconSize(),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 6,
-                        child: Text(
-                          Lang.getString(context, "View"),
-                          style: Styles.valueTextStyle(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -210,7 +154,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                         : InkWell(
                             onTap: () {
                               if (imageBytes != null && imageBytes.isNotEmpty) {
-                                _showBottomSheet();
+                                _viewImage();
                               }
                             },
                             child: imageBytes != null
@@ -280,7 +224,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
                 height: 50,
                 child: MainButton(
                   isRequest: true,
-                  text_key: "Next",
+                  textKey: "Next",
                   onPressed: () {
                     rideInfo.imageBytes = imageBytes;
                     Navigator.of(context).pushNamed("/AddRidePage5",

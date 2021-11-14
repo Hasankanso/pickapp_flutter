@@ -42,7 +42,7 @@ class _MainNativeAdState extends State<MainNativeAd> {
       ),
     );
 
-    await Future<void>.delayed(Duration(seconds: 1), () => _nativeAd.load());
+    await _nativeAd.load();
 
     return await _nativeAdCompleter.future;
   }

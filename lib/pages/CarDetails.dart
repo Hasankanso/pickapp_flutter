@@ -212,7 +212,7 @@ class _CarDetailsState extends State<CarDetails> {
               width: 270,
               height: 50,
               child: MainButton(
-                text_key: "Edit",
+                textKey: "Edit",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     for (var item in App.person.upcomingRides) {

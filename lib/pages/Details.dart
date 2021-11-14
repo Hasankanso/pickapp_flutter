@@ -348,7 +348,7 @@ class _DetailsState extends State<Details> {
                     height: 50,
                     child: MainButton(
                       isRequest: true,
-                      text_key: "Save",
+                      textKey: "Save",
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           Request<Person> request;
@@ -382,7 +382,7 @@ class _DetailsState extends State<Details> {
                     height: 50,
                     child: MainButton(
                       isRequest: false,
-                      text_key: "Next",
+                      textKey: "Next",
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           widget.user.person.bio = _bioController.text;

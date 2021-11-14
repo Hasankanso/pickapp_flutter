@@ -69,7 +69,7 @@ class Email extends StatelessWidget {
               height: 50,
               child: MainButton(
                 isRequest: true,
-                text_key: "Save",
+                textKey: "Save",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     Request<String> request = ChangeEmail(_email.text);

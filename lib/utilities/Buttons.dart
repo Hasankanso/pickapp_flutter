@@ -5,14 +5,14 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 
 class MainButton extends StatelessWidget {
-  String text_key;
-  Function onPressed;
-  double _radius = 8;
-  bool isRequest;
-  String text;
+  final String textKey;
+  final Function onPressed;
+  final double _radius = 8;
+  final bool isRequest;
+  final String text;
 
   MainButton(
-      {this.text_key, this.onPressed, this.isRequest = false, this.text});
+      {this.textKey, this.onPressed, this.isRequest = false, this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -24,21 +24,18 @@ class MainButton extends StatelessWidget {
         color: Styles.primaryColor(),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(_radius)),
-        child: Text(Lang.getString(context, text_key) ?? this.text ?? "No Text",
+        child: Text(Lang.getString(context, textKey) ?? this.text ?? "No Text",
             style: Styles.buttonTextStyle(), overflow: TextOverflow.visible),
         onPressed: onPressed,
       );
     } else {
       return ProgressButton(
         defaultWidget: Text(
-            Lang.getString(context, text_key) ?? this.text ?? "No Text",
+            Lang.getString(context, textKey) ?? this.text ?? "No Text",
             style: Styles.buttonTextStyle(),
             overflow: TextOverflow.visible),
         progressWidget: CircularProgressIndicator(
-          backgroundColor: (Cache.darkTheme ||
-                  MediaQuery.of(context).platformBrightness == Brightness.dark)
-              ? Styles.primaryColor()
-              : Styles.secondaryColor(),
+          backgroundColor: Styles.secondaryColor(),
         ),
         color: Styles.primaryColor(),
         borderRadius: _radius,

@@ -273,7 +273,7 @@ class _RegisterState extends State<Register> {
               height: 50,
               child: MainButton(
                 isRequest: false,
-                text_key: "Next",
+                textKey: "Next",
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     if (_birthday.chosenDate == null) {
