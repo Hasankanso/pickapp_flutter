@@ -20,8 +20,25 @@ class RatePassengers extends StatelessWidget {
 
   RatePassengers({Key key, this.ride}) : super(key: key) {
     for (var passenger in ride.reservations) {
-      rates.add(new Rate(
-          ride: ride, rater: ride.person, target: passenger.person, creationDate: DateTime.now()));
+      bool isCanceledThenReserve = false;
+
+      if (passenger.status == "CANCELED") {
+        for (var pass in ride.reservations) {
+          if (pass.person.id == passenger.person.id &&
+              pass.person.id != "CANCELED") {
+            isCanceledThenReserve = true;
+          }
+        }
+      }
+      if (!isCanceledThenReserve) {
+        print(passenger.status);
+
+        rates.add(new Rate(
+            ride: ride,
+            rater: App.person,
+            target: passenger.person,
+            creationDate: DateTime.now()));
+      }
       formKeys.add(new GlobalKey<FormState>());
     }
   }
@@ -32,7 +49,8 @@ class RatePassengers extends StatelessWidget {
     }
 
     Navigator.of(context).popUntil((route) => route.isFirst);
-    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_rated!"));
+    CustomToast()
+        .showSuccessToast(Lang.getString(context, "Successfully_rated!"));
   }
 
   @override
@@ -44,8 +62,9 @@ class RatePassengers extends StatelessWidget {
       body: ride.reservations.isEmpty
           ? Center(child: Text("No Passengers"))
           : ListBuilder(
-              list: ride.reservations,
-              itemBuilder: PassengerRateTile.createPassengersItems(rates, formKeys)),
+              list: rates,
+              itemBuilder:
+                  PassengerRateTile.createPassengersItems(rates, formKeys)),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
         height: 80,
         child: Column(
@@ -62,17 +81,17 @@ class RatePassengers extends StatelessWidget {
                     var _formKey = formKeys[i];
 
                     if (_formKey.currentState.validate()) {
-                      if (DateTime.now()
-                          .isAfter(_ride.leavingDate.add(App.availableDurationToRate))) {
-                        return CustomToast()
-                            .showErrorToast(Lang.getString(context, "Rate_days_validation"));
+                      if (DateTime.now().isAfter(
+                          _ride.leavingDate.add(App.availableDurationToRate))) {
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Rate_days_validation"));
                       }
                     }
                   }
                   //any fail above, the return line will not let the program to reach this code
                   Request<bool> request = AddRateRequest(rates, isDriver: true);
-                  await request
-                      .send((bool p1, int p2, String p3) => _response(p1, p2, p3, context));
+                  await request.send((bool p1, int p2, String p3) =>
+                      _response(p1, p2, p3, context));
                 },
               ),
             ),

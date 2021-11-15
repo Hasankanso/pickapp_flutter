@@ -30,8 +30,7 @@ class _MyRidesState extends State<MyRides> {
     if (await Cache.getIsGetUpcomingRideRequest()) {
       await _getUpcomingRides();
     }
-    getRidesHistory();
-    checkOutDatedRides();
+    await getRidesHistory();
   }
 
   Future<void> checkOutDatedRides() async {
@@ -48,8 +47,8 @@ class _MyRidesState extends State<MyRides> {
           toRemove.add(ride);
         }
       }
-      App.person.upcomingRides.removeWhere((e) => toRemove.contains(e));
       if (needUpdate) {
+        App.person.upcomingRides.removeWhere((e) => toRemove.contains(e));
         await Cache.updateRideHistory(ridesHistory);
       }
     }
@@ -57,7 +56,7 @@ class _MyRidesState extends State<MyRides> {
 
   Future<void> getRidesHistory() async {
     ridesHistory = await Cache.getRidesHistory();
-    await Cache.setUser(App.user);
+    await checkOutDatedRides();
   }
 
   @override

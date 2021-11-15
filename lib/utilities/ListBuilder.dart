@@ -3,7 +3,7 @@ import 'package:just_miles/ads/MainNativeAd.dart';
 
 class ListBuilder extends StatelessWidget {
   final Widget Function(BuildContext, int) itemBuilder;
-  final void Function() onPullRefresh;
+  final Future<void> Function() onPullRefresh;
   final List<Object> list;
   final bool reverse;
   final double nativeAdHeight;
@@ -83,7 +83,7 @@ class ListBuilder extends StatelessWidget {
     }
     return RefreshIndicator(
       onRefresh: () async {
-        onPullRefresh();
+        await onPullRefresh();
       },
       child: scrollbar,
     );

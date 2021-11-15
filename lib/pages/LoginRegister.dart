@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Localizations.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as Svg;
 import 'package:just_miles/utilities/Buttons.dart';
 import 'package:just_miles/utilities/LanguagesDropDown.dart';
-import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
 import 'package:just_miles/utilities/Responsive.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as Svg;
 
 class LoginRegister extends StatelessWidget {
   @override
@@ -21,8 +17,9 @@ class LoginRegister extends StatelessWidget {
             VerticalSpacer(
               height: 150,
             ),
-            Image(image: Svg.Svg('lib/images/voomcar_logo.svg',
-                size: const Size(210*1.4, 38.8*1.4))),
+            Image(
+                image: Svg.Svg('lib/images/voomcar_logo.svg',
+                    size: const Size(210 * 1.4, 38.8 * 1.4))),
             VerticalSpacer(
               height: 220,
             ),
