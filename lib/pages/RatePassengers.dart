@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/items/PassengerRateTile.dart';
+import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/requests/AddRateRequest.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
@@ -17,8 +19,9 @@ class RatePassengers extends StatelessWidget {
   final Ride ride;
   final List<Rate> rates = [];
   final List<GlobalKey<FormState>> formKeys = [];
+  final MainNotification notification;
 
-  RatePassengers({Key key, this.ride}) : super(key: key) {
+  RatePassengers({Key key, this.ride, this.notification}) : super(key: key) {
     for (var passenger in ride.reservations) {
       bool isCanceledThenReserve = false;
 
@@ -43,10 +46,14 @@ class RatePassengers extends StatelessWidget {
     }
   }
 
-  void _response(bool p1, int code, String message, BuildContext context) {
+  Future<void> _response(
+      bool p1, int code, String message, BuildContext context) async {
     if (App.handleErrors(context, code, message)) {
       return;
     }
+    App.notifications.remove(notification);
+    await Cache.updateNotifications(App.notifications);
+    App.updateNotifications.value = !App.updateNotifications.value;
 
     Navigator.of(context).popUntil((route) => route.isFirst);
     CustomToast()

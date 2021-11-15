@@ -40,7 +40,8 @@ class _ProfileState extends State<Profile> {
         await Request.uploadImage(imageFile.path, VoomcarImageType.Profile);
 
     Request<Person> request = EditAccount(_person);
-    await request.send((result, code, message) => _response(result, code, message, context));
+    await request.send(
+        (result, code, message) => _response(result, code, message, context));
   }
 
   _response(Person result, int code, String message, context) async {
@@ -59,7 +60,8 @@ class _ProfileState extends State<Profile> {
 
     App.user.person = result;
     await Cache.setUser(App.user);
-    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+    CustomToast()
+        .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     setState(() {
       _isImageLoading = false;
       App.user.person = result;
@@ -68,7 +70,6 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    print(App.person);
     return ValueListenableBuilder(
       builder: (BuildContext context, bool isLoggedIn, Widget child) {
         return MainScaffold(
@@ -133,24 +134,32 @@ class _ProfileState extends State<Profile> {
                                 Container(
                                   height: ScreenUtil().setHeight(120),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        App.person.firstName + " " + App.person.lastName,
-                                        style: Styles.valueTextStyle(bold: FontWeight.bold),
+                                        App.person.firstName +
+                                            " " +
+                                            App.person.lastName,
+                                        style: Styles.valueTextStyle(
+                                            bold: FontWeight.bold),
                                       ),
                                       Text(
                                         App.person.countryInformations.name,
-                                        style: Styles.labelTextStyle(bold: FontWeight.bold),
+                                        style: Styles.labelTextStyle(
+                                            bold: FontWeight.bold),
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: <Widget>[
                                           RateStars(
-                                            App.user.person.statistics.rateAverage,
+                                            App.user.person.statistics
+                                                .rateAverage,
                                             onPressed: () {
-                                              Navigator.pushNamed(context, "/ReviewsPageList");
+                                              Navigator.pushNamed(
+                                                  context, "/ReviewsPageList");
                                             },
                                           ),
                                         ],
@@ -183,11 +192,13 @@ class _ProfileState extends State<Profile> {
                                   Navigator.of(context).pushNamed("/Details");
                                 },
                                 borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(7.0), topLeft: Radius.circular(7.0)),
+                                    topRight: Radius.circular(7.0),
+                                    topLeft: Radius.circular(7.0)),
                                 child: ResponsiveWidget.fullWidth(
                                   height: 60,
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
                                         flex: 1,
@@ -219,7 +230,8 @@ class _ProfileState extends State<Profile> {
                                 child: ResponsiveWidget.fullWidth(
                                   height: 60,
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
                                         flex: 1,
@@ -258,7 +270,8 @@ class _ProfileState extends State<Profile> {
                               ),
                               child: Column(children: [
                                 ValueListenableBuilder(
-                                  builder: (BuildContext context, bool isDriver, Widget child) {
+                                  builder: (BuildContext context, bool isDriver,
+                                      Widget child) {
                                     if (isDriver) {
                                       return DriverInfo();
                                     } else {
@@ -283,14 +296,17 @@ class _ProfileState extends State<Profile> {
                             children: <Widget>[
                               InkWell(
                                 onTap: () {
-                                  Navigator.of(context).pushNamed("/Statistics");
+                                  Navigator.of(context)
+                                      .pushNamed("/Statistics");
                                 },
                                 borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(7.0), topLeft: Radius.circular(7.0)),
+                                    topRight: Radius.circular(7.0),
+                                    topLeft: Radius.circular(7.0)),
                                 child: ResponsiveWidget.fullWidth(
                                   height: 60,
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
                                         flex: 1,
@@ -339,10 +355,11 @@ class _DriverInfoState extends State<DriverInfo> {
     return Column(children: [
       InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed("/BecomeDriver", arguments: [true, false]);
+          Navigator.of(context)
+              .pushNamed("/BecomeDriver", arguments: [true, false]);
         },
-        borderRadius:
-            BorderRadius.only(topRight: Radius.circular(7.0), topLeft: Radius.circular(7.0)),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(7.0), topLeft: Radius.circular(7.0)),
         child: ResponsiveWidget.fullWidth(
           height: 60,
           child: Row(
@@ -370,8 +387,9 @@ class _DriverInfoState extends State<DriverInfo> {
       LineDevider(),
       InkWell(
         onTap: () {},
-        borderRadius:
-            BorderRadius.only(bottomRight: Radius.circular(7.0), bottomLeft: Radius.circular(7.0)),
+        borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(7.0),
+            bottomLeft: Radius.circular(7.0)),
         child: Row(
           children: [
             Expanded(
@@ -416,7 +434,8 @@ class PassengerInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       onPressed: () {
-        Navigator.of(context).pushNamed("/BecomeDriver", arguments: [false, true]);
+        Navigator.of(context)
+            .pushNamed("/BecomeDriver", arguments: [false, true]);
       },
       padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
       color: Styles.primaryColor(),

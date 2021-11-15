@@ -12,7 +12,8 @@ import 'package:just_miles/notifications/RatePassengersHandler.dart';
 class CancelReservationNotificationHandler extends NotificationHandler {
   String rideId, reason, passengerId;
 
-  CancelReservationNotificationHandler(MainNotification notification) : super(notification) {
+  CancelReservationNotificationHandler(MainNotification notification)
+      : super(notification) {
     List<Object> list = notification.object as List;
     this.rideId = list[0] as String;
     this.passengerId = list[1] as String;
@@ -31,7 +32,8 @@ class CancelReservationNotificationHandler extends NotificationHandler {
 
     if (reservedRide.reservations == null) return;
 
-    int passIndex = reservedRide.reservations.indexOf(new Reservation(id: passengerId));
+    int passIndex =
+        reservedRide.reservations.indexOf(new Reservation(id: passengerId));
 
     if (passIndex < 0) return null;
 
@@ -42,16 +44,20 @@ class CancelReservationNotificationHandler extends NotificationHandler {
         user.person.upcomingRides[index].reservations[passIndex].luggage;
 
     //if there is reason =>there is rate=> status should be canceled, else delete reservation completely
-    if (reason == null)
+    if (reason == null) {
       user.person.upcomingRides[index].reservations.removeAt(passIndex);
-    else {
-      user.person.upcomingRides[index].reservations[passIndex].status = "CANCELED";
-      user.person.upcomingRides[index].reservations[passIndex].reason = this.reason;
+      //if last reservation remove rating notification
+      if (reservedRide.reservations.length == 1) {
+        await RatePassengersHandler.updateLocalNotification(reservedRide);
+      }
+    } else {
+      user.person.upcomingRides[index].reservations[passIndex].status =
+          "CANCELED";
+      user.person.upcomingRides[index].reservations[passIndex].reason =
+          this.reason;
     }
 
     await Cache.setUser(user);
-
-    await RatePassengersHandler.updateLocalNotification(reservedRide);
   }
 
   @override

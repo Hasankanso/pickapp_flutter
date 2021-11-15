@@ -48,7 +48,6 @@ class Rate {
         "grade": this.grade,
         "reason": this.reason,
         "ride": this.ride.id,
-        "rater": this.rater.id,
         "target": this.target.id,
         "objectId": this.id
       };

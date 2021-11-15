@@ -210,19 +210,16 @@ class Cache {
     return false;
   }
 
-  static Future<bool> addRate(Rate rate) async {
-    var rateBox = await Hive.openBox("rates");
-    List<Rate> returnRates = [];
-
-    if (rateBox.isOpen) {
-      var rates = rateBox.get("rates");
-      if (rates != null) rates = rates.cast<Rate>();
-      List<Rate> allRates = rates;
-      if (allRates != null) returnRates.addAll(allRates);
-      returnRates.add(rate);
-
-      await rateBox.put("rates", returnRates);
-      await rateBox.close();
+  static Future<bool> updateRates(List<Rate> rates) async {
+    var rideBox;
+    if (!Hive.isBoxOpen("rates")) {
+      rideBox = await Hive.openBox("rates");
+    } else {
+      rideBox = Hive.box("rates");
+    }
+    if (rideBox.isOpen) {
+      await rideBox.put("rates", rates);
+      await rideBox.close();
       return true;
     }
     return false;

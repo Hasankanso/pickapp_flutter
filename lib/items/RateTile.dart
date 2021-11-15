@@ -12,7 +12,8 @@ class RateTile extends StatelessWidget {
 
   RateTile(this.rate, this.reasons);
 
-  static Function(BuildContext, int) itemBuilder(List<Rate> rates, List<String> reasons) {
+  static Function(BuildContext, int) itemBuilder(
+      List<Rate> rates, List<String> reasons) {
     return (context, index) {
       return RateTile(rates[index], reasons);
     };
@@ -43,7 +44,8 @@ class RateTile extends StatelessWidget {
                 Expanded(
                   flex: 8,
                   child: Text(
-                    DateFormat(App.birthdayFormat, Localizations.localeOf(context).toString())
+                    DateFormat(App.birthdayFormat,
+                            Localizations.localeOf(context).toString())
                         .format(rate.creationDate),
                     style: Styles.labelTextStyle(),
                   ),
@@ -52,18 +54,21 @@ class RateTile extends StatelessWidget {
             ),
             Row(
               children: [
-                ResponsiveWidget(height: 9, width: 120, child: RateStars(rate.grade)),
+                ResponsiveWidget(
+                    height: 9, width: 120, child: RateStars(rate.grade)),
               ],
             ),
-            Row(
-              children: [
-                ResponsiveSpacer(
-                  width: 12,
-                  height: 50,
-                ),
-                Text(reasons[rate.reason], style: Styles.labelTextStyle(size: 13.0)),
-              ],
-            ),
+            if (rate.reason != null)
+              Row(
+                children: [
+                  ResponsiveSpacer(
+                    width: 12,
+                    height: 50,
+                  ),
+                  Text(reasons[rate.reason],
+                      style: Styles.labelTextStyle(size: 13.0)),
+                ],
+              ),
             ResponsiveSpacer(
               height: 12,
             ),

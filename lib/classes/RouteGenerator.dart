@@ -407,7 +407,10 @@ class RouteGenerator {
             duration: duration,
             reverseDuration: duration,
             type: isLTR,
-            child: RatePassengers(ride: args));
+            child: RatePassengers(
+              ride: ((args as List)[0] as Ride),
+              notification: ((args as List)[1] as MainNotification),
+            ));
       case '/AddAlert':
         return PageTransition(
             settings: settings,

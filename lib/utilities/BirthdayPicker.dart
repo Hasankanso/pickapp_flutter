@@ -36,7 +36,6 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
     if (widget.startDate != null) {
       _initialDate = widget.startDate;
       widget._controller.chosenDate = widget.startDate;
-      print(123);
     }
     DateTime initialDate = DateTime.now();
     //max age 100 year
@@ -55,7 +54,6 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
   }
 
   _setDate(date) {
-    print("set date");
     setState(() {
       widget._controller.chosenDate = date;
     });
@@ -64,7 +62,6 @@ class _BirthDayPickerState extends State<BirthDayPicker> {
   @override
   Widget build(BuildContext context) {
     _appLocale = Localizations.localeOf(context);
-    print(widget._controller.chosenDate);
     return Row(
       children: [
         Expanded(

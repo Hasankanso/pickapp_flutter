@@ -52,12 +52,10 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
   }
 
   _getRates() async {
-    if (await Cache.getIsGetRateRequest()) {
-      await _getRatesRequest();
-    }
     var rates = await Cache.getRates();
     setState(() {
       App.user.person.rates = rates;
+      this.rates = rates;
       _filterRates(rates);
     });
   }

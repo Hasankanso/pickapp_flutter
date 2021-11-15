@@ -6,6 +6,7 @@ import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/notifications/LocalNotificationManager.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
+import 'package:just_miles/notifications/RateDriverHandler.dart';
 
 class CancelRideNotificationHandler extends NotificationHandler {
   String rideId, reason;
@@ -26,9 +27,7 @@ class CancelRideNotificationHandler extends NotificationHandler {
     User user = await Cache.getUser();
     int index = user.person.upcomingRides.indexOf(new Ride(id: rideId));
     if (index < 0) return null;
-    print("ride id $index");
     user.person.upcomingRides[index].status = "CANCELED";
-    print("ride${user.person.upcomingRides[index]}");
 
     await LocalNotificationManager.cancelLocalNotification(
         "ride_reminder." + rideId);
@@ -52,7 +51,10 @@ class CancelRideNotificationHandler extends NotificationHandler {
         reason == null ||
         cancellationDate
                 .compareTo(DateTime.now().add(App.availableDurationToRate)) >=
-            0) return;
+            0) {
+      RateDriverHandler.updateLocalNotification(ride);
+      return;
+    }
 
     Navigator.of(context).pushNamed("/RateDriver",
         arguments: [ride, ride.person, reason, cancellationDate, notification]);

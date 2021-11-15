@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/notifications/BroadcastAlertNotificationHandler.dart';
 import 'package:just_miles/notifications/CancelReservationNotificationHandler.dart';
@@ -13,10 +14,12 @@ import 'package:just_miles/notifications/EditReservationNotificationHandler.dart
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/MessageNotificationHandler.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
+import 'package:just_miles/notifications/RateDriverHandler.dart';
 import 'package:just_miles/notifications/RateNotificationHandler.dart';
 import 'package:just_miles/notifications/RatePassengersHandler.dart';
 import 'package:just_miles/notifications/ReserveSeatsNotificationHandler.dart';
 import 'package:just_miles/notifications/RideReminderNotificationHandler.dart';
+import 'package:just_miles/requests/GetUserReviews.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/requests/UpdateToken.dart';
 import 'package:just_miles/requests/get_reservation.dart';
@@ -172,8 +175,11 @@ class PushNotificationsManager {
       case "RIDE_REMINDER":
         return RideReminderNotificationHandler(newNotification);
         break;
-      case "RATE_PASSENGERS":
+      case RatePassengersHandler.action:
         return RatePassengersHandler(newNotification);
+        break;
+      case RateDriverHandler.action:
+        return RateDriverHandler(newNotification);
         break;
       case MessageNotificationHandler.action:
         return MessageNotificationHandler(newNotification);
@@ -226,6 +232,12 @@ Future<Reservation> getReservation(MainNotification newNotification) async {
   return reserve;
 }
 
+Future<List<Rate>> getUserReviews(MainNotification newNotification) async {
+  GetUserReviews request = GetUserReviews();
+  List<Rate> rates = await request.send(null);
+  return rates;
+}
+
 Future<NotificationHandler> _createNotificationHandler(
     RemoteMessage message) async {
   MainNotification newNotification = MainNotification.fromJson(message.data);
@@ -244,10 +256,14 @@ Future<NotificationHandler> _createNotificationHandler(
     case "RESERVATION_CANCELED":
       return CancelReservationNotificationHandler(newNotification);
     case RateNotificationHandler.action:
+      newNotification.object = await getUserReviews(newNotification);
       return RateNotificationHandler(newNotification);
       break;
-    case "RATE_PASSENGERS":
+    case RatePassengersHandler.action:
       return RatePassengersHandler(newNotification);
+      break;
+    case RateDriverHandler.action:
+      return RateDriverHandler(newNotification);
       break;
     case "RIDE_CANCELED":
       return CancelRideNotificationHandler(newNotification);

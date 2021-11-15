@@ -21,13 +21,12 @@ class MyRidesHistoryTile extends ListTile {
 
   @override
   Widget build(BuildContext context) {
-      if (_ride.user == null) {
-        _ride.user = App.user;
-      }
+    if (_ride.user == null) {
+      _ride.user = App.user;
+    }
     if (_ride.person.networkImage == null) {
       _ride.person.setNetworkImage();
     }
-    print(_ride.price);
     return Card(
       elevation: 3.0,
       color: _ride.status == "CANCELED" ? Colors.grey.shade200 : null,
