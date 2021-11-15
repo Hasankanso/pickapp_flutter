@@ -45,14 +45,6 @@ class _InboxState extends State<Inbox>
               future: chats,
               builder:
                   (BuildContext context, AsyncSnapshot<List<Chat>> snapshot) {
-
-                if(snapshot.hasData){
-                  Chat testChat = Chat(id: App.person.id, person: App.person, isNewMessage: true);
-                  if (!snapshot.data.contains(testChat)){
-                    snapshot.data.add(testChat..initMessages());
-                    }
-                }
-
                 return MainScaffold(
                   appBar: MainAppBar(
                     title: Lang.getString(context, "Inbox"),
