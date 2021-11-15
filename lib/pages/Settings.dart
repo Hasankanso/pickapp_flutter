@@ -62,32 +62,6 @@ class Settings extends StatelessWidget {
                         child: Row(children: [
                           Spacer(flex: 1),
                           Expanded(
-                            flex: 10,
-                            child: Text(Lang.getString(context, "Date_In_Range"),
-                                style: Styles.valueTextStyle()),
-                          ),
-                          IconButton(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              icon: Icon(
-                                Icons.info,
-                                color: Styles.primaryColor(),
-                                size: Styles.mediumIconSize(),
-                              ),
-                              onPressed: () {
-                                _showDateRangeHint(context);
-                              }),
-                          Switcher(
-                              isOn: Cache.dateTimeRangePicker,
-                              onChanged: (bool value) => {Cache.setDateTimeRangePicker(value)})
-                        ]),
-                      ),
-                      LineDevider(),
-                      ResponsiveWidget.fullWidth(
-                        height: 55,
-                        child: Row(children: [
-                          Spacer(flex: 1),
-                          Expanded(
                             flex: 12,
                             child: Text(Lang.getString(context, "Dark_Mode"),
                                 style: Styles.valueTextStyle()),
@@ -125,7 +99,7 @@ class Settings extends StatelessWidget {
             VerticalSpacer(height: 18),
             ResponsiveRow(flex: 25, children: [
               Text(
-                Lang.getString(context, "About"),
+                Lang.getString(context, "Parameters"),
                 style: Styles.headerTextStyle(),
               ),
             ]),
@@ -163,6 +137,32 @@ class Settings extends StatelessWidget {
                             ],
                           ),
                         ),
+                      ),
+                      LineDevider(),
+                      ResponsiveWidget.fullWidth(
+                        height: 55,
+                        child: Row(children: [
+                          Spacer(flex: 1),
+                          Expanded(
+                            flex: 10,
+                            child: Text(Lang.getString(context, "Date_In_Range"),
+                                style: Styles.valueTextStyle()),
+                          ),
+                          IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              icon: Icon(
+                                Icons.info,
+                                color: Styles.primaryColor(),
+                                size: Styles.mediumIconSize(),
+                              ),
+                              onPressed: () {
+                                _showDateRangeHint(context);
+                              }),
+                          Switcher(
+                              isOn: Cache.dateTimeRangePicker,
+                              onChanged: (bool value) => {Cache.setDateTimeRangePicker(value)})
+                        ]),
                       ),
                     ],
                   ),
