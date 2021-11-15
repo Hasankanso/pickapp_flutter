@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_svg_provider/flutter_svg_provider.dart' as Svg;
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as Svg;
 import 'package:just_miles/utilities/Buttons.dart';
 import 'package:just_miles/utilities/LanguagesDropDown.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
@@ -17,9 +17,9 @@ class LoginRegister extends StatelessWidget {
             VerticalSpacer(
               height: 150,
             ),
-            // Image(
-            //     image: Svg.Svg('lib/images/voomcar_logo.svg',
-            //         size: const Size(210 * 1.4, 38.8 * 1.4))),
+            Image(
+                image: Svg.Svg('lib/images/voomcar_logo.svg',
+                    size: const Size(210 * 1.4, 38.8 * 1.4))),
             VerticalSpacer(
               height: 220,
             ),
