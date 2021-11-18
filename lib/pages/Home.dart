@@ -88,19 +88,24 @@ class _HomeState extends State<Home> {
             onPageChanged: _pageSwipped,
             children: _pages,
           ),
-          bottomNavigationBar: Container( color: Theme.of(context).scaffoldBackgroundColor,
+          bottomNavigationBar: Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: SafeArea(
                 child: AspectRatio(
               aspectRatio: 13 / 2,
               child: Container(
                 decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(spreadRadius: -4, offset: Offset(0, -4), color: Colors.grey)
+                  BoxShadow(
+                      spreadRadius: -4,
+                      offset: Offset(0, -4),
+                      color: Colors.grey)
                 ]),
                 child: BottomNavigationBar(
                   type: BottomNavigationBarType.shifting,
                   items: <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.list_alt), label: Lang.getString(context, "My_Rides")),
+                        icon: Icon(Icons.list_alt),
+                        label: Lang.getString(context, "My_Rides")),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.drive_eta),
                       label: Lang.getString(context, "Add_Ride"),
@@ -117,7 +122,8 @@ class _HomeState extends State<Home> {
                             Icons.chat_outlined,
                           ),
                           ValueListenableBuilder(
-                            builder: (BuildContext context, bool isNewMessage, Widget child) {
+                            builder: (BuildContext context, bool isNewMessage,
+                                Widget child) {
                               if (_currenIndex == 3) {
                                 App.isNewMessageNotifier.value = false;
                                 isNewMessage = false;

@@ -8,7 +8,7 @@ class BrandAutocomplete extends SearchDelegate<List<String>> {
   BrandAutocomplete({context, this.carBrands})
       : super(
           keyboardType: TextInputType.text,
-          textInputAction: Platform.isIOS? null : TextInputAction.none,
+          textInputAction: Platform.isIOS ? null : TextInputAction.none,
           searchFieldStyle: Styles.titleTextStyle(),
         );
 
@@ -20,6 +20,9 @@ class BrandAutocomplete extends SearchDelegate<List<String>> {
   ThemeData appBarTheme(BuildContext context) {
     super.appBarTheme(context);
     return ThemeData(
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Colors.white,
+      ),
       primaryColor: Styles.primaryColor(),
       cursorColor: Styles.secondaryColor(),
       hintColor: Styles.secondaryColor(),

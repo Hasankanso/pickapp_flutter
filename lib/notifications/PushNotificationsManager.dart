@@ -88,6 +88,7 @@ class PushNotificationsManager {
       List<MainNotification> notifications = await Cache.getNotifications();
       App.notifications = notifications;
       App.updateNotifications.value = !App.updateNotifications.value;
+      print("update apppp");
       handler.updateApp();
     }
   }
@@ -109,6 +110,7 @@ class PushNotificationsManager {
   }
 
   Future<void> onResume() async {
+    print(11111);
     App.user = await Cache.getUser();
     await initNotifications();
   }
@@ -146,6 +148,7 @@ class PushNotificationsManager {
     App.updateProfile.value = !App.updateProfile.value;
     App.updateNotifications.value = !App.updateNotifications.value;
     App.updateConversation.value = !App.updateConversation.value;
+    App.updateInbox.value = !App.updateInbox.value;
 
     if (isOneScheduledNotificationHandled) {
       await Cache.updateNotifications(allNotifications);
