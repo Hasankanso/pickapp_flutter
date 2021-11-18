@@ -69,7 +69,7 @@ class _PassengerRateTileState extends State<PassengerRateTile> {
                 Expanded(
                   flex: 2,
                   child: RatingBar.builder(
-                    initialRating: 0,
+                    initialRating: 5,
                     minRating: 1,
                     direction: Axis.horizontal,
                     allowHalfRating: true,

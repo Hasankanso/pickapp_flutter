@@ -34,8 +34,6 @@ class RatePassengers extends StatelessWidget {
         }
       }
       if (!isCanceledThenReserve) {
-        print(passenger.status);
-
         rates.add(new Rate(
             ride: ride,
             rater: App.person,

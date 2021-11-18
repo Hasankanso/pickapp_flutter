@@ -163,16 +163,31 @@ class Cache {
       rateBox = Hive.box("rates");
     }
     List<Rate> returnRates = [];
-
     if (rateBox.isOpen) {
       var rates = rateBox.get("rates");
       if (rates != null) {
         rates = rates.cast<Rate>();
+
         returnRates = rates;
       }
       await rateBox.close();
     }
     return returnRates;
+  }
+
+  static Future<bool> setRates(List<Rate> allRates) async {
+    var rateBox;
+    if (!Hive.isBoxOpen("rates")) {
+      rateBox = await Hive.openBox("rates");
+    } else {
+      rateBox = Hive.box<Rate>("rates");
+    }
+    if (rateBox.isOpen) {
+      await rateBox.put("rates", allRates);
+      await rateBox.close();
+      return true;
+    }
+    return false;
   }
 
   static Future<List<Ride>> getRidesHistory() async {
@@ -205,36 +220,6 @@ class Cache {
     if (rideBox.isOpen) {
       await rideBox.put("ridesHistory", allHistoryRides);
       await rideBox.close();
-      return true;
-    }
-    return false;
-  }
-
-  static Future<bool> updateRates(List<Rate> rates) async {
-    var rideBox;
-    if (!Hive.isBoxOpen("rates")) {
-      rideBox = await Hive.openBox("rates");
-    } else {
-      rideBox = Hive.box("rates");
-    }
-    if (rideBox.isOpen) {
-      await rideBox.put("rates", rates);
-      await rideBox.close();
-      return true;
-    }
-    return false;
-  }
-
-  static Future<bool> setRates(List<Rate> allRates) async {
-    var rateBox;
-    if (!Hive.isBoxOpen("rates")) {
-      rateBox = await Hive.openBox("rates");
-    } else {
-      rateBox = Hive.box<Rate>("rates");
-    }
-    if (rateBox.isOpen) {
-      await rateBox.put("rates", allRates);
-      await rateBox.close();
       return true;
     }
     return false;

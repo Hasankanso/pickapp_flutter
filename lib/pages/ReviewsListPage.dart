@@ -54,8 +54,6 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
   _getRates() async {
     var rates = await Cache.getRates();
     setState(() {
-      App.user.person.rates = rates;
-      this.rates = rates;
       _filterRates(rates);
     });
   }
@@ -67,6 +65,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
 
       if (rates[i].creationDate.isBefore(before2Days)) this.rates.add(rates[i]);
     }
+    App.user.person.rates = this.rates;
   }
 
   @override
@@ -97,11 +96,12 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
     );
   }
 
-  getRatesResponse(List<Rate> rates, int status, String message) {
+  getRatesResponse(List<Rate> rates, int status, String message) async {
     if (status != 200) {
     } else {
+      await Cache.setRates(rates);
       setState(() {
-        this.rates = rates;
+        _filterRates(rates);
       });
     }
   }

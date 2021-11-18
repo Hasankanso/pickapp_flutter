@@ -266,18 +266,19 @@ class App {
     var rd = ride.leavingDate;
     DateTime d =
         new DateTime(rd.year, rd.month, rd.day, rd.hour, rd.minute, rd.second);
-
-    MainNotification rateDriverNotification = MainNotification(
-      title: "How was the Driver?",
-      body: "Review driver from ${ride.from.name} -> ${ride.to.name} ride",
-      object: ride.id,
-      action: RateDriverHandler.action,
-      scheduleDate: d.add(Duration(
-          minutes: App.user.person.countryInformations.rateStartHours)),
-    );
-    LocalNotificationManager.pushLocalNotification(
-        rateDriverNotification, RateDriverHandler.prefix + ride.id);
-
+    if (ride.reserved) {
+      //if its a reserved ride, set notification to rate driver
+      MainNotification rateDriverNotification = MainNotification(
+        title: "How was the Driver?",
+        body: "Review driver from ${ride.from.name} -> ${ride.to.name} ride",
+        object: ride.id,
+        action: RateDriverHandler.action,
+        scheduleDate: d.add(Duration(
+            minutes: App.user.person.countryInformations.rateStartHours)),
+      );
+      LocalNotificationManager.pushLocalNotification(
+          rateDriverNotification, RateDriverHandler.prefix + ride.id);
+    }
     String title = "Ride reminder";
     String body = "You have an upcoming ride that will start at " +
         int1.DateFormat(App.hourFormat, _locale).format(ride.leavingDate) +
