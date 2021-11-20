@@ -14,9 +14,11 @@ import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
 //import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
 
+import com.adcolony.sdk.AdColonyAppOptions;
 import com.voomcar.voomcar.R;
 import com.whelksoft.flutter_native_timezone.FlutterNativeTimezonePlugin;
 import com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin;
+import com.google.ads.mediation.adcolony.AdColonyMediationAdapter;
 
 public class Application extends FlutterApplication implements PluginRegistrantCallback {
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -24,6 +26,9 @@ public class Application extends FlutterApplication implements PluginRegistrantC
     public void onCreate() {
         super.onCreate();
         this.createChannel();
+        AdColonyAppOptions appOptions = AdColonyMediationAdapter.getAppOptions();
+        appOptions.setPrivacyFrameworkRequired(AdColonyAppOptions.GDPR, true);
+        appOptions.setPrivacyConsentString(AdColonyAppOptions.GDPR, "1");
         //FlutterFirebaseMessagingService.setPluginRegistrant(this);
     }
 

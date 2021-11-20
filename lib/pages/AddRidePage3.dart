@@ -28,7 +28,8 @@ class AddRidePage3 extends StatefulWidget {
   _AddRidePage3State createState() => _AddRidePage3State(rideInfo);
 }
 
-class _AddRidePage3State extends State<AddRidePage3> with TickerProviderStateMixin {
+class _AddRidePage3State extends State<AddRidePage3>
+    with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final Ride rideInfo;
   NumberController personController = NumberController();
@@ -44,25 +45,30 @@ class _AddRidePage3State extends State<AddRidePage3> with TickerProviderStateMix
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (rideInfo.price != null) priceController.text = rideInfo.price.toString();
+    if (rideInfo.price != null)
+      priceController.text = rideInfo.price.toString();
     if (rideInfo.car != null) {
-      selectedCar = Lang.getString(context, rideInfo.car.brand) + " " + rideInfo.car.name;
-      car = rideInfo.car;
-      valueSelected = true;
-      personController = NumberController(
-        chosenNumber: rideInfo.availableSeats == null
-            ? car == null
-                ? null
-                : car.maxSeats
-            : rideInfo.availableSeats,
-      );
-      luggageController = NumberController(
-        chosenNumber: rideInfo.availableLuggages == null
-            ? car == null
-                ? null
-                : 0
-            : rideInfo.availableLuggages,
-      );
+      Future.delayed(Duration.zero, () {
+        selectedCar = Lang.getString(context, rideInfo.car.brand) +
+            " " +
+            rideInfo.car.name;
+        car = rideInfo.car;
+        valueSelected = true;
+        personController = NumberController(
+          chosenNumber: rideInfo.availableSeats == null
+              ? car == null
+                  ? null
+                  : car.maxSeats
+              : rideInfo.availableSeats,
+        );
+        luggageController = NumberController(
+          chosenNumber: rideInfo.availableLuggages == null
+              ? car == null
+                  ? null
+                  : 0
+              : rideInfo.availableLuggages,
+        );
+      });
     }
   }
 
@@ -116,15 +122,21 @@ class _AddRidePage3State extends State<AddRidePage3> with TickerProviderStateMix
                             title: Text(
                               selectedCar,
                               style: valueSelected
-                                  ? Styles.valueTextStyle(color: Styles.primaryColor())
+                                  ? Styles.valueTextStyle(
+                                      color: Styles.primaryColor())
                                   : Styles.labelTextStyle(),
                             ),
                             children: App.driver.cars.map((Car c) {
                               return CarTileDropDown(
-                                  carName: Lang.getString(context, c.brand) + ", " + c.name,
+                                  carName: Lang.getString(context, c.brand) +
+                                      ", " +
+                                      c.name,
                                   car: c,
                                   a: () {
-                                    selectedCar = Lang.getString(context, c.brand) + ", " + c.name;
+                                    selectedCar =
+                                        Lang.getString(context, c.brand) +
+                                            ", " +
+                                            c.name;
                                     car = c;
                                     valueSelected = true;
                                     personController = NumberController(
@@ -195,7 +207,8 @@ class _AddRidePage3State extends State<AddRidePage3> with TickerProviderStateMix
                             LengthLimitingTextInputFormatter(6),
                           ],
                           decoration: InputDecoration(
-                            labelText: Lang.getString(context, rideInfo.countryInformations.unit),
+                            labelText: Lang.getString(
+                                context, rideInfo.countryInformations.unit),
                             labelStyle: Styles.labelTextStyle(),
                             hintStyle: Styles.labelTextStyle(),
                           ),
@@ -206,15 +219,19 @@ class _AddRidePage3State extends State<AddRidePage3> with TickerProviderStateMix
                             int price = int.tryParse(value);
                             if (valid != null)
                               return valid;
-                            else if (price < rideInfo.countryInformations.minPrice) {
+                            else if (price <
+                                rideInfo.countryInformations.minPrice) {
                               Lang.getString(context, "Min_stop_time");
                               return Lang.getString(context, "Minimum_short") +
                                   " " +
-                                  rideInfo.countryInformations.minPrice.toString();
-                            } else if (price > rideInfo.countryInformations.maxPrice) {
+                                  rideInfo.countryInformations.minPrice
+                                      .toString();
+                            } else if (price >
+                                rideInfo.countryInformations.maxPrice) {
                               return Lang.getString(context, "Maximum_short") +
                                   " " +
-                                  rideInfo.countryInformations.maxPrice.toString();
+                                  rideInfo.countryInformations.maxPrice
+                                      .toString();
                             } else
                               return null;
                           },
@@ -242,14 +259,16 @@ class _AddRidePage3State extends State<AddRidePage3> with TickerProviderStateMix
                   if (_formKey.currentState.validate()) {
                     if (valueSelected) {
                       rideInfo.availableSeats = personController.chosenNumber;
-                      rideInfo.availableLuggages = luggageController.chosenNumber;
+                      rideInfo.availableLuggages =
+                          luggageController.chosenNumber;
                       rideInfo.car = car;
                       int price = int.parse(priceController.text);
                       rideInfo.price = price;
-                      Navigator.of(context)
-                          .pushNamed("/AddRidePage4", arguments: [rideInfo, widget.appBarTitleKey]);
+                      Navigator.of(context).pushNamed("/AddRidePage4",
+                          arguments: [rideInfo, widget.appBarTitleKey]);
                     } else
-                      CustomToast().showErrorToast(Lang.getString(context, "Select_car"));
+                      CustomToast().showErrorToast(
+                          Lang.getString(context, "Select_car"));
                   }
                 },
               ),
