@@ -1,13 +1,15 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../classes/App.dart';
 
 class Ads {
   static RewardedAd _rewardedAd;
-  static bool _rewardedReady = false;
+  static int _numRewardedLoadAttempts = 0;
   static String bannerId, nativeId, _rewardedId;
+  static int maxFailedLoadAttempts = 3;
 
   static AdRequest adRequest = AdRequest(
     nonPersonalizedAds: true,
@@ -35,6 +37,9 @@ class Ads {
     }
 
     MobileAds.instance.initialize().then((InitializationStatus status) {
+      status.adapterStatuses.forEach((key, value) {
+        debugPrint('Adapter status for $key: ${value.state}');
+      });
       MobileAds.instance.updateRequestConfiguration(RequestConfiguration(
         tagForChildDirectedTreatment: _childTreatment,
         tagForUnderAgeOfConsent: _childTreatment,
@@ -43,32 +48,50 @@ class Ads {
   }
 
   static Future<void> loadRewardedAd() async {
-    if (_rewardedReady) return;
     await RewardedAd.load(
-      adUnitId: _rewardedId,
-      request: adRequest,
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (RewardedAd ad) async {
-          print('${ad.runtimeType} loaded..');
-          _rewardedReady = true;
-          _rewardedAd = ad;
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          _rewardedAd = null;
-          print("failed to load");
-        },
-      ),
-    );
+        adUnitId: _rewardedId,
+        request: adRequest,
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+          onAdLoaded: (RewardedAd ad) {
+            print('$ad loaded.');
+            _rewardedAd = ad;
+            _numRewardedLoadAttempts = 0;
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('RewardedAd failed to load: $error');
+            _rewardedAd = null;
+            _numRewardedLoadAttempts += 1;
+            if (_numRewardedLoadAttempts <= maxFailedLoadAttempts) {
+              loadRewardedAd();
+            }
+          },
+        ));
   }
 
   static Future<void> showRewardedAd(Function callBack) async {
-    if (!_rewardedReady) return;
-
-    await _rewardedAd.show(
-      onUserEarnedReward: (RewardedAd ad, RewardItem rewardItem) {
-        _rewardedReady = false;
-        if (callBack != null) callBack();
+    if (_rewardedAd == null) {
+      print('Warning: attempt to show rewarded before loaded.');
+      return;
+    }
+    _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (RewardedAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        loadRewardedAd();
+      },
+      onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        loadRewardedAd();
       },
     );
+    _rewardedAd.setImmersiveMode(true);
+    _rewardedAd.show(onUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+      print('$ad with reward $RewardItem(${reward.amount}, ${reward.type}');
+      if (callBack != null) callBack();
+    });
+    _rewardedAd = null;
   }
 }
