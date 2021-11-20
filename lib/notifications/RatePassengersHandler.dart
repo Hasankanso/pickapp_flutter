@@ -40,33 +40,22 @@ class RatePassengersHandler extends NotificationHandler {
   static Future<void> createLocalNotification(Ride ride) async {
     int notificationReq =
         await Cache.getScheduledNotificationId(prefix + ride.id);
-    if (notificationReq != null) {
-      return; //it's already added.
+    if (notificationReq == null) {
+      DateTime popUpDate = ride.leavingDate
+          .add(Duration(hours: App.person.countryInformations.rateStartHours));
+      MainNotification rateNotification = new MainNotification(
+          title: "How Were Passengers?",
+          body:
+          "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
+          object: ride.id,
+          scheduleDate: popUpDate,
+          action: RatePassengersHandler.action);
+      LocalNotificationManager.pushLocalNotification(
+          rateNotification, prefix + ride.id);
     }
-
-    DateTime popUpDate = ride.leavingDate
-        .add(Duration(hours: App.person.countryInformations.rateStartHours));
-    MainNotification rateNotification = new MainNotification(
-        title: "How Were Passengers?",
-        body:
-            "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
-        object: ride.id,
-        scheduleDate: popUpDate,
-        action: RatePassengersHandler.action);
-    LocalNotificationManager.pushLocalNotification(
-        rateNotification, prefix + ride.id);
   }
 
-  static Future<void> updateLocalNotification(Ride ride) async {
-    int notificationReq =
-        await Cache.getScheduledNotificationId(prefix + ride.id);
-
-    if (notificationReq == null) {
-      return; //there's nothing to check.
-    }
-
-    if (ride.reservations.isEmpty) {
-      LocalNotificationManager.cancelLocalNotification(prefix + ride.id);
-    }
+  static Future<bool> removeLocalNotification(Ride ride) async {
+      return LocalNotificationManager.cancelLocalNotification(prefix + ride.id);
   }
 }

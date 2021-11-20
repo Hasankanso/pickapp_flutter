@@ -42,7 +42,7 @@ class Cache {
   static bool get failed => _failed;
 
   static setUser(User u) async {
-    final userBox = Hive.box("user");
+    final userBox = await Hive.openBox("user");
     u.person.rates = null;
     await userBox.put(0, u);
   }

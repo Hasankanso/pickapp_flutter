@@ -16,6 +16,7 @@ import 'package:just_miles/main.dart';
 import 'package:just_miles/notifications/LocalNotificationManager.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/RateDriverHandler.dart';
+import 'package:just_miles/notifications/RatePassengersHandler.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
 
 import 'Localizations.dart';
@@ -119,8 +120,8 @@ class App {
     _state = state;
   }
 
-  static void updateUserCache() {
-    Cache.setUser(App.user);
+  static Future<void> updateUserCache() async {
+    await Cache.setUser(App.user);
     updateUpcomingRide.value = !updateUpcomingRide.value;
   }
 
@@ -255,17 +256,22 @@ class App {
     App.user.person.upcomingRides.remove(ride);
     LocalNotificationManager.cancelLocalNotification(
         "ride_reminder." + ride.id);
+
+    if(ride.reserved) {
+      RateDriverHandler.removeLocalNotification(ride);
+    } else {
+      RatePassengersHandler.removeLocalNotification(ride);
+    }
+
     updateUserCache();
   }
 
-  static addRideToMyRides(Ride ride, context) {
+  static void addRideToMyRides(Ride ride, context) async {
     String _locale = Localizations.localeOf(context).toString();
     App.user.person.upcomingRides.add(ride);
     updateUserCache();
 
-    var rd = ride.leavingDate;
-    DateTime d =
-        new DateTime(rd.year, rd.month, rd.day, rd.hour, rd.minute, rd.second);
+    var leavingDate = ride.leavingDate;
     if (ride.reserved) {
       //if its a reserved ride, set notification to rate driver
       MainNotification rateDriverNotification = MainNotification(
@@ -273,8 +279,8 @@ class App {
         body: "Review driver from ${ride.from.name} -> ${ride.to.name} ride",
         object: ride.id,
         action: RateDriverHandler.action,
-        scheduleDate: d.add(Duration(
-            minutes: App.user.person.countryInformations.rateStartHours)),
+        scheduleDate: leavingDate.add(Duration(
+            hours: App.user.person.countryInformations.rateStartHours)),
       );
       LocalNotificationManager.pushLocalNotification(
           rateDriverNotification, RateDriverHandler.prefix + ride.id);
@@ -284,19 +290,19 @@ class App {
         int1.DateFormat(App.hourFormat, _locale).format(ride.leavingDate) +
         ", be ready";
 
-    d.add(Duration(minutes: -30));
+
+    DateTime beforeHalfHour = leavingDate.add(Duration(minutes: -30));
     //if there is less than 30 minutes then no need for reminder
-    if (d.isAfter(DateTime.now())) {
-      return;
-    }
+    if (beforeHalfHour.isBefore(DateTime.now())) {
     MainNotification rideReminderNotification = MainNotification(
         title: title,
         body: body,
         object: [ride.id, ride.reserved],
         action: "RIDE_REMINDER",
-        scheduleDate: d.add(Duration(minutes: -30)));
+        scheduleDate: beforeHalfHour);
     LocalNotificationManager.pushLocalNotification(
         rideReminderNotification, "ride_reminder." + ride.id);
+  }
   }
 
   static double roundRate(double rate) {
