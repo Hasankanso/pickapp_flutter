@@ -52,7 +52,7 @@ class CancelRideNotificationHandler extends NotificationHandler {
         cancellationDate
                 .compareTo(DateTime.now().add(App.availableDurationToRate)) >=
             0) {
-      RateDriverHandler.updateLocalNotification(ride);
+      await RateDriverHandler.removeLocalNotification(ride);
       return;
     }
 

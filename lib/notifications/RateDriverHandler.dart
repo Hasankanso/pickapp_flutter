@@ -38,16 +38,8 @@ class RateDriverHandler extends NotificationHandler {
     }
   }
 
-  static Future<void> updateLocalNotification(Ride ride) async {
-    int notificationReq =
-        await Cache.getScheduledNotificationId(prefix + ride.id);
+  static Future<void> removeLocalNotification(Ride ride) async {
+      return LocalNotificationManager.cancelLocalNotification(prefix + ride.id);
 
-    if (notificationReq == null) {
-      return; //there's nothing to check.
-    }
-
-    if (ride.reservations.isEmpty) {
-      LocalNotificationManager.cancelLocalNotification(prefix + ride.id);
-    }
   }
 }
