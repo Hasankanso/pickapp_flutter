@@ -19,6 +19,12 @@ class _TermAndConditions extends State<TermAndConditions> {
       body: SingleChildScrollView(
           child: Column(children: [
         VerticalSpacer(height: 20),
+            RaisedButton(
+              onPressed: (){
+              },
+              child: Text("hello"),
+            ),
+
       ])),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
         height: 80,

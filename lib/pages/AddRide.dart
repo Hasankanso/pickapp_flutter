@@ -139,6 +139,7 @@ class _AddRideState extends State<AddRide> {
                                             ? Styles.primaryColor()
                                             : Styles.labelColor(),
                                       )),
+
                                   Expanded(
                                     flex: 2,
                                     child: Switcher(
@@ -174,6 +175,7 @@ class _AddRideState extends State<AddRide> {
                                       ? Styles.primaryColor()
                                       : Styles.labelColor(),
                                 )),
+
                             Expanded(
                               flex: 2,
                               child: Switcher(
@@ -196,7 +198,7 @@ class _AddRideState extends State<AddRide> {
                             child: Row(
                               children: [
                                 Expanded(
-                                    flex: 2,
+                                    flex: 5,
                                     child: Icon(
                                       acIcon,
                                       color: acController.isOn
@@ -204,7 +206,17 @@ class _AddRideState extends State<AddRide> {
                                           : Styles.labelColor(),
                                     )),
                                 Expanded(
-                                  flex: 2,
+                                    flex: 3,
+                                    child: Text("A/C ",
+                                      style: acController.isOn
+                                        ? Styles.subValueTextStyle(
+                                          color:Styles.primaryColor())
+                                        : Styles.subValueTextStyle(
+                                          color:Styles.labelColor()),
+                                ),
+                                ),
+                                Expanded(
+                                  flex: 8,
                                   child: Switcher(
                                     isOn: acController.isOn,
                                     controller: acController,
