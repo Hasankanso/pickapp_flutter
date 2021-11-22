@@ -7,6 +7,7 @@ import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/requests/ChangeEmail.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
 import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
 import 'package:just_miles/utilities/Responsive.dart';
@@ -93,6 +94,7 @@ class Email extends StatelessWidget {
     App.user.email = p1;
     Cache.setUser(App.user);
 
-    //CustomToast().showSuccessToast(Lang.getString(context, "Email_confirmation_pending"));
+    CustomToast().showSuccessToast(
+        Lang.getString(context, "Email_confirmation_pending"));
   }
 }

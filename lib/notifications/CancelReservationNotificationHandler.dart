@@ -24,7 +24,9 @@ class CancelReservationNotificationHandler extends NotificationHandler {
   @override
   Future<void> cache() async {
     User user = await Cache.getUser();
-
+    if (user == null) {
+      return;
+    }
     int index = user.person.upcomingRides.indexOf(new Ride(id: rideId));
 
     if (index < 0) return null;

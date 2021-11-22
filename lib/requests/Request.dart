@@ -140,8 +140,11 @@ abstract class Request<T> {
     //decode response
     var decodedResponse;
     try {
+      print(response.body);
       decodedResponse = json.decode(utf8.decode(response.bodyBytes));
     } catch (e) {
+      print(1233);
+      print(e);
       print("unknown exception");
       if (callback != null)
         callback(null, HttpStatus.partialContent, "Something_Wrong");
