@@ -206,6 +206,7 @@
   "Min": "Min",
   "Minimum_short": "Min",
   "Maximum_short": "Max",
+  "Description_hint": "Anything about your trip( I will drive slowly, I want to stop near a specific place,... )",
   "How_Much_Time_You_Need": "De combien de temps avez-vous besoin ?",
   "Do_You_Want_To_Stop_Over": "Vous voulez passer chez nous ?",
   "Do_You_Have_Kids_Seat": "Avez-vous un siège pour enfant ?",
@@ -304,6 +305,10 @@
   "Logout_message": "J'attends votre retour !",
   "Reservation_editing_message": "Veuillez modifier votre réservation",
   "ex:":"ex:",
+  "Description_hint": "Tout sur votre voyage (je conduirai lentement avec attention, je m'arrêterai à un endroit précis pour faire une petite pause...)",
+  "I_agree_to_the": "Je suis d'accord avec les ",
+  "and": "et",
+  "Please_agree_to_the": "S'il vous plaît accepter les",
 
   "-1000" : "Veuillez vous connecter d'abord",
   "-1001" : "Quelque chose ne va pas, veuillez vous déconnecter et vous connecter",

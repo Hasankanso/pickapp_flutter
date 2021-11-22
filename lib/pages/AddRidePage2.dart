@@ -45,7 +45,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
       int time = int.parse(timeController.text);
       rideInfo.stopTime = time;
     } else {
-      rideInfo.stopTime = 0;
+      rideInfo.stopTime = null;
     }
 
     descController.dispose();
@@ -207,14 +207,10 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   style: Styles.valueTextStyle(),
                   validator: (value) {
                     String valid = Validation.validate(value, context);
-                    String alpha =
-                        Validation.isAlphaNumericIgnoreSpaces(context, value);
                     String short = Validation.isShort(context, value, 25);
 
                     if (valid != null)
                       return valid;
-                    else if (alpha != null)
-                      return alpha;
                     else if (short != null)
                       return short;
                     else

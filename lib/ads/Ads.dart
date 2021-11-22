@@ -13,7 +13,6 @@ class Ads {
 
   static AdRequest adRequest = AdRequest(
     nonPersonalizedAds: true,
-    extras: {},
   );
 
   static Future<void> initialize() async {
