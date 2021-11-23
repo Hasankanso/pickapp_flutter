@@ -314,6 +314,11 @@ class Settings extends StatelessWidget {
                           request.send((result, code, message) {
                             return response(result, code, message, context);
                           });
+
+                          await App.logout();
+                          CustomToast().showSuccessToast(
+                              Lang.getString(context, "Logout_message"));
+                          Navigator.pop(context);
                         },
                         child: ResponsiveWidget.fullWidth(
                           height: 64,
@@ -390,9 +395,5 @@ class Settings extends StatelessWidget {
     if (App.handleErrors(context, code, message)) {
       return;
     }
-
-    await App.logout();
-    CustomToast().showSuccessToast(Lang.getString(context, "Logout_message"));
-    Navigator.pop(context);
   }
 }
