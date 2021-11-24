@@ -37,6 +37,7 @@ class Validation {
   }
 
   static String isAlphaNumericIgnoreSpaces(context, String value) {
+    value = value.replaceAll("\"", "");
     if (!RegExp(
       r"^[\u0621-\u064A\u0660-\u0669a-zA-Z0-9\.\؛\٫\,\!\?\،\:\'\ \‎\-\_\;\(\)\`\‏]*$",
       unicode: false,

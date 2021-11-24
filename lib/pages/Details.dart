@@ -406,7 +406,14 @@ class _DetailsState extends State<Details> {
                               _register();
                             },
                             child: Text(
-                              Lang.getString(context, "Skip"),
+                              Lang.getString(
+                                  context,
+                                  App.calculateAge(
+                                              widget.user.person.birthday) <
+                                          widget.user.person.countryInformations
+                                              .drivingAge
+                                      ? "Register"
+                                      : "Skip"),
                               style: TextStyle(
                                 fontSize: ScreenUtil().setSp(15),
                                 fontWeight: FontWeight.w400,

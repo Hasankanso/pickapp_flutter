@@ -14,6 +14,7 @@ import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/MainImagePicker.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
 import 'package:just_miles/utilities/Responsive.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -33,6 +34,7 @@ class _RegisterState extends State<Register> {
   bool _gender = true;
   DateTime _birthdayInit;
   MainImageController _imageController = MainImageController();
+  bool isPrivacyAndTermsAccepted = false;
 
   @override
   void dispose() {
@@ -67,7 +69,7 @@ class _RegisterState extends State<Register> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   VerticalSpacer(
-                    height: 20,
+                    height: 5,
                   ),
                   ResponsiveWidget.fullWidth(
                     height: 100,
@@ -258,6 +260,95 @@ class _RegisterState extends State<Register> {
                       ],
                     ),
                   ),
+                  ResponsiveWidget.fullWidth(
+                    height: 80,
+                    child: DifferentSizeResponsiveRow(
+                      children: [
+                        Expanded(
+                          flex: 12,
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                value: isPrivacyAndTermsAccepted,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    isPrivacyAndTermsAccepted = newValue;
+                                  });
+                                },
+                              ),
+                              Flexible(
+                                child: Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                          text: Lang.getString(
+                                              context, "I_agree_to_the"),
+                                          style: Styles.valueTextStyle()),
+                                      WidgetSpan(
+                                        child: TextButton(
+                                          style: TextButton.styleFrom(
+                                            minimumSize: Size.zero,
+                                            padding: EdgeInsets.zero,
+                                            tapTargetSize: MaterialTapTargetSize
+                                                .shrinkWrap,
+                                          ),
+                                          onPressed: () async {
+                                            if (await canLaunch(
+                                                App.termsAndConditionUrl)) {
+                                              await launch(
+                                                App.termsAndConditionUrl,
+                                                forceSafariVC: false,
+                                                forceWebView: false,
+                                              );
+                                            }
+                                          },
+                                          child: Text(
+                                            Lang.getString(
+                                                context, "Terms_&_Conditions"),
+                                            style: Styles.valueTextStyle(
+                                                bold: FontWeight.bold,
+                                                color: Styles.primaryColor()),
+                                          ),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                          text:
+                                              ' ${Lang.getString(context, "and")} ',
+                                          style: Styles.valueTextStyle()),
+                                      WidgetSpan(
+                                        child: TextButton(
+                                          style: TextButton.styleFrom(
+                                            minimumSize: Size.zero,
+                                            padding: EdgeInsets.zero,
+                                            tapTargetSize: MaterialTapTargetSize
+                                                .shrinkWrap,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pushNamed("/PrivacyPolicy");
+                                          },
+                                          child: Text(
+                                            Lang.getString(
+                                                context, "Privacy_Policy"),
+                                            style: Styles.valueTextStyle(
+                                                bold: FontWeight.bold,
+                                                color: Styles.primaryColor()),
+                                          ),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                          text: '.',
+                                          style: Styles.valueTextStyle()),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -279,6 +370,11 @@ class _RegisterState extends State<Register> {
                     if (_birthday.chosenDate == null) {
                       CustomToast().showErrorToast(
                           Lang.getString(context, "Pick_birthday"));
+                      return;
+                    }
+                    if (!isPrivacyAndTermsAccepted) {
+                      CustomToast().showErrorToast(
+                          "${Lang.getString(context, "Please_agree_to_the")} ${Lang.getString(context, "Terms_&_Conditions")} ${Lang.getString(context, "and")} ${Lang.getString(context, "Privacy_Policy")}");
                       return;
                     }
                     CountryInformations cI =

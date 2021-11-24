@@ -32,7 +32,8 @@ class App {
   static String hourFormat = 'hh:mm a';
   static String birthdayFormat = 'dd/MM/yyyy';
   static User _user;
-
+  static String termsAndConditionUrl =
+      "https://backendlessappcontent.com/5FB0EA72-A363-4451-FFA5-A56F031D6600/A47932AF-43E1-4CDC-9B54-12F8A88FB22E/files/web/termsconditions.html";
   //these are real boolean notifiers.
   static ValueNotifier<bool> isLoggedInNotifier = ValueNotifier<bool>(false);
   static ValueNotifier<bool> isDriverNotifier =
@@ -257,7 +258,7 @@ class App {
     LocalNotificationManager.cancelLocalNotification(
         "ride_reminder." + ride.id);
 
-    if(ride.reserved) {
+    if (ride.reserved) {
       RateDriverHandler.removeLocalNotification(ride);
     } else {
       RatePassengersHandler.removeLocalNotification(ride);
@@ -290,19 +291,18 @@ class App {
         int1.DateFormat(App.hourFormat, _locale).format(ride.leavingDate) +
         ", be ready";
 
-
     DateTime beforeHalfHour = leavingDate.add(Duration(minutes: -30));
     //if there is less than 30 minutes then no need for reminder
     if (beforeHalfHour.isBefore(DateTime.now())) {
-    MainNotification rideReminderNotification = MainNotification(
-        title: title,
-        body: body,
-        object: [ride.id, ride.reserved],
-        action: "RIDE_REMINDER",
-        scheduleDate: beforeHalfHour);
-    LocalNotificationManager.pushLocalNotification(
-        rideReminderNotification, "ride_reminder." + ride.id);
-  }
+      MainNotification rideReminderNotification = MainNotification(
+          title: title,
+          body: body,
+          object: [ride.id, ride.reserved],
+          action: "RIDE_REMINDER",
+          scheduleDate: beforeHalfHour);
+      LocalNotificationManager.pushLocalNotification(
+          rideReminderNotification, "ride_reminder." + ride.id);
+    }
   }
 
   static double roundRate(double rate) {

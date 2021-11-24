@@ -45,7 +45,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
       int time = int.parse(timeController.text);
       rideInfo.stopTime = time;
     } else {
-      rideInfo.stopTime = 0;
+      rideInfo.stopTime = null;
     }
 
     descController.dispose();
@@ -142,14 +142,14 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   child: Row(children: [
                     Spacer(),
                     Expanded(
-                      flex: 6,
+                      flex: 7,
                       child: Text(
                         Lang.getString(context, "How_Much_Time_You_Need"),
                         style: Styles.labelTextStyle(),
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 2,
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         controller: timeController,
@@ -199,6 +199,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                     LengthLimitingTextInputFormatter(400),
                   ],
                   decoration: InputDecoration(
+                    hintText: Lang.getString(context, "Description_hint"),
                     labelText: Lang.getString(context, "Description"),
                     labelStyle: Styles.labelTextStyle(),
                     hintStyle: Styles.labelTextStyle(),
@@ -206,14 +207,10 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   style: Styles.valueTextStyle(),
                   validator: (value) {
                     String valid = Validation.validate(value, context);
-                    String alpha =
-                        Validation.isAlphaNumericIgnoreSpaces(context, value);
                     String short = Validation.isShort(context, value, 25);
 
                     if (valid != null)
                       return valid;
-                    else if (alpha != null)
-                      return alpha;
                     else if (short != null)
                       return short;
                     else
