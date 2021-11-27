@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
@@ -37,10 +38,13 @@ class _SearchState extends State<Search>
   response(List<Ride> result, int code, String message) {
     if (App.handleErrors(context, code, message)) return;
     _searchInfo.rides = [];
+    //show rides after date now
     for (final ride in result) {
-      print(DateTime.now());
-      print(ride.leavingDate);
-      if (ride.leavingDate.isBefore(DateTime.now())) {
+      if (DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss',
+                      Localizations.localeOf(context).toString())
+                  .format(ride.leavingDate) +
+              ".000")
+          .isAfter(DateTime.now().toUtc())) {
         _searchInfo.rides.add(ride);
       }
     }
@@ -160,6 +164,8 @@ class _SearchState extends State<Search>
                       .isBefore(DateTime.now())) {
                     setState(() {
                       dateTimeController.startDateController.chosenDate =
+                          DateTime.now().add(Duration(minutes: 30));
+                      dateTimeController.endDateController.chosenDate =
                           DateTime.now().add(Duration(minutes: 30));
                     });
                   }
