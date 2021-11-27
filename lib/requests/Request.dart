@@ -22,7 +22,7 @@ abstract class Request<T> {
     if (decodedResponse.length != 0 &&
         decodedResponse[0] == null && //why decodedResponse[0] == null?
         decodedResponse["code"] != "null") {
-      //extracting code and message
+
       if (response.body.contains("code")) {
         var jCode = decodedResponse["code"];
         var jMessage = decodedResponse["message"];
