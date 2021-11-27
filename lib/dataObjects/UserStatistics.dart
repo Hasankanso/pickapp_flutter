@@ -24,8 +24,16 @@ class UserStatistics {
   @HiveField(9)
   final int canceledRides;
 
-  UserStatistics(this.ones, this.twos, this.threes, this.fours, this.fives, this.rateAverage,
-      this.ratesCount, this.acomplishedRides, this.canceledRides);
+  UserStatistics(
+      this.ones,
+      this.twos,
+      this.threes,
+      this.fours,
+      this.fives,
+      this.rateAverage,
+      this.ratesCount,
+      this.acomplishedRides,
+      this.canceledRides);
 
   static UserStatistics fromJson(Map<String, dynamic> json) {
     int ones = json["ones"];
@@ -38,8 +46,8 @@ class UserStatistics {
     int acomplishedRides = json["acomplishedRides"];
     int canceledRides = json["canceledRides"];
 
-    return new UserStatistics(
-        ones, twos, threes, fours, fives, rateAverage, ratesCount, acomplishedRides, canceledRides);
+    return new UserStatistics(ones, twos, threes, fours, fives, rateAverage,
+        ratesCount, acomplishedRides, canceledRides);
   }
 
   UserStatistics createNewStatistics(Rate rate) {
@@ -69,9 +77,9 @@ class UserStatistics {
         break;
     }
     ratesCount += 1;
-    rateAverage = (rateAverage * ratesCount + rate.grade) / 2;
-    return UserStatistics(
-        ones, twos, threes, fours, fives, rateAverage, ratesCount, acomplishedRides, canceledRides);
+    rateAverage = (rateAverage * ratesCount + rate.grade) / ratesCount;
+    return UserStatistics(ones, twos, threes, fours, fives, rateAverage,
+        ratesCount, acomplishedRides, canceledRides);
   }
 
   @override

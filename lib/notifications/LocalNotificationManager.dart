@@ -109,6 +109,7 @@ class LocalNotificationManager {
     String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
+    notification.scheduleDate = DateTime.now().add(Duration(minutes: 1));
     await flutterLocalNotificationsPlugin.zonedSchedule(
         notification.id,
         notification.title,
