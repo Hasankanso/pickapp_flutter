@@ -52,10 +52,7 @@ abstract class Request<T> {
     if (codeMessage.length != 2) {
       return false;
     }
-    print("code and message: " +
-        codeMessage[0].toString() +
-        " " +
-        codeMessage[1].toString());
+
     var jCode = codeMessage[0];
     var jMessage = codeMessage[1];
 
@@ -74,8 +71,6 @@ abstract class Request<T> {
       if (!isAutoLogin) {
         isAutoLogin = true;
         token = await AutoLogin(App.user.id, App.user.password).send((a, b, c) {
-          print("Inside auto login");
-          print(a);
         });
       }
       if (token == null) {
@@ -110,10 +105,6 @@ abstract class Request<T> {
         'Content-Type': 'application/json; charset=utf-8'
       };
     }
-    print("host $host ");
-    print("http path $httpPath");
-    print("request:" + host + httpPath);
-    print("json body " + data.toString());
     //send request
     http.Response response = await http
         .post(
@@ -131,7 +122,7 @@ abstract class Request<T> {
 
     //check response existence
     if (response == null) {
-      print("no response");
+
       if (callback != null)
         callback(null, HttpStatus.expectationFailed, "Something_Wrong");
       return null;
@@ -140,17 +131,12 @@ abstract class Request<T> {
     //decode response
     var decodedResponse;
     try {
-      print(response.body);
       decodedResponse = json.decode(utf8.decode(response.bodyBytes));
     } catch (e) {
-      print(1233);
-      print(e);
-      print("unknown exception");
       if (callback != null)
         callback(null, HttpStatus.partialContent, "Something_Wrong");
       return null;
     }
-    print("backendless: " + decodedResponse.toString());
 
     // deal with backendless errors
     bool isError =
@@ -166,7 +152,6 @@ abstract class Request<T> {
         callback(object, response.statusCode, response.reasonPhrase);
       return object;
     } catch (e) {
-      print(e);
       if (callback != null)
         callback(null, HttpStatus.partialContent, "Something_Wrong");
       return null;
@@ -197,7 +182,6 @@ abstract class Request<T> {
         "/images/$type/" +
         DateTime.now().millisecondsSinceEpoch.toString() +
         Path.extension(path);
-    print(url);
 
     var postUri = Uri.parse(url);
     var request = new http.MultipartRequest("POST", postUri);
@@ -225,8 +209,6 @@ abstract class Request<T> {
     var json = jsonDecode(imageURL);
 
     if (json["fileURL"] != null) {
-      print(json["fileURL"]);
-
       return json["fileURL"];
     }
     return imageURL;

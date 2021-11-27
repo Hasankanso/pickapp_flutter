@@ -110,7 +110,6 @@ class PushNotificationsManager {
   }
 
   Future<void> onResume() async {
-    print(11111);
     App.user = await Cache.getUser();
     await initNotifications();
   }

@@ -317,7 +317,6 @@ abstract class PlacesAutocompleteState extends State<PlacesAutocompleteWidget> {
           region: widget.region,
         );
       } catch (e) {
-        print("error:" + e.toString());
       }
       if (res == null) {
         onResponse(null);

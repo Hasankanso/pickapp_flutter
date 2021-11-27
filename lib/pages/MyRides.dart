@@ -87,7 +87,6 @@ class _MyRidesState extends State<MyRides> {
                   builder: (BuildContext context, bool isd, Widget child) {
                     App.person.upcomingRides
                         .sort((a, b) => a.leavingDate.compareTo(b.leavingDate));
-                    print(App.person.upcomingRides.length);
                     return Container(
                       child: ListBuilder(
                         list: App.person.upcomingRides,
