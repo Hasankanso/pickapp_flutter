@@ -22,7 +22,7 @@ class RateNotificationHandler extends NotificationHandler {
   Future<void> cache() async {
     await Cache.setRates(rates);
     User user = await Cache.getUser();
-    UserStatistics userStatistics = user.person.statistics;
+    UserStatistics userStatistics = UserStatistics(0, 0, 0, 0, 0, 0, 0, 0, 0);
     for (final rate in rates) {
       userStatistics = userStatistics.createNewStatistics(rate);
     }
