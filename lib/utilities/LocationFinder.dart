@@ -80,6 +80,15 @@ class _LocationFinderState extends State<LocationFinder> {
         FocusScope.of(context).unfocus();
       });
     } else {
+
+      setState(() {
+        widget._controller.placeId = locPred.placeId;
+        widget._controller.description = locPred.description;
+        _textEditingController.text = widget._controller.description;
+        widget._initialDescription = locPred.description;
+        FocusScope.of(context).unfocus();
+      });
+
       double latitude;
       double longitude;
 
@@ -101,16 +110,9 @@ class _LocationFinderState extends State<LocationFinder> {
         latitude = detail.result.geometry.location.lat;
         longitude = detail.result.geometry.location.lng;
       }
+      widget._controller.location =
+      new Location(lat: latitude, lng: longitude);
 
-      setState(() {
-        widget._controller.location =
-            new Location(lat: latitude, lng: longitude);
-        widget._controller.placeId = locPred.placeId;
-        widget._controller.description = locPred.description;
-        _textEditingController.text = widget._controller.description;
-        widget._initialDescription = locPred.description;
-        FocusScope.of(context).unfocus();
-      });
     }
   }
 
