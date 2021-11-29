@@ -23,7 +23,7 @@ import 'package:just_miles/utilities/Responsive.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
 class Details extends StatefulWidget {
-  User user;
+  final User user;
 
   Details({this.user});
 
@@ -443,19 +443,13 @@ class _DetailsState extends State<Details> {
     if (App.handleErrors(context, code, message)) {
       return;
     }
-    if (App.person.upcomingRides != null) {
-      result.upcomingRides = App.person.upcomingRides;
-    }
-    if (App.person.rates != null) {
-      result.rates.addAll(App.person.rates);
-    }
+    result.upcomingRides = App.person.upcomingRides;
+    result.rates = App.person.rates;
     result.statistics = App.user.person.statistics;
-
     result.countryInformations = App.user.person.countryInformations;
-
     App.user.person = result;
-    User u = App.user;
-    await Cache.setUser(u);
+
+    await Cache.setUser(App.user);
 
     App.updateProfile.value = !App.updateProfile.value;
     CustomToast()
