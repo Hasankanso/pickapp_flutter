@@ -16,18 +16,16 @@ class MainBannerAd extends StatelessWidget {
       request: Ads.adRequest,
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
-          print('$NativeAd loaded.');
           _bannerAdCompleter.complete(ad as BannerAd);
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           ad.dispose();
-          print('$NativeAd failedToLoad: $error');
+
           _bannerAdCompleter.completeError(error);
         },
-        onAdOpened: (Ad ad) => print('$NativeAd onAdOpened.'),
-        onAdClosed: (Ad ad) => print('$NativeAd onAdClosed.'),
-        onAdWillDismissScreen: (Ad ad) =>
-            print('$NativeAd onAdWillDismissScreen.'),
+        onAdOpened: (Ad ad) {},
+        onAdClosed: (Ad ad) {},
+        onAdWillDismissScreen: (Ad ad) {},
       ),
     );
 

@@ -28,17 +28,16 @@ class _MainNativeAdState extends State<MainNativeAd> {
       factoryId: 'adFactoryID',
       listener: NativeAdListener(
         onAdLoaded: (Ad ad) {
-          print('$NativeAd loaded.');
           _nativeAdCompleter.complete(ad as NativeAd);
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           ad.dispose();
-          print('$NativeAd failedToLoad: $error');
+
           _nativeAdCompleter.completeError(error);
         },
-        onAdOpened: (Ad ad) => print('$NativeAd onAdOpened.'),
-        onAdClosed: (Ad ad) => print('$NativeAd onAdClosed.'),
-        onAdWillDismissScreen: (Ad ad) => print('$NativeAd onAdWillDismissScreen.'),
+        onAdOpened: (Ad ad) {},
+        onAdClosed: (Ad ad) {},
+        onAdWillDismissScreen: (Ad ad) {},
       ),
     );
 

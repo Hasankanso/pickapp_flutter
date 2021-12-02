@@ -51,7 +51,8 @@ class Chat {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is Chat && runtimeType == other.runtimeType && id == other.id;
+      identical(this, other) ||
+      other is Chat && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -78,7 +79,8 @@ class Chat {
         box.close();
 
         if (_messages.length < chunkSize && _currentOldestChunk > 0) {
-          box = await Hive.openBox<Message>('$id.messages.$_currentOldestChunk');
+          box =
+              await Hive.openBox<Message>('$id.messages.$_currentOldestChunk');
           _currentOldestChunk -= 1;
           _messages = (List<Message>.from(box.values)..addAll(_messages));
           box.close();
@@ -88,8 +90,6 @@ class Chat {
   }
 
   Future<void> addAndCacheMessage(Message message) async {
-    print("adding message to hive and chat");
-
     if (_messages != null && newMessage != null) {
       _messages.add(message);
       newMessage.value = message.message;
@@ -126,13 +126,5 @@ class Chat {
 
     chatBox.put(id, this);
     messagesBox.add(message);
-
-    /*
-    //to monitor chat behavior.
-    print("chunk size: " + chunkSize.toString());
-    print("chat id: " + id);
-    print("messages count: " + messagesBox.values.length.toString());
-    print("chunk id: " + lastChunkIndex.toString());
-     */
   }
 }

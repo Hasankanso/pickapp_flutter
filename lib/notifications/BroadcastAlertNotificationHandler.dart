@@ -6,7 +6,8 @@ import 'package:just_miles/notifications/NotificationsHandler.dart';
 class BroadcastAlertNotificationHandler extends NotificationHandler {
   Alert alert;
 
-  BroadcastAlertNotificationHandler(MainNotification notification) : super(notification) {
+  BroadcastAlertNotificationHandler(MainNotification notification)
+      : super(notification) {
     if (!(notification.object is Alert)) {
       notification.object = Alert.fromJson(notification.object);
     }
@@ -14,9 +15,7 @@ class BroadcastAlertNotificationHandler extends NotificationHandler {
   }
 
   @override
-  Future<void> cache() async {
-    print("im the cache method :)");
-  }
+  Future<void> cache() async {}
 
   @override
   Future<void> updateApp() async {}

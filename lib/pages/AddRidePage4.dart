@@ -57,9 +57,7 @@ class _AddRidePage4State extends State<AddRidePage4> {
         rideRoutes.add(RideRoute(
             roads[i]["summary"], roads[i]["overview_polyline"]["points"]));
       }
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
+    } else {}
   }
 
   void getMap(String roadPoints) async {
@@ -81,7 +79,6 @@ class _AddRidePage4State extends State<AddRidePage4> {
         setState(() {});
       }
     } else {
-      print("Error");
       return null;
     }
   }

@@ -80,7 +80,6 @@ class PushNotificationsManager {
 
   //this will be invoked when app in foreground
   Future<dynamic> _foregroundMessageHandler(RemoteMessage message) async {
-    print("app in foreground and notification received");
     NotificationHandler handler = await _cacheNotification(message);
 
     bool isSchedule = message.data["isSchedule"] == "true";
@@ -88,14 +87,13 @@ class PushNotificationsManager {
       List<MainNotification> notifications = await Cache.getNotifications();
       App.notifications = notifications;
       App.updateNotifications.value = !App.updateNotifications.value;
-      print("update apppp");
+
       handler.updateApp();
     }
   }
 
   //this will be invoked when app is in background or terminated and user click the notification
   Future<dynamic> _onAppOpen(RemoteMessage message) async {
-    print("you clicked on a notification");
     Timer.periodic(Duration(seconds: 1), (timer) async {
       if (App.isAppBuild) {
         timer.cancel();
@@ -106,7 +104,6 @@ class PushNotificationsManager {
         }
       }
     });
-    print("appTerminated: $message");
   }
 
   Future<void> onResume() async {
@@ -186,9 +183,6 @@ class PushNotificationsManager {
       case MessageNotificationHandler.action:
         return MessageNotificationHandler(newNotification);
     }
-    print("this notification: " +
-        newNotification.action +
-        " has no handler yet.");
     return null;
   }
 }
@@ -246,7 +240,6 @@ Future<NotificationHandler> _createNotificationHandler(
   newNotification.sentTime = message.sentTime;
   if (newNotification.object != null) {
     newNotification.object = json.decode(newNotification.object);
-    print(newNotification.object.toString());
   }
   switch (newNotification.action) {
     case "SEATS_RESERVED":
@@ -284,7 +277,6 @@ Future<NotificationHandler> _createNotificationHandler(
     case MessageNotificationHandler.action:
       return MessageNotificationHandler(newNotification);
   }
-  print(
-      "this notification: " + newNotification.action + " has no handler yet.");
+
   return null;
 }
