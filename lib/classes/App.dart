@@ -305,20 +305,20 @@ class App {
     }
   }
 
-  static double roundRate(double rate) {
-    double rateA = rate;
+  static double roundRate(double toRoundRate) {
+    double rate = toRoundRate;
 
-    var k = ((rateA * 100) % 100).toInt();
-    if (k >= 85) {
-      rateA = rateA.round().toDouble();
-    } else if (k > 25) {
-      k = 5;
-      rateA = double.parse(
-          ((rateA * 10).toInt() ~/ 10).toString() + "." + k.toString());
+    var decimals = ((rate * 100) % 100).toInt();
+    if (decimals >= 85) {
+      rate = rate.round().toDouble();
+    } else if (decimals > 25) {
+      decimals = 5;
+      rate = double.parse(
+          ((rate * 10).toInt() ~/ 10).toString() + "." + decimals.toString());
     } else {
-      rateA = rateA.round().toDouble();
+      rate = rate.round().toDouble();
     }
-    return rateA;
+    return rate;
   }
 
   static void setCountriesComponent(List<String> countriesList) {

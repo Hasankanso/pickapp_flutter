@@ -55,8 +55,8 @@ class RatesView extends StatelessWidget {
       children: [
         if (pressable)
           InkWell(
-            onTap: () =>
-                Navigator.pushNamed(context, "/ReviewsPageList", arguments: Person(reviews: rates)),
+            onTap: () => Navigator.pushNamed(context, "/ReviewsPageList",
+                arguments: Person(reviews: rates)),
             child: Row(
               children: [
                 ResponsiveSpacer(
@@ -75,29 +75,35 @@ class RatesView extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Text(
-                  App.roundRate(rateAverage).toString(),
-                  style: Styles.valueTextStyle(size: 45),
-                ),
-                Row(
-                  children: [
-                    Expanded(flex: 15, child: RateStars(App.roundRate(rateAverage), size: 11)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Spacer(flex: 6),
-                    Expanded(
-                      flex: 15,
-                      child: Text(
-                        stats.ratesCount.toString(),
-                        style: Styles.subValueTextStyle(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    App.roundRate(rateAverage).toString(),
+                    style: Styles.valueTextStyle(size: 45),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          flex: 15,
+                          child:
+                              RateStars(App.roundRate(rateAverage), size: 11)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Spacer(flex: 6),
+                      Expanded(
+                        flex: 15,
+                        child: Text(
+                          stats.ratesCount.toString(),
+                          style: Styles.subValueTextStyle(),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ]),
+                    ],
+                  ),
+                ],
+              ),
             ),
             Expanded(
               flex: 6,

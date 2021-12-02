@@ -310,7 +310,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
               width: 270,
               height: 50,
               child: MainButton(
-                isRequest: true,
+                isRequest: false,
                 textKey: "Done",
                 onPressed: () async {
                   await Ads.showRewardedAd(() async {
@@ -323,7 +323,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
                     await request.send((result, code, message) {
                       return _addRideResponse(result, code, message, context);
                     });
-                  });
+                  }, context);
                 },
               ),
             ),
@@ -337,6 +337,7 @@ class _AddRidePage5State extends State<AddRidePage5> {
 _addRideResponse(Ride result, int code, String message, context) {
   if (code != HttpStatus.ok) {
     CustomToast().showErrorToast(message);
+    Navigator.pop(context);
   } else {
     App.addRideToMyRides(result, context);
 
