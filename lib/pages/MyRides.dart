@@ -57,6 +57,7 @@ class _MyRidesState extends State<MyRides> {
   Future<void> getRidesHistory() async {
     ridesHistory = await Cache.getRidesHistory();
     await checkOutDatedRides();
+    App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
   }
 
   @override

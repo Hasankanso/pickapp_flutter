@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:just_miles/utilities/Spinner.dart';
 
 import '../classes/App.dart';
 
@@ -68,7 +70,7 @@ class Ads {
         ));
   }
 
-  static Future<void> showRewardedAd(Function callBack) async {
+  static Future<void> showRewardedAd(Function callBack, context) async {
     if (_rewardedAd == null) {
       print('Warning: attempt to show rewarded before loaded.');
       return;
@@ -84,7 +86,21 @@ class Ads {
       onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
         print('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
+        print("back");
+        Navigator.pop(context);
         loadRewardedAd();
+      },
+    );
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Center(
+            child: Spinner(),
+          ),
+        );
       },
     );
     _rewardedAd.setImmersiveMode(true);

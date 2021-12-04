@@ -2,26 +2,22 @@
 
 offer and book rides
 
-## Tasks
-
-Loubeni:
-
-Adel:
-
-Hassan:
-
-
-rest:
-Alert ONLY!
-
 ## Flutter & Dart versions
 
 ```
 Flutter 2.5.3 • channel stable • https://github.com/flutter/flutter.git
-Framework • revision adc687823a (2 days ago) • 2021-04-16 09:40:20 -0700
-Engine • revision b09f014e96
-Tools • Dart 2.12.3
+Framework • revision 18116933e7 (6 weeks ago) • 2021-10-15 10:46:35 -0700
+Engine • revision d3ea636dc5
+Tools • Dart 2.14.4
 ```
+
+## Debugging on IOS
+
+- Pushnotification is not supported on emulators.<br>
+- Before you run the app on the simulator remove:<br>
+  - pod "Unity...."
+  - pod "AdColonyy"<br>
+from the Pod file, then run...
 
 ## Reserve Seats manually
 to reserve a seat manually enter in backendless API services or postman the following json string, the user id is the user who reserves, ride id is the ride you want to reserve a seat in.<br>

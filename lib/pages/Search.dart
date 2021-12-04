@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
@@ -24,7 +25,8 @@ class Search extends StatefulWidget {
   _SearchState createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Search> {
+class _SearchState extends State<Search>
+    with AutomaticKeepAliveClientMixin<Search> {
   LocationEditingController fromController = LocationEditingController();
   LocationEditingController toController = LocationEditingController();
   DateTimeRangeController dateTimeController = DateTimeRangeController();
@@ -35,8 +37,17 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
 
   response(List<Ride> result, int code, String message) {
     if (App.handleErrors(context, code, message)) return;
-
-    _searchInfo.rides = result;
+    _searchInfo.rides = [];
+    //show rides after date now
+    for (final ride in result) {
+      if (DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss',
+                      Localizations.localeOf(context).toString())
+                  .format(ride.leavingDate) +
+              ".000")
+          .isAfter(DateTime.now().toUtc())) {
+        _searchInfo.rides.add(ride);
+      }
+    }
     Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
   }
 
@@ -61,7 +72,8 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                 },
               ),
               ValueListenableBuilder(
-                builder: (BuildContext context, bool isNewNotification, Widget child) {
+                builder: (BuildContext context, bool isNewNotification,
+                    Widget child) {
                   return Visibility(
                     visible: isNewNotification,
                     child: Positioned(
@@ -107,7 +119,8 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
             ),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
-                height: 35, child: NumberPicker(numberController, "Persons", 1, 8)),
+                height: 35,
+                child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
               height: 120,
@@ -139,15 +152,20 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
               textKey: "Search",
               isRequest: true,
               onPressed: () async {
-                String _validateFrom = fromController.validate(context, x: toController);
-                String _validateTo = toController.validate(context, x: fromController);
+                String _validateFrom =
+                    fromController.validate(context, x: toController);
+                String _validateTo =
+                    toController.validate(context, x: fromController);
                 _fromError = _validateFrom;
                 _toError = _validateTo;
                 setState(() {});
                 if (_validateFrom == null && _validateTo == null) {
-                  if (dateTimeController.startDateController.chosenDate.isBefore(DateTime.now())) {
+                  if (dateTimeController.startDateController.chosenDate
+                      .isBefore(DateTime.now())) {
                     setState(() {
                       dateTimeController.startDateController.chosenDate =
+                          DateTime.now().add(Duration(minutes: 30));
+                      dateTimeController.endDateController.chosenDate =
                           DateTime.now().add(Duration(minutes: 30));
                     });
                   }
@@ -165,7 +183,8 @@ class _SearchState extends State<Search> with AutomaticKeepAliveClientMixin<Sear
                       to: to,
                       from: from,
                       passengersNumber: numberController.chosenNumber,
-                      minDate: dateTimeController.startDateController.chosenDate,
+                      minDate:
+                          dateTimeController.startDateController.chosenDate,
                       maxDate: dateTimeController.endDateController.chosenDate);
                   Request<List<Ride>> request = SearchForRides(_searchInfo);
                   await request.send(response);

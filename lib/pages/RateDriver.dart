@@ -12,7 +12,7 @@ import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/pages/PersonView.dart';
-import 'package:just_miles/requests/AddRateRequest.dart';
+import 'package:just_miles/requests/RateDriverRequest.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
@@ -240,7 +240,7 @@ class _RateDriverState extends State<RateDriver> {
                             short = Validation.isShort(context, value, 20);
                           }
 
-                          if (valid != null)
+                          if (_grade <= 4 && valid != null)
                             return valid;
                           else if (alpha != null)
                             return alpha;
@@ -277,15 +277,16 @@ class _RateDriverState extends State<RateDriver> {
                       return CustomToast().showErrorToast(
                           Lang.getString(context, "Rate_days_validation"));
                     }
-
+                    if (_grade >= 3) {
+                      _reason = null;
+                    }
                     Rate _rate = Rate(
                         comment: _comment.text,
                         grade: _grade,
                         reason: _reason,
                         target: widget._target,
                         ride: widget._ride);
-                    Request<bool> request =
-                        AddRateRequest([_rate], isDriver: false);
+                    Request<bool> request = RateDriverRequest(_rate);
                     await request.send(_response);
                   }
                 },

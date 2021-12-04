@@ -6,7 +6,7 @@ import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/items/PassengerRateTile.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
-import 'package:just_miles/requests/AddRateRequest.dart';
+import 'package:just_miles/requests/RatePassengersRequest.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
@@ -37,6 +37,8 @@ class RatePassengers extends StatelessWidget {
         rates.add(new Rate(
             ride: ride,
             rater: App.person,
+            grade: 5,
+            reason: 0,
             target: passenger.person,
             creationDate: DateTime.now()));
       }
@@ -84,19 +86,19 @@ class RatePassengers extends StatelessWidget {
                   for (int i = 0; i < rates.length; i++) {
                     Ride _ride = rates[i].ride;
                     var _formKey = formKeys[i];
-
+                    print(_formKey.currentState.validate());
                     if (_formKey.currentState.validate()) {
                       if (DateTime.now().isAfter(
                           _ride.leavingDate.add(App.availableDurationToRate))) {
                         return CustomToast().showErrorToast(
                             Lang.getString(context, "Rate_days_validation"));
                       }
+                      //any fail above, the return line will not let the program to reach this code
+                      Request<bool> request = RatePassengersRequest(rates);
+                      await request.send((bool p1, int p2, String p3) =>
+                          _response(p1, p2, p3, context));
                     }
                   }
-                  //any fail above, the return line will not let the program to reach this code
-                  Request<bool> request = AddRateRequest(rates, isDriver: true);
-                  await request.send((bool p1, int p2, String p3) =>
-                      _response(p1, p2, p3, context));
                 },
               ),
             ),

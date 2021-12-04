@@ -109,8 +109,13 @@ class _PassengerRateTileState extends State<PassengerRateTile> {
                           isExpanded: true,
                           decoration: InputDecoration(
                               labelText: Lang.getString(context, "Reason")),
-                          value: _reasonsItems[0],
-                          onChanged: (String newValue) {},
+                          value: _reasonsItems[widget.rate.reason],
+                          onChanged: (String newValue) {
+                            setState(() {
+                              widget.rate.reason =
+                                  _reasonsItems.indexOf(newValue);
+                            });
+                          },
                           items: _reasonsItems
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
@@ -148,7 +153,7 @@ class _PassengerRateTileState extends State<PassengerRateTile> {
                         String alpha = Validation.isAlphaNumericIgnoreSpaces(
                             context, value);
 
-                        if (valid != null)
+                        if (widget.rate.grade <= 4 && valid != null)
                           return valid;
                         else if (alpha != null)
                           return alpha;

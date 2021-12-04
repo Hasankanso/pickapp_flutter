@@ -20,7 +20,6 @@ import 'package:just_miles/utilities/ListBuilder.dart';
 import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
 import 'package:just_miles/utilities/Responsive.dart';
-import 'package:just_miles/utilities/Spinner.dart';
 
 class SearchResults extends StatefulWidget {
   SearchInfo searchInfo;
@@ -276,22 +275,10 @@ class _SearchResultsState extends State<SearchResults> {
       }
       Request<Ride> req;
       await Ads.showRewardedAd(() async {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return WillPopScope(
-              onWillPop: () async => false,
-              child: Center(
-                child: Spinner(),
-              ),
-            );
-          },
-        );
         req = ReserveSeat(ride, App.user, seats, luggage);
         await req.send((r, status, reason) =>
             reserveSeatsResponse(r, status, reason, context));
-      });
+      }, context);
     });
   }
 
