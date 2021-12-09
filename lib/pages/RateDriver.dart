@@ -232,18 +232,14 @@ class _RateDriverState extends State<RateDriver> {
                         ),
                         style: Styles.valueTextStyle(),
                         validator: (value) {
-                          String valid, alpha, short;
+                          String valid, short;
                           if (_grade < Rate.maximumRateReasonRequired) {
                             valid = Validation.validate(value, context);
-                            alpha = Validation.isAlphaNumericIgnoreSpaces(
-                                context, value);
-                            short = Validation.isShort(context, value, 20);
+                            short = Validation.isShort(context, value, 5);
                           }
 
                           if (_grade <= 4 && valid != null)
                             return valid;
-                          else if (alpha != null)
-                            return alpha;
                           else if (short != null)
                             return short;
                           else

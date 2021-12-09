@@ -207,7 +207,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                   style: Styles.valueTextStyle(),
                   validator: (value) {
                     String valid = Validation.validate(value, context);
-                    String short = Validation.isShort(context, value, 25);
+                    String short = Validation.isShort(context, value, 3);
 
                     if (valid != null)
                       return valid;

@@ -150,13 +150,9 @@ class _PassengerRateTileState extends State<PassengerRateTile> {
                       style: Styles.valueTextStyle(),
                       validator: (value) {
                         String valid = Validation.validate(value, context);
-                        String alpha = Validation.isAlphaNumericIgnoreSpaces(
-                            context, value);
 
                         if (widget.rate.grade <= 4 && valid != null)
                           return valid;
-                        else if (alpha != null)
-                          return alpha;
                         else
                           return null;
                       },

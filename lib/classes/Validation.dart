@@ -36,18 +36,6 @@ class Validation {
     return null;
   }
 
-  static String isAlphaNumericIgnoreSpaces(context, String value) {
-    value = value.replaceAll("\"", "");
-    if (!RegExp(
-      r"^[\u0621-\u064A\u0660-\u0669a-zA-Z0-9\.\؛\٫\,\!\?\،\:\'\ \‎\-\_\;\(\)\`\‏]*$",
-      unicode: false,
-      multiLine: true,
-    ).hasMatch(value)) {
-      return Lang.getString(context, "Only_letters");
-    }
-    return null;
-  }
-
   static String isShort(context, value, length) {
     if (value.length < length) {
       return Lang.getString(context, "Too_short");

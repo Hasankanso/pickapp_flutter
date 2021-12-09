@@ -122,12 +122,6 @@ class EditRide extends StatelessWidget {
                       ),
                       style: Styles.valueTextStyle(),
                       validator: (value) {
-                        String alpha = Validation.isAlphaNumericIgnoreSpaces(
-                            context, value);
-
-                        if (alpha != null)
-                          return alpha;
-                        else
                           return null;
                       },
                     ),

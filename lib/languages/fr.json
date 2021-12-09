@@ -206,7 +206,7 @@
   "Min": "Min",
   "Minimum_short": "Min",
   "Maximum_short": "Max",
-  "Description_hint": "Tout sur votre voyage (je conduirai lentement avec attention, je m'arrêterai à un endroit précis pour faire une petite pause)",
+  "Description_hint": "- Décrivez le lieu de rendez-vous.\nQuelle est la marge d'attente pour un passager en retard?\nQuelles villes allez-vous traverser?",
   "How_Much_Time_You_Need": "De combien de temps avez-vous besoin ?",
   "Do_You_Want_To_Stop_Over": "Vous voulez passer chez nous ?",
   "Do_You_Have_Kids_Seat": "Avez-vous un siège pour enfant ?",
