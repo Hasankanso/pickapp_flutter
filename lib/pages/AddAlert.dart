@@ -183,13 +183,10 @@ class _AddAlertState extends State<AddAlert> {
                             style: Styles.valueTextStyle(),
                             validator: (value) {
                               String valid = Validation.validate(value, context);
-                              String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
-                              String short = Validation.isShort(context, value, 25);
+                              String short = Validation.isShort(context, value, 3);
 
                               if (valid != null)
                                 return valid;
-                              else if (alpha != null)
-                                return alpha;
                               else if (short != null)
                                 return short;
                               else
