@@ -45,7 +45,6 @@ class _DetailsState extends State<Details> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _bioController.dispose();
     _firstName.dispose();
     _lastName.dispose();
@@ -54,7 +53,6 @@ class _DetailsState extends State<Details> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.user == null) {
       _chattiness = App.person.chattiness;
@@ -285,16 +283,11 @@ class _DetailsState extends State<Details> {
                             validator: (value) {
                               String valid =
                                   Validation.validate(value, context);
-                              String alpha =
-                                  Validation.isAlphaNumericIgnoreSpaces(
-                                      context, value);
                               String short =
-                                  Validation.isShort(context, value, 20);
+                                  Validation.isShort(context, value, 5);
 
                               if (valid != null)
                                 return valid;
-                              else if (alpha != null)
-                                return alpha;
                               else if (short != null)
                                 return short;
                               else

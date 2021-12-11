@@ -50,14 +50,12 @@ class UpcomingRideDetails extends StatelessWidget {
               style: Styles.valueTextStyle(),
               validator: (value) {
                 String valid = Validation.validate(value, context);
-                String alpha = Validation.isAlphaNumericIgnoreSpaces(context, value);
-                String short = Validation.isShort(context, value, 15);
+                String short = Validation.isShort(context, value, 5);
 
                 if (valid != null)
                   return valid;
                 else if (short != null)
                   return short;
-                else if (alpha != null) return alpha;
                 return null;
               },
             ),
