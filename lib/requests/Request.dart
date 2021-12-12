@@ -22,7 +22,6 @@ abstract class Request<T> {
     if (decodedResponse.length != 0 &&
         decodedResponse[0] == null && //why decodedResponse[0] == null?
         decodedResponse["code"] != "null") {
-
       if (response.body.contains("code")) {
         var jCode = decodedResponse["code"];
         var jMessage = decodedResponse["message"];
@@ -70,8 +69,8 @@ abstract class Request<T> {
       String token;
       if (!isAutoLogin) {
         isAutoLogin = true;
-        token = await AutoLogin(App.user.id, App.user.password).send((a, b, c) {
-        });
+        token =
+            await AutoLogin(App.user.id, App.user.password).send((a, b, c) {});
       }
       if (token == null) {
         await App.logout();
@@ -105,6 +104,8 @@ abstract class Request<T> {
         'Content-Type': 'application/json; charset=utf-8'
       };
     }
+    print("${host+httpPath}");
+    print("$data");
     //send request
     http.Response response = await http
         .post(
@@ -122,7 +123,6 @@ abstract class Request<T> {
 
     //check response existence
     if (response == null) {
-
       if (callback != null)
         callback(null, HttpStatus.expectationFailed, "Something_Wrong");
       return null;
