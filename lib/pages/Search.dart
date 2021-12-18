@@ -123,7 +123,7 @@ class _SearchState extends State<Search>
                 child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
-              height: 120,
+              height: 220,
               child: DifferentSizeResponsiveRow(
                 children: [
                   Spacer(
@@ -164,9 +164,14 @@ class _SearchState extends State<Search>
                       .isBefore(DateTime.now())) {
                     setState(() {
                       dateTimeController.startDateController.chosenDate =
-                          DateTime.now().add(Duration(minutes: 30));
+                          DateTime.parse(DateFormat("yyyy-MM-dd hh:mm:ss.mmm")
+                                  .format((DateTime.now()
+                                      .add(Duration(minutes: 30)))) +
+                              "Z");
+
                       dateTimeController.endDateController.chosenDate =
-                          DateTime.now().add(Duration(minutes: 30));
+                          dateTimeController.startDateController.chosenDate
+                              .add(Duration(days: 1));
                     });
                   }
                   MainLocation to = MainLocation(

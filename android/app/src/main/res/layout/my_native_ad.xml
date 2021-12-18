@@ -2,21 +2,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
-      android:background="#FFFFFF"
-      android:minHeight="50dp"
       android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="3dp">
+        android:orientation="vertical">
 
       <LinearLayout
           android:layout_width="match_parent"
@@ -25,7 +20,7 @@
 
         <ImageView
             android:id="@+id/ad_app_icon"
-            android:layout_width="40dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:adjustViewBounds="true"
             android:paddingBottom="5dp"
@@ -42,7 +37,6 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:textColor="#2196F3"
-              android:textSize="16sp"
               android:textStyle="bold" />
 
           <LinearLayout
@@ -85,45 +79,47 @@
 
         <com.google.android.gms.ads.nativead.MediaView
             android:id="@+id/ad_media"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="175dp"
-            android:layout_marginTop="5dp" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:padding="20pt"
+            android:paddingStart="20pt"
+            android:paddingLeft="20pt"
+            android:paddingEnd="20pt"
+            android:paddingRight="20pt" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+          >
 
           <TextView
               android:id="@+id/ad_price"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:paddingLeft="5dp"
-              android:paddingStart="5dp"
-              android:paddingRight="5dp"
-              android:paddingEnd="5dp"
-              android:textSize="12sp" />
+              android:textColor="#9E9E9E"
+              />
 
           <TextView
               android:id="@+id/ad_store"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:paddingLeft="5dp"
-              android:paddingStart="5dp"
-              android:paddingRight="5dp"
-              android:paddingEnd="5dp"
-              android:textSize="12sp" />
+              />
 
           <Button
               android:id="@+id/ad_call_to_action"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:gravity="center"
-              android:textSize="12sp" />
+              android:backgroundTint="#2196F3"
+              android:textColor="#ffffff"
+              android:bottomRightRadius="20dp"
+              android:bottomLeftRadius="20dp"
+              android:topLeftRadius="20dp"
+              android:topRightRadius="20dp"
+              android:gravity="center"/>
         </LinearLayout>
       </LinearLayout>
     </LinearLayout>

@@ -5,6 +5,7 @@ import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/RateStars.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
@@ -125,6 +126,7 @@ class MyRidesHistoryTile extends ListTile {
                               flex: 4,
                               child: _ride.person.profilePictureUrl != null
                                   ? CachedNetworkImage(
+                                      httpHeaders: Request.getImageHeader,
                                       imageUrl: _ride.person.profilePictureUrl,
                                       imageBuilder: (context, imageProvider) =>
                                           CircleAvatar(

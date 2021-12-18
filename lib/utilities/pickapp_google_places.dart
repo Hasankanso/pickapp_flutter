@@ -9,6 +9,9 @@ import 'package:http/http.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
+import 'package:just_miles/dataObjects/MainLocation.dart';
+import 'package:just_miles/requests/Request.dart' as req;
+import 'package:just_miles/requests/get_location_request.dart';
 import 'package:just_miles/utilities/GPSTile.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -98,7 +101,39 @@ class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
       ],
     );
     final body = PlacesAutocompleteResult(
-      onTap: Navigator.of(context).pop,
+      onTap: (value) async {
+        ReturnLocation returnLocation;
+        if (value is Prediction) {
+          Prediction prediction = value;
+          double latitude;
+          double longitude;
+          req.Request getLocationRequest =
+              GetLocation(MainLocation(placeId: prediction.placeId));
+          MainLocation backendFoundLocation =
+              await getLocationRequest.send(null);
+          if (backendFoundLocation != null) {
+            latitude = backendFoundLocation.latitude;
+            longitude = backendFoundLocation.longitude;
+          } else {
+            //request longitude and latitude from google_place_details api
+            GoogleMapsPlaces _places = new GoogleMapsPlaces(
+                apiKey: App.googleKey); //Same _API_KEY as above
+            PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
+                prediction.placeId,
+                sessionToken: widget.sessionToken,
+                fields: ["geometry"]);
+            latitude = detail.result.geometry.location.lat;
+            longitude = detail.result.geometry.location.lng;
+          }
+          returnLocation = ReturnLocation(
+              Location(lat: latitude, lng: longitude), false,
+              description: prediction.description, placeId: prediction.placeId);
+        } else {
+          returnLocation = ReturnLocation(value, true);
+        }
+
+        Navigator.pop(context, returnLocation);
+      },
       logo: widget.logo,
       canPickCurrLocation: widget.canPickCurrLocation,
     );
@@ -109,7 +144,9 @@ class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
 class _Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(constraints: BoxConstraints(maxHeight: 2.0), child: LinearProgressIndicator());
+    return Container(
+        constraints: BoxConstraints(maxHeight: 2.0),
+        child: LinearProgressIndicator());
   }
 }
 
@@ -118,7 +155,8 @@ class PlacesAutocompleteResult extends StatefulWidget {
   final Widget logo;
   final bool canPickCurrLocation;
 
-  PlacesAutocompleteResult({this.onTap, this.logo, this.canPickCurrLocation = true});
+  PlacesAutocompleteResult(
+      {this.onTap, this.logo, this.canPickCurrLocation = true});
 
   @override
   _PlacesAutocompleteResult createState() => _PlacesAutocompleteResult();
@@ -170,7 +208,8 @@ class AppBarPlacesAutoCompleteTextField extends StatefulWidget {
   final InputDecoration textDecoration;
   final TextStyle textStyle;
 
-  AppBarPlacesAutoCompleteTextField({Key key, this.textDecoration, this.textStyle})
+  AppBarPlacesAutoCompleteTextField(
+      {Key key, this.textDecoration, this.textStyle})
       : super(key: key);
 
   @override
@@ -178,7 +217,8 @@ class AppBarPlacesAutoCompleteTextField extends StatefulWidget {
       _AppBarPlacesAutoCompleteTextFieldState();
 }
 
-class _AppBarPlacesAutoCompleteTextFieldState extends State<AppBarPlacesAutoCompleteTextField> {
+class _AppBarPlacesAutoCompleteTextFieldState
+    extends State<AppBarPlacesAutoCompleteTextField> {
   @override
   Widget build(BuildContext context) {
     final state = PlacesAutocompleteWidget.of(context);
@@ -191,7 +231,8 @@ class _AppBarPlacesAutoCompleteTextFieldState extends State<AppBarPlacesAutoComp
           controller: state._queryTextController,
           autofocus: true,
           style: widget.textStyle ?? _defaultStyle(),
-          decoration: widget.textDecoration ?? _defaultDecoration(state.widget.hint),
+          decoration:
+              widget.textDecoration ?? _defaultDecoration(state.widget.hint),
         ));
   }
 
@@ -199,9 +240,13 @@ class _AppBarPlacesAutoCompleteTextFieldState extends State<AppBarPlacesAutoComp
     return InputDecoration(
       hintText: hint,
       filled: true,
-      fillColor: Theme.of(context).brightness == Brightness.light ? Colors.white30 : Colors.black38,
+      fillColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white30
+          : Colors.black38,
       hintStyle: TextStyle(
-        color: Theme.of(context).brightness == Brightness.light ? Colors.black38 : Colors.white30,
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.black38
+            : Colors.white30,
         fontSize: 16.0,
       ),
       border: InputBorder.none,
@@ -219,8 +264,10 @@ class _AppBarPlacesAutoCompleteTextFieldState extends State<AppBarPlacesAutoComp
 }
 
 class PoweredByGoogleImage extends StatelessWidget {
-  final _poweredByGoogleWhite = "packages/flutter_google_places/assets/google_white.png";
-  final _poweredByGoogleBlack = "packages/flutter_google_places/assets/google_black.png";
+  final _poweredByGoogleWhite =
+      "packages/flutter_google_places/assets/google_white.png";
+  final _poweredByGoogleBlack =
+      "packages/flutter_google_places/assets/google_black.png";
 
   @override
   Widget build(BuildContext context) {
@@ -246,8 +293,9 @@ class PredictionsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children:
-          predictions.map((Prediction p) => PredictionTile(prediction: p, onTap: onTap)).toList(),
+      children: predictions
+          .map((Prediction p) => PredictionTile(prediction: p, onTap: onTap))
+          .toList(),
     );
   }
 }
@@ -289,7 +337,9 @@ abstract class PlacesAutocompleteState extends State<PlacesAutocompleteWidget> {
     _queryTextController = TextEditingController(text: widget.startText);
 
     _places = GoogleMapsPlaces(
-        apiKey: widget.apiKey, baseUrl: widget.proxyBaseUrl, httpClient: widget.httpClient);
+        apiKey: widget.apiKey,
+        baseUrl: widget.proxyBaseUrl,
+        httpClient: widget.httpClient);
     _searching = false;
 
     _queryTextController.addListener(_onQueryChange);
@@ -316,13 +366,13 @@ abstract class PlacesAutocompleteState extends State<PlacesAutocompleteWidget> {
           strictbounds: widget.strictbounds,
           region: widget.region,
         );
-      } catch (e) {
-      }
+      } catch (e) {}
       if (res == null) {
         onResponse(null);
         return;
       }
-      if (res.errorMessage?.isNotEmpty == true || res.status == "REQUEST_DENIED") {
+      if (res.errorMessage?.isNotEmpty == true ||
+          res.status == "REQUEST_DENIED") {
         onResponseError(res);
       } else {
         onResponse(res);
@@ -421,4 +471,12 @@ class PlacesAutocomplete {
     }
     return Navigator.push(context, MaterialPageRoute(builder: builder));
   }
+}
+
+class ReturnLocation {
+  Location location;
+  bool isMyLocation = false;
+  String placeId, description;
+  ReturnLocation(this.location, this.isMyLocation,
+      {this.placeId, this.description});
 }

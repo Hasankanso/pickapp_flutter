@@ -5,8 +5,6 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/dataObjects/MainLocation.dart';
-import 'package:just_miles/requests/Request.dart';
-import 'package:just_miles/requests/get_location_request.dart';
 import 'package:just_miles/utilities/pickapp_google_places.dart';
 import 'package:uuid/uuid.dart';
 
@@ -15,7 +13,7 @@ class LocationFinder extends StatefulWidget {
   String _title;
   String _hintText;
   String _language;
-  String _API_KEY;
+  String _API_KEY = App.googleKey;
   String _initialDescription;
   String errorText;
   String Function(String) onValidate;
@@ -36,7 +34,6 @@ class LocationFinder extends StatefulWidget {
     _title = title;
     _hintText = hintText;
     _language = language;
-    _API_KEY = App.googleKey;
     _initialDescription = initialDescription;
     isUnderlineBorder = isUnderlineBorder;
   }
@@ -48,9 +45,9 @@ class LocationFinder extends StatefulWidget {
 class _LocationFinderState extends State<LocationFinder> {
   TextEditingController _textEditingController = new TextEditingController();
 
-  void OpenAutoComplete(BuildContext context) async {
+  void openAutoComplete(BuildContext context) async {
     String sessionToken = Uuid().v4();
-    dynamic locPred = await PlacesAutocomplete.show(
+    ReturnLocation locPred = await PlacesAutocomplete.show(
       context: context,
       hint: Lang.getString(context, "Search"),
       apiKey: widget._API_KEY,
@@ -68,51 +65,27 @@ class _LocationFinderState extends State<LocationFinder> {
     }
 
     //if user chose current location
-    if (locPred.runtimeType == Location) {
+    if (locPred.isMyLocation) {
       setState(() {
         String curr_loc = Lang.getString(context, "My_Current_Location");
         _textEditingController.text = curr_loc;
         widget._controller.location =
-            new Location(lat: locPred.lat, lng: locPred.lng);
+            new Location(lat: locPred.location.lat, lng: locPred.location.lng);
         widget._controller.placeId = null;
         widget._controller.description = curr_loc;
         widget._initialDescription = curr_loc;
         FocusScope.of(context).unfocus();
       });
     } else {
-
       setState(() {
         widget._controller.placeId = locPred.placeId;
         widget._controller.description = locPred.description;
         _textEditingController.text = widget._controller.description;
         widget._initialDescription = locPred.description;
+        widget._controller.location =
+            new Location(lat: locPred.location.lat, lng: locPred.location.lng);
         FocusScope.of(context).unfocus();
       });
-
-      double latitude;
-      double longitude;
-
-      Request getLocationRequest =
-          GetLocation(MainLocation(placeId: locPred.placeId));
-      MainLocation backendFoundLocation = await getLocationRequest.send(null);
-
-      if (backendFoundLocation != null) {
-        latitude = backendFoundLocation.latitude;
-        longitude = backendFoundLocation.longitude;
-      } else {
-        //request longitude and latitude from google_place_details api
-        GoogleMapsPlaces _places = new GoogleMapsPlaces(
-            apiKey: widget._API_KEY); //Same _API_KEY as above
-        PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
-            locPred.placeId,
-            sessionToken: sessionToken,
-            fields: ["geometry"]);
-        latitude = detail.result.geometry.location.lat;
-        longitude = detail.result.geometry.location.lng;
-      }
-      widget._controller.location =
-      new Location(lat: latitude, lng: longitude);
-
     }
   }
 
@@ -138,7 +111,7 @@ class _LocationFinderState extends State<LocationFinder> {
       ),
       style: Styles.valueTextStyle(),
       focusNode: FocusNode(),
-      onTap: () => OpenAutoComplete(context),
+      onTap: () => openAutoComplete(context),
     );
   }
 }
@@ -169,6 +142,7 @@ class LocationEditingController {
     if (_isEmpty != null) {
       return _isEmpty;
     } else if (x != null &&
+        x.location != null &&
         MainLocation.equals(this.location.lat, this.location.lng,
             x.location.lat, x.location.lng)) {
       return Lang.getString(context, "Too_close");

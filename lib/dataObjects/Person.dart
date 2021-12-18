@@ -231,7 +231,10 @@ class Person {
     if (profilePictureUrl == null || profilePictureUrl.isEmpty) {
       this.networkImage = AssetImage("lib/images/user.png");
     } else {
-      this.networkImage = NetworkImage(this.profilePictureUrl);
+      this.networkImage = NetworkImage(
+        this.profilePictureUrl,
+        headers: Request.getImageHeader,
+      );
     }
   }
 

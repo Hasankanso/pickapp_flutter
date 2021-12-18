@@ -13,7 +13,9 @@ abstract class Request<T> {
   static String host, filesHost;
   static bool isAutoLogin = false;
   String httpPath;
-
+  static Map<String, String> getImageHeader = {
+    "user-token": App.user.sessionToken
+  };
   Map<String, dynamic> getJson();
 
   T buildObject(json);
@@ -104,7 +106,7 @@ abstract class Request<T> {
         'Content-Type': 'application/json; charset=utf-8'
       };
     }
-    print("${host+httpPath}");
+    print("${host + httpPath}");
     print("$data");
     //send request
     http.Response response = await http
@@ -177,12 +179,12 @@ abstract class Request<T> {
         'Content-Type': 'multipart/form-data'
       };
     }
-
+    print(header);
     String url = filesHost +
         "/images/$type/" +
         DateTime.now().millisecondsSinceEpoch.toString() +
         Path.extension(path);
-
+    print(url);
     var postUri = Uri.parse(url);
     var request = new http.MultipartRequest("POST", postUri);
 
