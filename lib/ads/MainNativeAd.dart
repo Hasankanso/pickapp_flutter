@@ -8,8 +8,8 @@ import 'package:just_miles/utilities/Spinner.dart';
 
 class MainNativeAd extends StatefulWidget {
   final Decoration decoration;
-
-  MainNativeAd({this.decoration});
+  final bool isListTile;
+  MainNativeAd({this.decoration, this.isListTile = false});
 
   @override
   _MainNativeAdState createState() => _MainNativeAdState();
@@ -21,11 +21,11 @@ class _MainNativeAdState extends State<MainNativeAd> {
 
   final Completer<NativeAd> _nativeAdCompleter = Completer<NativeAd>();
 
-  Future<NativeAd> loadAd() async {
+  Future<NativeAd> loadAd(bool isListTile) async {
     _nativeAd = NativeAd(
       adUnitId: Ads.nativeId,
       request: Ads.adRequest,
-      factoryId: 'adFactoryID',
+      factoryId: !isListTile ? 'adFactoryID' : 'listTileNativeAd',
       listener: NativeAdListener(
         onAdLoaded: (Ad ad) {
           _nativeAdCompleter.complete(ad as NativeAd);
@@ -48,7 +48,7 @@ class _MainNativeAdState extends State<MainNativeAd> {
 
   @override
   void initState() {
-    adLoader = loadAd();
+    adLoader = loadAd(widget.isListTile);
     super.initState();
   }
 

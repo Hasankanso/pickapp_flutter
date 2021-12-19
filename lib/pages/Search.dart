@@ -123,7 +123,7 @@ class _SearchState extends State<Search>
                 child: NumberPicker(numberController, "Persons", 1, 8)),
             VerticalSpacer(height: 30),
             ResponsiveWidget.fullWidth(
-              height: 220,
+              height: 120,
               child: DifferentSizeResponsiveRow(
                 children: [
                   Spacer(

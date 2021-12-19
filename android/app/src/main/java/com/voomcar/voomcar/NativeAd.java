@@ -15,7 +15,6 @@ import java.util.Map;
 
 class MainNativeAd implements NativeAdFactory {
     private final LayoutInflater layoutInflater;
-
     MainNativeAd(LayoutInflater layoutInflater) {
         this.layoutInflater = layoutInflater;
     }
