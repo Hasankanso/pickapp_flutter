@@ -311,7 +311,7 @@ class _LoginState extends State<Login> {
       Navigator.pop(context);
       return;
     }
-
+    print(u.person);
     App.user = u;
     await Cache.setRates(u.person.rates);
     await Cache.setUser(u);

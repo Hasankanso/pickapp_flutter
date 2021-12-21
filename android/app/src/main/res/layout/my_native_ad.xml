@@ -27,7 +27,6 @@
           android:id="@+id/ad_headline"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="asdasdasdasasdasasdasdasdasdd"
           android:textColor="#2196F3"
           android:textStyle="bold" />
 
@@ -41,7 +40,6 @@
             android:layout_height="match_parent"
             android:gravity="bottom"
             android:textSize="14sp"
-            android:text="asdasdasdasasdasd"
             android:textStyle="bold"/>
 
         <RatingBar
@@ -68,26 +66,28 @@
         android:layout_width="match_parent"
         android:textColor="#9E9E9E"
         android:layout_height="wrap_content"
-        android:text="asdasdaaaaaaaaaasdasasdasd"
         android:textSize="12sp" />
 
     <com.google.android.gms.ads.nativead.MediaView
         android:id="@+id/ad_media"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-
- />
-      <LinearLayout
+      />
+      <TableLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_gravity="end"
+          android:stretchColumns="1"
           android:orientation="horizontal"
           >
-
+<TableRow
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="end"
+    >
         <TextView
             android:id="@+id/ad_price"
-            android:text="asdasdasdasasdasd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#9E9E9E"
@@ -96,7 +96,6 @@
         <TextView
             android:id="@+id/ad_store"
             android:layout_width="wrap_content"
-            android:text="asdasdasdasasdasd"
             android:layout_height="wrap_content"
             />
 
@@ -105,13 +104,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#2196F3"
-            android:textColor="#ffffff"
-            android:bottomRightRadius="20dp"
             android:bottomLeftRadius="20dp"
+            android:bottomRightRadius="20dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
             android:topLeftRadius="20dp"
-            android:topRightRadius="20dp"
-            android:gravity="center"/>
-      </LinearLayout>
+            android:topRightRadius="20dp" />
+</TableRow>
+      </TableLayout>
 
     </LinearLayout>
 
