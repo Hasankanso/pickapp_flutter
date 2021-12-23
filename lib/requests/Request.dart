@@ -106,8 +106,6 @@ abstract class Request<T> {
         'Content-Type': 'application/json; charset=utf-8'
       };
     }
-    print("${host + httpPath}");
-    print("$data");
     //send request
     http.Response response = await http
         .post(
@@ -133,7 +131,6 @@ abstract class Request<T> {
     //decode response
     var decodedResponse;
     try {
-      print(response.body);
       decodedResponse = json.decode(utf8.decode(response.bodyBytes));
     } catch (e) {
       if (callback != null)
@@ -180,12 +177,10 @@ abstract class Request<T> {
         'Content-Type': 'multipart/form-data'
       };
     }
-    print(header);
     String url = filesHost +
         "/images/$type/" +
         DateTime.now().millisecondsSinceEpoch.toString() +
         Path.extension(path);
-    print(url);
     var postUri = Uri.parse(url);
     var request = new http.MultipartRequest("POST", postUri);
 
