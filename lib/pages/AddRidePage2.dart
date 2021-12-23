@@ -219,7 +219,7 @@ class _AddRidePage2State extends State<AddRidePage2> {
                 ),
               ),
               ResponsiveWidget.fullWidth(
-                height: 100,
+                height: 130,
                 child: DifferentSizeResponsiveRow(
                   children: [
                     Spacer(

@@ -122,7 +122,7 @@ abstract class Request<T> {
             "no_internet_connection");
       return null;
     });
-    print(response.body);
+
     //check response existence
     if (response == null) {
       if (callback != null)
@@ -133,6 +133,7 @@ abstract class Request<T> {
     //decode response
     var decodedResponse;
     try {
+      print(response.body);
       decodedResponse = json.decode(utf8.decode(response.bodyBytes));
     } catch (e) {
       if (callback != null)

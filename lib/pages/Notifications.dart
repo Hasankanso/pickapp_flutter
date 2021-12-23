@@ -25,7 +25,6 @@ class Notifications extends StatelessWidget {
               (_) => App.isNewNotificationNotifier.value = false);
           Cache.setIsNewNotification(false);
           notifications = List.from(App.notifications.reversed);
-
           assert(notifications != null);
           return MainScaffold(
             appBar: MainAppBar(
@@ -37,7 +36,7 @@ class Notifications extends StatelessWidget {
                       list: notifications,
                       itemBuilder:
                           NotificationListTile.itemBuilder(notifications),
-                      nativeAdHeight: ScreenUtil().setSp(74),
+                      nativeAdHeight: ScreenUtil().setSp(50),
                       nativeAdElevation: 1,
                       nativeAdRoundCorner: 5)
                   : Center(
