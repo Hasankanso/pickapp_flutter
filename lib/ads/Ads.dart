@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:just_miles/utilities/Spinner.dart';
@@ -39,9 +38,6 @@ class Ads {
     }
 
     MobileAds.instance.initialize().then((InitializationStatus status) {
-      status.adapterStatuses.forEach((key, value) {
-        debugPrint('Adapter status for $key: ${value.state}');
-      });
       MobileAds.instance.updateRequestConfiguration(RequestConfiguration(
         tagForChildDirectedTreatment: _childTreatment,
         tagForUnderAgeOfConsent: _childTreatment,
@@ -55,12 +51,10 @@ class Ads {
         request: adRequest,
         rewardedAdLoadCallback: RewardedAdLoadCallback(
           onAdLoaded: (RewardedAd ad) {
-            print('$ad loaded.');
             _rewardedAd = ad;
             _numRewardedLoadAttempts = 0;
           },
           onAdFailedToLoad: (LoadAdError error) {
-            print('RewardedAd failed to load: $error');
             _rewardedAd = null;
             _numRewardedLoadAttempts += 1;
             if (_numRewardedLoadAttempts <= maxFailedLoadAttempts) {
@@ -72,21 +66,17 @@ class Ads {
 
   static Future<void> showRewardedAd(Function callBack, context) async {
     if (_rewardedAd == null) {
-      print('Warning: attempt to show rewarded before loaded.');
       return;
     }
     _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (RewardedAd ad) =>
-          print('ad onAdShowedFullScreenContent.'),
+      onAdShowedFullScreenContent: (RewardedAd ad) {},
       onAdDismissedFullScreenContent: (RewardedAd ad) {
-        print('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
         loadRewardedAd();
       },
       onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
-        print("back");
+
         Navigator.pop(context);
         loadRewardedAd();
       },
@@ -105,7 +95,6 @@ class Ads {
     );
     _rewardedAd.setImmersiveMode(true);
     _rewardedAd.show(onUserEarnedReward: (RewardedAd ad, RewardItem reward) {
-      print('$ad with reward $RewardItem(${reward.amount}, ${reward.type}');
       if (callBack != null) callBack();
     });
     _rewardedAd = null;

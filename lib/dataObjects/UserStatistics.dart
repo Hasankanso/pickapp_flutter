@@ -20,9 +20,9 @@ class UserStatistics {
   @HiveField(7)
   final double rateAverage;
   @HiveField(8)
-  final int acomplishedRides;
+  int acomplishedRides;
   @HiveField(9)
-  final int canceledRides;
+  int canceledRides;
 
   UserStatistics(
       this.ones,

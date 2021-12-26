@@ -255,6 +255,8 @@ class App {
 
   static deleteRideFromMyRides(Ride ride) {
     App.user.person.upcomingRides.remove(ride);
+    App.person.statistics.acomplishedRides -= 1;
+    App.person.statistics.canceledRides += 1;
     LocalNotificationManager.cancelLocalNotification(
         "ride_reminder." + ride.id);
 
@@ -270,6 +272,7 @@ class App {
   static void addRideToMyRides(Ride ride, context) async {
     String _locale = Localizations.localeOf(context).toString();
     App.user.person.upcomingRides.add(ride);
+    App.person.statistics.acomplishedRides += 1;
     updateUserCache();
 
     var leavingDate = ride.leavingDate;

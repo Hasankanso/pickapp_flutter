@@ -8,6 +8,7 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/dataObjects/Chat.dart';
+import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
 class ChatListTile extends ListTile {
@@ -19,7 +20,8 @@ class ChatListTile extends ListTile {
 
   ChatListTile(this.chat, this.onPressed, this.c, this.index, this.onDismiss);
 
-  static Function(BuildContext, int) itemBuilder(List<Chat> c, onPressed, onDismiss) {
+  static Function(BuildContext, int) itemBuilder(
+      List<Chat> c, onPressed, onDismiss) {
     return (context, index) {
       return ChatListTile(c[index], onPressed, c, index, onDismiss);
     };
@@ -50,6 +52,7 @@ class ChatListTile extends ListTile {
                         backgroundImage: AssetImage("lib/images/user.png"),
                       )
                     : CachedNetworkImage(
+                        httpHeaders: Request.getImageHeader,
                         imageUrl: chat.person.profilePictureUrl,
                         imageBuilder: (context, imageProvider) => CircleAvatar(
                           radius: ScreenUtil().setSp(20),
@@ -81,14 +84,19 @@ class ChatListTile extends ListTile {
                           Spacer(),
                           Expanded(
                             flex: 2,
-                            child: Text(now.difference(chat.lastMessage.date).inHours < 12
-                                ? DateFormat(App.hourFormat, _locale).format(chat.lastMessage.date)
-                                : isSameDate(now, chat.lastMessage.date)
-                                    ? Lang.getString(context, "Now")
-                                    : now.year == chat.lastMessage.date.year
-                                        ? DateFormat("dd.MM", _locale).format(chat.lastMessage.date)
-                                        : DateFormat(App.birthdayFormat, _locale)
-                                            .format(chat.lastMessage.date)),
+                            child: Text(
+                                now.difference(chat.lastMessage.date).inHours <
+                                        12
+                                    ? DateFormat(App.hourFormat, _locale)
+                                        .format(chat.lastMessage.date)
+                                    : isSameDate(now, chat.lastMessage.date)
+                                        ? Lang.getString(context, "Now")
+                                        : now.year == chat.lastMessage.date.year
+                                            ? DateFormat("dd.MM", _locale)
+                                                .format(chat.lastMessage.date)
+                                            : DateFormat(
+                                                    App.birthdayFormat, _locale)
+                                                .format(chat.lastMessage.date)),
                           ),
                           Spacer(
                             flex: 3,

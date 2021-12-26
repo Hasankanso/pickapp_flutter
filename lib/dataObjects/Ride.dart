@@ -9,6 +9,7 @@ import 'package:just_miles/dataObjects/MainLocation.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/requests/Request.dart';
 
 part 'Ride.g.dart';
 
@@ -335,7 +336,10 @@ class Ride {
     if (mapUrl == null) {
       this._mapImage = new AssetImage("lib/images/map.jpg");
     } else {
-      this._mapImage = new NetworkImage(this.mapUrl);
+      this._mapImage = new NetworkImage(
+        this.mapUrl,
+        headers: Request.getImageHeader,
+      );
     }
   }
 

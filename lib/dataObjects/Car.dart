@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
+import 'package:just_miles/requests/Request.dart';
 
 part 'Car.g.dart';
 
@@ -99,7 +100,10 @@ class Car {
     if (carPictureUrl == null) {
       this._networkImage = new AssetImage("lib/images/car.png");
     } else {
-      this._networkImage = new NetworkImage(this.carPictureUrl);
+      this._networkImage = new NetworkImage(
+        this.carPictureUrl,
+        headers: Request.getImageHeader,
+      );
     }
   }
 

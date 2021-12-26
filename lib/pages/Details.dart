@@ -355,7 +355,6 @@ class _DetailsState extends State<Details> {
                               App.person.countryInformations;
 
                           //await Ads.showRewardedAd(() async {
-                          print(App.person.countryInformations);
                           request = EditAccount(_newPerson);
                           await request.send(_response);
                           // });

@@ -8,6 +8,7 @@ import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/screenutil.dart';
+import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/ImageViewer.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
@@ -41,7 +42,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller.pickedImage != null) _image = widget.controller.pickedImage;
+    if (widget.controller.pickedImage != null)
+      _image = widget.controller.pickedImage;
   }
 
   @override
@@ -56,6 +58,7 @@ class _MainImagePickerState extends State<MainImagePicker> {
               ? (widget.imageUrl != null && widget.imageUrl.isNotEmpty)
                   ? CachedNetworkImage(
                       imageUrl: widget.imageUrl,
+                      httpHeaders: Request.getImageHeader,
                       imageBuilder: (context, imageProvider) {
                         _downloadedImage = imageProvider;
                         widget.controller.downloadedImage = imageProvider;
@@ -73,8 +76,9 @@ class _MainImagePickerState extends State<MainImagePicker> {
                         return CircleAvatar(
                           backgroundColor: Colors.transparent,
                           radius: ScreenUtil().setSp(45),
-                          backgroundImage: AssetImage(
-                              !widget.isCarPicker ? "lib/images/user.png" : "lib/images/car.png"),
+                          backgroundImage: AssetImage(!widget.isCarPicker
+                              ? "lib/images/user.png"
+                              : "lib/images/car.png"),
                         );
                       },
                     )
@@ -83,8 +87,9 @@ class _MainImagePickerState extends State<MainImagePicker> {
                       radius: ScreenUtil().setSp(45),
                       backgroundImage: _image != null
                           ? Image.file(File(_image.path)).image
-                          : AssetImage(
-                              !widget.isCarPicker ? "lib/images/user.png" : "lib/images/car.png"),
+                          : AssetImage(!widget.isCarPicker
+                              ? "lib/images/user.png"
+                              : "lib/images/car.png"),
                     )
               : CircleAvatar(
                   backgroundColor: Colors.transparent,
@@ -110,7 +115,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
     Navigator.pop(context);
     var pickedFile;
     try {
-      pickedFile = await picker.getImage(source: ImageSource.camera, imageQuality: 50);
+      pickedFile =
+          await picker.getImage(source: ImageSource.camera, imageQuality: 50);
     } catch (PlatformException) {
       AppSettings.openAppSettings();
       return;
@@ -128,7 +134,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
     Navigator.pop(context);
     var pickedFile;
     try {
-      pickedFile = await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+      pickedFile =
+          await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
     } catch (PlatformException) {
       AppSettings.openAppSettings();
       return;
@@ -161,8 +168,8 @@ class _MainImagePickerState extends State<MainImagePicker> {
     showModalBottomSheet<void>(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.only(topRight: Radius.circular(10.0), topLeft: Radius.circular(10.0)),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10.0), topLeft: Radius.circular(10.0)),
       ),
       builder: (BuildContext context) {
         return Container(

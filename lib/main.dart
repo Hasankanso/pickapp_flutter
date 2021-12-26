@@ -68,6 +68,7 @@ class MyAppState extends State<MyApp> {
         .addObserver(LifecycleEventHandler(resumeCallBack: () async {
       await PushNotificationsManager().onResume();
     }));
+
     PushNotificationsManager()
         .init()
         .then((value) => PushNotificationsManager().initNotifications());

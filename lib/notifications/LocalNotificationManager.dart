@@ -84,7 +84,6 @@ class LocalNotificationManager {
   }
 
   static _pushLocalNotification(MainNotification notification) async {
-    print("a notification has been scheduled");
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     var androidImage;

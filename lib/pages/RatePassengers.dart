@@ -86,7 +86,6 @@ class RatePassengers extends StatelessWidget {
                   for (int i = 0; i < rates.length; i++) {
                     Ride _ride = rates[i].ride;
                     var _formKey = formKeys[i];
-                    print(_formKey.currentState.validate());
                     if (_formKey.currentState.validate()) {
                       if (DateTime.now().isAfter(
                           _ride.leavingDate.add(App.availableDurationToRate))) {

@@ -13,7 +13,10 @@ abstract class Request<T> {
   static String host, filesHost;
   static bool isAutoLogin = false;
   String httpPath;
-
+  static Map<String, String> getImageHeader = {
+    'user-token': App.user.sessionToken,
+    "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept"
+  };
   Map<String, dynamic> getJson();
 
   T buildObject(json);
@@ -22,7 +25,6 @@ abstract class Request<T> {
     if (decodedResponse.length != 0 &&
         decodedResponse[0] == null && //why decodedResponse[0] == null?
         decodedResponse["code"] != "null") {
-
       if (response.body.contains("code")) {
         var jCode = decodedResponse["code"];
         var jMessage = decodedResponse["message"];
@@ -70,8 +72,8 @@ abstract class Request<T> {
       String token;
       if (!isAutoLogin) {
         isAutoLogin = true;
-        token = await AutoLogin(App.user.id, App.user.password).send((a, b, c) {
-        });
+        token =
+            await AutoLogin(App.user.id, App.user.password).send((a, b, c) {});
       }
       if (token == null) {
         await App.logout();
@@ -105,7 +107,8 @@ abstract class Request<T> {
         'Content-Type': 'application/json; charset=utf-8'
       };
     }
-    //send request
+
+//send request
     http.Response response = await http
         .post(
           Uri.parse(host + httpPath),
@@ -122,13 +125,13 @@ abstract class Request<T> {
 
     //check response existence
     if (response == null) {
-
       if (callback != null)
         callback(null, HttpStatus.expectationFailed, "Something_Wrong");
       return null;
     }
 
     //decode response
+
     var decodedResponse;
     try {
       decodedResponse = json.decode(utf8.decode(response.bodyBytes));
@@ -146,6 +149,7 @@ abstract class Request<T> {
     }
 
     //parse returned object.
+
     try {
       T object = buildObject(decodedResponse);
       if (callback != null)
@@ -177,12 +181,10 @@ abstract class Request<T> {
         'Content-Type': 'multipart/form-data'
       };
     }
-
     String url = filesHost +
         "/images/$type/" +
         DateTime.now().millisecondsSinceEpoch.toString() +
         Path.extension(path);
-
     var postUri = Uri.parse(url);
     var request = new http.MultipartRequest("POST", postUri);
 

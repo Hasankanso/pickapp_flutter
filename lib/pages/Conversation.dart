@@ -40,7 +40,7 @@ class _ConversationState extends State<Conversation> {
       if (_controller.position.atEdge) {
         if (_controller.position.pixels != 0) {
           widget._chat.loadMessages(); //get one more chunk
-          print("loading more messages if still");
+
           setState(() {});
         }
       }
@@ -86,19 +86,15 @@ class _ConversationState extends State<Conversation> {
 
       if (result.statusCode == HttpStatus.ok &&
           json.decode(result.body)["success"] > 0) {
-        print('FCM request for device sent!');
         widget._chat.addAndCacheMessage(Message(
             senderId: App.person.id,
             message: msg,
             myMessage: true,
             date: DateTime.now()));
         setState(() {});
-      } else {
-        print("error:" + result.statusCode.toString());
-      }
+      } else {}
     } catch (e) {
       CustomToast().showErrorToast(Lang.getString(context, "Something_Wrong"));
-      print(e);
     }
   }
 
@@ -120,7 +116,8 @@ class _ConversationState extends State<Conversation> {
               itemBuilder: TextMessageTile.itemBuilder(messages, null),
             );
           }),
-      bottomNavigationBar: Container( color: Theme.of(context).cardColor,
+      bottomNavigationBar: Container(
+        color: Theme.of(context).cardColor,
         child: SafeArea(
           child: Row(
             children: [
