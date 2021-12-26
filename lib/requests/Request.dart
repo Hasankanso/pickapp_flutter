@@ -14,7 +14,8 @@ abstract class Request<T> {
   static bool isAutoLogin = false;
   String httpPath;
   static Map<String, String> getImageHeader = {
-    "user-token": App.user.sessionToken
+    'user-token': App.user.sessionToken,
+    "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept"
   };
   Map<String, dynamic> getJson();
 
@@ -106,7 +107,10 @@ abstract class Request<T> {
         'Content-Type': 'application/json; charset=utf-8'
       };
     }
-    //send request
+    print(header);
+    print(host + httpPath);
+    print(data);
+//send request
     http.Response response = await http
         .post(
           Uri.parse(host + httpPath),
@@ -129,6 +133,7 @@ abstract class Request<T> {
     }
 
     //decode response
+    print(response.body);
     var decodedResponse;
     try {
       decodedResponse = json.decode(utf8.decode(response.bodyBytes));
@@ -146,6 +151,7 @@ abstract class Request<T> {
     }
 
     //parse returned object.
+    print(decodedResponse);
     try {
       T object = buildObject(decodedResponse);
       if (callback != null)
