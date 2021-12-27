@@ -224,8 +224,14 @@ class Settings extends StatelessWidget {
                       ),
                       LineDevider(),
                       InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed("/PrivacyPolicy");
+                        onTap: () async {
+                          if (await canLaunch(App.privacyPolicyUrl)) {
+                            await launch(
+                              App.privacyPolicyUrl,
+                              forceSafariVC: false,
+                              forceWebView: false,
+                            );
+                          }
                         },
                         child: ResponsiveWidget.fullWidth(
                           height: 64,
