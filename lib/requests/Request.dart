@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -95,7 +94,6 @@ abstract class Request<T> {
   Future<T> send(Function(T, int, String) callback) async {
     Map<String, dynamic> data = getJson();
     String jsonData = json.encode(data, toEncodable: _dateToIso8601String);
-    log(jsonData.toString());
 
     //if this is about a register send request, App will not even have a user, nor a sessionToken.
     var header;
@@ -127,8 +125,6 @@ abstract class Request<T> {
 
     //check response existence
     if (response == null) {
-      if (callback != null)
-        callback(null, HttpStatus.expectationFailed, "Something_Wrong");
       return null;
     }
 
