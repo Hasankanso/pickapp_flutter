@@ -256,7 +256,6 @@ class _PhoneState extends State<Phone> {
 
   void _checkUserExistResponse(bool userExist, int statusCode, String message) {
     if (App.handleErrors(context, statusCode, message)) {
-      Navigator.pop(context);
       return;
     }
 
