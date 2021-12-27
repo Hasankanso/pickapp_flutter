@@ -28,7 +28,7 @@ class _RegisterState extends State<Register> {
   TextEditingController _lastName = TextEditingController();
   TextEditingController _email = TextEditingController();
   BirthdayController _birthday = BirthdayController();
-  String _country = App.countriesInformationsNames[1];
+  String _country = App.countriesInformationsNames[0];
   List<String> _countries = App.countriesInformationsNames;
   List<String> _genders;
   bool _gender = true;

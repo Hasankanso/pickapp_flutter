@@ -50,8 +50,8 @@ class App {
   static ValueNotifier<bool> updateNotifications = ValueNotifier(false);
   static ValueNotifier<bool> updateLocationFinder = ValueNotifier(false);
 
-  static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
-  static List<String> _countriesInformationsCodes = ["49", "961"];
+  static List<String> _countriesInformationsNames = ["لبنان"];
+  static List<String> _countriesInformationsCodes = ["961"];
   static dynamic maxPriceFilter;
   static dynamic minPriceFilter;
   static dynamic stepPriceFilter;
@@ -70,13 +70,6 @@ class App {
 
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
-    'Deutschland': CountryInformations(
-        name: "Deutschland",
-        id: "CAE25E4F-A78C-12BB-FF38-92A6EC9D4F00",
-        digits: 11,
-        code: "49",
-        drivingAge: 18,
-        countryComponent: "DE"),
     'لبنان': CountryInformations(
         name: "لبنان",
         id: "F85258BF-63A7-F939-FF31-C78BB1837300",
