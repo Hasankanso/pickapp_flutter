@@ -18,8 +18,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PersonView extends StatefulWidget {
   final Person person;
-
-  PersonView({this.person});
+  final bool isContactDisabled;
+  PersonView({this.person, this.isContactDisabled = false});
 
   @override
   _PersonViewState createState() => _PersonViewState();
@@ -69,6 +69,7 @@ class _PersonViewState extends State<PersonView> {
           controller: sc,
           person: widget.person,
           chattinessItems: _chattinessItems,
+          isContactDisabled: widget.isContactDisabled,
           dataMap: dataMap),
       body: ResponsiveWidget.fullWidth(
         height: 480,
@@ -119,8 +120,13 @@ class _Panel extends StatelessWidget {
   List<String> chattinessItems;
   Map<String, double> dataMap;
   double accomplishedCanceledRatio = 0;
-
-  _Panel({this.person, this.controller, this.chattinessItems, this.dataMap}) {
+  final bool isContactDisabled;
+  _Panel(
+      {this.person,
+      this.controller,
+      this.chattinessItems,
+      this.dataMap,
+      this.isContactDisabled = false}) {
     int ridesCount =
         person.statistics.acomplishedRides + person.statistics.canceledRides;
 
@@ -135,25 +141,26 @@ class _Panel extends StatelessWidget {
     return SingleChildScrollView(
       controller: controller,
       child: Column(children: [
-        ResponsiveWidget.fullWidth(
-          height: 80,
-          child: Column(children: [
-            VerticalSpacer(height: 10),
-            ResponsiveWidget(
-              width: 270,
-              height: 50,
-              child: MainButton(
-                textKey: "Contact",
-                onPressed: () async {
-                  Chat chat = await Inbox.getChat(person);
-                  chat.person.deviceToken = person.deviceToken;
-                  await Inbox.openChat(chat, context);
-                },
-                isRequest: true,
+        if (!isContactDisabled)
+          ResponsiveWidget.fullWidth(
+            height: 80,
+            child: Column(children: [
+              VerticalSpacer(height: 10),
+              ResponsiveWidget(
+                width: 270,
+                height: 50,
+                child: MainButton(
+                  textKey: "Contact",
+                  onPressed: () async {
+                    Chat chat = await Inbox.getChat(person);
+                    chat.person.deviceToken = person.deviceToken;
+                    await Inbox.openChat(chat, context);
+                  },
+                  isRequest: true,
+                ),
               ),
-            ),
-          ]),
-        ),
+            ]),
+          ),
         VerticalSpacer(height: 10),
         ResponsiveWidget.fullWidth(
           height: 30,

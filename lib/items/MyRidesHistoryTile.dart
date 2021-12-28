@@ -126,7 +126,6 @@ class MyRidesHistoryTile extends ListTile {
                               flex: 4,
                               child: _ride.person.profilePictureUrl != null
                                   ? CachedNetworkImage(
-                                      httpHeaders: Request.getImageHeader,
                                       imageUrl: _ride.person.profilePictureUrl,
                                       imageBuilder: (context, imageProvider) =>
                                           CircleAvatar(

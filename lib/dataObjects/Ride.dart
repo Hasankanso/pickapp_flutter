@@ -338,7 +338,6 @@ class Ride {
     } else {
       this._mapImage = new NetworkImage(
         this.mapUrl,
-        headers: Request.getImageHeader,
       );
     }
   }

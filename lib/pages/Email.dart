@@ -93,6 +93,7 @@ class Email extends StatelessWidget {
 
     App.user.email = p1;
     Cache.setUser(App.user);
+    App.updateProfile.value = !App.updateProfile.value;
 
     CustomToast().showSuccessToast(
         Lang.getString(context, "Email_confirmation_pending"));

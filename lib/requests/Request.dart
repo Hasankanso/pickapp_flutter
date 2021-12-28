@@ -13,10 +13,7 @@ abstract class Request<T> {
   static String host, filesHost;
   static bool isAutoLogin = false;
   String httpPath;
-  static Map<String, String> getImageHeader = {
-    'user-token': App.user.sessionToken,
-    "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept"
-  };
+
   Map<String, dynamic> getJson();
 
   T buildObject(json);

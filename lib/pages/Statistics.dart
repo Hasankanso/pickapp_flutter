@@ -14,10 +14,15 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 class Statistics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var accomplishedCanceledRatio =
-        App.user.person.statistics.acomplishedRides /
-            (App.user.person.statistics.acomplishedRides +
-                App.user.person.statistics.canceledRides);
+    var denominator = App.user.person.statistics.acomplishedRides +
+        App.user.person.statistics.canceledRides;
+    var accomplishedCanceledRatio;
+    if (denominator > 0) {
+      accomplishedCanceledRatio =
+          App.user.person.statistics.acomplishedRides / denominator;
+    } else {
+      accomplishedCanceledRatio = 0.0;
+    }
     return MainScaffold(
       appBar: MainAppBar(title: Lang.getString(context, "Statistics")),
       body: Column(

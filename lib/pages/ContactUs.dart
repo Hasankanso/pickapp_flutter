@@ -98,7 +98,7 @@ class ContactUs extends StatelessWidget {
     if (App.handleErrors(context, code, message)) {
       return;
     }
-
+    Navigator.pop(context);
     CustomToast().showSuccessToast(Lang.getString(context, result));
   }
 }

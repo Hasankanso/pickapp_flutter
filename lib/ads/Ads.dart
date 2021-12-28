@@ -74,6 +74,9 @@ class Ads {
         ad.dispose();
         loadRewardedAd();
       },
+      onAdWillDismissFullScreenContent: (RewardedAd ad) {
+        ad.dispose();
+      },
       onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
         ad.dispose();
 
@@ -94,9 +97,11 @@ class Ads {
       },
     );
     _rewardedAd.setImmersiveMode(true);
-    _rewardedAd.show(onUserEarnedReward: (RewardedAd ad, RewardItem reward) {
-      if (callBack != null) callBack();
-    });
+    _rewardedAd.show(
+      onUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+        if (callBack != null) callBack();
+      },
+    );
     _rewardedAd = null;
   }
 }

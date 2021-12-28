@@ -102,7 +102,6 @@ class Car {
     } else {
       this._networkImage = new NetworkImage(
         this.carPictureUrl,
-        headers: Request.getImageHeader,
       );
     }
   }

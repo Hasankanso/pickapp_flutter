@@ -52,7 +52,6 @@ class ChatListTile extends ListTile {
                         backgroundImage: AssetImage("lib/images/user.png"),
                       )
                     : CachedNetworkImage(
-                        httpHeaders: Request.getImageHeader,
                         imageUrl: chat.person.profilePictureUrl,
                         imageBuilder: (context, imageProvider) => CircleAvatar(
                           radius: ScreenUtil().setSp(20),

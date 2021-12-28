@@ -368,10 +368,11 @@ class _Phone2State extends State<Phone2> {
 
     App.user = localUser;
     await Cache.setUser(localUser);
+    App.updateProfile.value = !App.updateProfile.value;
 
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
-    Navigator.popUntil(context, (route) => route.isFirst);
+    Navigator.pop(context);
   }
 
   _openDetailsPage() {
