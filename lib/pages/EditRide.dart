@@ -4,7 +4,6 @@ import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
-import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/requests/EditRideRequest.dart';
 import 'package:just_miles/requests/Request.dart';
@@ -47,7 +46,7 @@ class EditRide extends StatelessWidget {
                   child: NumberPicker(
                     personController,
                     "Seats",
-                    ride.availableSeats,
+                    ride.maxSeats,
                     ride.car.maxSeats,
                   )),
               VerticalSpacer(
@@ -58,7 +57,7 @@ class EditRide extends StatelessWidget {
                   child: NumberPicker(
                     luggageController,
                     "Luggage",
-                    ride.availableLuggages,
+                    ride.maxLuggage,
                     ride.car.maxLuggage,
                   )),
               VerticalSpacer(
@@ -122,7 +121,7 @@ class EditRide extends StatelessWidget {
                       ),
                       style: Styles.valueTextStyle(),
                       validator: (value) {
-                          return null;
+                        return null;
                       },
                     ),
                   ),
@@ -162,6 +161,7 @@ class EditRide extends StatelessWidget {
                     r.maxSeats = personController.chosenNumber;
                     r.maxLuggage = luggageController.chosenNumber;
                     r.comment = ride.comment + "\n" + descController.text;
+
                     Request<Ride> request = EditRideRequest(r);
                     await request.send((result, code, message) =>
                         _editRideResponse(result, code, message, context));

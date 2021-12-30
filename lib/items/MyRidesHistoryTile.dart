@@ -28,7 +28,6 @@ class MyRidesHistoryTile extends ListTile {
     if (_ride.person.networkImage == null) {
       _ride.person.setNetworkImage();
     }
-    _ride.status = "CANCELED";
     return Card(
       elevation: 3.0,
       color: _ride.status == "CANCELED"

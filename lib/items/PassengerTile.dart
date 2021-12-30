@@ -187,7 +187,7 @@ class PassengerTile extends ListTile {
               VerticalSpacer(
                 height: 8,
               ),
-              if (passenger.status == "CANCELED")
+              if (passenger.status == "CANCELED" && passenger.reason != null)
                 Row(
                   children: [
                     Spacer(
@@ -203,7 +203,7 @@ class PassengerTile extends ListTile {
                     ),
                   ],
                 ),
-              if (passenger.status == "CANCELED")
+              if (passenger.status == "CANCELED" && passenger.reason != null)
                 Row(
                   children: [
                     Spacer(
