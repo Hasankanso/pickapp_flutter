@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/utilities/Spinner.dart';
-
-import '../classes/App.dart';
 
 class Ads {
   static RewardedAd _rewardedAd;
   static int _numRewardedLoadAttempts = 0;
   static String bannerId, nativeId, _rewardedId;
-  static int maxFailedLoadAttempts = 3;
+  static int _maxFailedLoadAttempts = 3;
+  static bool _isRewarded = false;
 
   static AdRequest adRequest = AdRequest(
     nonPersonalizedAds: true,
@@ -57,7 +57,7 @@ class Ads {
           onAdFailedToLoad: (LoadAdError error) {
             _rewardedAd = null;
             _numRewardedLoadAttempts += 1;
-            if (_numRewardedLoadAttempts <= maxFailedLoadAttempts) {
+            if (_numRewardedLoadAttempts <= _maxFailedLoadAttempts) {
               loadRewardedAd();
             }
           },
@@ -68,11 +68,16 @@ class Ads {
     if (_rewardedAd == null) {
       return;
     }
+    _isRewarded = false;
     _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (RewardedAd ad) {},
       onAdDismissedFullScreenContent: (RewardedAd ad) {
         ad.dispose();
         loadRewardedAd();
+        if (!_isRewarded) {
+          //if user didn't watch the whole video, just pop the spinner
+          Navigator.pop(context);
+        }
       },
       onAdWillDismissFullScreenContent: (RewardedAd ad) {
         ad.dispose();
@@ -99,6 +104,7 @@ class Ads {
     _rewardedAd.setImmersiveMode(true);
     _rewardedAd.show(
       onUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+        _isRewarded = true;
         if (callBack != null) callBack();
       },
     );

@@ -77,15 +77,17 @@ class _LocationFinderState extends State<LocationFinder> {
         FocusScope.of(context).unfocus();
       });
     } else {
-      setState(() {
-        widget._controller.placeId = locPred.placeId;
-        widget._controller.description = locPred.description;
-        _textEditingController.text = widget._controller.description;
-        widget._initialDescription = locPred.description;
-        widget._controller.location =
-            new Location(lat: locPred.location.lat, lng: locPred.location.lng);
-        FocusScope.of(context).unfocus();
-      });
+      if (this.mounted) {
+        setState(() {
+          widget._controller.placeId = locPred.placeId;
+          widget._controller.description = locPred.description;
+          _textEditingController.text = widget._controller.description;
+          widget._initialDescription = locPred.description;
+          widget._controller.location = new Location(
+              lat: locPred.location.lat, lng: locPred.location.lng);
+          FocusScope.of(context).unfocus();
+        });
+      }
     }
   }
 

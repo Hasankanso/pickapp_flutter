@@ -131,8 +131,9 @@ class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
         } else {
           returnLocation = ReturnLocation(value, true);
         }
-
-        Navigator.pop(context, returnLocation);
+        if (mounted) {
+          Navigator.pop(context, returnLocation);
+        }
       },
       logo: widget.logo,
       canPickCurrLocation: widget.canPickCurrLocation,
