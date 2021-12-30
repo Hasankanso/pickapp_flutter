@@ -232,6 +232,7 @@ class App {
       _genders = <String>[
         Lang.getString(context, "Male"),
         Lang.getString(context, "Female"),
+        Lang.getString(context, "Prefer_not_to_say"),
       ];
     }
     return _genders;

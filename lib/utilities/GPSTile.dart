@@ -88,3 +88,27 @@ class GPSListView extends StatelessWidget {
     );
   }
 }
+
+class LoadingListView extends StatelessWidget {
+  final List<Prediction> predictions;
+  final canPickCurrLocation;
+
+  LoadingListView(
+      {@required this.predictions, this.canPickCurrLocation = true});
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> list = [];
+    list.add(Container(
+        constraints: BoxConstraints(maxHeight: 2.0),
+        child: LinearProgressIndicator()));
+    if (canPickCurrLocation) {
+      list.add(GPSTile());
+    }
+    list.addAll(
+        predictions.map((Prediction p) => PredictionTile(prediction: p)));
+    return ListView(
+      children: list,
+    );
+  }
+}

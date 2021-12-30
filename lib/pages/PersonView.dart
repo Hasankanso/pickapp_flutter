@@ -178,14 +178,15 @@ class _Panel extends StatelessWidget {
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,
               ),
-              Text(
-                person.gender ? Styles.maleIcon : Styles.femaleIcon,
-                maxLines: 1,
-                style: Styles.valueTextStyle(
-                    color: Styles.primaryColor(), bold: FontWeight.w800),
-                overflow: TextOverflow.clip,
-                textAlign: TextAlign.center,
-              ),
+              if (person.gender != null)
+                Text(
+                  person.gender ? Styles.maleIcon : Styles.femaleIcon,
+                  maxLines: 1,
+                  style: Styles.valueTextStyle(
+                      color: Styles.primaryColor(), bold: FontWeight.w800),
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
+                ),
             ],
           ),
         ),

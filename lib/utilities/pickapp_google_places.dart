@@ -102,6 +102,10 @@ class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
     );
     final body = PlacesAutocompleteResult(
       onTap: (value) async {
+        if (_isLoading) {
+          return;
+        }
+
         ReturnLocation returnLocation;
         if (value is Prediction) {
           Prediction prediction = value;
@@ -109,6 +113,9 @@ class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
           double longitude;
           req.Request getLocationRequest =
               GetLocation(MainLocation(placeId: prediction.placeId));
+          setState(() {
+            _isLoading = true;
+          });
           MainLocation backendFoundLocation =
               await getLocationRequest.send(null);
           if (backendFoundLocation != null) {
@@ -116,21 +123,26 @@ class _PlacesAutocompleteScaffoldState extends PlacesAutocompleteState {
             longitude = backendFoundLocation.longitude;
           } else {
             //request longitude and latitude from google_place_details api
-            GoogleMapsPlaces _places = new GoogleMapsPlaces(
-                apiKey: App.googleKey); //Same _API_KEY as above
+            GoogleMapsPlaces _places =
+                new GoogleMapsPlaces(apiKey: App.googleKey);
+
+            //Same _API_KEY as above
             PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(
                 prediction.placeId,
                 sessionToken: widget.sessionToken,
                 fields: ["geometry"]);
+            //Same _API_KEY as above
             latitude = detail.result.geometry.location.lat;
             longitude = detail.result.geometry.location.lng;
           }
+
           returnLocation = ReturnLocation(
               Location(lat: latitude, lng: longitude), false,
               description: prediction.description, placeId: prediction.placeId);
         } else {
           returnLocation = ReturnLocation(value, true);
         }
+        _isLoading = false;
         if (mounted) {
           Navigator.pop(context, returnLocation);
         }
@@ -196,6 +208,11 @@ class _PlacesAutocompleteResult extends State<PlacesAutocompleteResult> {
         canPickCurrLocation: widget.canPickCurrLocation,
       ));
       return Stack(children: children);
+    }
+    if (state._isLoading) {
+      return LoadingListView(
+        predictions: state._response.predictions,
+      );
     }
     return GPSListView(
       predictions: state._response.predictions,
@@ -328,6 +345,7 @@ abstract class PlacesAutocompleteState extends State<PlacesAutocompleteWidget> {
   PlacesAutocompleteResponse _response;
   GoogleMapsPlaces _places;
   bool _searching;
+  bool _isLoading = false;
   Timer _debounce;
 
   final _queryBehavior = BehaviorSubject<String>.seeded('');

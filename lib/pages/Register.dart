@@ -31,7 +31,7 @@ class _RegisterState extends State<Register> {
   String _country = App.countriesInformationsNames[0];
   List<String> _countries = App.countriesInformationsNames;
   List<String> _genders;
-  bool _gender = true;
+  bool _gender;
   DateTime _birthdayInit;
   MainImageController _imageController = MainImageController();
   bool isPrivacyAndTermsAccepted = false;
@@ -48,10 +48,7 @@ class _RegisterState extends State<Register> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _genders = <String>[
-      Lang.getString(context, "Male"),
-      Lang.getString(context, "Female"),
-    ];
+    _genders = App.getGender(context);
   }
 
   @override
@@ -188,7 +185,11 @@ class _RegisterState extends State<Register> {
                               labelText: Lang.getString(context, "Gender"),
                             ),
                             isExpanded: true,
-                            value: _gender ? _genders[0] : _genders[1],
+                            value: _gender == null
+                                ? _genders[2]
+                                : _gender
+                                    ? _genders[0]
+                                    : _genders[1],
                             validator: (val) {
                               String valid = Validation.validate(val, context);
                               if (valid != null) return valid;
@@ -196,10 +197,15 @@ class _RegisterState extends State<Register> {
                             },
                             onChanged: (String newValue) {
                               setState(() {
-                                _gender =
-                                    newValue == Lang.getString(context, "Male")
-                                        ? true
-                                        : false;
+                                if (newValue ==
+                                    Lang.getString(context, "Female")) {
+                                  _gender = false;
+                                } else if (newValue ==
+                                    Lang.getString(context, "Male")) {
+                                  _gender = true;
+                                } else {
+                                  _gender = null;
+                                }
                               });
                             },
                             items: _genders
