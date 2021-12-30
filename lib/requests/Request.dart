@@ -105,8 +105,7 @@ abstract class Request<T> {
       };
     }
 
-//send request
-    print(jsonData);
+    //send request
     http.Response response = await http
         .post(
           Uri.parse(host + httpPath),

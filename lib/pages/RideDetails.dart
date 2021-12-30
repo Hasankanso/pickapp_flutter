@@ -177,10 +177,17 @@ class RideDetails extends StatelessWidget {
   static void seatsLuggagePopUp(
       BuildContext context, Ride ride, Function(int, int) onPressed,
       {Reservation reservation}) {
+    int maxSeats, maxLuggage;
+
     bool isReserveSeats = false;
     if (reservation == null) {
       isReserveSeats = true;
       reservation = new Reservation(seats: 1, luggage: 0);
+      maxSeats = ride.availableSeats;
+      maxLuggage = ride.availableLuggage;
+    } else {
+      maxSeats = ride.availableSeats + reservation.seats;
+      maxLuggage = ride.availableLuggage + reservation.luggage;
     }
 
     var alertStyle = AlertStyle(
@@ -194,6 +201,7 @@ class RideDetails extends StatelessWidget {
     );
     NumberController seatsController = new NumberController();
     NumberController luggageController = new NumberController();
+
     Alert(
         context: context,
         style: alertStyle,
@@ -205,14 +213,14 @@ class RideDetails extends StatelessWidget {
               seatsController,
               "Seats",
               reservation.seats,
-              ride.availableSeats,
+              maxSeats,
               isSmallIconSize: true,
             ),
             NumberPicker(
               luggageController,
               "Luggage",
               reservation.luggage,
-              ride.availableLuggage,
+              maxLuggage,
               isSmallIconSize: true,
             ),
           ],
