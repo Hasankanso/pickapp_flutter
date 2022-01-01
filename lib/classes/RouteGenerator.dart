@@ -228,16 +228,22 @@ class RouteGenerator {
             type: isLTR,
             child: Profile());
       case '/RideDetails':
+        List list = args as List;
+        bool isContactDisabled = false;
+        if (list.length > 4) {
+          isContactDisabled = list[4];
+        }
         return PageTransition(
             settings: settings,
             type: isLTR,
             duration: duration,
             reverseDuration: duration,
             child: RideDetails(
-              ((args as List)[0] as Ride),
-              buttonText: (args as List)[1],
-              onPressed: (args as List)[2],
-              isEditDisabled: (args as List)[3],
+              (list[0] as Ride),
+              buttonText: list[1],
+              onPressed: list[2],
+              isEditDisabled: list[3],
+              isContactDisabled: isContactDisabled,
             ));
       case '/CarView':
         return PageTransition(

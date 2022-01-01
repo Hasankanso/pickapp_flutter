@@ -13,10 +13,7 @@ abstract class Request<T> {
   static String host, filesHost;
   static bool isAutoLogin = false;
   String httpPath;
-  static Map<String, String> getImageHeader = {
-    'user-token': App.user.sessionToken,
-    "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept"
-  };
+
   Map<String, dynamic> getJson();
 
   T buildObject(json);
@@ -108,7 +105,7 @@ abstract class Request<T> {
       };
     }
 
-//send request
+    //send request
     http.Response response = await http
         .post(
           Uri.parse(host + httpPath),
@@ -125,8 +122,6 @@ abstract class Request<T> {
 
     //check response existence
     if (response == null) {
-      if (callback != null)
-        callback(null, HttpStatus.expectationFailed, "Something_Wrong");
       return null;
     }
 

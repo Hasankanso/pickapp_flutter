@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
@@ -139,7 +140,6 @@ class _AddRideState extends State<AddRide> {
                                             ? Styles.primaryColor()
                                             : Styles.labelColor(),
                                       )),
-
                                   Expanded(
                                     flex: 2,
                                     child: Switcher(
@@ -175,7 +175,6 @@ class _AddRideState extends State<AddRide> {
                                       ? Styles.primaryColor()
                                       : Styles.labelColor(),
                                 )),
-
                             Expanded(
                               flex: 2,
                               child: Switcher(
@@ -206,14 +205,15 @@ class _AddRideState extends State<AddRide> {
                                           : Styles.labelColor(),
                                     )),
                                 Expanded(
-                                    flex: 3,
-                                    child: Text("A/C ",
-                                      style: acController.isOn
+                                  flex: 3,
+                                  child: Text(
+                                    "A/C ",
+                                    style: acController.isOn
                                         ? Styles.subValueTextStyle(
-                                          color:Styles.primaryColor())
+                                            color: Styles.primaryColor())
                                         : Styles.subValueTextStyle(
-                                          color:Styles.labelColor()),
-                                ),
+                                            color: Styles.labelColor()),
+                                  ),
                                 ),
                                 Expanded(
                                   flex: 8,
@@ -278,11 +278,18 @@ class _AddRideState extends State<AddRide> {
                           bool isPets = petsController.isOn;
                           bool isAc = acController.isOn;
                           bool isMusic = musicController.isOn;
+
                           var rideDate = dateTimeController.chosenDate;
                           rideDate = rideDate.add(Duration(minutes: -20));
+
                           for (final item in App.person.upcomingRides) {
-                            if (item == null || item.status == "CANCELED")
+                            if (item == null || item.status == "CANCELED") {
                               continue;
+                            }
+                            rideDate = DateTime.parse(
+                                DateFormat("yyyy-MM-dd hh:mm:ss.mmm")
+                                        .format(rideDate) +
+                                    "Z");
                             var diff =
                                 rideDate.difference(item.leavingDate).inMinutes;
                             if (rideDate.isAfter(item.leavingDate) &&
@@ -299,6 +306,7 @@ class _AddRideState extends State<AddRide> {
                                       context, "Ride_compare_upcoming"));
                             }
                           }
+
                           rideInfo.user = App.user;
 
                           rideInfo.to = to;

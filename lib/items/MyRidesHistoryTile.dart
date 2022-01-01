@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
-import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/RateStars.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
@@ -30,7 +30,12 @@ class MyRidesHistoryTile extends ListTile {
     }
     return Card(
       elevation: 3.0,
-      color: _ride.status == "CANCELED" ? Colors.grey.shade200 : null,
+      color: _ride.status == "CANCELED"
+          ? !(Cache.darkTheme ||
+                  MediaQuery.of(context).platformBrightness == Brightness.dark)
+              ? Colors.grey.shade200
+              : null
+          : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
@@ -126,7 +131,6 @@ class MyRidesHistoryTile extends ListTile {
                               flex: 4,
                               child: _ride.person.profilePictureUrl != null
                                   ? CachedNetworkImage(
-                                      httpHeaders: Request.getImageHeader,
                                       imageUrl: _ride.person.profilePictureUrl,
                                       imageBuilder: (context, imageProvider) =>
                                           CircleAvatar(

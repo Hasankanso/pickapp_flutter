@@ -233,7 +233,6 @@ class Person {
     } else {
       this.networkImage = NetworkImage(
         this.profilePictureUrl,
-        headers: Request.getImageHeader,
       );
     }
   }

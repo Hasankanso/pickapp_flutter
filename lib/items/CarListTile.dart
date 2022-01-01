@@ -162,7 +162,6 @@ class CarListTile extends ListTile {
           );
         },
         leading: CachedNetworkImage(
-          httpHeaders: Request.getImageHeader,
           imageUrl: car.carPictureUrl,
           imageBuilder: (context, imageProvider) {
             return CircleAvatar(

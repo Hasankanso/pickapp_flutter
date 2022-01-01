@@ -33,7 +33,9 @@ class PassengerTile extends ListTile {
       elevation: 3.0,
       shape: RoundedRectangleBorder(
         side: passenger.status == "CANCELED"
-            ? (!Cache.darkTheme && MediaQuery.of(context).platformBrightness != Brightness.dark)
+            ? (!Cache.darkTheme &&
+                    MediaQuery.of(context).platformBrightness !=
+                        Brightness.dark)
                 ? BorderSide(color: Colors.red.shade200, width: 2)
                 : BorderSide(color: Colors.red, width: 2)
             : BorderSide.none,
@@ -80,7 +82,8 @@ class PassengerTile extends ListTile {
                                 " " +
                                 passenger.person.lastName +
                                 ", " +
-                                App.calculateAge(passenger.person.birthday).toString(),
+                                App.calculateAge(passenger.person.birthday)
+                                    .toString(),
                             style: Styles.headerTextStyle(),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -181,6 +184,40 @@ class PassengerTile extends ListTile {
                   )
                 ],
               ),
+              VerticalSpacer(
+                height: 8,
+              ),
+              if (passenger.status == "CANCELED" && passenger.reason != null)
+                Row(
+                  children: [
+                    Spacer(
+                      flex: 1,
+                    ),
+                    Expanded(
+                      flex: 80,
+                      child: Text(
+                        Lang.getString(context, "Cancellation_reason:"),
+                        style:
+                            Styles.labelTextStyle().copyWith(color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ),
+              if (passenger.status == "CANCELED" && passenger.reason != null)
+                Row(
+                  children: [
+                    Spacer(
+                      flex: 1,
+                    ),
+                    Expanded(
+                      flex: 80,
+                      child: Text(
+                        passenger.reason,
+                        style: Styles.valueTextStyle(),
+                      ),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),

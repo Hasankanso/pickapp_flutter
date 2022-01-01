@@ -241,10 +241,11 @@ class _SearchResultsState extends State<SearchResults> {
     Function callbackFunction;
     String buttonName = Lang.getString(context, "Back");
     bool rideExists = await App.person.upcomingRideExists(r.id);
-
+    bool isContactDisabled = false;
     if ((App.user.driver != null && r.driver.id == App.user.driver.id) ||
         rideExists) {
       callbackFunction = (Ride r) => Navigator.of(context).pop();
+      isContactDisabled = true;
     } else if (rideExists) {
       callbackFunction = (Ride r) => seatsLuggagePopUp(context, r);
       buttonName = Lang.getString(context, "Edit Reservation");
@@ -254,7 +255,7 @@ class _SearchResultsState extends State<SearchResults> {
     }
 
     Navigator.of(context).pushNamed("/RideDetails",
-        arguments: [r, buttonName, callbackFunction, true]);
+        arguments: [r, buttonName, callbackFunction, true, isContactDisabled]);
   }
 
   void seatsLuggagePopUp(BuildContext context, Ride ride) {

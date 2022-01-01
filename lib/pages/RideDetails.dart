@@ -25,11 +25,15 @@ class RideDetails extends StatelessWidget {
   String buttonText;
   void Function(Ride) onPressed;
   bool isEditDisabled;
+  bool isContactDisabled;
   TextEditingController _reason = TextEditingController();
   List<Ride> ridesHistory = [];
 
   RideDetails(this.ride,
-      {this.buttonText, this.onPressed, this.isEditDisabled = true});
+      {this.buttonText,
+      this.onPressed,
+      this.isEditDisabled = true,
+      this.isContactDisabled = false});
 
   _cancelReservation(bool deleted, int code, String message, context) async {
     if (App.handleErrors(context, code, message)) {
@@ -81,8 +85,7 @@ class RideDetails extends StatelessWidget {
 
                     if (valid != null)
                       return valid;
-                    else if (short != null)
-                      return short;
+                    else if (short != null) return short;
                     return null;
                   },
                 ),
@@ -160,7 +163,10 @@ class RideDetails extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           children: [
             RideView(ride, buttonText: buttonText, onPressed: onPressed),
-            PersonView(person: ride.user.person),
+            PersonView(
+              person: ride.user.person,
+              isContactDisabled: isContactDisabled,
+            ),
             CarView(car: ride.car),
           ],
         ),
@@ -171,10 +177,17 @@ class RideDetails extends StatelessWidget {
   static void seatsLuggagePopUp(
       BuildContext context, Ride ride, Function(int, int) onPressed,
       {Reservation reservation}) {
+    int maxSeats, maxLuggage;
+
     bool isReserveSeats = false;
     if (reservation == null) {
       isReserveSeats = true;
       reservation = new Reservation(seats: 1, luggage: 0);
+      maxSeats = ride.availableSeats;
+      maxLuggage = ride.availableLuggage;
+    } else {
+      maxSeats = ride.availableSeats + reservation.seats;
+      maxLuggage = ride.availableLuggage + reservation.luggage;
     }
 
     var alertStyle = AlertStyle(
@@ -188,6 +201,7 @@ class RideDetails extends StatelessWidget {
     );
     NumberController seatsController = new NumberController();
     NumberController luggageController = new NumberController();
+
     Alert(
         context: context,
         style: alertStyle,
@@ -199,14 +213,14 @@ class RideDetails extends StatelessWidget {
               seatsController,
               "Seats",
               reservation.seats,
-              ride.availableSeats,
+              maxSeats,
               isSmallIconSize: true,
             ),
             NumberPicker(
               luggageController,
               "Luggage",
               reservation.luggage,
-              ride.availableLuggage,
+              maxLuggage,
               isSmallIconSize: true,
             ),
           ],

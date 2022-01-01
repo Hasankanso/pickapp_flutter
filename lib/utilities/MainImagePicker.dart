@@ -58,7 +58,6 @@ class _MainImagePickerState extends State<MainImagePicker> {
               ? (widget.imageUrl != null && widget.imageUrl.isNotEmpty)
                   ? CachedNetworkImage(
                       imageUrl: widget.imageUrl,
-                      httpHeaders: Request.getImageHeader,
                       imageBuilder: (context, imageProvider) {
                         _downloadedImage = imageProvider;
                         widget.controller.downloadedImage = imageProvider;

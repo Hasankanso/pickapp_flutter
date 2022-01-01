@@ -33,7 +33,9 @@ class App {
   static String birthdayFormat = 'dd/MM/yyyy';
   static User _user;
   static String termsAndConditionUrl =
-      "https://backendlessappcontent.com/5FB0EA72-A363-4451-FFA5-A56F031D6600/A47932AF-43E1-4CDC-9B54-12F8A88FB22E/files/web/termsconditions.html";
+      "https://www.voomcar.com/termsconditions.html";
+  static String privacyPolicyUrl =
+      "https://www.voomcar.com/privacy_policy.html";
   //these are real boolean notifiers.
   static ValueNotifier<bool> isLoggedInNotifier = ValueNotifier<bool>(false);
   static ValueNotifier<bool> isDriverNotifier =
@@ -50,8 +52,8 @@ class App {
   static ValueNotifier<bool> updateNotifications = ValueNotifier(false);
   static ValueNotifier<bool> updateLocationFinder = ValueNotifier(false);
 
-  static List<String> _countriesInformationsNames = ["Deutschland", "لبنان"];
-  static List<String> _countriesInformationsCodes = ["49", "961"];
+  static List<String> _countriesInformationsNames = ["لبنان"];
+  static List<String> _countriesInformationsCodes = ["961"];
   static dynamic maxPriceFilter;
   static dynamic minPriceFilter;
   static dynamic stepPriceFilter;
@@ -70,13 +72,6 @@ class App {
 
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
-    'Deutschland': CountryInformations(
-        name: "Deutschland",
-        id: "CAE25E4F-A78C-12BB-FF38-92A6EC9D4F00",
-        digits: 11,
-        code: "49",
-        drivingAge: 18,
-        countryComponent: "DE"),
     'لبنان': CountryInformations(
         name: "لبنان",
         id: "F85258BF-63A7-F939-FF31-C78BB1837300",
@@ -237,6 +232,7 @@ class App {
       _genders = <String>[
         Lang.getString(context, "Male"),
         Lang.getString(context, "Female"),
+        Lang.getString(context, "Prefer_not_to_say"),
       ];
     }
     return _genders;

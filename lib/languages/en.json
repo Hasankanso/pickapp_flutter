@@ -1,4 +1,5 @@
 {
+  "Prefer_not_to_say": "Prefer not to say",
   "Pick_birthday": "Pick your birth date",
   "Country_rest_desc": "Search for places in these countries:",
   "From" : "From",
@@ -220,7 +221,7 @@
   "Ride_Added": "Ride Added Successfully",
   "Yes" : "Yes",
   "No" : "No",
-  "Select_car": "Select car!",
+  "Select_car": "Select a car!",
   "Loading_Map": "Loading Map...",
   "Passengers": "Passengers",
   "Passenger": "Passenger",

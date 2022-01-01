@@ -65,9 +65,6 @@ class _DetailsState extends State<Details> {
       _lastName.text = App.person.lastName;
     } else {
       _chattiness = 1;
-
-      //these values doesn't affect anything, we stored it just to prevent country dropdown from error
-      _gender = false;
     }
   }
 
@@ -181,7 +178,11 @@ class _DetailsState extends State<Details> {
                                         Lang.getString(context, "Gender"),
                                   ),
                                   isExpanded: true,
-                                  value: _gender ? _genders[0] : _genders[1],
+                                  value: _gender == null
+                                      ? _genders[2]
+                                      : _gender
+                                          ? _genders[0]
+                                          : _genders[1],
                                   validator: (val) {
                                     String valid =
                                         Validation.validate(val, context);
@@ -190,10 +191,15 @@ class _DetailsState extends State<Details> {
                                   },
                                   onChanged: (String newValue) {
                                     setState(() {
-                                      _gender = newValue ==
-                                              Lang.getString(context, "Male")
-                                          ? true
-                                          : false;
+                                      if (newValue ==
+                                          Lang.getString(context, "Female")) {
+                                        _gender = false;
+                                      } else if (newValue ==
+                                          Lang.getString(context, "Male")) {
+                                        _gender = true;
+                                      } else {
+                                        _gender = null;
+                                      }
                                     });
                                   },
                                   items: _genders.map<DropdownMenuItem<String>>(

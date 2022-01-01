@@ -10,62 +10,64 @@ class LoginRegister extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      body: Center(
-          child: Center(
-        child: Column(
-          children: [
-            VerticalSpacer(
-              height: 150,
-            ),
-            Image(
-                image: Svg.Svg('lib/images/voomcar_logo.svg',
-                    size: const Size(210 * 1.4, 38.8 * 1.4))),
-            VerticalSpacer(
-              height: 220,
-            ),
-            ResponsiveWidget.fullWidth(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ResponsiveWidget(
-                    width: 270,
-                    height: 50,
-                    child: MainButton(
-                      textKey: "Login",
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/Login');
-                      },
-                    ),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Center(
+            child: Center(
+          child: Column(
+            children: [
+              VerticalSpacer(
+                height: 150,
               ),
-            ),
-            ResponsiveWidget.fullWidth(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ResponsiveWidget(
-                    width: 270,
-                    height: 50,
-                    child: MainButton(
-                      textKey: "Register",
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/Register');
-                      },
-                    ),
-                  ),
-                ],
+              Image(
+                  image: Svg.Svg('lib/images/voomcar_logo.svg',
+                      size: const Size(210 * 1.4, 38.8 * 1.4))),
+              VerticalSpacer(
+                height: 220,
               ),
-            ),
-            Center(
-                child: LanguagesDropdown(
-              spaced: false,
-            )),
-          ],
-        ),
-      )),
+              ResponsiveWidget.fullWidth(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ResponsiveWidget(
+                      width: 270,
+                      height: 50,
+                      child: MainButton(
+                        textKey: "Login",
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/Login');
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ResponsiveWidget.fullWidth(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ResponsiveWidget(
+                      width: 270,
+                      height: 50,
+                      child: MainButton(
+                        textKey: "Register",
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/Register');
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Center(
+                  child: LanguagesDropdown(
+                spaced: false,
+              )),
+            ],
+          ),
+        )),
+      ),
     );
   }
 }
