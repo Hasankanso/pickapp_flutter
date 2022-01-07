@@ -46,8 +46,10 @@ class CancelRideNotificationHandler extends NotificationHandler {
     Ride ride =
         await App.person.getUpcomingRideFromId(rideId, searchHistory: true);
 
-    if (ride == null ||
-        ride.status != "CANCELED" ||
+    if (ride == null) {
+      return;
+    }
+    if (ride.status != "CANCELED" ||
         reason == null ||
         cancellationDate
                 .compareTo(DateTime.now().add(App.availableDurationToRate)) >=
