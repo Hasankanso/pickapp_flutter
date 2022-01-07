@@ -142,6 +142,7 @@ class _MyRidesState extends State<MyRides> {
       }
       App.person.upcomingRides = updatedUpcomingRides;
       App.updateUserCache();
+      ridesHistory = historyRides;
       await Cache.updateRideHistory(historyRides);
     }
   }

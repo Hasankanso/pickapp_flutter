@@ -16,6 +16,9 @@ class RateDriverRequest extends Request<bool> {
 
   @override
   Map<String, dynamic> getJson() {
-    return <String, dynamic>{"fullName": App.person.fullName, "rate": _rate};
+    return {
+      "fullName": App.person.fullName,
+      "rate": _rate.toJson(),
+    };
   }
 }

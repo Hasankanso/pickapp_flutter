@@ -32,7 +32,9 @@ class RatePassengersHandler extends NotificationHandler {
       //in case user removed the ride. but later clicked the notification
       return;
     }
-    if (ride != null)
+    if (ride != null &&
+        ride.reservations != null &&
+        ride.reservations.isNotEmpty)
       Navigator.of(context)
           .pushNamed("/RatePassengers", arguments: [ride, notification]);
   }
@@ -46,7 +48,7 @@ class RatePassengersHandler extends NotificationHandler {
       MainNotification rateNotification = new MainNotification(
           title: "How Were Passengers?",
           body:
-          "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
+              "Review passengers from ${ride.from.name} -> ${ride.to.name} ride",
           object: ride.id,
           scheduleDate: popUpDate,
           action: RatePassengersHandler.action);
@@ -56,6 +58,6 @@ class RatePassengersHandler extends NotificationHandler {
   }
 
   static Future<bool> removeLocalNotification(Ride ride) async {
-      return LocalNotificationManager.cancelLocalNotification(prefix + ride.id);
+    return LocalNotificationManager.cancelLocalNotification(prefix + ride.id);
   }
 }

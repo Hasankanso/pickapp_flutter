@@ -212,6 +212,7 @@ class _PlacesAutocompleteResult extends State<PlacesAutocompleteResult> {
     if (state._isLoading) {
       return LoadingListView(
         predictions: state._response.predictions,
+        canPickCurrLocation: widget.canPickCurrLocation,
       );
     }
     return GPSListView(

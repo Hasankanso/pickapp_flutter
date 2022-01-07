@@ -25,22 +25,35 @@ class RatePassengers extends StatelessWidget {
     for (var passenger in ride.reservations) {
       bool isCanceledThenReserve = false;
 
+      //check if user has two reservation one canceled and one valid,
+      // then ignore canceled one
       if (passenger.status == "CANCELED") {
         for (var pass in ride.reservations) {
           if (pass.person.id == passenger.person.id &&
-              pass.person.id != "CANCELED") {
+              pass.status != "CANCELED") {
             isCanceledThenReserve = true;
           }
         }
       }
+
       if (!isCanceledThenReserve) {
-        rates.add(new Rate(
-            ride: ride,
-            rater: App.person,
-            grade: 5,
-            reason: 0,
-            target: passenger.person,
-            creationDate: DateTime.now()));
+        //if user canceled the ride many times
+        //appear once in rating list
+        bool alreadyAdded = false;
+        for (var rate in rates) {
+          if (rate.target.id == passenger.person.id) {
+            alreadyAdded = true;
+          }
+        }
+        if (!alreadyAdded) {
+          rates.add(new Rate(
+              ride: ride,
+              rater: App.person,
+              grade: 5,
+              reason: 0,
+              target: passenger.person,
+              creationDate: DateTime.now()));
+        }
       }
       formKeys.add(new GlobalKey<FormState>());
     }

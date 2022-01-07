@@ -36,7 +36,7 @@ class Notifications extends StatelessWidget {
                       list: notifications,
                       itemBuilder:
                           NotificationListTile.itemBuilder(notifications),
-                      nativeAdHeight: ScreenUtil().setSp(50),
+                      nativeAdHeight: ScreenUtil().setSp(60),
                       nativeAdElevation: 1,
                       nativeAdRoundCorner: 5)
                   : Center(
