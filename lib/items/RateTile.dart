@@ -21,7 +21,6 @@ class RateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(rate);
     return Card(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
