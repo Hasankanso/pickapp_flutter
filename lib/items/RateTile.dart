@@ -37,7 +37,9 @@ class RateTile extends StatelessWidget {
                 Expanded(
                   flex: 20,
                   child: Text(
-                    rate.rater.firstName + " " + rate.rater.lastName,
+                    rate.rater != null
+                        ? rate.rater.firstName + " " + rate.rater.lastName
+                        : "Deleted User",
                     style: Styles.valueTextStyle(),
                   ),
                 ),
