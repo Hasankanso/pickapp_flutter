@@ -23,6 +23,7 @@ class Statistics extends StatelessWidget {
     } else {
       accomplishedCanceledRatio = 0.0;
     }
+
     return MainScaffold(
       appBar: MainAppBar(title: Lang.getString(context, "Statistics")),
       body: Column(
@@ -82,10 +83,14 @@ class Statistics extends StatelessWidget {
                                         child: LinearPercentIndicator(
                                           width: ScreenUtil().setWidth(234.0),
                                           lineHeight: 16.0,
-                                          percent:
-                                              !accomplishedCanceledRatio.isNaN
-                                                  ? accomplishedCanceledRatio
-                                                  : 0,
+                                          percent: (!accomplishedCanceledRatio
+                                                      .isNaN &&
+                                                  accomplishedCanceledRatio <=
+                                                      1.0 &&
+                                                  accomplishedCanceledRatio >=
+                                                      0.0)
+                                              ? accomplishedCanceledRatio
+                                              : 0.0,
                                           center: Text(
                                             !accomplishedCanceledRatio.isNaN
                                                 ? (accomplishedCanceledRatio *
@@ -158,7 +163,7 @@ class Statistics extends StatelessWidget {
               flex: 30,
               children: [
                 ResponsiveWidget.fullWidth(
-                  height: 275,
+                  height: 255,
                   child: MainNativeAd(),
                 ),
               ],

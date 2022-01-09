@@ -58,7 +58,10 @@ class ListBuilder extends StatelessWidget {
                 ),
               );
             }
-            return Divider();
+            return Container(
+              width: 0,
+              height: 0,
+            );
           },
           reverse: reverse,
           itemBuilder: itemBuilder,
