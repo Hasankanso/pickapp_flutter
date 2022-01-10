@@ -9,6 +9,7 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
 import 'package:just_miles/utilities/ImageViewer.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
@@ -116,10 +117,6 @@ class _MainImagePickerState extends State<MainImagePicker> {
     try {
       pickedFile =
           await picker.getImage(source: ImageSource.camera, imageQuality: 50);
-    } catch (PlatformException) {
-      AppSettings.openAppSettings();
-      return;
-    }
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -127,6 +124,13 @@ class _MainImagePickerState extends State<MainImagePicker> {
         if (widget.callBack != null) widget.callBack(_image);
       }
     });
+    } catch (PlatformException) {
+      if(Platform.isIOS){
+        CustomToast().showErrorToast(Lang.getString(context, "no_camera_permission"));
+      } else {
+        AppSettings.openAppSettings();
+      }
+    }
   }
 
   _pickGallery() async {
@@ -135,10 +139,6 @@ class _MainImagePickerState extends State<MainImagePicker> {
     try {
       pickedFile =
           await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
-    } catch (PlatformException) {
-      AppSettings.openAppSettings();
-      return;
-    }
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -146,6 +146,14 @@ class _MainImagePickerState extends State<MainImagePicker> {
         if (widget.callBack != null) widget.callBack(_image);
       }
     });
+    } catch (PlatformException) {
+      if(Platform.isIOS){
+        CustomToast().showErrorToast(Lang.getString(context, "no_image_pick_permission"));
+      } else {
+        AppSettings.openAppSettings();
+      }
+      return;
+    }
   }
 
   _viewImage() {
