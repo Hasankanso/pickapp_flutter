@@ -84,6 +84,7 @@ class LocalNotificationManager {
   }
 
   static _pushLocalNotification(MainNotification notification) async {
+    print("local notification");
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
     var androidImage;

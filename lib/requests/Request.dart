@@ -112,7 +112,7 @@ abstract class Request<T> {
           headers: header,
           body: jsonData,
         )
-        .timeout(const Duration(seconds: 20))
+        .timeout(const Duration(seconds: 30))
         .catchError((Object o) {
       if (callback != null)
         callback(null, HttpStatus.networkConnectTimeoutError,

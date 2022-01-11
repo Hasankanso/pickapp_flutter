@@ -34,49 +34,51 @@ class _RegisterDriverState extends State<RegisterDriver> {
       appBar: MainAppBar(
         title: Lang.getString(context, "Become_a_Driver"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          VerticalSpacer(height: 70),
-          ResponsiveRow(
-            flex: 20,
-            children: [
-              Text(
-                Lang.getString(context, "Register_driver_message1"),
-                style: Styles.labelTextStyle(bold: FontWeight.bold),
-              ),
-            ],
-          ),
-          ResponsiveRow(
-            flex: 20,
-            children: [
-              Text(
-                Lang.getString(context, "Register_driver_message2"),
-                style: Styles.labelTextStyle(bold: FontWeight.bold),
-              )
-            ],
-          ),
-          VerticalSpacer(
-            height: 80,
-          ),
-          ResponsiveWidget.fullWidth(
-            height: 250,
-            child: DifferentSizeResponsiveRow(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            VerticalSpacer(height: 70),
+            ResponsiveRow(
+              flex: 20,
               children: [
-                Spacer(
-                  flex: 8,
-                ),
-                Expanded(
-                  flex: 60,
-                  child: MainNativeAd(),
-                ),
-                Spacer(
-                  flex: 8,
+                Text(
+                  Lang.getString(context, "Register_driver_message1"),
+                  style: Styles.labelTextStyle(bold: FontWeight.bold),
                 ),
               ],
             ),
-          ),
-        ],
+            ResponsiveRow(
+              flex: 20,
+              children: [
+                Text(
+                  Lang.getString(context, "Register_driver_message2"),
+                  style: Styles.labelTextStyle(bold: FontWeight.bold),
+                )
+              ],
+            ),
+            VerticalSpacer(
+              height: 80,
+            ),
+            ResponsiveWidget.fullWidth(
+              height: 250,
+              child: DifferentSizeResponsiveRow(
+                children: [
+                  Spacer(
+                    flex: 8,
+                  ),
+                  Expanded(
+                    flex: 60,
+                    child: MainNativeAd(),
+                  ),
+                  Spacer(
+                    flex: 8,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
         height: 110,
