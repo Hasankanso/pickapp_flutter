@@ -323,6 +323,9 @@
   "and": "and",
   "Please_agree_to_the": "Please agree to the",
 
+  "no_image_pick_permission" : "Access on images is not granted.",
+  "no_camera_permission" : "Access on camera is not granted.",
+
   "-1000" : "Please login first",
   "-1001" : "Something is wrong, please logout and login",
   "-1002" : "Something is wrong, please contact support",

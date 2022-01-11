@@ -320,6 +320,9 @@
   "and": "et",
   "Please_agree_to_the": "S'il vous plaît accepter les",
 
+  "no_image_pick_permission" : "Access on images is not granted.",
+  "no_camera_permission" : "Access on camera is not granted.",
+
   "-1000" : "Veuillez vous connecter d'abord",
   "-1001" : "Quelque chose ne va pas, veuillez vous déconnecter et vous connecter",
   "-1002" : "Quelque chose ne va pas, veuillez contacter le support",
