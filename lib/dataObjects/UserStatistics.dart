@@ -77,7 +77,11 @@ class UserStatistics {
         break;
     }
     ratesCount += 1;
-    rateAverage = (rateAverage * ratesCount + rate.grade) / ratesCount;
+    int denominator = 2;
+    if (ratesCount == 1) {
+      denominator = 1;
+    }
+    rateAverage = (rateAverage + rate.grade) / denominator;
     return UserStatistics(ones, twos, threes, fours, fives, rateAverage,
         ratesCount, acomplishedRides, canceledRides);
   }
