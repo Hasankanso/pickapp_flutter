@@ -65,6 +65,8 @@ class Ads {
   }
 
   static Future<void> showRewardedAd(Function callBack, context) async {
+    callBack();
+    return;
     if (_rewardedAd == null) {
       return;
     }

@@ -144,7 +144,6 @@ abstract class Request<T> {
     }
 
     //parse returned object.
-
     try {
       T object = buildObject(decodedResponse);
       if (callback != null)

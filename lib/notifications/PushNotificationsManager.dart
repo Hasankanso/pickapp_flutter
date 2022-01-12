@@ -120,7 +120,6 @@ class PushNotificationsManager {
         await Cache.getScheduledNotifications();
     List<MainNotification> updatedScheduledNotifications = [];
     updatedScheduledNotifications.addAll(allScheduledNotifications);
-
     bool isOneScheduledNotificationHandled = false;
     for (MainNotification n in allScheduledNotifications) {
       if (n.scheduleDate.isBefore(DateTime.now())) {

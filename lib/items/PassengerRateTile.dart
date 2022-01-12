@@ -11,17 +11,15 @@ import 'package:just_miles/utilities/Responsive.dart';
 
 class PassengerRateTile extends StatefulWidget {
   final Rate rate;
-  final GlobalKey<FormState> formKey;
 
-  PassengerRateTile(this.rate, this.formKey, {Key key}) : super(key: key);
+  PassengerRateTile(this.rate, {Key key}) : super(key: key);
 
   @override
   _PassengerRateTileState createState() => _PassengerRateTileState();
 
-  static Function(BuildContext, int) createPassengersItems(
-      List<Rate> rates, List<GlobalKey<FormState>> formKey) {
+  static Function(BuildContext, int) createPassengersItems(List<Rate> rates) {
     return (context, index) {
-      return PassengerRateTile(rates[index], formKey[index]);
+      return PassengerRateTile(rates[index]);
     };
   }
 }
@@ -46,121 +44,118 @@ class _PassengerRateTileState extends State<PassengerRateTile> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          child: Form(
-            key: widget.formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Spacer(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Spacer(),
+              Expanded(
+                flex: 2,
+                child: Row(
+                  children: [
+                    SizedBox(width: 10),
+                    Text(
+                      widget.rate.target.firstName +
+                          " " +
+                          widget.rate.target.lastName,
+                      style: Styles.valueTextStyle(),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: RatingBar.builder(
+                  initialRating: 5,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemSize: ScreenUtil().setSp(35),
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  glow: true,
+                  unratedColor: Colors.grey.shade300,
+                  maxRating: 5,
+                  glowColor: Colors.amber,
+                  glowRadius: 0.01,
+                  onRatingUpdate: (rating) {
+                    widget.rate.grade = rating;
+
+                    setState(() {
+                      if (rating <= Rate.maximumRateReasonRequired)
+                        _isReasonVisible = true;
+                      else
+                        _isReasonVisible = false;
+                    });
+                  },
+                ),
+              ),
+              if (_isReasonVisible) Spacer(flex: 1),
+              if (_isReasonVisible)
                 Expanded(
-                  flex: 2,
-                  child: Row(
-                    children: [
-                      SizedBox(width: 10),
-                      Text(
-                        widget.rate.target.firstName +
-                            " " +
-                            widget.rate.target.lastName,
-                        style: Styles.valueTextStyle(),
+                  flex: 4,
+                  child: ResponsiveWidget.fullWidth(
+                    height: 115,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 2),
+                      child: DropdownButtonFormField<String>(
+                        isExpanded: true,
+                        decoration: InputDecoration(
+                            labelText: Lang.getString(context, "Reason")),
+                        value: _reasonsItems[widget.rate.reason],
+                        onChanged: (String newValue) {
+                          setState(() {
+                            widget.rate.reason =
+                                _reasonsItems.indexOf(newValue);
+                          });
+                        },
+                        items: _reasonsItems
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-                Expanded(
-                  flex: 2,
-                  child: RatingBar.builder(
-                    initialRating: 5,
-                    minRating: 1,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemSize: ScreenUtil().setSp(35),
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
+              Expanded(
+                flex: _isReasonVisible ? 8 : 12,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 12),
+                  child: TextFormField(
+                    onChanged: (value) {
+                      widget.rate.comment = value;
+                    },
+                    controller: commentController,
+                    minLines: 4,
+                    textInputAction: TextInputAction.done,
+                    maxLines: 20,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(400),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: Lang.getString(context, "Review"),
+                      labelStyle: Styles.labelTextStyle(),
+                      hintStyle: Styles.labelTextStyle(),
                     ),
-                    glow: true,
-                    unratedColor: Colors.grey.shade300,
-                    maxRating: 5,
-                    glowColor: Colors.amber,
-                    glowRadius: 0.01,
-                    onRatingUpdate: (rating) {
-                      widget.rate.grade = rating;
+                    style: Styles.valueTextStyle(),
+                    validator: (value) {
+                      String valid = Validation.validate(value, context);
 
-                      setState(() {
-                        if (rating <= Rate.maximumRateReasonRequired)
-                          _isReasonVisible = true;
-                        else
-                          _isReasonVisible = false;
-                      });
+                      if (widget.rate.grade <= 4 && valid != null)
+                        return valid;
+                      else
+                        return null;
                     },
                   ),
                 ),
-                if (_isReasonVisible) Spacer(flex: 1),
-                if (_isReasonVisible)
-                  Expanded(
-                    flex: 4,
-                    child: ResponsiveWidget.fullWidth(
-                      height: 115,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 2),
-                        child: DropdownButtonFormField<String>(
-                          isExpanded: true,
-                          decoration: InputDecoration(
-                              labelText: Lang.getString(context, "Reason")),
-                          value: _reasonsItems[widget.rate.reason],
-                          onChanged: (String newValue) {
-                            setState(() {
-                              widget.rate.reason =
-                                  _reasonsItems.indexOf(newValue);
-                            });
-                          },
-                          items: _reasonsItems
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  ),
-                Expanded(
-                  flex: _isReasonVisible ? 8 : 12,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 12),
-                    child: TextFormField(
-                      onChanged: (value) {
-                        widget.rate.comment = value;
-                      },
-                      controller: commentController,
-                      minLines: 4,
-                      textInputAction: TextInputAction.done,
-                      maxLines: 20,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(400),
-                      ],
-                      decoration: InputDecoration(
-                        labelText: Lang.getString(context, "Review"),
-                        labelStyle: Styles.labelTextStyle(),
-                        hintStyle: Styles.labelTextStyle(),
-                      ),
-                      style: Styles.valueTextStyle(),
-                      validator: (value) {
-                        String valid = Validation.validate(value, context);
-
-                        if (widget.rate.grade <= 4 && valid != null)
-                          return valid;
-                        else
-                          return null;
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           )),
     );
   }

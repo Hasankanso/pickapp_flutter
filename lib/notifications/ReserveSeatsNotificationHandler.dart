@@ -50,7 +50,6 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
     //save changes.
     await Cache.setUser(user);
     //add rateNotification.
-
     await RatePassengersHandler.createLocalNotification(reservedRide);
   }
 

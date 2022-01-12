@@ -249,27 +249,27 @@ class App {
     return _chattiness;
   }
 
-  static deleteRideFromMyRides(Ride ride) {
+  static deleteRideFromMyRides(Ride ride) async {
     App.user.person.upcomingRides.remove(ride);
     App.person.statistics.acomplishedRides -= 1;
     App.person.statistics.canceledRides += 1;
-    LocalNotificationManager.cancelLocalNotification(
+    await LocalNotificationManager.cancelLocalNotification(
         "ride_reminder." + ride.id);
 
     if (ride.reserved) {
-      RateDriverHandler.removeLocalNotification(ride);
+      await RateDriverHandler.removeLocalNotification(ride);
     } else {
-      RatePassengersHandler.removeLocalNotification(ride);
+      await RatePassengersHandler.removeLocalNotification(ride);
     }
 
-    updateUserCache();
+    await updateUserCache();
   }
 
-  static void addRideToMyRides(Ride ride, context) async {
+  static Future<void> addRideToMyRides(Ride ride, context) async {
     String _locale = Localizations.localeOf(context).toString();
     App.user.person.upcomingRides.add(ride);
     App.person.statistics.acomplishedRides += 1;
-    updateUserCache();
+    await updateUserCache();
 
     var leavingDate = ride.leavingDate;
     if (ride.reserved) {
@@ -282,7 +282,7 @@ class App {
         scheduleDate: leavingDate.add(Duration(
             hours: App.user.person.countryInformations.rateStartHours)),
       );
-      LocalNotificationManager.pushLocalNotification(
+      await LocalNotificationManager.pushLocalNotification(
           rateDriverNotification, RateDriverHandler.prefix + ride.id);
     }
     String title = "Ride reminder";
@@ -292,14 +292,15 @@ class App {
 
     DateTime beforeHalfHour = leavingDate.add(Duration(minutes: -30));
     //if there is less than 30 minutes then no need for reminder
-    if (beforeHalfHour.isBefore(DateTime.now())) {
+
+    if (!beforeHalfHour.isBefore(DateTime.now())) {
       MainNotification rideReminderNotification = MainNotification(
           title: title,
           body: body,
           object: [ride.id, ride.reserved],
           action: "RIDE_REMINDER",
           scheduleDate: beforeHalfHour);
-      LocalNotificationManager.pushLocalNotification(
+      await LocalNotificationManager.pushLocalNotification(
           rideReminderNotification, "ride_reminder." + ride.id);
     }
   }

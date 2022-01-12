@@ -283,14 +283,14 @@ class _SearchResultsState extends State<SearchResults> {
     });
   }
 
-  void reserveSeatsResponse(
-      Ride r, int code, String message, BuildContext context) {
+  Future<void> reserveSeatsResponse(
+      Ride r, int code, String message, BuildContext context) async {
     if (App.handleErrors(context, code, message)) {
       Navigator.pop(context);
       return;
     }
 
-    App.addRideToMyRides(r, context);
+    await App.addRideToMyRides(r, context);
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));
     Navigator.pushNamedAndRemoveUntil(

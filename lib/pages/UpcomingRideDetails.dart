@@ -30,9 +30,12 @@ class UpcomingRideDetails extends StatelessWidget {
   _openCancelPopUp(context) {
     Widget _content;
     if (ride.leavingDate.compareTo(DateTime.now()) < 0) {
-      return CustomToast().showErrorToast(Lang.getString(context, "Ride_already_started"));
+      return CustomToast()
+          .showErrorToast(Lang.getString(context, "Ride_already_started"));
     } else {
-      if (ride.leavingDate.compareTo(DateTime.now().add(App.availableDurationToRate)) <= 0) {
+      if (ride.leavingDate
+              .compareTo(DateTime.now().add(App.availableDurationToRate)) <=
+          0) {
         _content = Column(
           children: [
             TextFormField(
@@ -54,8 +57,7 @@ class UpcomingRideDetails extends StatelessWidget {
 
                 if (valid != null)
                   return valid;
-                else if (short != null)
-                  return short;
+                else if (short != null) return short;
                 return null;
               },
             ),
@@ -133,8 +135,8 @@ class UpcomingRideDetails extends StatelessWidget {
             tabs: [
               Tab(icon: Icon(Icons.map, size: Styles.mediumIconSize())),
               Tab(
-                  icon:
-                      Icon(Icons.airline_seat_recline_extra_sharp, size: Styles.mediumIconSize())),
+                  icon: Icon(Icons.airline_seat_recline_extra_sharp,
+                      size: Styles.mediumIconSize())),
             ],
           ),
         ),
@@ -161,12 +163,13 @@ class UpcomingRideDetails extends StatelessWidget {
       return;
     }
 
-    App.deleteRideFromMyRides(ride);
+    await App.deleteRideFromMyRides(ride);
     ridesHistory = await Cache.getRidesHistory();
-    ride.status="CANCELED";
+    ride.status = "CANCELED";
     ridesHistory.add(ride);
     await Cache.updateRideHistory(ridesHistory);
     Navigator.popUntil(context, (route) => route.isFirst);
-    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
+    CustomToast()
+        .showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
   }
 }

@@ -38,16 +38,18 @@ class _SearchState extends State<Search>
   response(List<Ride> result, int code, String message) {
     if (App.handleErrors(context, code, message)) return;
     _searchInfo.rides = [];
+
     //show rides after date now
     for (final ride in result) {
-      if (DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss',
+      if (DateTime.parse(DateFormat('yyyy-MM-dd kk:mm:ss',
                       Localizations.localeOf(context).toString())
                   .format(ride.leavingDate) +
               ".000")
-          .isAfter(DateTime.now().toUtc())) {
+          .isAfter(DateTime.now())) {
         _searchInfo.rides.add(ride);
       }
     }
+
     Navigator.of(context).pushNamed("/RideResults", arguments: _searchInfo);
   }
 

@@ -334,12 +334,12 @@ class _AddRidePage5State extends State<AddRidePage5> {
   }
 }
 
-_addRideResponse(Ride result, int code, String message, context) {
+_addRideResponse(Ride result, int code, String message, context) async {
   if (code != HttpStatus.ok) {
     CustomToast().showErrorToast(message);
     Navigator.pop(context);
   } else {
-    App.addRideToMyRides(result, context);
+    await App.addRideToMyRides(result, context);
 
     Navigator.pushNamedAndRemoveUntil(
         context, "/", (Route<dynamic> route) => false);
