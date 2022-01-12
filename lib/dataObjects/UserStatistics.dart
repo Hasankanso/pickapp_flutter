@@ -76,8 +76,8 @@ class UserStatistics {
         fives += 1;
         break;
     }
+    rateAverage = (rateAverage * ratesCount + rate.grade) / (ratesCount + 1);
     ratesCount += 1;
-    rateAverage = (rateAverage * ratesCount + rate.grade) / ratesCount;
     return UserStatistics(ones, twos, threes, fours, fives, rateAverage,
         ratesCount, acomplishedRides, canceledRides);
   }
