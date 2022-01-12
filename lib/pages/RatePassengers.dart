@@ -18,7 +18,7 @@ import 'package:just_miles/utilities/Responsive.dart';
 class RatePassengers extends StatelessWidget {
   final Ride ride;
   final List<Rate> rates = [];
-  final GlobalKey<FormState> formKeys = new GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
   final MainNotification notification;
 
   RatePassengers({Key key, this.ride, this.notification}) : super(key: key) {
@@ -81,7 +81,7 @@ class RatePassengers extends StatelessWidget {
       body: ride.reservations.isEmpty
           ? Center(child: Text("No Passengers"))
           : Form(
-              key: formKeys,
+              key: formKey,
               child: ListBuilder(
                   list: rates,
                   itemBuilder: PassengerRateTile.createPassengersItems(rates)),
@@ -97,8 +97,7 @@ class RatePassengers extends StatelessWidget {
                 isRequest: true,
                 textKey: "Rate",
                 onPressed: () async {
-                  var _formKey = formKeys;
-                  if (_formKey.currentState.validate()) {
+                  if (formKey.currentState.validate()) {
                     if (DateTime.now().isAfter(
                         ride.leavingDate.add(App.availableDurationToRate))) {
                       return CustomToast().showErrorToast(

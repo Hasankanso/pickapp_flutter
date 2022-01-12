@@ -293,7 +293,7 @@ class App {
     DateTime beforeHalfHour = leavingDate.add(Duration(minutes: -30));
     //if there is less than 30 minutes then no need for reminder
 
-    if (!beforeHalfHour.isBefore(DateTime.now())) {
+    if (beforeHalfHour.isAfter(DateTime.now())) {
       MainNotification rideReminderNotification = MainNotification(
           title: title,
           body: body,
@@ -335,7 +335,7 @@ class App {
     App.user = null;
     App.isDriverNotifier.value = false;
     App.isLoggedInNotifier.value = false;
-    LocalNotificationManager.cancelAllLocalNotifications();
+    await LocalNotificationManager.cancelAllLocalNotifications();
     return true;
   }
 }
