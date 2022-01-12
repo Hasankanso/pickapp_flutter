@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/notifications/LocalNotificationManager.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
@@ -39,7 +38,7 @@ class RateDriverHandler extends NotificationHandler {
   }
 
   static Future<void> removeLocalNotification(Ride ride) async {
-      return LocalNotificationManager.cancelLocalNotification(prefix + ride.id);
-
+    return await LocalNotificationManager.cancelLocalNotification(
+        prefix + ride.id);
   }
 }

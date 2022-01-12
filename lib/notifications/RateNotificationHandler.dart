@@ -30,7 +30,7 @@ class RateNotificationHandler extends NotificationHandler {
     await Cache.setUser(user);
     rates.sort((a, b) => b.creationDate.compareTo(a.creationDate));
     if (rates.isNotEmpty)
-      LocalNotificationManager.pushLocalNotification(
+      await LocalNotificationManager.pushLocalNotification(
           this.notification, prefix + rates[0].id);
   }
 

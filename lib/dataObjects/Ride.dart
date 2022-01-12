@@ -9,7 +9,6 @@ import 'package:just_miles/dataObjects/MainLocation.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/User.dart';
-import 'package:just_miles/requests/Request.dart';
 
 part 'Ride.g.dart';
 
@@ -173,7 +172,6 @@ class Ride {
 
   factory Ride.fromJson(Map<String, dynamic> json) {
     var leavingDateJ = json["leavingDate"];
-
     DateTime leavingDate;
     if (leavingDateJ != null && leavingDateJ is int) {
       leavingDate =
@@ -222,7 +220,6 @@ class Ride {
       mapUrl: json["map"],
     );
     r.setMapImage();
-
     return r;
   }
 

@@ -47,7 +47,7 @@ class LocalNotificationManager {
                       isDefaultAction: true,
                       child: Text(Lang.getString(context, "Show")),
                       onPressed: () async {
-                        _localeNotificationCallBack(payload, context);
+                        await _localeNotificationCallBack(payload, context);
                         Navigator.of(context).pop();
                       },
                     )
@@ -62,8 +62,8 @@ class LocalNotificationManager {
     );
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onSelectNotification: (payload) =>
-          _localeNotificationCallBack(payload, context),
+      onSelectNotification: (payload) async =>
+          await _localeNotificationCallBack(payload, context),
     );
   }
 
@@ -73,14 +73,14 @@ class LocalNotificationManager {
           MainNotification.fromJson(json.decode(payload));
       NotificationHandler handler =
           PushNotificationsManager.createNotificationHandler(notification);
-      if (handler != null) handler.display(context);
+      if (handler != null) await handler.display(context);
     }
   }
 
   static pushLocalNotification(MainNotification notification, String id) async {
     notification.id = await Cache.setScheduledNotificationId(id);
     notification.dictId = id;
-    _pushLocalNotification(notification);
+    await _pushLocalNotification(notification);
   }
 
   static _pushLocalNotification(MainNotification notification) async {

@@ -52,12 +52,13 @@ class RatePassengersHandler extends NotificationHandler {
           object: ride.id,
           scheduleDate: popUpDate,
           action: RatePassengersHandler.action);
-      LocalNotificationManager.pushLocalNotification(
+      await LocalNotificationManager.pushLocalNotification(
           rateNotification, prefix + ride.id);
     }
   }
 
   static Future<bool> removeLocalNotification(Ride ride) async {
-    return LocalNotificationManager.cancelLocalNotification(prefix + ride.id);
+    return await LocalNotificationManager.cancelLocalNotification(
+        prefix + ride.id);
   }
 }

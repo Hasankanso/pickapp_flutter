@@ -42,7 +42,7 @@ class RideDetails extends StatelessWidget {
     }
 
     if (deleted) {
-      App.deleteRideFromMyRides(ride);
+      await App.deleteRideFromMyRides(ride);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
       ridesHistory = await Cache.getRidesHistory();

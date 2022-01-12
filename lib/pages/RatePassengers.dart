@@ -18,7 +18,7 @@ import 'package:just_miles/utilities/Responsive.dart';
 class RatePassengers extends StatelessWidget {
   final Ride ride;
   final List<Rate> rates = [];
-  final List<GlobalKey<FormState>> formKeys = [];
+  final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
   final MainNotification notification;
 
   RatePassengers({Key key, this.ride, this.notification}) : super(key: key) {
@@ -55,7 +55,6 @@ class RatePassengers extends StatelessWidget {
               creationDate: DateTime.now()));
         }
       }
-      formKeys.add(new GlobalKey<FormState>());
     }
   }
 
@@ -81,10 +80,12 @@ class RatePassengers extends StatelessWidget {
       ),
       body: ride.reservations.isEmpty
           ? Center(child: Text("No Passengers"))
-          : ListBuilder(
-              list: rates,
-              itemBuilder:
-                  PassengerRateTile.createPassengersItems(rates, formKeys)),
+          : Form(
+              key: formKey,
+              child: ListBuilder(
+                  list: rates,
+                  itemBuilder: PassengerRateTile.createPassengersItems(rates)),
+            ),
       bottomNavigationBar: ResponsiveWidget.fullWidth(
         height: 80,
         child: Column(
@@ -96,20 +97,16 @@ class RatePassengers extends StatelessWidget {
                 isRequest: true,
                 textKey: "Rate",
                 onPressed: () async {
-                  for (int i = 0; i < rates.length; i++) {
-                    Ride _ride = rates[i].ride;
-                    var _formKey = formKeys[i];
-                    if (_formKey.currentState.validate()) {
-                      if (DateTime.now().isAfter(
-                          _ride.leavingDate.add(App.availableDurationToRate))) {
-                        return CustomToast().showErrorToast(
-                            Lang.getString(context, "Rate_days_validation"));
-                      }
-                      //any fail above, the return line will not let the program to reach this code
-                      Request<bool> request = RatePassengersRequest(rates);
-                      await request.send((bool p1, int p2, String p3) =>
-                          _response(p1, p2, p3, context));
+                  if (formKey.currentState.validate()) {
+                    if (DateTime.now().isAfter(
+                        ride.leavingDate.add(App.availableDurationToRate))) {
+                      return CustomToast().showErrorToast(
+                          Lang.getString(context, "Rate_days_validation"));
                     }
+                    //any fail above, the return line will not let the program to reach this code
+                    Request<bool> request = RatePassengersRequest(rates);
+                    await request.send((bool p1, int p2, String p3) =>
+                        _response(p1, p2, p3, context));
                   }
                 },
               ),
