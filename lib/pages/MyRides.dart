@@ -27,9 +27,6 @@ class _MyRidesState extends State<MyRides> {
   }
 
   init() async {
-    if (await Cache.getIsGetUpcomingRideRequest()) {
-      await _getUpcomingRides();
-    }
     await getRidesHistory();
   }
 
@@ -50,6 +47,7 @@ class _MyRidesState extends State<MyRides> {
       if (needUpdate) {
         App.person.upcomingRides.removeWhere((e) => toRemove.contains(e));
         await Cache.updateRideHistory(ridesHistory);
+        await Cache.setUser(App.user);
       }
     }
   }
