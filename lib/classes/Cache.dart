@@ -465,35 +465,6 @@ class Cache {
     return isNewNotification;
   }
 
-  static Future<bool> setIsGetUpcomingRideRequest(bool value) async {
-    var box = await Hive.openBox("appSettings");
-    await box.put("IS_GET_UPCOMING_RIDE_REQUEST", value);
-    await box.close();
-    return true;
-  }
-
-  static Future<bool> getIsGetUpcomingRideRequest() async {
-    var box = await Hive.openBox("appSettings");
-    bool isNewNotification = box.get("IS_GET_UPCOMING_RIDE_REQUEST");
-    await box.close();
-    if (isNewNotification == null) return false;
-    return isNewNotification;
-  }
-
-  static Future<bool> setIsGetRateRequest(bool value) async {
-    var box = await Hive.openBox("appSettings");
-    await box.put("IS_GET_RATE_REQUEST", value);
-    await box.close();
-    return true;
-  }
-
-  static Future<bool> getIsGetRateRequest() async {
-    var box = await Hive.openBox("appSettings");
-    bool isNewNotification = box.get("IS_GET_RATE_REQUEST");
-    await box.close();
-    if (isNewNotification == null) return false;
-    return isNewNotification;
-  }
 
   static Future<bool> setCountriesList(List<String> value) async {
     var box = await Hive.openBox("appSettings");
