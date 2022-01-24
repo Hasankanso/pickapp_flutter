@@ -72,14 +72,18 @@ class Ads {
     _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (RewardedAd ad) {},
       onAdDismissedFullScreenContent: (RewardedAd ad) {
-        ad.dispose();
-        loadRewardedAd();
+        //this will only be called for android
+        ad.dispose().then((value) => loadRewardedAd());
         if (!_isRewarded) {
           //if user didn't watch the whole video, just pop the spinner
           Navigator.pop(context);
         }
       },
       onAdWillDismissFullScreenContent: (RewardedAd ad) {
+        //only ios calls this function when ad is dismissed.
+        if (!_isRewarded) {
+          Navigator.pop(context);
+        }
         ad.dispose();
       },
       onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {

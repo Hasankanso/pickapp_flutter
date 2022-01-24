@@ -4,6 +4,7 @@ import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/dataObjects/UserStatistics.dart';
 import 'package:just_miles/items/RateTile.dart';
 import 'package:just_miles/requests/GetUserReviews.dart';
 import 'package:just_miles/requests/Request.dart';
@@ -99,7 +100,14 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
   getRatesResponse(List<Rate> rates, int status, String message) async {
     if (status != 200) {
     } else {
+      UserStatistics userStatistics = UserStatistics(0, 0, 0, 0, 0, 0, 0, 0, 0);
+      for (final rate in rates) {
+        userStatistics = userStatistics.createNewStatistics(rate);
+      }
+      App.person.statistics = userStatistics;
+      await Cache.setUser(App.user);
       await Cache.setRates(rates);
+
       setState(() {
         _filterRates(rates);
       });
