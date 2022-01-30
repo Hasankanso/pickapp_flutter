@@ -364,12 +364,12 @@ class App {
       String currentVersion =
           packageInfo.version + "+" + packageInfo.buildNumber;
       if (forceUpdateVersion.isNotEmpty &&
-          currentVersion != forceUpdateVersion) {
+          _needsUpdate(currentVersion, forceUpdateVersion)) {
         //need force update
         appNeedForceUpdate = true;
         Navigator.pushNamed(context, '/NewVersion');
       } else if (recommendUpdateVersion.isNotEmpty &&
-          recommendUpdateVersion != currentVersion) {
+          _needsUpdate(currentVersion, recommendUpdateVersion)) {
         //recommend to update
         appRecommendUpdate = true;
         Navigator.pushNamed(context, '/NewVersion');
@@ -378,7 +378,23 @@ class App {
         appNeedForceUpdate = false;
       }
     } catch (e) {
+      print(e);
       return;
     }
+  }
+
+  static bool _needsUpdate(String currentVersion, String newVersion) {
+    final List<int> currentVersionList = currentVersion
+        .split(new RegExp(r"[.+]"))
+        .map((String number) => int.parse(number))
+        .toList();
+    final List<int> newVersionList = newVersion
+        .split(new RegExp(r"[.+]"))
+        .map((String number) => int.parse(number))
+        .toList();
+    for (int i = 0; i < newVersionList.length; i++) {
+      if (newVersionList[i] > currentVersionList[i]) return true;
+    }
+    return false;
   }
 }
