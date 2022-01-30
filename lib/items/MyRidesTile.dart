@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:just_miles/ads/Ads.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
@@ -48,9 +49,11 @@ class MyRidesTile extends StatefulWidget {
           );
         },
       );
-      Request<Ride> req = EditReservation(ride, seats, luggage);
-      req.send((Ride r, int status, String reason) =>
-          _editReservationResponse(context, r, status, reason));
+      Ads.showRewardedAd(() async {
+        Request<Ride> req = EditReservation(ride, seats, luggage);
+        await req.send((Ride r, int status, String reason) =>
+            _editReservationResponse(context, r, status, reason));
+      }, context);
     }, reservation: reservation);
   }
 
@@ -58,7 +61,6 @@ class MyRidesTile extends StatefulWidget {
       BuildContext context, Ride r, int status, String reason) {
     if (status != 200) {
       Navigator.pop(context);
-      //todo in backendless you should send a specific case for this validation, and after handling all what we want, w put general validation
       CustomToast()
           .showErrorToast(Lang.getString(context, "Ride_Reserved_Failed"));
     } else {
@@ -140,6 +142,8 @@ class _MyRidesTileState extends State<MyRidesTile> {
         onTap: widget._ride.status != "CANCELED"
             ? widget._ride.reserved == true
                 ? () {
+                    Ads.loadRewardedAd();
+
                     Navigator.of(context).pushNamed("/RideDetails", arguments: [
                       widget._ride,
                       Lang.getString(context, "Edit_Reservation"),

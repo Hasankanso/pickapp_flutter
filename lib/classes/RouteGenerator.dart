@@ -7,10 +7,6 @@ import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/pages/AddAlert.dart';
 import 'package:just_miles/pages/AddCar.dart';
 import 'package:just_miles/pages/AddCar2.dart';
-import 'package:just_miles/pages/AddRidePage2.dart';
-import 'package:just_miles/pages/AddRidePage3.dart';
-import 'package:just_miles/pages/AddRidePage4.dart';
-import 'package:just_miles/pages/AddRidePage5.dart';
 import 'package:just_miles/pages/BecomeDriver.dart';
 import 'package:just_miles/pages/CarDetails.dart';
 import 'package:just_miles/pages/CarView.dart';
@@ -23,6 +19,7 @@ import 'package:just_miles/pages/Email.dart';
 import 'package:just_miles/pages/Home.dart';
 import 'package:just_miles/pages/Login.dart';
 import 'package:just_miles/pages/LoginRegister.dart';
+import 'package:just_miles/pages/NewVersion.dart';
 import 'package:just_miles/pages/Notifications.dart';
 import 'package:just_miles/pages/Phone.dart';
 import 'package:just_miles/pages/Phone2.dart';
@@ -40,6 +37,10 @@ import 'package:just_miles/pages/Settings.dart';
 import 'package:just_miles/pages/Statistics.dart';
 import 'package:just_miles/pages/TermAndConditions.dart';
 import 'package:just_miles/pages/UpcomingRideDetails.dart';
+import 'package:just_miles/pages/add_ride/AddRidePage2.dart';
+import 'package:just_miles/pages/add_ride/AddRidePage3.dart';
+import 'package:just_miles/pages/add_ride/AddRidePage4.dart';
+import 'package:just_miles/pages/add_ride/AddRidePage5.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'App.dart';
@@ -431,6 +432,13 @@ class RouteGenerator {
             reverseDuration: duration,
             type: isLTR,
             child: CountriesRestriction());
+      case '/NewVersion':
+        return PageTransition(
+            settings: settings,
+            duration: duration,
+            reverseDuration: duration,
+            type: isLTR,
+            child: NewVersion());
     }
   }
 }

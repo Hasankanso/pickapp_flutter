@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_miles/ads/Ads.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
@@ -14,15 +15,33 @@ import 'package:just_miles/utilities/MainScaffold.dart';
 import 'package:just_miles/utilities/NumberPicker.dart';
 import 'package:just_miles/utilities/Responsive.dart';
 
-class EditRide extends StatelessWidget {
+class EditRide extends StatefulWidget {
   final Ride ride;
 
   EditRide(this.ride);
 
+  @override
+  State<EditRide> createState() => _EditRideState();
+}
+
+class _EditRideState extends State<EditRide> {
   final _formKey = GlobalKey<FormState>();
+
   final NumberController personController = NumberController();
+
   final NumberController luggageController = NumberController();
+
   final descController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadAd();
+  }
+
+  _loadAd() async {
+    await Ads.loadRewardedAd();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +65,8 @@ class EditRide extends StatelessWidget {
                   child: NumberPicker(
                     personController,
                     "Seats",
-                    ride.maxSeats,
-                    ride.car.maxSeats,
+                    widget.ride.maxSeats,
+                    widget.ride.car.maxSeats,
                   )),
               VerticalSpacer(
                 height: 50,
@@ -57,8 +76,8 @@ class EditRide extends StatelessWidget {
                   child: NumberPicker(
                     luggageController,
                     "Luggage",
-                    ride.maxLuggage,
-                    ride.car.maxLuggage,
+                    widget.ride.maxLuggage,
+                    widget.ride.car.maxLuggage,
                   )),
               VerticalSpacer(
                 height: 30,
@@ -88,7 +107,7 @@ class EditRide extends StatelessWidget {
                 Expanded(
                   flex: 22,
                   child: Text(
-                    ride.comment,
+                    widget.ride.comment,
                     style: Styles.valueTextStyle(),
                   ),
                 ),
@@ -111,7 +130,7 @@ class EditRide extends StatelessWidget {
                       maxLines: 20,
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(
-                            399 - ride.comment.length),
+                            399 - widget.ride.comment.length),
                       ],
                       decoration: InputDecoration(
                         labelText:
@@ -146,9 +165,9 @@ class EditRide extends StatelessWidget {
               height: 50,
               child: MainButton(
                 textKey: "Edit_Ride",
-                isRequest: true,
+                isRequest: false,
                 onPressed: () async {
-                  Ride r = ride.copy();
+                  Ride r = widget.ride.copy();
                   if (_formKey.currentState.validate()) {
                     if (r.leavingDate.compareTo(DateTime.now()) < 0) {
                       return CustomToast().showErrorToast(
@@ -160,11 +179,14 @@ class EditRide extends StatelessWidget {
                         (luggageController.chosenNumber - r.maxLuggage);
                     r.maxSeats = personController.chosenNumber;
                     r.maxLuggage = luggageController.chosenNumber;
-                    r.comment = ride.comment + "\n" + descController.text;
+                    r.comment =
+                        widget.ride.comment + "\n" + descController.text;
 
-                    Request<Ride> request = EditRideRequest(r);
-                    await request.send((result, code, message) =>
-                        _editRideResponse(result, code, message, context));
+                    await Ads.showRewardedAd(() async {
+                      Request<Ride> request = EditRideRequest(r);
+                      await request.send((result, code, message) =>
+                          _editRideResponse(result, code, message, context));
+                    }, context);
                   }
                 },
               ),
@@ -177,6 +199,7 @@ class EditRide extends StatelessWidget {
 
   _editRideResponse(Ride ride, int code, String message, context) {
     if (App.handleErrors(context, code, message)) {
+      Navigator.pop(context);
       return;
     }
     App.user.person.upcomingRides.remove(ride);

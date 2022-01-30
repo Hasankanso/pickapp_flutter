@@ -1,4 +1,9 @@
 {
+  "Update": "تحديث",
+  "Needs_an_update": " يحتاج الى تحديث",
+  "Update_msg1": "للاستمرار في استخدام",
+  "Update_msg2": "حمل احدث احدث اصدار",
+  "Recommend_update_msg":"يوصي بالتحديث إلى أحدث إصدار",
   "Deleted_User": "مستخدم محذوف",
   "Prefer_not_to_say": "افضل عدم التحديد",
   "Pick_birthday": "إختر تاريخ ميلادك",
@@ -9,6 +14,7 @@
   "To_Where" : "إلى أين",
   "Search_for_Ride" : "البحث عن رحلة",
   "Search" : "البحث",
+  "Dismiss_rewarded_message": "يجب عليك مشاهدة الإعلان بأكمله من أجل المضي قدما",
   "Chats" : "المحادثات",
   "Inbox" : "المحادثات",
   "Add_Ride" : "إضافة رحلة",
