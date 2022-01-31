@@ -393,7 +393,11 @@ class App {
         .map((String number) => int.parse(number))
         .toList();
     for (int i = 0; i < newVersionList.length; i++) {
-      if (newVersionList[i] > currentVersionList[i]) return true;
+      if (newVersionList[i] > currentVersionList[i]) {
+        return true;
+      } else if (newVersionList[i] < currentVersionList[i]) {
+        return false;
+      }
     }
     return false;
   }
