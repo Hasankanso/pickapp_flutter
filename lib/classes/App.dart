@@ -1,5 +1,6 @@
 import 'dart:io' show HttpStatus, Platform;
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -18,6 +19,7 @@ import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/RateDriverHandler.dart';
 import 'package:just_miles/notifications/RatePassengersHandler.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'Localizations.dart';
 
@@ -28,10 +30,17 @@ class App {
   static final String appName = "Voomcar";
   static TextStyle textStyling = new TextStyle(fontSize: 30);
   static final String googleKey = "AIzaSyCjEHxPme3OLzDwsnkA8Tl5QF8_B9f70U0";
+  static final String recommendUpdateVersionKey = "recommend_app_version";
+  static final String forceUpdateVersionKey = "force_app_version";
+  static bool appNeedForceUpdate = false;
+  static bool appRecommendUpdate = false;
   static String dateFormat = 'dd/MM/yyyy hh:mm a';
   static String hourFormat = 'hh:mm a';
   static String birthdayFormat = 'dd/MM/yyyy';
   static User _user;
+  static String websiteUrl = "https://www.voomcar.com";
+  static String playStoreId = "com.voomcar.voomcar";
+  static String appStoreId = "1594920053";
   static String termsAndConditionUrl =
       "https://www.voomcar.com/termsconditions.html";
   static String privacyPolicyUrl =
@@ -337,5 +346,59 @@ class App {
     App.isLoggedInNotifier.value = false;
     await LocalNotificationManager.cancelAllLocalNotifications();
     return true;
+  }
+
+  static Future<void> checkAppVersion(context) async {
+    try {
+      FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+      await remoteConfig.setConfigSettings(RemoteConfigSettings(
+        fetchTimeout: const Duration(seconds: 10),
+        minimumFetchInterval: Duration.zero,
+      ));
+      await remoteConfig.fetchAndActivate();
+      String forceUpdateVersion =
+          remoteConfig.getString(App.forceUpdateVersionKey);
+      String recommendUpdateVersion =
+          remoteConfig.getString(App.recommendUpdateVersionKey);
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String currentVersion =
+          packageInfo.version + "+" + packageInfo.buildNumber;
+      if (forceUpdateVersion.isNotEmpty &&
+          _needsUpdate(currentVersion, forceUpdateVersion)) {
+        //need force update
+        appNeedForceUpdate = true;
+        Navigator.pushNamed(context, '/NewVersion');
+      } else if (recommendUpdateVersion.isNotEmpty &&
+          _needsUpdate(currentVersion, recommendUpdateVersion)) {
+        //recommend to update
+        appRecommendUpdate = true;
+        Navigator.pushNamed(context, '/NewVersion');
+      } else {
+        appRecommendUpdate = false;
+        appNeedForceUpdate = false;
+      }
+    } catch (e) {
+      print(e);
+      return;
+    }
+  }
+
+  static bool _needsUpdate(String currentVersion, String newVersion) {
+    final List<int> currentVersionList = currentVersion
+        .split(new RegExp(r"[.+]"))
+        .map((String number) => int.parse(number))
+        .toList();
+    final List<int> newVersionList = newVersion
+        .split(new RegExp(r"[.+]"))
+        .map((String number) => int.parse(number))
+        .toList();
+    for (int i = 0; i < newVersionList.length; i++) {
+      if (newVersionList[i] > currentVersionList[i]) {
+        return true;
+      } else if (newVersionList[i] < currentVersionList[i]) {
+        return false;
+      }
+    }
+    return false;
   }
 }

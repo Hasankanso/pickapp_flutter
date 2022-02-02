@@ -1,4 +1,9 @@
 {
+  "Update": "Réactualiser",
+  "Needs_an_update": " a besoin d'une mise à jour",
+  "Update_msg1": "Pour continuer à utiliser",
+  "Update_msg2": "télécharger la dernière version du magasin",
+  "Recommend_update_msg":"vous recommande de mettre à jour vers la dernière version du magasin",
   "Deleted_User": "Utilisateur supprimé",
   "Prefer_not_to_say": "Préfère ne pas le dire",
   "Pick_birthday": "Choisissez votre date de naissance",
@@ -9,6 +14,7 @@
   "To_Where": "Vers où",
   "Search_for_Ride": "Recherche de manège",
   "Search": "Recherche",
+  "Dismiss_rewarded_message": "Vous devez regarder l'intégralité de l'annonce pour continuer",
   "Chats": "Chats",
   "Inbox" : "Conversations",
   "Add_Ride": "Ajouter un tour",

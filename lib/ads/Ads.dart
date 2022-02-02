@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:just_miles/classes/App.dart';
+import 'package:just_miles/classes/Localizations.dart';
+import 'package:just_miles/utilities/CustomToast.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
 class Ads {
@@ -75,8 +77,10 @@ class Ads {
         //this will only be called for android
         ad.dispose().then((value) => loadRewardedAd());
         if (!_isRewarded) {
-          //if user didn't watch the whole video, just pop the spinner
+          //if user didn't watch the whole video, just pop the spinner and show message
           Navigator.pop(context);
+          CustomToast().showErrorToast(
+              Lang.getString(context, "Dismiss_rewarded_message"));
         }
       },
       onAdWillDismissFullScreenContent: (RewardedAd ad) {

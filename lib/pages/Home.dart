@@ -8,12 +8,12 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/notifications/LocalNotificationManager.dart';
-import 'package:just_miles/pages/AddRide.dart';
 import 'package:just_miles/pages/Inbox.dart';
 import 'package:just_miles/pages/LoginRegister.dart';
 import 'package:just_miles/pages/MyRides.dart';
 import 'package:just_miles/pages/Profile.dart';
 import 'package:just_miles/pages/Search.dart';
+import 'package:just_miles/pages/add_ride/AddRide.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
 
 class Home extends StatefulWidget {
@@ -58,6 +58,7 @@ class _HomeState extends State<Home> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       App.isAppBuild = true;
     });
+    App.checkAppVersion(context);
   }
 
   response(String userStatus, int code, String message, context) async {

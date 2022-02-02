@@ -1,4 +1,9 @@
 {
+  "Update": "Update",
+  "Needs_an_update": " needs an update",
+  "Update_msg1": "To keep using",
+  "Update_msg2": "download the latest version from the store",
+  "Recommend_update_msg":"recommends that you update to the latest version from the store",
   "Deleted_User": "Deleted User",
   "Prefer_not_to_say": "Prefer not to say",
   "Pick_birthday": "Pick your birth date",
@@ -9,6 +14,7 @@
   "To_Where" : "To Where",
   "Search_for_Ride" : "Search for Ride",
   "Search" : "Search",
+  "Dismiss_rewarded_message": "You should watch the whole ad in order to proceed",
   "Chats" : "Chats",
   "Inbox" : "Inbox",
   "Add_Ride" : "Add Ride",

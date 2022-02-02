@@ -34,7 +34,6 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Styles.primaryColor(),
   ));
-
   runApp(MyApp());
 }
 
