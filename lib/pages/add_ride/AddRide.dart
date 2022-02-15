@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:just_miles/classes/App.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
@@ -281,15 +280,17 @@ class _AddRideState extends State<AddRide> {
 
                           var rideDate = dateTimeController.chosenDate;
                           rideDate = rideDate.add(Duration(minutes: -20));
-
+                          rideDate = DateTime.utc(
+                              rideDate.year,
+                              rideDate.month,
+                              rideDate.day,
+                              rideDate.hour,
+                              rideDate.minute,
+                              rideDate.second);
                           for (final item in App.person.upcomingRides) {
                             if (item == null || item.status == "CANCELED") {
                               continue;
                             }
-                            rideDate = DateTime.parse(
-                                DateFormat("yyyy-MM-dd hh:mm:ss.mmm")
-                                        .format(rideDate) +
-                                    "Z");
                             var diff =
                                 rideDate.difference(item.leavingDate).inMinutes;
                             if (rideDate.isAfter(item.leavingDate) &&

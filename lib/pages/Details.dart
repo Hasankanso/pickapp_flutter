@@ -42,7 +42,7 @@ class _DetailsState extends State<Details> {
   List<String> _genders;
   bool _gender;
   DateTime _birthdayInit;
-
+  bool isUnderAge = true;
   @override
   void dispose() {
     _bioController.dispose();
@@ -66,6 +66,8 @@ class _DetailsState extends State<Details> {
     } else {
       _chattiness = 1;
     }
+    isUnderAge = App.calculateAge(widget.user.person.birthday) <
+        widget.user.person.countryInformations.drivingAge;
   }
 
   @override
@@ -380,7 +382,7 @@ class _DetailsState extends State<Details> {
                     height: 50,
                     child: MainButton(
                       isRequest: false,
-                      textKey: "Next",
+                      textKey: isUnderAge ? "Register" : "Next",
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           widget.user.person.bio = _bioController.text;
@@ -390,47 +392,41 @@ class _DetailsState extends State<Details> {
                       },
                     ),
                   ),
-                  ResponsiveWidget.fullWidth(
-                    height: 50,
-                    child: DifferentSizeResponsiveRow(
-                      children: <Widget>[
-                        Spacer(
-                          flex: 2,
-                        ),
-                        Expanded(
-                          flex: 11,
-                          child: TextButton(
-                            onPressed: () {
-                              _register();
-                            },
-                            child: Text(
-                              Lang.getString(
-                                  context,
-                                  App.calculateAge(
-                                              widget.user.person.birthday) <
-                                          widget.user.person.countryInformations
-                                              .drivingAge
-                                      ? "Register"
-                                      : "Skip"),
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(15),
-                                fontWeight: FontWeight.w400,
-                                color: (!Cache.darkTheme &&
-                                        MediaQuery.of(context)
-                                                .platformBrightness !=
-                                            Brightness.dark)
-                                    ? Styles.valueColor()
-                                    : Colors.white,
+                  if (!isUnderAge)
+                    ResponsiveWidget.fullWidth(
+                      height: 50,
+                      child: DifferentSizeResponsiveRow(
+                        children: <Widget>[
+                          Spacer(
+                            flex: 2,
+                          ),
+                          Expanded(
+                            flex: 11,
+                            child: TextButton(
+                              onPressed: () {
+                                _register();
+                              },
+                              child: Text(
+                                Lang.getString(context, "Skip"),
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(15),
+                                  fontWeight: FontWeight.w400,
+                                  color: (!Cache.darkTheme &&
+                                          MediaQuery.of(context)
+                                                  .platformBrightness !=
+                                              Brightness.dark)
+                                      ? Styles.valueColor()
+                                      : Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Spacer(
-                          flex: 2,
-                        ),
-                      ],
-                    ),
-                  )
+                          Spacer(
+                            flex: 2,
+                          ),
+                        ],
+                      ),
+                    )
                 ],
               ),
             ),
@@ -455,8 +451,7 @@ class _DetailsState extends State<Details> {
   }
 
   Future<void> _register() async {
-    if (App.calculateAge(widget.user.person.birthday) <
-        widget.user.person.countryInformations.drivingAge) {
+    if (isUnderAge) {
       showDialog(
         context: context,
         barrierDismissible: false,

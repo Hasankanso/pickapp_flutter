@@ -77,7 +77,6 @@ class App {
 
   static List<String> _chattiness;
   static List<String> _rateReasons;
-  static List<String> _genders;
 
   static Map<String, CountryInformations> _countriesInformations =
       <String, CountryInformations>{
@@ -237,14 +236,11 @@ class App {
   }
 
   static List<String> getGender(context) {
-    if (_genders == null) {
-      _genders = <String>[
-        Lang.getString(context, "Male"),
-        Lang.getString(context, "Female"),
-        Lang.getString(context, "Prefer_not_to_say"),
-      ];
-    }
-    return _genders;
+    return <String>[
+      Lang.getString(context, "Male"),
+      Lang.getString(context, "Female"),
+      Lang.getString(context, "Prefer_not_to_say"),
+    ];
   }
 
   static List<String> getChattiness(context) {

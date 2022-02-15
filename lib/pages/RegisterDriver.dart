@@ -89,7 +89,7 @@ class _RegisterDriverState extends State<RegisterDriver> {
               height: 50,
               child: MainButton(
                 isRequest: false,
-                textKey: "Next",
+                textKey: "Become_a_driver",
                 onPressed: () {
                   widget.user.driver = Driver();
                   App.setCountriesComponent([

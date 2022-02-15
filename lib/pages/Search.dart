@@ -165,12 +165,16 @@ class _SearchState extends State<Search>
                   if (dateTimeController.startDateController.chosenDate
                       .isBefore(DateTime.now())) {
                     setState(() {
+                      DateTime startDate =
+                          DateTime.now().add(Duration(minutes: 30));
                       dateTimeController.startDateController.chosenDate =
-                          DateTime.parse(DateFormat("yyyy-MM-dd hh:mm:ss.mmm")
-                                  .format((DateTime.now()
-                                      .add(Duration(minutes: 30)))) +
-                              "Z");
-
+                          DateTime.utc(
+                              startDate.year,
+                              startDate.month,
+                              startDate.day,
+                              startDate.hour,
+                              startDate.minute,
+                              startDate.second);
                       dateTimeController.endDateController.chosenDate =
                           dateTimeController.startDateController.chosenDate
                               .add(Duration(days: 1));
