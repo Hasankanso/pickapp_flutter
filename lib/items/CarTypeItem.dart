@@ -8,7 +8,8 @@ class CarTypeItem extends StatelessWidget {
   final String _image;
   Function(int) _select;
 
-  CarTypeItem(this._isSelected, this._text, this._image, this._select, this._index);
+  CarTypeItem(
+      this._isSelected, this._text, this._image, this._select, this._index);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,8 @@ class CarTypeItem extends StatelessWidget {
                 flex: 1,
                 child: Text(
                   _text,
-                  style: Styles.subValueTextStyle(color: _isSelected ? Colors.white : null),
+                  style: Styles.subValueTextStyle(
+                      color: _isSelected ? Colors.white : null),
                 ),
               )
             ],

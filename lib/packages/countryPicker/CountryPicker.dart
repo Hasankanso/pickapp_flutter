@@ -32,7 +32,8 @@ class _CountryPickerState extends State<CountryPicker> {
                     Expanded(
                       flex: 4,
                       child: Text(
-                        CountryListView.countryCodeToEmoji(widget.controller.country.countryCode),
+                        CountryListView.countryCodeToEmoji(
+                            widget.controller.country.countryCode),
                         style: Styles.titleTextStyle(),
                         overflow: TextOverflow.clip,
                       ),

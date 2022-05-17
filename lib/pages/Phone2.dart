@@ -138,7 +138,7 @@ class _Phone2State extends State<Phone2> {
                           FilteringTextInputFormatter.digitsOnly,
                           LengthLimitingTextInputFormatter(6),
                         ],
-                        maxLengthEnforced: true,
+                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
                         decoration: InputDecoration(
                           labelText: Lang.getString(context, "Code"),
                           hintText: Lang.getString(context, "ex:") + " 024512",

@@ -10,7 +10,8 @@ class CountryRestrictionListTile extends StatelessWidget {
   Function(int) _removeCountry;
   CountryPickerController _controller;
 
-  CountryRestrictionListTile(this.isDefault, this._index, this._removeCountry, this._controller);
+  CountryRestrictionListTile(
+      this.isDefault, this._index, this._removeCountry, this._controller);
 
   @override
   Widget build(BuildContext context) {

@@ -10,10 +10,10 @@ class Spinner extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
       strokeWidth: strokeWidth,
-      backgroundColor:
-          (Cache.darkTheme && MediaQuery.of(context).platformBrightness == Brightness.dark)
-              ? Styles.primaryColor()
-              : null,
+      backgroundColor: (Cache.darkTheme &&
+              MediaQuery.of(context).platformBrightness == Brightness.dark)
+          ? Styles.primaryColor()
+          : null,
     );
   }
 }

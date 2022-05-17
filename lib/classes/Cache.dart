@@ -465,7 +465,6 @@ class Cache {
     return isNewNotification;
   }
 
-
   static Future<bool> setCountriesList(List<String> value) async {
     var box = await Hive.openBox("appSettings");
     await box.put("countriesList", value);

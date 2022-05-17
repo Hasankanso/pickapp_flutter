@@ -50,23 +50,28 @@ class _AddCarState extends State<AddCar> {
 
       if (!Validation.isNullOrEmpty(_name.text)) carJ.name = _name.text;
       if (!Validation.isNullOrEmpty(_brand.text)) carJ.brand = _brandKey;
-      if (!Validation.isNullOrEmpty(_year.text)) carJ.year = int.parse(_year.text);
+      if (!Validation.isNullOrEmpty(_year.text))
+        carJ.year = int.parse(_year.text);
       if (_imageController.pickedImage != null)
         carJ.carPictureUrl = _imageController.pickedImage.path;
-      if (_colorController.pickedColor != null) carJ.color = _colorController.pickedColor.value;
+      if (_colorController.pickedColor != null)
+        carJ.color = _colorController.pickedColor.value;
     } else if (widget.user != null) {
-      if (widget.user.driver.cars == null || widget.user.driver.cars.length == 0) {
+      if (widget.user.driver.cars == null ||
+          widget.user.driver.cars.length == 0) {
         widget.user.driver.cars = [this.car];
       }
       var carD = widget.user.driver.cars[0];
 
       if (!Validation.isNullOrEmpty(_name.text)) carD.name = _name.text;
       if (!Validation.isNullOrEmpty(_brand.text)) carD.brand = _brandKey;
-      if (!Validation.isNullOrEmpty(_year.text)) carD.year = int.parse(_year.text);
+      if (!Validation.isNullOrEmpty(_year.text))
+        carD.year = int.parse(_year.text);
       if (_imageController.pickedImage != null) {
         carD.carPictureUrl = _imageController.pickedImage.path;
       }
-      if (_colorController.pickedColor != null) carD.color = _colorController.pickedColor.value;
+      if (_colorController.pickedColor != null)
+        carD.color = _colorController.pickedColor.value;
     }
     _name.dispose();
     _year.dispose();
@@ -91,8 +96,10 @@ class _AddCarState extends State<AddCar> {
           _brand.text = _carBrands[carJ.brand];
         }
         if (carJ.year != null) _year.text = carJ.year.toString();
-        if (carJ.carPictureUrl != null) _imageController.pickedImage = File(carJ.carPictureUrl);
-        if (carJ.color != null) _colorController.pickedColor = Color(carJ.color);
+        if (carJ.carPictureUrl != null)
+          _imageController.pickedImage = File(carJ.carPictureUrl);
+        if (carJ.color != null)
+          _colorController.pickedColor = Color(carJ.color);
       } else {
         widget.driver.cars = [Car()];
       }
@@ -106,8 +113,10 @@ class _AddCarState extends State<AddCar> {
           _brand.text = _carBrands[carD.brand];
         }
         if (carD.year != null) _year.text = carD.year.toString();
-        if (carD.carPictureUrl != null) _imageController.pickedImage = File(carD.carPictureUrl);
-        if (carD.color != null) _colorController.pickedColor = Color(carD.color);
+        if (carD.carPictureUrl != null)
+          _imageController.pickedImage = File(carD.carPictureUrl);
+        if (carD.color != null)
+          _colorController.pickedColor = Color(carD.color);
       } else {
         widget.user.driver.cars = [Car()];
       }
@@ -155,7 +164,8 @@ class _AddCarState extends State<AddCar> {
                       onTap: () async {
                         List<String> _item = await showSearch(
                           context: context,
-                          delegate: BrandAutocomplete(context: context, carBrands: _carBrands),
+                          delegate: BrandAutocomplete(
+                              context: context, carBrands: _carBrands),
                         );
                         if (_item != null) {
                           _brandKey = _item[0];
@@ -171,7 +181,8 @@ class _AddCarState extends State<AddCar> {
                         String valid = Validation.validate(value, context);
                         if (valid != null)
                           return valid;
-                        else if (value.length < 2) return Validation.invalid(context);
+                        else if (value.length < 2)
+                          return Validation.invalid(context);
                         return null;
                       },
                     ),
@@ -200,7 +211,8 @@ class _AddCarState extends State<AddCar> {
                         String valid = Validation.validate(value, context);
                         if (valid != null)
                           return valid;
-                        else if (value.length < 2) return Validation.invalid(context);
+                        else if (value.length < 2)
+                          return Validation.invalid(context);
                         return null;
                       },
                     ),
@@ -283,11 +295,13 @@ class _AddCarState extends State<AddCar> {
                 onPressed: () async {
                   if (_validate()) {
                     if (_imageController.pickedImage == null) {
-                      return CustomToast().showErrorToast(Lang.getString(context, "Choose_image"));
+                      return CustomToast().showErrorToast(
+                          Lang.getString(context, "Choose_image"));
                     }
                     //becomedriver
                     if (widget.driver != null) {
-                      if (widget.driver.cars != null && widget.driver.cars.length == 1) {
+                      if (widget.driver.cars != null &&
+                          widget.driver.cars.length == 1) {
                         var carJ = widget.driver.cars[0];
                         carJ.name = _name.text;
                         carJ.brand = _brandKey;
@@ -302,13 +316,16 @@ class _AddCarState extends State<AddCar> {
                       }
 
                       if (_imageController.pickedImage != null) {
-                        widget.driver.cars[0].carPictureUrl = _imageController.pickedImage.path;
+                        widget.driver.cars[0].carPictureUrl =
+                            _imageController.pickedImage.path;
                       }
 
-                      Navigator.pushNamed(context, "/AddCar2Driver", arguments: widget.driver);
+                      Navigator.pushNamed(context, "/AddCar2Driver",
+                          arguments: widget.driver);
                     } else if (widget.user != null) {
                       //register
-                      if (widget.user.driver.cars != null && widget.user.driver.cars.length == 1) {
+                      if (widget.user.driver.cars != null &&
+                          widget.user.driver.cars.length == 1) {
                         var carD = widget.user.driver.cars[0];
                         carD.name = _name.text;
                         carD.brand = _brandKey;
@@ -322,20 +339,24 @@ class _AddCarState extends State<AddCar> {
 
                         widget.user.driver.cars = [this.car];
                       }
-                      widget.user.driver.cars[0].carPictureUrl = _imageController.pickedImage.path;
+                      widget.user.driver.cars[0].carPictureUrl =
+                          _imageController.pickedImage.path;
 
-                      Navigator.pushNamed(context, "/AddCar2Register", arguments: [
-                        widget.user,
-                        widget.isForceRegister,
-                      ]);
+                      Navigator.pushNamed(context, "/AddCar2Register",
+                          arguments: [
+                            widget.user,
+                            widget.isForceRegister,
+                          ]);
                     } else {
                       //add car
                       this.car.name = _name.text;
                       this.car.brand = _brandKey;
                       this.car.year = int.parse(_year.text);
                       this.car.color = _colorController.pickedColor.value;
-                      this.car.carPictureUrl = _imageController.pickedImage.path;
-                      Navigator.pushNamed(context, "/AddCar2", arguments: this.car);
+                      this.car.carPictureUrl =
+                          _imageController.pickedImage.path;
+                      Navigator.pushNamed(context, "/AddCar2",
+                          arguments: this.car);
                     }
                   }
                 },

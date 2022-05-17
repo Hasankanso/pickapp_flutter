@@ -11,7 +11,8 @@ class ResponsiveRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> spacedChildren = new List<Widget>.filled(3 * children.length, null);
+    List<Widget> spacedChildren =
+        new List<Widget>.filled(3 * children.length, null);
 
     int i = 0;
     for (Widget w in children) {
@@ -64,7 +65,9 @@ class ResponsiveSpacer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: ScreenUtil().setWidth(width), height: ScreenUtil().setHeight(height));
+    return SizedBox(
+        width: ScreenUtil().setWidth(width),
+        height: ScreenUtil().setHeight(height));
   }
 }
 
@@ -75,7 +78,8 @@ class DifferentSizeResponsiveRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> spacedChildren = new List<Widget>.filled(3 * children.length, null);
+    List<Widget> spacedChildren =
+        new List<Widget>.filled(3 * children.length, null);
 
     int i = 0;
     for (Widget w in children) {

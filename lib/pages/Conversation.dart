@@ -70,16 +70,10 @@ class _ConversationState extends State<Conversation> {
           "apns-priority": "5",
         },
         "payload": {
-          "aps": {
-            "category": "NEW_MESSAGE_CATEGORY"
-          }
+          "aps": {"category": "NEW_MESSAGE_CATEGORY"}
         }
       },
-      'notification': {
-        'title': name,
-        'body': msg,
-        'content_available': true
-      },
+      'notification': {'title': name, 'body': msg, 'content_available': true},
     });
   }
 

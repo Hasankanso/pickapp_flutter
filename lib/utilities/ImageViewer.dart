@@ -11,7 +11,8 @@ class ImageViewer extends StatelessWidget {
   final ImageProvider imageProvider;
   final bool isCarPicker;
 
-  ImageViewer(this._image, this._title, {this.imageProvider, this.isCarPicker = false});
+  ImageViewer(this._image, this._title,
+      {this.imageProvider, this.isCarPicker = false});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,9 @@ class ImageViewer extends StatelessWidget {
                 ? Image.file(File((_image.path))).image
                 : imageProvider != null
                     ? imageProvider
-                    : AssetImage(!isCarPicker ? "lib/images/user.png" : "lib/images/car.png"),
+                    : AssetImage(!isCarPicker
+                        ? "lib/images/user.png"
+                        : "lib/images/car.png"),
             onError: (s, ss) {
               return Image(image: AssetImage("lib/images/car.png"));
             },
@@ -47,8 +50,9 @@ class ImageViewer extends StatelessWidget {
                     : imageProvider != null
                         ? Image(image: imageProvider)
                         : Image(
-                            image: AssetImage(
-                                !isCarPicker ? "lib/images/user.png" : "lib/images/car.png")),
+                            image: AssetImage(!isCarPicker
+                                ? "lib/images/user.png"
+                                : "lib/images/car.png")),
               ),
             ),
           ),

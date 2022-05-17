@@ -9,7 +9,8 @@ class Switcher extends StatefulWidget {
   void Function(bool) onChanged;
   bool isDisabled;
 
-  Switcher({this.isOn, this.controller, this.onChanged, this.isDisabled = false});
+  Switcher(
+      {this.isOn, this.controller, this.onChanged, this.isDisabled = false});
 
   @override
   _SwitcherState createState() => _SwitcherState();

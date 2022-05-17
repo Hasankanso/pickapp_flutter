@@ -65,16 +65,19 @@ class _NumberPickerState extends State<NumberPicker> {
             children: [
               Expanded(
                 flex: 6,
-                child:
-                    Text(Lang.getString(context, widget._titleKey), style: Styles.labelTextStyle()),
+                child: Text(Lang.getString(context, widget._titleKey),
+                    style: Styles.labelTextStyle()),
               ),
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
-                  backgroundColor: widget.disabled || widget._min == widget._value
-                      ? Styles.labelColor()
-                      : Styles.primaryColor(),
-                  heroTag: widget._titleKey + "minus" + DateTime.now().microsecond.toString(),
+                  backgroundColor:
+                      widget.disabled || widget._min == widget._value
+                          ? Styles.labelColor()
+                          : Styles.primaryColor(),
+                  heroTag: widget._titleKey +
+                      "minus" +
+                      DateTime.now().microsecond.toString(),
                   elevation: 3,
                   onPressed: () {
                     if (!widget.disabled) _counterDown();
@@ -99,10 +102,13 @@ class _NumberPickerState extends State<NumberPicker> {
               Expanded(
                 flex: 1,
                 child: FloatingActionButton(
-                  backgroundColor: widget.disabled || widget._max == widget._value
-                      ? Styles.labelColor()
-                      : Styles.primaryColor(),
-                  heroTag: widget._titleKey + "plus" + DateTime.now().microsecond.toString(),
+                  backgroundColor:
+                      widget.disabled || widget._max == widget._value
+                          ? Styles.labelColor()
+                          : Styles.primaryColor(),
+                  heroTag: widget._titleKey +
+                      "plus" +
+                      DateTime.now().microsecond.toString(),
                   onPressed: () {
                     if (!widget.disabled) _counterUp();
                   },

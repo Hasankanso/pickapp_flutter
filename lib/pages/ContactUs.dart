@@ -29,7 +29,8 @@ class ContactUs extends StatelessWidget {
               VerticalSpacer(height: 20),
             ],
           ),
-          Icon(Icons.drive_eta, color: Styles.primaryColor(), size: ScreenUtil().setSp(90)),
+          Icon(Icons.drive_eta,
+              color: Styles.primaryColor(), size: ScreenUtil().setSp(90)),
           VerticalSpacer(height: 60),
           ResponsiveWidget(
             width: 270,
@@ -77,10 +78,10 @@ class ContactUs extends StatelessWidget {
                       textKey: "Send",
                       isRequest: true,
                       onPressed: () async {
-                        Request<String> request =
-                            SendContactUs(subjectController.text, messageController.text);
-                        await request.send(
-                            (result, error, message) => _response(result, error, message, context));
+                        Request<String> request = SendContactUs(
+                            subjectController.text, messageController.text);
+                        await request.send((result, error, message) =>
+                            _response(result, error, message, context));
                       },
                     )
                   ],

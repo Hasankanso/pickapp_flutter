@@ -62,7 +62,9 @@ class Driver {
 
     return Driver(
       id: json["objectId"],
-      cars: json["cars"] != null ? List<Car>.from(json["cars"].map((x) => Car.fromJson(x))) : null,
+      cars: json["cars"] != null
+          ? List<Car>.from(json["cars"].map((x) => Car.fromJson(x)))
+          : null,
       regions: regions,
     );
   }
@@ -93,7 +95,8 @@ class Driver {
       List<Future<String>> carImageFutures = <Future<String>>[];
 
       for (Car car in cars) {
-        carImageFutures.add(Request.uploadImage(car.carPictureUrl, VoomcarImageType.Car));
+        carImageFutures
+            .add(Request.uploadImage(car.carPictureUrl, VoomcarImageType.Car));
       }
 
       List<String> carImagesUrl = await Future.wait(carImageFutures);

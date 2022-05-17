@@ -58,13 +58,15 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
         curr.month,
         curr.day,
         TimeRangeSlider.toHours(controller.timeController.maxSelected.toInt()),
-        TimeRangeSlider.toMinutes(controller.timeController.maxSelected.toInt()));
+        TimeRangeSlider.toMinutes(
+            controller.timeController.maxSelected.toInt()));
     DateTime minDate = new DateTime(
         curr.year,
         curr.month,
         curr.day,
         TimeRangeSlider.toHours(controller.timeController.minSelected.toInt()),
-        TimeRangeSlider.toMinutes(controller.timeController.minSelected.toInt()));
+        TimeRangeSlider.toMinutes(
+            controller.timeController.minSelected.toInt()));
 
     return !controller.timeController.changedAtLeastOnce ||
         r.leavingDate.isBefore(maxDate) && r.leavingDate.isAfter(minDate);
@@ -80,7 +82,8 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
 
   bool petsConstraint(Ride r) {
     FilterController controller = widget.controller;
-    return !controller.petsController.filter || r.petsAllowed == controller.petsController.allowed;
+    return !controller.petsController.filter ||
+        r.petsAllowed == controller.petsController.allowed;
   }
 
   bool musicConstraint(Ride r) {
@@ -91,7 +94,8 @@ class _SearchResultsFilterState extends State<SearchResultsFilter> {
 
   bool acConstraint(Ride r) {
     FilterController controller = widget.controller;
-    return !controller.acController.filter || r.acAllowed == controller.acController.allowed;
+    return !controller.acController.filter ||
+        r.acAllowed == controller.acController.allowed;
   }
 
   bool validate(Ride r) {
@@ -262,7 +266,10 @@ class _BooleanFilter extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _BooleanFilterState();
 
-  _BooleanFilter({this.onIcon = Icons.flash_on, this.offIcon = Icons.flash_off, this.controller});
+  _BooleanFilter(
+      {this.onIcon = Icons.flash_on,
+      this.offIcon = Icons.flash_off,
+      this.controller});
 }
 
 class _BooleanFilterState extends State<_BooleanFilter> {
@@ -291,7 +298,8 @@ class _BooleanFilterState extends State<_BooleanFilter> {
           alignment: Alignment.centerRight,
           child: Icon(
             widget.controller.allowed ? widget.onIcon : widget.offIcon,
-            color: widget.controller.filter ? Styles.primaryColor() : Colors.grey,
+            color:
+                widget.controller.filter ? Styles.primaryColor() : Colors.grey,
           ),
         ),
         Align(
@@ -341,10 +349,12 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
 
   void initState() {
     if (widget.isTime) {
-      labels = RangeLabels(TimeRangeSlider.intToTime(widget.minSelected.toInt()),
+      labels = RangeLabels(
+          TimeRangeSlider.intToTime(widget.minSelected.toInt()),
           TimeRangeSlider.intToTime(widget.maxSelected.toInt()));
     } else {
-      labels = RangeLabels(widget.minSelected.toString(), widget.maxSelected.toString());
+      labels = RangeLabels(
+          widget.minSelected.toString(), widget.maxSelected.toString());
     }
 
     super.initState();
@@ -380,8 +390,8 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                       controller: widget.controller,
                       onChanged: (values) {
                         setState(() {
-                          labels = RangeLabels(
-                              values.start.toInt().toString(), values.end.toInt().toString());
+                          labels = RangeLabels(values.start.toInt().toString(),
+                              values.end.toInt().toString());
                         });
                       })
                   : TimeRangeSlider(
@@ -401,7 +411,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                   Spacer(flex: 2),
                   Expanded(
                       flex: 10,
-                      child: Center(child: Text(labels.start, style: Styles.valueTextStyle()))),
+                      child: Center(
+                          child: Text(labels.start,
+                              style: Styles.valueTextStyle()))),
                   Spacer(flex: 1),
                   Expanded(
                       flex: 4,
@@ -412,7 +424,9 @@ class _SliderTextFilterState extends State<_SliderTextFilter> {
                   Spacer(flex: 1),
                   Expanded(
                       flex: 10,
-                      child: Center(child: Text(labels.end, style: Styles.valueTextStyle()))),
+                      child: Center(
+                          child: Text(labels.end,
+                              style: Styles.valueTextStyle()))),
                   Spacer(flex: 2),
                 ],
               ),
@@ -450,8 +464,8 @@ class _SliderFilter extends StatefulWidget {
 class _SliderFilterState extends State<_SliderFilter> {
   @override
   void initState() {
-    widget.controller.values =
-        new RangeValues(widget.minSelected.toDouble(), widget.maxSelected.toDouble());
+    widget.controller.values = new RangeValues(
+        widget.minSelected.toDouble(), widget.maxSelected.toDouble());
   }
 
   @override

@@ -43,8 +43,9 @@ class RateStars extends StatelessWidget {
           GestureDetector(
             onTap: onPressed,
             child: Row(
-              mainAxisAlignment:
-                  mainAxisAlignment == null ? MainAxisAlignment.center : mainAxisAlignment,
+              mainAxisAlignment: mainAxisAlignment == null
+                  ? MainAxisAlignment.center
+                  : mainAxisAlignment,
               children: List<Widget>.generate(maxStars + 1, (int index) {
                 if (index == 5) {
                   return Icon(
@@ -59,7 +60,8 @@ class RateStars extends StatelessWidget {
                     color: _iconColor,
                     size: size,
                   );
-                } else if (_rating.toInt() == index && _rating.toInt() != _rating) {
+                } else if (_rating.toInt() == index &&
+                    _rating.toInt() != _rating) {
                   return Icon(
                     Icons.star_half,
                     color: _iconColor,
@@ -79,7 +81,9 @@ class RateStars extends StatelessWidget {
       );
     } else {
       return Row(
-        mainAxisAlignment: mainAxisAlignment == null ? MainAxisAlignment.center : mainAxisAlignment,
+        mainAxisAlignment: mainAxisAlignment == null
+            ? MainAxisAlignment.center
+            : mainAxisAlignment,
         children: List<Widget>.generate(maxStars, (int index) {
           if (_rating >= index + 1) {
             return Icon(

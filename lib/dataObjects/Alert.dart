@@ -40,7 +40,8 @@ class Alert {
     var leavingDateJ = json["leavingDate"];
     DateTime leavingDate;
     if (leavingDateJ != null) {
-      leavingDate = DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
+      leavingDate =
+          DateTime.fromMillisecondsSinceEpoch(leavingDateJ, isUtc: true);
     }
 
     return Alert(

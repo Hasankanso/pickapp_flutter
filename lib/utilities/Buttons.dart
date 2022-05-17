@@ -11,8 +11,7 @@ class MainButton extends StatelessWidget {
   final bool isRequest;
   final String text;
 
-  MainButton(
-      {this.textKey, this.onPressed, this.isRequest = false, this.text});
+  MainButton({this.textKey, this.onPressed, this.isRequest = false, this.text});
 
   @override
   Widget build(BuildContext context) {

@@ -20,8 +20,8 @@ class DateTimePicker extends StatefulWidget {
     ));
 
     //remove seconds and milliseconds, because backendless doesn't like it.
-    return new DateTime(chosenDate.year, chosenDate.month, chosenDate.day, chosenDate.hour,
-        chosenDate.minute, 0, 0, 0);
+    return new DateTime(chosenDate.year, chosenDate.month, chosenDate.day,
+        chosenDate.hour, chosenDate.minute, 0, 0, 0);
   }
 
   @override
@@ -101,7 +101,8 @@ class DateTimePickerState extends State<DateTimePicker> {
 
   _setTime(date, time) {
     setState(() {
-      var chosenD = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+      var chosenD =
+          DateTime(date.year, date.month, date.day, time.hour, time.minute);
       if (chosenD.compareTo(DateTime.now()) >= 0) {
         widget._controller.chosenDate =
             DateTime(date.year, date.month, date.day, time.hour, time.minute);

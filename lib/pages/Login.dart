@@ -256,7 +256,7 @@ class _LoginState extends State<Login> {
                     FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(5),
                   ],
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   decoration: InputDecoration(
                     labelText: Lang.getString(context, "Code"),
                     hintText: Lang.getString(context, "ex:") + " 02451",

@@ -22,19 +22,19 @@ class PrivacyPolicy extends StatelessWidget {
                   Text(Lang.getString(context, "Privacy_policy_text_1") +
                       App.appName +
                       ".\n\n" +
-                      Lang.getString(context, "Privacy_policy_text_2")+
+                      Lang.getString(context, "Privacy_policy_text_2") +
                       "\n\n" +
-                      Lang.getString(context, "Privacy_policy_text_3")+
+                      Lang.getString(context, "Privacy_policy_text_3") +
                       "\n\n" +
-                      Lang.getString(context, "Privacy_policy_text_4")+
+                      Lang.getString(context, "Privacy_policy_text_4") +
                       "\n\n" +
-                      Lang.getString(context, "Privacy_policy_text_5")+
+                      Lang.getString(context, "Privacy_policy_text_5") +
                       "\n\n" +
-                      Lang.getString(context, "Privacy_policy_text_6")+
+                      Lang.getString(context, "Privacy_policy_text_6") +
                       "\n\n" +
-                      Lang.getString(context, "Privacy_policy_text_7")+
+                      Lang.getString(context, "Privacy_policy_text_7") +
                       "\n\n" +
-                      Lang.getString(context, "Privacy_policy_text_8")+
+                      Lang.getString(context, "Privacy_policy_text_8") +
                       "\n\n"),
                 ],
               ),

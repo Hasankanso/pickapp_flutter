@@ -17,15 +17,17 @@ class MyRidesListTile extends ListTile {
 
   void deletationResponse(bool result) {
     if (result) {
-      CustomToast().showShortToast("Deletion Cancelled !", backgroundColor: Colors.red);
-    } else {
       CustomToast()
-          .showShortToast("Ride Deleted Successfully", backgroundColor: Colors.greenAccent);
+          .showShortToast("Deletion Cancelled !", backgroundColor: Colors.red);
+    } else {
+      CustomToast().showShortToast("Ride Deleted Successfully",
+          backgroundColor: Colors.greenAccent);
     }
   }
 
   void cc(String item) {
-    CustomToast().showShortToast("You clicked : " + item, backgroundColor: Colors.blue);
+    CustomToast()
+        .showShortToast("You clicked : " + item, backgroundColor: Colors.blue);
   }
 
   @override

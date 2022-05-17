@@ -6,7 +6,6 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 
 class LanguagesDropdown extends StatefulWidget {
-
   final bool spaced;
   const LanguagesDropdown({this.spaced = true});
   @override
@@ -38,9 +37,14 @@ class _LanguagesDropdownState extends State<LanguagesDropdown> {
     Lang.langs.asMap().forEach((index, element) => items.add(DropdownMenuItem(
         value: index,
         child: Row(children: [
-          if(widget.spaced) Spacer(),
+          if (widget.spaced) Spacer(),
           Text(element.fullname, style: Styles.valueTextStyle()),
-          if(widget.spaced) Spacer(flex: 13) else SizedBox(width: 10,),
+          if (widget.spaced)
+            Spacer(flex: 13)
+          else
+            SizedBox(
+              width: 10,
+            ),
           Text(
             element.flag,
             textAlign: TextAlign.left,

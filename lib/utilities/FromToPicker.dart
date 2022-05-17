@@ -29,9 +29,12 @@ class _FromToPickerState extends State<FromToPicker> {
       Expanded(
         flex: 8,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(Icons.panorama_fish_eye, color: Styles.primaryColor(), size: Styles.smallIconSize()),
-          Icon(Icons.more_vert, color: Styles.primaryColor(), size: Styles.smallIconSize()),
-          Icon(Icons.circle, color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.panorama_fish_eye,
+              color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.more_vert,
+              color: Styles.primaryColor(), size: Styles.smallIconSize()),
+          Icon(Icons.circle,
+              color: Styles.primaryColor(), size: Styles.smallIconSize()),
         ]),
       ),
       Expanded(

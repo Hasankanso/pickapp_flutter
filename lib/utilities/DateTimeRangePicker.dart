@@ -19,11 +19,13 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
     setState(() {
       if (widget._controller.endDateController.chosenDate
           .isBefore(widget._controller.startDateController.chosenDate)) {
-        widget._controller.endDateController.chosenDate =
-            widget._controller.startDateController.chosenDate.add(Duration(days: 1));
+        widget._controller.endDateController.chosenDate = widget
+            ._controller.startDateController.chosenDate
+            .add(Duration(days: 1));
       } else if (!_isEndDateChanged) {
-        widget._controller.endDateController.chosenDate =
-            widget._controller.startDateController.chosenDate.add(Duration(days: 1));
+        widget._controller.endDateController.chosenDate = widget
+            ._controller.startDateController.chosenDate
+            .add(Duration(days: 1));
       }
     });
   }
@@ -33,8 +35,9 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
     if (widget._controller.endDateController.chosenDate
         .isBefore(widget._controller.startDateController.chosenDate)) {
       setState(() {
-        widget._controller.endDateController.chosenDate =
-            widget._controller.startDateController.chosenDate.add(Duration(days: 1));
+        widget._controller.endDateController.chosenDate = widget
+            ._controller.startDateController.chosenDate
+            .add(Duration(days: 1));
       });
     }
   }
@@ -50,13 +53,15 @@ class DateTimeRangePickerState extends State<DateTimeRangePicker> {
                   callBack: _startDatePicked),
             ),
             Visibility(
-              visible: widget.showRange != true ? Cache.dateTimeRangePicker : true,
+              visible:
+                  widget.showRange != true ? Cache.dateTimeRangePicker : true,
               child: Spacer(
                 flex: 3,
               ),
             ),
             Visibility(
-              visible: widget.showRange != true ? Cache.dateTimeRangePicker : true,
+              visible:
+                  widget.showRange != true ? Cache.dateTimeRangePicker : true,
               child: Expanded(
                 flex: 10,
                 child: DateTimePicker(
@@ -77,9 +82,11 @@ class DateTimeRangeController {
   DateTimeController startDateController = new DateTimeController();
   DateTimeController endDateController = new DateTimeController();
   DateTimeRangeController() {
-    this.startDateController.chosenDate = DateTimePicker.nowWithoutSec().add(Duration(
+    this.startDateController.chosenDate =
+        DateTimePicker.nowWithoutSec().add(Duration(
       minutes: 20,
     ));
-    this.endDateController.chosenDate = this.startDateController.chosenDate.add(Duration(days: 1));
+    this.endDateController.chosenDate =
+        this.startDateController.chosenDate.add(Duration(days: 1));
   }
 }

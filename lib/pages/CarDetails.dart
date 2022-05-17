@@ -100,7 +100,8 @@ class _CarDetailsState extends State<CarDetails> {
                           String valid = Validation.validate(value, context);
                           if (valid != null)
                             return valid;
-                          else if (value.length < 2) return Validation.invalid(context);
+                          else if (value.length < 2)
+                            return Validation.invalid(context);
                           return null;
                         },
                       ),
@@ -217,13 +218,15 @@ class _CarDetailsState extends State<CarDetails> {
                   if (_formKey.currentState.validate()) {
                     for (var item in App.person.upcomingRides) {
                       if (item.car.id == widget.car.id) {
-                        return CustomToast()
-                            .showErrorToast(Lang.getString(context, "Delete_car_message"));
+                        return CustomToast().showErrorToast(
+                            Lang.getString(context, "Delete_car_message"));
                       }
                     }
                     if (widget.car.updated != null &&
-                        widget.car.updated.difference(DateTime.now()).inDays > -30) {
-                      return CustomToast().showErrorToast(Lang.getString(context, "Car_edit_time"));
+                        widget.car.updated.difference(DateTime.now()).inDays >
+                            -30) {
+                      return CustomToast().showErrorToast(
+                          Lang.getString(context, "Car_edit_time"));
                     }
                     Car c = widget.car;
                     Car car = Car(
@@ -258,8 +261,8 @@ class _CarDetailsState extends State<CarDetails> {
                     );
 
                     if (car.carPictureUrl != null) {
-                      car.carPictureUrl =
-                          await Request.uploadImage(car.carPictureUrl, VoomcarImageType.Car);
+                      car.carPictureUrl = await Request.uploadImage(
+                          car.carPictureUrl, VoomcarImageType.Car);
                     }
                     Request<Car> request = EditCar(car);
                     request.send(_editCarResponse);
@@ -284,7 +287,8 @@ class _CarDetailsState extends State<CarDetails> {
     await Cache.setUser(App.user);
     App.updateProfile.value = !App.updateProfile.value;
 
-    CustomToast().showSuccessToast(Lang.getString(context, "Successfully_edited!"));
+    CustomToast()
+        .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     Navigator.popUntil(context, (route) => route.isFirst);
   }
 }

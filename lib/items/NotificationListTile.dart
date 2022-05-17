@@ -16,7 +16,8 @@ class NotificationListTile extends ListTile {
 
   @override
   Widget build(BuildContext context) {
-    NotificationHandler handler = PushNotificationsManager.createNotificationHandler(notification);
+    NotificationHandler handler =
+        PushNotificationsManager.createNotificationHandler(notification);
     return Card(
       elevation: 1.0,
       child: ListTile(

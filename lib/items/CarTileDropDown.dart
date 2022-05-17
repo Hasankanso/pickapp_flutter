@@ -10,7 +10,8 @@ class CarTileDropDown extends StatefulWidget {
   final Car car;
   final Function a;
 
-  const CarTileDropDown({Key key, this.carName, this.car, this.a}) : super(key: key);
+  const CarTileDropDown({Key key, this.carName, this.car, this.a})
+      : super(key: key);
 
   @override
   _CarTileDropDownState createState() => _CarTileDropDownState(a);

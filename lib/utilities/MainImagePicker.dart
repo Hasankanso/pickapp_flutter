@@ -117,16 +117,17 @@ class _MainImagePickerState extends State<MainImagePicker> {
     try {
       pickedFile =
           await picker.getImage(source: ImageSource.camera, imageQuality: 50);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        widget.controller.pickedImage = _image;
-        if (widget.callBack != null) widget.callBack(_image);
-      }
-    });
+      setState(() {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+          widget.controller.pickedImage = _image;
+          if (widget.callBack != null) widget.callBack(_image);
+        }
+      });
     } catch (PlatformException) {
-      if(Platform.isIOS){
-        CustomToast().showErrorToast(Lang.getString(context, "no_camera_permission"));
+      if (Platform.isIOS) {
+        CustomToast()
+            .showErrorToast(Lang.getString(context, "no_camera_permission"));
       } else {
         AppSettings.openAppSettings();
       }
@@ -139,16 +140,17 @@ class _MainImagePickerState extends State<MainImagePicker> {
     try {
       pickedFile =
           await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        widget.controller.pickedImage = _image;
-        if (widget.callBack != null) widget.callBack(_image);
-      }
-    });
+      setState(() {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+          widget.controller.pickedImage = _image;
+          if (widget.callBack != null) widget.callBack(_image);
+        }
+      });
     } catch (PlatformException) {
-      if(Platform.isIOS){
-        CustomToast().showErrorToast(Lang.getString(context, "no_image_pick_permission"));
+      if (Platform.isIOS) {
+        CustomToast().showErrorToast(
+            Lang.getString(context, "no_image_pick_permission"));
       } else {
         AppSettings.openAppSettings();
       }

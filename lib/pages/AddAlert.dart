@@ -74,7 +74,10 @@ class _AddAlertState extends State<AddAlert> {
                 height: 40,
                 child: DifferentSizeResponsiveRow(
                   children: [
-                    Expanded(flex: 100, child: NumberPicker(personsController, "Persons", 1, 8)),
+                    Expanded(
+                        flex: 100,
+                        child:
+                            NumberPicker(personsController, "Persons", 1, 8)),
                     Spacer(
                       flex: 1,
                     )
@@ -87,7 +90,10 @@ class _AddAlertState extends State<AddAlert> {
                 height: 40,
                 child: DifferentSizeResponsiveRow(
                   children: [
-                    Expanded(flex: 100, child: NumberPicker(luggageController, "Luggage", 1, 8)),
+                    Expanded(
+                        flex: 100,
+                        child:
+                            NumberPicker(luggageController, "Luggage", 1, 8)),
                     Spacer(
                       flex: 1,
                     )
@@ -126,27 +132,34 @@ class _AddAlertState extends State<AddAlert> {
                               LengthLimitingTextInputFormatter(8),
                             ],
                             decoration: InputDecoration(
-                              labelText:
-                                  Lang.getString(context, App.person.countryInformations.unit),
+                              labelText: Lang.getString(
+                                  context, App.person.countryInformations.unit),
                               labelStyle: Styles.labelTextStyle(),
                               hintStyle: Styles.labelTextStyle(),
                             ),
                             style: Styles.valueTextStyle(),
                             validator: (value) {
-                              String valid = Validation.validate(value, context);
+                              String valid =
+                                  Validation.validate(value, context);
                               Validation.isNullOrEmpty(value);
                               int price = int.tryParse(value);
                               if (valid != null)
                                 return valid;
-                              else if (price < App.person.countryInformations.minPrice) {
+                              else if (price <
+                                  App.person.countryInformations.minPrice) {
                                 Lang.getString(context, "Min_stop_time");
-                                return Lang.getString(context, "Minimum_short") +
+                                return Lang.getString(
+                                        context, "Minimum_short") +
                                     " " +
-                                    App.person.countryInformations.minPrice.toString();
-                              } else if (price > App.person.countryInformations.maxPrice) {
-                                return Lang.getString(context, "Maximum_short") +
+                                    App.person.countryInformations.minPrice
+                                        .toString();
+                              } else if (price >
+                                  App.person.countryInformations.maxPrice) {
+                                return Lang.getString(
+                                        context, "Maximum_short") +
                                     " " +
-                                    App.person.countryInformations.maxPrice.toString();
+                                    App.person.countryInformations.maxPrice
+                                        .toString();
                               } else
                                 return null;
                             },
@@ -182,8 +195,10 @@ class _AddAlertState extends State<AddAlert> {
                             ),
                             style: Styles.valueTextStyle(),
                             validator: (value) {
-                              String valid = Validation.validate(value, context);
-                              String short = Validation.isShort(context, value, 3);
+                              String valid =
+                                  Validation.validate(value, context);
+                              String short =
+                                  Validation.isShort(context, value, 3);
 
                               if (valid != null)
                                 return valid;
@@ -220,8 +235,10 @@ class _AddAlertState extends State<AddAlert> {
                 textKey: "Broadcast",
                 isRequest: true,
                 onPressed: () async {
-                  String _validateFrom = fromController.validate(context, x: toController);
-                  String _validateTo = toController.validate(context, x: fromController);
+                  String _validateFrom =
+                      fromController.validate(context, x: toController);
+                  String _validateTo =
+                      toController.validate(context, x: fromController);
                   _fromError = _validateFrom;
                   _toError = _validateTo;
                   setState(() {});

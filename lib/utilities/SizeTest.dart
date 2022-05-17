@@ -38,7 +38,10 @@ class _TestScaffoldState extends State<SizeTest> {
         child: GestureDetector(
           child: Column(
             children: [
-              ResponsiveWidget(width: widget.width, height: widget.height, child: widget.body),
+              ResponsiveWidget(
+                  width: widget.width,
+                  height: widget.height,
+                  child: widget.body),
             ],
           ),
           onPanUpdate: (details) {
