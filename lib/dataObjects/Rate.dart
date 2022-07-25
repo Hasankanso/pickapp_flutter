@@ -1,11 +1,12 @@
 import 'package:hive/hive.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'Rate.g.dart';
 
 @HiveType(typeId: 6)
-class Rate {
+class Rate extends BaseModel {
   @HiveField(0)
   double _grade;
   @HiveField(1)
@@ -116,4 +117,6 @@ class Rate {
   set creationDate(DateTime value) {
     _creationDate = value;
   }
+
+  static String get boxName => "rates";
 }

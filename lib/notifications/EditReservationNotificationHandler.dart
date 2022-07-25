@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 
 class EditReservationNotificationHandler extends NotificationHandler {
   Reservation reservation;
@@ -21,7 +21,7 @@ class EditReservationNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> cache() async {
-    User user = await Cache.getUser();
+    User user = await UserRepository().get();
 
     //find the ride in upcomingRides
     int rideIndex =
@@ -53,7 +53,7 @@ class EditReservationNotificationHandler extends NotificationHandler {
             reservation.luggage;
 
     //save changes.
-    await Cache.setUser(user);
+    await UserRepository().updateUser(user);
   }
 
   @override

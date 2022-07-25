@@ -1,10 +1,11 @@
 import 'package:hive/hive.dart';
 import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'Reservation.g.dart';
 
 @HiveType(typeId: 4)
-class Reservation {
+class Reservation extends BaseModel {
   @HiveField(0)
   Person person;
   @HiveField(1)
@@ -90,4 +91,11 @@ class Reservation {
 
   @override
   int get hashCode => id.hashCode;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{};
+  }
+
+  static String get boxName => "rates";
 }

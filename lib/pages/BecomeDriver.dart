@@ -3,7 +3,6 @@ import 'package:google_maps_webservice/directions.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/dataObjects/Driver.dart';
@@ -11,6 +10,7 @@ import 'package:just_miles/dataObjects/MainLocation.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/items/RegionListTile.dart';
 import 'package:just_miles/packages/FlushBar/flushbar.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/EditRegions.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
@@ -371,7 +371,7 @@ class _BecomeDriverState extends State<BecomeDriver> {
     }
 
     App.driver.regions = p1.regions;
-    await Cache.setUser(App.user);
+    await UserRepository().updateUser(App.user);
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
   }

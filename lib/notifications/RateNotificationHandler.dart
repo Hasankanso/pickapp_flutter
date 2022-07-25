@@ -7,6 +7,7 @@ import 'package:just_miles/dataObjects/UserStatistics.dart';
 import 'package:just_miles/notifications/LocalNotificationManager.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 
 class RateNotificationHandler extends NotificationHandler {
   List<Rate> rates;
@@ -21,13 +22,14 @@ class RateNotificationHandler extends NotificationHandler {
   @override
   Future<void> cache() async {
     await Cache.setRates(rates);
-    User user = await Cache.getUser();
+    User user = await UserRepository().get();
     UserStatistics userStatistics = UserStatistics(0, 0, 0, 0, 0, 0, 0, 0, 0);
     for (final rate in rates) {
       userStatistics = userStatistics.createNewStatistics(rate);
     }
     user.person.statistics = userStatistics;
-    await Cache.setUser(user);
+    await UserRepository().updateUser(user);
+
     rates.sort((a, b) => b.creationDate.compareTo(a.creationDate));
     if (rates.isNotEmpty)
       await LocalNotificationManager.pushLocalNotification(

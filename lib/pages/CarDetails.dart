@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/dataObjects/Car.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/EditCar.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
@@ -284,7 +284,7 @@ class _CarDetailsState extends State<CarDetails> {
 
     App.user.driver.cars.remove(p1);
     App.user.driver.cars.add(p1);
-    await Cache.setUser(App.user);
+    await UserRepository().updateUser(App.user);
     App.updateProfile.value = !App.updateProfile.value;
 
     CustomToast()

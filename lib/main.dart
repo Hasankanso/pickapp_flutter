@@ -10,6 +10,8 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/RouteGenerator.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/notifications/PushNotificationsManager.dart';
+import 'package:just_miles/repository/repository.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/Request.dart';
 
 Future<void> main() async {
@@ -19,9 +21,9 @@ Future<void> main() async {
 
   await Ads.initialize();
 
-  await Cache.initializeHive();
+  await Repository.initializeHive();
 
-  App.user = await Cache.getUser();
+  App.user = await UserRepository().get();
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     List<String> c = await Cache.getCountriesList();

@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_miles/ads/MainNativeAd.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/ChangePhone.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
@@ -367,7 +367,8 @@ class _Phone2State extends State<Phone2> {
     localUser.person.statistics = App.person.statistics;
 
     App.user = localUser;
-    await Cache.setUser(localUser);
+    await UserRepository().updateUser(localUser);
+
     App.updateProfile.value = !App.updateProfile.value;
 
     CustomToast()

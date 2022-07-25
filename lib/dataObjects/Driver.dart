@@ -1,12 +1,13 @@
 import 'package:hive/hive.dart';
 import 'package:just_miles/dataObjects/Car.dart';
 import 'package:just_miles/dataObjects/MainLocation.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 import 'package:just_miles/requests/Request.dart';
 
 part 'Driver.g.dart';
 
 @HiveType(typeId: 2)
-class Driver {
+class Driver extends BaseModel {
   @HiveField(0)
   String _id;
   @HiveField(1)
@@ -119,4 +120,6 @@ class Driver {
   set updated(DateTime value) {
     _updated = value;
   }
+
+  static String get boxName => "driver";
 }

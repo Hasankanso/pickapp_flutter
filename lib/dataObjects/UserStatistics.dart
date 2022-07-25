@@ -1,10 +1,11 @@
 import 'package:hive/hive.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'UserStatistics.g.dart';
 
 @HiveType(typeId: 13)
-class UserStatistics {
+class UserStatistics extends BaseModel {
   @HiveField(1)
   final int ones;
   @HiveField(2)
@@ -85,5 +86,10 @@ class UserStatistics {
   @override
   String toString() {
     return 'UserStatistics{ones: $ones, twos: $twos, threes: $threes, fours: $fours, fives: $fives, rateCount: $ratesCount, rateAverage: $rateAverage, acomplishedRides: $acomplishedRides, canceledRides: $canceledRides}';
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{};
   }
 }

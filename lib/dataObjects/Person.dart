@@ -5,12 +5,13 @@ import 'package:just_miles/dataObjects/CountryInformations.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/dataObjects/UserStatistics.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 import 'package:just_miles/requests/Request.dart';
 
 part 'Person.g.dart';
 
 @HiveType(typeId: 5)
-class Person {
+class Person extends BaseModel {
   @HiveField(0)
   String _id;
   @HiveField(1)
@@ -310,4 +311,6 @@ class Person {
   set countryInformations(CountryInformations value) {
     _countryInformations = value;
   }
+
+  static String get boxName => "person";
 }

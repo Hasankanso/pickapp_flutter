@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
@@ -8,6 +7,7 @@ import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
 import 'package:just_miles/notifications/RatePassengersHandler.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 
 class CancelReservationNotificationHandler extends NotificationHandler {
   String rideId, reason, passengerId;
@@ -23,7 +23,7 @@ class CancelReservationNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> cache() async {
-    User user = await Cache.getUser();
+    User user = await UserRepository().get();
     if (user == null) {
       return;
     }
@@ -57,13 +57,13 @@ class CancelReservationNotificationHandler extends NotificationHandler {
       reservedRide.reservations[passIndex].reason = this.reason;
     }
 
-    await Cache.setUser(user);
+    await UserRepository().updateUser(user);
   }
 
   @override
   Future<void> updateApp() async {
     App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
-    App.user = await Cache.getUser();
+    App.user = await UserRepository().get();
   }
 
   @override

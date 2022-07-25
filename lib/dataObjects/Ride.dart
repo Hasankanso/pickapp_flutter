@@ -9,11 +9,12 @@ import 'package:just_miles/dataObjects/MainLocation.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'Ride.g.dart';
 
 @HiveType(typeId: 7)
-class Ride {
+class Ride extends BaseModel {
   @HiveField(0)
   String id;
   @HiveField(1)
@@ -344,4 +345,5 @@ class Ride {
   Driver get driver => user.driver;
 
   Person get person => user.person;
+  static String get boxName => "ridesHistory";
 }

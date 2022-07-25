@@ -2,12 +2,12 @@ import 'dart:core';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import 'package:just_miles/requests/Request.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'Car.g.dart';
 
 @HiveType(typeId: 0)
-class Car {
+class Car extends BaseModel {
   @HiveField(0)
   String _id;
   @HiveField(1)
@@ -171,4 +171,6 @@ class Car {
     return 'Car{_id: $_id, _name: $_name, _color: $_color, _brand: $_brand, picture: $carPictureUrl, _year: $_year, _maxLuggage: $_maxLuggage, '
         '_maxSeats: $_maxSeats, _updated: $_updated, _type: $_type}';
   }
+
+  static String get boxName => "cars";
 }

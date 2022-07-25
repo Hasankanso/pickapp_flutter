@@ -1,9 +1,10 @@
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'CountryInformations.g.dart';
 
 @HiveType(typeId: 1)
-class CountryInformations {
+class CountryInformations extends BaseModel {
   @HiveField(0)
   String _id;
   @HiveField(1)
@@ -159,4 +160,6 @@ class CountryInformations {
   set drivingAge(int value) {
     _drivingAge = value;
   }
+
+  static String get boxName => "countriesInformation";
 }

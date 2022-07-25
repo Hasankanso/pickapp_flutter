@@ -9,6 +9,7 @@ import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/LoginRequest.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/requests/VerifyAccount.dart';
@@ -314,7 +315,7 @@ class _LoginState extends State<Login> {
 
     App.user = u;
     await Cache.setRates(u.person.rates);
-    await Cache.setUser(u);
+    await UserRepository().updateUser(u);
 
     App.countriesComponents = null;
     await Cache.setCountriesList(

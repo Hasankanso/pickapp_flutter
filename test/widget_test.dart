@@ -20,6 +20,8 @@ import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/notifications/PushNotificationsManager.dart';
 import 'package:just_miles/pages/RatePassengers.dart';
+import 'package:just_miles/repository/repository.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 
 class InitializerWidget extends StatefulWidget {
   final Widget child;
@@ -100,9 +102,9 @@ class MyApp extends StatelessWidget {
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await Cache.init();
-  await Cache.initializeHive();
+  await Repository.initializeHive();
 
-  App.user = await Cache.getUser();
+  App.user = await UserRepository().get();
   if (App.user != null) {
     App.isLoggedInNotifier.value = true;
     if (App.driver != null) App.isDriverNotifier.value = true;

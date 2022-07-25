@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:just_miles/dataObjects/Car.dart';
 import 'package:just_miles/dataObjects/Chat.dart';
-import 'package:just_miles/dataObjects/CountryInformations.dart';
-import 'package:just_miles/dataObjects/Driver.dart';
-import 'package:just_miles/dataObjects/MainLocation.dart';
 import 'package:just_miles/dataObjects/Message.dart';
-import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
-import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/dataObjects/User.dart';
-import 'package:just_miles/dataObjects/UserStatistics.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/PushNotificationsManager.dart';
-import 'package:path_provider/path_provider.dart' as PathProvider;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
@@ -41,12 +33,6 @@ class Cache {
 
   static bool get failed => _failed;
 
-  static setUser(User u) async {
-    final userBox = await Hive.openBox("user");
-    u.person.rates = null;
-    await userBox.put(0, u);
-  }
-
   static Future<void> clearHiveCache() async {
     var rateB = await Hive.openBox<Rate>('rates');
     await rateB.clear();
@@ -55,7 +41,7 @@ class Cache {
     var sNotfB = await Hive.openBox<MainNotification>('scheduledNotifications');
     await sNotfB.clear();
     await sNotfB.close();
-    var userB = Hive.box("user");
+    var userB = Hive.box(User.boxName);
     await userB.clear();
     await clearHiveChats();
     await removeAllScheduledNotification();
@@ -93,26 +79,6 @@ class Cache {
     for (int i = chat.lastChunkIndex; i >= 0; i--) {
       var messageBox = await Hive.openBox<Message>('${chat.id}.messages.$i');
       await messageBox.deleteFromDisk();
-    }
-  }
-
-  static Future<void> initializeHive() async {
-    final path = await PathProvider.getApplicationDocumentsDirectory();
-    if (!Hive.isAdapterRegistered(0)) {
-      Hive.init(path.path);
-      Hive.registerAdapter(UserAdapter());
-      Hive.registerAdapter(PersonAdapter());
-      Hive.registerAdapter(DriverAdapter());
-      Hive.registerAdapter(CountryInformationsAdapter());
-      Hive.registerAdapter(CarAdapter());
-      Hive.registerAdapter(MainLocationAdapter());
-      Hive.registerAdapter(RideAdapter());
-      Hive.registerAdapter(RateAdapter());
-      Hive.registerAdapter(ReservationAdapter());
-      Hive.registerAdapter(ChatAdapter());
-      Hive.registerAdapter(MessageAdapter());
-      Hive.registerAdapter(MainNotificationAdapter());
-      Hive.registerAdapter(UserStatisticsAdapter());
     }
   }
 
@@ -223,17 +189,6 @@ class Cache {
       return true;
     }
     return false;
-  }
-
-  static Future<User> getUser() async {
-    User user;
-    await Hive.openBox('user');
-
-    final box = Hive.box("user");
-    if (box.length != 0) {
-      user = box.getAt(0) as User;
-    }
-    return user;
   }
 
   static Future<List<MainNotification>> getScheduledNotifications() async {

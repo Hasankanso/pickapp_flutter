@@ -8,6 +8,7 @@ import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/dataObjects/Driver.dart';
 import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/ForceRegisterPerson.dart';
 import 'package:just_miles/requests/RegisterPerson.dart';
 import 'package:just_miles/requests/Request.dart';
@@ -178,7 +179,8 @@ class _RegisterDriverState extends State<RegisterDriver> {
     }
 
     App.user = u;
-    await Cache.setUser(u);
+    await UserRepository().updateUser(u);
+
     await Cache.setCountriesList(
         [App.person.countryInformations.countryComponent]);
     App.setCountriesComponent(

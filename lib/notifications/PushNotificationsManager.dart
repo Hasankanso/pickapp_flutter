@@ -19,6 +19,8 @@ import 'package:just_miles/notifications/RateNotificationHandler.dart';
 import 'package:just_miles/notifications/RatePassengersHandler.dart';
 import 'package:just_miles/notifications/ReserveSeatsNotificationHandler.dart';
 import 'package:just_miles/notifications/RideReminderNotificationHandler.dart';
+import 'package:just_miles/repository/repository.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/GetUserReviews.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/requests/UpdateToken.dart';
@@ -107,7 +109,7 @@ class PushNotificationsManager {
   }
 
   Future<void> onResume() async {
-    App.user = await Cache.getUser();
+    App.user = await UserRepository().get();
     await initNotifications();
   }
 
@@ -187,7 +189,7 @@ class PushNotificationsManager {
 }
 
 Future<void> _backgroundMessageHandler(RemoteMessage message) async {
-  await Cache.initializeHive();
+  await Repository.initializeHive();
   await Cache.init();
   await _cacheNotification(message);
   await Cache.closeHiveBoxes();

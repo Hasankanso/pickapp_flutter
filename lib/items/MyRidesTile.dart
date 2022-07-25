@@ -9,6 +9,7 @@ import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/pages/RideDetails.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/EditReservation.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
@@ -66,7 +67,9 @@ class MyRidesTile extends StatefulWidget {
     } else {
       App.person.upcomingRides.remove(r);
       App.person.upcomingRides.add(r);
-      Cache.setUser(App.user);
+
+      UserRepository().updateUser(App.user);
+
       App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Ride_Reserved_Success"));

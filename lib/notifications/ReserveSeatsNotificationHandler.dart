@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
@@ -8,6 +7,7 @@ import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
 import 'package:just_miles/notifications/RatePassengersHandler.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 
 class ReserveSeatsNotificationHandler extends NotificationHandler {
   Reservation reservation;
@@ -25,7 +25,7 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
   Future<void> cache() async {
     if (reservation == null) return;
 
-    User user = await Cache.getUser();
+    User user = await UserRepository().get();
 
     //find the ride in upcomingRides
     int rideIndex =
@@ -48,7 +48,8 @@ class ReserveSeatsNotificationHandler extends NotificationHandler {
     reservedRide.availableSeats -= reservation.seats;
     reservedRide.availableLuggages -= reservation.luggage;
     //save changes.
-    await Cache.setUser(user);
+    await UserRepository().updateUser(user);
+
     //add rateNotification.
     await RatePassengersHandler.createLocalNotification(reservedRide);
   }

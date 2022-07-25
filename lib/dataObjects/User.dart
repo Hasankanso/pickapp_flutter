@@ -1,11 +1,12 @@
 import 'package:hive/hive.dart';
 import 'package:just_miles/dataObjects/Driver.dart';
 import 'package:just_miles/dataObjects/Person.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'User.g.dart';
 
 @HiveType(typeId: 9)
-class User {
+class User extends BaseModel {
   @HiveField(0)
   String _id;
   @HiveField(1)
@@ -116,4 +117,6 @@ class User {
   set driver(Driver value) {
     _driver = value;
   }
+
+  static String get boxName => "user";
 }

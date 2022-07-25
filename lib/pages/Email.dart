@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/Validation.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/ChangeEmail.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
@@ -92,7 +92,8 @@ class Email extends StatelessWidget {
     }
 
     App.user.email = p1;
-    Cache.setUser(App.user);
+    UserRepository().updateUser(App.user);
+
     App.updateProfile.value = !App.updateProfile.value;
 
     CustomToast().showSuccessToast(

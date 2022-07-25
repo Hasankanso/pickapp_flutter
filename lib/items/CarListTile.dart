@@ -4,13 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/dataObjects/Car.dart';
 import 'package:just_miles/packages/FlushBar/flushbar.dart';
 import 'package:just_miles/pages/CarView.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/DeleteCar.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
@@ -68,7 +68,7 @@ class CarListTile extends ListTile {
         App.user.driver = null;
       }
 
-      await Cache.setUser(App.user);
+      await UserRepository().updateUser(App.user);
 
       App.updateProfile.value = !App.updateProfile.value;
 

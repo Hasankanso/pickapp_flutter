@@ -7,6 +7,7 @@ import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/items/MyRidesHistoryTile.dart';
 import 'package:just_miles/items/MyRidesTile.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/GetMyUpcomingRides.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/ListBuilder.dart';
@@ -47,7 +48,7 @@ class _MyRidesState extends State<MyRides> {
       if (needUpdate) {
         App.person.upcomingRides.removeWhere((e) => toRemove.contains(e));
         await Cache.updateRideHistory(ridesHistory);
-        await Cache.setUser(App.user);
+        await UserRepository().updateUser(App.user);
       }
     }
   }

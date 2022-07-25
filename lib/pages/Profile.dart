@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/screenutil.dart';
@@ -12,6 +11,7 @@ import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/items/CarListTile.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/EditAccount.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
@@ -59,7 +59,7 @@ class _ProfileState extends State<Profile> {
     result.countryInformations = App.user.person.countryInformations;
 
     App.user.person = result;
-    await Cache.setUser(App.user);
+    await UserRepository().updateUser(App.user);
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Successfully_edited!"));
     setState(() {

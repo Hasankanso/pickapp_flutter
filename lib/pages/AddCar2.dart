@@ -8,6 +8,7 @@ import 'package:just_miles/dataObjects/Car.dart';
 import 'package:just_miles/dataObjects/Driver.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/items/CarTypeItem.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/AddCar.dart';
 import 'package:just_miles/requests/BecomeDriverRequest.dart';
 import 'package:just_miles/requests/ForceRegisterPerson.dart';
@@ -272,7 +273,8 @@ class _AddCar2State extends State<AddCar2> {
     }
 
     App.user = u;
-    await Cache.setUser(u);
+    await UserRepository().updateUser(u);
+
     App.countriesComponents = null;
     await Cache.setCountriesList(
         [App.person.countryInformations.countryComponent]);
@@ -294,7 +296,7 @@ class _AddCar2State extends State<AddCar2> {
     }
 
     App.user.driver = p1;
-    await Cache.setUser(App.user);
+    await UserRepository().updateUser(App.user);
 
     App.isDriverNotifier.value = true;
     CustomToast().showSuccessToast(Lang.getString(context, "Now_driver"));
@@ -313,7 +315,7 @@ class _AddCar2State extends State<AddCar2> {
       App.user.driver.cars.add(p1);
     }
 
-    await Cache.setUser(App.user);
+    await UserRepository().updateUser(App.user);
     App.updateProfile.value = !App.updateProfile.value;
 
     CustomToast()

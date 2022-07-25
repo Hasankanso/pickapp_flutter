@@ -2,11 +2,12 @@ import 'dart:core';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'MainLocation.g.dart';
 
 @HiveType(typeId: 3)
-class MainLocation {
+class MainLocation extends BaseModel {
   @HiveField(0)
   String _name;
   @HiveField(1)
@@ -118,4 +119,6 @@ class MainLocation {
   String toString() {
     return 'Location{_name: $_name, _id: $_id, _placeId: $_placeId, _latitude: $_latitude, _longitude: $_longitude, _updated: $_updated}';
   }
+
+  static String get boxName => "locations";
 }

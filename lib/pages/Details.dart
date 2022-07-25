@@ -10,6 +10,7 @@ import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/User.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/EditAccount.dart';
 import 'package:just_miles/requests/ForceRegisterPerson.dart';
 import 'package:just_miles/requests/RegisterPerson.dart';
@@ -443,7 +444,7 @@ class _DetailsState extends State<Details> {
     result.countryInformations = App.user.person.countryInformations;
     App.user.person = result;
 
-    await Cache.setUser(App.user);
+    await UserRepository().updateUser(App.user);
 
     App.updateProfile.value = !App.updateProfile.value;
     CustomToast()
@@ -499,7 +500,8 @@ class _DetailsState extends State<Details> {
     }
 
     App.user = u;
-    await Cache.setUser(u);
+    await UserRepository().updateUser(u);
+
     App.countriesComponents = null;
     await Cache.setCountriesList(
         [App.person.countryInformations.countryComponent]);

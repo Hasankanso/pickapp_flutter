@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_miles/ads/Ads.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/EditRideRequest.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
@@ -204,7 +204,9 @@ class _EditRideState extends State<EditRide> {
     }
     App.user.person.upcomingRides.remove(ride);
     App.user.person.upcomingRides.add(ride);
-    Cache.setUser(App.user);
+
+    UserRepository().updateUser(App.user);
+
     Navigator.popUntil(context, (route) => route.isFirst);
     App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
 

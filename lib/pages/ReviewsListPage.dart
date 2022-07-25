@@ -6,6 +6,7 @@ import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/UserStatistics.dart';
 import 'package:just_miles/items/RateTile.dart';
+import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/GetUserReviews.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/ListBuilder.dart';
@@ -105,7 +106,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
         userStatistics = userStatistics.createNewStatistics(rate);
       }
       App.person.statistics = userStatistics;
-      await Cache.setUser(App.user);
+      await UserRepository().updateUser(App.user);
       await Cache.setRates(rates);
 
       setState(() {
