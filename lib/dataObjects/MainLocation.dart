@@ -2,12 +2,12 @@ import 'dart:core';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 
 part 'MainLocation.g.dart';
 
 @HiveType(typeId: 3)
-class MainLocation extends BaseModel {
+class MainLocation extends BaseDataObject {
   @HiveField(0)
   String _name;
   @HiveField(1)

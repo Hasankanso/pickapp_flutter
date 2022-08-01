@@ -8,6 +8,7 @@ import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/pages/PersonView.dart';
 import 'package:just_miles/pages/RideView.dart';
+import 'package:just_miles/repository/ridesHistory/rides_history_repository.dart';
 import 'package:just_miles/requests/CancelReservedSeats.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
@@ -17,7 +18,6 @@ import 'package:just_miles/utilities/PopUp.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import '../classes/Cache.dart';
 import 'CarView.dart';
 
 class RideDetails extends StatelessWidget {
@@ -45,9 +45,9 @@ class RideDetails extends StatelessWidget {
       await App.deleteRideFromMyRides(ride);
       CustomToast()
           .showSuccessToast(Lang.getString(context, "Successfully_canceled!"));
-      ridesHistory = await Cache.getRidesHistory();
+      ridesHistory = await RidesHistoryRepository().getAll();
       ridesHistory.add(ride);
-      await Cache.updateRideHistory(ridesHistory);
+      await RidesHistoryRepository().update(ridesHistory);
       Navigator.popUntil(context, (route) => route.isFirst);
     }
   }

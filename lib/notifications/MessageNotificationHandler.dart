@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/dataObjects/Chat.dart';
 import 'package:just_miles/dataObjects/Message.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
 import 'package:just_miles/pages/Inbox.dart';
+import 'package:just_miles/repository/chat/chat_repository.dart';
 import 'package:just_miles/requests/GetPerson.dart';
 import 'package:just_miles/requests/Request.dart';
 
@@ -29,7 +29,7 @@ class MessageNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> cache() async {
-    Chat chat = await Cache.getChat(message.senderId);
+    Chat chat = await ChatRepository().getChat(message.senderId);
 
     if (chat == null || chat.person == null) {
       Request.initBackendless();
@@ -47,7 +47,7 @@ class MessageNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> display(BuildContext context) {
-    Cache.getChat(message.senderId).then((chat) {
+    ChatRepository().getChat(message.senderId).then((chat) {
       assert(chat != null);
       Inbox.openChat(chat, context);
     });

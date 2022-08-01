@@ -1,11 +1,11 @@
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'UserStatistics.g.dart';
 
 @HiveType(typeId: 13)
-class UserStatistics extends BaseModel {
+class UserStatistics extends BaseDataObject {
   @HiveField(1)
   final int ones;
   @HiveField(2)

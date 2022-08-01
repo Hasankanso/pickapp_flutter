@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 import 'package:just_miles/dataObjects/Car.dart';
 import 'package:just_miles/dataObjects/CountryInformations.dart';
 import 'package:just_miles/dataObjects/Driver.dart';
@@ -9,12 +10,11 @@ import 'package:just_miles/dataObjects/MainLocation.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/User.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'Ride.g.dart';
 
 @HiveType(typeId: 7)
-class Ride extends BaseModel {
+class Ride extends BaseDataObject {
   @HiveField(0)
   String id;
   @HiveField(1)
@@ -345,5 +345,6 @@ class Ride extends BaseModel {
   Driver get driver => user.driver;
 
   Person get person => user.person;
+
   static String get boxName => "ridesHistory";
 }

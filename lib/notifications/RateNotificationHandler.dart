@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/dataObjects/UserStatistics.dart';
 import 'package:just_miles/notifications/LocalNotificationManager.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
+import 'package:just_miles/repository/rate/rate_repository.dart';
 import 'package:just_miles/repository/user/user_repository.dart';
 
 class RateNotificationHandler extends NotificationHandler {
@@ -21,7 +21,7 @@ class RateNotificationHandler extends NotificationHandler {
 
   @override
   Future<void> cache() async {
-    await Cache.setRates(rates);
+    await RateRepository().update(rates);
     User user = await UserRepository().get();
     UserStatistics userStatistics = UserStatistics(0, 0, 0, 0, 0, 0, 0, 0, 0);
     for (final rate in rates) {

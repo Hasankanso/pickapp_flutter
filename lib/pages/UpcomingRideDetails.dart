@@ -6,6 +6,7 @@ import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/Validation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
+import 'package:just_miles/repository/ridesHistory/rides_history_repository.dart';
 import 'package:just_miles/requests/CancelRide.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
@@ -13,7 +14,6 @@ import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/PopUp.dart';
 import 'package:just_miles/utilities/Spinner.dart';
 
-import '../classes/Cache.dart';
 import 'PassengersView.dart';
 import 'RideView.dart';
 
@@ -164,10 +164,11 @@ class UpcomingRideDetails extends StatelessWidget {
     }
 
     await App.deleteRideFromMyRides(ride);
-    ridesHistory = await Cache.getRidesHistory();
+    ridesHistory = await RidesHistoryRepository().getAll();
     ride.status = "CANCELED";
     ridesHistory.add(ride);
-    await Cache.updateRideHistory(ridesHistory);
+    await RidesHistoryRepository().update(ridesHistory);
+
     Navigator.popUntil(context, (route) => route.isFirst);
     CustomToast()
         .showSuccessToast(Lang.getString(context, "Successfully_canceled!"));

@@ -1,9 +1,10 @@
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 
 part 'MainNotification.g.dart';
 
 @HiveType(typeId: 12)
-class MainNotification {
+class MainNotification extends BaseDataObject {
   @HiveField(0)
   int _id;
   @HiveField(1)
@@ -46,7 +47,7 @@ class MainNotification {
       DateTime sentTime,
       this.isMinimized,
       this.dictId}) {
-    this.id = id;
+    this.notificationId = id;
     this.body = body;
     this.title = title;
     this.action = action;
@@ -116,9 +117,15 @@ class MainNotification {
     _action = value;
   }
 
-  int get id => _id;
+  String get id => _id.toString();
 
   set id(value) {
+    _id = int.parse(value);
+  }
+
+  int get notificationId => _id;
+
+  set notificationId(value) {
     _id = value;
   }
 
@@ -148,4 +155,6 @@ class MainNotification {
   String toString() {
     return 'MainNotification{_id: $_id, _action: $_action, _title: $_title, _body: $_body, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
   }
+
+  static String get boxName => "Box name is not registered";
 }

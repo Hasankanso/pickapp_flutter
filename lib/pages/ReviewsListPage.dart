@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/UserStatistics.dart';
 import 'package:just_miles/items/RateTile.dart';
+import 'package:just_miles/repository/rate/rate_repository.dart';
 import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/GetUserReviews.dart';
 import 'package:just_miles/requests/Request.dart';
@@ -54,7 +54,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
   }
 
   _getRates() async {
-    var rates = await Cache.getRates();
+    var rates = await RateRepository().getAll();
     setState(() {
       _filterRates(rates);
     });
@@ -107,7 +107,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
       }
       App.person.statistics = userStatistics;
       await UserRepository().updateUser(App.user);
-      await Cache.setRates(rates);
+      await RateRepository().update(rates);
 
       setState(() {
         _filterRates(rates);

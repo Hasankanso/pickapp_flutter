@@ -1,11 +1,11 @@
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 import 'package:just_miles/dataObjects/Person.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'Reservation.g.dart';
 
 @HiveType(typeId: 4)
-class Reservation extends BaseModel {
+class Reservation extends BaseDataObject {
   @HiveField(0)
   Person person;
   @HiveField(1)

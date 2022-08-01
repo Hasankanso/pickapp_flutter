@@ -78,7 +78,7 @@ class LocalNotificationManager {
   }
 
   static pushLocalNotification(MainNotification notification, String id) async {
-    notification.id = await Cache.setScheduledNotificationId(id);
+    notification.notificationId = await Cache.setScheduledNotificationId(id);
     notification.dictId = id;
     await _pushLocalNotification(notification);
   }
@@ -109,7 +109,7 @@ class LocalNotificationManager {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        notification.id,
+        notification.notificationId,
         notification.title,
         notification.body,
         tz.TZDateTime(

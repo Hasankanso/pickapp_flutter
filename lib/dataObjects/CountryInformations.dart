@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 
 part 'CountryInformations.g.dart';
 
 @HiveType(typeId: 1)
-class CountryInformations extends BaseModel {
+class CountryInformations extends BaseDataObject {
   @HiveField(0)
   String _id;
   @HiveField(1)

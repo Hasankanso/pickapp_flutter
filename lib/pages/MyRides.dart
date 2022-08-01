@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/screenutil.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/items/MyRidesHistoryTile.dart';
 import 'package:just_miles/items/MyRidesTile.dart';
+import 'package:just_miles/repository/ridesHistory/rides_history_repository.dart';
 import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/GetMyUpcomingRides.dart';
 import 'package:just_miles/requests/Request.dart';
@@ -47,14 +47,15 @@ class _MyRidesState extends State<MyRides> {
       }
       if (needUpdate) {
         App.person.upcomingRides.removeWhere((e) => toRemove.contains(e));
-        await Cache.updateRideHistory(ridesHistory);
+        await RidesHistoryRepository().update(ridesHistory);
+
         await UserRepository().updateUser(App.user);
       }
     }
   }
 
   Future<void> getRidesHistory() async {
-    ridesHistory = await Cache.getRidesHistory();
+    ridesHistory = await RidesHistoryRepository().getAll();
     await checkOutDatedRides();
     App.updateUpcomingRide.value = !App.updateUpcomingRide.value;
   }
@@ -142,7 +143,7 @@ class _MyRidesState extends State<MyRides> {
       App.person.upcomingRides = updatedUpcomingRides;
       await App.updateUserCache();
       ridesHistory = historyRides;
-      await Cache.updateRideHistory(historyRides);
+      await RidesHistoryRepository().update(historyRides);
     }
   }
 

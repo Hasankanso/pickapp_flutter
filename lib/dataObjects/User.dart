@@ -1,12 +1,12 @@
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 import 'package:just_miles/dataObjects/Driver.dart';
 import 'package:just_miles/dataObjects/Person.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'User.g.dart';
 
 @HiveType(typeId: 9)
-class User extends BaseModel {
+class User extends BaseDataObject {
   @HiveField(0)
   String _id;
   @HiveField(1)

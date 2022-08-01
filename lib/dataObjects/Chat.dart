@@ -1,13 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 import 'package:just_miles/dataObjects/Message.dart';
 import 'package:just_miles/dataObjects/Person.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
 
 part 'Chat.g.dart';
 
 @HiveType(typeId: 10)
-class Chat extends BaseModel {
+class Chat extends BaseDataObject {
   static final int chunkSize = 50;
 
   ValueNotifier<String> newMessage = new ValueNotifier("");

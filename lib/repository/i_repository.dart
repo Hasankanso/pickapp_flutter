@@ -1,6 +1,6 @@
-import 'package:just_miles/dataObjects/baseModel.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 
-abstract class IRepository<T extends BaseModel> {
+abstract class IRepository<T extends BaseDataObject> {
   Future<bool> insert(T values);
   Future<List<T>> upsert(List<T> list);
   Future<List<T>> update(List<T> objects);

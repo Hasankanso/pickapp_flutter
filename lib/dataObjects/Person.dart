@@ -1,17 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 import 'package:just_miles/dataObjects/CountryInformations.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/dataObjects/UserStatistics.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
+import 'package:just_miles/repository/ridesHistory/rides_history_repository.dart';
 import 'package:just_miles/requests/Request.dart';
 
 part 'Person.g.dart';
 
 @HiveType(typeId: 5)
-class Person extends BaseModel {
+class Person extends BaseDataObject {
   @HiveField(0)
   String _id;
   @HiveField(1)
@@ -198,7 +198,7 @@ class Person extends BaseModel {
       if (!searchHistory) {
         return null;
       } else {
-        List<Ride> rides = await Cache.getRidesHistory();
+        List<Ride> rides = await RidesHistoryRepository().getAll();
         int indexHistory = rides.indexOf(new Ride(id: objectId));
         if (indexHistory < 0) return null;
         return rides[indexHistory];

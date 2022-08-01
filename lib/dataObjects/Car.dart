@@ -2,12 +2,12 @@ import 'dart:core';
 
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 
 part 'Car.g.dart';
 
 @HiveType(typeId: 0)
-class Car extends BaseModel {
+class Car extends BaseDataObject {
   @HiveField(0)
   String _id;
   @HiveField(1)

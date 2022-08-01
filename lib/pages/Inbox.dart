@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/dataObjects/Chat.dart';
 import 'package:just_miles/dataObjects/Person.dart';
 import 'package:just_miles/items/ChatListTile.dart';
+import 'package:just_miles/repository/chat/chat_repository.dart';
 import 'package:just_miles/utilities/ListBuilder.dart';
 import 'package:just_miles/utilities/MainAppBar.dart';
 import 'package:just_miles/utilities/MainScaffold.dart';
@@ -24,7 +24,7 @@ class Inbox extends StatefulWidget {
   }
 
   static Future<Chat> getChat(Person person) async {
-    Chat chat = await Cache.getChat(person.id,
+    Chat chat = await ChatRepository().getChat(person.id,
         toStoreChat:
             new Chat(id: person.id, person: person, isNewMessage: false));
     return chat;
@@ -38,7 +38,7 @@ class _InboxState extends State<Inbox>
     return ValueListenableBuilder(
         valueListenable: App.updateInbox,
         builder: (BuildContext context, bool isLoggedIn, Widget child) {
-          Future<List<Chat>> chats = Cache.getChats();
+          Future<List<Chat>> chats = ChatRepository().getChats();
           return FutureBuilder<List<Chat>>(
               future: chats,
               builder:
@@ -84,7 +84,7 @@ class __BodyState extends State<_Body> {
                   Lang.getString(context, "Warning!"),
                   Colors.red, (bool) {
             if (bool == true) {
-              Cache.clearHiveChat(chat.id);
+              ChatRepository().deleteChat(chat.id);
               setState(() {
                 widget.chats.removeAt(index);
               });

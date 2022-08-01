@@ -1,13 +1,13 @@
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 import 'package:just_miles/dataObjects/Car.dart';
 import 'package:just_miles/dataObjects/MainLocation.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
 import 'package:just_miles/requests/Request.dart';
 
 part 'Driver.g.dart';
 
 @HiveType(typeId: 2)
-class Driver extends BaseModel {
+class Driver extends BaseDataObject {
   @HiveField(0)
   String _id;
   @HiveField(1)

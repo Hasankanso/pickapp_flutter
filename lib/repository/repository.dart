@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:just_miles/dataObjects/BaseDataObject.dart';
 import 'package:just_miles/dataObjects/Car.dart';
 import 'package:just_miles/dataObjects/Chat.dart';
 import 'package:just_miles/dataObjects/CountryInformations.dart';
@@ -11,13 +12,12 @@ import 'package:just_miles/dataObjects/Reservation.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/dataObjects/UserStatistics.dart';
-import 'package:just_miles/dataObjects/baseModel.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/repository/chat/chat_repository.dart';
 import 'package:just_miles/repository/i_repository.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 
-abstract class Repository<T extends BaseModel> implements IRepository<T> {
-  // Add Box name(table)
+abstract class Repository<T extends BaseDataObject> implements IRepository<T> {
   final boxName = {
     User: User.boxName,
     Person: Person.boxName,
@@ -47,8 +47,8 @@ abstract class Repository<T extends BaseModel> implements IRepository<T> {
     }
   }
 
-  openBox(String tableName) async {
-    var box;
+  static Future<Box> openBox(String tableName) async {
+    Box box;
     if (!Hive.isBoxOpen(tableName)) {
       box = await Hive.openBox(tableName);
     } else {
@@ -301,5 +301,20 @@ abstract class Repository<T extends BaseModel> implements IRepository<T> {
     } catch (e) {
       return null;
     }
+  }
+
+  static Future<void> deleteDb() async {
+    var rateBox = await openBox(Rate.boxName);
+    await rateBox.deleteFromDisk();
+    var userB = await openBox(User.boxName);
+    await userB.deleteFromDisk();
+    // await clearNotifications();
+    // var sNotfB = await Hive.openBox<MainNotification>('scheduledNotifications');
+    // await sNotfB.clear();
+    // await sNotfB.close();
+    await ChatRepository().deleteChats();
+
+    // await removeAllScheduledNotification();
+    // await removeAllScheduledNotificationId();
   }
 }
