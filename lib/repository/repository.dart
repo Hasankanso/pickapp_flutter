@@ -13,6 +13,7 @@ import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/dataObjects/User.dart';
 import 'package:just_miles/dataObjects/UserStatistics.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/notifications/ScheduledNotification.dart';
 import 'package:just_miles/repository/chat/chat_repository.dart';
 import 'package:just_miles/repository/i_repository.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
@@ -25,6 +26,8 @@ abstract class Repository<T extends BaseDataObject> implements IRepository<T> {
     Chat: Chat.boxName,
     Rate: Rate.boxName,
     Ride: Ride.boxName,
+    MainNotification: MainNotification.boxName,
+    ScheduledNotification: ScheduledNotification.boxName,
   };
 
   static Future<void> initializeHive() async {
@@ -36,6 +39,7 @@ abstract class Repository<T extends BaseDataObject> implements IRepository<T> {
       Hive.registerAdapter(DriverAdapter());
       Hive.registerAdapter(CountryInformationsAdapter());
       Hive.registerAdapter(CarAdapter());
+      Hive.registerAdapter(ScheduledNotificationAdapter());
       Hive.registerAdapter(MainLocationAdapter());
       Hive.registerAdapter(RideAdapter());
       Hive.registerAdapter(RateAdapter());
@@ -303,15 +307,19 @@ abstract class Repository<T extends BaseDataObject> implements IRepository<T> {
     }
   }
 
+  static Future<void> closeHiveBoxes() async {
+    await Hive.close();
+  }
+
   static Future<void> deleteDb() async {
     var rateBox = await openBox(Rate.boxName);
     await rateBox.deleteFromDisk();
     var userB = await openBox(User.boxName);
     await userB.deleteFromDisk();
-    // await clearNotifications();
-    // var sNotfB = await Hive.openBox<MainNotification>('scheduledNotifications');
-    // await sNotfB.clear();
-    // await sNotfB.close();
+    var notifications = await openBox(MainNotification.boxName);
+    await notifications.deleteFromDisk();
+    var scheduledNotifications = await openBox(ScheduledNotification.boxName);
+    await scheduledNotifications.deleteFromDisk();
     await ChatRepository().deleteChats();
 
     // await removeAllScheduledNotification();

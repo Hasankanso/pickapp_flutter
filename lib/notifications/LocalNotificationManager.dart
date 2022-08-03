@@ -12,6 +12,8 @@ import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
 import 'package:just_miles/notifications/PushNotificationsManager.dart';
+import 'package:just_miles/notifications/ScheduledNotification.dart';
+import 'package:just_miles/repository/scheduledNotification/scheduled_notification_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -149,7 +151,8 @@ class LocalNotificationManager {
         payload: json.encode(notification.toJson()),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
-    await Cache.addScheduledNotification(notification);
+    await ScheduledNotificationRepository()
+        .insert(ScheduledNotification(notification));
   }
 
   static Future<bool> cancelLocalNotification(String objectId) async {
@@ -159,7 +162,7 @@ class LocalNotificationManager {
           FlutterLocalNotificationsPlugin();
       await flutterLocalNotificationsPlugin.cancel(id);
       if (id != null) {
-        await Cache.removeScheduledNotification(id);
+        await ScheduledNotificationRepository().deleteById(id.toString());
         await Cache.removeScheduledNotificationId(objectId);
         return true;
       }

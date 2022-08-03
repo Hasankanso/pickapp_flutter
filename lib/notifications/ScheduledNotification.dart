@@ -4,7 +4,7 @@ import 'package:just_miles/notifications/MainNotification.dart';
 
 part 'ScheduledNotification.g.dart';
 
-@HiveType(typeId: 12)
+@HiveType(typeId: 14)
 class ScheduledNotification extends BaseDataObject {
   @HiveField(0)
   int _id;
@@ -20,6 +20,11 @@ class ScheduledNotification extends BaseDataObject {
     MainNotification notification = MainNotification.fromJson(json);
     _id = notification.notificationId;
     this.notification = notification;
+  }
+  String get id => _id.toString();
+
+  set id(value) {
+    _id = int.parse(value);
   }
 
   Map<String, dynamic> toJson() => notification.toJson();

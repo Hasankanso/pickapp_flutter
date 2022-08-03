@@ -19,7 +19,10 @@ import 'package:just_miles/notifications/RateNotificationHandler.dart';
 import 'package:just_miles/notifications/RatePassengersHandler.dart';
 import 'package:just_miles/notifications/ReserveSeatsNotificationHandler.dart';
 import 'package:just_miles/notifications/RideReminderNotificationHandler.dart';
+import 'package:just_miles/notifications/ScheduledNotification.dart';
+import 'package:just_miles/repository/notification/notification_repository.dart';
 import 'package:just_miles/repository/repository.dart';
+import 'package:just_miles/repository/scheduledNotification/scheduled_notification_repository.dart';
 import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/requests/GetUserReviews.dart';
 import 'package:just_miles/requests/Request.dart';
@@ -86,7 +89,8 @@ class PushNotificationsManager {
 
     bool isSchedule = message.data["isSchedule"] == "true";
     if (!isSchedule) {
-      List<MainNotification> notifications = await Cache.getNotifications();
+      List<MainNotification> notifications =
+          await NotificationRepository().getAll();
       App.notifications = notifications;
       App.updateNotifications.value = !App.updateNotifications.value;
 
@@ -114,12 +118,15 @@ class PushNotificationsManager {
   }
 
   Future<void> initNotifications() async {
-    List<MainNotification> allNotifications = await Cache.getNotifications();
+    List<MainNotification> allNotifications =
+        await NotificationRepository().getAll();
 
     App.notifications = allNotifications;
 
     List<MainNotification> allScheduledNotifications =
-        await Cache.getScheduledNotifications();
+        (await ScheduledNotificationRepository().getAll())
+            .map((e) => e.notification)
+            .toList();
     List<MainNotification> updatedScheduledNotifications = [];
     updatedScheduledNotifications.addAll(allScheduledNotifications);
     bool isOneScheduledNotificationHandled = false;
@@ -134,7 +141,10 @@ class PushNotificationsManager {
     }
 
     if (isOneScheduledNotificationHandled) {
-      await Cache.updateScheduledNotifications(updatedScheduledNotifications);
+      await ScheduledNotificationRepository().update(
+          updatedScheduledNotifications
+              .map((e) => ScheduledNotification(e))
+              .toList());
     }
     if (isOneScheduledNotificationHandled ||
         await Cache.getIsNewNotification()) {
@@ -148,7 +158,7 @@ class PushNotificationsManager {
     App.updateInbox.value = !App.updateInbox.value;
 
     if (isOneScheduledNotificationHandled) {
-      await Cache.updateNotifications(allNotifications);
+      await NotificationRepository().update(allNotifications);
     }
   }
 
@@ -192,7 +202,7 @@ Future<void> _backgroundMessageHandler(RemoteMessage message) async {
   await Repository.initializeHive();
   await Cache.init();
   await _cacheNotification(message);
-  await Cache.closeHiveBoxes();
+  await Repository.closeHiveBoxes();
 }
 
 //this is called when app is in background or terminated.
@@ -207,13 +217,14 @@ Future<NotificationHandler> _cacheNotification(RemoteMessage message) async {
 
   if (isSchedule) {
     //this section is related to local notification.
-    await Cache.addScheduledNotification(handler.notification);
+    await ScheduledNotificationRepository()
+        .insert(ScheduledNotification(handler.notification));
   } else if (!handler.notification.dontCache) {
     // don't cache if we don't want to show it in the
     // home list
     await Cache.setIsNewNotification(true);
     App.isNewNotificationNotifier.value = true;
-    await Cache.addNotification(handler.notification);
+    await NotificationRepository().insert(handler.notification);
   }
 
   await handler.cache();

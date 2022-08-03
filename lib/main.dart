@@ -174,7 +174,7 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
         }
         break;
       case AppLifecycleState.paused:
-        await Cache.closeHiveBoxes();
+        await Repository.closeHiveBoxes();
         break;
     }
   }

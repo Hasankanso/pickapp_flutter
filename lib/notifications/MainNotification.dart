@@ -156,5 +156,5 @@ class MainNotification extends BaseDataObject {
     return 'MainNotification{_id: $_id, _action: $_action, _title: $_title, _body: $_body, _scheduleDate: $_scheduleDate, _subtitle: $_subtitle, _imagePath: $_imagePath, _imageUrl: $_imageUrl}';
   }
 
-  static String get boxName => "Box name is not registered";
+  static String get boxName => "notifications";
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/items/PassengerRateTile.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
+import 'package:just_miles/repository/notification/notification_repository.dart';
 import 'package:just_miles/requests/RatePassengersRequest.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
@@ -64,7 +64,8 @@ class RatePassengers extends StatelessWidget {
       return;
     }
     App.notifications.remove(notification);
-    await Cache.updateNotifications(App.notifications);
+    await NotificationRepository().update(App.notifications);
+
     App.updateNotifications.value = !App.updateNotifications.value;
 
     Navigator.of(context).popUntil((route) => route.isFirst);

@@ -111,7 +111,7 @@ class Ads {
     );
     _rewardedAd.setImmersiveMode(true);
     _rewardedAd.show(
-      onUserEarnedReward: (RewardedAd ad, RewardItem reward) {
+      onUserEarnedReward: (ad, RewardItem reward) {
         _isRewarded = true;
         if (callBack != null) callBack();
       },

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
+import 'package:just_miles/classes/Appache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/classes/Validation.dart';
@@ -12,6 +11,7 @@ import 'package:just_miles/dataObjects/Rate.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/pages/PersonView.dart';
+import 'package:just_miles/repository/notification/notification_repository.dart';
 import 'package:just_miles/requests/RateDriverRequest.dart';
 import 'package:just_miles/requests/Request.dart';
 import 'package:just_miles/utilities/Buttons.dart';
@@ -301,7 +301,8 @@ class _RateDriverState extends State<RateDriver> {
 
     if (result) {
       App.notifications.remove(widget._notification);
-      await Cache.updateNotifications(App.notifications);
+      await NotificationRepository().update(App.notifications);
+
       App.updateNotifications.value = !App.updateNotifications.value;
 
       Navigator.popUntil(context, (route) => route.isFirst);
