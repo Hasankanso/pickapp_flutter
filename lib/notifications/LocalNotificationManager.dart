@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:http/http.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/classes/Localizations.dart';
 import 'package:just_miles/classes/Styles.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
@@ -80,7 +79,8 @@ class LocalNotificationManager {
   }
 
   static pushLocalNotification(MainNotification notification, String id) async {
-    notification.notificationId = await Cache.setScheduledNotificationId(id);
+    notification.notificationId =
+        await ScheduledNotificationRepository().setScheduledNotificationId(id);
     notification.dictId = id;
     await _pushLocalNotification(notification);
   }
@@ -156,14 +156,18 @@ class LocalNotificationManager {
   }
 
   static Future<bool> cancelLocalNotification(String objectId) async {
-    int id = await Cache.getScheduledNotificationId(objectId);
+    ScheduledNotificationRepository scheduledNotificationRepository =
+        ScheduledNotificationRepository();
+    int id = await scheduledNotificationRepository
+        .getScheduledNotificationId(objectId);
     if (id != null) {
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
           FlutterLocalNotificationsPlugin();
       await flutterLocalNotificationsPlugin.cancel(id);
       if (id != null) {
         await ScheduledNotificationRepository().deleteById(id.toString());
-        await Cache.removeScheduledNotificationId(objectId);
+        await scheduledNotificationRepository
+            .removeScheduledNotificationId(objectId);
         return true;
       }
     }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Cache {
@@ -25,10 +24,6 @@ class Cache {
   static bool get loading => _loading;
 
   static bool get failed => _failed;
-
-  static Future<void> clearHiveCache() async {
-    await removeAllScheduledNotificationId();
-  }
 
   static void setLocale(String languageCode) {
     _prefs.setString("LANG_CODE", languageCode);
@@ -97,54 +92,5 @@ class Cache {
     );
     if (countries == null) return [];
     return countries;
-  }
-
-  static Future<int> setScheduledNotificationId(String objectId) async {
-    var box = await Hive.openBox("appSettings");
-    int notificationId = box.get("NOTIFICATION_ID", defaultValue: 0);
-    if (notificationId >= 500) {
-      notificationId = -1;
-    }
-    notificationId += 1;
-    await box.put("NOTIFICATION_ID", notificationId);
-
-    var notificationD = box.get("NOTIFICATION_DICTIONARY",
-        defaultValue: new Map<String, int>());
-
-    notificationD = Map<String, dynamic>.from(notificationD);
-
-    notificationD[objectId] = notificationId;
-    await box.put("NOTIFICATION_DICTIONARY", notificationD);
-    await box.close();
-    return notificationId;
-  }
-
-  static Future<bool> removeAllScheduledNotificationId() async {
-    var box = await Hive.openBox("appSettings");
-
-    await box.delete("NOTIFICATION_ID");
-    await box.delete("NOTIFICATION_DICTIONARY");
-
-    await box.close();
-    return true;
-  }
-
-  static Future<int> getScheduledNotificationId(String objectId) async {
-    var box = await Hive.openBox("appSettings");
-    var notificationD = box.get("NOTIFICATION_DICTIONARY",
-        defaultValue: Map<String, dynamic>());
-    notificationD = Map<String, dynamic>.from(notificationD);
-    await box.close();
-    return notificationD[objectId];
-  }
-
-  static Future<bool> removeScheduledNotificationId(String objectId) async {
-    var box = await Hive.openBox("appSettings");
-    var notificationD = box.get("NOTIFICATION_DICTIONARY");
-    notificationD = Map<String, int>.from(notificationD);
-    notificationD.remove(objectId);
-    await box.put("NOTIFICATION_DICTIONARY", notificationD);
-    await box.close();
-    return true;
   }
 }

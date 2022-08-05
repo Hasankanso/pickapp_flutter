@@ -16,6 +16,7 @@ import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/ScheduledNotification.dart';
 import 'package:just_miles/repository/chat/chat_repository.dart';
 import 'package:just_miles/repository/i_repository.dart';
+import 'package:just_miles/repository/scheduledNotification/scheduled_notification_repository.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 
 abstract class Repository<T extends BaseDataObject> implements IRepository<T> {
@@ -321,8 +322,6 @@ abstract class Repository<T extends BaseDataObject> implements IRepository<T> {
     var scheduledNotifications = await openBox(ScheduledNotification.boxName);
     await scheduledNotifications.deleteFromDisk();
     await ChatRepository().deleteChats();
-
-    // await removeAllScheduledNotification();
-    // await removeAllScheduledNotificationId();
+    await ScheduledNotificationRepository().removeAllScheduledNotificationId();
   }
 }

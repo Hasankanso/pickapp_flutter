@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:just_miles/classes/App.dart';
-import 'package:just_miles/classes/Cache.dart';
 import 'package:just_miles/dataObjects/Ride.dart';
 import 'package:just_miles/notifications/LocalNotificationManager.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/NotificationsHandler.dart';
+import 'package:just_miles/repository/scheduledNotification/scheduled_notification_repository.dart';
 
 class RatePassengersHandler extends NotificationHandler {
   String rideId;
@@ -40,8 +40,8 @@ class RatePassengersHandler extends NotificationHandler {
   }
 
   static Future<void> createLocalNotification(Ride ride) async {
-    int notificationReq =
-        await Cache.getScheduledNotificationId(prefix + ride.id);
+    int notificationReq = await ScheduledNotificationRepository()
+        .getScheduledNotificationId(prefix + ride.id);
     if (notificationReq == null) {
       DateTime popUpDate = ride.leavingDate
           .add(Duration(hours: App.person.countryInformations.rateStartHours));

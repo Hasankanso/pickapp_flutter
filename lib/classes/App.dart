@@ -18,6 +18,7 @@ import 'package:just_miles/notifications/LocalNotificationManager.dart';
 import 'package:just_miles/notifications/MainNotification.dart';
 import 'package:just_miles/notifications/RateDriverHandler.dart';
 import 'package:just_miles/notifications/RatePassengersHandler.dart';
+import 'package:just_miles/repository/repository.dart';
 import 'package:just_miles/repository/user/user_repository.dart';
 import 'package:just_miles/utilities/CustomToast.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -337,7 +338,7 @@ class App {
   }
 
   static Future<bool> logout() async {
-    await Cache.clearHiveCache();
+    await Repository.deleteDb();
     App.user = null;
     App.isDriverNotifier.value = false;
     App.isLoggedInNotifier.value = false;
